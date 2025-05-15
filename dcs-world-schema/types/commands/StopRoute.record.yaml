@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  CommandStopRoute:
+    kind: record
+    description: "Defines the structure of a command that halts or resumes a ground group's movement along its route."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'StopRoute'."
+      params:
+        type: CommandStopRouteParams
+    required: [id, params]
+
+  CommandStopRouteParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the route control command."
+    fields:
+      value:
+        type: boolean
+        description: "Movement state where true halts the group in place, false allows it to resume following its route."
+    required: [value] 

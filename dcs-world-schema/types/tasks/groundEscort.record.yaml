@@ -1,0 +1,38 @@
+globals: {}
+
+types:
+  TaskGroundEscort:
+    kind: record
+    description: "Defines the structure of a Lua table representing a ground escort task that directs helicopters to provide aerial protection for ground units."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'groundEscort'."
+      params:
+        type: TaskGroundEscortParams
+        description: "A table containing parameters that configure the ground escort behavior."
+    required: [id, params]
+    
+  TaskGroundEscortParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for helicopter escort operations above ground forces."
+    fields:
+      groupId:
+        type: number
+        description: "Unique ID of the ground group to escort and protect."
+      engagementDistMax:
+        type: number
+        description: "Maximum distance in meters defining the size/length of the orbit pattern before the helicopter returns to the escorted group."
+      lastWptIndexFlag:
+        type: boolean
+        description: "Determines whether the helicopter will follow the ground group until it reaches a specified waypoint."
+      lastWptIndex:
+        type: number
+        description: "Waypoint index at which the escorting helicopter will terminate its escort task."
+      targetTypes:
+        type: Attributes[]
+        description: "A numerically indexed table of `Attributes` defining which enemy unit types the escorting helicopter will engage."
+      lastWptIndexFlagChangedManually:
+        type: boolean
+        description: "Indicates whether the lastWptIndexFlag was manually configured rather than using system defaults."
+    required: [groupId, engagementDistMax, targetTypes] 

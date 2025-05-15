@@ -1,0 +1,108 @@
+globals:
+  Group:
+    kind: class
+    description: "Represents a collection of related units that operate together as a tactical entity in the DCS World environment."
+    addedVersion: "1.2.0"
+    environment: [MissionScripting]
+    inherits:
+      - CoalitionObject
+    static:
+      getByName:
+        description: "Returns a `Group` object with the specified name, or `nil` if no such group exists. Works with both active and inactive groups."
+        params:
+          - name: name
+            type: string
+            description: "Unique identifier of the group to retrieve."
+        returns: "Group | nil"
+        addedVersion: "1.2.0"
+    instance:
+      isExist:
+        description: "Returns `true` if this group currently exists in the mission environment."
+        returns: boolean
+        addedVersion: "1.2.0"
+      activate:
+        description: "Activates this group if it has delayed start or late activation settings, making it appear in the mission."
+        returns: function
+        addedVersion: "1.2.0"
+      destroy:
+        description: "Removes this group and all its units from the game world without triggering events, causing them to completely disappear."
+        returns: function
+        addedVersion: "1.2.0"
+      getCategory:
+        description: "Returns an enumerator value indicating both the generic object category and specific group type for this group."
+        returns: [Object.Category, Group.Category]
+        addedVersion: "1.2.0"
+      getCategoryEx:
+        description: "Returns a `Group.Category` enumerator value indicating the specific type of this group (e.g., AIRPLANE, HELICOPTER, GROUND)."
+        returns: Group.Category
+        addedVersion: "2.9.2"
+      getCoalition:
+        description: "Returns a `coalition.side` enumerator value indicating which faction this group belongs to."
+        returns: coalition.side
+        addedVersion: "1.2.4"
+      getName:
+        description: "Returns a `string` representing the unique name identifier of this group."
+        returns: string
+        addedVersion: "1.2.0"
+      getID:
+        description: "Returns a `number` representing the unique mission ID of this group."
+        returns: number
+        addedVersion: "1.2.0"
+      getUnit:
+        description: "Returns a `Unit` object at the specified index within this group, or `nil` if no unit exists at that index."
+        params:
+          - name: UnitIndex
+            type: number
+            description: "Numeric index of the unit to retrieve, starting from 1."
+        returns: "Unit | nil"
+        addedVersion: "1.2.0"
+      getUnits:
+        description: "Returns a numerically indexed table of `Unit` objects belonging to this group, ordered by their position in the group."
+        returns: Unit[]
+        addedVersion: "1.2.0"
+      getSize:
+        description: "Returns a `number` representing the current count of units in this group, which decreases as units are destroyed."
+        returns: number
+        addedVersion: "1.2.0"
+      getInitialSize:
+        description: "Returns a `number` representing the original count of units in this group as defined at creation, which remains constant regardless of unit losses."
+        returns: number
+        addedVersion: "1.2.6"
+      getController:
+        description: "Returns a `Controller` object that can be used to manage AI behavior for this group. Note: Ship and ground groups can only be controlled at group level."
+        returns: Controller
+        addedVersion: "1.2.0"
+      enableEmission:
+        description: "Sets the radar emission status for all applicable units in this group, allowing control of detection signatures without changing AI behavior."
+        params:
+          - name: setting
+            type: boolean
+            description: "`true` to enable radar emissions, `false` to disable them."
+        returns: void
+        addedVersion: "2.7.0"
+      embarking:
+        description: "Returns `true` if any unit in this group is currently in the process of loading cargo."
+        returns: boolean
+        addedVersion: "2.5.5"
+      markGroup:
+        description: "Creates a map marker visible to this group at the specified position with optional text label."
+        params:
+          - name: point
+            type: Vec3
+            description: "Position in the DCS World coordinate system where the marker will appear."
+          - name: text
+            type: string
+            description: "Optional text to display with the marker."
+            optional: true
+        returns: void
+        addedVersion: "2.5.0"
+types:
+  Group.Category:
+    kind: enum
+    description: "Enumerator for group categories, used to classify different types of unit collections in the DCS World environment."
+    values:
+      AIRPLANE: 0
+      HELICOPTER: 1
+      GROUND: 2
+      SHIP: 3
+      TRAIN: 4

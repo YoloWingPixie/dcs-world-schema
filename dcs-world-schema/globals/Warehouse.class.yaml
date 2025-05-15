@@ -1,0 +1,106 @@
+globals:
+  Warehouse:
+    kind: class
+    description: "Represents a storage facility at airbases that manages aircraft, munitions, and fuel resources available to coalition forces."
+    static:
+      getByName:
+        description: "Returns a `Warehouse` object with the specified name, or `nil` if not found."
+        params:
+          - name: name
+            type: string
+            description: "The name of the warehouse."
+        returns: Warehouse | nil
+        addedVersion: "2.8.8"
+      getCargoAsWarehouse:
+        description: "Returns a `Warehouse` object associated with a cargo static object, or `nil` if not applicable."
+        params:
+          - name: cargo
+            type: StaticObject
+            description: "The cargo static object."
+        returns: Warehouse | nil
+        addedVersion: "2.8.8"
+      getResourceMap:
+        description: "Returns a table of all warehouses in the mission, indexed by warehouse name."
+        params: []
+        returns: table
+        addedVersion: "2.8.8"
+    instance:
+      addItem:
+        description: "Adds the specified quantity of an item to the warehouse inventory."
+        params:
+          - name: itemName/wsType
+            type: string | table
+          - name: count
+            type: number
+        returns: void
+      getItemCount:
+        description: "Returns a `number` representing the quantity of the specified item in the warehouse."
+        params:
+          - name: itemName/wsType
+            type: string | table
+        returns: number
+      setItem:
+        description: "Sets the exact quantity of an item in the warehouse inventory, replacing any existing amount."
+        params:
+          - name: itemName/wsType
+            type: string | table
+          - name: count
+            type: number
+        returns: void
+      removeItem:
+        description: "Removes the specified quantity of an item from the warehouse inventory."
+        params:
+          - name: itemName/wsType
+            type: string | table
+          - name: count
+            type: number
+        returns: void
+      addLiquid:
+        description: "Adds the specified amount of liquid fuel to the warehouse inventory."
+        params:
+          - name: liquidType
+            type: LiquidType
+          - name: count
+            type: number
+        returns: void
+      getLiquidAmount:
+        description: "Returns a `number` representing the quantity of the specified liquid fuel in the warehouse."
+        params:
+          - name: liquidType
+            type: LiquidType
+        returns: number
+      setLiquidAmount:
+        description: "Sets the exact amount of a liquid fuel in the warehouse inventory, replacing any existing amount."
+        params:
+          - name: liquidType
+            type: LiquidType
+          - name: count
+            type: number
+        returns: void
+      removeLiquid:
+        description: "Removes the specified amount of liquid fuel from the warehouse inventory."
+        params:
+          - name: liquidType
+            type: LiquidType
+          - name: count
+            type: number
+        returns: void
+      getOwner:
+        description: "Returns the `Airbase` object that owns this warehouse."
+        params: []
+        returns: Airbase
+      getInventory:
+        description: "Returns a table containing a complete inventory of all items in the warehouse."
+        params:
+          - name: itemName/wsType
+            type: string | table
+        returns: table
+types:
+  LiquidType:
+    kind: enum
+    description: "Enumerator for liquid fuel types, used to specify particular fuels within a `Warehouse` inventory."
+    values:
+      jetfuel: 0
+      Aviation_gasoline: 1
+      MW50: 2
+      Diesel: 3 

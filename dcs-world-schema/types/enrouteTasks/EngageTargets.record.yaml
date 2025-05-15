@@ -1,0 +1,46 @@
+globals: {}
+
+types:
+  TaskEnRouteEngageTargets:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the controlled group to engage targets matching specific parameters."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'engageTargets'."
+      params:
+        type: TaskEnRouteEngageTargetsParams
+    required: [id, params]
+    
+  TaskEnRouteEngageTargetsParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the engageTargets task."
+    fields:
+      targetTypes:
+        type: table
+        description: "Table of target categories to engage."
+      priority:
+        type: number
+        description: "Priority of the task, where lower numbers indicate higher importance."
+      value:
+        type: string
+        description: "The value of the task."
+      maxDistEnabled:
+        type: boolean
+        description: "Whether to use the maxDist parameter."
+      maxDist:
+        type: number
+        description: "Maximum distance to search for targets in meters."
+      maxAltEnabled:
+        type: boolean
+        description: "Whether to use the maxAlt parameter."
+      maxAlt:
+        type: number
+        description: "Maximum altitude for targets in meters."
+      minAltEnabled:
+        type: boolean
+        description: "Whether to use the minAlt parameter."
+      minAlt:
+        type: number
+        description: "Minimum altitude for targets in meters."
+    required: [targetTypes] 

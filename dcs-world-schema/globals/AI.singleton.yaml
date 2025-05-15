@@ -1,0 +1,17 @@
+globals:
+  AI:
+    kind: singleton
+    description: "Provides functions and constants for controlling artificial intelligence behavior in the DCS World environment."
+    addedVersion: "1.2.0"
+    environment: [MissionScripting]
+    static:
+      Option:
+        description: "Provides a hierarchical structure of options for configuring AI unit and group behavior, including engagement rules, formation patterns, and reaction settings."
+        type: table
+      Task:
+        description: "Provides constants and table structures for creating and assigning mission tasks to AI-controlled units and groups."
+        type: table
+      Skill:
+        description: "Provides enumerator values for setting AI proficiency levels, affecting decision-making, accuracy, and tactical behavior."
+        type: AI.Skill
+types: {}

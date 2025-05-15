@@ -1,0 +1,53 @@
+globals: {}
+
+types:
+  TaskStrafing:
+    kind: record
+    description: "Defines the structure of a Lua table representing a strafing task that directs AI to perform gun or rocket attacks on a ground point."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'Strafing'."
+      params:
+        type: TaskStrafingParams
+        description: "A table containing parameters that configure the strafing attack behavior."
+    required: [id, params]
+    
+  TaskStrafingParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for a strafing attack mission."
+    fields:
+      point:
+        type: Vec2
+        description: "A `Vec2` representing the target coordinates in the DCS World coordinate system."
+      x:
+        type: number
+        description: "X coordinate of the target (alternative to using the point field)."
+      y:
+        type: number
+        description: "Y coordinate of the target (alternative to using the point field)."
+      weaponType:
+        type: number
+        description: "Weapon flag type to use for the attack."
+      expend:
+        type: string
+        description: "Quantity of weapons to expend during the attack (QUARTER, TWO, ONE, FOUR, HALF, ALL)."
+      attackQty:
+        type: number
+        description: "Number of attack passes the group will perform on the target."
+      attackQtyLimit:
+        type: boolean
+        description: "Determines whether to use the attackQty parameter as a limit."
+      direction:
+        type: number
+        description: "Attack direction in radians, defining the approach vector."
+      directionEnabled:
+        type: boolean
+        description: "Determines whether to use the specified direction for attack."
+      groupAttack:
+        type: boolean
+        description: "Determines whether each aircraft in the group will attack individually (true) or as a coordinated unit (false)."
+      length:
+        type: number
+        description: "Total length of the strafing target area in meters."
+    required: [point] 

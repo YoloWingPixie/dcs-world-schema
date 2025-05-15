@@ -1,0 +1,51 @@
+globals: {}
+
+types:
+  StaticObjectDesc:
+    kind: record
+    description: "Defines the structure of a Lua table representing a static object's properties and physical characteristics in the DCS World."
+    fields:
+      life:
+        type: number
+        description: "A numeric value representing the initial health or integrity level of the static object."
+      box:
+        type: Box3
+        description: "A box (two Vec3 points) representing the three-dimensional collision boundaries of the static object in the DCS World coordinate system."
+
+  StaticObjectSpawnData:
+    kind: record
+    description: "Defines the structure of a Lua table representing spawn parameters for a static object used with coalition.addStaticObject."
+    fields:
+      name:
+        type: string
+        description: "A string identifier for the static object."
+      type:
+        type: string
+        description: "A string specifying the classification or model type of the static object."
+      x:
+        type: number
+        description: "X coordinate of the static object's position in the DCS World coordinate system."
+      y:
+        type: number
+        description: "Y coordinate of the static object's position in the DCS World coordinate system."
+      heading:
+        type: number
+        description: "Orientation angle in radians representing the static object's heading in the DCS World."
+      category:
+        type: string
+        description: "A string specifying the functional category of the static object."
+      dead:
+        type: boolean
+        description: "Controls whether the static object spawns in a destroyed state."
+      shape_name:
+        type: string
+        description: "A string identifying the 3D model resource used to render the static object."
+      rate:
+        type: number
+        description: "A numeric value controlling the visual appearance rate, typically set to 100."
+      canCargo:
+        type: boolean
+        description: "Controls whether the static object can be loaded as cargo."
+      mass:
+        type: number
+        description: "A numeric value specifying the object's mass in kilograms." 

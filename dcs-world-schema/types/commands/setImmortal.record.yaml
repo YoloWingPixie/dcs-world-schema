@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  CommandSetImmortal:
+    kind: record
+    description: "Defines the structure of a command that toggles a group's invulnerability to all damage."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'setImmortal'."
+      params:
+        type: CommandSetImmortalParams
+    required: [id, params]
+
+  CommandSetImmortalParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the immortality toggle command."
+    fields:
+      value:
+        type: boolean
+        description: "Immortality state where true makes the group immune to all damage, false restores normal vulnerability."
+    required: [value] 

@@ -1,0 +1,35 @@
+globals: {}
+
+types:
+  TaskFollow:
+    kind: record
+    description: "Defines the structure of a Lua table representing a follow task that directs aircraft to join formation with another group or orbit above ground units."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'follow'."
+      params:
+        type: TaskFollowParams
+        description: "A table containing parameters that configure the follow behavior."
+    required: [id, params]
+    
+  TaskFollowParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for formation flying between aircraft groups."
+    fields:
+      groupId:
+        type: number
+        description: "Unique ID of the group to follow or orbit above if it's a ground unit."
+      pos:
+        type: Vec3
+        description: "A `Vec3` representing the relative position the controlled flight will maintain within the formation in the DCS World coordinate system."
+      formation:
+        type: FormationType
+        description: "Formation pattern to use when following the group, must match aircraft type (fixed-wing or helicopter)."
+      lastWptIndexFlag:
+        type: boolean
+        description: "Determines whether the AI will terminate the follow task when the lead group reaches a specified waypoint."
+      lastWptIndex:
+        type: number
+        description: "Waypoint index of the lead group that, when reached, will cause the following aircraft to terminate the task."
+    required: [groupId, pos] 

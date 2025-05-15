@@ -1,0 +1,80 @@
+globals:
+  Weapon:
+    kind: class
+    description: "Represents a weapon entity in the DCS World, including shells, rockets, missiles, and bombs."
+    addedVersion: "1.2.4" # Based on Hoggit Wiki class page
+    inherits:
+      - Object
+      - CoalitionObject # Added based on Hoggit Wiki
+    instance:
+      getCategory:
+        description: "Returns an `Object.Category` enumerator and a `Weapon.Category` enumerator representing the weapon's classification."
+        returns: [Object.Category, Weapon.Category]
+        addedVersion: "1.2.0"
+      getPoint:
+        description: "Returns a `Vec3` representing the weapon's position in the DCS World coordinate system."
+        returns: Vec3
+        addedVersion: "1.2.0"
+      getVelocity:
+        description: "Returns a `Vec3` representing the weapon's velocity vector in the DCS World coordinate system."
+        returns: Vec3
+        addedVersion: "1.2.0"
+      getCoalition:
+        description: "Returns a `coalition.side` enumerator representing the weapon's coalition alignment."
+        returns: coalition.side
+        addedVersion: "1.2.0"
+      getName:
+        description: "Returns a `string` representing the weapon's name in the mission."
+        returns: string
+        addedVersion: "1.2.0"
+      getTypeName:
+        description: "Returns a `string` representing the weapon's type designation."
+        returns: string
+        addedVersion: "1.2.0"
+      getDesc:
+        description: "Returns a table containing detailed technical specifications of the weapon. The exact structure depends on the weapon category."
+        returns: WeaponDesc | WeaponDescMissile | WeaponDescRocket | WeaponDescBomb
+        addedVersion: "1.2.0"
+      destroy:
+        description: "Removes the weapon from the mission without generating destruction events."
+        returns: void
+        addedVersion: "1.2.0"
+      isExist:
+        description: "Returns `true` if the weapon exists in the mission, `false` otherwise."
+        returns: boolean
+        addedVersion: "1.2.0"
+      getPosition:
+        description: "Returns a `Position3` representing the weapon's position and orientation in the DCS World coordinate system."
+        returns: Position3
+        addedVersion: "1.2.0"
+      getLauncher:
+        description: "Returns the `Unit` object that launched this weapon."
+        params: []
+        returns: Unit
+        addedVersion: "1.2.4"
+        environment: ["MissionScripting"]
+      getTarget:
+        description: "Returns the `Object` that this guided weapon is targeting, or `nil` for unguided weapons or ground-targeted weapons."
+        params: []
+        returns: Object | nil
+        addedVersion: "1.2.4"
+        environment: ["MissionScripting"]
+      getCategoryEx:
+        description: "Returns a `Weapon.Category` enumerator representing the specific weapon classification (SHELL, MISSILE, ROCKET, BOMB)."
+        params: []
+        returns: Weapon.Category
+        addedVersion: "1.2.4"
+        environment: ["MissionScripting"]
+      getCountry:
+        description: "Returns a `country.id` enumerator representing the country that owns this weapon (via its launcher)."
+        params: []
+        returns: country.id
+        addedVersion: "1.2.0"
+        environment: ["MissionScripting"]
+      getForcesName:
+        description: "Returns a `string` representing the force name this weapon belongs to, or `nil` if not assigned to a specific force."
+        params: []
+        returns: string | nil
+        environment: ["MissionScripting"]
+
+types: {}

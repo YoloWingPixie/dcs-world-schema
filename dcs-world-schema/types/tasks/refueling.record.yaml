@@ -1,0 +1,20 @@
+globals: {}
+
+types:
+  TaskRefueling:
+    kind: record
+    description: "Defines the structure of a Lua table representing an air refueling task directing aircraft to seek and connect with the nearest available tanker."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'refueling'."
+      params:
+        type: TaskRefuelingParams
+        description: "A table containing parameters for the refueling task."
+    required: [id, params]
+    
+  TaskRefuelingParams:
+    kind: record
+    description: "Defines the structure of a Lua table for refueling parameters, which is currently empty as the task requires no additional configuration."
+    fields: {}
+    required: [] 

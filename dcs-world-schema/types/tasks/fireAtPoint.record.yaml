@@ -1,0 +1,49 @@
+globals: {}
+
+types:
+  TaskFireAtPoint:
+    kind: record
+    description: "Assigns a point on the ground for which the AI will shoot at. Most commonly used with artillery to shell a target."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'fireAtPoint'"
+      params:
+        type: TaskFireAtPointParams
+    required: [id, params]
+    
+  TaskFireAtPointParams:
+    kind: record
+    description: "Parameters for the fireAtPoint task"
+    fields:
+      point:
+        type: Vec2
+        description: "Vec2 coordinate to define where the AI will aim"
+      x:
+        type: number
+        description: "X coordinate of the target (alternative to point)"
+      y:
+        type: number
+        description: "Y coordinate of the target (alternative to point)"
+      radius:
+        type: number
+        description: "Optional radius in meters that defines the area AI will attempt to hit"
+      expendQty:
+        type: number
+        description: "Specifies number of shots to be fired"
+      expendQtyEnabled:
+        type: boolean
+        description: "Whether or not expendQty will be used"
+      weaponType:
+        type: number
+        description: "Weapon flag type to use for the attack"
+      altitude:
+        type: number
+        description: "If present the task will be focused on shooting at the specified altitude for the point"
+      alt_type:
+        type: number
+        description: "Determines if the altitude is defined by AGL (1) or MSL (0)"
+      counterbattaryRadius:
+        type: number
+        description: "The radius in meters from the group leader that the group will move in random directions after completing the fireAtPoint task"
+    required: [point] 

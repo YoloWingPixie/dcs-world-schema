@@ -1,0 +1,141 @@
+globals:
+  timer:
+    kind: singleton
+    description: "Provides functions for measuring mission time and scheduling deferred function execution in the DCS World environment."
+    addedVersion: "1.2.0"
+    environment: [MissionScripting]
+    static:
+      getTime:
+        description: "Returns the elapsed mission time in seconds since mission start, which pauses when the game is paused."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment: [MissionScripting]
+        examples:
+          - code: |
+              if timer.getTime() > 20 then
+               doWhatever()
+              end
+      getPause:
+        description: "Returns `true` if the simulation is currently paused, otherwise returns `false`."
+        params: []
+        returns: boolean
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getAbsTime:
+        description: "Returns the game world time in seconds, based on the mission start time and continuously increasing regardless of pause state."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment: [MissionScripting]
+        examples:
+          - code: |
+              if timer.getAbsTime() + 20 > env.mission.start_time then
+               doWhatever()
+              end
+      getTime0:
+        description: "Returns the mission start time in seconds, for calculating total elapsed mission time when combined with `getAbsTime()`."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment: [MissionScripting]
+        examples:
+          - code: |
+              if timer.getAbsTime() - timer.getTime0() > 20 then
+               doWhatever()
+              end
+      scheduleFunction:
+        description: "Schedules a function to execute at a specific mission time, with optional repetition if the function returns a future time value."
+        params:
+          - name: functionToCall
+            type: function
+            description: "Function to be executed at the scheduled time."
+          - name: anyFunctionArguement
+            type: any
+            description: "Parameters to pass to the scheduled function."
+          - name: modelTime
+            type: number
+            description: "Mission time in seconds when the function should execute."
+        returns: number
+        addedVersion: "1.2.0"
+        environment: [MissionScripting]
+        examples:
+          - description: "The following will run a function named \"main\" 120 seconds from one the code would run."
+            code: |
+              timer.scheduleFunction(main, {}, timer.getTime() + 120)
+          - description: "The following example sets up a repetitive call loop where function CheckStatus is called every 5 seconds or."
+            code: |
+              function CheckStatus(ourArgument, time)
+               -- Do things to check, use ourArgument (which is the scheduleFunction's second argument)
+               if ourArgument == 53 and someExternalCondition then
+                 -- Keep going
+                 return time + 5
+               else
+                 -- That's it we're done looping
+                 return nil
+               end
+              end
+              timer.scheduleFunction(CheckStatus, 53, timer.getTime() + 5)
+          - description: "This function will check if any red coalition units are in a trigger zone named \"anyReds\" and will set the flag \"zoneOccupied\" to true. This function will schedule itself to run every 60 seconds."
+            code: |
+              local function checkZone(zoneName)
+                 timer.scheduleFunction(checkZone, zoneName, timer.getTime() + 60)
+                 local zone = trigger.misc.getZone(zoneName)
+                 local groups = coalition.getGroups(1)
+                 local count = 0 
+                 for i = 1, #groups do
+                    local units = groups[i]:getUnits()
+                    for j = 1, #units do
+                        local unitPos = units[j]:getpoint()
+                         if math.sqrt((zone.point.x - unitPos.x)^2 + (zone.point.z - unitPos.z)^2) < zone.radius then
+                             count = count + 1
+                         end
+                    end
+                 end
+                 if count > 0 then
+                     trigger.action.setUserFlag("zoneOccupied", true)
+                 else 
+                    trigger.action.setUserFlag("zoneOccupied", false)
+                 end
+               end
+               checkZone("anyReds")
+      removeFunction:
+        description: "Cancels a previously scheduled function, preventing it from executing."
+        params:
+          - name: functionId
+            type: number
+            description: "Identifier returned by `scheduleFunction()` for the function to cancel."
+        returns: void
+        addedVersion: "1.2.0"
+        environment: [MissionScripting]
+        examples:
+          - description: "The following will run a function named \"main\" 120 seconds from one the code would run."
+            code: |
+              local id = timer.scheduleFunction(main, {}, timer.getTime() + 120)
+          - description: "If further down in the code it was decided to stop main() from running it may look like this."
+            code: |
+              if abort == true then  
+                timer.removeFunction(id)
+              end
+      setFunctionTime:
+        description: "Modifies the execution time of a previously scheduled function."
+        params:
+          - name: functionId
+            type: number
+            description: "Identifier returned by `scheduleFunction()` for the function to reschedule."
+          - name: modelTime
+            type: number
+            description: "New mission time in seconds when the function should execute."
+        returns: void
+        addedVersion: "1.2.0"
+        environment: [MissionScripting]
+        examples:
+          - description: "The following will run a function named \"main\" 120 seconds from one the code would run."
+            code: |
+              local id = timer.scheduleFunction(main, {}, timer.getTime() + 120)
+          - description: "If further down in the code it was decided to run the main() function sooner it could look like this"
+            code: |
+              if mustGoFaster == true then  
+                timer.setFunctionTime(id, timer.getTime() + 1)
+              end
+types: {}

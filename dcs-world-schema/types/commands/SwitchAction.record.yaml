@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  CommandSwitchAction:
+    kind: record
+    description: "Defines the structure of a command that changes the active task action within a mission group's task queue."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'SwitchAction'."
+      params:
+        type: CommandSwitchActionParams
+    required: [id, params]
+
+  CommandSwitchActionParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the action switching command."
+    fields:
+      actionIndex:
+        type: number
+        description: "Index of the target action in the group's task queue to make active."
+    required: [actionIndex] 

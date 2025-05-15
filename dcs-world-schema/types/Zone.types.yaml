@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  Zone:
+    kind: record
+    description: "Defines the structure of a Lua table representing a defined area in the DCS World used for triggering events, defining mission parameters, or controlling AI behavior."
+    fields:
+      id:
+        type: number
+        description: "Unique numeric identifier for the zone, used for scripting references."
+      name:
+        type: string
+        description: "The string identifier of the zone, used for display and scripting access."
+      position:
+        type: Vec3
+        description: "A `Vec3` representing the center point of the zone in the DCS World coordinate system."
+      radius:
+        type: number
+        description: "The radius of the circular zone in meters, defining its boundary."
+      coalition:
+        type: coalition.side | nil
+        description: "The `coalition.side` value indicating which faction owns or controls the zone, or `nil` if not coalition-specific." 

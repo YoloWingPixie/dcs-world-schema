@@ -1,0 +1,308 @@
+globals: {}
+types:
+  # The AI namespace consists of two main tables: Option and Task
+  # Detailed enumeration types are defined below for reference
+  
+  # Task-related enums
+  AI.Task.WeaponExpend:
+    kind: enum
+    description: "Enumerator for ammunition expenditure levels per attack run, used in AI task assignments."
+    values:
+      QUARTER: "Quarter"
+      TWO: "Two"
+      ONE: "One"
+      FOUR: "Four"
+      HALF: "Half"
+      ALL: "All"
+    addedVersion: "1.2.4"
+
+  AI.Task.Designation:
+    kind: enum
+    description: "Enumerator for target designation methods used by Forward Air Controllers (FAC) and Joint Terminal Attack Controllers (JTAC)."
+    values:
+      "NO": "No"
+      WP: "WP"
+      IR_POINTER: "IR-Pointer"
+      LASER: "Laser"
+      AUTO: "Auto"
+    addedVersion: "1.2.4"
+
+  AI.Task.OrbitPattern:
+    kind: enum
+    description: "Enumerator for aircraft orbit patterns used in patrol and surveillance tasks."
+    values:
+      RACE_TRACK: "Race-Track"
+      CIRCLE: "Circle"
+    addedVersion: "1.2.4"
+
+  AI.Task.TurnMethod:
+    kind: enum
+    description: "Enumerator for waypoint turn methods used in AI navigation."
+    values:
+      FLY_OVER_POINT: "Fly Over Point"
+      FIN_POINT: "Fin Point"
+    addedVersion: "1.1"
+
+  AI.Task.VehicleFormation:
+    kind: enum
+    description: "Enumerator for ground vehicle formation patterns used in group movement."
+    values:
+      VEE: "Vee"
+      ECHELON_RIGHT: "EchelonR"
+      OFF_ROAD: "Off Road"
+      RANK: "Rank"
+      ECHELON_LEFT: "EchelonL"
+      ON_ROAD: "On Road"
+      CONE: "Cone"
+      DIAMOND: "Diamond"
+    addedVersion: "1.2.0"
+
+  AI.Task.AltitudeType:
+    kind: enum
+    description: "Enumerator for altitude reference systems used in AI flight tasks."
+    values:
+      RADIO: "RADIO"
+      BARO: "BARO"
+    addedVersion: "1.2.0"
+
+  AI.Task.WaypointType:
+    kind: enum
+    description: "Enumerator for waypoint types used in AI flight planning."
+    values:
+      TAKEOFF: "TakeOff"
+      TAKEOFF_PARKING: "TakeOffParking"
+      TURNING_POINT: "Turning Point"
+      TAKEOFF_PARKING_HOT: "TakeOffParkingHot"
+      LAND: "Land"
+    addedVersion: "1.1"
+
+  AI.Skill:
+    kind: enum
+    description: "Enumerator for AI difficulty and competence levels assigned to units."
+    values:
+      PLAYER: "PLAYER"
+      CLIENT: "CLIENT"
+      AVERAGE: "AVERAGE"
+      GOOD: "GOOD"
+      HIGH: "HIGH"
+      EXCELLENT: "EXCELLENT"
+    addedVersion: "1.2.0"
+
+  # Option-related enums
+  AI.Option.Air:
+    kind: record
+    description: "Defines the structure of options applicable to AI-controlled aircraft."
+    fields: {}
+    addedVersion: "1.2.0"
+
+  AI.Option.Air.id:
+    kind: enum
+    description: "Enumerator for option identifiers applicable to AI-controlled aircraft."
+    values:
+      NO_OPTION: -1
+      ROE: 0
+      REACTION_ON_THREAT: 1
+      RADAR_USING: 3
+      FLARE_USING: 4
+      FORMATION: 5
+      RTB_ON_BINGO: 6
+      SILENCE: 7
+      RTB_ON_OUT_OF_AMMO: 10
+      ECM_USING: 13
+      PROHIBIT_AA: 14
+      PROHIBIT_JETT: 15
+      PROHIBIT_AB: 16
+      PROHIBIT_AG: 17
+      MISSILE_ATTACK: 18
+      PROHIBIT_WP_PASS_REPORT: 19
+      OPTION_RADIO_USAGE_CONTACT: 21
+      OPTION_RADIO_USAGE_ENGAGE: 22
+      OPTION_RADIO_USAGE_KILL: 23
+      JETT_TANKS_IF_EMPTY: 25
+      FORCED_ATTACK: 26
+      PREFER_VERTICAL: 32
+      ALLOW_FORMATION_SIDE_SWAP: 35
+    addedVersion: "1.2.0"
+    
+  AI.Option.Air.val:
+    kind: record
+    description: "Defines the structure of option values for AI-controlled aircraft settings."
+    fields: {}
+    addedVersion: "1.2.0"
+
+  AI.Option.Air.val.ROE:
+    kind: enum
+    description: "Enumerator for Rules of Engagement settings available to AI-controlled aircraft."
+    values:
+      WEAPON_FREE: 0
+      OPEN_FIRE_WEAPON_FREE: 1
+      OPEN_FIRE: 2
+      RETURN_FIRE: 3
+      WEAPON_HOLD: 4
+    addedVersion: "1.2.4"
+
+  AI.Option.Air.val.REACTION_ON_THREAT:
+    kind: enum
+    description: "Enumerator for threat response behaviors available to AI-controlled aircraft."
+    values:
+      NO_REACTION: 0
+      PASSIVE_DEFENCE: 1
+      EVADE_FIRE: 2
+      BYPASS_AND_ESCAPE: 3
+      ALLOW_ABORT_MISSION: 4
+    addedVersion: "1.2.4"
+
+  AI.Option.Air.val.RADAR_USING:
+    kind: enum
+    description: "Enumerator for radar usage policies available to AI-controlled aircraft."
+    values:
+      NEVER: 0
+      FOR_ATTACK_ONLY: 1
+      FOR_SEARCH_IF_REQUIRED: 2
+      FOR_CONTINUOUS_SEARCH: 3
+    addedVersion: "1.2.4"
+
+  AI.Option.Air.val.FLARE_USING:
+    kind: enum
+    description: "Enumerator for flare countermeasure usage policies available to AI-controlled aircraft."
+    values:
+      NEVER: 0
+      AGAINST_FIRED_MISSILE: 1
+      WHEN_FLYING_IN_SAM_WEZ: 2
+      WHEN_FLYING_NEAR_ENEMIES: 3
+    addedVersion: "1.2.4"
+
+  AI.Option.Air.val.ECM_USING:
+    kind: enum
+    description: "Enumerator for electronic countermeasure usage policies available to AI-controlled aircraft."
+    values:
+      NEVER_USE: 0
+      USE_IF_ONLY_LOCK_BY_RADAR: 1
+      USE_IF_DETECTED_LOCK_BY_RADAR: 2
+      ALWAYS_USE: 3
+    addedVersion: "1.5.0"
+
+  AI.Option.Air.val.MISSILE_ATTACK:
+    kind: enum
+    description: "Enumerator for missile engagement range policies available to AI-controlled aircraft."
+    values:
+      MAX_RANGE: 0
+      NEZ_RANGE: 1
+      HALF_WAY_RMAX_NEZ: 2
+      TARGET_THREAT_EST: 3
+      RANDOM_RANGE: 4
+    addedVersion: "1.5.0"
+
+  AI.Option.Ground:
+    kind: record
+    description: "Defines the structure of options applicable to AI-controlled ground units."
+    fields: {}
+    addedVersion: "1.2.0"
+    
+  AI.Option.Ground.id:
+    kind: enum
+    description: "Enumerator for option identifiers applicable to AI-controlled ground units."
+    values:
+      NO_OPTION: -1
+      ROE: 0
+      FORMATION: 5
+      DISPERSE_ON_ATTACK: 8
+      ALARM_STATE: 9
+      ENGAGE_AIR_WEAPONS: 20
+      AC_ENGAGEMENT_RANGE_RESTRICTION: 24
+      EVASION_OF_ARM: 31
+    addedVersion: "1.2.0"
+    
+  AI.Option.Ground.val:
+    kind: record
+    description: "Defines the structure of option values for AI-controlled ground unit settings."
+    fields: {}
+    addedVersion: "1.2.0"
+
+  AI.Option.Ground.val.ALARM_STATE:
+    kind: enum
+    description: "Enumerator for alert readiness levels available to AI-controlled ground units."
+    values:
+      AUTO: 0
+      GREEN: 1
+      RED: 2
+    addedVersion: "1.2.4"
+
+  AI.Option.Ground.val.ROE:
+    kind: enum
+    description: "Enumerator for Rules of Engagement settings available to AI-controlled ground units."
+    values:
+      OPEN_FIRE: 2
+      RETURN_FIRE: 3
+      WEAPON_HOLD: 4
+    addedVersion: "1.2.4"
+
+  AI.Option.Naval:
+    kind: record
+    description: "Defines the structure of options applicable to AI-controlled naval units."
+    fields: {}
+    addedVersion: "1.2.0"
+    
+  AI.Option.Naval.id:
+    kind: enum
+    description: "Enumerator for option identifiers applicable to AI-controlled naval units."
+    values:
+      NO_OPTION: -1
+      ROE: 0
+    addedVersion: "1.2.0"
+    
+  AI.Option.Naval.val:
+    kind: record
+    description: "Defines the structure of option values for AI-controlled naval unit settings."
+    fields: {}
+    addedVersion: "1.2.0"
+
+  AI.Option.Naval.val.ROE:
+    kind: enum
+    description: "Enumerator for Rules of Engagement settings available to AI-controlled naval units."
+    values:
+      OPEN_FIRE: 2
+      RETURN_FIRE: 3
+      WEAPON_HOLD: 4
+    addedVersion: "1.2.4"
+
+  AIOptionId:
+    kind: union
+    description: "Union type of all option identifier enumerators used across different AI unit types."
+    anyOf:
+      - AI.Option.Air.id
+      - AI.Option.Ground.id
+      - AI.Option.Naval.id
+    addedVersion: "1.2.0"
+
+  FormationType:
+    kind: enum
+    description: "Enumerator for all formation patterns used across different AI unit types."
+    addedVersion: "1.2.0"
+    values:
+      # Aircraft formation patterns (numeric values)
+      LINE_ABREAST: 1
+      TRAIL: 2
+      WEDGE: 3
+      ECHELON_RIGHT_AIR: 4
+      ECHELON_LEFT_AIR: 5
+      FINGER_FOUR: 6
+      SPREAD_FOUR: 7
+      # Helicopter formation patterns (numeric values)
+      HEL_WEDGE: 8
+      HEL_ECHELON: 9
+      HEL_FRONT: 10
+      HEL_COLUMN: 11
+      # WW2 formation patterns (numeric values)
+      WW2_BOMBER_ELEMENT: 12
+      WW2_BOMBER_ELEMENT_HEIGHT: 13
+      WW2_FIGHTER_VIC: 14
+      # Ground vehicle formations (string values)
+      GROUND_VEE: "Vee"
+      GROUND_ECHELON_RIGHT: "EchelonR"
+      GROUND_OFF_ROAD: "Off Road"
+      GROUND_RANK: "Rank"
+      GROUND_ECHELON_LEFT: "EchelonL"
+      GROUND_ON_ROAD: "On Road"
+      GROUND_CONE: "Cone"
+      GROUND_DIAMOND: "Diamond" 

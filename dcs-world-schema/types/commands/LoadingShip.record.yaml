@@ -1,0 +1,25 @@
+globals: {}
+
+types:
+  CommandLoadingShip:
+    kind: record
+    description: "Defines the structure of a command that adjusts a ship's cargo loading level, affecting its buoyancy and water line position."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'LoadingShip'."
+      params:
+        type: CommandLoadingShipParams
+    required: [id, params]
+
+  CommandLoadingShipParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the ship cargo loading command."
+    fields:
+      cargo:
+        type: number
+        description: "Cargo load percentage (0-100) determining how much the ship sits in water (lower values raise the waterline)."
+      unitId:
+        type: number
+        description: "ID of the ship unit whose cargo load level will be modified."
+    required: [cargo, unitId] 

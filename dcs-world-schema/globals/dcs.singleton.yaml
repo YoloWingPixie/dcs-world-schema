@@ -1,0 +1,155 @@
+globals:
+  dcs:
+    kind: singleton
+    description: "Provides functions and constants for controlling core DCS World simulation behavior and accessing mission data. Note: Only available in server environment."
+    addedVersion: "2.5.0"
+    environment: ["Server"]
+    properties:
+      UNIT_NAME:
+        type: string
+        description: "Constant string identifier for accessing a unit's name property."
+        readonly: true
+      UNIT_TYPE:
+        type: string
+        description: "Constant string identifier for accessing a unit's type property."
+        readonly: true
+      UNIT_HEADING:
+        type: string
+        description: "Constant string identifier for accessing a unit's heading/direction property (in radians)."
+        readonly: true
+      UNIT_CATEGORY:
+        type: string
+        description: "Constant string identifier for accessing a unit's category property."
+        readonly: true
+      UNIT_GROUPNAME:
+        type: string
+        description: "Constant string identifier for accessing a unit's group name property."
+        readonly: true
+      UNIT_GROUPID:
+        type: string
+        description: "Constant string identifier for accessing a unit's group ID property."
+        readonly: true
+      UNIT_CALLSIGN:
+        type: string
+        description: "Constant string identifier for accessing a unit's callsign property."
+        readonly: true
+      UNIT_HIDDEN:
+        type: string
+        description: "Constant string identifier for accessing a unit's visibility status in the Mission Editor."
+        readonly: true
+      UNIT_COALITION:
+        type: string
+        description: "Constant string identifier for accessing a unit's coalition affiliation (e.g., 'blue', 'red', 'unknown')."
+        readonly: true
+      UNIT_COUNTRY_ID:
+        type: string
+        description: "Constant string identifier for accessing a unit's country ID property."
+        readonly: true
+      UNIT_TASK:
+        type: string
+        description: "Constant string identifier for accessing a unit's group task property."
+        readonly: true
+      UNIT_PLAYER_NAME:
+        type: string
+        description: "Constant string identifier for accessing the player name controlling a unit, applicable only to player-controllable units."
+        readonly: true
+      UNIT_ROLE:
+        type: string
+        description: "Constant string identifier for accessing a unit's role property (e.g., 'artillery_commander', 'instructor')."
+        readonly: true
+      UNIT_INVISIBLE_MAP_ICON:
+        type: string
+        description: "Constant string identifier for accessing a unit's map icon visibility status in the Mission Editor."
+        readonly: true
+    static:
+      getCurrentMission:
+        description: "Returns a table representing the current mission data structure as stored in the mission file."
+        params: []
+        returns: table
+        addedVersion: "2.5.0"
+        environment: [Server]
+      setPause:
+        description: "Pauses or resumes the simulation, affecting all connected clients in multiplayer."
+        params:
+          - name: action
+            type: boolean
+            description: "`true` to pause the simulation, `false` to resume it."
+        returns: void
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getPause:
+        description: "Returns a `boolean` indicating whether the simulation is currently paused."
+        params: []
+        returns: boolean
+        addedVersion: "2.5.0"
+        environment: [Server]
+      stopMission:
+        description: "Terminates the current mission and returns to the mission selection screen."
+        params: []
+        returns: void
+        addedVersion: "2.5.0"
+        environment: [Server]
+      exitProcess:
+        description: "Closes the DCS World application completely, terminating all processes."
+        params: []
+        returns: void
+        addedVersion: "2.5.0"
+        environment: [Server]
+      isMultiplayer:
+        description: "Returns `true` if the current simulation is in multiplayer mode, `false` if in single-player mode."
+        params: []
+        returns: boolean
+        addedVersion: "2.5.0"
+        environment: [Server]
+      isServer:
+        description: "Returns `true` if the current instance is running as a dedicated server or single player host, `false` otherwise."
+        params: []
+        returns: boolean
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getModelTime:
+        description: "Returns a `number` representing the total simulation time in seconds since the DCS application was launched."
+        params: []
+        returns: number
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getRealTime:
+        description: "Returns a `number` representing the elapsed time in seconds since the current mission started."
+        params: []
+        returns: number
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getMissionOptions:
+        description: "Returns a table containing the mission options as stored in the options.lua file within the mission package."
+        params: []
+        returns: table
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getAvailableCoalitions:
+        description: "Returns a map-like table where keys are coalition IDs and values are tables containing information about coalitions with available player slots."
+        params: []
+        returns: table
+        returnValueExample: "{[coalition_id] = { name = \"coalition name\" }}"
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getAvailableSlots:
+        description: "Returns a numerically indexed table of tables containing information about player slots available in the specified coalition."
+        params:
+          - name: coaId
+            type: "number | string"
+            description: "Coalition identifier (numeric ID or string name)."
+        returns: "DCSAvailableSlotInfo[]"
+        returnValueExample: "array of {unitId, type, role, callsign, groupName, country}"
+        addedVersion: "2.5.0"
+        environment: [Server]
+      getAvailableSlotsAll:
+        description: "Returns a table containing information about all player-controllable slots available in the current mission."
+        params: []
+        returns: DCSAvailableSlotInfo
+    instance: {}
+types:
+  DCSAvailableSlotInfo:
+    kind: record
+    description: "Defines the structure of a Lua table containing information about a player-controllable slot in a mission, including its unit ID, type, role, and other identifying data."
+    addedVersion: "1.2.0"
+    fields: {}

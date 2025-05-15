@@ -1,0 +1,46 @@
+globals: {}
+
+types:
+  TaskEnRouteFACEngageGroup:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the controlled group to act as a Forward Air Controller or JTAC and engage the specified group as a JTAC target once detected."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'FAC_engageGroup'."
+      params:
+        type: TaskEnRouteFACEngageGroupParams
+    required: [id, params]
+    
+  TaskEnRouteFACEngageGroupParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the FAC_EngageGroup task."
+    fields:
+      groupId:
+        type: number
+        description: "ID of the group that is to be assigned by JTAC."
+      weaponType:
+        type: number
+        description: "Weapon flag type that defines the preferred weapon of choice."
+      designation:
+        type: string
+        description: "Type of designation to be used (NO, WP, IR_POINTER, LASER, AUTO)."
+      datalink:
+        type: boolean
+        description: "Determines whether the JTAC will send the 9-line via SADL, enabled by default."
+      frequency:
+        type: number
+        description: "Radio frequency to use for the JTAC communications."
+      modulation:
+        type: number
+        description: "Radio modulation type for JTAC communications."
+      callname:
+        type: Callsigns_JTAC
+        description: "JTAC callsign identifier (Axeman, Darknight, etc.)."
+      number:
+        type: number
+        description: "JTAC callsign number."
+      priority:
+        type: number
+        description: "The priority of the tasking, where lower numbers indicate higher importance (default: 0)."
+    required: [groupId] 

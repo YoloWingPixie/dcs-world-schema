@@ -1,0 +1,31 @@
+globals: {}
+
+types:
+  CommandId:
+    kind: enum
+    description: "Enumerator for command identifiers that can be sent to Controller entities, used to specify the type of command being issued."
+    values:
+      CommandScript: "script"
+      CommandSetCallsign: "setCallsign"
+      CommandSetFrequency: "setFrequency"
+      CommandSetFrequencyForUnit: "setFrequencyForUnit"
+      CommandSwitchWaypoint: "switchWaypoint"
+      CommandStopRoute: "stopRoute"
+      CommandSwitchAction: "switchAction"
+      CommandSetInvisible: "setInvisible"
+      CommandSetImmortal: "setImmortal"
+      CommandSetUnlimitedFuel: "setUnlimitedFuel"
+      CommandActivateBeacon: "ActivateBeacon"
+      CommandDeactivateBeacon: "DeactivateBeacon"
+      CommandActivateICLS: "ActivateICLS"
+      CommandDeactivateICLS: "DeactivateICLS"
+      CommandEPLRS: "EPLRS"
+      CommandStart: "start"
+      CommandTransmitMessage: "transmitMessage"
+      CommandStopTransmission: "stopTransmission"
+      CommandSmokeOnOff: "smoke_on_off"
+      CommandActivateLink4: "ActivateLink4"
+      CommandDeactivateLink4: "DeactivateLink4"
+      CommandActivateACLS: "ActivateACLS"
+      CommandDeactivateACLS: "DeactivateACLS"
+      CommandLoadingShip: "LoadingShip" 

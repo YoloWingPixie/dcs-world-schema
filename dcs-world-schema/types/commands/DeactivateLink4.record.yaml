@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  CommandDeactivateLink4:
+    kind: record
+    description: "Defines the structure of a command that deactivates any active Link 4 data link system on a unit or group."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'DeactivateLink4'."
+      params:
+        type: CommandDeactivateLink4Params
+    required: [id, params]
+
+  CommandDeactivateLink4Params:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the Link 4 deactivation command."
+    fields: {}
+    required: [] 

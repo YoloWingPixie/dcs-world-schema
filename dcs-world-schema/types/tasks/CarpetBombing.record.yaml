@@ -1,0 +1,55 @@
+globals: {}
+
+types:
+  TaskCarpetBombing:
+    kind: record
+    description: "Assigns a point on the ground for which the AI will attack. Similar to the bombing task, but with more control over target area. Can be combined with follow big formation task for all participating aircraft to simultaneously bomb a target."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'CarpetBombing'"
+      params:
+        type: TaskCarpetBombingParams
+    required: [id, params]
+    
+  TaskCarpetBombingParams:
+    kind: record
+    description: "Parameters for the CarpetBombing task"
+    fields:
+      attackType:
+        type: string
+        description: "Type of attack, typically 'Carpet'"
+      carpetLength:
+        type: number
+        description: "Distance in meters the pattern should cover"
+      point:
+        type: Vec2
+        description: "Vec2 coordinate of the target"
+      x:
+        type: number
+        description: "X coordinate of the target (alternative to point)"
+      y:
+        type: number
+        description: "Y coordinate of the target (alternative to point)"
+      weaponType:
+        type: number
+        description: "Weapon flag type to use for the attack"
+      expend:
+        type: string
+        description: "Quantity of weapons to expend (QUARTER, TWO, ONE, FOUR, HALF, ALL)"
+      attackQty:
+        type: number
+        description: "Number of times the group will attack the target"
+      attackQtyLimit:
+        type: boolean
+        description: "Whether to use the attackQty parameter"
+      groupAttack:
+        type: boolean
+        description: "If true then each aircraft in the group will attack the point"
+      altitude:
+        type: number
+        description: "Altitude in meters for the attack"
+      altitudeEnabled:
+        type: boolean
+        description: "Whether to use the altitude parameter"
+    required: [point, carpetLength, attackType] 

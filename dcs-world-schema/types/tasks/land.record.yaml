@@ -1,0 +1,29 @@
+globals: {}
+
+types:
+  TaskLand:
+    kind: record
+    description: "Defines the structure of a Lua table representing a landing task that directs helicopters to touch down at specific coordinates."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'land'."
+      params:
+        type: TaskLandParams
+        description: "A table containing parameters that configure the landing behavior."
+    required: [id, params]
+    
+  TaskLandParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for a helicopter landing operation."
+    fields:
+      point:
+        type: Vec2
+        description: "A `Vec2` representing the landing coordinates in the DCS World coordinate system where the helicopter will attempt to touch down."
+      durationFlag:
+        type: boolean
+        description: "Determines whether the helicopter will remain on the ground for a specific duration before taking off again."
+      duration:
+        type: number
+        description: "Time in seconds that the helicopter will remain landed before automatically taking off if durationFlag is true."
+    required: [point] 

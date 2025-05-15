@@ -1,0 +1,49 @@
+globals:
+  coord:
+    kind: singleton
+    description: "Provides functions for converting between different coordinate systems in the DCS World environment, including Latitude/Longitude, Local (XYZ), and Military Grid Reference System (MGRS)."
+    addedVersion: "1.2.0"
+    static:
+      LLtoLO:
+        description: "Converts geographical coordinates (Latitude/Longitude) to DCS World local coordinates, returning a Vec2 position vector."
+        params:
+          - name: lat
+            type: number | LatLon
+            description: "Latitude value in decimal degrees, or a LatLon structure. If a LatLon is provided, the lon parameter is ignored."
+          - name: lon
+            type: number
+            description: "Longitude value in decimal degrees. Ignored if lat parameter is a LatLon structure."
+            optional: true
+        returns: Vec2
+        addedVersion: "1.2.0"
+      LOtoLL:
+        description: "Converts DCS World local coordinates to geographical coordinates, returning a LatLon structure."
+        params:
+          - name: x
+            type: number
+            description: "X coordinate in the DCS World coordinate system."
+          - name: y
+            type: number
+            description: "Y coordinate (not Z) in the DCS World coordinate system."
+        returns: LatLon
+        addedVersion: "1.2.0"
+      LLtoMGRS:
+        description: "Converts geographical coordinates (Latitude/Longitude) to Military Grid Reference System (MGRS) coordinates."
+        params:
+          - name: lat
+            type: number | LatLon
+            description: "Latitude value in decimal degrees, or a LatLon structure. If a LatLon is provided, the lon parameter is ignored."
+          - name: lon
+            type: number
+            description: "Longitude value in decimal degrees. Ignored if lat parameter is a LatLon structure."
+        returns: MGRS
+        addedVersion: "1.2.0"
+      MGRStoLL:
+        description: "Converts Military Grid Reference System (MGRS) coordinates to geographical coordinates, returning a LatLon structure."
+        params:
+          - name: mgrs
+            type: MGRS
+            description: "MGRS coordinate object with UTMZone, MGRSDigraph, Easting, and Northing fields."
+        returns: LatLon
+        addedVersion: "1.2.0"
+types: {} 

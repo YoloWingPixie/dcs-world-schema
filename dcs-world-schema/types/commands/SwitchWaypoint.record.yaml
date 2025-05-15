@@ -1,0 +1,25 @@
+globals: {}
+
+types:
+  CommandSwitchWaypoint:
+    kind: record
+    description: "Defines the structure of a command that changes the active route leg for a group, allowing control of navigation between waypoints."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'SwitchWaypoint'."
+      params:
+        type: CommandSwitchWaypointParams
+    required: [id, params]
+
+  CommandSwitchWaypointParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the waypoint switching command."
+    fields:
+      fromWaypointIndex:
+        type: number
+        description: "Index of the waypoint where the group will begin its new route leg."
+      goToWaypointIndex:
+        type: number
+        description: "Index of the destination waypoint the group will navigate toward."
+    required: [fromWaypointIndex, goToWaypointIndex] 

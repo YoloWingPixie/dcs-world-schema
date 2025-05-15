@@ -1,0 +1,20 @@
+globals: {}
+
+types:
+  Position3:
+    kind: record
+    description: "Defines the structure of a Lua table representing both position and orientation in the DCS World coordinate system."
+    fields:
+      p:
+        type: Vec3
+        description: "A `Vec3` representing the object's position in the DCS World coordinate system."
+      x:
+        type: Vec3
+        description: "A normalized `Vec3` representing the object's forward direction vector in the DCS World coordinate system."
+      y:
+        type: Vec3
+        description: "A normalized `Vec3` representing the object's upward direction vector in the DCS World coordinate system."
+      z:
+        type: Vec3
+        description: "A normalized `Vec3` representing the object's rightward direction vector in the DCS World coordinate system."
+    required: [p, x, y, z]

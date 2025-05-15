@@ -1,0 +1,14 @@
+globals: {}
+
+types:
+  CoalitionObject:
+    kind: record
+    description: "Represents all Objects those may belong to a coalition: units, airbases, static objects, weapon. Non-final class."
+    addedVersion: "1.2.4"
+    fields:
+      getCoalition:
+        type: function
+        description: "Returns an enumerator that defines the coalition that an object currently belongs to."
+      getCountry:
+        type: function
+        description: "Returns an enumerator that defines the country that an object currently belongs to."

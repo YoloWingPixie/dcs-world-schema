@@ -1,0 +1,231 @@
+globals: {}
+
+types:
+  Weapon.Category:
+    kind: enum
+    description: "Enumerator for weapon class classifications, used to categorize different types of munitions by their fundamental operational characteristics."
+    values:
+      SHELL: 0
+      MISSILE: 1
+      ROCKET: 2
+      BOMB: 3
+      TORPEDO: 4
+  Weapon.GuidanceType:
+    kind: enum
+    description: "Enumerator for weapon guidance technologies, used to specify the targeting and course correction mechanisms of guided munitions."
+    values:
+      INS: 1
+      IR: 2
+      RADAR_ACTIVE: 3
+      RADAR_SEMI_ACTIVE: 4
+      RADAR_PASSIVE: 5
+      TV: 6
+      LASER: 7
+      TELE: 8
+  Weapon.MissileCategory:
+    kind: enum
+    description: "Enumerator for missile operational roles, used to classify missiles by their intended target types and operational domains."
+    values:
+      AAM: 1
+      SAM: 2
+      BM: 3
+      ANTI_SHIP: 4
+      CRUISE: 5
+      OTHER: 6
+  Weapon.WarheadType:
+    kind: enum
+    description: "Enumerator for warhead mechanisms, used to specify the damage-producing method employed by a weapon's terminal effect component."
+    values:
+      AP: 0
+      HE: 1
+      SHAPED_EXPLOSIVE: 2
+  Weapon.flag:
+    kind: enum
+    description: "Enumerator for weapon capability flags, used to identify specific weapon properties and subtypes through bit field values."
+    values:
+      NoWeapon: 0
+      LGB: 2
+      TvGB: 4
+      SNSGB: 8
+      HEBomb: 16
+      Penetrator: 32
+      NapalmBomb: 64
+      FAEBomb: 128
+      ClusterBomb: 256
+      Dispencer: 512
+      CandleBomb: 1024
+      ParachuteBomb: 2147483648
+      GuidedBomb: 14
+      AnyBomb: 2147485694
+      AnyUnguidedBomb: 2147485680
+      LightRocket: 2048
+      CandleRocket: 8192
+      HeavyRocket: 16384
+      MarkerRocket: 4096
+      AnyRocket: 30720
+      SAR_AAM: 67108864
+      AR_AAM: 134217728
+      IR_AAM: 33554432
+      SRAAM: 4194304
+      MRAAM: 8388608
+      LRAAM: 16777216
+      AnyAAM: 264241152
+      AnyAAWeapon: 1069547520
+      AntiRadarMissile: 32768
+      AntiRadarMissile2: 1073741824
+      AntiShipMissile: 65536
+      AntiTankMissile: 131072
+      FireAndForgetASM: 262144
+      LaserASM: 524288
+      TeleASM: 1048576
+      CruiseMissile: 2097152
+      GuidedASM: 1572864
+      TacticASM: 1835008
+      AnyASM: 4161536
+      AnyAutonomousMissile: 36012032
+      AnyMissile: 268402688
+      AnyAGWeapon: 2956984318
+      Torpedo: 4294967296
+      AnyTorpedo: 4294967296
+      GUN_POD: 268435456
+      BuiltInCannon: 536870912
+      Cannons: 805306368
+      AnyShell: 258503344128
+      ConventionalShell: 206963736576
+      GuidedShell: 137438953472
+      IlluminationShell: 34359738368
+      MarkerShell: 51539607552
+      SmokeShell: 17179869184
+      SubmunitionDispenserShell: 68719476736
+      Decoys: 8589934592
+      ArmWeapon: 213674609662
+      GuidedWeapon: 137707356174
+      MarkerWeapon: 51539620864
+      UnguidedWeapon: 2952822768
+      AnyWeapon: 265214230526
+      AllWeapon: -1
+  WeaponWarheadDetails:
+    kind: record
+    description: "Defines the structure of a Lua table representing the destructive component specifications of a weapon's payload."
+    fields:
+      type:
+        type: Weapon.WarheadType
+        description: "A `Weapon.WarheadType` enumerator specifying the primary damage mechanism of the warhead."
+      mass:
+        type: number
+        description: "A numeric value representing the total mass of the warhead in kilograms."
+      caliber:
+        type: number
+        description: "A numeric value representing the diameter of the warhead in millimeters."
+      explosiveMass:
+        type: number
+        description: "A numeric value representing the mass of high explosive material in kilograms, relevant for HE and AP+HE warheads."
+      shapedExplosiveMass:
+        type: number
+        description: "A numeric value representing the mass of shaped charge explosive material in kilograms, relevant for shaped explosive warheads."
+      shapedExplosiveArmorThickness:
+        type: number
+        description: "A numeric value representing the maximum armor penetration capability in millimeters of rolled homogeneous armor equivalent."
+  WeaponDesc:
+    kind: record
+    description: "Defines the structure of a Lua table representing the basic properties common to all weapon types in the DCS World."
+    fields:
+      life:
+        type: number
+        description: "A numeric value representing the weapon's total health or structural integrity."
+      box:
+        type: Box3
+        description: "A box (two Vec3 points) representing the physical dimensions of the weapon in the DCS World coordinate system."
+      category:
+        type: Weapon.Category
+        description: "A `Weapon.Category` enumerator specifying the fundamental classification of the weapon."
+      warhead:
+        type: WeaponWarheadDetails
+        description: "A table representing the specifications of the weapon's destructive payload component."
+  WeaponDescMissile:
+    kind: record
+    description: "Defines the structure of a Lua table representing the properties and capabilities of missile weapons in the DCS World."
+    fields:
+      life:
+        type: number
+        description: "A numeric value representing the missile's total health or structural integrity."
+      box:
+        type: Box3
+        description: "A box (two Vec3 points) representing the physical dimensions of the missile in the DCS World coordinate system."
+      category:
+        type: Weapon.Category
+        description: "A `Weapon.Category` enumerator specifying the fundamental classification of the missile."
+      warhead:
+        type: WeaponWarheadDetails
+        description: "A table representing the specifications of the missile's destructive payload component."
+      guidance:
+        type: Weapon.GuidanceType
+        description: "A `Weapon.GuidanceType` enumerator specifying the missile's targeting and course correction technology."
+      rangeMin:
+        type: number
+        description: "A numeric value representing the minimum effective engagement range in meters."
+      rangeMaxAltMin:
+        type: number
+        description: "A numeric value representing the maximum engagement range in meters when fired at minimum altitude."
+      rangeMaxAltMax:
+        type: number
+        description: "A numeric value representing the maximum engagement range in meters when fired at maximum altitude."
+      altMin:
+        type: number
+        description: "A numeric value representing the minimum effective engagement altitude in meters."
+      altMax:
+        type: number
+        description: "A numeric value representing the maximum effective engagement altitude in meters."
+      Nmax:
+        type: number
+        description: "A numeric value representing the maximum G-force the missile can sustain during flight."
+      fuseDist:
+        type: number
+        description: "A numeric value representing the distance in meters at which the missile's proximity fuse activates."
+  WeaponDescRocket:
+    kind: record
+    description: "Defines the structure of a Lua table representing the properties and capabilities of unguided rocket weapons in the DCS World."
+    fields:
+      life:
+        type: number
+        description: "A numeric value representing the rocket's total health or structural integrity."
+      box:
+        type: Box3
+        description: "A box (two Vec3 points) representing the physical dimensions of the rocket in the DCS World coordinate system."
+      category:
+        type: Weapon.Category
+        description: "A `Weapon.Category` enumerator specifying the fundamental classification of the rocket."
+      warhead:
+        type: WeaponWarheadDetails
+        description: "A table representing the specifications of the rocket's destructive payload component."
+      distMin:
+        type: number
+        description: "A numeric value representing the minimum effective firing distance in meters."
+      distMax:
+        type: number
+        description: "A numeric value representing the maximum effective firing distance in meters."
+  WeaponDescBomb:
+    kind: record
+    description: "Defines the structure of a Lua table representing the properties and capabilities of air-dropped bomb weapons in the DCS World."
+    fields:
+      life:
+        type: number
+        description: "A numeric value representing the bomb's total health or structural integrity."
+      box:
+        type: Box3
+        description: "A box (two Vec3 points) representing the physical dimensions of the bomb in the DCS World coordinate system."
+      category:
+        type: Weapon.Category
+        description: "A `Weapon.Category` enumerator specifying the fundamental classification of the bomb."
+      warhead:
+        type: WeaponWarheadDetails
+        description: "A table representing the specifications of the bomb's destructive payload component."
+      guidance:
+        type: Weapon.GuidanceType
+        description: "A `Weapon.GuidanceType` enumerator specifying the bomb's targeting and course correction technology, if applicable."
+      altMin:
+        type: number
+        description: "A numeric value representing the minimum effective release altitude in meters."
+      altMax:
+        type: number
+        description: "A numeric value representing the maximum effective release altitude in meters."

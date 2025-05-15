@@ -1,0 +1,43 @@
+globals: {}
+
+types:
+  TaskFACAttackGroup:
+    kind: record
+    description: "Assigns the controlled group to act as a Forward Air Controller or JTAC in attacking the specified group. This task adds the group to the JTAC radio menu and interacts with a player to destroy the target."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'FAC_AttackGroup'"
+      params:
+        type: TaskFACAttackGroupParams
+    required: [id, params]
+    
+  TaskFACAttackGroupParams:
+    kind: record
+    description: "Parameters for the FAC_AttackGroup task"
+    fields:
+      groupId:
+        type: number
+        description: "ID of the group that is to be assigned by JTAC"
+      weaponType:
+        type: number
+        description: "Weapon flag type that defines the preferred weapon of choice"
+      designation:
+        type: string
+        description: "Type of designation to be used (NO, WP, IR_POINTER, LASER, AUTO)"
+      datalink:
+        type: boolean
+        description: "Determines whether or not the JTAC will send the 9-line via SADL, enabled by default"
+      frequency:
+        type: number
+        description: "Radio frequency to use for the JTAC"
+      modulation:
+        type: number
+        description: "Radio modulation type"
+      callname:
+        type: Callsigns_JTAC
+        description: "JTAC callsign identifier (Axeman, Darknight, etc.)"
+      number:
+        type: number
+        description: "JTAC callsign number"
+    required: [groupId] 

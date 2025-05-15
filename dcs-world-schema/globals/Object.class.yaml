@@ -1,0 +1,78 @@
+globals:
+  Object:
+    kind: class
+    description: "Represents a physical entity in the DCS World with position, orientation, and identity properties."
+    addedVersion: "1.2.0"
+    inherits: []
+    static: {}
+    instance:
+      isExist:
+        description: "Returns `true` if this object currently exists in the mission environment."
+        returns: "boolean"
+      destroy:
+        description: "Removes this object from the mission without generating events, causing it to immediately disappear."
+        returns: "function"
+      getCategory:
+        description: "Returns two `Object.Category` values indicating this object's primary and secondary classification."
+        returns: [Object.Category, Object.Category]
+      getTypeName:
+        description: "Returns the type name of this object as defined in the DCS database."
+        returns: "string"
+      hasAttribute:
+        description: "Returns `true` if this object possesses the specified attribute as defined in the DCS database."
+        returns: "boolean"
+        params:
+          - name: "attribute"
+            type: "string | Attributes"
+            description: "Attribute name to check for. Can be any valid attribute from the Attributes enum."
+            optional: false
+      getName:
+        description: "Returns this object's name identifier, which may be either its mission editor name or runtime ID depending on context."
+        returns: "string"
+      getPoint:
+        description: "Returns a `Vec3` representing this object's position in the DCS World coordinate system."
+        returns: Vec3
+      getPosition:
+        description: "Returns a `Position3` containing both this object's location and orientation vectors in the DCS World coordinate system."
+        returns: Position3
+      getVelocity:
+        description: "Returns a `Vec3` representing this object's velocity components in the DCS World coordinate system."
+        returns: Vec3
+      inAir:
+        description: "Returns `true` if this object is currently airborne rather than on the ground."
+        returns: "boolean"
+      getAttributes:
+        description: "Returns a table containing all attributes this object possesses as defined in the DCS database."
+        returns: ObjectAttributes
+        addedVersion: "1.2.0"
+      cancelChoosingCargo:
+        description: "Aborts the current cargo selection operation for this object."
+        returns: void
+        addedVersion: "2.5.0"
+types:
+  Object.Category:
+    kind: enum
+    description: "Defines the fundamental categories of objects in the DCS World environment."
+    values:
+      VOID: 0
+      UNIT: 1
+      WEAPON: 2
+      STATIC: 3
+      BASE: 4
+      SCENERY: 5
+      CARGO: 6
+      
+  ObjectArray:
+    kind: array
+    arrayOf: Object
+    description: "Represents a numerically indexed table of `Object` instances."
+    
+  ObjectCategoryArray:
+    kind: array
+    arrayOf: Object.Category
+    description: "Represents a numerically indexed table of `Object.Category` enum values."
+
+  ObjectAttributes:
+    kind: record
+    description: "Defines the structure of a table containing attribute flags for an object. Each field is a boolean indicating whether the object has that specific attribute."
+    fields: {}

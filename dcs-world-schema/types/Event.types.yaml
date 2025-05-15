@@ -1,0 +1,702 @@
+globals: {}
+
+types:
+  # Main type used by world.onEvent and world.addEventHandler
+  EventData:
+    kind: record
+    description: "Event data structure that contains information about an event. The id field identifies which type of event is being handled."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      
+      # Target fields
+      target:
+        type: Object | nil
+        description: "The target object involved in the event (present in hit, kill, shooting events)."
+      
+      # Weapon fields
+      weapon:
+        type: Weapon | nil
+        description: "The weapon used during the event (present in shot, hit, kill events)."
+      WeaponName:
+        type: string | nil
+        description: "Name of the weapon (present in weapon_add events)."
+        
+      # Place fields  
+      place:
+        type: Airbase | nil
+        description: "The place object (used in landing, takeoff, birth, base_captured events)."
+      subplace:
+        type: world.BirthPlace | nil
+        description: "The specific location within the place (used in birth events)."
+        
+      # Mark fields
+      MarkID:
+        type: number | nil
+        description: "ID of the mark in mark-related events."
+      MarkText:
+        type: string | nil
+        description: "Text of the mark."
+      MarkCoordinate:
+        type: Vec3 | nil
+        description: "Coordinate of the mark."
+      MarkCoalition:
+        type: coalition.side | nil
+        description: "Coalition that owns the mark."
+      
+      # Zone fields
+      Zone: 
+        type: Zone | nil
+        description: "The zone object in trigger zone events."
+      
+      # Cargo fields
+      Cargo:
+        type: Cargo | nil
+        description: "The cargo object in cargo-related events."
+      
+      # Additional fields for specific events
+      IniCoalition:
+        type: coalition.side | nil
+        description: "Coalition of the initiator."
+      TgtCoalition:
+        type: coalition.side | nil
+        description: "Coalition of the target."
+      IniPlayerName:
+        type: string | nil
+        description: "Name of the player that initiated the event."
+      TgtPlayerName:
+        type: string | nil
+        description: "Name of the player that was targeted."
+      
+  EventDataBase:
+    kind: record
+    description: "Base structure for all event data. Contains common fields present in every event."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+
+  EventDataShot:
+    kind: record
+    description: "Event data structure for S_EVENT_SHOT events. Occurs whenever any unit fires a weapon."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      weapon:
+        type: Weapon
+        description: "The weapon that was fired."
+
+  EventDataHit:
+    kind: record
+    description: "Event data structure for S_EVENT_HIT events. Occurs whenever an object is hit by a weapon."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      weapon:
+        type: Weapon | nil
+        description: "The weapon that hit the target. May be nil in multiplayer due to desync issues."
+      target:
+        type: Object
+        description: "The object that was hit."
+
+  EventDataTakeoff:
+    kind: record
+    description: "Event data structure for S_EVENT_TAKEOFF events. Occurs when an aircraft takes off."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      place:
+        type: Airbase | nil
+        description: "The airbase or ship from which the takeoff occurred."
+
+  EventDataLand:
+    kind: record
+    description: "Event data structure for S_EVENT_LAND events. Occurs when an aircraft lands."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      place:
+        type: Airbase | nil
+        description: "The airbase or ship where the landing occurred."
+
+  EventDataBaseCaptured:
+    kind: record
+    description: "Event data structure for S_EVENT_BASE_CAPTURED events. Occurs when a base is captured."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      place:
+        type: Airbase
+        description: "The airbase that was captured."
+
+  EventDataBirth:
+    kind: record
+    description: "Event data structure for S_EVENT_BIRTH events. Occurs when an object is spawned."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      place:
+        type: Airbase | nil
+        description: "The place where the unit was spawned, if applicable."
+      subplace:
+        type: world.BirthPlace | nil
+        description: "The specific location type within the place where the unit was spawned."
+
+  EventDataKill:
+    kind: record
+    description: "Event data structure for S_EVENT_KILL events. Occurs when a unit kills another unit."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      target:
+        type: Object
+        description: "The object that was killed."
+      weapon:
+        type: Weapon | nil
+        description: "The weapon that caused the kill, if applicable."
+
+  EventDataMarkBase:
+    kind: record
+    description: "Base structure for mark-related events."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      MarkID:
+        type: number
+        description: "ID of the mark that was added, changed, or removed."
+      MarkText:
+        type: string | nil
+        description: "Text of the mark."
+      MarkCoordinate:
+        type: Vec3 | nil
+        description: "Coordinate of the mark."
+      MarkCoalition:
+        type: coalition.side | nil
+        description: "Coalition that owns the mark."
+
+  EventDataShootingStart:
+    kind: record
+    description: "Event data structure for S_EVENT_SHOOTING_START events. Occurs when continuous shooting begins."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      target:
+        type: Object | nil
+        description: "The target being shot at, if applicable."
+
+  EventDataWeaponAdd:
+    kind: record
+    description: "Event data structure for S_EVENT_WEAPON_ADD events. Occurs when a weapon is added to a unit."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      WeaponName:
+        type: string
+        description: "Name of the weapon that was added."
+
+  EventDataGeneric:
+    kind: record
+    description: "Comprehensive event data structure containing all possible fields from any event type."
+    fields:
+      id:
+        type: world.event
+        description: "The event ID that identifies the type of event."
+      time:
+        type: number
+        description: "Timestamp when the event occurred in mission time."
+      initiator:
+        type: Object | nil
+        description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
+      
+      IniObjectCategory:
+        type: Object.Category | nil
+        description: "(UNIT/STATIC/SCENERY) The initiator object category (Object.Category.UNIT or Object.Category.STATIC)."
+      IniDCSUnit:
+        type: Unit | StaticObject | nil
+        description: "(UNIT/STATIC) The initiating DCS Unit or StaticObject."
+      IniDCSUnitName:
+        type: string | nil
+        description: "(UNIT/STATIC) The initiating Unit name."
+      IniUnit:
+        type: Unit | nil
+        description: "(UNIT) The initiating MOOSE Unit wrapper of the initiator Unit object."
+      IniUnitName:
+        type: string | nil
+        description: "(UNIT) The initiating UNIT name (same as IniDCSUnitName)."
+      IniDCSGroup:
+        type: Group | nil
+        description: "(UNIT) The initiating Group."
+      IniDCSGroupName:
+        type: string | nil
+        description: "(UNIT) The initiating Group name."
+      IniGroup:
+        type: Group | nil
+        description: "(UNIT) The initiating GROUP object."
+      IniGroupName:
+        type: string | nil
+        description: "(UNIT) The initiating GROUP name (same as IniDCSGroupName)."
+      IniCategory:
+        type: Unit.Category | nil
+        description: "(UNIT) The category of the initiator."
+      IniCoalition:
+        type: coalition.side | nil
+        description: "(UNIT) The coalition of the initiator."
+      IniTypeName:
+        type: string | nil
+        description: "(UNIT) The type name of the initiator."
+      IniPlayerName:
+        type: string | nil
+        description: "(UNIT) The name of the initiating player in case the Unit is a client or player slot."
+      IniPlayerUCID:
+        type: string | nil
+        description: "(UNIT) The UCID of the initiating player in case the Unit is a client or player slot."
+
+      # Target fields
+      target:
+        type: Object | nil
+        description: "(UNIT/STATIC) The target object (Unit/StaticObject/other depending on event type)."
+      TgtObjectCategory:
+        type: Object.Category | nil
+        description: "(UNIT/STATIC) The target object category (Object.Category.UNIT or Object.Category.STATIC)."
+      TgtDCSUnit:
+        type: Unit | StaticObject | nil
+        description: "(UNIT/STATIC) The target DCS Unit or StaticObject."
+      TgtDCSUnitName:
+        type: string | nil
+        description: "(UNIT/STATIC) The target Unit name."
+      TgtUnit:
+        type: Unit | nil
+        description: "(UNIT) The target Unit object."
+      TgtUnitName:
+        type: string | nil
+        description: "(UNIT) The target UNIT name (same as TgtDCSUnitName)."
+      TgtDCSGroup:
+        type: Group | nil
+        description: "(UNIT) The target Group."
+      TgtDCSGroupName:
+        type: string | nil
+        description: "(UNIT) The target Group name."
+      TgtGroup:
+        type: Group | nil
+        description: "(UNIT) The target GROUP object."
+      TgtGroupName:
+        type: string | nil
+        description: "(UNIT) The target GROUP name (same as TgtDCSGroupName)."
+      TgtCategory:
+        type: Unit.Category | nil
+        description: "(UNIT) The category of the target."
+      TgtCoalition:
+        type: coalition.side | nil
+        description: "(UNIT) The coalition of the target."
+      TgtTypeName:
+        type: string | nil
+        description: "(UNIT) The type name of the target."
+      TgtPlayerName:
+        type: string | nil
+        description: "(UNIT) The name of the target player in case the Unit is a client or player slot."
+      TgtPlayerUCID: 
+        type: string | nil
+        description: "(UNIT) The UCID of the target player in case the Unit is a client or player slot."
+
+      # Weapon fields
+      weapon:
+        type: Weapon | nil
+        description: "The weapon used during the event (present in shot, hit, kill events)."
+      WeaponName:
+        type: string | nil
+        description: "Name of the weapon."
+      WeaponTypeName:
+        type: string | nil
+        description: "Type name of the weapon."
+      WeaponCategory:
+        type: Weapon.Category | nil
+        description: "Category of the weapon."
+      WeaponCoalition:
+        type: coalition.side | nil
+        description: "Coalition of the weapon."
+      WeaponPlayerName:
+        type: string | nil
+        description: "Player name associated with the weapon, if applicable."
+      WeaponTgtDCSUnit:
+        type: Unit | nil
+        description: "Target unit of the weapon."
+      WeaponUNIT:
+        type: Unit | nil
+        description: "Sometimes, the weapon is a player unit."
+
+      # Place fields
+      place:
+        type: Airbase | nil
+        description: "The place object (used in landing, takeoff, birth, base_captured events)."
+      PlaceName:
+        type: string | nil
+        description: "The name of the place."
+      subplace:
+        type: world.BirthPlace | nil
+        description: "The specific location within the place (used in birth events)."
+
+      # Mark fields
+      MarkID:
+        type: number | nil
+        description: "ID of the mark in mark-related events."
+      MarkText:
+        type: string | nil 
+        description: "Text of the mark."
+      MarkCoordinate:
+        type: Vec3 | nil
+        description: "Coordinate of the mark."
+      MarkVec3:
+        type: Vec3 | nil
+        description: "Vector 3D position of the mark."
+      MarkCoalition:
+        type: coalition.side | nil
+        description: "Coalition that owns the mark."
+      MarkGroupID:
+        type: number | nil
+        description: "Group ID associated with the mark, if applicable."
+
+      # Cargo fields
+      Cargo:
+        type: Cargo | nil
+        description: "The cargo object in cargo-related events."
+      CargoName:
+        type: string | nil
+        description: "The name of the cargo."
+      
+      # Dynamic cargo fields
+      IniDynamicCargo:
+        type: DynamicCargo | nil
+        description: "The dynamic cargo object in dynamic cargo events."
+      IniDynamicCargoName:
+        type: string | nil
+        description: "The name of the dynamic cargo."
+
+      # Zone fields
+      Zone: 
+        type: Zone | nil
+        description: "The zone object in zone-related events."
+      ZoneName:
+        type: string | nil
+        description: "The name of the zone." 
+
+  EventTypeMap:
+    kind: record
+    description: "Maps event IDs to their respective event data types. Used to document which event types correspond to which event IDs."
+    fields:
+      S_EVENT_INVALID:
+        type: EventDataBase
+        description: "Event data for invalid events (ID 0)."
+      S_EVENT_SHOT:
+        type: EventDataShot
+        description: "Event data for shot events (ID 1)."
+      S_EVENT_HIT:
+        type: EventDataHit
+        description: "Event data for hit events (ID 2)."
+      S_EVENT_TAKEOFF:
+        type: EventDataTakeoff
+        description: "Event data for takeoff events (ID 3)."
+      S_EVENT_LAND:
+        type: EventDataLand
+        description: "Event data for landing events (ID 4)."
+      S_EVENT_CRASH:
+        type: EventDataGeneric
+        description: "Event data for crash events (ID 5)."
+      S_EVENT_EJECTION:
+        type: EventDataGeneric
+        description: "Event data for ejection events (ID 6)."
+      S_EVENT_REFUELING:
+        type: EventDataGeneric
+        description: "Event data for refueling events (ID 7)."
+      S_EVENT_DEAD:
+        type: EventDataGeneric
+        description: "Event data for dead events (ID 8)."
+      S_EVENT_PILOT_DEAD:
+        type: EventDataGeneric
+        description: "Event data for pilot dead events (ID 9)."
+      S_EVENT_BASE_CAPTURED:
+        type: EventDataBaseCaptured
+        description: "Event data for base captured events (ID 10)."
+      S_EVENT_MISSION_START:
+        type: EventDataGeneric
+        description: "Event data for mission start events (ID 11)."
+      S_EVENT_MISSION_END:
+        type: EventDataGeneric
+        description: "Event data for mission end events (ID 12)."
+      S_EVENT_TOOK_CONTROL:
+        type: EventDataGeneric
+        description: "Event data for took control events (ID 13)."
+      S_EVENT_REFUELING_STOP:
+        type: EventDataGeneric
+        description: "Event data for refueling stop events (ID 14)."
+      S_EVENT_BIRTH:
+        type: EventDataBirth
+        description: "Event data for birth/spawn events (ID 15)."
+      S_EVENT_HUMAN_FAILURE:
+        type: EventDataGeneric
+        description: "Event data for human failure events (ID 16)."
+      S_EVENT_DETAILED_FAILURE:
+        type: EventDataGeneric
+        description: "Event data for detailed failure events (ID 17)."
+      S_EVENT_ENGINE_STARTUP:
+        type: EventDataGeneric
+        description: "Event data for engine startup events (ID 18)."
+      S_EVENT_ENGINE_SHUTDOWN:
+        type: EventDataGeneric
+        description: "Event data for engine shutdown events (ID 19)."
+      S_EVENT_PLAYER_ENTER_UNIT:
+        type: EventDataGeneric
+        description: "Event data for player enter unit events (ID 20)."
+      S_EVENT_PLAYER_LEAVE_UNIT:
+        type: EventDataGeneric
+        description: "Event data for player leave unit events (ID 21)."
+      S_EVENT_PLAYER_COMMENT:
+        type: EventDataGeneric
+        description: "Event data for player comment events (ID 22)."
+      S_EVENT_SHOOTING_START:
+        type: EventDataShootingStart
+        description: "Event data for shooting start events (ID 23)."
+      S_EVENT_SHOOTING_END:
+        type: EventDataGeneric
+        description: "Event data for shooting end events (ID 24)."
+      S_EVENT_MARK_ADDED:
+        type: EventDataMarkBase
+        description: "Event data for mark added events (ID 25)."
+      S_EVENT_MARK_CHANGE:
+        type: EventDataMarkBase
+        description: "Event data for mark change events (ID 26)."
+      S_EVENT_MARK_REMOVED:
+        type: EventDataMarkBase
+        description: "Event data for mark removed events (ID 27)."
+      S_EVENT_KILL:
+        type: EventDataKill
+        description: "Event data for kill events (ID 28)."
+      S_EVENT_SCORE:
+        type: EventDataGeneric
+        description: "Event data for score events (ID 29)."
+      S_EVENT_UNIT_LOST:
+        type: EventDataGeneric
+        description: "Event data for unit lost events (ID 30)."
+      S_EVENT_LANDING_AFTER_EJECTION:
+        type: EventDataGeneric
+        description: "Event data for landing after ejection events (ID 31)."
+      S_EVENT_PARATROOPER_LENDING:
+        type: EventDataGeneric
+        description: "Event data for paratrooper landing events (ID 32)."
+      S_EVENT_DISCARD_CHAIR_AFTER_EJECTION:
+        type: EventDataGeneric
+        description: "Event data for discard chair after ejection events (ID 33)."
+      S_EVENT_WEAPON_ADD:
+        type: EventDataWeaponAdd
+        description: "Event data for weapon add events (ID 34)."
+      S_EVENT_TRIGGER_ZONE:
+        type: EventDataGeneric
+        description: "Event data for trigger zone events (ID 35)."
+      S_EVENT_LANDING_QUALITY_MARK:
+        type: EventDataGeneric
+        description: "Event data for landing quality mark events (ID 36)."
+      S_EVENT_BDA:
+        type: EventDataGeneric
+        description: "Event data for battle damage assessment events (ID 37)."
+      S_EVENT_AI_ABORT_MISSION:
+        type: EventDataGeneric
+        description: "Event data for AI abort mission events (ID 38)."
+      S_EVENT_DAYNIGHT:
+        type: EventDataGeneric
+        description: "Event data for day/night transition events (ID 39)."
+      S_EVENT_FLIGHT_TIME:
+        type: EventDataGeneric
+        description: "Event data for flight time events (ID 40)."
+      S_EVENT_PLAYER_SELF_KILL_PILOT:
+        type: EventDataGeneric
+        description: "Event data for player self-kill pilot events (ID 41)."
+      S_EVENT_PLAYER_CAPTURE_AIRFIELD:
+        type: EventDataGeneric
+        description: "Event data for player capture airfield events (ID 42)."
+      S_EVENT_EMERGENCY_LANDING:
+        type: EventDataGeneric
+        description: "Event data for emergency landing events (ID 43)."
+      S_EVENT_UNIT_CREATE_TASK:
+        type: EventDataGeneric
+        description: "Event data for unit create task events (ID 44)."
+      S_EVENT_UNIT_DELETE_TASK:
+        type: EventDataGeneric
+        description: "Event data for unit delete task events (ID 45)."
+      S_EVENT_SIMULATION_START:
+        type: EventDataGeneric
+        description: "Event data for simulation start events (ID 46)."
+      S_EVENT_WEAPON_REARM:
+        type: EventDataGeneric
+        description: "Event data for weapon rearm events (ID 47)."
+      S_EVENT_WEAPON_DROP:
+        type: EventDataGeneric
+        description: "Event data for weapon drop events (ID 48)."
+      S_EVENT_UNIT_TASK_COMPLETE:
+        type: EventDataGeneric
+        description: "Event data for unit task complete events (ID 49)."
+      S_EVENT_UNIT_TASK_STAGE:
+        type: EventDataGeneric
+        description: "Event data for unit task stage events (ID 50)."
+      S_EVENT_MAC_EXTRA_SCORE:
+        type: EventDataGeneric
+        description: "Event data for MAC extra score events (ID 51)."
+      S_EVENT_MISSION_RESTART:
+        type: EventDataGeneric
+        description: "Event data for mission restart events (ID 52)."
+      S_EVENT_MISSION_WINNER:
+        type: EventDataGeneric
+        description: "Event data for mission winner events (ID 53)."
+      S_EVENT_RUNWAY_TAKEOFF:
+        type: EventDataGeneric
+        description: "Event data for runway takeoff events (ID 54)."
+      S_EVENT_RUNWAY_TOUCH:
+        type: EventDataGeneric
+        description: "Event data for runway touch events (ID 55)."
+      S_EVENT_MAC_LMS_RESTART:
+        type: EventDataGeneric
+        description: "Event data for MAC LMS restart events (ID 56)."
+      S_EVENT_SIMULATION_FREEZE:
+        type: EventDataGeneric
+        description: "Event data for simulation freeze events (ID 57)."
+      S_EVENT_SIMULATION_UNFREEZE:
+        type: EventDataGeneric
+        description: "Event data for simulation unfreeze events (ID 58)."
+      S_EVENT_HUMAN_AIRCRAFT_REPAIR_START:
+        type: EventDataGeneric
+        description: "Event data for human aircraft repair start events (ID 59)."
+      S_EVENT_HUMAN_AIRCRAFT_REPAIR_FINISH:
+        type: EventDataGeneric
+        description: "Event data for human aircraft repair finish events (ID 60)."
+      S_EVENT_MAX:
+        type: EventDataBase
+        description: "Maximum event ID marker (ID 61)."
+
+  Zone:
+    kind: record
+    description: "Trigger zone used in mission editor and referenced in zone-related events."
+    fields:
+      id:
+        type: number
+        description: "Unique identifier of the zone."
+      name:
+        type: string
+        description: "Name of the zone as defined in the mission editor."
+      position:
+        type: Vec3
+        description: "3D position of the zone's center."
+      radius:
+        type: number
+        description: "Radius of the zone in meters."
+      
+  Cargo:
+    kind: record
+    description: "Base cargo object used in cargo-related events."
+    fields:
+      id:
+        type: number
+        description: "Unique identifier of the cargo."
+      name:
+        type: string
+        description: "Name of the cargo."
+      mass:
+        type: number
+        description: "Mass of the cargo in kilograms."
+      
+  DynamicCargo:
+    kind: record
+    description: "Dynamic cargo object that can be moved during mission."
+    fields:
+      id:
+        type: number
+        description: "Unique identifier of the dynamic cargo."
+      name:
+        type: string
+        description: "Name of the dynamic cargo."
+      mass:
+        type: number
+        description: "Mass of the dynamic cargo in kilograms."
+      position:
+        type: Vec3
+        description: "Current 3D position of the cargo." 

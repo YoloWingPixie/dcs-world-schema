@@ -1,0 +1,123 @@
+globals:
+  land:
+    kind: singleton
+    description: "Provides functions for querying terrain geometry in the mission environment."
+    addedVersion: "1.2.0"
+    static:
+      getHeight:
+        description: "Returns terrain height (distance from sea level) at the specified point."
+        params:
+          - name: point
+            type: Vec2
+            description: "Position coordinates to check."
+        returns: number
+        addedVersion: "1.2.0"
+      getSurfaceHeightWithSeabed:
+        description: "Returns both terrain height and seabed depth at the specified point as `{number, number}` where the first value is height above sea level and the second is seabed depth."
+        params:
+          - name: point
+            type: Vec2
+            description: "Position coordinates to check."
+        returns: table
+        addedVersion: "1.2.0"
+      getSurfaceType:
+        description: "Returns the surface type enum at the specified point."
+        params:
+          - name: point
+            type: Vec2
+            description: "Position coordinates to check."
+        returns: land.SurfaceType
+        addedVersion: "1.2.0"
+      isVisible:
+        description: |
+          Performs line-of-sight check between two points, returning whether terrain obstructs visibility.
+          
+          Note: This only tests terrain collision - buildings and other objects are not considered.
+          When working with ground objects, offset the Y-value (height) to prevent false negatives from the origin point clipping into terrain.
+        params:
+          - name: origin
+            type: Vec3
+            description: "Starting point of the line-of-sight check."
+          - name: destination
+            type: Vec3
+            description: "Ending point of the line-of-sight check."
+        returns: boolean
+        addedVersion: "1.2.0"
+      getIP:
+        description: "Returns the intersection point where a ray originating from `origin` in the given direction intersects terrain, or `nil` if no intersection within specified distance."
+        params:
+          - name: origin
+            type: Vec3
+            description: "Starting point of the ray."
+          - name: direction
+            type: Vec3
+            description: "Normalized direction vector of the ray."
+          - name: distance
+            type: number
+            description: "Maximum distance to check for intersection."
+        returns: Vec3 | nil
+        addedVersion: "1.2.0"
+      profile:
+        description: "Returns a table of `Vec3` points representing the terrain profile between two points."
+        params:
+          - name: origin
+            type: Vec3
+            description: "Starting point of the profile."
+          - name: destination
+            type: Vec3
+            description: "Ending point of the profile."
+        returns: Vec3Array
+        addedVersion: "1.2.0"
+      getClosestPointOnRoads:
+        description: |
+          Returns X and Y coordinates of the nearest point on a road from the given position.
+          
+          Note: This function accepts individual X/Y coordinates rather than `Vec2` or `Vec3` objects.
+        params:
+          - name: roadType
+            type: string
+            description: "Road type to search. Valid values: `'roads'`, `'railroads'`."
+          - name: xCoord
+            type: number
+            description: "X-coordinate (map X) of reference point."
+          - name: yCoord
+            type: number
+            description: "Y-coordinate (map Z) of reference point."
+        returns: Vec2
+        addedVersion: "2.5"
+      findPathOnRoads:
+        description: |
+          Returns a route as a sequence of points along roads between start and destination.
+          
+          The result is a numerically-indexed table of `Vec2` points from start to destination.
+          
+          Note: When using railroad paths, the parameter value should be `'rails'` (not `'railroads'`).
+        params:
+          - name: roadType
+            type: string
+            description: "Road type to use. Valid values: `'roads'`, `'rails'`."
+          - name: xCoord
+            type: number
+            description: "X-coordinate (map X) of starting point."
+          - name: yCoord
+            type: number
+            description: "Y-coordinate (map Z) of starting point."
+          - name: destX
+            type: number
+            description: "X-coordinate (map X) of destination point."
+          - name: destY
+            type: number
+            description: "Y-coordinate (map Z) of destination point."
+        returns: Vec2Array
+        addedVersion: "2.5"
+
+types:
+  land.SurfaceType:
+    kind: enum
+    description: "Defines terrain surface types in the DCS World environment."
+    values:
+      LAND: 1
+      SHALLOW_WATER: 2
+      WATER: 3
+      ROAD: 4
+      RUNWAY: 5

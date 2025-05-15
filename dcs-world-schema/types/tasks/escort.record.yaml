@@ -1,0 +1,40 @@
+globals: {}
+
+types:
+  TaskEscort:
+    kind: record
+    description: "Controlled aircraft will follow the assigned group along their route in formation and will engage threats within a defined distance from the followed group."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'escort'"
+      params:
+        type: TaskEscortParams
+    required: [id, params]
+    
+  TaskEscortParams:
+    kind: record
+    description: "Parameters for the escort task"
+    fields:
+      groupId:
+        type: number
+        description: "Unique ID of the group to escort"
+      pos:
+        type: Vec3
+        description: "Vec3 point defining the relative position the controlled flight will form up on"
+      formation:
+        type: FormationType
+        description: "Formation pattern to use when escorting the group. Use AircraftFormationType for fixed-wing aircraft or HelicopterFormationType for helicopters."
+      lastWptIndexFlag:
+        type: boolean
+        description: "If true the AI will follow the group until it reaches a specified waypoint (default: true)"
+      lastWptIndex:
+        type: number
+        description: "Identifies the waypoint at which the following group will stop its task (default: -1)"
+      engagementDistMax:
+        type: number
+        description: "Maximum distance of targets from the followed aircraft that the AI will actively engage"
+      targetTypes:
+        type: Attributes[]
+        description: "Array of attribute types which the AI will engage"
+    required: [groupId, pos, engagementDistMax, targetTypes] 

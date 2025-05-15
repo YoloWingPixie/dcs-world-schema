@@ -1,0 +1,205 @@
+globals:
+  coalition:
+    kind: singleton
+    description: "Provides functions for managing faction-based entities in the DCS World environment, including unit information retrieval, group spawning, and static object creation."
+    addedVersion: "1.2.0"
+    static:
+      addGroup:
+        description: "Adds a new group to the mission for the specified coalition and country, returning a `function` that can be called to complete the spawn process."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: country
+            type: country.id
+            description: "Country identifier within the coalition."
+          - name: groupData
+            type: GroupSpawnData
+            description: "Table defining the group configuration to be spawned."
+        returns: function
+        addedVersion: "1.2.0"
+      add_dyn_group:
+        description: "Adds a dynamic (runtime-created) group to the mission for the specified coalition and country, returning a `function` that finalizes the spawn process."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: country
+            type: country.id
+            description: "Country identifier within the coalition."
+          - name: groupData
+            type: GroupSpawnData
+            description: "Table defining the dynamic group configuration to be spawned."
+        returns: function
+        addedVersion: "2.8.0"
+      remove_dyn_group:
+        description: "Removes a previously added dynamic group from the mission, returning `true` if successful."
+        params:
+          - name: groupName
+            type: string
+            description: "Name of the dynamic group to remove from the mission."
+        returns: boolean
+        addedVersion: "2.8.0"
+      addStaticObject:
+        description: "Adds a new static object to the mission for the specified coalition and country, returning a `function` that can be called to complete the spawn process."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: country
+            type: country.id
+            description: "Country identifier within the coalition."
+          - name: staticData
+            type: StaticObjectSpawnData
+            description: "Table defining the static object configuration to be spawned."
+        returns: function
+        addedVersion: "1.2.0"
+      getGroups:
+        description: "Returns a numerically indexed table of `Group` objects belonging to the specified coalition and country."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: country
+            type: country.id
+            description: "Country identifier within the coalition."
+        returns: table
+        addedVersion: "1.2.0"
+      getStaticObjects:
+        description: "Returns a numerically indexed table of `StaticObject` objects belonging to the specified coalition and country."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: country
+            type: country.id
+            description: "Country identifier within the coalition."
+        returns: table
+        addedVersion: "1.2.0"
+      getAirbases:
+        description: "Returns a numerically indexed table of `Airbase` objects belonging to the specified coalition and country."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: country
+            type: country.id
+            description: "Country identifier within the coalition."
+        returns: table
+        addedVersion: "1.2.0"
+      getPlayers:
+        description: "Returns a numerically indexed table of `Unit` objects representing player-controlled units in the specified coalition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+        returns: table
+        addedVersion: "1.2.0"
+      getServiceProviders:
+        description: "Returns a numerically indexed table of `Unit` objects providing the specified service type within the coalition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: service
+            type: coalition.service
+            description: "Service type enumeration value (e.g., ATC, AWACS, TANKER, FAC)."
+        returns: table
+        addedVersion: "1.2.0"
+      addRefPoint:
+        description: "Adds a reference point for the specified coalition, returning a `function` that finalizes the addition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: refPoint
+            type: RefPoint
+            description: "Table defining the reference point to be added."
+        returns: function
+        addedVersion: "1.2.0"
+      getRefPoints:
+        description: "Returns a table of reference points defined for the specified coalition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+        returns: table
+        addedVersion: "1.2.0"
+      getMainRefPoint:
+        description: "Returns a table representing the primary reference point for the specified coalition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+        returns: table
+        addedVersion: "1.2.0"
+      getCountryCoalition:
+        description: "Returns a `number` representing the coalition identifier that the specified country belongs to."
+        params:
+          - name: country
+            type: country.id
+            description: "Country identifier to query."
+        returns: number
+        addedVersion: "1.2.0"
+      checkChooseCargo:
+        description: "Returns `true` if cargo selection is possible for the specified unit within the coalition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: unitId
+            type: number
+            description: "Unique identifier of the unit to check."
+        returns: boolean
+        addedVersion: "2.8.0"
+      checkDescent:
+        description: "Returns `true` if a descent operation (e.g., paratrooper drop) is possible for the specified unit."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+          - name: unitId
+            type: number
+            description: "Unique identifier of the unit to check."
+        returns: boolean
+        addedVersion: "2.8.0"
+      getAllDescents:
+        description: "Returns a table of all available descent operations (e.g., paratroopers, cargo) for the specified coalition."
+        params:
+          - name: coalition
+            type: coalition.side
+            description: "Coalition side enumeration value."
+        returns: table
+        addedVersion: "2.8.0"
+      getDescentsOnBoard:
+        description: "Returns a table of all descent operations (e.g., paratroopers, cargo) currently loaded on the specified unit."
+        params:
+          - name: unitId
+            type: number
+            description: "Unique identifier of the unit to query."
+        returns: table
+        addedVersion: "2.8.0"
+    properties:
+      side:
+        type: coalition.side
+        description: "Provides access to the coalition side enumerator for faction identification."
+      service:
+        type: coalition.service
+        description: "Provides access to the service type enumerator for communications services."
+types:
+  coalition.side:
+    kind: enum
+    description: "Enumerator for coalition sides, used to identify the different factions in the DCS World environment."
+    values:
+      NEUTRAL: 0
+      RED: 1
+      BLUE: 2
+  coalition.service:
+    kind: enum
+    description: "Enumerator for coalition service types, used to categorize radio communication services available to each faction."
+    values:
+      ATC: 0
+      AWACS: 1
+      TANKER: 2
+      FAC: 3
+      MAX: 4

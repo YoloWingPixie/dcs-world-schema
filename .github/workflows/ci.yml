@@ -1,0 +1,171 @@
+name: DCS World Schema CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  setup:
+    name: 🛠️ Setup Environment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: 🌟 Install uv
+        run: |
+          pip install uv
+          
+      - name: 💾 Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            .venv
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('pyproject.toml', 'uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+            
+      - name: 📦 Install dependencies
+        run: uv sync
+
+  validate:
+    name: ✅ Validate Schema
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          
+      - name: 💾 Restore cached dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            .venv
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('pyproject.toml', 'uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+            
+      - name: 🔍 Lint YAML (Basic Syntax)
+        id: lint_basic
+        run: |
+          uv run yamllint -d relaxed dcs-world-schema/**/*.yaml
+        continue-on-error: true
+      
+      - name: 📝 Validate YAML Schema
+        id: validate_yaml
+        run: |
+          echo "::group::Validate YAML Schema"
+          uv run python tools/validate.py dcs-world-schema
+          echo "::endgroup::"
+        
+      - name: 🧩 Validate Types
+        id: validate_types
+        run: |
+          echo "::group::Validate Types"
+          uv run python tools/validate_types.py dist/dcs-world-api-schema.json
+          echo "::endgroup::"
+          
+  build:
+    name: 🔨 Build and Verify
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: 💾 Restore cached dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .venv
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('pyproject.toml', 'uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+      
+      - name: 🔄 Merge YAML to JSON
+        id: merge_yaml
+        run: |
+          echo "::group::Merge YAML to JSON"
+          uv run python tools/merge.py --format json
+          echo "::endgroup::"
+      
+      - name: 🔄 Merge YAML to YAML
+        id: merge_yml
+        run: |
+          echo "::group::Merge YAML to YAML"
+          uv run python tools/merge.py --format yaml
+          echo "::endgroup::"
+      
+      - name: 🔬 Verify against DCS API
+        id: verify
+        run: |
+          echo "::group::Verify API Schema"
+          uv run python tools/verify.py dist/dcs-world-api-schema.json reference_data/DCS_API.json
+          echo "::endgroup::"
+      
+      - name: 🧹 Lint output JSON
+        id: lint_json
+        run: |
+          echo "::group::Lint JSON"
+          uv run python -m json.tool dist/dcs-world-api-schema.json > /dev/null
+          echo "::endgroup::"
+      
+      - name: 🧹 Lint output YAML
+        id: lint_yaml
+        run: |
+          echo "::group::Lint YAML"
+          uv run yamllint -d relaxed dist/dcs-world-api-schema.yaml
+          echo "::endgroup::"
+      
+      - name: 📊 Generate Statistics
+        id: stats
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "::group::Schema Statistics"
+          TYPES_COUNT=$(grep -o '"types":' dist/dcs-world-api-schema.json | wc -l)
+          GLOBALS_COUNT=$(grep -o '"globals":' dist/dcs-world-api-schema.json | wc -l)
+          TOTAL_SIZE=$(wc -c < dist/dcs-world-api-schema.json)
+          echo "TYPES_COUNT=$TYPES_COUNT" >> $GITHUB_ENV
+          echo "GLOBALS_COUNT=$GLOBALS_COUNT" >> $GITHUB_ENV
+          echo "TOTAL_SIZE=$TOTAL_SIZE" >> $GITHUB_ENV
+          echo "::endgroup::"
+      
+      - name: 💬 Create PR Comment
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo } } = context;
+            github.rest.issues.createComment({
+              issue_number,
+              owner,
+              repo,
+              body: `## DCS Schema Stats
+              
+              | Metric | Count |
+              | ------ | ----- |
+              | Types | ${{ env.TYPES_COUNT }} |
+              | Globals | ${{ env.GLOBALS_COUNT }} |
+              | Total Size | ${{ env.TOTAL_SIZE }} bytes |
+              
+              ✅ All validation checks passed!`
+            });

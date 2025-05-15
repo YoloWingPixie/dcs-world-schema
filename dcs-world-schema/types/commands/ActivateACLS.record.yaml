@@ -1,0 +1,25 @@
+globals: {}
+
+types:
+  CommandActivateACLS:
+    kind: record
+    description: "Defines the structure of a command that activates an Automatic Carrier Landing System (ACLS) on an aircraft carrier."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'ActivateACLS'."
+      params:
+        type: CommandActivateACLSParams
+    required: [id, params]
+
+  CommandActivateACLSParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the ACLS activation command."
+    fields:
+      unitId:
+        type: number
+        description: "ID of the ship unit that will provide the ACLS functionality (requires carrier with appropriate systems)."
+      name:
+        type: string
+        description: "Descriptive name of the ACLS for identification purposes only."
+    required: [unitId] 

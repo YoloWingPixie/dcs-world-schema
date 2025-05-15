@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  CommandScript:
+    kind: record
+    description: "Defines the structure of a command that executes a Lua script within the context of a group, providing access to the group through the '...' self-reference."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'Script'."
+      params:
+        type: CommandScriptParams
+    required: [id, params]
+
+  CommandScriptParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the script execution command."
+    fields:
+      command:
+        type: string
+        description: "Lua code string to be executed within the group's context."
+    required: [command] 

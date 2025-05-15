@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  Vec2:
+    kind: record
+    description: "Represents a 2D vector or point, typically used for map coordinates in the DCS World coordinate system. It is a Lua table with `x` and `y` keys."
+    fields:
+      x:
+        type: number
+        description: "X coordinate, which represents the north-south direction in the DCS World coordinate system. North is positive, South is negative."
+      y:
+        type: number
+        description: "Y coordinate, which represents the east-west direction in the DCS World coordinate system. East is positive, West is negative."
+    required: [x, y]
+    
+  Vec2Array:
+    kind: array
+    arrayOf: Vec2
+    description: "Represents a numerically indexed Lua table (sequence) of `Vec2` points in the DCS World coordinate system."

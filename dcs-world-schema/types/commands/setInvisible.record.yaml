@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  CommandSetInvisible:
+    kind: record
+    description: "Defines the structure of a command that toggles a group's visibility to enemy AI sensors."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'setInvisible'."
+      params:
+        type: CommandSetInvisibleParams
+    required: [id, params]
+
+  CommandSetInvisibleParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the invisibility toggle command."
+    fields:
+      value:
+        type: boolean
+        description: "Invisibility state where true makes the group undetectable by enemy AI, false restores normal detection."
+    required: [value] 

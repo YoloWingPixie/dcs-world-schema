@@ -1,0 +1,34 @@
+globals: {}
+
+types:
+  TaskEnRouteFAC:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the controlled group to act as a Forward Air Controller or JTAC. Any detected targets will be assigned as targets to the player via the JTAC radio menu."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'fac'."
+      params:
+        type: TaskEnRouteFACParams
+    required: [id, params]
+    
+  TaskEnRouteFACParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the FAC task."
+    fields:
+      frequency:
+        type: number
+        description: "Radio frequency to use for the JTAC communications."
+      modulation:
+        type: number
+        description: "Radio modulation type for JTAC communications."
+      callname:
+        type: Callsigns_JTAC
+        description: "JTAC callsign identifier (Axeman, Darknight, etc.)."
+      number:
+        type: number
+        description: "JTAC callsign number."
+      priority:
+        type: number
+        description: "The priority of the tasking, where lower numbers indicate higher importance (default: 0)."
+    required: [] 

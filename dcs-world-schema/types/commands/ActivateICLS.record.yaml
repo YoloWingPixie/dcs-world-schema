@@ -1,0 +1,31 @@
+globals: {}
+
+types:
+  CommandActivateICLS:
+    kind: record
+    description: "Defines the structure of a command that activates an Instrument Carrier Landing System (ICLS) beacon for aircraft carriers."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'ActivateICLS'."
+      params:
+        type: CommandActivateICLSParams
+    required: [id, params]
+
+  CommandActivateICLSParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the ICLS beacon activation."
+    fields:
+      type:
+        type: number
+        description: "Fixed value of 131584 identifying an ICLS beacon type."
+      channel:
+        type: number
+        description: "ICLS channel number (1-20) that aircraft will tune to for landing guidance."
+      unitId:
+        type: number
+        description: "ID of the ship unit that will broadcast the ICLS beacon signal."
+      name:
+        type: string
+        description: "Descriptive name of the ICLS beacon for identification purposes only."
+    required: [type, channel, unitId] 

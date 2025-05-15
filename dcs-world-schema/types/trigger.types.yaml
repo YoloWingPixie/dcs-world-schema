@@ -1,0 +1,70 @@
+types:
+  trigger.smokeColor:
+    kind: enum
+    description: "Enumerator for smoke colors, used to specify colored smoke effects in trigger actions."
+    values:
+      Green: 0
+      Red: 1
+      White: 2
+      Orange: 3
+      Blue: 4
+    addedVersion: "1.2.0"
+
+  trigger.flareColor:
+    kind: enum
+    description: "Enumerator for flare colors, used to specify colored illumination flares in trigger actions."
+    values:
+      Green: 0
+      Red: 1
+      White: 2
+      Yellow: 3
+    addedVersion: "1.2.0"
+
+  MarkupShapeId:
+    kind: enum
+    description: "Enumerator for markup geometric shape types, used with trigger.action.markupToAll to create map annotations."
+    values:
+      Line: 1
+      Circle: 2
+      Rect: 3
+      Arrow: 4
+      Text: 5
+      Quad: 6
+      Freeform: 7
+    addedVersion: "2.5.6"
+
+  MarkupLineType:
+    kind: enum
+    description: "Enumerator for line style patterns, used to customize map markup line appearances in trigger actions."
+    values:
+      NoLine: 0
+      Solid: 1
+      Dashed: 2
+      Dotted: 3
+      DotDash: 4
+      LongDash: 5
+      TwoDash: 6
+    addedVersion: "2.5.5"
+
+  BigSmokeType:
+    kind: enum
+    description: "Enumerator for smoke and fire effect variants, used to specify visual effect intensity and characteristics in trigger actions."
+    values:
+      SmallSmokeAndFire: 1
+      MediumSmokeAndFire: 2
+      LargeSmokeAndFire: 3
+      HugeSmokeAndFire: 4
+      SmallSmoke: 5
+      MediumSmoke: 6
+      LargeSmoke: 7
+      HugeSmoke: 8
+    addedVersion: "1.2.0"
+
+  RadioModulation:
+    kind: enum
+    description: "Enumerator for radio transmission modulation types, used to specify signal modulation in trigger communication actions."
+    values:
+      AM: 0
+      FM: 1
+    addedVersion: "1.2.0"
+  

@@ -1,0 +1,23 @@
+globals: {}
+
+types:
+  ComboTask:
+    kind: record
+    description: "Defines the structure of a Lua table representing a composite task that combines multiple tasks to be executed sequentially or in parallel."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'ComboTask'."
+      params:
+        type: ComboTaskParams
+        description: "A table containing parameters that define the tasks to be combined."
+    required: [id, params]
+    
+  ComboTaskParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing the collection of tasks to be executed as part of a combination."
+    fields:
+      tasks:
+        type: table
+        description: "A numerically indexed table of task objects to be executed."
+    required: [tasks] 

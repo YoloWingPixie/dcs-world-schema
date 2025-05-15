@@ -1,0 +1,14 @@
+globals: {}
+
+types:
+  Box3:
+    kind: record
+    description: "Defines the structure of a Lua table representing a 3D bounding box in the DCS World coordinate system, specified by minimum and maximum corner points."
+    fields:
+      min:
+        type: Vec3
+        description: "A `Vec3` representing the minimum corner point (lowest x, y, z values) of the bounding box in the DCS World coordinate system."
+      max:
+        type: Vec3
+        description: "A `Vec3` representing the maximum corner point (highest x, y, z values) of the bounding box in the DCS World coordinate system."
+    required: [min, max]

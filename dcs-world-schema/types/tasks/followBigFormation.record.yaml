@@ -1,0 +1,35 @@
+globals: {}
+
+types:
+  TaskFollowBigFormation:
+    kind: record
+    description: "Defines the structure of a Lua table representing an advanced formation-following task for coordinated bombing missions with multiple aircraft."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'followBigFormation'."
+      params:
+        type: TaskFollowBigFormationParams
+        description: "A table containing parameters that configure the formation-following behavior."
+    required: [id, params]
+    
+  TaskFollowBigFormationParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for large-scale formation flying between aircraft groups."
+    fields:
+      groupId:
+        type: number
+        description: "Unique ID of the lead aircraft group to follow."
+      pos:
+        type: Vec3
+        description: "A `Vec3` representing the relative position the controlled flight will maintain within the formation in the DCS World coordinate system."
+      formation:
+        type: FormationType
+        description: "Formation pattern to use when following the group, must match aircraft type (fixed-wing or helicopter)."
+      lastWptIndexFlag:
+        type: boolean
+        description: "Determines whether the AI will terminate the follow task when the lead group reaches a specified waypoint."
+      lastWptIndex:
+        type: number
+        description: "Waypoint index of the lead group that, when reached, will cause the following aircraft to terminate the task."
+    required: [groupId, pos] 

@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  CommandStart:
+    kind: record
+    description: "Defines the structure of a command that activates an initially inactive group, triggering AI units to follow their designated route."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'start'."
+      params:
+        type: CommandStartParams
+    required: [id, params]
+
+  CommandStartParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the group activation command."
+    fields: {}
+    required: [] 
