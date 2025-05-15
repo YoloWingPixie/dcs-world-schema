@@ -54,6 +54,20 @@ To use the EmmyLua annotations with your Lua editor:
 1. Set up your editor to use EmmyLua annotations (VSCode, IntelliJ IDEA, etc.)
 2. Include the `dcs-world-api.lua` file in your project or configure your editor to reference it
 
+#### VSCode
+0. Install a popular Lua LSP extension like sumneko's Lua extension.
+1. Create a `.vscode/settings.json` in your DCS World Lua project if it does not alreaady exist.
+2. For LuaLS or sumeneko's Lua extension, or other popular Lua LSP for VSCode, all you should have to do is add the following to your `settings.json`:
+
+```lua
+{
+    "Lua.workspace.library": [
+        "$PATH_TO_YOUR_LUA_DIST_FILE_CHANGE_ME/dcs-world-api.lua",
+    ]
+}
+```
+3. Type checking, hover information, and autocomplete should now function in `.lua` files in VSCode
+
 
 ## 🛠️ Building From Source
 
