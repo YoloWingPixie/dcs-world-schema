@@ -37,36 +37,27 @@ jobs:
       - name: 📚 Install dependencies
         run: task uv:sync
         
-      - name: 🔍 Check if VERSION changed
+      - name: 🔍 Check if version tag exists
         id: check_version
         run: |
-          git fetch origin main
-          VERSION=$(cat VERSION)
+          # Ensure tags are fetched
+          git fetch --tags --force
+          
+          # Read current version from VERSION file
+          VERSION=$(cat VERSION | tr -d '[:space:]')
           echo "Current version: $VERSION"
           
-          # Check if VERSION exists in main
-          if git ls-remote --exit-code --heads origin main >/dev/null 2>&1; then
-            if git show origin/main:VERSION >/dev/null 2>&1; then
-              MAIN_VERSION=$(git show origin/main:VERSION)
-              echo "Main version: $MAIN_VERSION"
-              
-              if [ "$VERSION" != "$MAIN_VERSION" ]; then
-                echo "VERSION file has been updated!"
-                echo "version=$VERSION" >> $GITHUB_OUTPUT
-                echo "version_changed=true" >> $GITHUB_OUTPUT
-              else
-                echo "VERSION file unchanged, skipping release."
-                echo "version_changed=false" >> $GITHUB_OUTPUT
-              fi
-            else
-              echo "VERSION file is new in this branch, creating initial release."
-              echo "version=$VERSION" >> $GITHUB_OUTPUT
-              echo "version_changed=true" >> $GITHUB_OUTPUT
-            fi
+          # Check if this version tag already exists
+          VERSION_TAG="v$VERSION"
+          if git rev-parse "$VERSION_TAG" >/dev/null 2>&1; then
+            echo "Tag $VERSION_TAG already exists, skipping release."
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "version_changed=false" >> $GITHUB_OUTPUT
           else
-            echo "Main branch does not exist yet, creating initial release."
+            echo "Tag $VERSION_TAG does not exist, creating release."
             echo "version=$VERSION" >> $GITHUB_OUTPUT
             echo "version_changed=true" >> $GITHUB_OUTPUT
+            echo "version_tag=$VERSION_TAG" >> $GITHUB_OUTPUT
           fi
           
       - name: 🏷️ Determine release type and RC number
