@@ -1,0 +1,26 @@
+globals:
+  SceneryObject:
+    kind: class
+    description: "Represents static environmental structures in the DCS World mission area, such as buildings, bridges, and terrain objects."
+    addedVersion: "1.2.0"
+    inherits:
+      - Object
+    instance:
+      getLife:
+        description: "Returns the current health value of this scenery object, where 0 indicates destruction."
+        returns: number
+        addedVersion: "1.2.0"
+      getDesc:
+        description: "Returns a table containing detailed properties of this scenery object based on its type."
+        returns: SceneryObjectDesc
+        addedVersion: "1.2.0"
+    static:
+      getDescByName:
+        description: "Returns a table containing detailed properties of a scenery object type without requiring an instance."
+        params:
+          - name: typeName
+            type: string
+            description: "Type name of the scenery object to retrieve information about."
+        returns: SceneryObjectDesc
+        addedVersion: "1.2.0"
+types: {}

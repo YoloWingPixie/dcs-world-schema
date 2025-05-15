@@ -1,0 +1,724 @@
+globals:
+  VoiceChat:
+    kind: singleton
+    description: "Provides functions for creating and managing voice chat rooms in multiplayer missions."
+    addedVersion: "2.5.6"
+    environment: [MissionScripting]
+    static:
+      createRoom:
+        description: "Creates a voice chat room for players in a multiplayer mission."
+        params:
+        - name: roomName
+          type: string
+        - name: side
+          type: VoiceChat.Side
+        - name: roomType
+          type: VoiceChat.RoomType
+        returns: nil
+        addedVersion: "2.5.6"
+        examples:
+        - code: VoiceChat.CreateRoom("SRSIsBetter", 2, 0)
+      
+      # Adding missing functions identified in DCS_API.json
+      addUser:
+        description: "Adds a user to a voice chat room."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      changeSlot:
+        description: "Changes a user's slot in a voice chat room."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      changeVoiceChatOption:
+        description: "Modifies voice chat options for a room or user."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      deleteRoom:
+        description: "Removes a voice chat room from the mission."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getAccessPeersList:
+        description: "Returns a list of peers with access to a voice chat room."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getActiveRoom:
+        description: "Returns the currently active voice chat room for a user."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getCurrentTransmittingRadio:
+        description: "Returns the radio currently being used for transmission."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getEncryptionEnabled:
+        description: "Returns `true` if voice encryption is enabled, `false` otherwise."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getIntercomData:
+        description: "Returns data about the intercom system."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getIntercomIndication:
+        description: "Returns information about the intercom's status indicators."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getIntercomMicMode:
+        description: "Returns the current microphone mode for the intercom."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getIntercomVolume:
+        description: "Returns the current volume level for the intercom."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getIsExternallyControlled:
+        description: "Returns `true` if voice chat is controlled by an external system, `false` otherwise."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getLastTransmittingRadio:
+        description: "Returns information about the most recently used transmitting radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getMicMode:
+        description: "Returns the current microphone activation mode."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getOptions:
+        description: "Returns current voice chat system options."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getPeerAudioState:
+        description: "Returns audio state information for a specified peer."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getPeersList:
+        description: "Returns a list of all peers in voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioChannel:
+        description: "Returns the currently selected radio channel."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioEncryptionKey:
+        description: "Returns the encryption key for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioFrequency:
+        description: "Returns the frequency of a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioFrequencyByUnits:
+        description: "Returns radio frequencies for specified units."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioGuardReceiverFrequency:
+        description: "Returns the frequency of the guard receiver on a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioGuardReceiverModulation:
+        description: "Returns the modulation type of the guard receiver on a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioGuardReceiverOnOff:
+        description: "Returns the on/off state of the guard receiver on a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioIndication:
+        description: "Returns status indicator information for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioList:
+        description: "Returns a list of available radios for the current unit."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioModulation:
+        description: "Returns the modulation type for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioOnOff:
+        description: "Returns the on/off state of a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioPower:
+        description: "Returns the power setting of a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioSquelchOnOff:
+        description: "Returns the squelch on/off state for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRadioVolume:
+        description: "Returns the volume level for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getRooms:
+        description: "Returns a list of all voice chat rooms in the mission."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getSide:
+        description: "Returns the coalition side of a voice chat room or user."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      getVoiceChatMode:
+        description: "Returns the current voice chat operating mode."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      isInUnit:
+        description: "Returns `true` if a player is in a unit with voice chat capabilities, `false` otherwise."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      isIntercom:
+        description: "Returns `true` if an intercom system is available, `false` otherwise."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      isRadioAvailableForTransmission:
+        description: "Returns `true` if a specified radio can transmit, `false` otherwise."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      leaveRoom:
+        description: "Removes a user from a voice chat room."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      onPeerConnect:
+        description: "Handles peer connection events in voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      onPeerDisconnect:
+        description: "Handles peer disconnection events in voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      onProcessState:
+        description: "Handles state processing events in voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      onRtcConnectionChange:
+        description: "Handles RTC connection change events."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      onRtcFailure:
+        description: "Handles RTC failure events."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      onRtcSignalingChange:
+        description: "Handles RTC signaling change events."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      peerVoiceEnable:
+        description: "Enables or disables voice for a specific peer."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      radioEncryptionOnOff:
+        description: "Toggles encryption for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      reconnect:
+        description: "Attempts to reconnect to the voice chat system."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      removeUser:
+        description: "Removes a user from the voice chat system."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setActiveRoom:
+        description: "Sets the active voice chat room for a user."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setEncryptionEnabled:
+        description: "Enables or disables voice encryption."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setIntercomMicMode:
+        description: "Sets the microphone mode for the intercom system."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setIsExternallyControlled:
+        description: "Enables or disables external control of the voice chat system."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setMicMode:
+        description: "Sets the microphone activation mode."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setOptions:
+        description: "Configures voice chat system options."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioChannel:
+        description: "Sets the active channel on a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioEncryptionKey:
+        description: "Sets the encryption key for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioFrequency:
+        description: "Sets the frequency for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioGuardReceiverFrequency:
+        description: "Sets the guard receiver frequency for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioGuardReceiverModulation:
+        description: "Sets the guard receiver modulation type for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioGuardReceiverOnOff:
+        description: "Enables or disables the guard receiver for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioModulation:
+        description: "Sets the modulation type for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioOnOff:
+        description: "Turns a specified radio on or off."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioPower:
+        description: "Sets the power level for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioSquelchOnOff:
+        description: "Enables or disables squelch for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setRadioVolume:
+        description: "Sets the volume level for a specified radio."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setTrackAudioVolume:
+        description: "Sets the volume level for audio tracks in voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      setVoiceChatMode:
+        description: "Sets the operating mode for voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      startStopTestSoundFilterOptions:
+        description: "Starts or stops a test of sound filter options."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      startStream:
+        description: "Starts a voice stream for a specified user or room."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      startTestPeekMeter:
+        description: "Starts the audio level test meter."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      stopStream:
+        description: "Stops a voice stream for a specified user or room."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      stopTestPeekMeter:
+        description: "Stops the audio level test meter."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      testCallPeekMeterFunc:
+        description: "Tests the peak meter functionality."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      updateCrewVolume:
+        description: "Updates the volume levels for crew communications."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+      
+      updateSoundFilterParameters:
+        description: "Updates the parameters for sound filtering in voice chat."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)"
+            optional: true
+        returns: any
+    
+    # Adding the table properties
+    properties:
+      RadioHandlers:
+        type: VoiceChat.RadioHandlers
+        description: "Enumerator for radio functionality constants used in voice communications."
+      
+      RadioHandlersSingletons:
+        type: VoiceChat.RadioHandlersSingletons
+        description: "Enumerator for intercom functionality constants used in voice communications."
+      
+      Side:
+        type: VoiceChat.Side
+        description: "Enumerator for coalition sides (NEUTRAL, RED, BLUE, ALL) in voice chat rooms."
+      
+      RoomType:
+        type: VoiceChat.RoomType
+        description: "Enumerator for voice chat room types (PERSISTENT, MULTICREW, MANAGEABLE)."
+types: {}

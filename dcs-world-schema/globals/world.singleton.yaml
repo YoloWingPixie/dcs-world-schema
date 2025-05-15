@@ -1,0 +1,236 @@
+globals:
+  world:
+    kind: singleton
+    description: "Provides functions for managing events, accessing game world information, and controlling weather conditions in the DCS World."
+    addedVersion: "1.2.0"
+    static:
+      addEventHandler:
+        description: "Registers a function to be called when simulator events occur. Different event types produce different event data structures."
+        params:
+          - name: handler
+            type: function
+            description: "The event handler function. The function signature should be `function(eventData)` where eventData is of type EventData, which is a union of all possible event data types. The id field identifies which type of event is being handled."
+        returns: nil
+        addedVersion: "1.2.0"
+      removeEventHandler:
+        description: "Unregisters a previously added event handler function."
+        params:
+          - name: handler
+            type: function
+            description: "The event handler function to remove."
+        returns: nil
+        addedVersion: "1.2.0"
+      onEvent:
+        description: "Handles simulator events internally for the DCS Mission environment. Different event types produce different event data structures."
+        params:
+          - name: eventData
+            type: EventData
+            description: "Event data containing information about the triggered event. The specific event type determines which fields are available."
+        returns: nil
+      getPlayer:
+        description: "Returns the `Unit` controlled by the player, or `nil` if no unit is directly controlled."
+        params: []
+        returns: Unit | nil
+        addedVersion: "1.2.4"
+      getAirbases:
+        description: "Returns a numerically indexed table of all airbase objects in the mission."
+        params: []
+        returns: AirbaseArray
+        addedVersion: "1.2.4"
+      searchObjects:
+        description: "Returns objects within a specified 3D volume, optionally applying a handler function to each found object."
+        params:
+          - name: category
+            type: Object.Category | ObjectCategoryArray
+            description: "The category or categories of objects to search for."
+          - name: searchVolume
+            type: table # Volume definition (SEGMENT, BOX, SPHERE, PYRAMID)
+            description: "A table defining the search volume."
+          - name: Handler
+            type: function
+            optional: true
+            description: "An optional handler function to run on each found object."
+          - name: data
+            type: any
+            optional: true
+            description: "Optional data to pass to the handler function."
+        returns: ObjectArray
+        addedVersion: "1.2.4"
+      getMarkPanels:
+        description: "Returns a table of all active map markers and drawn shapes in the mission."
+        params: []
+        returns: table
+        addedVersion: "2.5.1"
+      removeJunk:
+        description: "Removes debris within a specified volume, returning the number of items cleared."
+        params:
+          - name: searchVolume
+            type: table # Volume definition (SEGMENT, BOX, SPHERE, PYRAMID)
+            description: "A table defining the volume from which to remove junk."
+        returns: number
+        addedVersion: "2.8.4"
+      getPersistenceData:
+        description: "Returns mission persistence data used for saving mission state."
+        params: []
+        returns: table
+      runPersistenceHandlers:
+        description: "Executes all registered persistence handler functions."
+        params: []
+        returns: nil
+      setPersistenceHandler:
+        description: "Registers a handler function for mission persistence operations."
+        params:
+          - name: handler
+            type: function
+            description: "The persistence handler function."
+        returns: nil
+    properties:
+      weather:
+        type: table
+        description: "Provides functions for controlling fog and weather conditions in the mission."
+        addedVersion: "2.9.10"
+        static:
+          getFogThickness:
+            description: "Returns a `number` representing the current fog thickness in meters."
+            params: []
+            returns: number
+            addedVersion: "2.9.10"
+          setFogThickness:
+            description: "Sets the fog thickness at sea level in meters, canceling any active fog animation."
+            params:
+              - name: thickness
+                type: number
+                description: "Fog thickness in meters (0 or 100-5000)."
+            returns: nil
+            addedVersion: "2.9.10"
+          getFogVisibilityDistance:
+            description: "Returns a `number` representing the current fog visibility distance in meters."
+            params: []
+            returns: number
+            addedVersion: "2.9.10"
+          setFogVisibilityDistance:
+            description: "Sets the maximum visibility at sea level in meters, canceling any active fog animation."
+            params:
+              - name: visibility
+                type: number
+                description: "Visibility distance in meters (0 or 100-100000)."
+            returns: nil
+            addedVersion: "2.9.10"
+          setFogAnimation:
+            description: "Configures fog to change dynamically over time based on provided keyframes."
+            params:
+              - name: fogAnimationKeys
+                type: table | nil
+                description: "Table of animation keys or nil to discard animation."
+            returns: nil
+            addedVersion: "2.9.10"
+      event:
+        type: world.event
+        description: "Enumerator for event types that can occur in the DCS World simulation."
+        readonly: true
+      BirthPlace:
+        type: world.BirthPlace
+        description: "Enumerator for spawn locations of aircraft and helicopters."
+        readonly: true
+      VolumeType:
+        type: world.VolumeType
+        description: "Enumerator for 3D volume types used in spatial queries."
+        readonly: true
+      eventHandlers:
+        type: table
+        description: "Table of all registered event handler functions."
+        readonly: true
+      persistenceHandlers:
+        type: table
+        description: "Table of all registered persistence handler functions."
+        readonly: true
+types:
+  world.BirthPlace:
+    kind: enum
+    description: "Enumerator for aircraft and helicopter spawn locations, used in birth events."
+    values:
+      wsBirthPlace_Air: 1
+      wsBirthPlace_RunWay: 4
+      wsBirthPlace_Park: 5
+      wsBirthPlace_Heliport_Hot: 9
+      wsBirthPlace_Heliport_Cold: 10
+      wsBirthPlace_Ship: 3
+      wsBirthPlace_Ship_Hot: 12
+      wsBirthPlace_Ship_Cold: 11
+
+  world.VolumeType:
+    kind: enum
+    description: "Enumerator for 3D volume types used in spatial queries within the DCS World."
+    values:
+      SEGMENT: 0
+      BOX: 1
+      SPHERE: 2
+      PYRAMID: 3
+
+  world.event:
+    kind: enum
+    description: "Enumerator for event types that occur during mission execution in the DCS World."
+    addedVersion: "1.2.0"
+    values:
+      S_EVENT_INVALID: 0
+      S_EVENT_SHOT: 1
+      S_EVENT_HIT: 2
+      S_EVENT_TAKEOFF: 3
+      S_EVENT_LAND: 4
+      S_EVENT_CRASH: 5
+      S_EVENT_EJECTION: 6
+      S_EVENT_REFUELING: 7
+      S_EVENT_DEAD: 8
+      S_EVENT_PILOT_DEAD: 9
+      S_EVENT_BASE_CAPTURED: 10
+      S_EVENT_MISSION_START: 11
+      S_EVENT_MISSION_END: 12
+      S_EVENT_TOOK_CONTROL: 13
+      S_EVENT_REFUELING_STOP: 14
+      S_EVENT_BIRTH: 15
+      S_EVENT_HUMAN_FAILURE: 16
+      S_EVENT_DETAILED_FAILURE: 17
+      S_EVENT_ENGINE_STARTUP: 18
+      S_EVENT_ENGINE_SHUTDOWN: 19
+      S_EVENT_PLAYER_ENTER_UNIT: 20
+      S_EVENT_PLAYER_LEAVE_UNIT: 21
+      S_EVENT_PLAYER_COMMENT: 22
+      S_EVENT_SHOOTING_START: 23
+      S_EVENT_SHOOTING_END: 24
+      S_EVENT_MARK_ADDED: 25
+      S_EVENT_MARK_CHANGE: 26
+      S_EVENT_MARK_REMOVED: 27
+      S_EVENT_KILL: 28
+      S_EVENT_SCORE: 29
+      S_EVENT_UNIT_LOST: 30
+      S_EVENT_LANDING_AFTER_EJECTION: 31
+      S_EVENT_PARATROOPER_LENDING: 32
+      S_EVENT_DISCARD_CHAIR_AFTER_EJECTION: 33
+      S_EVENT_WEAPON_ADD: 34
+      S_EVENT_TRIGGER_ZONE: 35
+      S_EVENT_LANDING_QUALITY_MARK: 36
+      S_EVENT_BDA: 37
+      S_EVENT_AI_ABORT_MISSION: 38
+      S_EVENT_DAYNIGHT: 39
+      S_EVENT_FLIGHT_TIME: 40
+      S_EVENT_PLAYER_SELF_KILL_PILOT: 41
+      S_EVENT_PLAYER_CAPTURE_AIRFIELD: 42
+      S_EVENT_EMERGENCY_LANDING: 43
+      S_EVENT_UNIT_CREATE_TASK: 44
+      S_EVENT_UNIT_DELETE_TASK: 45
+      S_EVENT_SIMULATION_START: 46
+      S_EVENT_WEAPON_REARM: 47
+      S_EVENT_WEAPON_DROP: 48
+      S_EVENT_UNIT_TASK_COMPLETE: 49
+      S_EVENT_UNIT_TASK_STAGE: 50
+      S_EVENT_MAC_EXTRA_SCORE: 51
+      S_EVENT_MISSION_RESTART: 52
+      S_EVENT_MISSION_WINNER: 53
+      S_EVENT_RUNWAY_TAKEOFF: 54
+      S_EVENT_RUNWAY_TOUCH: 55
+      S_EVENT_MAC_LMS_RESTART: 56
+      S_EVENT_SIMULATION_FREEZE: 57
+      S_EVENT_SIMULATION_UNFREEZE: 58
+      S_EVENT_HUMAN_AIRCRAFT_REPAIR_START: 59
+      S_EVENT_HUMAN_AIRCRAFT_REPAIR_FINISH: 60
+      S_EVENT_MAX: 61

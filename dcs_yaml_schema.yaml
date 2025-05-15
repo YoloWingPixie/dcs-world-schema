@@ -1,0 +1,232 @@
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "DCS World API Declarative Specification"
+description: >
+  Validates yaml files that describe the public DCS World Lua scripting surface.
+  Two top-level maps are required: globals and types.
+type: object
+required: [globals, types]
+additionalProperties: false
+
+properties:
+  globals:
+    type: object
+    description: "Identifiers that live directly in _G (Unit, env, trigger, etc.)."
+    additionalProperties:
+      $ref: "#/definitions/globalEntry"
+  types:
+    type: object
+    description: "Reusable record, enum, table, or array type definitions."
+    additionalProperties:
+      $ref: "#/definitions/typeEntry"
+
+definitions:
+  typeRef:
+    type: string
+    description: >
+      A reference to a type. Can be a primitive (e.g., 'number', 'string', 'boolean', 'table', 'function', 'any'),
+      a defined type from the 'types' section (e.g., 'Vec3'), a global class/singleton name (e.g., 'Unit'),
+      or a union type (e.g., 'Unit | nil', 'number | string').
+
+  paramDef:
+    type: object
+    required: [name, type]
+    additionalProperties: false
+    properties:
+      name:        { type: string }
+      type:        { $ref: "#/definitions/typeRef" }
+      description: { type: string }
+      optional:
+        type: boolean
+        default: false
+        description: "True if the parameter is optional."
+      default:
+        description: "The default value if the parameter is optional. Can be any valid JSON/YAML representation of the Lua default."
+
+  exampleDef:
+    type: object
+    properties:
+      description: { type: string }
+      code: { type: string, description: "A snippet of Lua code." }
+    required: [code]
+
+  methodDef:
+    type: object
+    required: [returns]
+    additionalProperties: false
+    properties:
+      description: { type: string }
+      params:
+        type: array
+        items: { $ref: "#/definitions/paramDef" }
+        default: []
+      returns:
+        oneOf:
+          - { $ref: "#/definitions/typeRef" }
+          - type: array
+            items: { $ref: "#/definitions/typeRef" }
+            description: "For functions returning multiple values."
+      returnValueExample:
+        type: string
+        description: "A textual example of what a return value might look like."
+      examples:
+        type: array
+        items: { $ref: "#/definitions/exampleDef" }
+      addedVersion:
+        type: string
+        description: "DCS version when this method was introduced (e.g., '1.2.0')."
+      environment:
+        type: array
+        items: { type: string, enum: ["MissionScripting", "Server", "GameGUI", "All"] }
+        description: "Execution environments where this method is available. Overrides global environment if specified."
+      deprecated:
+        type: boolean
+        default: false
+
+  fieldDef:
+    type: object
+    required: [type]
+    additionalProperties: false
+    properties:
+      type:        { $ref: "#/definitions/typeRef" }
+      description: { type: string }
+      readonly:
+        type: boolean
+        default: false
+      addedVersion:
+        type: string
+        description: "DCS version when this field was introduced."
+      environment:
+        type: array
+        items: { type: string, enum: ["MissionScripting", "Server", "GameGUI", "All"] }
+        description: "Execution environments where this field is relevant. Overrides global environment if specified."
+      examples:
+        type: array
+        items: { $ref: "#/definitions/exampleDef" }
+      static:
+        description: "Members accessed via dot notation on the global itself (e.g., Global.foo(), Global.someValue). For singletons, these are its primary members."
+        $ref: "#/definitions/memberMap"
+
+  enumValues:
+    type: object
+    minProperties: 1
+    description: "Map of enum member names to their literal values. Keys are typically strings representing the enum member."
+    additionalProperties:
+      oneOf:
+        - { type: number }
+        - { type: string }
+        - { type: boolean }
+
+  fieldsMap:
+    type: object
+    description: "A map of field names to their type definitions (fieldDef), used for record and table structures."
+    additionalProperties: { $ref: "#/definitions/fieldDef" }
+
+  memberMap:
+    description: "Map of member names to their definitions (fields, methods, or nested tables)."
+    type: object
+    additionalProperties:
+      oneOf:
+        - { $ref: "#/definitions/fieldDef" }
+        - { $ref: "#/definitions/methodDef" }
+        - { $ref: "#/definitions/nestedTableDef" }
+
+  nestedTableDef:
+    type: object
+    required: [kind]
+    additionalProperties: false
+    description: "Defines a structured table nested within another global or type."
+    properties:
+      kind:   { const: table }
+      description: { type: string }
+      fields: { $ref: "#/definitions/fieldsMap" }
+      required:
+        type: array
+        items: { type: string }
+        description: "List of required field names for this nested table."
+
+  globalEntry:
+    type: object
+    required: [kind]
+    additionalProperties: false
+    properties:
+      kind:
+        type: string
+        description: >
+          'class' = instantiable object with methods/properties;
+          'singleton' = a single global table with methods/properties;
+          'enum' = a global table of constants;
+          'record' = a global table behaving as a structured data type without methods (rare for globals);
+          'table' = a generic global table, often a map;
+          'array' = a global that is an array of items.
+        enum: [class, singleton, enum, record, table, array]
+      description: { type: string }
+      addedVersion:
+        type: string
+        description: "DCS version when this global was introduced."
+      environment:
+        type: array
+        items: { type: string, enum: ["MissionScripting", "Server", "GameGUI", "All"] }
+        description: "Default execution environments for this global and its members."
+      constants:
+        description: >
+          Key-value pairs representing primitive constants directly on this global (if kind is 'enum' or 'singleton').
+          Not for structured sub-tables like nested enums; use 'properties' for those.
+        $ref: "#/definitions/enumValues"
+      static:
+        description: "Members accessed via dot notation on the global itself (e.g., Global.foo(), Global.someValue). For singletons, these are its primary members."
+        $ref: "#/definitions/memberMap"
+      instance:
+        description: "Members accessed via colon or dot notation on an instance of the class (e.g., obj:foo(), obj.someValue). Only applicable if kind is 'class'."
+        $ref: "#/definitions/memberMap"
+      properties:
+        description: >
+          Named sub-tables or complex fields (e.g., if a singleton has a nested table that is an enum).
+          Use this for structured data within a global. For 'record' or 'table' kind globals, this defines their structure.
+        $ref: "#/definitions/fieldsMap"
+      required:
+        type: array
+        items: { type: string }
+        description: "List of required property names if this globalEntry is a 'record' or 'table'."
+      inherits:
+        type: array
+        items: { $ref: "#/definitions/typeRef" }
+        description: "List of classes this class inherits from. Only applicable if kind is 'class'."
+      arrayOf:
+        description: "Element type if this global itself is a homogeneous array (only applicable if kind is 'array')."
+        $ref: "#/definitions/typeRef"
+      examples:
+        type: array
+        items: { $ref: "#/definitions/exampleDef" }
+
+  typeEntry:
+    type: object
+    required: [kind]
+    additionalProperties: false
+    properties:
+      kind:
+        type: string
+        enum: [enum, record, table, array, union]
+      description: { type: string }
+      addedVersion:
+        type: string
+        description: "DCS version when this type was introduced."
+      values:
+        description: "Enum literals (required if kind == 'enum')."
+        $ref: "#/definitions/enumValues"
+      fields:
+        description: "Fields of the record/table (required if kind == 'record' or 'table')."
+        $ref: "#/definitions/fieldsMap"
+      required:
+        type: array
+        items: { type: string }
+        description: "List of required field names if kind is 'record' or 'table'."
+      arrayOf:
+        description: "Element type of the homogeneous array (required if kind == 'array')."
+        $ref: "#/definitions/typeRef"
+      anyOf:
+        type: array
+        items: { $ref: "#/definitions/typeRef" }
+        description: "List of possible types for this union type (required if kind == 'union')."
+      examples:
+        type: array
+        items: { $ref: "#/definitions/exampleDef" }

@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  TaskEnRouteTanker:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the aircraft to act as an airborne tanker for friendly forces. The aircraft must be a certified tanker aircraft."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'tanker'."
+      params:
+        type: TaskEnRouteTankerParams
+    required: [id, params]
+    
+  TaskEnRouteTankerParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the tanker task (no parameters required)."
+    fields: {}
+    required: [] 

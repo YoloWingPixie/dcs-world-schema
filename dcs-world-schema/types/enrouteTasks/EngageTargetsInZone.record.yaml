@@ -1,0 +1,31 @@
+globals: {}
+
+types:
+  TaskEnRouteEngageTargetsInZone:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the controlled group to engage targets with specific attributes within a defined zone."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'engageTargetsInZone'."
+      params:
+        type: TaskEnRouteEngageTargetsInZoneParams
+    required: [id, params]
+    
+  TaskEnRouteEngageTargetsInZoneParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the engageTargetsInZone task."
+    fields:
+      point:
+        type: Vec2
+        description: "A `Vec2` point defining the center of the area the group will engage targets within in the DCS World coordinate system."
+      zoneRadius:
+        type: number
+        description: "Radius in meters defining the size of the area the group will engage targets within."
+      targetTypes:
+        type: table
+        description: "Table of attribute names that define valid targets."
+      priority:
+        type: number
+        description: "The priority of the tasking, where lower numbers indicate higher importance (default: 0)."
+    required: [point, zoneRadius, targetTypes] 

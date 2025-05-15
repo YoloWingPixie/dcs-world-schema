@@ -1,0 +1,11 @@
+globals: {}
+
+types:
+  unknown:
+    kind: union
+    description: "Represents a value whose type is not strictly defined or may vary across different contexts in the DCS World scripting environment."
+    anyOf:
+      - string
+      - number
+      - boolean
+      - table 

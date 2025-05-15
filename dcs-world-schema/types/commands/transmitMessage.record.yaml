@@ -1,0 +1,31 @@
+globals: {}
+
+types:
+  CommandTransmitMessage:
+    kind: record
+    description: "Defines the structure of a command that broadcasts an audio message over a unit or group's active radio frequency."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'transmitMessage'."
+      params:
+        type: CommandTransmitMessageParams
+    required: [id, params]
+
+  CommandTransmitMessageParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the radio message transmission command."
+    fields:
+      file:
+        type: string
+        description: "Path to the sound file that will be played as the radio transmission."
+      duration:
+        type: number
+        description: "Display time in seconds for the message subtitles (ignored when loop is true)."
+      subtitle:
+        type: string
+        description: "Text displayed in the radio message queue representing the transmission content."
+      loop:
+        type: boolean
+        description: "Transmission mode where true causes the message to repeat continuously until stopped."
+    required: [file] 

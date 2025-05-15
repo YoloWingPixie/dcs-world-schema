@@ -1,0 +1,22 @@
+types:
+  ColorRGBA:
+    kind: record
+    description: "Defines the structure of a Lua table representing a color with red, green, blue, and alpha components, each normalized between 0.0 and 1.0."
+    fields:
+      r:
+        type: number
+        description: "Red component value between 0.0 (no red) and 1.0 (maximum red intensity)."
+      g:
+        type: number
+        description: "Green component value between 0.0 (no green) and 1.0 (maximum green intensity)."
+      b:
+        type: number
+        description: "Blue component value between 0.0 (no blue) and 1.0 (maximum blue intensity)."
+      a:
+        type: number
+        description: "Alpha (transparency) component value between 0.0 (fully transparent) and 1.0 (fully opaque)."
+    required: [r, g, b, a]
+    examples:
+      - code: "{r = 1.0, g = 0.0, b = 0.0, a = 1.0} -- Solid Red"
+      - code: "{r = 0.0, g = 1.0, b = 0.0, a = 0.5} -- Semi-transparent Green"
+globals: {}

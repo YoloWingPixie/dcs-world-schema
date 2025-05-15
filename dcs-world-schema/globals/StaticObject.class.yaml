@@ -1,0 +1,82 @@
+globals:
+  StaticObject:
+    kind: class
+    description: "Represents non-moving structures and objects placed in the DCS World mission environment."
+    addedVersion: "1.2.0"
+    inherits:
+      - Object
+      - CoalitionObject
+    static:
+      getByName:
+        description: "Returns a `StaticObject` with the specified name, or `nil` if no such object exists."
+        params:
+          - name: name
+            type: string
+            description: "Unique identifier of the static object to retrieve."
+        returns: StaticObject | nil
+        addedVersion: "1.2.0"
+      getDescByName:
+        description: "Returns a table containing detailed properties of a static object type without requiring an instance."
+        params:
+          - name: typeName
+            type: string
+            description: "Type name of the static object to retrieve information about."
+        returns: StaticObjectDesc
+        addedVersion: "1.2.0"
+    instance:
+      getLife:
+        description: "Returns the current health value of this static object, where values below 1 indicate destruction."
+        returns: number
+        addedVersion: "1.2.0"
+      getDesc:
+        description: "Returns a table containing detailed properties of this static object based on its type."
+        returns: StaticObjectDesc
+        addedVersion: "1.2.0"
+      getID:
+        description: "Returns a `number` representing the unique mission identifier of this static object."
+        returns: number
+        addedVersion: "1.2.0"
+      getCoalition:
+        description: "Returns a `coalition.side` enumerator value indicating which faction this static object belongs to."
+        returns: coalition.side
+        addedVersion: "1.2.0"
+      getCountry:
+        description: "Returns a `country.id` enumerator value identifying the nation this static object belongs to."
+        returns: country.id
+        addedVersion: "1.2.0"
+      getForcesName:
+        description: "Returns a `string` name of the force group this static object belongs to, or `nil` if not assigned."
+        returns: string | nil
+        addedVersion: "1.2.0"
+      getDrawArgumentValue:
+        description: "Returns the current animation parameter value for a specific argument on this static object's 3D model."
+        params:
+          - name: arg
+            type: number
+            description: "Animation argument identifier to query."
+        returns: number
+        addedVersion: "1.2.0"
+      chooseCargo:
+        description: "Initiates the cargo selection process for this static object."
+        returns: void
+        addedVersion: "2.5.0"
+      getCargoDisplayName:
+        description: "Returns a `string` containing the human-readable name of the cargo attached to this static object."
+        returns: string
+        addedVersion: "2.5.0"
+      getCargoWeight:
+        description: "Returns a `number` representing the weight of the cargo attached to this static object."
+        returns: number
+        addedVersion: "2.5.0"
+types:
+  StaticObject.Category:
+    kind: enum
+    description: "Defines the categories of static objects in the DCS World environment."
+    values:
+      VOID: 0
+      UNIT: 1
+      WEAPON: 2
+      STATIC: 3
+      BASE: 4
+      SCENERY: 5
+      CARGO: 6

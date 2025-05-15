@@ -1,0 +1,28 @@
+globals: {}
+
+types:
+  CommandActivateLink4:
+    kind: record
+    description: "Defines the structure of a command that activates a Link 4 data link system for aircraft carrier operations."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'ActivateLink4'."
+      params:
+        type: CommandActivateLink4Params
+    required: [id, params]
+
+  CommandActivateLink4Params:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the Link 4 activation command."
+    fields:
+      unitId:
+        type: number
+        description: "ID of the ship unit that will broadcast the Link 4 signal (must have Link 4 capability)."
+      frequency:
+        type: number
+        description: "Operating frequency in Hertz for the data link communications."
+      name:
+        type: string
+        description: "Descriptive name of the Link 4 system for identification purposes only."
+    required: [unitId, frequency] 

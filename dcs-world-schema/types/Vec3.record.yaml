@@ -1,0 +1,24 @@
+globals: {}
+
+types:
+  Vec3:
+    kind: record
+    description: "Represents a 3D vector or point, typically used for positions or velocities in the DCS World coordinate system. It is a Lua table with `x`, `y`, and `z` keys."
+    fields:
+      x:
+        type: number
+        description: "X coordinate, which represents the north-south direction in the DCS World coordinate system. North is positive, South is negative."
+      y:
+        type: number
+        description: "Y coordinate, which represents the elevation direction in the DCS World coordinate system. Up is positive, Down is negative."
+      z:
+        type: number
+        description: "Z coordinate, which represents the east-west direction in the DCS World coordinate system. East is positive, West is negative."
+    required: [x, y, z]
+    
+  Vec3Array:
+    kind: array
+    arrayOf: Vec3
+    description: "Represents a numerically indexed Lua table (sequence) of `Vec3` points in the DCS World coordinate system."
+    
+      

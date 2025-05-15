@@ -1,0 +1,48 @@
+types:
+  VoiceChat.Side:
+    kind: enum
+    description: "Enumerator for coalition sides, used to define which players have access to specific voice chat rooms."
+    values:
+      NEUTRAL: 0
+      RED: 1
+      BLUE: 2
+      ALL: 3
+    addedVersion: "2.5.6"
+
+  VoiceChat.RoomType:
+    kind: enum
+    description: "Enumerator for voice chat room categories, used to specify the behavior and persistence of communication channels. Note: Only PERSISTENT (0) is reliable for scripted room creation."
+    values:
+      PERSISTENT: 0
+      MULTICREW: 1
+      MANAGEABLE: 2
+    addedVersion: "2.5.6"
+
+  VoiceChat.RadioHandlers:
+    kind: enum
+    description: "Enumerator for radio control properties, used to access and modify aircraft radio communication settings through the VoiceChat API."
+    values:
+      ON_OFF_STATUS: 0
+      FREQUENCY: 1
+      SOUND_VOLUME: 2
+      CHANNEL: 3
+      MODULATION: 4
+      GUARD_STATUS: 5
+      ENCRYPTION_STATUS: 6
+      CRYPTO_KEY: 7
+      SQUELCH_STATUS: 8
+      TRANSMITTER_PWR: 9
+      IS_TRANSMITTING: 10
+      TRANSMISSION_ENABLED: 11
+      EXTERNALLY_CONTROLLED: 12
+      CURRENT_RECEIVING_RADIO: 13
+    addedVersion: "2.8.0"
+
+  VoiceChat.RadioHandlersSingletons:
+    kind: enum
+    description: "Enumerator for intercom system properties, used to access and modify aircraft internal communication settings through the VoiceChat API."
+    values:
+      INTERCOM_SOUND_VOLUME: 0
+      INTERCOM_HOT_MIKE_STATUS: 1
+      INITIALIZATION_COMPLETE: 3
+    addedVersion: "2.8.0"

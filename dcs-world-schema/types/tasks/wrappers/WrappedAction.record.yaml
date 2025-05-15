@@ -1,0 +1,23 @@
+globals: {}
+
+types:
+  WrappedAction:
+    kind: record
+    description: "Defines the structure of a Lua table representing a wrapper that allows a command or action to be used as a task."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'WrappedAction'."
+      params:
+        type: WrappedActionParams
+        description: "A table containing the action to be wrapped as a task."
+    required: [id, params]
+    
+  WrappedActionParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing the action that will be executed as a task."
+    fields:
+      action:
+        type: table
+        description: "The command or action object to be executed as a task."
+    required: [action] 

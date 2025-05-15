@@ -1,0 +1,25 @@
+globals: {}
+
+types:
+  CommandSetCallsign:
+    kind: record
+    description: "Defines the structure of a command that changes a group's identification callsign for radio communications."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'SetCallsign'."
+      params:
+        type: CommandSetCallsignParams
+    required: [id, params]
+
+  CommandSetCallsignParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the callsign change command."
+    fields:
+      callname:
+        type: number
+        description: "Callsign name identifier (varies by unit type; 1-19 for JTAC units per Callsigns_JTAC enum)."
+      number:
+        type: number
+        description: "Numeric suffix for the callsign (1-9), used to distinguish between units with the same callname."
+    required: [callname, number] 

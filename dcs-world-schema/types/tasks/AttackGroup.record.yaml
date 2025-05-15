@@ -1,0 +1,47 @@
+globals: {}
+
+types:
+  TaskAttackGroup:
+    kind: record
+    description: "Defines the structure of a Lua table representing an attack task that directs a group to engage another group."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'AttackGroup'."
+      params:
+        type: TaskAttackGroupParams
+        description: "A table containing parameters that configure the attack behavior."
+    required: [id, params]
+    
+  TaskAttackGroupParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for a group attack mission."
+    fields:
+      groupId:
+        type: number
+        description: "Unique ID of the group to attack."
+      weaponType:
+        type: number
+        description: "Weapon flag type to use for the attack."
+      expend:
+        type: string
+        description: "Quantity of weapons to expend during the attack (QUARTER, TWO, ONE, FOUR, HALF, ALL)."
+      directionEnabled:
+        type: boolean
+        description: "Determines whether to use the specified direction for attack."
+      direction:
+        type: number
+        description: "Attack direction in radians, defining the approach vector."
+      altitudeEnabled:
+        type: boolean
+        description: "Determines whether to use the specified altitude for attack."
+      altitude:
+        type: number
+        description: "Attack altitude in meters."
+      attackQtyLimit:
+        type: boolean
+        description: "Determines whether to use the attackQty parameter as a limit."
+      attackQty:
+        type: number
+        description: "Number of attack passes the group will perform on the target."
+    required: [groupId] 

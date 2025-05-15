@@ -1,0 +1,41 @@
+globals: {}
+
+types:
+  TaskAttackUnit:
+    kind: record
+    description: "Defines the structure of a Lua table representing an attack task that directs a group to engage a specific unit."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'AttackUnit'."
+      params:
+        type: TaskAttackUnitParams
+        description: "A table containing parameters that configure the attack behavior."
+    required: [id, params]
+    
+  TaskAttackUnitParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for a unit attack mission."
+    fields:
+      unitId:
+        type: number
+        description: "Unique ID of the unit to attack."
+      weaponType:
+        type: number
+        description: "Weapon flag type to use for the attack."
+      expend:
+        type: string
+        description: "Quantity of weapons to expend during the attack (QUARTER, TWO, ONE, FOUR, HALF, ALL)."
+      direction:
+        type: number
+        description: "Attack direction in radians, defining the approach vector."
+      attackQtyLimit:
+        type: boolean
+        description: "Determines whether to use the attackQty parameter as a limit."
+      attackQty:
+        type: number
+        description: "Number of attack passes the group will perform on the target."
+      groupAttack:
+        type: boolean
+        description: "Determines whether each aircraft in the group will attack individually (true) or as a coordinated unit (false)."
+    required: [unitId] 

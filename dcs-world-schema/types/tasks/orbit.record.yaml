@@ -1,0 +1,47 @@
+globals: {}
+
+types:
+  TaskOrbit:
+    kind: record
+    description: "Defines the structure of a Lua table representing an orbit task that directs aircraft to fly various pattern types at specified locations."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'orbit'."
+      params:
+        type: TaskOrbitParams
+        description: "A table containing parameters that configure the orbit behavior and pattern."
+    required: [id, params]
+    
+  TaskOrbitParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for aircraft orbit patterns and behavior."
+    fields:
+      pattern:
+        type: string
+        description: "Type of orbit pattern the AI will execute (RACE_TRACK, CIRCLE, Anchored)."
+      point:
+        type: Vec2
+        description: "A `Vec2` representing the primary orbit point in the DCS World coordinate system."
+      point2:
+        type: Vec2
+        description: "A `Vec2` representing the secondary point for a Race-Track orbit pattern in the DCS World coordinate system."
+      speed:
+        type: number
+        description: "Speed in meters per second the AI will maintain during the orbit pattern."
+      altitude:
+        type: number
+        description: "Altitude in meters the AI will maintain during the orbit."
+      hotLegDir:
+        type: number
+        description: "Heading in radians that the aircraft will fly for the return leg of the anchored orbit pattern."
+      legLength:
+        type: number
+        description: "Distance in meters that the aircraft will fly before turning in an anchored orbit pattern."
+      width:
+        type: number
+        description: "Distance in meters that represents the diameter of the anchored orbit pattern."
+      clockWise:
+        type: boolean
+        description: "Determines whether the anchored orbit will fly clockwise (true) or anti-clockwise (false)."
+    required: [pattern] 

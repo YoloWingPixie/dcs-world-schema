@@ -1,0 +1,222 @@
+globals:
+  Airbase:
+    kind: class
+    description: "Represents airport and carrier facilities in the DCS World environment."
+    addedVersion: "1.2.0"
+    inherits:
+      - Object
+      - CoalitionObject
+    static:
+      getByName:
+        description: "Returns an `Airbase` object corresponding to the airbase with the specified name, or `nil` if no such airbase exists."
+        params:
+          - name: name
+            type: string
+        returns: Airbase | nil
+      getCommunicator:
+        description: "Returns a communicator object for the specified airbase."
+        params:
+          - name: airbase
+            type: Airbase
+        returns: unknown
+      getCountry:
+        description: "Returns a country ID for the specified airbase."
+        params:
+          - name: airbase
+            type: Airbase
+        returns: number
+      getDescByName:
+        description: "Returns a table containing detailed information about the airbase with the specified name."
+        params:
+          - name: name
+            type: string
+        returns: AirbaseDesc | nil
+      getForcesName:
+        description: "Returns a string representing the forces name for the airbase."
+        params:
+          - name: airbase
+            type: Airbase
+        returns: string
+      getLife:
+        description: "Returns the current life/health value of the specified airbase."
+        params:
+          - name: airbase
+            type: Airbase
+        returns: number
+      getNearest:
+        description: "Returns the nearest airbase object to the specified point."
+        params:
+          - name: point
+            type: Vec3
+        returns: Airbase | nil
+      getWorldID:
+        description: "Returns the world ID of the specified airbase."
+        params:
+          - name: airbase
+            type: Airbase
+        returns: number
+    instance:
+      getCallsign:
+        description: "Returns a `string` representing the localized callsign of this airbase."
+        params: []
+        returns: string
+      getUnit:
+        description: "Returns a `Unit` object, a `StaticObject`, or `nil` if no object exists at the specified index."
+        params:
+          - name: UnitIndex
+            type: number
+        returns: Unit | StaticObject | nil
+      getID:
+        description: "Returns a `number` representing the unique mission ID of this airbase."
+        params: []
+        returns: number
+      getCategory:
+        description: "Returns an `Object.Category` enumerator value indicating the general category of this object."
+        returns: Object.Category
+        addedVersion: "1.2.0"
+      getCategoryEx:
+        description: "Returns an `Airbase.Category` enumerator value indicating the specific type of this airbase."
+        params: []
+        returns: Airbase.Category
+      getParking:
+        description: "Returns a numerically indexed table where each element is a table detailing an airbase parking spot, optionally filtered by availability."
+        params:
+          - name: available
+            type: boolean
+            optional: true
+        returns: AirbaseParking[]
+      getRunways:
+        description: "Returns a numerically indexed table where each element is a table detailing runway information, including dimensions, course, and name."
+        params: []
+        returns: AirbaseRunway[]
+      getDispatcherTowerPos:
+        description: "Returns a `Vec3` representing the position of the airbase's dispatcher tower in the DCS World coordinate system, or `nil` if not available."
+        params: []
+        returns: Vec3 | nil
+      getRadioSilentMode:
+        description: "Returns a `boolean` indicating whether the ATC for this airbase is in silent mode."
+        params: []
+        returns: boolean
+      setRadioSilentMode:
+        description: "Sets the silent mode status for the airbase's ATC, determining if it responds to radio communications from aircraft."
+        params:
+          - name: silent
+            type: boolean
+        returns: void
+      autoCapture:
+        description: "Enables or disables the auto-capture mechanic for this airbase, affecting how control can change between coalitions."
+        params:
+          - name: setting
+            type: boolean
+        returns: void
+      autoCaptureIsOn:
+        description: "Returns a `boolean` indicating whether the auto-capture feature is enabled for this airbase."
+        params: []
+        returns: boolean
+      setCoalition:
+        description: "Changes this airbase's coalition to the specified side, affecting which faction controls it."
+        params:
+          - name: coa enum
+            type: coalition.side
+        returns: void
+      getWarehouse:
+        description: "Returns a `Warehouse` object associated with this airbase, used to manage its inventory."
+        params: []
+        returns: Warehouse
+      getName:
+        description: "Returns a `string` representing the name of this airbase."
+        params: []
+        returns: string
+        addedVersion: "1.2.0"
+      getTypeName:
+        description: "Returns a `string` representing the type name of this airbase."
+        params: []
+        returns: string
+        addedVersion: "1.2.0"
+      getPoint:
+        description: "Returns a `Vec3` representing the position of this airbase in the DCS World coordinate system."
+        params: []
+        returns: Vec3
+        addedVersion: "1.2.0"
+      getPosition:
+        description: "Returns a `Position3` representing the precise position and orientation of this airbase in the DCS World coordinate system."
+        params: []
+        returns: Position3
+        addedVersion: "1.2.0"
+      getVelocity:
+        description: "Returns a `Vec3` representing the velocity of this airbase in the DCS World coordinate system."
+        params: []
+        returns: Vec3
+        addedVersion: "1.2.0"
+      getDesc:
+        description: "Returns a table containing a detailed description of this airbase, including its ID, callsign, category, and operational data."
+        params: []
+        returns: AirbaseDesc
+        addedVersion: "1.2.0"
+      getCoalition:
+        description: "Returns a `coalition.side` enumerator value indicating which coalition controls this airbase."
+        params: []
+        returns: coalition.side
+        addedVersion: "1.2.0"
+types:
+  Airbase.Category:
+    kind: enum
+    description: "Enumerator for airbase category types."
+    values:
+      AIRDROME: 0
+      HELIPAD: 1
+      SHIP: 2
+      
+  AirbaseParking:
+    kind: record
+    description: "Information about an airbase parking spot."
+    fields:
+      Term_Type:
+        type: number
+        description: "Terminal type identifier."
+      Term_Index:
+        type: number
+        description: "Terminal index number."
+      Term_Index_0:
+        type: number
+        description: "Alternative terminal index."
+      Term_Details:
+        type: table
+        description: "Additional details about the terminal."
+        
+  AirbaseRunway:
+    kind: record
+    description: "Information about an airbase runway."
+    fields:
+      course:
+        type: number
+        description: "Runway heading in degrees."
+      name:
+        type: string
+        description: "Runway identifier."
+      position:
+        type: Vec3
+        description: "Runway position in world coordinates."
+      width:
+        type: number
+        description: "Runway width in meters."
+      length:
+        type: number
+        description: "Runway length in meters."
+        
+  AirbaseDesc:
+    kind: record
+    description: "Detailed information about an airbase."
+    fields:
+      category:
+        type: number
+        description: "Category identifier of the airbase."
+      id:
+        type: number
+        description: "Unique identifier for the airbase."
+      callsign:
+        type: string
+        description: "Radio callsign of the airbase."
+      display_name:
+        type: string
+        description: "Human-readable name of the airbase." 

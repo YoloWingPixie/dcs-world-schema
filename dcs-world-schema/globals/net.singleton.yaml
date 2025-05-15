@@ -1,0 +1,404 @@
+globals:
+  net:
+    kind: singleton
+    description: "Provides functions for multiplayer networking, including chat, player management, and server administration."
+    addedVersion: "2.5.0"
+    environment: [Server] # Most net functions are server-side
+    static:
+      send_chat:
+        description: "Sends a chat message to players in the multiplayer session."
+        params:
+          - name: message
+            type: string
+            description: "Text content of the message."
+          - name: all
+            type: boolean
+            description: "When `true`, sends to all players; when `false`, sends to current coalition only."
+        returns: nil
+        addedVersion: "2.5.0"
+        environment: [Server]
+      send_chat_to:
+        description: "Sends a targeted chat message to a specific player, optionally appearing from another player."
+        params:
+          - name: message
+            type: string
+            description: "Text content of the message."
+          - name: playerId
+            type: number
+            description: "Target player's unique identifier."
+          - name: fromId
+            type: number
+            optional: true
+            description: "Source player's ID that the message will appear to come from."
+        returns: nil
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_player_list:
+        description: "Returns a numerically indexed table of player IDs currently connected to the server."
+        params: []
+        returns: table
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_my_player_id:
+        description: "Returns the current player's unique identifier (always 1 for server scripts)."
+        params: []
+        returns: number
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_server_id:
+        description: "Returns the server's player ID, which is always 1."
+        params: []
+        returns: number
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_player_info:
+        description: "Returns information about a player, either as a complete table or a specific attribute value."
+        params:
+          - name: playerId
+            type: number
+            description: "Target player's unique identifier."
+          - name: attribute
+            type: string
+            optional: true
+            description: "Specific attribute name to return (e.g., `'name'`, `'ucid'`, `'ping'`)."
+        returns: table
+        addedVersion: "2.5.0"
+        environment: [Server]
+      kick:
+        description: "Removes a player from the server with an optional displayed message."
+        params:
+          - name: playerId
+            type: number
+            description: "Target player's unique identifier."
+          - name: message
+            type: string
+            description: "Explanation message displayed to the kicked player."
+        returns: boolean
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_stat:
+        description: "Returns a specific statistical value for a player (e.g., kills, deaths)."
+        params:
+          - name: playerId
+            type: number
+            description: "Target player's unique identifier."
+          - name: statID
+            type: number
+            description: "Statistic identifier (one of the `net.PS_*` constants)."
+        returns: number
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_name:
+        description: "Returns a player's display name (equivalent to `net.get_player_info(playerID, 'name')`)."
+        params:
+          - name: playerId
+            type: number
+            description: "Target player's unique identifier."
+        returns: string
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_slot:
+        description: "Returns a player's coalition ID and slot ID as two separate values."
+        params:
+          - name: playerId
+            type: number
+            description: "Target player's unique identifier."
+        returns: [number, number]
+        addedVersion: "2.5.0"
+        environment: [Server]
+      force_player_slot:
+        description: "Moves a player to a specified coalition and aircraft/vehicle slot."
+        params:
+          - name: playerID
+            type: number
+            description: "Target player's unique identifier."
+          - name: sideId
+            type: number
+            description: "Coalition ID (0 for spectators, 1 for Red, 2 for Blue)."
+          - name: slotId
+            type: string
+            description: "Unit ID or `UnitID_Seat` for multicrew positions."
+        returns: boolean
+        addedVersion: "2.5.0"
+        environment: [Server]
+      lua2json:
+        description: "Serializes a Lua value into a JSON string."
+        params:
+          - name: lua_value
+            type: any
+            description: "Lua value to convert to JSON."
+        returns: string
+        addedVersion: "2.5.0"
+        environment: [Server]
+      json2lua:
+        description: "Parses a JSON string into equivalent Lua data."
+        params:
+          - name: json_string
+            type: string
+            description: "JSON string to convert to Lua."
+        returns: any
+        addedVersion: "2.5.0"
+        environment: [Server]
+      dostring_in:
+        description: "Executes a Lua code string in a specific DCS World environment context."
+        params:
+          - name: state
+            type: string
+            description: "Target environment (`'config'`, `'mission'`, or `'export'`)."
+          - name: dostring
+            type: string
+            description: "Lua code to execute."
+        returns: string
+        addedVersion: "2.5.0"
+        environment: [Server]
+      log:
+        description: "Writes a message to the DCS server log file."
+        params:
+          - name: message
+            type: string
+            description: "Text to write to the log."
+        returns: nil
+        addedVersion: "2.5.0"
+        environment: [Server]
+      get_server_host:
+        description: "Likely retrieves the server host information (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      is_loopback_address:
+        description: "Likely checks if an IP address is a loopback address (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      is_private_address:
+        description: "Likely checks if an IP address is in a private range (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      recv_chat:
+        description: "Likely provides chat message reception functionality (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      set_name:
+        description: "Likely sets a player's name (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      set_slot:
+        description: "Likely changes a player's slot (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      trace:
+        description: "Likely outputs debug trace information (undocumented in DCS API)."
+        params:
+          - name: unknown
+            type: any
+            description: "Unknown parameter(s)."
+            optional: true
+        returns: any
+        environment: [Server]
+      
+      # Chat message target constants
+      CHAT_ALL:
+        type: number
+        description: "Constant for targeting chat messages to all players."
+        readonly: true
+      CHAT_TEAM:
+        type: number
+        description: "Constant for targeting chat messages to team members only."
+        readonly: true
+      
+      # Error codes
+      ERR_BAD_CALLSIGN:
+        type: number
+        description: "Error code indicating an invalid player callsign."
+        readonly: true
+      ERR_BANNED:
+        type: number
+        description: "Error code indicating a banned player."
+        readonly: true
+      ERR_CONNECT_FAILED:
+        type: number
+        description: "Error code indicating a connection failure."
+        readonly: true
+      ERR_DENIED_TRIAL_ONLY:
+        type: number
+        description: "Error code indicating denial due to trial version limitations."
+        readonly: true
+      ERR_INVALID_ADDRESS:
+        type: number
+        description: "Error code indicating an invalid network address."
+        readonly: true
+      ERR_INVALID_PASSWORD:
+        type: number
+        description: "Error code indicating an incorrect password."
+        readonly: true
+      ERR_KICKED:
+        type: number
+        description: "Error code indicating a player was kicked."
+        readonly: true
+      ERR_NOT_ALLOWED:
+        type: number
+        description: "Error code indicating an operation is not permitted."
+        readonly: true
+      ERR_PROTOCOL_ERROR:
+        type: number
+        description: "Error code indicating a network protocol error."
+        readonly: true
+      ERR_REFUSED:
+        type: number
+        description: "Error code indicating a connection was refused."
+        readonly: true
+      ERR_SERVER_FULL:
+        type: number
+        description: "Error code indicating the server has reached capacity."
+        readonly: true
+      ERR_TAINTED_CLIENT:
+        type: number
+        description: "Error code indicating a client with modified files."
+        readonly: true
+      ERR_THATS_OKAY:
+        type: number
+        description: "Error code indicating a successful operation."
+        readonly: true
+      ERR_TIMEOUT:
+        type: number
+        description: "Error code indicating a network timeout."
+        readonly: true
+      ERR_WRONG_VERSION:
+        type: number
+        description: "Error code indicating incompatible DCS versions."
+        readonly: true
+      
+      # Game modes
+      GAME_MODE_CONQUEST:
+        type: number
+        description: "Game mode constant for Conquest missions."
+        readonly: true
+      GAME_MODE_LAST_MAN_STANDING:
+        type: number
+        description: "Game mode constant for Last Man Standing missions."
+        readonly: true
+      GAME_MODE_MISSION:
+        type: number
+        description: "Game mode constant for standard missions."
+        readonly: true
+      GAME_MODE_TEAM_DEATH_MATCH:
+        type: number
+        description: "Game mode constant for Team Deathmatch missions."
+        readonly: true
+      
+      # Player statistics constants
+      PS_CAR:
+        type: number
+        description: "Statistic ID for counting player's ground vehicle kills."
+        readonly: true
+      PS_CRASH:
+        type: number
+        description: "Statistic ID for counting player's crashes."
+        readonly: true
+      PS_EJECT:
+        type: number
+        description: "Statistic ID for counting player's ejections."
+        readonly: true
+      PS_EXTRA_ALLY_AAA:
+        type: number
+        description: "Statistic ID for counting player's friendly AAA kills."
+        readonly: true
+      PS_EXTRA_ALLY_FIGHTERS:
+        type: number
+        description: "Statistic ID for counting player's friendly fighter kills."
+        readonly: true
+      PS_EXTRA_ALLY_SAM:
+        type: number
+        description: "Statistic ID for counting player's friendly SAM kills."
+        readonly: true
+      PS_EXTRA_ALLY_TRANSPORTS:
+        type: number
+        description: "Statistic ID for counting player's friendly transport kills."
+        readonly: true
+      PS_EXTRA_ALLY_TROOPS:
+        type: number
+        description: "Statistic ID for counting player's friendly ground troop kills."
+        readonly: true
+      PS_EXTRA_ENEMY_AAA:
+        type: number
+        description: "Statistic ID for counting player's enemy AAA kills."
+        readonly: true
+      PS_EXTRA_ENEMY_FIGHTERS:
+        type: number
+        description: "Statistic ID for counting player's enemy fighter kills."
+        readonly: true
+      PS_EXTRA_ENEMY_SAM:
+        type: number
+        description: "Statistic ID for counting player's enemy SAM kills."
+        readonly: true
+      PS_EXTRA_ENEMY_TRANSPORTS:
+        type: number
+        description: "Statistic ID for counting player's enemy transport kills."
+        readonly: true
+      PS_EXTRA_ENEMY_TROOPS:
+        type: number
+        description: "Statistic ID for counting player's enemy ground troop kills."
+        readonly: true
+      PS_LAND:
+        type: number
+        description: "Statistic ID for counting player's successful landings."
+        readonly: true
+      PS_PING:
+        type: number
+        description: "Statistic ID for player's network latency in milliseconds."
+        readonly: true
+      PS_PLANE:
+        type: number
+        description: "Statistic ID for counting player's aircraft kills."
+        readonly: true
+      PS_SCORE:
+        type: number
+        description: "Statistic ID for player's total mission score."
+        readonly: true
+      PS_SHIP:
+        type: number
+        description: "Statistic ID for counting player's naval vessel kills."
+        readonly: true
+      
+      # Resume mode constants
+      RESUME_MANUAL:
+        type: number
+        description: "Constant for manual mission resumption control."
+        readonly: true
+      RESUME_ON_LOAD:
+        type: number
+        description: "Constant for automatic mission resumption on load."
+        readonly: true
+      RESUME_WITH_CLIENTS:
+        type: number
+        description: "Constant for mission resumption when clients connect."
+        readonly: true
+types: {}

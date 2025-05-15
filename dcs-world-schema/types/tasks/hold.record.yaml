@@ -1,0 +1,20 @@
+globals: {}
+
+types:
+  TaskHold:
+    kind: record
+    description: "Defines the structure of a Lua table representing a hold task that commands ground forces to cease movement and maintain their current position."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'hold'."
+      params:
+        type: TaskHoldParams
+        description: "A table containing parameters for the hold task."
+    required: [id, params]
+    
+  TaskHoldParams:
+    kind: record
+    description: "Defines the structure of a Lua table for hold parameters, which is currently empty as the task requires no additional configuration."
+    fields: {}
+    required: [] 

@@ -1,0 +1,13 @@
+globals: {}
+types:
+  TriggerZoneCircular:
+    kind: record
+    description: "Defines the structure of a Lua table representing a circular area used for spatial trigger conditions in the DCS World."
+    fields:
+      position:
+        type: Position3
+        description: "A `Position3` representing the center point and orientation of the trigger zone in the DCS World coordinate system."
+      radius:
+        type: number
+        description: "A numeric value defining the radius of the circular trigger zone in meters."
+    required: [position, radius]

@@ -1,0 +1,25 @@
+globals: {}
+
+types:
+  CommandEPLRS:
+    kind: record
+    description: "Defines the structure of a command that toggles the Enhanced Position Location Reporting System (EPLRS) data link capabilities for a unit or group."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'EPLRS'."
+      params:
+        type: CommandEPLRSParams
+    required: [id, params]
+
+  CommandEPLRSParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the EPLRS data link toggle command."
+    fields:
+      value:
+        type: boolean
+        description: "EPLRS state where true activates the data link, false deactivates it."
+      groupId:
+        type: number
+        description: "Track number assigned to the first unit in the group (only relevant for ground vehicle groups)."
+    required: [value] 

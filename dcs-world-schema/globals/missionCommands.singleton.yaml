@@ -1,0 +1,166 @@
+globals:
+  missionCommands:
+    kind: singleton
+    description: "Provides functions for creating and managing interactive menu commands in the F10 radio menu."
+    addedVersion: "1.2.4"
+    environment: [MissionScripting]
+    static:
+      addCommand:
+        description: "Adds an interactive command to the F10 radio menu for all players that executes a specified Lua function when selected."
+        params:
+          - name: name
+            type: string
+            description: "Display text for the menu command."
+          - name: path
+            type: table | nil
+            optional: true
+            description: "Path to parent menu as a sequence table of menu names. If `nil`, command is added to root menu."
+          - name: functionToRun
+            type: function
+            description: "Function to execute when command is selected."
+          - name: anyArguement
+            type: any
+            optional: true
+            description: "Optional value passed to `functionToRun` when executed."
+        returns: table
+        returnValueExample: "{[1] = \"CommandInRoot\"} or {[1] = \"SubMenu\", [2] = \"CommandInSubMenu\"}"
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      addSubMenu:
+        description: "Creates a submenu in the F10 radio menu for all players, which can contain additional commands or nested submenus."
+        params:
+          - name: name
+            type: string
+            description: "Display text for the submenu."
+          - name: path
+            type: table
+            optional: true
+            description: "Path to parent menu as a sequence table of menu names. If `nil`, submenu is added to root menu."
+        returns: table
+        returnValueExample: "{[1] = \"SubMenuName\"} or {[1] = \"ParentMenu\", [2] = \"SubMenuName\"}"
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      removeItem:
+        description: "Removes a menu item or entire submenu from the F10 radio menu for all players."
+        params:
+          - name: path
+            type: table | nil
+            optional: true
+            description: "Path to the menu item as a sequence table of menu names. If `nil`, removes all items."
+        returns: void
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      addCommandForCoalition:
+        description: "Adds an interactive command to the F10 radio menu for players of a specific coalition."
+        params:
+          - name: coalition.side
+            type: coalition.side
+            description: "Target coalition (`coalition.side.NEUTRAL`, `coalition.side.RED`, or `coalition.side.BLUE`)."
+          - name: name
+            type: string
+            description: "Display text for the menu command."
+          - name: path
+            type: table | nil
+            optional: true
+            description: "Path to parent menu as a sequence table of menu names. If `nil`, command is added to root menu."
+          - name: functionToRun
+            type: function
+            description: "Function to execute when command is selected."
+          - name: anyArguement
+            type: any
+            optional: true
+            description: "Optional value passed to `functionToRun` when executed."
+        returns: table
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      addSubMenuForCoalition:
+        description: "Creates a submenu in the F10 radio menu for players of a specific coalition."
+        params:
+          - name: coalitionSide
+            type: number
+            description: "Target coalition as a `coalition.side` enum value."
+          - name: name
+            type: string
+            description: "Display text for the submenu."
+          - name: path
+            type: table
+            optional: true
+            description: "Path to parent menu as a sequence table of menu names. If `nil`, submenu is added to root menu."
+        returns: table
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      removeItemForCoalition:
+        description: "Removes a menu item or entire submenu from the F10 radio menu for a specific coalition."
+        params:
+          - name: coalitionSide
+            type: number
+            description: "Target coalition as a `coalition.side` enum value."
+          - name: path
+            type: table | nil
+            optional: true
+            description: "Path to the menu item as a sequence table of menu names. If `nil`, removes all items for the coalition."
+        returns: void
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      addCommandForGroup:
+        description: "Adds an interactive command to the F10 radio menu for players in a specific group."
+        params:
+          - name: groupId
+            type: number
+            description: "ID of the target group."
+          - name: name
+            type: string
+            description: "Display text for the menu command."
+          - name: path
+            type: table | nil
+            optional: true
+            description: "Path to parent menu as a sequence table of menu names. If `nil`, command is added to root menu."
+          - name: functionToRun
+            type: function
+            description: "Function to execute when command is selected."
+          - name: anyArguement
+            type: any
+            optional: true
+            description: "Optional value passed to `functionToRun` when executed."
+        returns: table
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      addSubMenuForGroup:
+        description: "Creates a submenu in the F10 radio menu for players in a specific group."
+        params:
+          - name: groupId
+            type: number
+            description: "ID of the target group."
+          - name: name
+            type: string
+            description: "Display text for the submenu."
+          - name: path
+            type: table
+            optional: true
+            description: "Path to parent menu as a sequence table of menu names. If `nil`, submenu is added to root menu."
+        returns: table
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      removeItemForGroup:
+        description: "Removes a menu item or entire submenu from the F10 radio menu for a specific group."
+        params:
+          - name: groupId
+            type: number
+            description: "ID of the target group."
+          - name: path
+            type: table | nil
+            optional: true
+            description: "Path to the menu item as a sequence table of menu names. If `nil`, removes all items for the group."
+        returns: void
+        addedVersion: "1.2.4"
+        environment: [MissionScripting]
+      doAction:
+        description: "Executes a radio menu action programmatically without user interaction."
+        params:
+          - name: path
+            type: table
+            description: "Path to the menu command as a sequence table of menu names."
+        returns: void
+        addedVersion: "2.5.0"
+        environment: [MissionScripting]
+types: {}

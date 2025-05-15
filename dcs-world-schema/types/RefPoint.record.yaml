@@ -1,0 +1,20 @@
+globals: {}
+types:
+  RefPoint:
+    kind: record
+    description: "Defines the structure of a Lua table representing a reference point used by Joint Terminal Attack Controllers (JTACs) and other mission elements for targeting and navigation."
+    addedVersion: "1.2.0"
+    fields:
+      callsign:
+        type: string
+        description: "A string identifier serving as the callsign or designation for the reference point."
+      type:
+        type: number
+        description: "A numeric identifier categorizing the reference point's purpose or classification."
+      point:
+        type: Vec3
+        description: "A `Vec3` representing the precise 3D position of the reference point in the DCS World coordinate system."
+    required:
+      - callsign
+      - type
+      - point

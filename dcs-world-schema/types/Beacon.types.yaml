@@ -1,0 +1,36 @@
+globals: {}
+types:
+  BeaconType:
+    kind: enum
+    description: "Enumerator for types of beacons that can be activated."
+    addedVersion: "1.2.4"
+    values:
+      BEACON_TYPE_NULL: 0
+      BEACON_TYPE_VOR: 1
+      BEACON_TYPE_DME: 2
+      BEACON_TYPE_VOR_DME: 3
+      BEACON_TYPE_TACAN: 4
+      BEACON_TYPE_VORTAC: 5
+      BEACON_TYPE_RSBN: 32
+      BEACON_TYPE_BROADCAST_STATION: 1024
+      BEACON_TYPE_HOMER: 8
+      BEACON_TYPE_AIRPORT_HOMER: 4104
+      BEACON_TYPE_AIRPORT_HOMER_WITH_MARKER: 4136
+      BEACON_TYPE_ILS_FAR_HOMER: 16408
+      BEACON_TYPE_ILS_NEAR_HOMER: 16456
+      BEACON_TYPE_ILS_LOCALIZER: 16640
+      BEACON_TYPE_ILS_GLIDESLOPE: 16896
+      BEACON_TYPE_NAUTICAL_HOMER: 32776
+
+  BeaconSystemName:
+    kind: enum
+    description: "Enumerator for types of beacon systems."
+    addedVersion: "1.2.4"
+    values:
+      PAR_10: 1
+      RSBN_5: 2
+      TACAN: 3
+      TACAN_TANKER: 4
+      ILS_LOCALIZER: 5
+      ILS_GLIDESLOPE: 6
+      BROADCAST_STATION: 7

@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  CommandDeactivateICLS:
+    kind: record
+    description: "Defines the structure of a command that deactivates any active Instrument Carrier Landing System (ICLS) beacon on a unit or group."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'DeactivateICLS'."
+      params:
+        type: CommandDeactivateICLSParams
+    required: [id, params]
+
+  CommandDeactivateICLSParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the ICLS beacon deactivation command."
+    fields: {}
+    required: [] 

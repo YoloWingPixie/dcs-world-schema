@@ -1,0 +1,33 @@
+globals: {}
+
+types:
+  Cargo:
+    kind: record
+    description: "Defines the structure of a Lua table representing a cargo object that can be loaded and transported by air, land, or sea units in the DCS World."
+    fields:
+      mass:
+        type: number
+        description: "The mass of the cargo in kilograms, affects transport capacity requirements and physics behavior."
+      position:
+        type: Vec3
+        description: "A `Vec3` representing the cargo's current position in the DCS World coordinate system."
+      displayName:
+        type: string
+        description: "The human-readable name of the cargo shown in mission interfaces and logs."
+      
+  DynamicCargo:
+    kind: record
+    description: "Defines the structure of a Lua table representing a dynamic cargo entity that can be created, manipulated, and tracked during mission execution."
+    fields:
+      id:
+        type: number
+        description: "Unique numeric identifier for the dynamic cargo, used for scripting references."
+      name:
+        type: string
+        description: "The string identifier of the dynamic cargo, used for display and scripting access."
+      type:
+        type: string
+        description: "The type classification of cargo, determining its visual model and behavior properties."
+      mass:
+        type: number
+        description: "The mass of the cargo in kilograms, affects transport capacity requirements and physics behavior." 

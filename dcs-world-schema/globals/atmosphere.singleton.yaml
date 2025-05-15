@@ -1,0 +1,32 @@
+globals:
+  atmosphere:
+    kind: singleton
+    description: "Provides functions for querying atmospheric conditions in the DCS World environment, including wind, temperature, and pressure data."
+    addedVersion: "1.2.6"
+    environment: [MissionScripting]
+    static:
+      getWind:
+        description: "Returns a `Vec3` representing the wind velocity vector at the specified position in the DCS World coordinate system."
+        params:
+          - name: vec3
+            type: Vec3
+        returns: Vec3
+        addedVersion: "1.2.6"
+        environment: [MissionScripting]
+      getWindWithTurbulence:
+        description: "Returns a `Vec3` representing the wind velocity vector with turbulence effects at the specified position in the DCS World coordinate system."
+        params:
+          - name: vec3
+            type: Vec3
+        returns: Vec3
+        addedVersion: "1.2.6"
+        environment: [MissionScripting]
+      getTemperatureAndPressure:
+        description: "Returns two `number` values representing the temperature (in Kelvins) and pressure (in Pascals) at the specified position in the DCS World coordinate system."
+        params:
+          - name: vec3
+            type: Vec3
+        returns: [number, number]
+        addedVersion: "2.0.6"
+        environment: [MissionScripting]
+types: {}

@@ -1,0 +1,16 @@
+globals: {}
+types:
+  LatLon:
+    kind: record
+    description: "Defines the structure of a Lua table representing geographical coordinates using latitude and longitude values."
+    addedVersion: "1.2.0"
+    fields:
+      lat:
+        type: number
+        description: "Latitude value in decimal degrees, with positive values representing north of the equator and negative values representing south."
+      lon:
+        type: number
+        description: "Longitude value in decimal degrees, with positive values representing east of the prime meridian and negative values representing west."
+    required:
+      - lat
+      - lon 

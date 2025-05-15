@@ -1,0 +1,926 @@
+globals:
+  trigger:
+    kind: singleton
+    description: "Provides functions for mission triggers, flags, messaging, special effects, and F10 map interface in the DCS World environment."
+    addedVersion: "1.2.0"
+    environment: ["MissionScripting"]
+    properties:
+      action:
+        type: table
+        description: "Contains functions that perform mission actions equivalent to Mission Editor trigger actions."
+        static:
+          activateGroup:
+            description: "Activates a group configured for late activation in the mission."
+            params:
+              - name: group
+                type: Group
+                description: "The group object to activate."
+            returns: void
+            addedVersion: "1.2.5"
+          addOtherCommand:
+            description: "Adds a command to the 'F10 Other' radio menu for all coalitions, setting a flag when selected."
+            params:
+              - name: name
+                type: string
+                description: "Text displayed in the menu."
+              - name: userFlagName
+                type: string
+                description: "User flag name to set when selected."
+              - name: userFlagValue
+                type: number
+                description: "Value to set the user flag to."
+            returns: void
+            addedVersion: "1.2.4"
+          addOtherCommandForCoalition:
+            description: "Adds a command to the 'F10 Other' radio menu for a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Target coalition for the command."
+              - name: name
+                type: string
+                description: "Text displayed in the menu."
+              - name: userFlagName
+                type: string
+                description: "User flag name to set when selected."
+              - name: userFlagValue
+                type: string
+                description: "Value to set the user flag to."
+            returns: void
+            addedVersion: "1.2.4"
+          addOtherCommandForGroup:
+            description: "Adds a command to the 'F10 Other' radio menu for a specific group."
+            params:
+              - name: groupId
+                type: number
+                description: "ID of the group for the command."
+              - name: name
+                type: string
+                description: "Text displayed in the menu."
+              - name: userFlagName
+                type: string
+                description: "User flag name to set when selected."
+              - name: userFlagValue
+                type: number
+                description: "Value to set the user flag to."
+            returns: void
+            addedVersion: "1.2.4"
+          arrowToAll:
+            description: "Creates an arrow shape on the F10 map visible to a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Coalition that can see the arrow."
+              - name: id
+                type: number
+                description: "Unique identifier for the markup."
+              - name: startPoint
+                type: Vec3
+                description: "Starting point (tail) of the arrow in the DCS World coordinate system."
+              - name: endPoint
+                type: Vec3
+                description: "Ending point (head) of the arrow in the DCS World coordinate system."
+              - name: color
+                type: ColorRGBA
+                description: "Outline color of the arrow."
+              - name: fillColor
+                type: ColorRGBA
+                description: "Fill color of the arrow."
+              - name: lineType
+                type: MarkupLineType
+                description: "Line style for the arrow outline."
+              - name: readOnly
+                type: boolean
+                description: "When `true`, prevents clients from editing the shape."
+                optional: true
+              - name: message
+                type: string
+                description: "Message displayed when the shape is added."
+                optional: true
+            returns: void
+            addedVersion: "2.5.5"
+          circleToAll:
+            description: "Creates a circle shape on the F10 map visible to a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Coalition that can see the circle."
+              - name: id
+                type: number
+                description: "Unique identifier for the markup."
+              - name: center
+                type: Vec3
+                description: "Center point of the circle in the DCS World coordinate system."
+              - name: radius
+                type: number
+                description: "Radius of the circle in meters."
+              - name: color
+                type: ColorRGBA
+                description: "Outline color of the circle."
+              - name: fillColor
+                type: ColorRGBA
+                description: "Fill color of the circle."
+              - name: lineType
+                type: MarkupLineType
+                description: "Line style for the circle outline."
+              - name: readOnly
+                type: boolean
+                description: "When `true`, prevents clients from editing the shape."
+                optional: true
+              - name: message
+                type: string
+                description: "Message displayed when the shape is added."
+                optional: true
+            returns: void
+            addedVersion: "2.5.5"
+          ctfColorTag:
+            description: "Attaches a smoke plume behind an aircraft, with color values offset by +1 from the `smokeColor` enum."
+            params:
+              - name: unitName
+                type: string
+                description: "Name of the unit to attach smoke to."
+              - name: smokeColorId
+                type: trigger.smokeColor
+                description: "Color of the smoke plume."
+            returns: void
+            addedVersion: "2.5.6"   
+          deactivateGroup:
+            description: "Deactivates and removes a group from the mission."
+            params:
+              - name: group
+                type: Group
+                description: "Group object to deactivate."
+            returns: void
+            addedVersion: "1.2.5"
+          effectSmokeBig:
+            description: "Creates a large persistent smoke effect at a specific location."
+            params:
+              - name: point
+                type: Vec3
+                description: "Position of the smoke effect in the DCS World coordinate system."
+              - name: smoke preset
+                type: BigSmokeType
+                description: "Type of smoke effect to create."
+              - name: density
+                type: number
+                description: "Density of the smoke (0 to 1)."
+              - name: name
+                type: string
+                description: "Unique identifier for the effect, used for stopping it."
+                optional: true
+            returns: void
+            addedVersion: "2.5.1"
+          effectSmokeStop:
+            description: "Stops a large smoke effect previously created with `effectSmokeBig`."
+            params:
+              - name: name
+                type: string
+                description: "Identifier of the smoke effect to stop."
+            returns: void
+            addedVersion: "2.7.10"
+          explosion:
+            description: "Creates an explosion effect at a specific location."
+            params:
+              - name: point
+                type: Vec3
+                description: "Position of the explosion in the DCS World coordinate system."
+              - name: power
+                type: number
+                description: "Power of the explosion."
+            returns: void
+            addedVersion: "1.2.0"
+          groupContinueMoving:
+            description: "Orders a ground group to resume movement along its route."
+            params:
+              - name: group
+                type: Group
+                description: "Ground group to order to continue moving."
+            returns: void
+            addedVersion: "1.2.5"
+          groupStopMoving:
+            description: "Orders a ground group to stop movement and hold position."
+            params:
+              - name: group
+                type: Group
+                description: "Ground group to order to stop."
+            returns: void
+            addedVersion: "1.2.5"
+          illuminationBomb:
+            description: "Creates an illumination bomb effect at a specific location."
+            params:
+              - name: point
+                type: Vec3
+                description: "Position of the illumination bomb in the DCS World coordinate system."
+              - name: power
+                type: number
+                description: "Power of the illumination (1 to 1000000)."
+            returns: void
+            addedVersion: "1.2.0"
+          lineToAll:
+            description: "Creates a line shape on the F10 map visible to a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Coalition that can see the line."
+              - name: id
+                type: number
+                description: "Unique identifier for the markup."
+              - name: startPoint
+                type: Vec3
+                description: "Starting point of the line in the DCS World coordinate system."
+              - name: endPoint
+                type: Vec3
+                description: "Ending point of the line in the DCS World coordinate system."
+              - name: color
+                type: ColorRGBA
+                description: "Color of the line."
+              - name: lineType
+                type: MarkupLineType
+                description: "Line style for the shape."
+              - name: readOnly
+                type: boolean
+                description: "When `true`, prevents clients from editing the shape."
+                optional: true
+              - name: message
+                type: string
+                description: "Message displayed when the shape is added."
+                optional: true
+            returns: void
+            addedVersion: "2.5.5"
+          markToAll:
+            description: "Adds a mark point with text to the F10 map for all coalitions."
+            params:
+              - name: id
+                type: number
+                description: "Unique identifier for the mark point."
+              - name: text
+                type: string
+                description: "Text displayed with the mark."
+              - name: point
+                type: Vec3
+                description: "Position of the mark in the DCS World coordinate system."
+              - name: readOnly
+                type: boolean
+                description: "When `true`, prevents clients from removing the mark."
+                optional: true
+              - name: message
+                type: string
+                description: "Message displayed when the mark is added."
+                optional: true
+            returns: void
+            addedVersion: "1.5.1"
+          markToCoalition:
+            description: "Adds a mark point with text to the F10 map for a specific coalition."
+            params:
+              - name: id
+                type: number
+                description: "Unique identifier for the mark point."
+              - name: text
+                type: string
+                description: "Text displayed with the mark."
+              - name: point
+                type: Vec3
+                description: "Position of the mark in the DCS World coordinate system."
+              - name: coalitionId
+                type: coalition.side
+                description: "Coalition that can see the mark."
+              - name: readOnly
+                type: boolean
+                description: "When `true`, prevents clients from removing the mark."
+                optional: true
+              - name: message
+                type: string
+                description: "Message displayed when the mark is added."
+                optional: true
+            returns: void
+            addedVersion: "2.1.0"
+          markToGroup:
+            description: "Adds a mark point to the F10 map for a specific group."
+            params:
+              - name: id
+                type: number
+                description: "Unique ID for the mark point."
+              - name: text
+                type: string
+                description: "Text to display with the mark."
+              - name: point
+                type: Vec3
+                description: "Position of the mark point."
+              - name: groupId
+                type: number
+                description: "The ID of the group to show the mark to."
+              - name: readOnly
+                type: boolean
+                description: "If true, clients cannot remove the mark."
+                optional: true
+              - name: message
+                type: string
+                description: "Message to display when the mark is added."
+                optional: true
+            returns: void
+            addedVersion: "2.1.0"
+          outSound:
+            description: "Plays a sound file to all players in the mission."
+            params:
+              - name: soundfile
+                type: string
+                description: "Path to the sound file in the mission package."
+            returns: void
+            addedVersion: "1.2.0"
+          outSoundForCoalition:
+            description: "Plays a sound file to all players of a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Coalition to play the sound for."
+              - name: soundfile
+                type: string
+                description: "Path to the sound file in the mission package."
+            returns: void
+            addedVersion: "1.2.0"
+          outSoundForCountry:
+            description: "Plays a sound file to all players of a specific country."
+            params:
+              - name: country
+                type: country.id
+                description: "Country to play the sound for."
+              - name: soundfile
+                type: string
+                description: "Path to the sound file in the mission package."
+            returns: void
+            addedVersion: "1.2.0"
+          outSoundForGroup:
+            description: "Plays a sound file to all players in a specific group."
+            params:
+              - name: groupId
+                type: number
+                description: "ID of the group to play the sound for."
+              - name: soundfile
+                type: string
+                description: "Path to the sound file in the mission package."
+            returns: void
+            addedVersion: "1.2.0"
+          outSoundForUnit:
+            description: "Plays a sound file to the player in a specific unit."
+            params:
+              - name: unitId
+                type: number
+                description: "ID of the unit to play the sound for."
+              - name: soundfile
+                type: string
+                description: "Path to the sound file in the mission package."
+            returns: void
+            addedVersion: "2.7.12"
+          outText:
+            description: "Displays a text message to all players in the mission."
+            params:
+              - name: text
+                type: string
+                description: "Text content to display."
+              - name: displayTime
+                type: number
+                description: "Duration in seconds to show the message."
+              - name: clearview
+                type: boolean
+                description: "When `true`, uses the legacy display format that overwrites existing messages."
+                optional: true
+            returns: void
+            addedVersion: "1.2.0"
+          outTextForCoalition:
+            description: "Displays a text message to all players of a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Coalition to show the message to."
+              - name: text
+                type: string
+                description: "Text content to display."
+              - name: displayTime
+                type: number
+                description: "Duration in seconds to show the message."
+              - name: clearview
+                type: boolean
+                description: "When `true`, uses the legacy display format that overwrites existing messages."
+                optional: true
+            returns: void
+            addedVersion: "1.2.0"
+          outTextForCountry:
+            description: "Displays text to all players of a specific country."
+            params:
+              - name: country
+                type: country.id
+                description: "The country to display the text for."
+              - name: text
+                type: string
+                description: "The text to display."
+              - name: displayTime
+                type: number
+                description: "Duration in seconds."
+              - name: clearview
+                type: boolean
+                description: "If true, uses the old message display format."
+                optional: true
+            returns: void
+            addedVersion: "1.2.0"
+          outTextForGroup:
+            description: "Displays text to all players in a specific group."
+            params:
+              - name: groupId
+                type: number
+                description: "The ID of the group to display the text for."
+              - name: text
+                type: string
+                description: "The text to display."
+              - name: displayTime
+                type: number
+                description: "Duration in seconds."
+              - name: clearview
+                type: boolean
+                description: "If true, uses the old message display format."
+                optional: true
+            returns: void
+            addedVersion: "1.2.0"
+          outTextForUnit:
+            description: "Displays text to the player in the specified unit."
+            params:
+              - name: unitId
+                type: number
+                description: "The ID of the unit to display the text for."
+              - name: text
+                type: string
+                description: "The text to display."
+              - name: displayTime
+                type: number
+                description: "Duration in seconds."
+              - name: clearview
+                type: boolean
+                description: "If true, uses the old message display format."
+                optional: true
+            returns: void
+            addedVersion: "2.7.12"
+          pushAITask:
+            description: "Pushes the task of the specified index to the front of the AI tasking queue for the group."
+            params:
+              - name: group
+                type: Group
+                description: "The group object."
+              - name: taskIndex
+                type: number
+                description: "The index of the task in the group's triggered actions list."
+            returns: void
+            addedVersion: "1.2.4"
+          quadToAll:
+            description: "Creates a quadrilateral shape on the F10 map for all coalitions."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Which coalition to show the shape to."
+              - name: id
+                type: number
+                description: "Unique ID for the markup object."
+              - name: point1
+                type: Vec3
+                description: "First vertex of the quadrilateral."
+              - name: point2
+                type: Vec3
+                description: "Second vertex of the quadrilateral."
+              - name: point3
+                type: Vec3
+                description: "Third vertex of the quadrilateral."
+              - name: point4
+                type: Vec3
+                description: "Fourth vertex of the quadrilateral."
+              - name: color
+                type: ColorRGBA
+                description: "Color of the shape outline."
+              - name: fillColor
+                type: ColorRGBA
+                description: "Fill color of the shape."
+              - name: lineType
+                type: MarkupLineType
+                description: "Style of the shape outline."
+              - name: readOnly
+                type: boolean
+                description: "If true, clients cannot edit or remove the shape."
+                optional: true
+              - name: message
+                type: string
+                description: "Message to display when the shape is added."
+                optional: true
+            returns: void
+            addedVersion: "2.5.5"
+          radioTransmission:
+            description: "Transmits an audio file over a specified frequency from a point in the mission."
+            params:
+              - name: filename
+                type: string
+                description: "Path to the sound file in the mission package."
+              - name: point
+                type: Vec3
+                description: "Origin point of the transmission in the DCS World coordinate system."
+              - name: modulation
+                type: RadioModulation
+                description: "Radio modulation type (`AM` or `FM`)."
+              - name: loop
+                type: boolean
+                description: "When `true`, the transmission will repeat continuously."
+              - name: frequency
+                type: number
+                description: "Frequency in Hz (e.g., 124000000 for 124 MHz)."
+              - name: power
+                type: number
+                description: "Transmission power in watts."
+              - name: name
+                type: string
+                description: "Unique identifier for the transmission, used for stopping it."
+                optional: true
+            returns: void
+            addedVersion: "1.2.0"
+          rectToAll:
+            description: "Creates a rectangle shape on the F10 map visible to a specific coalition."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Coalition that can see the rectangle."
+              - name: id
+                type: number
+                description: "Unique identifier for the markup."
+              - name: startPoint
+                type: Vec3
+                description: "One corner of the rectangle in the DCS World coordinate system."
+              - name: endPoint
+                type: Vec3
+                description: "Opposite corner of the rectangle in the DCS World coordinate system."
+              - name: color
+                type: ColorRGBA
+                description: "Outline color of the rectangle."
+              - name: fillColor
+                type: ColorRGBA
+                description: "Fill color of the rectangle."
+              - name: lineType
+                type: MarkupLineType
+                description: "Line style for the rectangle outline."
+              - name: readOnly
+                type: boolean
+                description: "When `true`, prevents clients from editing the shape."
+                optional: true
+              - name: message
+                type: string
+                description: "Message displayed when the shape is added."
+                optional: true
+            returns: void
+            addedVersion: "2.5.5"
+          removeMark:
+            description: "Removes a mark panel or markup shape from the F10 map."
+            params:
+              - name: id
+                type: number
+                description: "ID of the mark to remove."
+            returns: void
+            addedVersion: "2.1.0"
+          removeOtherCommand:
+            description: "Removes a command from the 'F10 Other' radio menu for all."
+            params:
+              - name: name
+                type: string
+                description: "The name of the command to remove."
+            returns: void
+            addedVersion: "1.2.4"
+          removeOtherCommandForCoalition:
+            description: "Removes a command from the 'F10 Other' radio menu for a specific coalition."
+            params:
+              - name: coalitionId
+                type: coalition.side
+                description: "The coalition to remove the command from."
+              - name: name
+                type: string
+                description: "The name of the command to remove."
+            returns: void
+            addedVersion: "1.2.4"
+          removeOtherCommandForGroup:
+            description: "Removes a command from the 'F10 Other' radio menu for a specific group."
+            params:
+              - name: groupId
+                type: number
+                description: "The ID of the group to remove the command from."
+              - name: name
+                type: string
+                description: "The name of the command to remove."
+            returns: void
+            addedVersion: "1.2.4"
+          setAITask:
+            description: "Sets the AI task for the specified group, clearing any existing task queue."
+            params:
+              - name: group
+                type: Group
+                description: "The group object."
+              - name: taskIndex
+                type: number
+                description: "The index of the task in the group's triggered actions list."
+            returns: void
+            addedVersion: "1.2.4"
+          setGroupAIOff:
+            description: "Turns the specified group's AI off. Only works with ground and ship groups."
+            params:
+              - name: group
+                type: Group
+                description: "The group object."
+            returns: void
+            addedVersion: "1.2.5"
+          setGroupAIOn:
+            description: "Turns the specified group's AI on. Only works with ground and ship groups."
+            params:
+              - name: group
+                type: Group
+                description: "The group object."
+            returns: void
+            addedVersion: "1.2.5"
+          setMarkupColor:
+            description: "Updates the color of the specified markup object."
+            params:
+              - name: id
+                type: number
+                description: "ID of the markup object."
+              - name: color
+                type: ColorRGBA
+                description: "New color for the markup."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupColorFill:
+            description: "Updates the fill color of the specified markup object."
+            params:
+              - name: id
+                type: number
+                description: "ID of the markup object."
+              - name: colorFill
+                type: ColorRGBA
+                description: "New fill color for the markup."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupFontSize:
+            description: "Updates the font size of the specified text markup object."
+            params:
+              - name: id
+                type: number
+                description: "ID of the text markup object."
+              - name: fontSize
+                type: number
+                description: "New font size."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupPositionEnd:
+            description: "Updates the end position of a line or arrow markup object, or a defining point of other shapes."
+            params:
+              - name: id
+                type: number
+                description: "ID of the markup object."
+              - name: point
+                type: Vec3
+                description: "New end position."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupPositionStart:
+            description: "Updates the start position of a line or arrow markup object, or the primary point of other shapes."
+            params:
+              - name: id
+                type: number
+                description: "ID of the markup object."
+              - name: point
+                type: Vec3
+                description: "New start position."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupRadius:
+            description: "Updates the radius of the specified circle markup object."
+            params:
+              - name: id
+                type: number
+                description: "ID of the circle markup object."
+              - name: radius
+                type: number
+                description: "New radius in meters."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupText:
+            description: "Updates the text of the specified text markup object."
+            params:
+              - name: id
+                type: number
+                description: "ID of the text markup object."
+              - name: text
+                type: string
+                description: "New text."
+            returns: void
+            addedVersion: "2.5.5"
+          setMarkupTypeLine:
+            description: "Updates the line style of the specified markup object."
+            params:
+              - name: id
+                type: number
+                description: "ID of the markup object."
+              - name: lineType
+                type: MarkupLineType
+                description: "New line style."
+            returns: void
+            addedVersion: "2.5.5"
+          setUnitInternalCargo:
+            description: "Sets the internal cargo mass for a specified unit (aircraft/helicopter)."
+            params:
+              - name: unitName
+                type: string
+                description: "Name of the unit."
+              - name: mass
+                type: number
+                description: "Cargo mass in kilograms."
+            returns: void
+            addedVersion: "2.5.6"
+          signalFlare:
+            description: "Creates a signal flare at a given point."
+            params:
+              - name: point
+                type: Vec3
+                description: "Position of the flare."
+              - name: color
+                type: trigger.flareColor
+                description: "Color of the flare."
+              - name: azimuth
+                type: number
+                description: "Azimuth (direction) in which the flare is launched (degrees)."
+            returns: void
+            addedVersion: "1.2.0"
+          smoke:
+            description: "Creates a colored smoke marker at a given point."
+            params:
+              - name: point
+                type: Vec3
+                description: "Position of the smoke marker."
+              - name: color
+                type: trigger.smokeColor
+                description: "Color of the smoke."
+            returns: void
+            addedVersion: "1.2.0"
+          stopRadioTransmission:
+            description: "Stops a radio transmission started with trigger.action.radioTransmission."
+            params:
+              - name: name
+                type: string
+                description: "Name of the radio transmission to stop."
+            returns: void
+            addedVersion: "2.5"
+          textToAll:
+            description: "Creates text on the F10 map for all coalitions."
+            params:
+              - name: coalition
+                type: coalition.side
+                description: "Which coalition to show the text to."
+              - name: id
+                type: number
+                description: "Unique ID for the markup object."
+              - name: point
+                type: Vec3
+                description: "Position of the text."
+              - name: color
+                type: ColorRGBA
+                description: "Color of the text."
+              - name: fillColor
+                type: ColorRGBA
+                description: "Background fill color for the text area."
+              - name: fontSize
+                type: number
+                description: "Font size of the text."
+              - name: readOnly
+                type: boolean
+                description: "If true, clients cannot edit or remove the shape."
+                optional: true
+              - name: text
+                type: string
+                description: "The text to display."
+            returns: void
+            addedVersion: "2.5.5"
+          markupToAll:
+            description: "Creates the defined shape on the F10 map. Uses the same definitions as the specific functions to create different shapes with the only difference being the first parameter is used to define the shape. This function does have an additional type of shape of 'freeform' which allows you to create an 3+ vertices shape in any format you wish. Shape Ids: 1 Line, 2 Circle, 3 Rect, 4 Arrow, 5 Text, 6 Quad, 7 Freeform. Coalition Ids: -1 All, 0 Neutral, 1 Red, 2 Blue. LineTypes: 0 No Line, 1 Solid, 2 Dashed, 3 Dotted, 4 Dot Dash, 5 Long Dash, 6 Two Dash."
+            params:
+              - name: shapeId
+                type: MarkupShapeId
+                description: "ID of the shape type (1-7)."
+              - name: coalition
+                type: coalition.side
+                description: "Coalition ID (-1, 0, 1, 2)."
+              - name: id
+                type: number
+                description: "Unique ID for the markup object."
+              - name: point1
+                type: Vec3
+                description: "First point defining the shape."
+              - name: points
+                type: Vec3[]
+                description: "Variable number of additional points for shapes like 'freeform'."
+                optional: true
+              - name: color
+                type: ColorRGBA
+                description: "Outline color {r,g,b,a}."
+              - name: fillColor
+                type: ColorRGBA
+                description: "Fill color {r,g,b,a}."
+              - name: lineType
+                type: MarkupLineType
+                description: "Line style ID (0-6)."
+              - name: readOnly
+                type: boolean
+                description: "If true, clients cannot edit or remove the shape."
+                optional: true
+              - name: message
+                type: string
+                description: "Message to display when the shape is added."
+                optional: true
+            returns: void
+            addedVersion: "2.5.6"
+          outSoundStop:
+            description: "Stops a sound previously played with an outSound* function."
+            params:
+              - name: soundfile
+                type: string
+                description: "Path to the sound file that was originally played."
+            returns: void
+            addedVersion: "1.2.0" # Assuming same as outSound
+          setUserFlag:
+            description: "Sets the value of a mission user flag."
+            params:
+              - name: flagNameOrId
+                type: string | number
+                description: "Name or numeric ID of the flag."
+              - name: value
+                type: number
+                description: "Value to set the flag to."
+            returns: void
+            addedVersion: "1.2.0"
+      misc:
+        type: table
+        description: "Contains utility functions for trigger operations and flag management."
+        static:
+          addTrigger:
+            description: "(Placeholder) Adds a new trigger dynamically during the mission."
+            params:
+              - name: name
+                type: string
+                description: "Name of the new trigger."
+              - name: condition
+                type: string # Or function
+                description: "Lua code string or function defining the trigger condition."
+              - name: action
+                type: string # Or function
+                description: "Lua code string or function defining the trigger action."
+            returns: void # Or number (triggerId)
+            addedVersion: "1.2.0" # Placeholder
+          addZone:
+            description: "(Placeholder) Adds a new trigger zone dynamically."
+            params:
+              - name: zoneName
+                type: string
+                description: "Name for the new zone."
+              - name: point
+                type: Vec3
+                description: "Center point of the zone."
+              - name: radius
+                type: number
+                description: "Radius of the zone in meters."
+              - name: zoneType
+                type: number
+                description: "Type of zone (e.g., 0 for circular)."
+                optional: true
+              - name: hidden
+                type: boolean
+                description: "Whether the zone is hidden on the map."
+                optional: true
+            returns: void # Or table (zone object)
+            addedVersion: "1.2.0" # Placeholder
+          getUserFlag:
+            description: "Returns the current value of a mission user flag."
+            params:
+              - name: flagNameOrId
+                type: string | number
+                description: "Name or numeric ID of the flag."
+            returns: number
+            addedVersion: "1.2.0"
+          getZone:
+            description: "Returns information about a trigger zone defined in the mission editor."
+            params:
+              - name: zoneName
+                type: string
+                description: "Name of the trigger zone."
+            returns: TriggerZoneCircular
+            addedVersion: "1.2.0"
+
+types:
+  MarkupLineType:
+    kind: enum
+    description: "Enumerator for line style patterns, used to customize map markup line appearances in trigger actions."
+    values:
+      NoLine: 0
+      Solid: 1
+      Dashed: 2
+      Dotted: 3
+      DotDash: 4
+      LongDash: 5
+      TwoDash: 6
+    addedVersion: "2.5.5"

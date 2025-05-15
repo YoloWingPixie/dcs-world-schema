@@ -1,0 +1,35 @@
+globals: {}
+
+types:
+  TaskRecoveryTanker:
+    kind: record
+    description: "Defines the structure of a Lua table representing a naval recovery tanker task that directs an aircraft to orbit above a vessel group, providing refueling services."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'RecoveryTanker'."
+      params:
+        type: TaskRecoveryTankerParams
+        description: "A table containing parameters that configure the recovery tanker behavior."
+    required: [id, params]
+    
+  TaskRecoveryTankerParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for a naval recovery tanker mission."
+    fields:
+      groupId:
+        type: number
+        description: "The group ID of the naval group to follow and provide tanker services to."
+      speed:
+        type: number
+        description: "Speed of the tanker in meters per second while performing its orbit pattern."
+      altitude:
+        type: number
+        description: "Altitude in meters at which the tanker will orbit above the naval group."
+      lastWptIndexFlag:
+        type: boolean
+        description: "Determines whether the tanker task should terminate when the naval group reaches a specific waypoint."
+      lastWptIndex:
+        type: number
+        description: "Waypoint index of the naval group that, when reached, will cause the recovery tanker to end its task."
+    required: [groupId, speed, altitude] 

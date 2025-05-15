@@ -1,0 +1,40 @@
+globals: {}
+
+types:
+  TaskBombingRunway:
+    kind: record
+    description: "Assigns the AI a task to bomb an airbases runway. By default the AI will line up along the length of the runway and drop its payload."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'BombingRunway'"
+      params:
+        type: TaskBombingRunwayParams
+    required: [id, params]
+    
+  TaskBombingRunwayParams:
+    kind: record
+    description: "Parameters for the BombingRunway task"
+    fields:
+      runwayId:
+        type: number
+        description: "Index of the airbase for which is to be bombed"
+      weaponType:
+        type: number
+        description: "Weapon flag type to use for the attack"
+      expend:
+        type: string
+        description: "Quantity of weapons to expend (QUARTER, TWO, ONE, FOUR, HALF, ALL)"
+      attackQty:
+        type: number
+        description: "Number of times the group will attack the target"
+      attackQtyLimit:
+        type: boolean
+        description: "Whether to use the attackQty parameter"
+      direction:
+        type: number
+        description: "If provided the AI will attack from this azimuth and ignore bombing along the length of the runway"
+      groupAttack:
+        type: boolean
+        description: "If true then each aircraft in the group will attack the runway"
+    required: [runwayId] 

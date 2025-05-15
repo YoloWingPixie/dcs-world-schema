@@ -1,0 +1,86 @@
+globals:
+  Spot:
+    kind: class
+    description: "Represents a targeting designation beam (laser or infrared) used for marking targets in the DCS World environment."
+    addedVersion: "1.2.6"
+    inherits: []
+    instance:
+      destroy:
+        description: "Removes this spot from the mission, immediately terminating the targeting beam."
+        returns: void
+        addedVersion: "1.2.0"
+      getCategory:
+        description: "Returns two category enumerator values identifying this spot's primary and secondary classifications."
+        returns: [Object.Category, Spot.Category]
+        addedVersion: "1.2.0"
+      getCategoryEx:
+        description: "Returns a `Spot.Category` enumerator value indicating whether this spot is infrared or laser."
+        params: []
+        returns: Spot.Category
+        addedVersion: "2.9.2"
+      getPoint:
+        description: "Returns a `Vec3` representing the target point of this beam in the DCS World coordinate system."
+        returns: Vec3
+        addedVersion: "1.2.0"
+      setPoint:
+        description: "Changes the target endpoint of this beam to a new position in the DCS World coordinate system."
+        params:
+          - name: point
+            type: Vec3
+            description: "New target position in the DCS World coordinate system."
+        returns: void
+        addedVersion: "1.2.6"
+      getCode:
+        description: "Returns the 4-digit laser code number used for target designation with this beam."
+        returns: number
+        addedVersion: "1.2.6"
+      setCode:
+        description: "Sets a new 4-digit laser code (1111-1788) for this beam, determining which guided weapons can track it."
+        params:
+          - name: code
+            type: number
+            description: "New laser code value between 1111 and 1788."
+        returns: void
+        addedVersion: "1.2.6"
+    static:
+      createInfraRed:
+        description: "Creates an infrared targeting beam from a source object to a specified point, visible only through night vision devices."
+        params:
+          - name: source
+            type: Object
+            description: "Source object that will emit the infrared beam."
+          - name: localRef
+            type: Vec3 | nil
+            description: "Optional local reference point on the source object. If `nil`, uses the object's center."
+            optional: true
+          - name: point
+            type: Vec3
+            description: "Target point for the infrared beam in the DCS World coordinate system."
+        returns: Spot
+        addedVersion: "1.2.6"
+      createLaser:
+        description: "Creates a laser targeting beam from a source object to a specified point in the DCS World coordinate system."
+        params:
+          - name: source
+            type: Object
+            description: "Source object that will emit the laser beam."
+          - name: localRef
+            type: Vec3 | nil
+            description: "Optional local reference point on the source object. If `nil`, uses the object's center."
+            optional: true
+          - name: point
+            type: Vec3
+            description: "Target point for the laser beam in the DCS World coordinate system."
+          - name: laserCode
+            type: number
+            description: "Optional 4-digit laser code between 1111 and 1788. If omitted, creates an infrared beam."
+            optional: true
+        returns: Spot
+        addedVersion: "1.2.6"
+types:
+  Spot.Category:
+    kind: enum
+    description: "Defines the types of targeting beams available in the DCS World environment."
+    values:
+      INFRA_RED: 0
+      LASER: 1

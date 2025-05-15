@@ -1,0 +1,89 @@
+globals: {}
+
+types:
+  Mission:
+    kind: record
+    description: "Defines the structure of a Lua table representing a route-based mission consisting of waypoints assigned to a group."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'Mission'."
+      params:
+        type: MissionParams
+        description: "A table containing parameters that define the mission configuration."
+    required: [id, params]
+    
+  MissionParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing mission execution parameters and route information."
+    fields:
+      airborne:
+        type: boolean
+        description: "Indicates whether the aircraft group is already airborne when the mission is assigned."
+      route:
+        type: MissionRoute
+        description: "A table containing the route waypoints to be followed during the mission."
+    required: [route]
+    
+  MissionRoute:
+    kind: record
+    description: "Defines the structure of a Lua table containing an ordered sequence of waypoints that form a route."
+    fields:
+      points:
+        type: table
+        description: "A numerically indexed table of waypoint objects that define the mission route."
+    required: [points]
+    
+  MissionWaypoint:
+    kind: record
+    description: "Defines the structure of a Lua table representing a single navigation point within a mission route."
+    fields:
+      type:
+        type: string
+        description: "Waypoint type identifier (e.g., 'TakeOff', 'Land', 'Turning Point')."
+      airdromeId:
+        type: number
+        description: "Unique identifier of the airdrome for takeoff or landing waypoints."
+      timeReFuAr:
+        type: number
+        description: "Time in minutes allocated for refueling and rearming at an airdrome."
+      helipadId:
+        type: number
+        description: "Unique identifier of the helipad for helicopter operations."
+      linkUnit:
+        type: number
+        description: "Unique identifier of the linked unit (same as helipadId but required for certain operations)."
+      action:
+        type: string
+        description: "Turn method the aircraft will use when approaching this waypoint."
+      x:
+        type: number
+        description: "X coordinate of the waypoint in the DCS World coordinate system."
+      y:
+        type: number
+        description: "Y coordinate of the waypoint in the DCS World coordinate system."
+      alt:
+        type: number
+        description: "Altitude of the waypoint in meters."
+      alt_type:
+        type: string
+        description: "Altitude measurement reference ('RADIO' for AGL, 'BARO' for MSL)."
+      speed:
+        type: number
+        description: "Speed in meters per second the aircraft will maintain at this waypoint."
+      speed_locked:
+        type: boolean
+        description: "Determines whether the speed value is fixed and cannot be optimized by AI."
+      ETA:
+        type: number
+        description: "Estimated time of arrival at the waypoint in seconds from mission start."
+      ETA_locked:
+        type: boolean
+        description: "Determines whether the ETA value is fixed and AI must adjust speed to meet it."
+      name:
+        type: string
+        description: "Descriptive name of the waypoint for identification purposes."
+      task:
+        type: table
+        description: "Task to be performed when the aircraft reaches this waypoint."
+    required: [x, y, type, speed, action] 

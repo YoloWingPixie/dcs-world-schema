@@ -1,0 +1,28 @@
+globals: {}
+
+types:
+  CommandSetFrequency:
+    kind: record
+    description: "Defines the structure of a command that changes the radio broadcasting frequency for an AI group."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'SetFrequency'."
+      params:
+        type: CommandSetFrequencyParams
+    required: [id, params]
+
+  CommandSetFrequencyParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the frequency change command."
+    fields:
+      frequency:
+        type: number
+        description: "Radio frequency in Hertz (note: mission editor displays MHz, multiply by 1,000,000 to convert)."
+      modulation:
+        type: number
+        description: "Radio modulation type (0 = AM, 1 = FM)."
+      power:
+        type: number
+        description: "Radio transmit power in watts, determining broadcast range."
+    required: [frequency, modulation, power] 

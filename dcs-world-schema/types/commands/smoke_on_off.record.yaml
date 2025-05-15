@@ -1,0 +1,22 @@
+globals: {}
+
+types:
+  CommandSmokeOnOff:
+    kind: record
+    description: "Defines the structure of a command that toggles aircraft smoke pod emission."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'smoke_on_off'."
+      params:
+        type: CommandSmokeOnOffParams
+    required: [id, params]
+
+  CommandSmokeOnOffParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the smoke toggle command."
+    fields:
+      value:
+        type: boolean
+        description: "Smoke state where true activates smoke emission, false deactivates it."
+    required: [value] 

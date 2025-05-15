@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  TaskEnRouteAWACS:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the aircraft to act as an AWACS for friendly forces."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'awacs'."
+      params:
+        type: TaskEnRouteAWACSParams
+    required: [id, params]
+    
+  TaskEnRouteAWACSParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the AWACS task (no parameters required)."
+    fields: {}
+    required: [] 

@@ -1,0 +1,43 @@
+globals: {}
+
+types:
+  TaskEnRouteEngageUnit:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the controlled group to search for and engage a specific unit. The target must be detected for AI to engage it."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'engageUnit'."
+      params:
+        type: TaskEnRouteEngageUnitParams
+    required: [id, params]
+    
+  TaskEnRouteEngageUnitParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the engageUnit task."
+    fields:
+      unitId:
+        type: number
+        description: "Unique identifier of the target unit."
+      weaponType:
+        type: number
+        description: "Defines the preferred weapon type to engage the enemy."
+      expend:
+        type: string
+        description: "Defines how many munitions the AI will expend per attack run (QUARTER, TWO, ONE, FOUR, HALF, ALL)."
+      attackQty:
+        type: number
+        description: "Number of times the group will attack if the target is still alive and AI still have ammo."
+      direction:
+        type: number
+        description: "Defines the direction from which the flight will engage from (in radians)."
+      attackQtyLimit:
+        type: boolean
+        description: "Determines if the attack quantity limit is enabled."
+      groupAttack:
+        type: boolean
+        description: "If true, each aircraft in the group will attack the unit."
+      priority:
+        type: number
+        description: "The priority of the tasking, where lower numbers indicate higher importance (default: 0)."
+    required: [unitId] 

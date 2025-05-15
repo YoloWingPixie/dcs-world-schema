@@ -1,0 +1,245 @@
+version: '3'
+
+vars:
+  SCHEMA_DIR: ./dcs-world-schema
+  DIST_DIR: ./dist
+  OUTPUT_SCHEMA_JSON: "{{.DIST_DIR}}/dcs-world-api-schema.json"
+  OUTPUT_SCHEMA_YAML: "{{.DIST_DIR}}/dcs-world-api-schema.yaml"
+  OUTPUT_LUA: "{{.DIST_DIR}}/dcs-world-api.lua"
+  OUTPUT_TS: "{{.DIST_DIR}}/dcs-world-api.d.ts"
+  OUTPUT_GO: "{{.DIST_DIR}}/dcs-world-api.go"
+  OUTPUT_PYTHON: "{{.DIST_DIR}}/dcs_world_api.py"
+  DCS_API_DUMP: ./reference_data/dcs_world_api_dump_latest.json
+  LINT_TARGETS: "{{.SCHEMA_DIR}}/*.yaml"
+  SRC_PY: ./tools
+
+tasks:
+  setup:
+    desc: "Install uv and sync dependencies"
+    cmds:
+      - task: setup:{{OS}}
+      - task: uv:sync
+
+  setup:windows:
+    internal: true
+    silent: true
+    platforms: [windows]
+    cmds:
+      - echo "Checking for uv installation..."
+      - |
+        powershell -Command "
+        if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
+          Write-Host 'Installing uv...'
+          try {
+            # Preferred method using irm
+            Write-Host 'Using Invoke-RestMethod to install uv...'
+            powershell -ExecutionPolicy ByPass -c 'irm https://astral.sh/uv/install.ps1 | iex'
+          } catch {
+            Write-Host 'Falling back to curl method...'
+            curl -LsSf https://astral.sh/uv/install.sh -o install.ps1
+            powershell -ExecutionPolicy ByPass -File install.ps1
+            Remove-Item install.ps1
+          }
+        } else {
+          Write-Host 'uv is already installed'
+        }"
+      - echo "Syncing dependencies with uv..."
+      - powershell -Command "uv sync"
+      - echo "✅ Dependencies installed successfully"
+
+  setup:darwin:
+    silent: true
+    internal: true
+    platforms: [darwin]
+    cmds:
+      - echo "Checking for uv installation..."
+      - |
+        if ! command -v uv &> /dev/null; then
+          echo "Installing uv..."
+          # Try Homebrew first
+          if command -v brew &> /dev/null; then
+            echo "Using Homebrew to install uv..."
+            brew install uv
+          else
+            # Fall back to the standalone installer
+            echo "Using curl to install uv..."
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+          fi
+        else
+          echo "uv is already installed"
+        fi
+      - echo "Syncing dependencies with uv..."
+      - uv sync
+      - echo "✅ Dependencies installed successfully"
+
+  setup:linux:
+    silent: true
+    internal: true
+    platforms: [linux]
+    cmds:
+      - echo "Checking for uv installation..."
+      - |
+        if ! command -v uv &> /dev/null; then
+          echo "Installing uv..."
+          # Try curl first
+          if command -v curl &> /dev/null; then
+            echo "Using curl to install uv..."
+            curl -LsSf https://astral.sh/uv/install.sh | sh
+          elif command -v wget &> /dev/null; then
+            echo "Using wget to install uv..."
+            wget -qO- https://astral.sh/uv/install.sh | sh
+          else
+            # Fall back to pip or pipx if available
+            if command -v pipx &> /dev/null; then
+              echo "Using pipx to install uv..."
+              pipx install uv
+            elif command -v pip &> /dev/null; then
+              echo "Using pip to install uv..."
+              pip install uv
+            else
+              echo "Error: Could not find curl, wget, pipx, or pip to install uv"
+              exit 1
+            fi
+          fi
+        else
+          echo "uv is already installed"
+        fi
+      - echo "Syncing dependencies with uv..."
+      - uv sync
+      - echo "✅ Dependencies installed successfully"
+
+  uv:sync:
+    desc: "Install the tools"
+    cmds:
+      - uv sync
+
+  default:
+    desc: "Run the full validation pipeline"
+    cmds: []
+    silent: true
+    deps:
+      - ci
+
+  clean:
+    desc: "Remove generated artifacts for a fresh run"
+    cmds:
+      - task: clean:{{OS}}
+
+  clean:windows:
+    internal: true
+    platforms: [windows]
+    cmds:
+      - powershell -Command "if (Test-Path '{{.DIST_DIR}}') { Remove-Item -Recurse -Force '{{.DIST_DIR}}' }"
+      - powershell -Command "New-Item -ItemType Directory -Force -Path '{{.DIST_DIR}}'"
+
+  clean:linux:
+    internal: true
+    platforms: [linux, darwin]
+    cmds:
+      - rm -rf {{.DIST_DIR}}
+      - mkdir -p {{.DIST_DIR}}
+
+  merge:
+    desc: "Merge all source YAML into a single JSON and YAML schema"
+    deps:
+      - merge:json
+      - merge:yaml
+
+  merge:json:
+    desc: "Merge all source YAML into a single JSON schema"
+    cmds:
+      - echo "Merging YAML files from {{.SCHEMA_DIR}} into {{.OUTPUT_SCHEMA_JSON}}..."
+      - uv run ./tools/merge.py {{.OUTPUT_SCHEMA_JSON}} --root {{.SCHEMA_DIR}} -f json
+
+  merge:yaml:
+    desc: "Merge all source YAML into a single YAML schema"
+    cmds:
+      - echo "Merging YAML files from {{.SCHEMA_DIR}} into {{.OUTPUT_SCHEMA_YAML}}..."
+      - uv run ./tools/merge.py {{.OUTPUT_SCHEMA_YAML}} --root {{.SCHEMA_DIR}} -f yaml
+
+  validate:
+    desc: "Validate all YAML files in the schema directory"
+    cmds:
+      - echo "Validating files in {{.SCHEMA_DIR}}..."
+      - "uv run ./tools/validate.py {{.SCHEMA_DIR}}"
+
+  "validate:file":
+    desc: "Validate a single YAML file (usage: task validate:file -- <path>)"
+    cmds:
+      - |
+        [ -n "{{.CLI_ARGS}}" ] || (echo "Provide a file path after --, e.g. task validate:file -- ./foo.yaml" && exit 1)
+      - echo "Validating {{.CLI_ARGS}}..."
+      - "uv run ./tools/validate.py {{.CLI_ARGS}}"
+
+  validate-types:
+    desc: "Ensure all referenced types exist in the merged spec"
+    deps:
+      - merge
+    cmds:
+      - "uv run ./tools/validate_types.py {{.OUTPUT_SCHEMA_JSON}}"
+
+  verify:
+    desc: "Compare generated schema with the official DCS API dump"
+    deps:
+      - merge
+    cmds:
+      - "uv run ./tools/verify.py {{.OUTPUT_SCHEMA_JSON}} {{.DCS_API_DUMP}}"
+
+  "fmt:py":
+    desc: "Auto-format Python tool scripts"
+    cmds:
+      - "uv run ruff check --fix {{.SRC_PY}}"
+      - "uv run ruff format {{.SRC_PY}}"
+
+  build:lua:
+    desc: "Generate EmmyLua type definitions from the schema"
+    deps:
+      - merge:json
+    cmds:
+      - echo "Generating EmmyLua type definitions to {{.OUTPUT_LUA}}..."
+      - "uv run python ./tools/export_lua.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_LUA}}"
+
+  build:typescript:
+    desc: "Generate TypeScript definitions from the schema"
+    deps:
+      - merge:json
+    cmds:
+      - echo "Generating TypeScript definitions to {{.OUTPUT_TS}}..."
+      - "uv run python ./tools/export_typescript.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_TS}}"
+
+  build:golang:
+    desc: "Generate Go struct definitions from the schema"
+    deps:
+      - merge:json
+    cmds:
+      - echo "Generating Go struct definitions to {{.OUTPUT_GO}}..."
+      - "uv run python ./tools/export_golang.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_GO}}"
+
+  build:python:
+    desc: "Generate Python definitions from the schema"
+    deps:
+      - merge:json
+    cmds:
+      - echo "Generating Python definitions to {{.OUTPUT_PYTHON}}..."
+      - "uv run python ./tools/export_python.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_PYTHON}}"
+
+  build:
+    desc: "Generate all exportable formats"
+    deps:
+      - build:lua
+      - build:typescript
+      - build:golang
+      - build:python
+    cmds: []
+
+  ci:
+    desc: "Aggregate tasks suitable for CI pipeline"
+    deps:
+      - setup
+      - clean
+      - merge
+      - validate
+      - validate-types
+      - verify
+      - "fmt:py"
+    cmds: []

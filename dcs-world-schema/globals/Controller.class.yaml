@@ -1,0 +1,230 @@
+globals:
+  Controller:
+    kind: class
+    description: "Represents an AI behavior controller that manages tasking, commands, and detection capabilities for units and groups in the DCS World environment."
+    addedVersion: "1.2.0"
+    inherits: []
+    instance:
+      setTask:
+        description: "Assigns a task to this controller's associated units or groups, replacing any current task in the queue."
+        params:
+          - name: task
+            description: "Table defining either a main task or enroute task to assign"
+            type: ControllerTask
+        returns: nil
+      resetTask:
+        description: "Clears all tasks from this controller's task queue, causing controlled units to cease their current activity."
+        params: []
+        returns: nil
+      pushTask:
+        description: "Adds a task to the front of this controller's task queue, making it the highest priority task to execute."
+        params:
+          - name: task
+            description: "Table defining either a main task or enroute task to prioritize"
+            type: ControllerTask
+        returns: nil
+      popTask:
+        description: "Removes the highest priority task from this controller's task queue."
+        params: []
+        returns: nil
+      hasTask:
+        description: "Returns `true` if this controller currently has at least one task in its queue."
+        params: []
+        returns: boolean
+      setCommand:
+        description: "Issues an immediate command to this controller that executes instantly and does not affect the current task queue."
+        params:
+          - name: command
+            description: "Table defining the command to execute"
+            type: ControllerCommand
+        returns: nil
+      setOption:
+        description: "Configures a behavior option for this controller that affects how it performs all tasks and commands."
+        params:
+          - name: optionId
+            description: "Option identifier from AI.Option namespaces (Air, Ground, or Naval)"
+            type: AIOptionId
+          - name: optionValue
+            description: "Value to set for the specified option"
+            type: number | boolean | string | FormationType
+        returns: nil
+      setOnOff:
+        description: "Enables or disables the AI behavior for this controller's ground or naval units. Note: Does not work with aircraft or helicopters."
+        params:
+          - name: value
+            description: "`true` to enable AI behavior, `false` to disable"
+            type: boolean
+        returns: nil
+      setAltitude:
+        description: "Sets the altitude for this controller's aircraft group, with options to maintain across waypoints and specify altitude type."
+        params:
+          - name: altitude
+            description: "Target altitude in meters"
+            type: number
+          - name: keep
+            description: "`true` to maintain altitude across waypoints, `false` to return to route-defined altitudes"
+            type: boolean
+            optional: true
+          - name: altType
+            description: "Altitude reference type: \"BARO\" (barometric) or \"RADIO\" (radar)"
+            type: string
+            optional: true
+        returns: nil
+      setSpeed:
+        description: "Sets the movement speed for this controller's group, with option to maintain across waypoints."
+        params:
+          - name: speed
+            description: "Target speed in meters per second"
+            type: number
+          - name: keep
+            description: "`true` to maintain speed across waypoints, `false` to return to route-defined speeds"
+            type: boolean
+            optional: true
+        returns: nil
+      knowTarget:
+        description: "Forces a unit-level controller to have awareness of a specific target without natural detection. Note: Does not work at group level."
+        params:
+          - name: object
+            description: "Target object to become aware of"
+            type: Object
+          - name: type
+            description: "`true` to know the target type, `false` otherwise"
+            type: boolean
+          - name: distance
+            description: "`true` to know the target distance, `false` otherwise"
+            type: boolean
+        returns: nil
+      isTargetDetected:
+        description: "Returns multiple values indicating whether and how the specified target is detected by this controller's unit or group."
+        params:
+          - name: Target
+            type: Object
+            description: "Target object to check detection status"
+          - name: detectionType1
+            description: "First detection method to check"
+            type: Controller.Detection
+            optional: true
+          - name: detectionType2
+            description: "Second detection method to check"
+            type: Controller.Detection
+            optional: true
+          - name: detectionType3
+            description: "Third detection method to check"
+            type: Controller.Detection
+            optional: true
+        returns:
+          - boolean
+          - boolean
+          - number
+          - boolean
+          - boolean
+          - Vec3
+          - Vec3
+      getDetectedTargets:
+        description: "Returns a numerically indexed table of tables containing detection information about targets detected by this controller, optionally filtered by detection methods."
+        params:
+          - name: detectionType1
+            description: "First detection method to filter by"
+            type: Controller.Detection
+            optional: true
+          - name: detectionType2
+            description: "Second detection method to filter by"
+            type: Controller.Detection
+            optional: true
+          - name: detectionType3
+            description: "Third detection method to filter by"
+            type: Controller.Detection
+            optional: true
+        returns: ControllerDetectedTargetArray
+    static: {}
+    properties: {}
+types:
+  ControllerDetectedTarget:
+    kind: record
+    description: "Defines the structure of a Lua table representing a target detected by a controller, including its object reference and detection details."
+    fields:
+      object:
+        type: Object
+        description: "Reference to the detected target object."
+      visible:
+        type: boolean
+        description: "Whether the target is currently visible via line of sight."
+      type:
+        type: boolean
+        description: "Whether the target's specific type is known to the detector."
+      distance:
+        type: boolean
+        description: "Whether the distance to the target is known to the detector."
+  ControllerDetectedTargetArray:
+    kind: array
+    arrayOf: ControllerDetectedTarget
+    description: "Represents a numerically indexed Lua table (sequence) where each element is a table containing information about a detected target."
+  ControllerTask:
+    kind: union
+    description: "Represents a Lua table structure defining either a main task or an enroute task that can be assigned to a controller to direct AI behavior."
+    anyOf:
+      - TaskAttackGroup
+      - TaskAttackUnit
+      - TaskBombing
+      - TaskBombingRunway
+      - TaskCarpetBombing
+      - TaskAttackMapObject
+      - TaskStrafing
+      - TaskOrbit
+      - TaskRefueling
+      - TaskLand
+      - TaskFollow
+      - TaskFollowBigFormation
+      - TaskEscort
+      - TaskFireAtPoint
+      - TaskHold
+      - TaskFACAttackGroup
+      - TaskGroundEscort
+      - TaskRecoveryTanker
+      - TaskEnRouteEngageTargets
+      - TaskEnRouteEngageTargetsInZone
+      - TaskEnRouteEngageGroup
+      - TaskEnRouteEngageUnit
+      - TaskEnRouteAWACS
+      - TaskEnRouteTanker
+      - TaskEnRouteEWR
+      - TaskEnRouteFAC
+      - TaskEnRouteFACEngageGroup
+  ControllerCommand:
+    kind: union
+    description: "Represents a Lua table structure defining an immediate command that can be issued to a controller to affect AI behavior without modifying tasks."
+    anyOf:
+      - CommandScript
+      - CommandSetCallsign
+      - CommandSetFrequency
+      - CommandSetFrequencyForUnit
+      - CommandSwitchWaypoint
+      - CommandStopRoute
+      - CommandSwitchAction
+      - CommandSetInvisible
+      - CommandSetImmortal
+      - CommandSetUnlimitedFuel
+      - CommandActivateBeacon
+      - CommandDeactivateBeacon
+      - CommandActivateICLS
+      - CommandDeactivateICLS
+      - CommandEPLRS
+      - CommandStart
+      - CommandTransmitMessage
+      - CommandStopTransmission
+      - CommandSmokeOnOff
+      - CommandActivateLink4
+      - CommandDeactivateLink4
+      - CommandActivateACLS
+      - CommandDeactivateACLS
+      - CommandLoadingShip
+  Controller.Detection:
+    kind: enum
+    description: "Enumerator for detection method types, used to specify or filter how controllers detect targets in the DCS World environment."
+    values:
+      VISUAL: 1
+      OPTIC: 2
+      RADAR: 4
+      IRST: 8
+      RWR: 16
+      DLINK: 32 

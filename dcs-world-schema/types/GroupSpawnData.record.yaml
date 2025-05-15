@@ -1,0 +1,40 @@
+globals: {}
+
+types:
+  GroupSpawnData:
+    kind: record
+    description: "Defines the structure of a Lua table representing a group to be spawned with coalition.addGroup or coalition.add_dyn_group functions."
+    fields:
+      name:
+        type: string
+        description: "A string identifier for the group, must be unique within the mission."
+      task:
+        type: string
+        description: "The primary mission task assigned to the group, determines default behavior patterns."
+      units:
+        type: table
+        description: "A numerically indexed table of unit definitions for all units in the group, each containing position, type, and other properties."
+      x:
+        type: number
+        description: "X coordinate of the group's reference position in the DCS World coordinate system."
+      y:
+        type: number
+        description: "Y coordinate of the group's reference position in the DCS World coordinate system."
+      start_time:
+        type: number
+        description: "Time in seconds after mission start when the group will spawn (0 for immediate spawn)."
+      visible:
+        type: boolean
+        description: "Controls visibility of the group before its scheduled start time in the mission editor."
+      taskSelected:
+        type: boolean
+        description: "Indicates if the task is selected for execution when the group spawns."
+      route:
+        type: table
+        description: "A table defining waypoints and assigned tasks for the group's route, determining movement patterns."
+      hidden:
+        type: boolean
+        description: "Controls visibility of the group on the F10 map view for players."
+      groupId:
+        type: number
+        description: "Optional unique numeric identifier for the group, used for scripting references." 

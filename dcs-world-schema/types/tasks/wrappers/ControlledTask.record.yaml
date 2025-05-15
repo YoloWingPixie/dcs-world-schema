@@ -1,0 +1,66 @@
+globals: {}
+
+types:
+  ControlledTask:
+    kind: record
+    description: "Defines the structure of a Lua table representing a task with start and stop conditions that determine when to execute and terminate the task."
+    fields:
+      id:
+        type: string
+        description: "Task identifier, must be 'ControlledTask'."
+      params:
+        type: ControlledTaskParams
+        description: "A table containing parameters that configure the task execution conditions."
+    required: [id, params]
+    
+  ControlledTaskParams:
+    kind: record
+    description: "Defines the structure of a Lua table detailing configuration options for controlled task execution."
+    fields:
+      task:
+        type: table
+        description: "The task to be executed."
+      condition:
+        type: ControlledTaskCondition
+        description: "A table specifying the conditions that must be met for the task to start."
+      stopCondition:
+        type: ControlledTaskStopCondition
+        description: "A table specifying the conditions that will trigger task termination."
+    required: [task]
+    
+  ControlledTaskCondition:
+    kind: record
+    description: "Defines the structure of a Lua table detailing conditions that must be met for a task to start."
+    fields:
+      time:
+        type: number
+        description: "Time in seconds since mission start when the task should begin."
+      userFlag:
+        type: string
+        description: "Flag identifier to check for task activation."
+      userFlagValue:
+        type: boolean
+        description: "Required value of the user flag to activate the task."
+      probability:
+        type: number
+        description: "Probability (0-100) that the task will execute when conditions are met."
+    
+  ControlledTaskStopCondition:
+    kind: record
+    description: "Defines the structure of a Lua table detailing conditions that will trigger task termination."
+    fields:
+      time:
+        type: number
+        description: "Time in seconds since mission start when the task should terminate."
+      userFlag:
+        type: string
+        description: "Flag identifier to check for task termination."
+      userFlagValue:
+        type: boolean
+        description: "Required value of the user flag to terminate the task."
+      duration:
+        type: number
+        description: "Duration in seconds that the task will run before terminating."
+      lastWaypoint:
+        type: number
+        description: "Waypoint number that, when reached, will terminate the task." 

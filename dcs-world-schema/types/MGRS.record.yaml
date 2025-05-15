@@ -1,0 +1,24 @@
+globals: {}
+types:
+  MGRS:
+    kind: record
+    description: "Defines the structure of a Lua table representing a Military Grid Reference System (MGRS) coordinate used for precise position referencing in the DCS World."
+    addedVersion: "1.2.0"
+    fields:
+      UTMZone:
+        type: string
+        description: "The Universal Transverse Mercator (UTM) zone designation indicating the longitude zone."
+      MGRSDigraph:
+        type: string
+        description: "The MGRS grid square designator consisting of two letters identifying a specific 100km square."
+      Easting:
+        type: number
+        description: "Easting coordinate in meters, measuring the distance eastward from the zone's central meridian."
+      Northing:
+        type: number
+        description: "Northing coordinate in meters, measuring the distance northward from the equator."
+    required:
+      - UTMZone
+      - MGRSDigraph
+      - Easting
+      - Northing

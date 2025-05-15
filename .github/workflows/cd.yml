@@ -1,0 +1,140 @@
+name: DCS World Schema CD
+
+on:
+  workflow_run:
+    workflows: ["DCS World Schema CI"]
+    types:
+      - completed
+    branches:
+      - main
+
+jobs:
+  release:
+    name: 📦 Create Release
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          
+      - name: 🔧 Install uv and task
+        run: |
+          pip install uv
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          
+      - name: 📚 Install dependencies
+        run: task uv:sync
+        
+      - name: 🔍 Check if VERSION changed
+        id: check_version
+        run: |
+          git fetch origin main
+          VERSION=$(cat VERSION)
+          echo "Current version: $VERSION"
+          
+          # Check if VERSION exists in main
+          if git ls-remote --exit-code --heads origin main >/dev/null 2>&1; then
+            if git show origin/main:VERSION >/dev/null 2>&1; then
+              MAIN_VERSION=$(git show origin/main:VERSION)
+              echo "Main version: $MAIN_VERSION"
+              
+              if [ "$VERSION" != "$MAIN_VERSION" ]; then
+                echo "VERSION file has been updated!"
+                echo "version=$VERSION" >> $GITHUB_OUTPUT
+                echo "version_changed=true" >> $GITHUB_OUTPUT
+              else
+                echo "VERSION file unchanged, skipping release."
+                echo "version_changed=false" >> $GITHUB_OUTPUT
+              fi
+            else
+              echo "VERSION file is new in this branch, creating initial release."
+              echo "version=$VERSION" >> $GITHUB_OUTPUT
+              echo "version_changed=true" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "Main branch does not exist yet, creating initial release."
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "version_changed=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: 🏷️ Determine release type and RC number
+        id: release_type
+        run: |
+          if [[ "${{ github.event.workflow_run.event }}" == "pull_request" ]]; then
+            echo "is_prerelease=true" >> $GITHUB_OUTPUT
+            echo "release_prefix=Release Candidate" >> $GITHUB_OUTPUT
+            
+            # Get the current version
+            VERSION=$(cat VERSION)
+            
+            # Find existing RC tags for this version to determine next RC number
+            git fetch --tags
+            EXISTING_RCS=$(git tag -l "v${VERSION}-rc*" | sort -V)
+            
+            if [ -z "$EXISTING_RCS" ]; then
+              # No existing RCs, start with rc1
+              RC_NUM=1
+            else
+              # Get the latest RC number and increment it
+              LATEST_RC=$(echo "$EXISTING_RCS" | tail -n 1)
+              LATEST_RC_NUM=$(echo "$LATEST_RC" | grep -o 'rc[0-9]*' | sed 's/rc//')
+              RC_NUM=$((LATEST_RC_NUM + 1))
+            fi
+            
+            echo "rc_suffix=-rc${RC_NUM}" >> $GITHUB_OUTPUT
+            echo "rc_number=${RC_NUM}" >> $GITHUB_OUTPUT
+            echo "Creating Release Candidate ${RC_NUM} for version ${VERSION}"
+          else
+            echo "is_prerelease=false" >> $GITHUB_OUTPUT
+            echo "release_prefix=Release" >> $GITHUB_OUTPUT
+            echo "rc_suffix=" >> $GITHUB_OUTPUT
+            echo "rc_number=" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 🔄 Build Schemas
+        if: steps.check_version.outputs.version_changed == 'true'
+        run: |
+          echo "::group::Merge YAML to JSON and YAML"
+          task merge
+          echo "::endgroup::"
+      
+      - name: 🚀 Create Release
+        if: steps.check_version.outputs.version_changed == 'true'
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.check_version.outputs.version }}${{ steps.release_type.outputs.rc_suffix }}
+          name: ${{ steps.release_type.outputs.is_prerelease == 'true' && 'Release Candidate' || 'Release' }} v${{ steps.check_version.outputs.version }}${{ steps.release_type.outputs.rc_number && ' RC' || '' }}${{ steps.release_type.outputs.rc_number }}
+          body: |
+            ## DCS World Schema ${{ steps.release_type.outputs.release_prefix }} v${{ steps.check_version.outputs.version }}${{ steps.release_type.outputs.rc_number && ' RC' || '' }}${{ steps.release_type.outputs.rc_number }}
+            
+            This ${{ steps.release_type.outputs.release_prefix }} contains ${{ steps.release_type.outputs.is_prerelease == 'true' && 'development' || 'updated' }} schema definitions for DCS World API.
+            
+            ### Assets:
+            - JSON Schema: `dcs-world-api-schema.json`
+            - YAML Schema: `dcs-world-api-schema.yaml`
+          files: |
+            dist/dcs-world-api-schema.json
+            dist/dcs-world-api-schema.yaml
+          draft: false
+          prerelease: ${{ steps.release_type.outputs.is_prerelease }}
+          fail_on_unmatched_files: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 📢 Notify about release
+        if: steps.check_version.outputs.version_changed == 'true'
+        run: |
+          if [[ "${{ steps.release_type.outputs.is_prerelease }}" == "true" ]]; then
+            echo "::notice title=Release Candidate Created::New Release Candidate v${{ steps.check_version.outputs.version }} RC${{ steps.release_type.outputs.rc_number }} has been created successfully!"
+          else
+            echo "::notice title=Release Created::New Release v${{ steps.check_version.outputs.version }} has been created successfully!"
+          fi

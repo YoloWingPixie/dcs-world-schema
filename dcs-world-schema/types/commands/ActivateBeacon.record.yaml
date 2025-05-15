@@ -1,0 +1,34 @@
+globals: {}
+
+types:
+  CommandActivateBeacon:
+    kind: record
+    description: "Defines the structure of a command that activates a radio navigation beacon on a unit or group."
+    fields:
+      id:
+        type: string
+        description: "Command identifier that must be 'ActivateBeacon'."
+      params:
+        type: CommandActivateBeaconParams
+    required: [id, params]
+
+  CommandActivateBeaconParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the beacon activation command."
+    fields:
+      type:
+        type: BeaconType
+        description: "Beacon type identifier determining its functional characteristics."
+      system:
+        type: BeaconSystemName
+        description: "Navigation system that will process the beacon signal."
+      frequency:
+        type: number
+        description: "Broadcast frequency in Hertz for the navigation beacon."
+      callsign:
+        type: string
+        description: "Morse code identifier transmitted by the beacon for identification."
+      name:
+        type: string
+        description: "Descriptive name for the beacon shown in the mission editor interface."
+    required: [type, system, frequency, callsign] 

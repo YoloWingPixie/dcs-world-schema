@@ -1,0 +1,254 @@
+globals: {}
+types:
+  Unit.Category:
+    kind: enum
+    description: "Enumerator for unit categories, used to classify entities by their basic type and operational domain."
+    values:
+      AIRPLANE: 0
+      HELICOPTER: 1
+      GROUND_UNIT: 2
+      SHIP: 3
+      STRUCTURE: 4
+
+  Unit.RefuelingSystem:
+    kind: enum
+    description: "Enumerator for aerial refueling system types, used to specify compatible air-to-air refueling equipment configurations."
+    values:
+      BOOM_AND_RECEPTACLE: 0
+      PROBE_AND_DROGUE: 1
+
+  Unit.SensorType:
+    kind: enum
+    description: "Enumerator for sensor system categories, used to classify detection and targeting equipment on units."
+    values:
+      OPTIC: 0
+      RADAR: 1
+      IRST: 2
+      RWR: 3
+
+  Unit.OpticType:
+    kind: enum
+    description: "Enumerator for optical sensor technologies, used to specify visual detection capabilities of units."
+    values:
+      TV: 0
+      LLTV: 1
+      IR: 2
+
+  Unit.RadarType:
+    kind: enum
+    description: "Enumerator for radar system classifications, used to differentiate between air search and surface search capabilities."
+    values:
+      AS: 0
+      SS: 1
+
+  UnitAttributes:
+    kind: record
+    description: "A table of capability and characteristic flags that define the features and abilities of a unit. Fields correspond to attributes from the Attributes enum."
+    fields: {}
+
+  UnitAmmoDesc:
+    kind: record
+    description: "Defines the structure of a Lua table representing the specifications and capabilities of a weapon or ammunition type available to a unit."
+    fields:
+      missileCategory:
+        type: Weapon.MissileCategory | nil
+      rangeMaxAltMax:
+        type: number | nil
+        description: "A numeric value representing the maximum weapon range in meters when fired at maximum altitude."
+      rangeMin:
+        type: number | nil
+        description: "A numeric value representing the minimum effective range of the weapon in meters."
+      displayName:
+        type: string
+        description: "A string containing the human-readable name of the weapon as displayed in the DCS World interface."
+      rangeMaxAltMin:
+        type: number | nil
+        description: "A numeric value representing the maximum weapon range in meters when fired at minimum altitude."
+      altMax:
+        type: number | nil
+        description: "A numeric value representing the maximum altitude in meters at which the weapon can be effectively used."
+      RCS:
+        type: Box3 | nil
+        description: "A `Box3` representing the radar cross-section characteristics of the weapon."
+      box:
+        type: Box3 | nil
+        description: "A box (two Vec3 points) representing the physical dimensions of the weapon in the DCS World coordinate system."
+      altMin:
+        type: number | nil
+        description: "A numeric value representing the minimum altitude in meters at which the weapon can be effectively used."
+      life:
+        type: number | nil
+        description: "A numeric value representing the weapon's health or structural integrity."
+      fuseDist:
+        type: number | nil
+        description: "A numeric value representing the distance in meters at which the weapon's fuse activates."
+      category:
+        type: Weapon.Category | nil
+      guidance:
+        type: Weapon.GuidanceType | nil
+      warhead:
+        type: WeaponWarheadDetails | nil
+      typeName:
+        type: string
+        description: "A string containing the internal type identifier for the weapon."
+      Nmax:
+        type: number | nil
+        description: "A numeric value representing the maximum G-load the weapon can withstand."
+
+  UnitAmmoItem:
+    kind: record
+    description: "Defines the structure of a Lua table representing a specific weapon or ammunition type and its quantity in a unit's inventory."
+    fields:
+      count:
+        type: number
+        description: "A numeric value indicating the quantity of this ammunition type available to the unit."
+      desc:
+        type: UnitAmmoDesc
+        description: "A table representing the specifications and capabilities of this ammunition type."
+
+  UnitSensorHemisphereDistance:
+    kind: record
+    description: "Defines the structure of a Lua table representing detection ranges based on aspect angle within a hemisphere."
+    fields:
+      tailOn:
+        type: number
+        description: "A numeric value representing the maximum detection distance in meters when facing the rear of the target."
+      headOn:
+        type: number
+        description: "A numeric value representing the maximum detection distance in meters when facing the front of the target."
+
+  UnitSensorDetectionDistanceAir:
+    kind: record
+    description: "Defines the structure of a Lua table representing a sensor's air target detection capabilities in different hemispheres."
+    fields:
+      upperHemisphere:
+        type: UnitSensorHemisphereDistance
+        description: "A table representing detection distances for targets positioned above the sensor's horizontal plane."
+      lowerHemisphere:
+        type: UnitSensorHemisphereDistance
+        description: "A table representing detection distances for targets positioned below the sensor's horizontal plane."
+
+  UnitSensor:
+    kind: record
+    description: "Defines the structure of a Lua table representing a sensor system's capabilities and technical specifications."
+    fields:
+      type:
+        type: Unit.SensorType
+        description: "An `Unit.SensorType` enumerator specifying the general category of the sensor system."
+      typeName:
+        type: string
+        description: "A string containing the specific model name or designation of the sensor."
+      detectionDistanceAir:
+        type: UnitSensorDetectionDistanceAir | nil
+        description: "A table containing the sensor's detection ranges against aerial targets from different aspects."
+      detectionDistanceIdle:
+        type: number | nil
+        description: "A numeric value representing the maximum detection distance in meters against idle (non-emitting) targets."
+      detectionDistanceMaximal:
+        type: number | nil
+        description: "A numeric value representing the maximum absolute detection distance in meters under optimal conditions."
+      detectionDistanceAfterburner:
+        type: number | nil
+        description: "A numeric value representing the maximum detection distance in meters against targets using afterburner."
+
+  UnitDesc:
+    kind: record
+    description: "Defines the structure of a Lua table representing the basic properties and capabilities common to all unit types in the DCS World."
+    fields:
+      typeName:
+        type: string
+        description: "A string containing the internal identifier for the unit type used by the DCS World engine."
+      displayName:
+        type: string
+        description: "A string containing the human-readable name of the unit as shown in the DCS World interface."
+      category:
+        type: Unit.Category
+        description: "An `Unit.Category` enumerator specifying the basic classification of the unit."
+      massEmpty:
+        type: number
+        description: "A numeric value representing the unit's empty weight in kilograms."
+      speedMax:
+        type: number
+        description: "A numeric value representing the unit's maximum speed in meters per second."
+      life:
+        type: number
+        description: "A numeric value representing the unit's total health or structural integrity."
+      RCS:
+        type: number | nil
+        description: "A numeric value representing the unit's radar cross-section signature."
+      box:
+        type: Box3 | nil
+        description: "A box (two Vec3 points) representing the unit's physical dimensions in the DCS World coordinate system."
+      attributes:
+        type: UnitAttributes
+        description: "A table defining special characteristics and capabilities of the unit."
+      Kmax:
+        type: number | nil
+        description: "A numeric coefficient related to the unit's performance characteristics."
+      Kab:
+        type: number | nil
+        description: "A numeric coefficient related to afterburner performance for aircraft."
+
+  UnitDescAircraft:
+    kind: record
+    description: "Defines the structure of a Lua table representing common properties specific to both airplane and helicopter units in the DCS World. Includes all fields from UnitDesc plus the following aircraft-specific fields."
+    fields:
+      fuelMassMax:
+        type: number
+        description: "A numeric value representing the maximum internal fuel capacity in kilograms."
+      range:
+        type: number
+        description: "A numeric value representing the maximum operational range in meters at standard cruise settings."
+      Hmax:
+        type: number
+        description: "A numeric value representing the service ceiling (maximum operational altitude) in meters."
+      VyMax:
+        type: number
+        description: "A numeric value representing the maximum rate of climb in meters per second."
+      NyMin:
+        type: number
+        description: "A numeric value representing the minimum safe negative G-load limit."
+      NyMax:
+        type: number
+        description: "A numeric value representing the maximum safe positive G-load limit."
+      tankerType:
+        type: Unit.RefuelingSystem
+        description: "An `Unit.RefuelingSystem` enumerator specifying the aerial refueling system installed, if any."
+
+  UnitDescAirplane:
+    kind: record
+    description: "Defines the structure of a Lua table representing performance characteristics specific to fixed-wing aircraft in the DCS World. Includes all fields from UnitDesc and UnitDescAircraft plus the following airplane-specific fields."
+    fields:
+      speedMax0:
+        type: number
+        description: "A numeric value representing the maximum true airspeed in meters per second at sea level."
+      speedMax10K:
+        type: number
+        description: "A numeric value representing the maximum true airspeed in meters per second at 10,000 meters altitude."
+
+  UnitDescHelicopter:
+    kind: record
+    description: "Defines the structure of a Lua table representing performance characteristics specific to rotary-wing aircraft in the DCS World. Includes all fields from UnitDesc and UnitDescAircraft plus the following helicopter-specific fields."
+    fields:
+      HmaxStat:
+        type: number
+        description: "A numeric value representing the maximum hover ceiling in meters (altitude at which the helicopter can maintain a stable hover)."
+
+  UnitDescVehicle:
+    kind: record
+    description: "Defines the structure of a Lua table representing performance characteristics specific to ground vehicles in the DCS World. Includes all fields from UnitDesc plus the following vehicle-specific fields."
+    fields:
+      maxSlopeAngle:
+        type: number
+        description: "A numeric value representing the maximum terrain slope angle in radians that the vehicle can traverse."
+      riverCrossing:
+        type: boolean
+        description: "A boolean value indicating whether the vehicle has amphibious capabilities to cross water obstacles."
+      speedMaxOffRoad:
+        type: number | nil
+        description: "A numeric value representing the maximum speed in meters per second when traveling on unpaved terrain."
+
+  UnitDescShip:
+    kind: record
+    description: "Defines the structure of a Lua table representing performance characteristics specific to naval vessels in the DCS World. Includes all fields from UnitDesc plus any ship-specific fields."
+    fields: {}

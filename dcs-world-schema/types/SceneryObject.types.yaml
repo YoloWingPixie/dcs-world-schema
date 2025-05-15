@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  SceneryObjectDesc:
+    kind: record
+    description: "Defines the structure of a Lua table representing a scenery object's properties and physical characteristics in the DCS World."
+    fields:
+      life:
+        type: number
+        description: "A numeric value representing the initial health or integrity level of the scenery object."
+      box:
+        type: Box3
+        description: "A box (two Vec3 points) representing the three-dimensional collision boundaries of the scenery object in the DCS World coordinate system."
+      category:
+        type: Object.Category
+        description: "An `Object.Category` enumerator representing the category of the scenery object."
+      categoryEx:
+        type: Weapon.Category
+        description: "A `Weapon.Category` enumerator representing the subcategory of the scenery object."

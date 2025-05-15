@@ -1,0 +1,19 @@
+globals: {}
+
+types:
+  TaskEnRouteEWR:
+    kind: record
+    description: "Defines the structure of a Lua table representing an en-route task that assigns the group to act as an EWR radar for friendly forces."
+    fields:
+      id:
+        type: string
+        description: "En-route task identifier, must be 'ewr'."
+      params:
+        type: TaskEnRouteEWRParams
+    required: [id, params]
+    
+  TaskEnRouteEWRParams:
+    kind: record
+    description: "Defines the structure of a Lua table containing parameters for the EWR task (no parameters required)."
+    fields: {}
+    required: [] 

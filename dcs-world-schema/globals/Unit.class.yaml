@@ -1,0 +1,334 @@
+globals:
+  Unit:
+    kind: class
+    description: "Represents a unit entity in the DCS World, including airplanes, helicopters, vehicles, ships, and armed ground structures."
+    inherits:
+      - Object
+      - CoalitionObject
+    addedVersion: "1.2.0"
+    environment:
+      - MissionScripting
+    static:
+      getByName:
+        description: "Returns a `Unit` object with the specified name, or `nil` if not found. Provides access to both activated and non-activated units."
+        params:
+          - name: name
+            type: string
+            description: "Name of the unit as defined in the mission editor or mission."
+        returns: Unit | nil
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getDescByName:
+        description: "Returns a table containing detailed description of the specified unit type. The exact type of descriptor returned depends on the unit's category: AIRPLANE units return UnitDescAirplane, HELICOPTER units return UnitDescHelicopter, GROUND_UNIT units return UnitDescVehicle, SHIP units return UnitDescShip, and other types return the base UnitDesc. Functions even for unit types not present in the current mission."
+        params:
+          - name: typeName
+            type: string
+            description: "Internal type name of the unit, e.g. 'FA-18C_hornet'."
+        returns: UnitDesc | UnitDescAircraft | UnitDescAirplane | UnitDescHelicopter | UnitDescVehicle | UnitDescShip
+        addedVersion: "1.2.4"
+        environment:
+          - MissionScripting
+    instance:
+      isActive:
+        description: "Returns `true` if the unit is activated in the mission, `false` otherwise."
+        params: []
+        returns: boolean
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getPlayerName:
+        description: "Returns the `string` name of the player controlling this unit, or `nil` if AI-controlled."
+        params: []
+        returns: string | nil
+        addedVersion: "1.2.4"
+        environment:
+          - MissionScripting
+      getID:
+        description: "Returns the `number` representing the unique mission ID of the unit."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getNumber:
+        description: "Returns the `number` representing the index of the unit within its group. This index persists even as other units in the group are destroyed."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getCategoryEx:
+        description: "Returns a `Unit.Category` enumerator representing the specific category of the unit."
+        params: []
+        returns: Unit.Category
+        addedVersion: "2.9.2"
+        environment:
+          - MissionScripting
+      getObjectID:
+        description: "Returns the `number` representing the runtime object ID of the unit. Every simulation object has a unique objectID."
+        params: []
+        returns: number
+        addedVersion: "1.2.4"
+        environment:
+          - MissionScripting
+      getController:
+        description: "Returns the `Controller` object for this unit. Note: Ships and ground units are only controllable at a group level."
+        params: []
+        returns: Controller
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getGroup:
+        description: "Returns the `Group` object that this unit belongs to."
+        params: []
+        returns: Group
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getCallsign:
+        description: "Returns a `string` representing the localized callsign of the unit."
+        params: []
+        returns: string
+        addedVersion: "1.2.6"
+        environment:
+          - MissionScripting
+      getLife:
+        description: "Returns a `number` representing the current hit points of the unit. Values below 1 indicate the unit is destroyed."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getLife0:
+        description: "Returns a `number` representing the maximum hit points of the unit. This value never changes during a mission."
+        params: []
+        returns: number
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getFuel:
+        description: "Returns a `number` representing the remaining fuel percentage (0.0 to 1.0+). Values above 1.0 indicate external fuel tanks."
+        params: []
+        returns: number
+        addedVersion: "1.2.3"
+        environment:
+          - MissionScripting
+      getAmmo:
+        description: "Returns a numerically indexed table of ammunition data for all weapons loaded on the unit."
+        params: []
+        returns: UnitAmmoItem[]
+        addedVersion: "1.2.4"
+        environment:
+          - MissionScripting
+      getSensors:
+        description: "Returns a numerically indexed table containing all sensors available on the unit."
+        params: []
+        returns: UnitSensor[]
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      hasSensors:
+        description: "Returns `true` if the unit has the specified sensor type and subcategory, `false` otherwise."
+        params:
+          - name: sensorType
+            type: Unit.SensorType
+            description: "Type of sensor to check for."
+          - name: subCategory
+            type: number
+            description: "Subcategory of the sensor type to check for."
+        returns: boolean
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getRadar:
+        description: "Returns information about the unit's radar status: operational state and tracked object (if any)."
+        params: []
+        returns:
+          - boolean
+          - Object | nil
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getDrawArgumentValue:
+        description: "Returns a `number` representing the current value of a specified animation parameter on the unit's 3D model."
+        params:
+          - name: arg
+            type: number
+            description: "The argument number for the animation parameter."
+        returns: number
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getNearestCargos:
+        description: "Returns a numerically indexed table of nearby friendly cargo objects sorted by distance, or `nil` if not applicable."
+        params: []
+        returns: Object[] | nil
+        addedVersion: "2.5.5"
+        environment:
+          - MissionScripting
+      enableEmission:
+        description: "Enables or disables the unit's emissions, affecting radar and other detectable systems without changing AI state."
+        params:
+          - name: setting
+            type: boolean
+            description: "True to enable emissions, false to disable."
+        returns: void
+        addedVersion: "2.7.0"
+        environment:
+          - MissionScripting
+      getDescentCapacity:
+        description: "Returns a `number` representing the infantry capacity of an aircraft, or `nil` for non-aircraft units."
+        params: []
+        returns: number | nil
+        addedVersion: "2.5.6"
+        environment:
+          - MissionScripting
+      getDesc:
+        description: "Returns a table containing detailed technical specifications of the unit. The exact type of descriptor returned depends on the unit's category: AIRPLANE units return UnitDescAirplane, HELICOPTER units return UnitDescHelicopter, GROUND_UNIT units return UnitDescVehicle, SHIP units return UnitDescShip, and other types return the base UnitDesc."
+        params: []
+        returns: UnitDesc | UnitDescAircraft | UnitDescAirplane | UnitDescHelicopter | UnitDescVehicle | UnitDescShip
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getAirbase:
+        description: "Returns the `Airbase` object where the unit is stationed or landed, or `nil` if not at an airbase."
+        params: []
+        returns: Airbase | nil
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      canShipLanding:
+        description: "Returns `true` if the unit can land on a ship, `false` otherwise."
+        params: []
+        returns: boolean
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      checkOpenRamp:
+        description: "Returns `true` if the unit's ramp is currently open, `false` otherwise."
+        params: []
+        returns: boolean
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      disembarking:
+        description: "Initiates the disembarkation process for troops or cargo from this transport unit."
+        params: []
+        returns: void
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getCargosOnBoard:
+        description: "Returns a numerically indexed table of cargo objects currently loaded on the unit."
+        params: []
+        returns: Object[]
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getCoalition:
+        description: "Returns a `coalition.side` enumerator representing the unit's coalition alignment."
+        params: []
+        returns: coalition.side
+        addedVersion: "1.2.4"
+        environment:
+          - MissionScripting
+      getCommunicator:
+        description: "Returns the communication system object for this unit."
+        params: []
+        returns: unknown
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getCountry:
+        description: "Returns a `country.id` enumerator representing the unit's country affiliation."
+        params: []
+        returns: country.id
+        addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      getDescentOnBoard:
+        description: "Returns information about troops currently loaded on the unit."
+        params: []
+        returns: unknown
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getForcesName:
+        description: "Returns a `string` name of the military force this unit belongs to, or `nil` if not specified."
+        params: []
+        returns: string | nil
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getFuelLowState:
+        description: "Returns a `number` representing the low fuel threshold for this unit, or `nil` if not applicable."
+        params: []
+        returns: number | nil
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getNearestCargosForAircraft:
+        description: "Returns a numerically indexed table of nearby cargo objects suitable for aircraft loading, or `nil` if not applicable."
+        params: []
+        returns: Object[] | nil
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      getSeats:
+        description: "Returns information about available seating in the unit."
+        params: []
+        returns: unknown
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      hasCarrier:
+        description: "Returns `true` if the unit is or has aircraft carrier capabilities, `false` otherwise."
+        params: []
+        returns: boolean
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      LoadOnBoard:
+        description: "Loads specified cargo or troops onto this transport unit."
+        params: []
+        returns: void
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      markDisembarkingTask:
+        description: "Marks a task for disembarking troops or cargo from this unit."
+        params: []
+        returns: void
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      OldCarrierMenuShow:
+        description: "Displays the legacy carrier operations menu for this unit."
+        params: []
+        returns: void
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      openRamp:
+        description: "Opens the cargo ramp on this transport unit to allow loading/unloading."
+        params: []
+        returns: void
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      UnloadCargo:
+        description: "Initiates the unloading process for cargo carried by this unit."
+        params: []
+        returns: void
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+      vtolableLA:
+        description: "Returns `true` if the unit has VTOL landing capabilities, `false` otherwise."
+        params: []
+        returns: boolean
+        addedVersion: "unknown"
+        environment:
+          - MissionScripting
+type: {}
