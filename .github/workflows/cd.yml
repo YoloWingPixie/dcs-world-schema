@@ -100,6 +100,13 @@ jobs:
           echo "::group::Merge YAML to JSON and YAML"
           task merge
           echo "::endgroup::"
+          
+      - name: 🧩 Generate Lua Definitions
+        if: steps.check_version.outputs.version_changed == 'true'
+        run: |
+          echo "::group::Generating EmmyLua type definitions"
+          task build:lua
+          echo "::endgroup::"
       
       - name: 🚀 Create Release
         if: steps.check_version.outputs.version_changed == 'true'
@@ -116,9 +123,11 @@ jobs:
             ### Assets:
             - JSON Schema: `dcs-world-api-schema.json`
             - YAML Schema: `dcs-world-api-schema.yaml`
+            - EmmyLua Type Definitions: `dcs-world-api.lua`
           files: |
             dist/dcs-world-api-schema.json
             dist/dcs-world-api-schema.yaml
+            dist/dcs-world-api.lua
           draft: false
           prerelease: ${{ steps.release_type.outputs.is_prerelease }}
           fail_on_unmatched_files: true
