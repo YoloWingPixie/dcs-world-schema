@@ -42,7 +42,7 @@ jobs:
             
       - name: 📦 Install dependencies
         run: task uv:sync
-      
+        
       - name: 📝 Validate YAML Schema
         id: validate_yaml
         run: |
@@ -50,11 +50,18 @@ jobs:
           task validate
           echo "::endgroup::"
       
-      - name: 🔄 Generate Schemas
-        id: merge
+      - name: 🔄 Merge YAML to JSON
+        id: merge_yaml
         run: |
-          echo "::group::Merge YAML to JSON and YAML"
-          task merge
+          echo "::group::Merge YAML to JSON"
+          task merge:json
+          echo "::endgroup::"
+      
+      - name: 🔄 Merge YAML to YAML
+        id: merge_yml
+        run: |
+          echo "::group::Merge YAML to YAML"
+          task merge:yaml
           echo "::endgroup::"
           
       - name: 🧩 Validate Types
