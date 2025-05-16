@@ -6,7 +6,7 @@ YAML Representation of the DCS World Mission Scripting Environment's API Signatu
 
 ## 📋 Overview
 
-This project provides a comprehensive YAML-based schema definition for the DCS World API. The goal is to create a complete schema that can be used by LSP servers to provide extremely strict and detailed linting for DCS World mission scripting in Lua.
+This project provides a comprehensive YAML-based schema definition for the DCS World API. The goal is to create a complete schema that can be used by LSP servers to provide extremely strict and detailed linting for DCS World mission scripting in Lua. Currently we support exporting the schema to [EmmyLua Annotations](https://emmylua.github.io/annotation.html) for use with existing Lua language servers like LuaLS.
 
 Just an end user and want linting in your IDE? Go to [Using Pre-Built Releases](https://github.com/YoloWingPixie/dcs-world-schema/tree/main?tab=readme-ov-file#-using-pre-built-releases)
 
@@ -17,24 +17,6 @@ Just an end user and want linting in your IDE? Go to [Using Pre-Built Releases](
 - Schema validation tools
 - JSON schema output for use with language servers
 - EmmyLua annotations export for Lua editor integration
-
-
-### Future Features
-Aspirationally, we would like to be able to provide, correct, valid packages for valdidating the DCS schema in the following languages natively:
-- TypeScript definitions export for JavaScript/TypeScript development
-- Go struct definitions for Go development
-- Python type hints for Python development
-
-The exporters for these languages exists in `/tools` at this time but a release process has not been formalized and the exports are not *great*.
-
-The exporters can be used via `task build:golang`, `task build:python`, `task build:typscript` :
-
-And they output as follows in `/dist`
-
-- `dcs-world-api.d.ts` - TypeScript definitions for JavaScript/TypeScript development
-- `dcs-world-api.go` - Go struct definitions for Go applications
-- `dcs_world_api.py` - Python type hints for Python development
-
 
 ## 🚀 Using Pre-built Releases
 
@@ -47,7 +29,7 @@ For most users, the easiest way to use this project is to download the pre-built
 Each release includes:
 - `dcs-world-api-schema.json` - JSON schema for the DCS World API
 - `dcs-world-api-schema.yaml` - YAML schema for the DCS World API
-- `dcs-world-api.lua` - EmmyLua annotations for Lua editor integration
+- `dcs-world-api.lua` - EmmyLua annotations for Lua editor integration  **<-- End Users: you probably only care about this**
 
 ### Using with Lua Editors
 
@@ -82,6 +64,21 @@ But you can disable that by adding the following to your `settings.json`:
 }
 ```
 
+### Future Features
+Aspirationally, we would like to be able to provide, correct, valid packages for valdidating the DCS schema in the following languages natively:
+- TypeScript definitions export for JavaScript/TypeScript development
+- Go struct definitions for Go development
+- Python type hints for Python development
+
+The exporters for these languages exists in `/tools` at this time but a release process has not been formalized and the exports are not *great*.
+
+The exporters can be used via `task build:golang`, `task build:python`, `task build:typscript` :
+
+And they output as follows in `/dist`
+
+- `dcs-world-api.d.ts` - TypeScript definitions for JavaScript/TypeScript development
+- `dcs-world-api.go` - Go struct definitions for Go applications
+- `dcs_world_api.py` - Python type hints for Python development
 
 ## 🛠️ Building From Source
 
@@ -123,4 +120,4 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for det
 
 ## 📄 License
 
-This project is licensed under the terms specified in the LICENSE file.
+This project is licensed under [MIT](LICENSE.md).
