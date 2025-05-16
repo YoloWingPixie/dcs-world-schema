@@ -21,11 +21,12 @@ local targets={
     world=true,
     Airbase=true,
     Controller=true,
-    CoalitionObject=true,
+    CoalitionObject=true, -- Non-final class. Not actually accessible via API.
     AI=true,
     country=false,
     Beacons=true,
-    Formation=true
+    Formation=true,
+    Disposition=true,
     }
 local esc={}for i=0,31 do esc[i]=string.format("\\u%04x",i)end esc[34]="\\\"" esc[92]="\\\\"
 local function js(s)return"\""..s:gsub(".",function(c)return esc[c:byte()]or c end).."\""end
@@ -74,3 +75,5 @@ end
 local f=io.open(lfs.writedir().."/DCS_API.json","w")
 f:write(encode(root,{},0))
 f:close()
+
+env.info("Dumped DCS World global tables to " .. lfs.writedir() .. "/DCS_API.json")

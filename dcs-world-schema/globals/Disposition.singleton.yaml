@@ -1,0 +1,150 @@
+globals:
+  # Github Issue: #11
+  # Descriptions and Parameters provided by @WirtLegs
+  Disposition:
+    kind: singleton
+    description: "Provides functions for manipulating positions, terrain queries, and random number generation within the DCS World. **Warning:** This class is not formally documented by ED and descriptions and params may be incorrect."
+    environment: ["MissionScripting"]
+    addedVersion: "0.0.0" #Unknown
+    static:
+      DriftRoute:
+        description: "Unknown use case, possibly related to route drift or movement."
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: pos1
+            type: Vec3
+            description: "First position vector."
+          - name: pos2
+            type: Vec3
+            description: "Second position vector."
+          - name: coalitionId
+            type: coalition.side
+            description: "Coalition side enumeration value."
+        returns: table
+      getElipsSideZones:
+        description: "Returns zones around runway strips in an elliptical pattern."
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: numAreas
+            type: number
+            description: "Unknown"
+          - name: numPositions
+            type: number
+            description: "Unknown"
+          - name: perim
+            type: table
+            description: "Unknown"
+          - name: degrees
+            type: number
+            description: "Unknown"
+          - name: radiusRatio
+            type: number
+            description: "Unknown"
+        returns: table
+      getPointHeight:
+        description: "Returns the terrain height at the specified position in the DCS World coordinate system? See: land.getHeight()"
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: pos
+            type: Vec3
+            description: "Position vector in the DCS World coordinate system."
+        returns: number
+      getPointWater:
+        description: "Checks if water exists at the specified position within given parameters? See: land.getSurfaceType()"
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: pos
+            type: Vec3
+            description: "3D Position"
+          - name: a
+            type: number
+            description: "Unknown"
+          - name: b
+            type: number
+            description: "Unknown"
+        returns: boolean
+      getRandom:
+        description: "Generates a random number within the specified range."
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: isFloat
+            type: boolean
+            description: "If true, returns a floating-point number; otherwise, returns an integer."
+          - name: min
+            type: number
+            description: "Minimum value of the random range."
+          - name: max
+            type: number
+            description: "Maximum value of the random range."
+        returns: number
+      getRandomIn:
+        description: "Unknown function, likely related to random selection within a specified range or container."
+        addedVersion: "0.0.0" #Unknown
+        params: []
+        returns: any
+      getRandomSort:
+        description: "Randomly shuffles the elements of the input table."
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: t
+            type: table
+            description: "Table to be randomly shuffled."
+        returns: table
+      getRouteAwayWater:
+        description: "Unknown function"
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: thresholdPos
+            type: Vec3
+            description: "Unknown"
+          - name: pos
+            type: Vec3
+            description: "Unknown"
+          - name: a
+            type: number
+            description: "Unknown"
+          - name: b
+            type: number
+            description: "Unknown"
+        returns: boolean
+      getRunwayPerimetr:
+        description: "Returns the perimeter of a runway defined by runway data? See: airbase.getRunways()"
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: runway
+            type: table
+            description: "Runway data table obtained from airbase:getRunways()."
+        returns: table
+      getSimpleZones:
+        description: "Finds clear positions within an area for placing units. Assumed behavior."
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: pos
+            type: Vec3
+            description: "Center position vector for the search area."
+          - name: radius
+            type: number
+            description: "Radius of the search area."
+          - name: posRadius
+            type: number
+            description: "Required clear radius around each position."
+          - name: numPositions
+            type: number
+            description: "Number of positions to find."
+        returns: table
+      getThresholdFourZones:
+        description: "Returns zones along runway edges based on the provided perimeter."
+        addedVersion: "0.0.0" #Unknown
+        params:
+          - name: numPositions
+            type: number
+            description: "Number of positions to generate."
+          - name: perim
+            type: table
+            description: "Perimeter table defining the runway edges."
+        returns: table
+      setMarkerPoint:
+        description: "Unknown function, likely related to setting a marker at a specific point. May be related to world and trigger functions."
+        addedVersion: "0.0.0" #Unknown
+        params: []
+        returns: any
