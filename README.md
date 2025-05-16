@@ -8,13 +8,14 @@ YAML Representation of the DCS World Mission Scripting Environment's API Signatu
 
 This project provides a comprehensive YAML-based schema definition for the DCS World API. The goal is to create a complete schema that can be used by LSP servers to provide extremely strict and detailed linting for DCS World mission scripting in Lua.
 
+Just an end user and want linting in your IDE? Go to [Using Pre-Built Releases](https://github.com/YoloWingPixie/dcs-world-schema/tree/main?tab=readme-ov-file#-using-pre-built-releases)
+
 ## ✨ Features
 
 - Complete API signature definitions in YAML format
 - Type checking for DCS functions, methods, and properties
 - Schema validation tools
-- CI/CD pipeline for continuous validation
-- JSON schema output compatible with language servers
+- JSON schema output for use with language servers
 - EmmyLua annotations export for Lua editor integration
 
 
@@ -51,7 +52,7 @@ Each release includes:
 ### Using with Lua Editors
 
 To use the EmmyLua annotations with your Lua editor:
-1. Set up your editor to use EmmyLua annotations (VSCode, IntelliJ IDEA, etc.)
+1. Set up your editor to use EmmyLua annotation compatible LSP
 2. Include the `dcs-world-api.lua` file in your project or configure your editor to reference it
 
 #### VSCode
