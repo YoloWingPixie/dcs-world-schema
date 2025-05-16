@@ -69,7 +69,7 @@ To use the EmmyLua annotations with your Lua editor:
 3. Type checking, hover information, and autocomplete should now function in `.lua` files in VSCode
 
 *Note*
-For whateve reason, LuaLS marks all functions as deprecated despite not having the flag. This is a bug that I am working on fixing.
+For whatever reason, LuaLS marks all functions as deprecated despite not having the flag. This is a bug that I am working on fixing.
 But you can disable that by adding the following to your `settings.json`:
 
 ```lua
