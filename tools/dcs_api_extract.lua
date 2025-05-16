@@ -75,3 +75,5 @@ end
 local f=io.open(lfs.writedir().."/DCS_API.json","w")
 f:write(encode(root,{},0))
 f:close()
+
+env.info("Dumped DCS World global tables to " .. lfs.writedir() .. "/DCS_API.json")
