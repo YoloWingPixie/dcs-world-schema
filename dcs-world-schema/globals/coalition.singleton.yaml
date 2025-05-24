@@ -41,18 +41,15 @@ globals:
         returns: boolean
         addedVersion: "2.8.0"
       addStaticObject:
-        description: "Adds a new static object to the mission for the specified coalition and country, returning a `function` that can be called to complete the spawn process."
+        description: "Adds a new static object to the mission for the specified country, returning a `StaticObject`. The coalition is automatically determined from the country identifier."
         params:
-          - name: coalition
-            type: coalition.side
-            description: "Coalition side enumeration value."
           - name: country
             type: country.id
-            description: "Country identifier within the coalition."
+            description: "Country identifier that determines which coalition the static object will belong to."
           - name: staticData
             type: StaticObjectSpawnData
             description: "Table defining the static object configuration to be spawned."
-        returns: function
+        returns: StaticObject
         addedVersion: "1.2.0"
       getGroups:
         description: "Returns a numerically indexed table of `Group` objects belonging to the specified coalition and country."
