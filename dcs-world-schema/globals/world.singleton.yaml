@@ -5,19 +5,19 @@ globals:
     addedVersion: "1.2.0"
     static:
       addEventHandler:
-        description: "Registers a function to be called when simulator events occur. Different event types produce different event data structures."
+        description: "Registers an event handler table to be called when simulator events occur. The table must contain an onEvent method."
         params:
           - name: handler
-            type: function
-            description: "The event handler function. The function signature should be `function(eventData)` where eventData is of type EventData, which is a union of all possible event data types. The id field identifies which type of event is being handled."
+            type: EventHandlerTable
+            description: "A table containing an onEvent method that will be called with event data when events occur."
         returns: nil
         addedVersion: "1.2.0"
       removeEventHandler:
-        description: "Unregisters a previously added event handler function."
+        description: "Unregisters a previously added event handler table."
         params:
           - name: handler
-            type: function
-            description: "The event handler function to remove."
+            type: EventHandlerTable
+            description: "The event handler table to remove. Must be the same table that was passed to addEventHandler."
         returns: nil
         addedVersion: "1.2.0"
       onEvent:
