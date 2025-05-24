@@ -108,6 +108,28 @@ jobs:
           task build:lua
           echo "::endgroup::"
       
+      - name: 📄 Extract changelog for current version
+        if: steps.check_version.outputs.version_changed == 'true'
+        id: changelog
+        run: |
+          VERSION="${{ steps.check_version.outputs.version }}"
+          
+          # Extract changelog section for current version
+          CHANGELOG_CONTENT=$(awk "/^## \[${VERSION}\]/{flag=1; next} /^## \[/{flag=0} flag" CHANGELOG.md)
+          
+          # Remove any trailing whitespace and ensure we have content
+          CHANGELOG_CONTENT=$(echo "$CHANGELOG_CONTENT" | sed '/^$/d' | head -n -1)
+          
+          if [ -z "$CHANGELOG_CONTENT" ]; then
+            echo "No changelog content found for version $VERSION"
+            CHANGELOG_CONTENT="No changelog entries found for this version."
+          fi
+          
+          # Save changelog content to output (escape for GitHub Actions)
+          echo "changelog_content<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       - name: 🚀 Create Release
         if: steps.check_version.outputs.version_changed == 'true'
         id: create_release
@@ -120,10 +142,15 @@ jobs:
             
             This ${{ steps.release_type.outputs.release_prefix }} contains ${{ steps.release_type.outputs.is_prerelease == 'true' && 'development' || 'updated' }} schema definitions for DCS World API.
             
-            ### Assets:
-            - JSON Schema: `dcs-world-api-schema.json`
-            - YAML Schema: `dcs-world-api-schema.yaml`
-            - EmmyLua Type Definitions: `dcs-world-api.lua`
+            ## 📋 Changes in this Release
+            
+            ${{ steps.changelog.outputs.changelog_content }}
+            
+            ## 📦 Assets
+            
+            - **JSON Schema**: `dcs-world-api-schema.json` - Complete API schema in JSON format
+            - **YAML Schema**: `dcs-world-api-schema.yaml` - Complete API schema in YAML format  
+            - **EmmyLua Type Definitions**: `dcs-world-api.lua` - Lua type definitions for IDE support
           files: |
             dist/dcs-world-api-schema.json
             dist/dcs-world-api-schema.yaml
@@ -131,6 +158,7 @@ jobs:
           draft: false
           prerelease: ${{ steps.release_type.outputs.is_prerelease }}
           fail_on_unmatched_files: true
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
