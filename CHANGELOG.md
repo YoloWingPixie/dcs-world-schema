@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3] - 2025-05-24
+
+### Fixed
+- Resolved #14. Fixed `coalition.addStaticObject()` to use correct parameter count - removed incorrect `coalition.side` parameter as DCS automatically infers coalition from country identifier.
+- Updated `coalition.addStaticObject()` return type from `function` to `StaticObject` to match documented DCS World API behavior
+
 ## [0.3.2] - 2025-05-24
 
 ### Added
