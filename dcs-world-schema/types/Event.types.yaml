@@ -74,7 +74,15 @@ types:
       TgtPlayerName:
         type: string | nil
         description: "Name of the player that was targeted."
-      
+
+  EventHandlerTable:
+    kind: record
+    description: "Defines the structure of a Lua table representing an event handler object that can be registered with world.addEventHandler."
+    fields:
+      onEvent:
+        type: function
+        description: "Function that handles simulator events when they occur. Called with (self, event) parameters where event is of type EventData."
+
   EventDataBase:
     kind: record
     description: "Base structure for all event data. Contains common fields present in every event."
