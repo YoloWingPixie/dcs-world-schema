@@ -9,6 +9,7 @@ vars:
   OUTPUT_TS: "{{.DIST_DIR}}/dcs-world-api.d.ts"
   OUTPUT_GO: "{{.DIST_DIR}}/dcs-world-api.go"
   OUTPUT_PYTHON: "{{.DIST_DIR}}/dcs_world_api.py"
+  OUTPUT_SELENE_YAML: "{{.DIST_DIR}}/dcs-world-selene.yml"
   DCS_API_DUMP: ./reference_data/dcs_world_api_dump_latest.json
   LINT_TARGETS: "{{.SCHEMA_DIR}}/*.yaml"
   SRC_PY: ./tools
@@ -223,6 +224,14 @@ tasks:
       - echo "Generating Python definitions to {{.OUTPUT_PYTHON}}..."
       - "uv run python ./tools/export_python.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_PYTHON}}"
 
+  build:selene:
+    desc: "Generate Selene standard library from the schema"
+    deps:
+      - merge:json
+    cmds:
+      - echo "Generating Selene YAML to {{.OUTPUT_SELENE_YAML}}..."
+      - "uv run python ./tools/export_selene_yaml.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_SELENE_YAML}}"
+
   build:
     desc: "Generate all exportable formats"
     deps:
@@ -230,6 +239,7 @@ tasks:
       - build:typescript
       - build:golang
       - build:python
+      - build:selene
     cmds: []
 
   ci:

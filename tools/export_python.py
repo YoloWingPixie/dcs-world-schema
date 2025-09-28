@@ -21,10 +21,42 @@ TYPE_MAPPING = {
 
 # Python reserved keywords to avoid
 PYTHON_RESERVED_KEYWORDS = {
-    "False", "None", "True", "and", "as", "assert", "break", "class", "continue", 
-    "def", "del", "elif", "else", "except", "finally", "for", "from", "global", 
-    "if", "import", "in", "is", "lambda", "nonlocal", "not", "or", "pass", "raise", 
-    "return", "try", "while", "with", "yield", "async", "await", "enum"
+    "False",
+    "None",
+    "True",
+    "and",
+    "as",
+    "assert",
+    "break",
+    "class",
+    "continue",
+    "def",
+    "del",
+    "elif",
+    "else",
+    "except",
+    "finally",
+    "for",
+    "from",
+    "global",
+    "if",
+    "import",
+    "in",
+    "is",
+    "lambda",
+    "nonlocal",
+    "not",
+    "or",
+    "pass",
+    "raise",
+    "return",
+    "try",
+    "while",
+    "with",
+    "yield",
+    "async",
+    "await",
+    "enum",
 }
 
 # Track processed types to avoid duplicates
@@ -41,20 +73,20 @@ def sanitize_python_name(name: str) -> str:
     """Make a name safe for Python"""
     if not name:
         return "unnamed"
-        
+
     # Replace dots with underscores for Python module imports
     name = name.replace(".", "_")
-    
+
     # Replace hyphens with underscores
     name = name.replace("-", "_")
-    
+
     # Replace spaces with underscores
     name = name.replace(" ", "_")
-    
+
     # If starts with a number, prefix with underscore
     if name and name[0].isdigit():
         name = f"_{name}"
-    
+
     # Replace other invalid characters
     name = name.replace("/", "_")
     name = name.replace("'", "")
@@ -108,14 +140,14 @@ def format_docstring(desc: str) -> str:
     """Format a description for a Python docstring"""
     if not desc:
         return ""
-    
+
     # Remove any existing explicit triple quotes to avoid breaking docstring format
     desc = desc.replace('"""', "'''")
-    
+
     # Wrap multiline docstrings
     if "\n" in desc:
         return f'"""{desc}"""'
-    
+
     return f'"""{desc}"""'
 
 
@@ -131,7 +163,7 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
     # Add class definition with docstring
     lines.append(f"class {python_name}(str, Enum):")
     if desc:
-        lines.append(f'    {format_docstring(desc)}')
+        lines.append(f"    {format_docstring(desc)}")
 
     # Handle different formats of enum values
     if isinstance(values, list):
@@ -198,7 +230,7 @@ def process_type_definition(name: str, type_def: Dict[str, Any]) -> str:
 
     # Add docstring if there's a description
     if desc:
-        lines.append(f'    {format_docstring(desc)}')
+        lines.append(f"    {format_docstring(desc)}")
 
     # Properties
     properties = type_def.get("properties", {})
@@ -309,16 +341,16 @@ def process_method(method_name: str, method_def: Dict[str, Any]) -> str:
     # Add docstring if there's a description
     if combined_desc:
         docstring = [combined_desc]
-        
+
         # Add parameter descriptions in the docstring
         param_docs = []
         for param in params:
             param_name = sanitize_python_name(param.get("name", "param"))
             param_desc = param.get("description", "")
             if param_desc:
-                param_docs.append(f"    Args:")
+                param_docs.append("    Args:")
                 param_docs.append(f"        {param_name}: {param_desc}")
-        
+
         if param_docs:
             docstring.extend(param_docs)
 
@@ -326,8 +358,8 @@ def process_method(method_name: str, method_def: Dict[str, Any]) -> str:
         if returns and returns != "void":
             docstring.append("    Returns:")
             docstring.append(f"        {return_type}: Return value")
-            
-        lines.append(f'    {format_docstring("\\n".join(docstring))}')
+
+        lines.append(f"    {format_docstring('\\n'.join(docstring))}")
 
     # Add method body with pass
     lines.append("    pass")
@@ -357,7 +389,7 @@ def process_global(name: str, global_def: Dict[str, Any]) -> str:
 
     # Add docstring if there's a description
     if combined_desc:
-        lines.append(f'    {format_docstring(combined_desc)}')
+        lines.append(f"    {format_docstring(combined_desc)}")
 
     # Properties
     properties = global_def.get("properties", {})
@@ -373,7 +405,7 @@ def process_global(name: str, global_def: Dict[str, Any]) -> str:
         lines.append("    def __init__(self) -> None:")
 
         last_prop_index = 0
-        
+
         # Iterate through properties and track their notes
         for i, (prop_name, prop_def) in enumerate(all_props.items()):
             prop_type = prop_def.get("type", "any")
@@ -393,11 +425,9 @@ def process_global(name: str, global_def: Dict[str, Any]) -> str:
 
             # Keep track of properties with notes for later
             if prop_notes:
-                props_with_notes.append({
-                    "name": safe_prop_name,
-                    "index": i,
-                    "notes": prop_notes
-                })
+                props_with_notes.append(
+                    {"name": safe_prop_name, "index": i, "notes": prop_notes}
+                )
                 last_prop_index = i
 
             # Add property initialization with type comment
@@ -480,83 +510,92 @@ def export_to_python(schema: Dict[str, Any], output_path: str) -> None:
     while i < len(lines):
         line = lines[i]
         stripped = line.strip()
-        
+
         # Skip empty lines
         if not stripped:
             processed_lines.append(line)
             i += 1
             continue
-            
+
         # Check if this line is a method/property docstring with a comment inside it
-        match_note = re.search(r'(self\.[a-zA-Z0-9_]+:.+#.+)(Note:.*)', line)
+        match_note = re.search(r"(self\.[a-zA-Z0-9_]+:.+#.+)(Note:.*)", line)
         if match_note:
             # Split the line at the Note: marker
             code_part = match_note.group(1).rstrip()
             note_part = match_note.group(2).strip()
-            
+
             # Add the code part first
             processed_lines.append(code_part)
-            
+
             # Then add the note as a separate comment line with proper indentation
-            indent = re.match(r'^(\s*)', line).group(1)
+            indent = re.match(r"^(\s*)", line).group(1)
             processed_lines.append(f"{indent}# {note_part}")
-            
+
             i += 1
             continue
-            
+
         # Handle standalone notes that aren't properly commented
-        if (stripped.startswith("Note:") or
-            re.match(r'^[A-Z][a-z]+:', stripped) or  # Any capitalized word followed by colon
-            (not line.startswith(" ") and 
-             not line.startswith("\t") and
-             not stripped.startswith("class ") and
-             not stripped.startswith("def ") and
-             not stripped.startswith("#") and
-             not stripped.startswith("from ") and
-             not stripped.startswith("import ") and
-             not "=" in stripped)):
-            
+        if (
+            stripped.startswith("Note:")
+            or re.match(
+                r"^[A-Z][a-z]+:", stripped
+            )  # Any capitalized word followed by colon
+            or (
+                not line.startswith(" ")
+                and not line.startswith("\t")
+                and not stripped.startswith("class ")
+                and not stripped.startswith("def ")
+                and not stripped.startswith("#")
+                and not stripped.startswith("from ")
+                and not stripped.startswith("import ")
+                and "=" not in stripped
+            )
+        ):
             # Collect multi-line note content
             note_lines = [stripped]
             next_i = i + 1
-            
+
             # Look ahead for continuation of the note
             while next_i < len(lines):
                 next_line = lines[next_i].strip()
-                if (not next_line or 
-                    next_line.startswith("class ") or 
-                    next_line.startswith("def ") or
-                    next_line.startswith("# ") or
-                    next_line.startswith("from ") or
-                    next_line.startswith("import ") or
-                    "=" in next_line and " = " in next_line and not next_line.startswith(" ")):
+                if (
+                    not next_line
+                    or next_line.startswith("class ")
+                    or next_line.startswith("def ")
+                    or next_line.startswith("# ")
+                    or next_line.startswith("from ")
+                    or next_line.startswith("import ")
+                    or "=" in next_line
+                    and " = " in next_line
+                    and not next_line.startswith(" ")
+                ):
                     break
-                    
+
                 # Collect this line as part of the note
                 note_lines.append(next_line)
                 next_i += 1
-            
+
             # Process all lines of the note and add as comments
             # Get the indentation of the current line
-            indent = re.match(r'^(\s*)', line).group(1)
-            
+            indent = re.match(r"^(\s*)", line).group(1)
+
             # Join the note lines and create a properly formatted comment
             complete_note = " ".join(note_lines)
-            
+
             # Break long comments into multiple lines
             if len(complete_note) > 75:
                 # First try to split on natural sentence boundaries
                 sentences = []
-                parts = re.split(r'([.!?] )', complete_note)
+                parts = re.split(r"([.!?] )", complete_note)
                 for j in range(0, len(parts) - 1, 2):
                     if j + 1 < len(parts):
                         sentences.append(parts[j] + parts[j + 1])
                 if len(parts) % 2 == 1:
                     sentences.append(parts[-1])
-                
+
                 # If there are no sentence breaks, split on spaces
                 if len(sentences) <= 1:
-                    words = complete_note.split(' ')
+                    words = complete_note.split(" ")
                     current_line = words[0]
                     for word in words[1:]:
                         if len(current_line) + len(word) + 1 <= 75:
@@ -573,7 +612,7 @@ def export_to_python(schema: Dict[str, Any], output_path: str) -> None:
             else:
                 # Short enough for a single line
                 processed_lines.append(f"{indent}# {complete_note}")
-            
+
             # Skip processed lines
             i = next_i
         else:
@@ -585,7 +624,15 @@ def export_to_python(schema: Dict[str, Any], output_path: str) -> None:
     final_lines = []
     for line in processed_lines:
         stripped = line.strip()
-        if stripped.startswith("Note:") or (not line.startswith(" ") and not line.startswith("#") and not line.startswith("class ") and not line.startswith("def ") and not stripped.startswith("from ") and not "=" in stripped and len(stripped) > 0):
+        if stripped.startswith("Note:") or (
+            not line.startswith(" ")
+            and not line.startswith("#")
+            and not line.startswith("class ")
+            and not line.startswith("def ")
+            and not stripped.startswith("from ")
+            and "=" not in stripped
+            and len(stripped) > 0
+        ):
             # This is still a standalone note that wasn't properly caught
             final_lines.append(f"# {stripped}")
         else:
@@ -594,25 +641,25 @@ def export_to_python(schema: Dict[str, Any], output_path: str) -> None:
     # Write to file
     with open(output_path, "w", encoding="utf-8") as f:
         f.write("\n".join(final_lines))
-        
+
     # Additional post-processing to catch any remaining problematic lines
     with open(output_path, "r", encoding="utf-8") as f:
         content = f.read()
-        
+
     # Use regex to find and fix any standalone Note: lines
     # This handles both 'Note:' at the beginning of a line and as its own statement
-    pattern = r'^(\s*)Note:'
-    fixed_content = re.sub(pattern, r'\1# Note:', content, flags=re.MULTILINE)
-    
+    pattern = r"^(\s*)Note:"
+    fixed_content = re.sub(pattern, r"\1# Note:", content, flags=re.MULTILINE)
+
     # Also look for any other unattached capitalized words that would be syntax errors
-    problem_words = ['When', 'The', 'This', 'If', 'Use', 'For', 'In']
+    problem_words = ["When", "The", "This", "If", "Use", "For", "In"]
     for word in problem_words:
-        pattern = fr'^(\s*)({word}\s.*)'
-        fixed_content = re.sub(pattern, r'\1# \2', fixed_content, flags=re.MULTILINE)
-    
+        pattern = rf"^(\s*)({word}\s.*)"
+        fixed_content = re.sub(pattern, r"\1# \2", fixed_content, flags=re.MULTILINE)
+
     # One more check: look for standalone backticks which cause syntax errors
-    fixed_content = re.sub(r'`([^`]+)`', r"'\1'", fixed_content)
-    
+    fixed_content = re.sub(r"`([^`]+)`", r"'\1'", fixed_content)
+
     # Write the fixed content back to the file
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(fixed_content)
