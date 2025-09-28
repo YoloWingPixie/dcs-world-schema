@@ -107,6 +107,12 @@ jobs:
           echo "::group::Generating EmmyLua type definitions"
           task build:lua
           echo "::endgroup::"
+      - name: 🧩 Generate Selene Std (YAML)
+        if: steps.check_version.outputs.version_changed == 'true'
+        run: |
+          echo "::group::Generating Selene YAML standard library"
+          task build:selene
+          echo "::endgroup::"
       
       - name: 📄 Extract changelog for current version
         if: steps.check_version.outputs.version_changed == 'true'
@@ -151,10 +157,12 @@ jobs:
             - **JSON Schema**: `dcs-world-api-schema.json` - Complete API schema in JSON format
             - **YAML Schema**: `dcs-world-api-schema.yaml` - Complete API schema in YAML format  
             - **EmmyLua Type Definitions**: `dcs-world-api.lua` - Lua type definitions for IDE support
+            - **Selene Std (YAML)**: `dcs-world-selene.yml` - Selene standard library (current)
           files: |
             dist/dcs-world-api-schema.json
             dist/dcs-world-api-schema.yaml
             dist/dcs-world-api.lua
+            dist/dcs-world-selene.yml
           draft: false
           prerelease: ${{ steps.release_type.outputs.is_prerelease }}
           fail_on_unmatched_files: true
