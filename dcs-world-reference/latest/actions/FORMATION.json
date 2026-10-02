@@ -1,0 +1,268 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "Option",
+  "defaultParams": {
+    "name": 5
+  },
+  "description": "Set the group formation.",
+  "displayName": "Formation",
+  "id": "FORMATION",
+  "kind": "option",
+  "missions": {
+    "categories": [
+      "plane",
+      "helicopter"
+    ],
+    "contexts": {
+      "route>ComboTask>ControlledTask>WrappedAction": 1,
+      "route>ComboTask>WrappedAction": 11023,
+      "triggered>WrappedAction": 74
+    },
+    "count": 11098
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "option": "FORMATION",
+  "optionName": 5,
+  "params": [
+    {
+      "missionCount": 10340,
+      "name": "formationIndex",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 11098,
+      "name": "name",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 11098,
+      "name": "value",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 9979,
+      "name": "variantIndex",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 232,
+      "name": "zInverse",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": false,
+      "casings": [
+        "numeric"
+      ],
+      "category": "plane",
+      "context": "setOption",
+      "hasTaskAfter": false,
+      "id": "5",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "numeric"
+      ],
+      "category": "helicopter",
+      "context": "setOption",
+      "hasTaskAfter": false,
+      "id": "5",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

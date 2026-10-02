@@ -1,0 +1,405 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Transport"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Transport"
+    }
+  ],
+  "capability": {
+    "attributes": [
+      "Transports"
+    ],
+    "messages": [
+      "The waypoint is not the first.",
+      "Cargo transportation can not be assigned to"
+    ]
+  },
+  "dcsId": "CargoTransportationPlane",
+  "defaultParams": {},
+  "description": "Cargo transportaion (Internal)",
+  "displayName": "Cargo Transportation (Internal)",
+  "id": "CARGO_TRANSPORTATION_PLANE",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "plane",
+      "helicopter"
+    ],
+    "contexts": {
+      "route>ComboTask": 82
+    },
+    "count": 82
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 72,
+      "name": "groupId",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 72,
+      "name": "unitId",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 66,
+      "name": "unitIdTransport",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 72,
+      "name": "x",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 72,
+      "name": "y",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "zoneRadius",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportationplane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportationplane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportationplane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "CargoTransportationPlane",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "cargoTransportationPlane",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "cargotransportationplane",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportationplane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportationplane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportationPlane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportationplane",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "CargoTransportationPlane",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "cargoTransportationPlane",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "cargotransportationplane",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

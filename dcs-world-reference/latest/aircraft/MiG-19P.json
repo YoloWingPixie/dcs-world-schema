@@ -1,0 +1,1498 @@
+{
+  "aero": {
+    "emptyMassKg": 5252,
+    "internalFuelKg": 1800,
+    "maxSpeedKmh": 992,
+    "maxTakeoffKg": 8738
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 150,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 100,
+    "irEmissionCoeff": 0.34,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 3.8885,
+    "lengthM": 13.025,
+    "wingSpanM": 9
+  },
+  "displayName": "MiG-19P",
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "NR30_30x155_APHE",
+      "NR30_30x155_APT",
+      "NR30_30x155_HEI_T"
+    ],
+    "mixes": [
+      {
+        "label": "AP-T, APHE, HEI-T, HEI-T, HEI-T"
+      },
+      {
+        "label": "OFZT 30x155 HEI-T"
+      },
+      {
+        "label": "BT 30x155 AP-T"
+      },
+      {
+        "label": "BR 30x155 APHE"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "NR30_30x155_HEI_T",
+          "NR30_30x155_APT",
+          "NR30_30x155_APHE"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "NR30_30x155_APT",
+              "NR30_30x155_APHE",
+              "NR30_30x155_HEI_T",
+              "NR30_30x155_HEI_T",
+              "NR30_30x155_HEI_T"
+            ]
+          },
+          {
+            "ammo": [
+              "NR30_30x155_HEI_T"
+            ]
+          },
+          {
+            "ammo": [
+              "NR30_30x155_APT"
+            ]
+          },
+          {
+            "ammo": [
+              "NR30_30x155_APHE"
+            ]
+          }
+        ],
+        "rounds": 70,
+        "type": "NR-30"
+      },
+      {
+        "ammo": [
+          "NR30_30x155_HEI_T",
+          "NR30_30x155_APT",
+          "NR30_30x155_APHE"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "NR30_30x155_APT",
+              "NR30_30x155_APHE",
+              "NR30_30x155_HEI_T",
+              "NR30_30x155_HEI_T",
+              "NR30_30x155_HEI_T"
+            ]
+          },
+          {
+            "ammo": [
+              "NR30_30x155_HEI_T"
+            ]
+          },
+          {
+            "ammo": [
+              "NR30_30x155_APT"
+            ]
+          },
+          {
+            "ammo": [
+              "NR30_30x155_APHE"
+            ]
+          }
+        ],
+        "rounds": 70,
+        "type": "NR-30"
+      }
+    ],
+    "rounds": 140,
+    "type": "NR-30"
+  },
+  "id": "MiG-19P",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 498,
+      "control": "checkbox",
+      "default": false,
+      "id": "MountSIRENA",
+      "label": "Mount SPO-2 Sirena RWR",
+      "weightWhenOnKg": -80
+    },
+    {
+      "control": "spinbox",
+      "default": 5,
+      "dimension": " ",
+      "id": "MissileToneVolume",
+      "label": "Volume level for R-3S",
+      "max": 9,
+      "min": 0
+    },
+    {
+      "control": "spinbox",
+      "default": 0,
+      "dimension": " ",
+      "id": "NAV_Initial_Hdg",
+      "label": "Initial course",
+      "max": 359,
+      "min": 0
+    },
+    {
+      "control": "spinbox",
+      "default": 625,
+      "dimension": " ",
+      "id": "ADF_FAR_Frequency",
+      "label": "ADF FAR Frequency Preset",
+      "max": 1300,
+      "min": 150
+    },
+    {
+      "control": "spinbox",
+      "default": 303,
+      "dimension": " ",
+      "id": "ADF_NEAR_Frequency",
+      "label": "ADF NEAR Frequency Preset",
+      "max": 1300,
+      "min": 150
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "ADF_Selected_Frequency",
+      "label": "ADF Selected Preset",
+      "values": [
+        {
+          "id": 1,
+          "label": "FAR"
+        },
+        {
+          "id": 2,
+          "label": "NEAR"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.49640011097796,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          299
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          272
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          270
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 41
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 89
+      },
+      {
+        "args": [
+          187
+        ],
+        "cell": 98
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 139
+      }
+    ],
+    "file": "MiG_19P",
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "argument": 209,
+              "dir_correction": {
+                "elevation": 0.05235987755983
+              },
+              "speed": 1,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "argument": 208,
+              "dir_correction": {
+                "elevation": 0.05235987755983
+              },
+              "speed": 1,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "MiG_19P",
+    "shapeDestroyed": "MiG-19P_destr"
+  },
+  "module": "MiG-19P AI by RAZBAM",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1966,
+        "to": 1975
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1961,
+        "to": 1977
+      }
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1958,
+        "to": 1966
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1959,
+        "to": 1970
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1955,
+        "to": 1970
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1961,
+        "to": 1965
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.5,
+    "bankAngleMaxDeg": 85,
+    "casMin": 60,
+    "enginesCount": 2,
+    "hMaxM": 17500,
+    "machMax": 1.1,
+    "nyMax": 7,
+    "rangeKm": 1200,
+    "vLandMs": 78,
+    "vMaxHMs": 275.55555555556,
+    "vMaxSeaLevelMs": 294.16666666667,
+    "vOptMs": 236.11111111111,
+    "vTakeOffMs": 63
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": false,
+    "receptaclePosition": [
+      0,
+      0,
+      0
+    ],
+    "tankerType": 0
+  },
+  "sensors": [
+    "Abstract RWR",
+    "N-008"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{K-13A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{K-13A}"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -3.165,
+        "longitudinal": 0.172,
+        "vertical": -0.515
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "FAB_100M",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "FAB_100M"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "FAB_50",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "FAB_50"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "PTB760_MIG19",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "PTB760_MIG19"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{ORO57K_S5M_HEFRAG}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ORO57K_S5M_HEFRAG}"
+              ],
+              "station": 5
+            }
+          ]
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -2.595,
+        "longitudinal": -0.404,
+        "vertical": -0.39
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ORO57K_S5M_HEFRAG}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ORO57K_S5M_HEFRAG}"
+              ],
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -1.81,
+        "longitudinal": -0.297,
+        "vertical": -0.395
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ORO57K_S5M_HEFRAG}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ORO57K_S5M_HEFRAG}"
+              ],
+              "station": 3
+            }
+          ]
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 1.81,
+        "longitudinal": -0.297,
+        "vertical": -0.395
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "FAB_100M",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "FAB_100M"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "FAB_50",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "FAB_50"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "PTB760_MIG19",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "PTB760_MIG19"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{ORO57K_S5M_HEFRAG}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ORO57K_S5M_HEFRAG}"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 2.595,
+        "longitudinal": -0.404,
+        "vertical": -0.39
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B1}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B4}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B5}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{D3F65166-1AB8-490f-AF2F-2FB6E22568B6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "anyStore": true,
+              "station": 4
+            },
+            {
+              "anyStore": true,
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{K-13A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{K-13A}"
+              ],
+              "station": 1
+            }
+          ]
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 3.165,
+        "longitudinal": 0.172,
+        "vertical": -0.515
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    }
+  ]
+}

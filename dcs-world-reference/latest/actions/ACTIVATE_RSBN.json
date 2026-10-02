@@ -1,0 +1,654 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    },
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "messages": [
+      "has no RSBN"
+    ]
+  },
+  "dcsId": "ActivateRSBN",
+  "defaultParams": {
+    "callsign": "TKR",
+    "channel": 1
+  },
+  "description": "This command activates corresponding RSBN or PRMG beacon",
+  "displayName": "Activate RSBN",
+  "id": "ACTIVATE_RSBN",
+  "kind": "command",
+  "makeParams": {},
+  "missions": {
+    "categories": [
+      "vehicle"
+    ],
+    "contexts": {
+      "route>ComboTask>WrappedAction": 2228
+    },
+    "count": 2228
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 2228,
+      "name": "callsign",
+      "seenIn": [
+        "default",
+        "makeParams",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "missionCount": 2228,
+      "name": "channel",
+      "seenIn": [
+        "default",
+        "makeParams",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "ActivateRSBN",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "ActivateRSBN",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "ActivateRSBN",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "activateRSBN",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activatersbn",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

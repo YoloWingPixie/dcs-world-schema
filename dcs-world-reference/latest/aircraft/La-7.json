@@ -1,0 +1,975 @@
+{
+  "aero": {
+    "emptyMassKg": 2843,
+    "internalFuelKg": 333,
+    "maxSpeedKmh": 774,
+    "maxTakeoffKg": 3530
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "position": [
+          -5.776,
+          1.4,
+          -0.422
+        ]
+      },
+      {
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "position": [
+          -5.776,
+          1.4,
+          0.422
+        ]
+      }
+    ]
+  },
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 156,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.1,
+    "rcsM2": 2.5
+  },
+  "dimensions": {
+    "heightM": 2.54,
+    "lengthM": 8.6,
+    "wingSpanM": 9.8
+  },
+  "displayName": "La-7",
+  "failures": [
+    {
+      "id": "ENG0_GOVERNOR_FAILURE",
+      "label": "Prop governor Fault."
+    },
+    {
+      "id": "ENG0_MAGNETO0",
+      "label": "Magneto 1 Fault."
+    },
+    {
+      "id": "ENG0_MAGNETO1",
+      "label": "Magneto 2 Fault."
+    },
+    {
+      "id": "ENG0_JAMMED",
+      "label": "Engine Jam"
+    }
+  ],
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "20x99R_AP",
+      "20x99R_HE_T"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "20x99R_AP",
+          "20x99R_HE_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "20x99R_AP",
+              "20x99R_HE_T"
+            ]
+          }
+        ],
+        "rounds": 170,
+        "type": "SHVAK_GUN"
+      },
+      {
+        "ammo": [
+          "20x99R_AP",
+          "20x99R_HE_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "20x99R_AP",
+              "20x99R_HE_T"
+            ]
+          }
+        ],
+        "rounds": 170,
+        "type": "SHVAK_GUN"
+      }
+    ],
+    "rounds": 340,
+    "type": "SHVAK_GUN"
+  },
+  "id": "La-7",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 15
+    }
+  ],
+  "missionOptions": [],
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.51342418176678,
+      -0.93969262078591,
+      -0.51342418176678,
+      -0.087155742747658
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          165
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          164
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          302
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          269
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 42
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          429
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          380
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          430
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          381
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          431
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          382
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          459
+        ],
+        "cell": 90
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 96
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 97
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 100
+      }
+    ],
+    "file": "La-7",
+    "lightsData": {
+      "lights": {
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "argument": 69,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "La-7",
+    "shapeDestroyed": "La-7_destr"
+  },
+  "module": "La-7 AI by OctopusG",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1944,
+        "to": 1952
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.08,
+    "bankAngleMaxDeg": 60,
+    "casMin": 56,
+    "enginesCount": 1,
+    "hMaxM": 11300,
+    "machMax": 0.72,
+    "nyMax": 8,
+    "rangeKm": 440,
+    "vLandMs": 50,
+    "vMaxHMs": 215,
+    "vMaxSeaLevelMs": 202.8,
+    "vOptMs": 125,
+    "vTakeOffMs": 53
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": false,
+    "tankerType": 0
+  },
+  "sensors": [
+    "Merkury LLTV"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "I16_FAB_100SV"
+        },
+        {
+          "clsid": "LA7_AO_25SL"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_FAB_100SV"
+        },
+        {
+          "clsid": "LA7_AO_25SL"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    }
+  ]
+}

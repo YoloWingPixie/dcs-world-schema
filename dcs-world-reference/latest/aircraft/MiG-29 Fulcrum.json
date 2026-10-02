@@ -1,0 +1,3029 @@
+{
+  "aero": {
+    "emptyMassKg": 10922,
+    "internalFuelKg": 3376,
+    "maxSpeedKmh": 2450.16,
+    "maxTakeoffKg": 19700
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 30,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0.64,
+          0.77,
+          0.13
+        ],
+        "position": [
+          -0.937,
+          1.645,
+          -1.726
+        ]
+      },
+      {
+        "direction": [
+          0.64,
+          0.77,
+          -0.13
+        ],
+        "position": [
+          -0.937,
+          1.645,
+          1.726
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 30,
+      "increment": 30
+    },
+    "singleChargeTotal": 60
+  },
+  "countryOfOrigin": "RUS",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 399.975,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 160,
+    "irEmissionCoeff": 0.77,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 4.73,
+    "lengthM": 20.32,
+    "wingSpanM": 11.36
+  },
+  "displayName": "MiG-29A  Fulcrum",
+  "failures": [
+    {
+      "id": "L006LM_FAILURE_204_RECEIVER_FRONT_LEFT",
+      "label": "SPO-15 front left receiver failure"
+    },
+    {
+      "id": "L006LM_FAILURE_204_RECEIVER_FRONT_RIGHT",
+      "label": "SPO-15 front right receiver failure"
+    },
+    {
+      "id": "L006LM_FAILURE_202_RECEIVER_AFT_RIGHT_TOP",
+      "label": "SPO-15 rear right and top receiver failure"
+    },
+    {
+      "id": "L006LM_FAILURE_202_RECEIVER_AFT_LEFT_BOTTOM",
+      "label": "SPO-15 rear left and bottom receiver failure"
+    },
+    {
+      "id": "L006LM_FAILURE_3_CART_5X",
+      "label": "SPO-15 processing failure"
+    },
+    {
+      "id": "L006LM_FAILURE_31_AMPLIFIER_LEFT",
+      "label": "SPO-15 left hemisphere amplifier failure"
+    },
+    {
+      "id": "L006LM_FAILURE_31_AMPLIFIER_RIGHT",
+      "label": "SPO-15 right hemisphere amplifier failure"
+    },
+    {
+      "id": "L006LM_FAILURE_32_AMPLIFIER_ELEVATION",
+      "label": "SPO-15 elevation amplifier failure"
+    },
+    {
+      "id": "L006LM_FAILURE_33_POWER_LEVEL_ESTIMATOR_PULSED",
+      "label": "SPO-15 power level estimator failure (pulsed)"
+    },
+    {
+      "id": "L006LM_FAILURE_34_POWER_LEVEL_ESTIMATOR_CW",
+      "label": "SPO-15 power level estimator failure (CW)"
+    },
+    {
+      "id": "L006LM_FAILURE_512_BLOCKING_SYSTEM",
+      "label": "SPO-15 blocking system failure"
+    },
+    {
+      "id": "L006LM_FAILURE_12_POWER_SUPPLY",
+      "label": "SPO-15 power supply failure"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "GSH301_30_HE"
+    ],
+    "defaultMix": 1,
+    "mixes": [
+      {
+        "label": "HEI-T (High Explosive Incendiary-Tracer)"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "GSH301_30_HE"
+        ],
+        "rounds": 150,
+        "type": "GSh_30_1"
+      }
+    ],
+    "rounds": 150,
+    "type": "GSh_30_1"
+  },
+  "id": "MiG-29 Fulcrum",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 20
+    }
+  ],
+  "missionOptions": [
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "HUDLanguage",
+      "label": "HUD/HDD Language",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "User"
+        },
+        {
+          "id": 1,
+          "label": "Russian (Native)"
+        },
+        {
+          "id": 2,
+          "label": "English"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "AvionicsLanguage",
+      "label": "Avionics Language",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "User"
+        },
+        {
+          "id": 1,
+          "label": "Russian (Native)"
+        },
+        {
+          "id": 2,
+          "label": "English"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "AvionicsUnits",
+      "label": "Avionics Units",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "User"
+        },
+        {
+          "id": 1,
+          "label": "Metric (Native)"
+        },
+        {
+          "id": 2,
+          "label": "Imperial"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "Realistic INS",
+      "label": "INS realism",
+      "playerOnly": true,
+      "values": [
+        {
+          "guiAction": {
+            "controls": [
+              "IMU alignment type"
+            ],
+            "onSelect": "disable"
+          },
+          "id": 0,
+          "label": "No alignment and fixtaking needed"
+        },
+        {
+          "guiAction": {
+            "controls": [
+              "IMU alignment type"
+            ],
+            "onSelect": "enable"
+          },
+          "id": 1,
+          "label": "Fully realistic"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "IMU alignment type",
+      "label": "At Hot Start",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Fast"
+        },
+        {
+          "id": 1,
+          "label": "Normal"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "SPOMode",
+      "label": "SPO-15LM Threat Program",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Stock WP",
+          "value": 0
+        },
+        {
+          "id": 1,
+          "label": "Automatic",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "arg": 649,
+      "control": "checkbox",
+      "default": true,
+      "id": "NS430allow",
+      "label": "Allow NS 430"
+    },
+    {
+      "arg": 509,
+      "control": "comboList",
+      "default": 1,
+      "id": "HelmetMountedDevice",
+      "label": "Helmet Mounted Device",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Not installed",
+          "value": 0.5
+        },
+        {
+          "id": 1,
+          "label": "HMS",
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.58058609380733,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          169
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          163
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          168
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          220
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 44
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          663
+        ],
+        "cell": 90
+      }
+    ],
+    "file": "mig-29-fulcrum",
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "argument": 210,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "liveryEntry": "MiG-29-Fulcrum",
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "mig-29-fulcrum",
+    "shapeDestroyed": "MiG-29-fulcrum_destr"
+  },
+  "module": "MiG-29 Fulcrum AI",
+  "operations": {
+    "laserRangefinder": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1990,
+        "to": 2004
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 2003
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1990,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 1996
+      }
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1993,
+        "to": 2010
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1987,
+        "to": 2003
+      }
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1988,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1989,
+        "to": 9999
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1989,
+        "to": 2003
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA",
+      "years": {
+        "from": 2017,
+        "to": 9999
+      }
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1987,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1988,
+        "to": 1991
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1983,
+        "to": 1991
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1989,
+        "to": 9999
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1988,
+        "to": 1990
+      }
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.2743,
+    "bankAngleMaxDeg": 60,
+    "casMin": 60,
+    "enginesCount": 2,
+    "hMaxM": 18000,
+    "machMax": 2.3,
+    "nyMax": 8,
+    "rangeKm": 1500,
+    "vLandMs": 70,
+    "vMaxHMs": 680.6,
+    "vMaxSeaLevelMs": 416.7,
+    "vOptMs": 222,
+    "vTakeOffMs": 67
+  },
+  "radios": [
+    "MiG-29 Fulcrum__radio0",
+    "MiG-29 Fulcrum__radio1"
+  ],
+  "sensors": [
+    "Abstract RWR",
+    "KOLS",
+    "N-019"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{MIG-29A_EMPTY_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MIG-29A_EMPTY_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60M_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60M_APU-60}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60_APU-60}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-73_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-73_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Blue_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Green_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Orange_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Red_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-White_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Yellow_APU-73}"
+              ],
+              "station": 7
+            }
+          ]
+        }
+      ],
+      "displayName": "5",
+      "order": 1,
+      "position": {
+        "lateral": -3.927,
+        "longitudinal": -1.671,
+        "vertical": -0.121
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500SHP_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500SHP_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250-M62_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250-M62_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-AO_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-AO_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-PTAB_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-PTAB_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250-275_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250-275_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MIG-29A_EMPTY_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MIG-29A_EMPTY_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60M_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60M_APU-60}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60_APU-60}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-73_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-73_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S24B_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S24B_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-KOM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-KOM_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-OFP2_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-OFP2_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-TSM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-TSM_BDZ-UMK2-B}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Blue_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Green_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Orange_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Red_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-White_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Yellow_APU-73}"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "displayName": "3",
+      "order": 2,
+      "position": {
+        "lateral": -3.245,
+        "longitudinal": -1.09,
+        "vertical": -0.097
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xBETAB-500_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xBETAB-500_MBD3-U2T}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xFAB-250-M62_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xFAB-250-M62_MBD3-U2T}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xFAB-250_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xFAB-250_MBD3-U2T}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xFAB-500_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xFAB-500_MBD3-U2T}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500SHP_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500SHP_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250-M62_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250-M62_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-AO_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-AO_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-PTAB_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-PTAB_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250-275_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250-275_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MIG-29A_EMPTY_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MIG-29A_EMPTY_APU-470}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27ER_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27ER_APU-470}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27ET_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27ET_APU-470}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27R_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27R_APU-470}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27T_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27T_APU-470}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60M_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60M_APU-60}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60_APU-60}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-73_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-73_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S24B_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S24B_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-KOM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-KOM_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-OFP2_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-OFP2_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-TSM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-TSM_BDZ-UMK2-B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Blue_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Green_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Orange_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Red_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-White_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Yellow_APU-73}"
+              ],
+              "station": 5
+            }
+          ]
+        }
+      ],
+      "displayName": "1",
+      "order": 3,
+      "position": {
+        "lateral": -2.44,
+        "longitudinal": -0.553,
+        "vertical": -0.122
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{PTB_1500_MIG29A}"
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}"
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}"
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}"
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}"
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}"
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}"
+        }
+      ],
+      "displayName": "7",
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": -0.857,
+        "vertical": -0.156
+      },
+      "station": 4,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xBETAB-500_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xBETAB-500_MBD3-U2T}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xFAB-250-M62_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xFAB-250-M62_MBD3-U2T}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xFAB-250_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xFAB-250_MBD3-U2T}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_2xFAB-500_MBD3-U2T}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_2xFAB-500_MBD3-U2T}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500SHP_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500SHP_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250-M62_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250-M62_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-AO_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-AO_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-PTAB_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-PTAB_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250-275_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250-275_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MIG-29A_EMPTY_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MIG-29A_EMPTY_APU-470}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27ER_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27ER_APU-470}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27ET_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27ET_APU-470}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27R_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27R_APU-470}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-27T_APU-470}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-27T_APU-470}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60M_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60M_APU-60}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60_APU-60}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-73_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-73_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S24B_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S24B_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-KOM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-KOM_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-OFP2_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-OFP2_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-TSM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-TSM_BDZ-UMK2-B}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Blue_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Green_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Orange_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Red_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-White_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Yellow_APU-73}"
+              ],
+              "station": 3
+            }
+          ]
+        }
+      ],
+      "displayName": "2",
+      "order": 5,
+      "position": {
+        "lateral": 2.44,
+        "longitudinal": -0.553,
+        "vertical": -0.122
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500SHP_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500SHP_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_BETAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_BETAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250-M62_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250-M62_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-250_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_FAB-500_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_FAB-500_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-AO_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-AO_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_KMGU2-PTAB_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_KMGU2-PTAB_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250-275_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250-275_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-250_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-250_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-255-PTAB-10-5_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{AB_RBK-500-PTAB-1M_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MIG-29A_EMPTY_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MIG-29A_EMPTY_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60M_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60M_APU-60}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60_APU-60}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-73_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-73_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S24B_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S24B_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-KOM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-KOM_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-OFP2_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-OFP2_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{ROCKETS_S8-TSM_BDZ-UMK2-B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{ROCKETS_S8-TSM_BDZ-UMK2-B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Blue_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Green_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Orange_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Red_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-White_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Yellow_APU-73}"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "displayName": "4",
+      "order": 6,
+      "position": {
+        "lateral": 3.245,
+        "longitudinal": -1.09,
+        "vertical": -0.097
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{MIG-29A_EMPTY_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MIG-29A_EMPTY_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60M_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60M_APU-60}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-60_APU-60}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-60_APU-60}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{MISSILE_R-73_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MISSILE_R-73_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Blue_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Blue_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Green_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Green_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Orange_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Orange_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Red_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Red_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-White_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-White_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SmokeGenerator_R73-Yellow_APU-73}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SmokeGenerator_R73-Yellow_APU-73}"
+              ],
+              "station": 1
+            }
+          ]
+        }
+      ],
+      "displayName": "6",
+      "order": 7,
+      "position": {
+        "lateral": 3.927,
+        "longitudinal": -1.671,
+        "vertical": -0.121
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

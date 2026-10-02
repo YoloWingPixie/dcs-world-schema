@@ -1,0 +1,43 @@
+{
+  "name": "dcs-world-reference",
+  "version": "0.4.0",
+  "dcsVersion": "2.9.30.28536",
+  "description": "DCS World reference data (units, weapons, airbases, beacons, ...) as typed JSON",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YoloWingPixie/dcs-world-schema.git",
+    "directory": "packages/typescript"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "import": "./lib/index.js"
+    },
+    "./data/*": "./data/*",
+    "./*": {
+      "types": "./lib/*.d.ts",
+      "import": "./lib/*.js"
+    }
+  },
+  "files": [
+    "lib",
+    "data"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20.10"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "tsc -p test && node --test test/*.test.mjs",
+    "lint": "eslint"
+  },
+  "devDependencies": {
+    "@typescript/native": "npm:typescript@7.0.2",
+    "eslint": "10.11.0",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "typescript-eslint": "8.71.0"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "AWACS"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "AWACS",
+  "defaultParams": {},
+  "description": "Make the lead aircraft of the group AWACS",
+  "displayName": "AWACS",
+  "id": "AWACS",
+  "kind": "enrouteTask",
+  "missions": {
+    "categories": [
+      "plane"
+    ],
+    "contexts": {
+      "route>ComboTask": 1207,
+      "route>ComboTask>ControlledTask": 23,
+      "triggered": 16,
+      "triggered>ControlledTask": 1
+    },
+    "count": 1247
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "AWACS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "aWACS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "awacs",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "AWACS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "aWACS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "awacs",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "AWACS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "aWACS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "awacs",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "AWACS",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "aWACS",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "awacs",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

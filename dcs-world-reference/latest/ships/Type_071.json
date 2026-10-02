@@ -1,0 +1,1015 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "Aircraft Carriers",
+    "AircraftCarrier",
+    "AircraftCarrier With Tramplin",
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "DetectionByAWACS",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "HelicopterCarrier",
+    "NO_SAM",
+    "Naval",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "Ships",
+    "Straight_in_approach_type"
+  ],
+  "detection": {
+    "airFindDistM": 300000,
+    "airWeaponDistM": 150000,
+    "detectionRangeM": 300000,
+    "rcsM2": 400000,
+    "threatRangeM": 150000
+  },
+  "dimensions": {
+    "heightM": 40,
+    "lengthM": 210,
+    "massKg": 25000000,
+    "widthM": 28
+  },
+  "displayName": "Type 071 Amphibious Transport Dock",
+  "facilities": {
+    "deckLevelM": 10.7,
+    "helicopterNum": 2,
+    "helicopterSpawnTerminals": [
+      {
+        "points": [
+          {
+            "position": [
+              -38.5,
+              10.7,
+              -3.5
+            ],
+            "values": [
+              0
+            ]
+          }
+        ],
+        "terminal": 1
+      },
+      {
+        "points": [
+          {
+            "position": [
+              -76,
+              11,
+              3.5
+            ],
+            "values": [
+              0
+            ]
+          }
+        ],
+        "terminal": 2
+      }
+    ],
+    "landingPoint": [
+      -76,
+      11,
+      3.5
+    ],
+    "numParking": 2,
+    "ols": {
+      "meatBallArg": -1,
+      "type": 1
+    },
+    "runways": [
+      {
+        "alsArgument": 0,
+        "azimuthDeg": 0,
+        "glidePath": {
+          "high": 3.5,
+          "low": 2.5,
+          "onLower": 3,
+          "onUpper": 3,
+          "slightlyHigh": 3.2,
+          "slightlyLow": 2.8
+        },
+        "lengthM": 5,
+        "start": [
+          -76.5,
+          10.7,
+          3.5
+        ],
+        "widthM": 14
+      },
+      {
+        "alsArgument": 0,
+        "azimuthDeg": 0,
+        "glidePath": {
+          "high": 3.5,
+          "low": 2.5,
+          "onLower": 3,
+          "onUpper": 3,
+          "slightlyHigh": 3.2,
+          "slightlyLow": 2.8
+        },
+        "lengthM": 5,
+        "start": [
+          -38.5,
+          10.7,
+          -3.5
+        ],
+        "widthM": 14
+      },
+      {
+        "alsArgument": 0,
+        "azimuthDeg": 0,
+        "glidePath": {
+          "high": 3.5,
+          "low": 2.5,
+          "onLower": 3,
+          "onUpper": 3,
+          "slightlyHigh": 3.2,
+          "slightlyLow": 2.8
+        },
+        "lengthM": 5,
+        "start": [
+          -76,
+          11,
+          3.5
+        ],
+        "widthM": 14
+      }
+    ],
+    "tacan": true,
+    "tacanPosition": [
+      35,
+      40,
+      0
+    ]
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 30000,
+    "radarType": 104,
+    "radarTypeName": "wsType_MissGun"
+  },
+  "id": "Type_071",
+  "life": [
+    {
+      "source": "life",
+      "value": 7300
+    }
+  ],
+  "mobility": {
+    "draftM": 5,
+    "economyDistance": 19000000,
+    "economyVelocity": 9.16667,
+    "maxSpeedKmh": 45.99972,
+    "maxSpeedMs": 12.7777,
+    "minTurnRadiusM": 665.8,
+    "raceDistance": 9000000,
+    "raceVelocity": 12.7777
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 500,
+      "arresting_wires": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "blast_fences": [
+        61,
+        62,
+        63,
+        64
+      ],
+      "flag_animation": 314,
+      "flight_deck_fences": 150,
+      "landing_strip_illumination": -1,
+      "locator_rotation": -1,
+      "luna_lights": 100,
+      "nav_lights": 69,
+      "radar1_rotation": 11,
+      "radar2_rotation": -1,
+      "radar3_rotation": -1,
+      "toggle_alarm_state_interval": 20,
+      "water_propeller": 8
+    },
+    "className": "lLandShip",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 17,
+          "value": 0.5
+        },
+        {
+          "arg": 19,
+          "value": 1
+        },
+        {
+          "arg": 21,
+          "value": -0.5
+        },
+        {
+          "arg": 23,
+          "value": 1
+        }
+      ]
+    },
+    "file": "071",
+    "mapClassKey": "P0091000067",
+    "positioning": "BYNORMAL",
+    "shape": "071"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "PLAN Search Radar B",
+    "long-range naval LLTV",
+    "long-range naval optics"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 1.5707963267949,
+      "frequencyRangeHz": [
+        7000000000,
+        9000000000
+      ],
+      "hMaxM": 12000,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 12.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.9670597283904,
+          0.17453292519943,
+          -0.069813170079773,
+          1.553343034275
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2,
+        "yaw": 2
+      },
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "frequencyRangeHz": [
+        7000000000,
+        9000000000
+      ],
+      "hMaxM": 12000,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 12.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          0.17453292519943,
+          -0.17453292519943,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2,
+        "yaw": 2
+      },
+      "ws": 2
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "frequencyRangeHz": [
+        7000000000,
+        9000000000
+      ],
+      "hMaxM": 12000,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 12.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          -0.17453292519943,
+          -2.9670597283904,
+          -0.069813170079773,
+          1.553343034275
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2,
+        "yaw": 2
+      },
+      "ws": 3
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "frequencyRangeHz": [
+        7000000000,
+        9000000000
+      ],
+      "hMaxM": 12000,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 12.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          0.17453292519943,
+          -0.17453292519943,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2,
+        "yaw": 2
+      },
+      "ws": 4
+    },
+    {
+      "barrels": 1,
+      "displayName": "H/PJ-26",
+      "gunAmmo": [
+        "PJ26_76_PFHE"
+      ],
+      "hMaxM": 11000,
+      "launcherType": 11,
+      "ln": 1,
+      "name": "H/PJ-26",
+      "payloads": [
+        {
+          "ammoCapacity": 150,
+          "gunAmmo": [
+            "PJ26_76_PFHE"
+          ],
+          "shotDelayS": 0.5
+        }
+      ],
+      "rMaxKm": 15.7,
+      "rMinKm": 0.05,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          -2.7925268031909,
+          -0.087266462599716,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.61086523819802
+      },
+      "ws": 5
+    },
+    {
+      "barrels": 1,
+      "displayName": "H/PJ-26",
+      "gunAmmo": [
+        "MK75_76"
+      ],
+      "launcherType": 6,
+      "ln": 2,
+      "name": "H/PJ-26",
+      "payloads": [
+        {
+          "ammoCapacity": 150,
+          "gunAmmo": [
+            "MK75_76"
+          ],
+          "shotDelayS": 0.5
+        }
+      ],
+      "rMinKm": 0.05,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          -2.7925268031909,
+          -0.087266462599716,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.61086523819802
+      },
+      "ws": 5
+    },
+    {
+      "barrels": 1,
+      "displayName": "GSh-6-30K",
+      "gunAmmo": [
+        "AK630_30_AP",
+        "AK630_30_HE"
+      ],
+      "hMaxM": 2500,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "GSh-6-30K",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        }
+      ],
+      "rMaxKm": 3.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          2.9670597283904,
+          0.17453292519943,
+          -0.20943951023932,
+          1.535889741755
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "ws": 6
+    },
+    {
+      "barrels": 1,
+      "displayName": "GSh-6-30K",
+      "gunAmmo": [
+        "AK630_30_AP",
+        "AK630_30_HE"
+      ],
+      "hMaxM": 2500,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "GSh-6-30K",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        }
+      ],
+      "rMaxKm": 3.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          2.9670597283904,
+          0.17453292519943,
+          -0.20943951023932,
+          1.535889741755
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "ws": 7
+    },
+    {
+      "barrels": 1,
+      "displayName": "GSh-6-30K",
+      "gunAmmo": [
+        "AK630_30_AP",
+        "AK630_30_HE"
+      ],
+      "hMaxM": 2500,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "GSh-6-30K",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        }
+      ],
+      "rMaxKm": 3.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          -0.17453292519943,
+          -2.9670597283904,
+          -0.20943951023932,
+          1.535889741755
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "ws": 8
+    },
+    {
+      "barrels": 1,
+      "displayName": "GSh-6-30K",
+      "gunAmmo": [
+        "AK630_30_AP",
+        "AK630_30_HE"
+      ],
+      "hMaxM": 2500,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "GSh-6-30K",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        },
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "30mm AP+HE",
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.010909090909091
+        }
+      ],
+      "rMaxKm": 3.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          -0.17453292519943,
+          -2.9670597283904,
+          -0.20943951023932,
+          1.535889741755
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "ws": 9
+    },
+    {
+      "barrels": 1,
+      "displayName": "Dock View",
+      "launcherType": 103,
+      "ln": 1,
+      "name": "Dock_View",
+      "rMaxKm": 0.0,
+      "rMinKm": 0.0,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.13962634015955,
+          1.0995574287564
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.3962634015955
+      },
+      "ws": 10
+    }
+  ]
+}

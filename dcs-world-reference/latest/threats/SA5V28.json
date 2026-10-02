@@ -1,0 +1,99 @@
+{
+  "_source": {
+    "natoDesignation": "hand-authored"
+  },
+  "components": [
+    {
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "5",
+      "unit": "P14_SR"
+    },
+    {
+      "alic": [
+        "130"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "TS",
+      "unit": "RLS_19J6"
+    },
+    {
+      "alic": [
+        "129"
+      ],
+      "requires": [
+        [
+          [
+            "self",
+            2
+          ]
+        ],
+        [
+          [
+            "RLS_19J6"
+          ]
+        ],
+        [
+          [
+            "p-19 s-125 sr"
+          ]
+        ],
+        [
+          [
+            "P14_SR"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM TR"
+      ],
+      "rwrSymbol": "5",
+      "unit": "RPC_5N62V"
+    },
+    {
+      "envelope": {
+        "hMaxM": 40000,
+        "hMinM": 300,
+        "rMaxKm": 255.0,
+        "rMinKm": 17.0
+      },
+      "requires": [
+        [
+          [
+            "RPC_5N62V",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM LL"
+      ],
+      "unit": "S-200_Launcher",
+      "weapons": [
+        "SA5V28"
+      ]
+    },
+    {
+      "alic": [
+        "122"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "S",
+      "unit": "p-19 s-125 sr"
+    }
+  ],
+  "id": "SA5V28",
+  "kind": "sam",
+  "natoDesignation": "SA-5",
+  "sensors": [
+    "P14_SR",
+    "RLS_19J6",
+    "RPC S-200 TR",
+    "p-19 s-125 sr"
+  ]
+}

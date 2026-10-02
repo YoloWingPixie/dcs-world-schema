@@ -1,0 +1,182 @@
+{
+  "availableFor": [
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "messages": [
+      "has no ICLS to deactivate"
+    ]
+  },
+  "dcsId": "DeactivateICLS",
+  "defaultParams": {},
+  "description": "Deactivate active beacon (ICLS, etc) onboard of the group lead unit.",
+  "displayName": "Deactivate ICLS",
+  "id": "DEACTIVATE_ICLS",
+  "kind": "command",
+  "missions": {
+    "categories": [
+      "ship"
+    ],
+    "contexts": {
+      "triggered>WrappedAction": 1
+    },
+    "count": 1
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "DeactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "deactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "deactivateicls",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "DeactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "deactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "deactivateicls",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "DeactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "deactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "deactivateicls",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "DeactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "deactivateICLS",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "deactivateicls",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

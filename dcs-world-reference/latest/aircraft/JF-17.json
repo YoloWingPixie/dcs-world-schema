@@ -1,0 +1,3427 @@
+{
+  "aero": {
+    "emptyMassKg": 6586,
+    "internalFuelKg": 2325,
+    "maxSpeedKmh": 2520,
+    "maxTakeoffKg": 12500
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Datalink",
+    "Link16",
+    "Multirole fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 36,
+      "increment": 4
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          -1,
+          0.1
+        ],
+        "position": [
+          -3.703,
+          -0.302,
+          0.639
+        ]
+      },
+      {
+        "direction": [
+          0,
+          -1,
+          -0.1
+        ],
+        "position": [
+          -3.703,
+          -0.302,
+          -0.639
+        ]
+      },
+      {
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "position": [
+          -3.13,
+          -0.1,
+          1.108
+        ]
+      },
+      {
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "position": [
+          -3.13,
+          -0.1,
+          -1.108
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 32,
+      "increment": 4
+    },
+    "singleChargeTotal": 68
+  },
+  "countryOfOrigin": "CHN",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 243,
+    "maxMHz": 399.975,
+    "minMHz": 30,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 180,
+    "irEmissionCoeff": 0.6,
+    "rcsM2": 3
+  },
+  "dimensions": {
+    "heightM": 4.7,
+    "lengthM": 14.25,
+    "wingSpanM": 8.5
+  },
+  "displayName": "JF-17",
+  "failures": [
+    {
+      "id": "EMMC_FAILURE_BATTERY_DC1",
+      "label": "EMMC_FAILURE_BATTERY_DC1"
+    },
+    {
+      "id": "EMMC_FAILURE_BATTERY_DC2",
+      "label": "EMMC_FAILURE_BATTERY_DC2"
+    },
+    {
+      "id": "EMMC_FAILURE_BATTERY_FCS1",
+      "label": "EMMC_FAILURE_BATTERY_FCS1"
+    },
+    {
+      "id": "EMMC_FAILURE_BATTERY_FCS2",
+      "label": "EMMC_FAILURE_BATTERY_FCS2"
+    },
+    {
+      "id": "EMMC_FAILURE_DC_GENERATOR_VOLTAGE_LOW",
+      "label": "EMMC_FAILURE_DC_GENERATOR_VOLTAGE_LOW"
+    },
+    {
+      "id": "EMMC_FAILURE_DC_GENERATOR_VOLTAGE_HIGH",
+      "label": "EMMC_FAILURE_DC_GENERATOR_VOLTAGE_HIGH"
+    },
+    {
+      "id": "EMMC_FAILURE_DC_GENERATOR",
+      "label": "EMMC_FAILURE_DC_GENERATOR"
+    },
+    {
+      "id": "EMMC_FAILURE_DC_GENERATOR_CONTROLLER",
+      "label": "EMMC_FAILURE_DC_GENERATOR_CONTROLLER"
+    },
+    {
+      "id": "EMMC_FAILURE_DC_GENERATOR_SUBSYSTEM",
+      "label": "EMMC_FAILURE_DC_GENERATOR_SUBSYSTEM"
+    },
+    {
+      "id": "EMMC_FAILURE_AC_GENERATOR_FEED_LINE",
+      "label": "EMMC_FAILURE_AC_GENERATOR_FEED_LINE"
+    },
+    {
+      "id": "EMMC_FAILURE_AC_GENERATOR_CONTROLLER",
+      "label": "EMMC_FAILURE_AC_GENERATOR_CONTROLLER"
+    },
+    {
+      "id": "EMMC_FAILURE_AC_GENERATOR",
+      "label": "EMMC_FAILURE_AC_GENERATOR"
+    },
+    {
+      "id": "EMMC_FAILURE_AC_GENERATOR_SUBSYSTEM",
+      "label": "EMMC_FAILURE_AC_GENERATOR_SUBSYSTEM"
+    },
+    {
+      "id": "EMMC_FAILURE_TRU_AC2DC28V",
+      "label": "EMMC_FAILURE_TRU_AC2DC28V"
+    },
+    {
+      "id": "EMMC_FAILURE_SCU_AC2AC36V",
+      "label": "EMMC_FAILURE_SCU_AC2AC36V"
+    },
+    {
+      "id": "EMMC_FAILURE_SCU_DC2AC36V",
+      "label": "EMMC_FAILURE_SCU_DC2AC36V"
+    },
+    {
+      "id": "EMMC_FAILURE_SCU_DC2AC115V",
+      "label": "EMMC_FAILURE_SCU_DC2AC115V"
+    },
+    {
+      "id": "EMMC_FAILURE_AC_GROUND",
+      "label": "EMMC_FAILURE_AC_GROUND"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_NAV_LEFT",
+      "label": "FAILURE_EXT_LIGHT_NAV_LEFT"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_NAV_RIGHT",
+      "label": "FAILURE_EXT_LIGHT_NAV_RIGHT"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_NAV_TAIL",
+      "label": "FAILURE_EXT_LIGHT_NAV_TAIL"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_ANTICOL",
+      "label": "FAILURE_EXT_LIGHT_ANTICOL"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_FORMATION_LEFT",
+      "label": "FAILURE_EXT_LIGHT_FORMATION_LEFT"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_FORMATION_RIGHT",
+      "label": "FAILURE_EXT_LIGHT_FORMATION_RIGHT"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_TAXI",
+      "label": "FAILURE_EXT_LIGHT_TAXI"
+    },
+    {
+      "id": "FAILURE_EXT_LIGHT_LAND",
+      "label": "FAILURE_EXT_LIGHT_LAND"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_EMERGE",
+      "label": "FAILURE_HYDRAULICS_EMERGE"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_EMERGE_ACCU",
+      "label": "FAILURE_HYDRAULICS_EMERGE_ACCU"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_1_PUMP",
+      "label": "FAILURE_HYDRAULICS_1_PUMP"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_1_ACCU",
+      "label": "FAILURE_HYDRAULICS_1_ACCU"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_1_EXTERNAL_LEAKAGE",
+      "label": "FAILURE_HYDRAULICS_1_EXTERNAL_LEAKAGE"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_1_EXTERNAL_LEAKAGE_SEVERE",
+      "label": "FAILURE_HYDRAULICS_1_EXTERNAL_LEAKAGE_SEVERE"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_1_INTERNAL_LEAKAGE",
+      "label": "FAILURE_HYDRAULICS_1_INTERNAL_LEAKAGE"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_2_PUMP",
+      "label": "FAILURE_HYDRAULICS_2_PUMP"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_2_ACCU",
+      "label": "FAILURE_HYDRAULICS_2_ACCU"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_2_EXTERNAL_LEAKAGE",
+      "label": "FAILURE_HYDRAULICS_2_EXTERNAL_LEAKAGE"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_2_EXTERNAL_LEAKAGE_SEVERE",
+      "label": "FAILURE_HYDRAULICS_2_EXTERNAL_LEAKAGE_SEVERE"
+    },
+    {
+      "id": "FAILURE_HYDRAULICS_2_INTERNAL_LEAKAGE",
+      "label": "FAILURE_HYDRAULICS_2_INTERNAL_LEAKAGE"
+    },
+    {
+      "id": "OXY_FAILURE_AUTO_100_O2",
+      "label": "OXY_FAILURE_AUTO_100_O2"
+    },
+    {
+      "id": "OXY_FAILURE_AIR_O2_SWITCH",
+      "label": "OXY_FAILURE_AIR_O2_SWITCH"
+    },
+    {
+      "id": "OXY_FAILURE_HIGH_PRESS",
+      "label": "OXY_FAILURE_HIGH_PRESS"
+    },
+    {
+      "id": "OXY_FAILURE_L_LEAK",
+      "label": "OXY_FAILURE_L_LEAK"
+    },
+    {
+      "id": "OXY_FAILURE_L_LEAK_SEVERE",
+      "label": "OXY_FAILURE_L_LEAK_SEVERE"
+    },
+    {
+      "id": "OXY_FAILURE_R_LEAK",
+      "label": "OXY_FAILURE_R_LEAK"
+    },
+    {
+      "id": "OXY_FAILURE_R_LEAK_SEVERE",
+      "label": "OXY_FAILURE_R_LEAK_SEVERE"
+    },
+    {
+      "id": "SHARS_FAILURE_SENSOR",
+      "label": "SHARS_FAILURE_SENSOR"
+    },
+    {
+      "id": "INS_FAILURE_GYRO",
+      "label": "INS_FAILURE_GYRO"
+    },
+    {
+      "id": "INS_FAILURE_ACC",
+      "label": "INS_FAILURE_ACC"
+    },
+    {
+      "id": "INS_FAILURE_DATA_INVALID",
+      "label": "INS_FAILURE_DATA_INVALID"
+    },
+    {
+      "id": "INS_FAILURE_ALGNMENT",
+      "label": "INS_FAILURE_ALGNMENT"
+    },
+    {
+      "id": "INS_FAILURE_ALT_INVALID",
+      "label": "INS_FAILURE_ALT_INVALID"
+    },
+    {
+      "id": "INS_DATA_DEGRADED",
+      "label": "INS_DATA_DEGRADED"
+    },
+    {
+      "id": "INS_WIND_INVALID",
+      "label": "INS_WIND_INVALID"
+    },
+    {
+      "id": "INS_FAILURE_GPS_RECEIVER",
+      "label": "INS_FAILURE_GPS_RECEIVER"
+    },
+    {
+      "id": "INS_PU_REJECTED",
+      "label": "INS_PU_REJECTED"
+    },
+    {
+      "id": "SNS_FAILURE_ANTENNA",
+      "label": "SNS_FAILURE_ANTENNA"
+    },
+    {
+      "id": "FAILURE_SNS_CABLE",
+      "label": "SNS_FAILURE_CABLE"
+    },
+    {
+      "id": "SNS_FAILURE_COMPUTER",
+      "label": "SNS_FAILURE_COMPUTER"
+    },
+    {
+      "id": "RWR_FAILURE_ANTENNA_FRONT_LEFT",
+      "label": "RWR_FAILURE_ANTENNA_FRONT_LEFT"
+    },
+    {
+      "id": "RWR_FAILURE_ANTENNA_REAR_LEFT",
+      "label": "RWR_FAILURE_ANTENNA_REAR_LEFT"
+    },
+    {
+      "id": "RWR_FAILURE_ANTENNA_FRONT_RIGHT",
+      "label": "RWR_FAILURE_ANTENNA_FRONT_RIGHT"
+    },
+    {
+      "id": "RWR_FAILURE_ANTENNA_REAR_RIGHT",
+      "label": "RWR_FAILURE_ANTENNA_REAR_RIGHT"
+    },
+    {
+      "id": "RWR_FAILURE_RECEIVER_XX1",
+      "label": "RWR_FAILURE_RECEIVER_XX1"
+    },
+    {
+      "id": "RWR_FAILURE_RECEIVER_XX2",
+      "label": "RWR_FAILURE_RECEIVER_XX2"
+    },
+    {
+      "id": "RWR_FAILURE_RECEIVER_XX3",
+      "label": "RWR_FAILURE_RECEIVER_XX3"
+    },
+    {
+      "id": "RWR_FAILURE_DB_NOT_LOADED",
+      "label": "RWR_FAILURE_DB_NOT_LOADED"
+    },
+    {
+      "id": "RWR_FAILURE_COMPUTER",
+      "label": "RWR_FAILURE_COMPUTER"
+    },
+    {
+      "id": "OESP_FAILURE_FL_DISP_L",
+      "label": "OESP_FAILURE_FL_DISP_L"
+    },
+    {
+      "id": "OESP_FAILURE_FL_DISP_R",
+      "label": "OESP_FAILURE_FL_DISP_R"
+    },
+    {
+      "id": "OESP_FAILURE_CH_DISP_L",
+      "label": "OESP_FAILURE_CH_DISP_L"
+    },
+    {
+      "id": "OESP_FAILURE_CH_DISP_R",
+      "label": "OESP_FAILURE_CH_DISP_R"
+    },
+    {
+      "id": "OESP_FAILURE_MAWS_L",
+      "label": "OESP_FAILURE_MAWS_L"
+    },
+    {
+      "id": "OESP_FAILURE_MAWS_R",
+      "label": "OESP_FAILURE_MAWS_R"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_1",
+      "label": "FAILURE_SMS_PYLON_1"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_2",
+      "label": "FAILURE_SMS_PYLON_2"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_3",
+      "label": "FAILURE_SMS_PYLON_3"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_4",
+      "label": "FAILURE_SMS_PYLON_4"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_5",
+      "label": "FAILURE_SMS_PYLON_5"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_6",
+      "label": "FAILURE_SMS_PYLON_6"
+    },
+    {
+      "id": "FAILURE_SMS_PYLON_7",
+      "label": "FAILURE_SMS_PYLON_7"
+    },
+    {
+      "id": "DTC_FAILURE_CARD_BROKEN",
+      "label": "DTC_FAILURE_CARD_BROKEN"
+    },
+    {
+      "id": "DTC_FAILURE_DATA_CRC",
+      "label": "DTC_FAILURE_DATA_CRC"
+    },
+    {
+      "id": "DTC_FAILURE_DATA_DECIPHER",
+      "label": "DTC_FAILURE_DATA_DECIPHER"
+    },
+    {
+      "id": "DTC_FAILURE_READER_BROKEN",
+      "label": "DTC_FAILURE_READER_BROKEN"
+    },
+    {
+      "id": "RDR_FAILURE_ARRAY",
+      "label": "RDR_FAILURE_ARRAY"
+    },
+    {
+      "id": "RDR_FAILURE_PEDESTAL",
+      "label": "RDR_FAILURE_PEDESTAL"
+    },
+    {
+      "id": "RDR_FAILURE_SERVOLOOP",
+      "label": "RDR_FAILURE_SERVOLOOP"
+    },
+    {
+      "id": "RDR_FAILURE_RX_FRONT_END",
+      "label": "RDR_FAILURE_RX_FRONT_END"
+    },
+    {
+      "id": "RDR_FAILURE_RECEIVER",
+      "label": "RDR_FAILURE_RECEIVER"
+    },
+    {
+      "id": "RDR_FAILURE_TRANSMITTER",
+      "label": "RDR_FAILURE_TRANSMITTER"
+    },
+    {
+      "id": "RDR_FAILURE_PROCESSOR",
+      "label": "RDR_FAILURE_PROCESSOR"
+    },
+    {
+      "id": "RDR_FAILURE_ANTENNA_DEGRATION",
+      "label": "RDR_FAILURE_ANTENNA_DEGRATION"
+    },
+    {
+      "id": "RDR_FAILURE_RX_FRONT_END_DEGRATION",
+      "label": "RDR_FAILURE_RX_FRONT_END_DEGRATION"
+    },
+    {
+      "id": "RDR_FAILURE_RECEIVER_DEGRATION",
+      "label": "RDR_FAILURE_RECEIVER_DEGRATION"
+    },
+    {
+      "id": "RDR_FAILURE_TRANSMITTER_DEGRATION",
+      "label": "RDR_FAILURE_TRANSMITTER_DEGRATION"
+    },
+    {
+      "id": "RDR_FAILURE_PROCESSOR_DEGRATION",
+      "label": "RDR_FAILURE_PROCESSOR_DEGRATION"
+    },
+    {
+      "id": "RDR_FAILURE_TRANSMITTER_OVERHEAT",
+      "label": "RDR_FAILURE_TRANSMITTER_OVERHEAT"
+    },
+    {
+      "id": "RDR_FAILURE_PROCESSOR_OVERHEAT",
+      "label": "RDR_FAILURE_PROCESSOR_OVERHEAT"
+    },
+    {
+      "id": "RDR_FAILURE_SERVO_OVERHEAT",
+      "label": "RDR_FAILURE_SERVO_OVERHEAT"
+    },
+    {
+      "id": "RDR_FAILURE_PREESURIZATION",
+      "label": "RDR_FAILURE_PREESURIZATION"
+    },
+    {
+      "id": "RDR_FAILURE_DEGRATED_PERFORMANCE",
+      "label": "RDR_FAILURE_DEGRATED_PERFORMANCE"
+    },
+    {
+      "id": "MWMMC_FAILURE",
+      "label": "MWMMC_FAILURE"
+    },
+    {
+      "id": "MWMMC_FAILURE_CPU",
+      "label": "MWMMC_FAILURE_CPU"
+    },
+    {
+      "id": "MWMMC_FAILURE_IOC",
+      "label": "MWMMC_FAILURE_IOC"
+    },
+    {
+      "id": "MWMMC_FAILURE_MBI",
+      "label": "MWMMC_FAILURE_MBI"
+    },
+    {
+      "id": "MWMMC_FAILURE_AVI",
+      "label": "MWMMC_FAILURE_AVI"
+    },
+    {
+      "id": "MWMMC_FAILURE_DMP",
+      "label": "MWMMC_FAILURE_DMP"
+    },
+    {
+      "id": "MWMMC_FAILURE_PS",
+      "label": "MWMMC_FAILURE_PS"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_EMMC",
+      "label": "MWMMC_FAILURE_1553B_EMMC"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_FCS",
+      "label": "MWMMC_FAILURE_1553B_FCS"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_IFF",
+      "label": "MWMMC_FAILURE_1553B_IFF"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_ILS",
+      "label": "MWMMC_FAILURE_1553B_ILS"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_INS",
+      "label": "MWMMC_FAILURE_1553B_INS"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_LMFCD",
+      "label": "MWMMC_FAILURE_1553B_LMFCD"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_CMFCD",
+      "label": "MWMMC_FAILURE_1553B_CMFCD"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_RMFCD",
+      "label": "MWMMC_FAILURE_1553B_RMFCD"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_RDR",
+      "label": "MWMMC_FAILURE_1553B_RDR"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_OESP",
+      "label": "MWMMC_FAILURE_1553B_OESP"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_RALT",
+      "label": "MWMMC_FAILURE_1553B_RALT"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_RWR",
+      "label": "MWMMC_FAILURE_1553B_RWR"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_SAIU",
+      "label": "MWMMC_FAILURE_1553B_SAIU"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_HUD",
+      "label": "MWMMC_FAILURE_1553B_HUD"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_SPJ",
+      "label": "MWMMC_FAILURE_1553B_SPJ"
+    },
+    {
+      "id": "MWMMC_FAILURE_1553B_TACAN",
+      "label": "MWMMC_FAILURE_1553B_TACAN"
+    },
+    {
+      "id": "SWMMC_FAILURE",
+      "label": "SWMMC_FAILURE"
+    },
+    {
+      "id": "SWMMC_FAILURE_CPU",
+      "label": "SWMMC_FAILURE_CPU"
+    },
+    {
+      "id": "SWMMC_FAILURE_IOC",
+      "label": "SWMMC_FAILURE_IOC"
+    },
+    {
+      "id": "SWMMC_FAILURE_MBI",
+      "label": "SWMMC_FAILURE_MBI"
+    },
+    {
+      "id": "SWMMC_FAILURE_AVI",
+      "label": "SWMMC_FAILURE_AVI"
+    },
+    {
+      "id": "SWMMC_FAILURE_DMP",
+      "label": "SWMMC_FAILURE_DMP"
+    },
+    {
+      "id": "SWMMC_FAILURE_PS",
+      "label": "SWMMC_FAILURE_PS"
+    },
+    {
+      "id": "SWMMC_FAILURE_CTVS",
+      "label": "SWMMC_FAILURE_CTVS"
+    },
+    {
+      "id": "SWMMC_FAILURE_HUD",
+      "label": "SWMMC_FAILURE_HUD"
+    },
+    {
+      "id": "SWMMC_FAILURE_LMFCD",
+      "label": "SWMMC_FAILURE_LMFCD"
+    },
+    {
+      "id": "SWMMC_FAILURE_CMFCD",
+      "label": "SWMMC_FAILURE_CMFCD"
+    },
+    {
+      "id": "SWMMC_FAILURE_RMFCD",
+      "label": "SWMMC_FAILURE_RMFCD"
+    },
+    {
+      "id": "SWMMC_AAP_NO_RS422_COMM",
+      "label": "SWMMC_AAP_NO_RS422_COMM"
+    },
+    {
+      "id": "SWMMC_FAILURE_AAP",
+      "label": "SWMMC_FAILURE_AAP"
+    },
+    {
+      "id": "SWMMC_DVR_NO_RS422_COMM",
+      "label": "SWMMC_DVR_NO_RS422_COMM"
+    },
+    {
+      "id": "SWMMC_FAILURE_DVR",
+      "label": "SWMMC_FAILURE_DVR"
+    },
+    {
+      "id": "SWMMC_CSU_NO_RS422_COMM",
+      "label": "SWMMC_CSU_NO_RS422_COMM"
+    },
+    {
+      "id": "SWMMC_FAILURE_CSU",
+      "label": "SWMMC_FAILURE_CSU"
+    },
+    {
+      "id": "EMMC_FAILURE_DADS",
+      "label": "EMMC_FAILURE_DADS"
+    },
+    {
+      "id": "EMMC_FAILURE_LANDING_GEAR",
+      "label": "EMMC_FAILURE_LANDING_GEAR"
+    },
+    {
+      "id": "EMMC_FAILURE_FUEL_LOW_LEVEL",
+      "label": "EMMC_FAILURE_FUEL_LOW_LEVEL"
+    },
+    {
+      "id": "EMMC_FAILURE_FUEL_START_PUMP",
+      "label": "EMMC_FAILURE_FUEL_START_PUMP"
+    },
+    {
+      "id": "EMMC_FAILURE_FUEL_LOWER_PUMP",
+      "label": "EMMC_FAILURE_FUEL_LOWER_PUMP"
+    },
+    {
+      "id": "EMMC_FAILURE_FUEL_UPPER_PUMP",
+      "label": "EMMC_FAILURE_FUEL_UPPER_PUMP"
+    },
+    {
+      "id": "EMMC_FAILURE_CANOPY_UNLOCK",
+      "label": "EMMC_FAILURE_CANOPY_UNLOCK"
+    },
+    {
+      "id": "EMMC_FAILURE_COCKPIT_PRESSURE_LOW",
+      "label": "EMMC_FAILURE_COCKPIT_PRESSURE_LOW"
+    },
+    {
+      "id": "EMMC_FAILURE_TRU",
+      "label": "EMMC_FAILURE_TRU"
+    },
+    {
+      "id": "EMMC_FAILURE_LWC",
+      "label": "EMMC_FAILURE_LWC"
+    },
+    {
+      "id": "EMMC_FAILURE_EMMC",
+      "label": "EMMC_FAILURE_EMMC"
+    },
+    {
+      "id": "EMMC_FAILURE_PROBES_HEATING",
+      "label": "EMMC_FAILURE_PROBES_HEATING"
+    },
+    {
+      "id": "EMMC_FAILURE_STATIC_INVERTER",
+      "label": "EMMC_FAILURE_STATIC_INVERTER"
+    },
+    {
+      "id": "EMMC_FAILURE_ECS_OFF",
+      "label": "EMMC_FAILURE_ECS_OFF"
+    },
+    {
+      "id": "EMMC_FAILURE_ELECT_EQUIP_HOT",
+      "label": "EMMC_FAILURE_ELECT_EQUIP_HOT"
+    },
+    {
+      "id": "EMMC_FAILURE_SHARS",
+      "label": "EMMC_FAILURE_SHARS"
+    },
+    {
+      "id": "EMMC_FAILURE_BAU",
+      "label": "EMMC_FAILURE_BAU"
+    },
+    {
+      "id": "EMMC_FAILURE_DADS_RPTU",
+      "label": "EMMC_FAILURE_DADS_RPTU"
+    },
+    {
+      "id": "EMMC_FAILURE_DADS_LPTU",
+      "label": "EMMC_FAILURE_DADS_LPTU"
+    },
+    {
+      "id": "EMMC_FAILURE_DADS_MPTU",
+      "label": "EMMC_FAILURE_DADS_MPTU"
+    },
+    {
+      "id": "CNI_FAILURE_COM1",
+      "label": "CNI_FAILURE_COM1"
+    },
+    {
+      "id": "CNI_FAILURE_COM1_SECOS",
+      "label": "CNI_FAILURE_COM1_SECOS"
+    },
+    {
+      "id": "CNI_FAILURE_COM2",
+      "label": "CNI_FAILURE_COM2"
+    },
+    {
+      "id": "CNI_FAILURE_COM2_SECOS",
+      "label": "CNI_FAILURE_COM2_SECOS"
+    },
+    {
+      "id": "CNI_FAILURE_TACAN",
+      "label": "CNI_FAILURE_TACAN"
+    },
+    {
+      "id": "CNI_FAILURE_ILS",
+      "label": "CNI_FAILURE_ILS"
+    },
+    {
+      "id": "CNI_FAILURE_IFF_TX",
+      "label": "CNI_FAILURE_IFF_TX"
+    },
+    {
+      "id": "CNI_FAILURE_IFF_RX",
+      "label": "CNI_FAILURE_IFF_RX"
+    },
+    {
+      "id": "CNI_FAILURE_RALT",
+      "label": "CNI_FAILURE_RALT"
+    },
+    {
+      "id": "ZCP_FAILURE_MALFUNC",
+      "label": "ZCP_FAILURE_MALFUNC"
+    },
+    {
+      "id": "FCS_FAILURE_COMP_1",
+      "label": "FCS_FAILURE_COMP_1"
+    },
+    {
+      "id": "FCS_FAILURE_COMP_2",
+      "label": "FCS_FAILURE_COMP_2"
+    },
+    {
+      "id": "FCS_FAILURE_COMP_3",
+      "label": "FCS_FAILURE_COMP_3"
+    },
+    {
+      "id": "FCS_FAILURE_COMP_4",
+      "label": "FCS_FAILURE_COMP_4"
+    },
+    {
+      "id": "FCS_FAILURE_L_ELEVATOR_ELEC_A",
+      "label": "FCS_FAILURE_L_ELEVATOR_ELEC_A"
+    },
+    {
+      "id": "FCS_FAILURE_L_ELEVATOR_ELEC_B",
+      "label": "FCS_FAILURE_L_ELEVATOR_ELEC_B"
+    },
+    {
+      "id": "FCS_FAILURE_L_ELEVATOR_ELEC_C",
+      "label": "FCS_FAILURE_L_ELEVATOR_ELEC_C"
+    },
+    {
+      "id": "FCS_FAILURE_L_ELEVATOR_ELEC_D",
+      "label": "FCS_FAILURE_L_ELEVATOR_ELEC_D"
+    },
+    {
+      "id": "FCS_FAILURE_R_ELEVATOR_ELEC_A",
+      "label": "FCS_FAILURE_R_ELEVATOR_ELEC_A"
+    },
+    {
+      "id": "FCS_FAILURE_R_ELEVATOR_ELEC_B",
+      "label": "FCS_FAILURE_R_ELEVATOR_ELEC_B"
+    },
+    {
+      "id": "FCS_FAILURE_R_ELEVATOR_ELEC_C",
+      "label": "FCS_FAILURE_R_ELEVATOR_ELEC_C"
+    },
+    {
+      "id": "FCS_FAILURE_R_ELEVATOR_ELEC_D",
+      "label": "FCS_FAILURE_R_ELEVATOR_ELEC_D"
+    },
+    {
+      "id": "FCS_FAILURE_L_ELEVATOR_HYD_1",
+      "label": "FCS_FAILURE_L_ELEVATOR_HYD_1"
+    },
+    {
+      "id": "FCS_FAILURE_L_ELEVATOR_HYD_2",
+      "label": "FCS_FAILURE_L_ELEVATOR_HYD_2"
+    },
+    {
+      "id": "FCS_FAILURE_R_ELEVATOR_HYD_1",
+      "label": "FCS_FAILURE_R_ELEVATOR_HYD_1"
+    },
+    {
+      "id": "FCS_FAILURE_R_ELEVATOR_HYD_2",
+      "label": "FCS_FAILURE_R_ELEVATOR_HYD_2"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_ELEC_SERVO_1",
+      "label": "FCS_FAILURE_ROLL_ELEC_SERVO_1"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_ELEC_SERVO_2",
+      "label": "FCS_FAILURE_ROLL_ELEC_SERVO_2"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_ELEC_SERVO_1",
+      "label": "FCS_FAILURE_YAW_ELEC_SERVO_1"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_ELEC_SERVO_2",
+      "label": "FCS_FAILURE_YAW_ELEC_SERVO_2"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_RATE_GYRO_1",
+      "label": "FCS_FAILURE_PITCH_RATE_GYRO_1"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_RATE_GYRO_2",
+      "label": "FCS_FAILURE_PITCH_RATE_GYRO_2"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_RATE_GYRO_3",
+      "label": "FCS_FAILURE_PITCH_RATE_GYRO_3"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_RATE_GYRO_4",
+      "label": "FCS_FAILURE_PITCH_RATE_GYRO_4"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_RATE_GYRO_1",
+      "label": "FCS_FAILURE_ROLL_RATE_GYRO_1"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_RATE_GYRO_2",
+      "label": "FCS_FAILURE_ROLL_RATE_GYRO_2"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_RATE_GYRO_1",
+      "label": "FCS_FAILURE_YAW_RATE_GYRO_1"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_RATE_GYRO_2",
+      "label": "FCS_FAILURE_YAW_RATE_GYRO_2"
+    },
+    {
+      "id": "FCS_FAILURE_NZ_SENSOR_1",
+      "label": "FCS_FAILURE_NZ_SENSOR_1"
+    },
+    {
+      "id": "FCS_FAILURE_NZ_SENSOR_2",
+      "label": "FCS_FAILURE_NZ_SENSOR_2"
+    },
+    {
+      "id": "FCS_FAILURE_NZ_SENSOR_3",
+      "label": "FCS_FAILURE_NZ_SENSOR_3"
+    },
+    {
+      "id": "FCS_FAILURE_NZ_SENSOR_4",
+      "label": "FCS_FAILURE_NZ_SENSOR_4"
+    },
+    {
+      "id": "FCS_FAILURE_NY_SENSOR_1",
+      "label": "FCS_FAILURE_NY_SENSOR_1"
+    },
+    {
+      "id": "FCS_FAILURE_NY_SENSOR_2",
+      "label": "FCS_FAILURE_NY_SENSOR_2"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_LVDT_1",
+      "label": "FCS_FAILURE_PITCH_LVDT_1"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_LVDT_2",
+      "label": "FCS_FAILURE_PITCH_LVDT_2"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_LVDT_3",
+      "label": "FCS_FAILURE_PITCH_LVDT_3"
+    },
+    {
+      "id": "FCS_FAILURE_PITCH_LVDT_4",
+      "label": "FCS_FAILURE_PITCH_LVDT_4"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_LVDT_1",
+      "label": "FCS_FAILURE_ROLL_LVDT_1"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_LVDT_2",
+      "label": "FCS_FAILURE_ROLL_LVDT_2"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_LVDT_1",
+      "label": "FCS_FAILURE_YAW_LVDT_1"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_LVDT_2",
+      "label": "FCS_FAILURE_YAW_LVDT_2"
+    },
+    {
+      "id": "FCS_FAILURE_AOA_SENSOR_1",
+      "label": "FCS_FAILURE_AOA_SENSOR_1"
+    },
+    {
+      "id": "FCS_FAILURE_AOA_SENSOR_2",
+      "label": "FCS_FAILURE_AOA_SENSOR_2"
+    },
+    {
+      "id": "FCS_FAILURE_AOA_SENSOR_3",
+      "label": "FCS_FAILURE_AOA_SENSOR_3"
+    },
+    {
+      "id": "FCS_FAILURE_Q_SENSOR_1",
+      "label": "FCS_FAILURE_Q_SENSOR_1"
+    },
+    {
+      "id": "FCS_FAILURE_Q_SENSOR_2",
+      "label": "FCS_FAILURE_Q_SENSOR_2"
+    },
+    {
+      "id": "FCS_FAILURE_Q_SENSOR_3",
+      "label": "FCS_FAILURE_Q_SENSOR_3"
+    },
+    {
+      "id": "FCS_FAILURE_Q_SENSOR_4",
+      "label": "FCS_FAILURE_Q_SENSOR_4"
+    },
+    {
+      "id": "FCS_FAILURE_P_SENSOR_1",
+      "label": "FCS_FAILURE_P_SENSOR_1"
+    },
+    {
+      "id": "FCS_FAILURE_P_SENSOR_2",
+      "label": "FCS_FAILURE_P_SENSOR_2"
+    },
+    {
+      "id": "FCS_FAILURE_P_SENSOR_3",
+      "label": "FCS_FAILURE_P_SENSOR_3"
+    },
+    {
+      "id": "FCS_FAILURE_P_SENSOR_4",
+      "label": "FCS_FAILURE_P_SENSOR_4"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_AUGD_1",
+      "label": "FCS_FAILURE_ROLL_AUGD_1"
+    },
+    {
+      "id": "FCS_FAILURE_ROLL_AUGD_2",
+      "label": "FCS_FAILURE_ROLL_AUGD_2"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_AUGD_1",
+      "label": "FCS_FAILURE_YAW_AUGD_1"
+    },
+    {
+      "id": "FCS_FAILURE_YAW_AUGD_2",
+      "label": "FCS_FAILURE_YAW_AUGD_2"
+    },
+    {
+      "id": "FCS_FAILURE_EFCS_1",
+      "label": "FCS_FAILURE_EFCS_1"
+    },
+    {
+      "id": "FCS_FAILURE_EFCS_2",
+      "label": "FCS_FAILURE_EFCS_2"
+    },
+    {
+      "id": "FCS_FAILURE_WOW_1",
+      "label": "FCS_FAILURE_WOW_1"
+    },
+    {
+      "id": "FCS_FAILURE_WOW_2",
+      "label": "FCS_FAILURE_WOW_2"
+    },
+    {
+      "id": "FCS_FAILURE_WOW_3",
+      "label": "FCS_FAILURE_WOW_3"
+    },
+    {
+      "id": "FCS_FAILURE_WOW_4",
+      "label": "FCS_FAILURE_WOW_4"
+    },
+    {
+      "id": "FCS_FAILURE_LG_1",
+      "label": "FCS_FAILURE_LG_1"
+    },
+    {
+      "id": "FCS_FAILURE_LG_2",
+      "label": "FCS_FAILURE_LG_2"
+    },
+    {
+      "id": "FCS_FAILURE_LG_3",
+      "label": "FCS_FAILURE_LG_3"
+    },
+    {
+      "id": "FCS_FAILURE_LG_4",
+      "label": "FCS_FAILURE_LG_4"
+    },
+    {
+      "id": "ENGINE_FAILURE_AB_IGNITION_UNIT",
+      "label": "ENGINE_FAILURE_AB_IGNITION_UNIT"
+    },
+    {
+      "id": "ENGINE_FAILURE_APD88_STARTER",
+      "label": "ENGINE_FAILURE_APD88_STARTER"
+    },
+    {
+      "id": "ENGINE_FAILURE_N1_COMPRESSOR",
+      "label": "ENGINE_FAILURE_N1_COMPRESSOR"
+    },
+    {
+      "id": "ENGINE_FAILURE_N2_COMPRESSOR",
+      "label": "ENGINE_FAILURE_N2_COMPRESSOR"
+    },
+    {
+      "id": "ENGINE_FAILURE_N1_TURBINE",
+      "label": "ENGINE_FAILURE_N1_TURBINE"
+    },
+    {
+      "id": "ENGINE_FAILURE_N2_TURBINE",
+      "label": "ENGINE_FAILURE_N2_TURBINE"
+    },
+    {
+      "id": "ENGINE_FAILURE_COMBUSTOR",
+      "label": "ENGINE_FAILURE_COMBUSTOR"
+    },
+    {
+      "id": "ENGINE_FAILURE_NOZZLE_CONTROLLER",
+      "label": "ENGINE_FAILURE_NOZZLE_CONTROLLER"
+    },
+    {
+      "id": "ENGINE_FAILURE_DEEC",
+      "label": "ENGINE_FAILURE_DEEC"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "GSH23_23_HE_T"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "GSH23_23_HE_T"
+        ],
+        "rounds": 180,
+        "type": "GSh_23_2"
+      }
+    ],
+    "rounds": 180,
+    "type": "GSh_23_2"
+  },
+  "id": "JF-17",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "control": "spinbox",
+      "default": 6,
+      "dimension": " ",
+      "id": "LaserCode100",
+      "label": "Laser code for ordnance, 1x11",
+      "max": 7,
+      "min": 5,
+      "playerOnly": true
+    },
+    {
+      "control": "spinbox",
+      "default": 8,
+      "dimension": " ",
+      "id": "LaserCode10",
+      "label": "Laser code for ordnance, 11x1",
+      "max": 8,
+      "min": 1,
+      "playerOnly": true
+    },
+    {
+      "control": "spinbox",
+      "default": 8,
+      "dimension": " ",
+      "id": "LaserCode1",
+      "label": "Laser code for ordnance, 111x",
+      "max": 8,
+      "min": 1,
+      "playerOnly": true
+    },
+    {
+      "arg": 901,
+      "control": "checkbox",
+      "default": false,
+      "id": "AARProbe",
+      "label": "Remove AAR Probe",
+      "playerOnly": true,
+      "weightKg": -20
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "EW_Database_Target1",
+      "label": "EW Target I (PP1)",
+      "values": [
+        {
+          "id": 1,
+          "label": "Unselect"
+        },
+        {
+          "id": 2,
+          "label": "SAM SA-10 30N6 - Flap Lid"
+        },
+        {
+          "id": 3,
+          "label": "SAM SA-10 30N6E - Flap Lid"
+        },
+        {
+          "id": 4,
+          "label": "SAM SA-10 64N6E - Big Bird"
+        },
+        {
+          "id": 5,
+          "label": "SAM SA-10 5N66M - Clam Shell"
+        },
+        {
+          "id": 6,
+          "label": "SAM SA-10 19J6 - Tin Shield"
+        },
+        {
+          "id": 7,
+          "label": "SAM SA-11 'Gadfly' - Fire Dome"
+        },
+        {
+          "id": 8,
+          "label": "SAM SA-11 'Gadfly' - Snow Drift"
+        },
+        {
+          "id": 9,
+          "label": "SAM SA-15 M1"
+        },
+        {
+          "id": 10,
+          "label": "SAM SA-15 M2"
+        },
+        {
+          "id": 11,
+          "label": "SAM SA-22 'Greyhound'"
+        },
+        {
+          "id": 12,
+          "label": "SAM SA-19 'Grison'"
+        },
+        {
+          "id": 13,
+          "label": "SAM SA-6 'Gainful'"
+        },
+        {
+          "id": 14,
+          "label": "SAM SA-8 9A33"
+        },
+        {
+          "id": 15,
+          "label": "SAM Patriot - MPQ-53"
+        },
+        {
+          "id": 16,
+          "label": "SAM SA-2 'Guideline' - Fan Song"
+        },
+        {
+          "id": 17,
+          "label": "SAM SA-2 'Guideline' - RD-75"
+        },
+        {
+          "id": 18,
+          "label": "SAM SA-3 'Goa' - Low Blow"
+        },
+        {
+          "id": 19,
+          "label": "SAM SA-2/3/5 - Flat Face"
+        },
+        {
+          "id": 20,
+          "label": "SAM Hawk - MPQ-46"
+        },
+        {
+          "id": 21,
+          "label": "SAM Hawk - MPQ-50"
+        },
+        {
+          "id": 22,
+          "label": "SAM Hawk - MPQ-55"
+        },
+        {
+          "id": 23,
+          "label": "SAM SA-13 'Gopher'"
+        },
+        {
+          "id": 24,
+          "label": "SAM SA-5 'Gammon' - Square Pair"
+        },
+        {
+          "id": 25,
+          "label": "SAM SA-5 - Tin Shield"
+        },
+        {
+          "id": 26,
+          "label": "SAM HQ-7"
+        },
+        {
+          "id": 27,
+          "label": "SAM HQ-7 - ACU"
+        },
+        {
+          "id": 28,
+          "label": "SAM NASAMS - MPQ-64"
+        },
+        {
+          "id": 29,
+          "label": "SAM IRIS-T - TRML-4D"
+        },
+        {
+          "id": 30,
+          "label": "MCC Sborka - Dog Ear"
+        },
+        {
+          "id": 31,
+          "label": "EWR 1L13"
+        },
+        {
+          "id": 32,
+          "label": "EWR 55G6"
+        },
+        {
+          "id": 33,
+          "label": "EWR AN/FPS-117"
+        },
+        {
+          "id": 34,
+          "label": "SAM Rapier - Blindfire"
+        },
+        {
+          "id": 35,
+          "label": "SAM Rapier"
+        },
+        {
+          "id": 36,
+          "label": "SAM Roland - EWR"
+        },
+        {
+          "id": 37,
+          "label": "SAM Roland ADS"
+        },
+        {
+          "id": 38,
+          "label": "LPWS C-RAM"
+        },
+        {
+          "id": 39,
+          "label": "SPAAA Gepard"
+        },
+        {
+          "id": 40,
+          "label": "SPAAA ZSU-23-4 - Gun Dish"
+        },
+        {
+          "id": 41,
+          "label": "SPAAA Vulcan"
+        },
+        {
+          "id": 42,
+          "label": "AAA SON-9 - Fire Can"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "EW_Database_Target2",
+      "label": "EW Target II (PP2)",
+      "values": [
+        {
+          "id": 1,
+          "label": "Unselect"
+        },
+        {
+          "id": 2,
+          "label": "SAM SA-10 30N6 - Flap Lid"
+        },
+        {
+          "id": 3,
+          "label": "SAM SA-10 30N6E - Flap Lid"
+        },
+        {
+          "id": 4,
+          "label": "SAM SA-10 64N6E - Big Bird"
+        },
+        {
+          "id": 5,
+          "label": "SAM SA-10 5N66M - Clam Shell"
+        },
+        {
+          "id": 6,
+          "label": "SAM SA-10 19J6 - Tin Shield"
+        },
+        {
+          "id": 7,
+          "label": "SAM SA-11 'Gadfly' - Fire Dome"
+        },
+        {
+          "id": 8,
+          "label": "SAM SA-11 'Gadfly' - Snow Drift"
+        },
+        {
+          "id": 9,
+          "label": "SAM SA-15 M1"
+        },
+        {
+          "id": 10,
+          "label": "SAM SA-15 M2"
+        },
+        {
+          "id": 11,
+          "label": "SAM SA-22 'Greyhound'"
+        },
+        {
+          "id": 12,
+          "label": "SAM SA-19 'Grison'"
+        },
+        {
+          "id": 13,
+          "label": "SAM SA-6 'Gainful'"
+        },
+        {
+          "id": 14,
+          "label": "SAM SA-8 9A33"
+        },
+        {
+          "id": 15,
+          "label": "SAM Patriot - MPQ-53"
+        },
+        {
+          "id": 16,
+          "label": "SAM SA-2 'Guideline' - Fan Song"
+        },
+        {
+          "id": 17,
+          "label": "SAM SA-2 'Guideline' - RD-75"
+        },
+        {
+          "id": 18,
+          "label": "SAM SA-3 'Goa' - Low Blow"
+        },
+        {
+          "id": 19,
+          "label": "SAM SA-2/3/5 - Flat Face"
+        },
+        {
+          "id": 20,
+          "label": "SAM Hawk - MPQ-46"
+        },
+        {
+          "id": 21,
+          "label": "SAM Hawk - MPQ-50"
+        },
+        {
+          "id": 22,
+          "label": "SAM Hawk - MPQ-55"
+        },
+        {
+          "id": 23,
+          "label": "SAM SA-13 'Gopher'"
+        },
+        {
+          "id": 24,
+          "label": "SAM SA-5 'Gammon' - Square Pair"
+        },
+        {
+          "id": 25,
+          "label": "SAM SA-5 - Tin Shield"
+        },
+        {
+          "id": 26,
+          "label": "SAM HQ-7"
+        },
+        {
+          "id": 27,
+          "label": "SAM HQ-7 - ACU"
+        },
+        {
+          "id": 28,
+          "label": "SAM NASAMS - MPQ-64"
+        },
+        {
+          "id": 29,
+          "label": "SAM IRIS-T - TRML-4D"
+        },
+        {
+          "id": 30,
+          "label": "MCC Sborka - Dog Ear"
+        },
+        {
+          "id": 31,
+          "label": "EWR 1L13"
+        },
+        {
+          "id": 32,
+          "label": "EWR 55G6"
+        },
+        {
+          "id": 33,
+          "label": "EWR AN/FPS-117"
+        },
+        {
+          "id": 34,
+          "label": "SAM Rapier - Blindfire"
+        },
+        {
+          "id": 35,
+          "label": "SAM Rapier"
+        },
+        {
+          "id": 36,
+          "label": "SAM Roland - EWR"
+        },
+        {
+          "id": 37,
+          "label": "SAM Roland ADS"
+        },
+        {
+          "id": 38,
+          "label": "LPWS C-RAM"
+        },
+        {
+          "id": 39,
+          "label": "SPAAA Gepard"
+        },
+        {
+          "id": 40,
+          "label": "SPAAA ZSU-23-4 - Gun Dish"
+        },
+        {
+          "id": 41,
+          "label": "SPAAA Vulcan"
+        },
+        {
+          "id": 42,
+          "label": "AAA SON-9 - Fire Can"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "EW_Database_Target3",
+      "label": "EW Target III (PP3)",
+      "values": [
+        {
+          "id": 1,
+          "label": "Unselect"
+        },
+        {
+          "id": 2,
+          "label": "SAM SA-10 30N6 - Flap Lid"
+        },
+        {
+          "id": 3,
+          "label": "SAM SA-10 30N6E - Flap Lid"
+        },
+        {
+          "id": 4,
+          "label": "SAM SA-10 64N6E - Big Bird"
+        },
+        {
+          "id": 5,
+          "label": "SAM SA-10 5N66M - Clam Shell"
+        },
+        {
+          "id": 6,
+          "label": "SAM SA-10 19J6 - Tin Shield"
+        },
+        {
+          "id": 7,
+          "label": "SAM SA-11 'Gadfly' - Fire Dome"
+        },
+        {
+          "id": 8,
+          "label": "SAM SA-11 'Gadfly' - Snow Drift"
+        },
+        {
+          "id": 9,
+          "label": "SAM SA-15 M1"
+        },
+        {
+          "id": 10,
+          "label": "SAM SA-15 M2"
+        },
+        {
+          "id": 11,
+          "label": "SAM SA-22 'Greyhound'"
+        },
+        {
+          "id": 12,
+          "label": "SAM SA-19 'Grison'"
+        },
+        {
+          "id": 13,
+          "label": "SAM SA-6 'Gainful'"
+        },
+        {
+          "id": 14,
+          "label": "SAM SA-8 9A33"
+        },
+        {
+          "id": 15,
+          "label": "SAM Patriot - MPQ-53"
+        },
+        {
+          "id": 16,
+          "label": "SAM SA-2 'Guideline' - Fan Song"
+        },
+        {
+          "id": 17,
+          "label": "SAM SA-2 'Guideline' - RD-75"
+        },
+        {
+          "id": 18,
+          "label": "SAM SA-3 'Goa' - Low Blow"
+        },
+        {
+          "id": 19,
+          "label": "SAM SA-2/3/5 - Flat Face"
+        },
+        {
+          "id": 20,
+          "label": "SAM Hawk - MPQ-46"
+        },
+        {
+          "id": 21,
+          "label": "SAM Hawk - MPQ-50"
+        },
+        {
+          "id": 22,
+          "label": "SAM Hawk - MPQ-55"
+        },
+        {
+          "id": 23,
+          "label": "SAM SA-13 'Gopher'"
+        },
+        {
+          "id": 24,
+          "label": "SAM SA-5 'Gammon' - Square Pair"
+        },
+        {
+          "id": 25,
+          "label": "SAM SA-5 - Tin Shield"
+        },
+        {
+          "id": 26,
+          "label": "SAM HQ-7"
+        },
+        {
+          "id": 27,
+          "label": "SAM HQ-7 - ACU"
+        },
+        {
+          "id": 28,
+          "label": "SAM NASAMS - MPQ-64"
+        },
+        {
+          "id": 29,
+          "label": "SAM IRIS-T - TRML-4D"
+        },
+        {
+          "id": 30,
+          "label": "MCC Sborka - Dog Ear"
+        },
+        {
+          "id": 31,
+          "label": "EWR 1L13"
+        },
+        {
+          "id": 32,
+          "label": "EWR 55G6"
+        },
+        {
+          "id": 33,
+          "label": "EWR AN/FPS-117"
+        },
+        {
+          "id": 34,
+          "label": "SAM Rapier - Blindfire"
+        },
+        {
+          "id": 35,
+          "label": "SAM Rapier"
+        },
+        {
+          "id": 36,
+          "label": "SAM Roland - EWR"
+        },
+        {
+          "id": 37,
+          "label": "SAM Roland ADS"
+        },
+        {
+          "id": 38,
+          "label": "LPWS C-RAM"
+        },
+        {
+          "id": 39,
+          "label": "SPAAA Gepard"
+        },
+        {
+          "id": 40,
+          "label": "SPAAA ZSU-23-4 - Gun Dish"
+        },
+        {
+          "id": 41,
+          "label": "SPAAA Vulcan"
+        },
+        {
+          "id": 42,
+          "label": "AAA SON-9 - Fire Can"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "EW_Database_Target4",
+      "label": "EW Target IV (PP4)",
+      "values": [
+        {
+          "id": 1,
+          "label": "Unselect"
+        },
+        {
+          "id": 2,
+          "label": "SAM SA-10 30N6 - Flap Lid"
+        },
+        {
+          "id": 3,
+          "label": "SAM SA-10 30N6E - Flap Lid"
+        },
+        {
+          "id": 4,
+          "label": "SAM SA-10 64N6E - Big Bird"
+        },
+        {
+          "id": 5,
+          "label": "SAM SA-10 5N66M - Clam Shell"
+        },
+        {
+          "id": 6,
+          "label": "SAM SA-10 19J6 - Tin Shield"
+        },
+        {
+          "id": 7,
+          "label": "SAM SA-11 'Gadfly' - Fire Dome"
+        },
+        {
+          "id": 8,
+          "label": "SAM SA-11 'Gadfly' - Snow Drift"
+        },
+        {
+          "id": 9,
+          "label": "SAM SA-15 M1"
+        },
+        {
+          "id": 10,
+          "label": "SAM SA-15 M2"
+        },
+        {
+          "id": 11,
+          "label": "SAM SA-22 'Greyhound'"
+        },
+        {
+          "id": 12,
+          "label": "SAM SA-19 'Grison'"
+        },
+        {
+          "id": 13,
+          "label": "SAM SA-6 'Gainful'"
+        },
+        {
+          "id": 14,
+          "label": "SAM SA-8 9A33"
+        },
+        {
+          "id": 15,
+          "label": "SAM Patriot - MPQ-53"
+        },
+        {
+          "id": 16,
+          "label": "SAM SA-2 'Guideline' - Fan Song"
+        },
+        {
+          "id": 17,
+          "label": "SAM SA-2 'Guideline' - RD-75"
+        },
+        {
+          "id": 18,
+          "label": "SAM SA-3 'Goa' - Low Blow"
+        },
+        {
+          "id": 19,
+          "label": "SAM SA-2/3/5 - Flat Face"
+        },
+        {
+          "id": 20,
+          "label": "SAM Hawk - MPQ-46"
+        },
+        {
+          "id": 21,
+          "label": "SAM Hawk - MPQ-50"
+        },
+        {
+          "id": 22,
+          "label": "SAM Hawk - MPQ-55"
+        },
+        {
+          "id": 23,
+          "label": "SAM SA-13 'Gopher'"
+        },
+        {
+          "id": 24,
+          "label": "SAM SA-5 'Gammon' - Square Pair"
+        },
+        {
+          "id": 25,
+          "label": "SAM SA-5 - Tin Shield"
+        },
+        {
+          "id": 26,
+          "label": "SAM HQ-7"
+        },
+        {
+          "id": 27,
+          "label": "SAM HQ-7 - ACU"
+        },
+        {
+          "id": 28,
+          "label": "SAM NASAMS - MPQ-64"
+        },
+        {
+          "id": 29,
+          "label": "SAM IRIS-T - TRML-4D"
+        },
+        {
+          "id": 30,
+          "label": "MCC Sborka - Dog Ear"
+        },
+        {
+          "id": 31,
+          "label": "EWR 1L13"
+        },
+        {
+          "id": 32,
+          "label": "EWR 55G6"
+        },
+        {
+          "id": 33,
+          "label": "EWR AN/FPS-117"
+        },
+        {
+          "id": 34,
+          "label": "SAM Rapier - Blindfire"
+        },
+        {
+          "id": 35,
+          "label": "SAM Rapier"
+        },
+        {
+          "id": 36,
+          "label": "SAM Roland - EWR"
+        },
+        {
+          "id": 37,
+          "label": "SAM Roland ADS"
+        },
+        {
+          "id": 38,
+          "label": "LPWS C-RAM"
+        },
+        {
+          "id": 39,
+          "label": "SPAAA Gepard"
+        },
+        {
+          "id": 40,
+          "label": "SPAAA ZSU-23-4 - Gun Dish"
+        },
+        {
+          "id": 41,
+          "label": "SPAAA Vulcan"
+        },
+        {
+          "id": 42,
+          "label": "AAA SON-9 - Fire Can"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": {
+      "azimuth": [
+        -160,
+        160
+      ],
+      "elevation": [
+        -50,
+        90
+      ]
+    },
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          299
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          271
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          168
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          189
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          187
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          232
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          222
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 27
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 28
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          220
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 42
+      },
+      {
+        "args": [
+          246
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 44
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          303
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          302
+        ],
+        "cell": 62
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          229
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          219
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 100
+      }
+    ],
+    "file": "JF-17",
+    "lightsData": {
+      "lights": {
+        "1": {
+          "lights": {},
+          "typename": "collection"
+        },
+        "14": {
+          "lights": [
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "15": {
+          "lights": [
+            {
+              "argument": 83,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 210,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 211,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {},
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 201,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "5": {},
+        "6": {
+          "lights": [
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 210,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 211,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "JF-17",
+    "shapeDestroyed": "JF-17-oblomok"
+  },
+  "module": "China Asset Pack by Deka Ironwork Simulations and Eagle Dynamics",
+  "operations": {
+    "dateOfIntroduction": 2003.8,
+    "eplrs": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA",
+      "years": {
+        "from": 2016,
+        "to": 9999
+      }
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.065,
+    "bankAngleMaxDeg": 90,
+    "casMin": 58,
+    "enginesCount": 1,
+    "hMaxM": 16920,
+    "machMax": 1.8,
+    "nyMax": 8,
+    "rangeKm": 1550,
+    "vLandMs": 60,
+    "vMaxHMs": 700,
+    "vMaxSeaLevelMs": 400,
+    "vOptMs": 220,
+    "vTakeOffMs": 65
+  },
+  "radios": [
+    "JF-17__radio0"
+  ],
+  "refuelling": {
+    "isTanker": false,
+    "receptaclePosition": [
+      5.561657,
+      0.769126,
+      1.084903
+    ],
+    "tankerType": 4
+  },
+  "sensors": [
+    "Abstract RWR",
+    "KLJ-7"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_PL-5EII"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_B"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_G"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_O"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_R"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_W"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_Y"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -4.4,
+        "longitudinal": -1.056,
+        "vertical": -0.125
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_AKG_DLPOD",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_AKG_DLPOD"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "DIS_AKG_DLPOD"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_BRM1_90"
+        },
+        {
+          "clsid": "DIS_C-701IR"
+        },
+        {
+          "clsid": "DIS_C-701T"
+        },
+        {
+          "clsid": "DIS_GBU_12"
+        },
+        {
+          "clsid": "DIS_GBU_12_DUAL_GDJ_II19_L"
+        },
+        {
+          "clsid": "DIS_HF20_90_1_HE"
+        },
+        {
+          "clsid": "DIS_LAU68_MK5_DUAL_GDJ_II19_L"
+        },
+        {
+          "clsid": "DIS_LD-10"
+        },
+        {
+          "clsid": "DIS_LD-10_DUAL_L"
+        },
+        {
+          "clsid": "DIS_LS_6_100_DUAL_L"
+        },
+        {
+          "clsid": "DIS_LS_6_250"
+        },
+        {
+          "clsid": "DIS_LS_6_250_DUAL_L"
+        },
+        {
+          "clsid": "DIS_LS_6_500"
+        },
+        {
+          "clsid": "DIS_MK_20"
+        },
+        {
+          "clsid": "DIS_MK_20_DUAL_GDJ_II19_L"
+        },
+        {
+          "clsid": "DIS_MK_82S_DUAL_GDJ_II19_L"
+        },
+        {
+          "clsid": "DIS_MK_82_DUAL_GDJ_II19_L"
+        },
+        {
+          "clsid": "DIS_PL-5EII"
+        },
+        {
+          "clsid": "DIS_SD-10"
+        },
+        {
+          "clsid": "DIS_SD-10_DUAL_L"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_B"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_G"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_O"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_R"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_W"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_Y"
+        },
+        {
+          "clsid": "DIS_TYPE200"
+        },
+        {
+          "clsid": "DIS_TYPE200_DUAL_L"
+        },
+        {
+          "clsid": "DIS_WMD7",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_WMD7"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "DIS_WMD7"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -2.85,
+        "longitudinal": -0.3,
+        "vertical": -0.336
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_C-802AK"
+        },
+        {
+          "clsid": "DIS_CM-802AKG"
+        },
+        {
+          "clsid": "DIS_GB6"
+        },
+        {
+          "clsid": "DIS_GB6_HE"
+        },
+        {
+          "clsid": "DIS_GB6_TSP"
+        },
+        {
+          "clsid": "DIS_GBU_10"
+        },
+        {
+          "clsid": "DIS_GBU_12"
+        },
+        {
+          "clsid": "DIS_GBU_16"
+        },
+        {
+          "clsid": "DIS_LS_6_500"
+        },
+        {
+          "clsid": "DIS_MK_20"
+        },
+        {
+          "clsid": "DIS_TANK1100"
+        },
+        {
+          "clsid": "DIS_TANK1100_EMPTY"
+        },
+        {
+          "clsid": "DIS_TANK800"
+        },
+        {
+          "clsid": "DIS_TANK800_EMPTY"
+        },
+        {
+          "clsid": "DIS_TYPE200"
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -1.7,
+        "longitudinal": 0,
+        "vertical": -0.45
+      },
+      "station": 3,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_AKG_DLPOD",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_AKG_DLPOD"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "DIS_AKG_DLPOD"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_GBU_10"
+        },
+        {
+          "clsid": "DIS_GBU_16"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_B"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_G"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_O"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_R"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_W"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_Y"
+        },
+        {
+          "clsid": "DIS_SPJ_POD",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_SPJ_POD"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "DIS_SPJ_POD"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_TANK800"
+        },
+        {
+          "clsid": "DIS_TANK800_EMPTY"
+        },
+        {
+          "clsid": "DIS_WMD7",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_WMD7"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "DIS_WMD7"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0.286,
+        "vertical": -0.886
+      },
+      "station": 4,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_C-802AK"
+        },
+        {
+          "clsid": "DIS_CM-802AKG"
+        },
+        {
+          "clsid": "DIS_GB6"
+        },
+        {
+          "clsid": "DIS_GB6_HE"
+        },
+        {
+          "clsid": "DIS_GB6_TSP"
+        },
+        {
+          "clsid": "DIS_GBU_10"
+        },
+        {
+          "clsid": "DIS_GBU_12"
+        },
+        {
+          "clsid": "DIS_GBU_16"
+        },
+        {
+          "clsid": "DIS_LS_6_500"
+        },
+        {
+          "clsid": "DIS_MK_20"
+        },
+        {
+          "clsid": "DIS_TANK1100"
+        },
+        {
+          "clsid": "DIS_TANK1100_EMPTY"
+        },
+        {
+          "clsid": "DIS_TANK800"
+        },
+        {
+          "clsid": "DIS_TANK800_EMPTY"
+        },
+        {
+          "clsid": "DIS_TYPE200"
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 1.7,
+        "longitudinal": 0,
+        "vertical": -0.45
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_AKG_DLPOD",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_AKG_DLPOD"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "DIS_AKG_DLPOD"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_BRM1_90"
+        },
+        {
+          "clsid": "DIS_C-701IR"
+        },
+        {
+          "clsid": "DIS_C-701T"
+        },
+        {
+          "clsid": "DIS_GBU_12"
+        },
+        {
+          "clsid": "DIS_GBU_12_DUAL_GDJ_II19_R"
+        },
+        {
+          "clsid": "DIS_HF20_90_1_HE"
+        },
+        {
+          "clsid": "DIS_LAU68_MK5_DUAL_GDJ_II19_R"
+        },
+        {
+          "clsid": "DIS_LD-10"
+        },
+        {
+          "clsid": "DIS_LD-10_DUAL_R"
+        },
+        {
+          "clsid": "DIS_LS_6_100_DUAL_R"
+        },
+        {
+          "clsid": "DIS_LS_6_250"
+        },
+        {
+          "clsid": "DIS_LS_6_250_DUAL_R"
+        },
+        {
+          "clsid": "DIS_LS_6_500"
+        },
+        {
+          "clsid": "DIS_MK_20"
+        },
+        {
+          "clsid": "DIS_MK_20_DUAL_GDJ_II19_R"
+        },
+        {
+          "clsid": "DIS_MK_82S_DUAL_GDJ_II19_R"
+        },
+        {
+          "clsid": "DIS_MK_82_DUAL_GDJ_II19_R"
+        },
+        {
+          "clsid": "DIS_PL-5EII"
+        },
+        {
+          "clsid": "DIS_SD-10"
+        },
+        {
+          "clsid": "DIS_SD-10_DUAL_R"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_B"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_G"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_O"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_R"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_W"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_Y"
+        },
+        {
+          "clsid": "DIS_TYPE200"
+        },
+        {
+          "clsid": "DIS_TYPE200_DUAL_R"
+        },
+        {
+          "clsid": "DIS_WMD7",
+          "forbidden": [
+            {
+              "clsids": [
+                "DIS_WMD7"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "DIS_WMD7"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 2.85,
+        "longitudinal": -0.3,
+        "vertical": -0.336
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_PL-5EII"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_B"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_G"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_O"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_R"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_W"
+        },
+        {
+          "clsid": "DIS_SMOKE_GENERATOR_Y"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 4.4,
+        "longitudinal": -1.056,
+        "vertical": -0.125
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 29,
+      "name": "SEAD"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 33,
+      "name": "Pinpoint Strike"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    }
+  ]
+}

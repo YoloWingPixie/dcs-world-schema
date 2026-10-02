@@ -1,0 +1,479 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    },
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {},
+  "dcsId": "Script",
+  "defaultParams": {
+    "command": ""
+  },
+  "description": "Run lua script. The group will be passed as a single parameter to the function.",
+  "displayName": "Script",
+  "id": "SCRIPT",
+  "kind": "command",
+  "missions": {
+    "categories": [
+      "plane",
+      "helicopter",
+      "vehicle",
+      "ship"
+    ],
+    "contexts": {
+      "route>ComboTask>ControlledTask>WrappedAction": 4,
+      "route>ComboTask>WrappedAction": 449,
+      "triggered>WrappedAction": 15
+    },
+    "count": 468
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 468,
+      "name": "command",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Script",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Script",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Script",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "script",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

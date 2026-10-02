@@ -1,0 +1,880 @@
+{
+  "aero": {
+    "emptyMassKg": 9030,
+    "internalFuelKg": 3080,
+    "maxSpeedKmh": 570,
+    "maxTakeoffKg": 14850
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Transports"
+  ],
+  "countryOfOrigin": "RUS",
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 35,
+    "name": "Transport"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.5,
+    "rcsM2": 50
+  },
+  "dimensions": {
+    "heightM": 6.5,
+    "lengthM": 20.36,
+    "wingSpanM": 25
+  },
+  "displayName": "Yak-40",
+  "flyable": false,
+  "id": "Yak-40",
+  "kind": "fixedwing",
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.58058609380733,
+      -0.81915204428899,
+      0.023436679747723,
+      0.86602540378444
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          296
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          168
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          156,
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": -0.034906585039887,
+                    "elevation": 0.10471975511966
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0.3,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0.034906585039887,
+                    "elevation": 0.10471975511966
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0.3,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 2.9670597283904,
+                  "argument": 192,
+                  "connector": "BANO_0",
+                  "dir_correction": {
+                    "azimuth": 3.1415926535898
+                  },
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.12
+                    ],
+                    "range": 18
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "argument": 190,
+                  "connector": "BANO_1",
+                  "dir_correction": {
+                    "azimuth": -0.78539816339745,
+                    "elevation": 0.78539816339745
+                  },
+                  "proto": {
+                    "angle_max": 2.6179938779915,
+                    "angle_min": 1.5707963267949,
+                    "color": [
+                      1,
+                      0.35,
+                      0.15,
+                      0.15
+                    ],
+                    "range": 40
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "argument": 191,
+                  "connector": "BANO_2",
+                  "dir_correction": {
+                    "azimuth": 0.78539816339745,
+                    "elevation": 0.78539816339745
+                  },
+                  "proto": {
+                    "angle_max": 2.6179938779915,
+                    "angle_min": 1.5707963267949,
+                    "color": [
+                      0,
+                      0.894,
+                      0.6,
+                      0.15
+                    ],
+                    "range": 40
+                  },
+                  "typename": "Spot"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": -0.034906585039887,
+                    "elevation": 0.10471975511966
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0.3,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0.034906585039887,
+                    "elevation": 0.10471975511966
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0.3,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 83,
+                  "connector": "RED_BEACON",
+                  "emitter_shift_x": -0.25,
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "typename": "strobelight"
+                },
+                {
+                  "angular_velocity": 5.235987755983,
+                  "argument": 83,
+                  "connector": "RESERV_RED_BEACON",
+                  "emitter_shift_x": -0.25,
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "typename": "strobelight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "color": [
+                    1,
+                    1,
+                    1,
+                    0.6
+                  ],
+                  "position": [
+                    -1,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    1,
+                    1,
+                    0.6
+                  ],
+                  "position": [
+                    1,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    1,
+                    1,
+                    0.6
+                  ],
+                  "position": [
+                    3,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    1,
+                    1,
+                    0.6
+                  ],
+                  "position": [
+                    5,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    1,
+                    1,
+                    0.6
+                  ],
+                  "position": [
+                    7.2,
+                    1.4,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "color": [
+                    1,
+                    0.6,
+                    0,
+                    0.3
+                  ],
+                  "position": [
+                    -1,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    0.6,
+                    0,
+                    0.3
+                  ],
+                  "position": [
+                    1,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    0.6,
+                    0,
+                    0.3
+                  ],
+                  "position": [
+                    3,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                },
+                {
+                  "color": [
+                    1,
+                    0.6,
+                    0,
+                    0.3
+                  ],
+                  "position": [
+                    5,
+                    0.8,
+                    0
+                  ],
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "Collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000029",
+    "shape": "Yak-40"
+  },
+  "operations": {
+    "bigParkingRamp": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY",
+      "years": {
+        "from": 1972,
+        "to": 9999
+      }
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA",
+      "years": {
+        "from": 2003,
+        "to": 9999
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1970,
+        "to": 1991
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1968,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1976,
+        "to": 9999
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1972,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.2,
+    "bankAngleMaxDeg": 54,
+    "casMin": 42,
+    "enginesCount": 3,
+    "hMaxM": 11000,
+    "machMax": 0.65,
+    "nyMax": 2.5,
+    "rangeKm": 900,
+    "vLandMs": 50,
+    "vMaxHMs": 167,
+    "vMaxSeaLevelMs": 140,
+    "vOptMs": 145,
+    "vTakeOffMs": 60
+  },
+  "radios": [],
+  "sensors": [],
+  "stations": [],
+  "tasks": [
+    {
+      "id": 35,
+      "name": "Transport"
+    }
+  ]
+}

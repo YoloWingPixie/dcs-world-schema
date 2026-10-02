@@ -1,0 +1,209 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0
+  },
+  "attributes": [
+    "All",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 1100,
+    "nominalCapacity": 1100
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.75,
+    "sensor": {
+      "heightM": 1.9,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0,
+      "position": [
+        1.15,
+        1.73,
+        -0.42
+      ]
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 6.5,
+    "massKg": 3350,
+    "widthM": 2.18
+  },
+  "displayName": "Truck Opel Blitz",
+  "id": "Blitz_36-6700A",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 60,
+      "booleanInverted": true,
+      "control": "checkbox",
+      "default": false,
+      "id": "TentedRoof",
+      "label": "Tented Roof"
+    }
+  ],
+  "mobility": {
+    "enginePower": 54.8,
+    "fordingDepthM": 0.5,
+    "maxRoadSpeedMs": 25,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 90,
+    "maxVertObstacleM": 0.4,
+    "minTurnRadiusM": 10,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "Blitz_36-6700A",
+    "mapClassKey": "P0091000212",
+    "positioning": "BYNORMAL",
+    "shape": "Blitz_36-6700A",
+    "shapeDestroyed": "Blitz_36-6700A_p_1"
+  },
+  "operators": [
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1937,
+        "to": 1952
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1937,
+        "to": 1945
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Unarmed",
+    "Support & Logistics"
+  ]
+}

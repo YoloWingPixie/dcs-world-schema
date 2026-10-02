@@ -1,0 +1,465 @@
+{
+  "_source": {
+    "params[name=formation]": "hand-authored"
+  },
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "AFAC"
+    },
+    {
+      "category": "plane",
+      "groupTask": "AWACS"
+    },
+    {
+      "category": "plane",
+      "edPublicHidden": true,
+      "groupTask": "Airborne"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Antiship Strike"
+    },
+    {
+      "category": "plane",
+      "groupTask": "CAP"
+    },
+    {
+      "category": "plane",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Escort"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Fighter Sweep"
+    },
+    {
+      "category": "plane",
+      "groupTask": "GAI"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Ground Attack"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Intercept"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Nothing"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Pinpoint Strike"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Reconnaissance"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Refueling"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Runway Attack"
+    },
+    {
+      "category": "plane",
+      "groupTask": "SEAD"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Transport"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "AFAC"
+    },
+    {
+      "category": "helicopter",
+      "edPublicHidden": true,
+      "groupTask": "Airborne"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Antiship Strike"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Ground Attack"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Nothing"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Reconnaissance"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "SEAD"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Transport"
+    }
+  ],
+  "dcsId": "Follow",
+  "defaultParams": {
+    "lastWptIndexFlag": true,
+    "lastWptIndexFlagChangedManually": true,
+    "pos": {
+      "x": -500,
+      "y": 0,
+      "z": 200
+    }
+  },
+  "description": "Follow the another group",
+  "displayName": "Follow",
+  "id": "FOLLOW",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "plane",
+      "helicopter"
+    ],
+    "contexts": {
+      "route>ComboTask": 565,
+      "route>ComboTask>ControlledTask": 326,
+      "triggered": 412,
+      "triggered>ControlledTask": 417
+    },
+    "count": 1720
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 11,
+      "name": "escort",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "formation",
+      "seenIn": [],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 1707,
+      "name": "groupId",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 1697,
+      "name": "lastWptIndex",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 1709,
+      "name": "lastWptIndexFlag",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 1709,
+      "name": "lastWptIndexFlagChangedManually",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 1720,
+      "name": "pos",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "table"
+      ]
+    },
+    {
+      "missionCount": 17,
+      "name": "x",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 17,
+      "name": "y",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "Follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "Follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Follow",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "follow",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "Follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "Follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "follow",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Follow",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "follow",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

@@ -1,0 +1,300 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.044
+  },
+  "attributes": [
+    "APC",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 900,
+    "nominalCapacity": 900
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 2.6,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 1200
+  },
+  "dimensions": {
+    "lengthM": 7,
+    "massKg": 17237,
+    "widthM": 2.6
+  },
+  "displayName": "IFV M1126 Stryker ICV",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "M1126 Stryker ICV",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    }
+  ],
+  "mobility": {
+    "enginePower": 350,
+    "fordingDepthM": 1.2,
+    "maxRoadSpeedMs": 26.9,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 96.84,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 7,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 9,
+          "value": 1
+        }
+      ]
+    },
+    "mapClassKey": "P0091000004",
+    "shape": "M1126",
+    "shapeDestroyed": "M1126_P1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2002,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "sensors": [
+    "M151 Protector RWS IR",
+    "M151 Protector RWS day"
+  ],
+  "tags": [
+    "Armor",
+    "IFV"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "M2 Browning",
+      "gunAmmo": [
+        "M2_12_7",
+        "M2_12_7_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "M2_Browning",
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 25,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 25,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 25,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 25,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 25,
+          "shotDelayS": 0.11538461538462
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          2.1816615649929,
+          -0.15707963267949,
+          0.95993108859688
+        ],
+        [
+          2.1816615649929,
+          -2.6179938779915,
+          -0.27925268031909,
+          0.95993108859688
+        ],
+        [
+          -2.6179938779915,
+          -3.1415926535898,
+          -0.15707963267949,
+          0.95993108859688
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.5707963267949,
+        "yaw": 1.221730476396
+      },
+      "ws": 1
+    }
+  ]
+}

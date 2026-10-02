@@ -1,0 +1,346 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.044
+  },
+  "attributes": [
+    "ATGM",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 1000,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 2.6,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3800
+  },
+  "dimensions": {
+    "lengthM": 7,
+    "massKg": 17237,
+    "widthM": 2.6
+  },
+  "displayName": "ATGM Stryker",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "M1134 Stryker ATGM",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    }
+  ],
+  "mobility": {
+    "enginePower": 350,
+    "fordingDepthM": 1.2,
+    "maxRoadSpeedMs": 26.9,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 96.84,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 7,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.225
+        },
+        {
+          "arg": 3,
+          "value": 1
+        },
+        {
+          "arg": 4,
+          "value": 1
+        },
+        {
+          "arg": 5,
+          "value": 1
+        },
+        {
+          "arg": 9,
+          "value": 1
+        }
+      ]
+    },
+    "mapClassKey": "P0091000204",
+    "shape": "M1134",
+    "shapeDestroyed": "M1134_P1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2002,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TAS4 TOW day",
+    "TAS4 TOW night"
+  ],
+  "tags": [
+    "Armor",
+    "SP ATGM"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 2,
+      "beamWidthRad": 0.017453292519943,
+      "hMaxM": 3000,
+      "launchDelayS": 2,
+      "launcherType": 33,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 14,
+          "ammoName": "TOW",
+          "reloadTimeS": 280,
+          "shotDelayS": 10,
+          "weapon": "TOW2"
+        }
+      ],
+      "rMaxKm": 3.8,
+      "rMinKm": 0.05,
+      "reactionTimeS": 10,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -0.26179938779915,
+          -0.1221730476396,
+          0.5235987755983
+        ],
+        [
+          -0.26179938779915,
+          -1.221730476396,
+          -0.034906585039887,
+          0.5235987755983
+        ],
+        [
+          -1.221730476396,
+          -3.1415926535898,
+          -0.1221730476396,
+          0.5235987755983
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 1.221730476396
+      },
+      "weapons": [
+        "TOW2"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "M240",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "M240",
+      "payloads": [
+        {
+          "ammoCapacity": 220,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 220,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 220,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 220,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 220,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 220,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 220,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 220,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 220,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 220,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          1.9198621771938,
+          -2.6179938779915,
+          -0.087266462599716,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.0943951023932,
+        "yaw": 2.0943951023932
+      },
+      "ws": 2
+    }
+  ]
+}

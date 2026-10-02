@@ -1,0 +1,122 @@
+globals: {}
+
+types:
+  Entity.StoreKind:
+    kind: enum
+    description: "Structural classification of a store, from the launcher `category` name (CAT_FUEL_TANKS, CAT_PODS, or a weapon category) or else the wsType in its `attribute`; weapon stores are `rack` when they carry more than one item or declare `Count = 0` (an empty rack or adapter). `unknown` when neither field is present."
+    values:
+      SINGLE: "single"
+      RACK: "rack"
+      FUEL_TANK: "fuel-tank"
+      POD: "pod"
+      UNKNOWN: "unknown"
+
+  Entity.Delivery:
+    kind: record
+    description: "A weapon delivered by a store together with the quantity carried."
+    fields:
+      weapon:
+        type: string
+        ref: Entity.Weapon
+        description: "Cross-reference: `Entity.Weapon` id delivered by the store."
+      count:
+        type: number
+        description: "Number of this weapon carried by the store."
+    required: [weapon, count]
+
+  Entity.Fuze:
+    kind: record
+    description: "A fuze option available for a store."
+    fields:
+      id:
+        type: string
+        description: "Fuze identifier."
+      displayName:
+        type: string
+        description: "Optional DCS `dispName` of the fuze option, verbatim."
+    required: [id]
+
+  Entity.Store:
+    kind: record
+    description: "A loadable store (pylon item), identified by its CLSID. Cross-references are string ids."
+    fields:
+      clsid:
+        type: string
+        description: "Unique store CLSID."
+      displayName:
+        type: string
+        description: "Human-readable store name shown in the loadout editor."
+      kind:
+        type: Entity.StoreKind
+        description: "Structural classification of the store."
+      category:
+        type: Entity.LauncherCategory
+        description: "Optional launcher `category`."
+      categoryName:
+        type: string
+        description: "Optional DCS constant name of `category` (for example `CAT_PODS`)."
+      rack:
+        type: string
+        ref: Entity.Rack
+        description: "Optional cross-reference: `Entity.Rack` id if this store is mounted through a rack."
+      delivers:
+        type: Entity.Delivery[]
+        description: "Weapons delivered by this store with their counts: the sum over the stores its `Elements[].payload_CLSID` load, else the projectile its `wsTypeOfWeapon`/`attribute` names, else the projectiles its element shapes match."
+      gunAmmo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Optional cross-references: `Entity.GunAmmo` ids a gun pod fires, from its `guns` shells (or those of the stores it loads)."
+      aero:
+        type: Entity.Aero
+        description: "Aerodynamic and mass properties of the store."
+      fuzes:
+        type: Entity.Fuze[]
+        description: "Fuze options available for this store."
+      fuelKg:
+        type: number
+        description: "Optional fuel capacity in kilograms for fuel-tank stores."
+      guns:
+        type: Entity.StoreGun[]
+        description: "Optional gun mounts: `gun_mounts`, else the `mounts` of the `weapons_table.aircraft_gunpods` entry whose `gunpod_name` is this CLSID (`_source.guns: aircraft_gunpods`)."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Optional cross-reference: `Entity.Sensor` ids of its `Sensors` table, else of the `db.Pods` entry whose `DisplayName` is this store's `displayName` (`_source.sensors: pods`)."
+      picture:
+        type: string
+        description: "Optional `Picture`, the loadout editor image file."
+      natoName:
+        type: string
+        description: "Optional `NatoName`."
+      _source:
+        type: any
+        description: "Optional provenance map keyed by field path: `guns`/`gunAmmo: aircraft_gunpods`; `sensors: pods`. Absent fields are the launcher's own."
+      required:
+        type: string[]
+        description: "Optional launcher `Required`: `Entity.Store` CLSIDs (each one asserted at extraction) DCS lists as needed elsewhere on the aircraft (e.g. a datalink pod), sorted. The mission editor does not enforce it."
+    required: [clsid, displayName, kind, delivers, aero, fuzes]
+
+  Entity.StoreGun:
+    kind: record
+    description: "One gun mount of a gun pod."
+    fields:
+      displayName:
+        type: string
+        description: "Optional `display_name`."
+      shortName:
+        type: string
+        description: "Optional `short_name`."
+      rates:
+        type: number[]
+        description: "Optional `gun.rates`, raw (rounds per minute by their values, e.g. M134 4000/2000)."
+      rounds:
+        type: number
+        description: "Optional `supply.count`."
+      gunAmmo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Optional cross-references: `Entity.GunAmmo` ids of `supply.shells`, sorted."
+      effectiveFireDistance:
+        type: number
+        description: "Optional `effective_fire_distance`, raw (metres by their values)."
+    required: []

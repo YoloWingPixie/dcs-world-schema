@@ -1,0 +1,360 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          15,
+          1.5
+        ],
+        [
+          15,
+          160,
+          1
+        ],
+        [
+          160,
+          180,
+          0.7
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          11,
+          0.8
+        ],
+        [
+          11,
+          40,
+          1
+        ],
+        [
+          40,
+          90,
+          0.9
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          40,
+          1
+        ],
+        [
+          40,
+          90,
+          0.7
+        ]
+      ]
+    },
+    "thickness": 0.012
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3,
+    "members": [
+      "commander",
+      "gunner",
+      "loader"
+    ]
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 3.55,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 23500,
+    "threatRangeMinM": 60
+  },
+  "dimensions": {
+    "lengthM": 11.6,
+    "massKg": 35000,
+    "widthM": 3.38
+  },
+  "displayName": "PLZ-05",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "PLZ05",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 4
+    }
+  ],
+  "mobility": {
+    "canSwim": false,
+    "enginePower": 800,
+    "maxRoadSpeedMs": 15.55,
+    "maxSlopeRad": 0.6,
+    "maxSpeedKmh": 55.98,
+    "maxVertObstacleM": 0.75,
+    "minTurnRadiusM": 2.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "headlights": 31,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "stoplights": 30,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.2
+        },
+        {
+          "arg": 1,
+          "value": 0.247
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "plz05",
+    "mapClassKey": "P0091000006",
+    "positioning": "BYNORMAL",
+    "shape": "plz05",
+    "shapeDestroyed": "plz05_dstr"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TKN-3B day",
+    "TKN-3B night"
+  ],
+  "tags": [
+    "Artillery",
+    "SPA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "PLZ_155_HE"
+      ],
+      "hMaxM": 5000,
+      "launcherType": 6,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 20,
+          "gunAmmo": [
+            "PLZ_155_HE"
+          ],
+          "reloadTimeS": 480,
+          "shotDelayS": 6
+        },
+        {
+          "ammoCapacity": 30,
+          "gunAmmo": [
+            "PLZ_155_HE"
+          ],
+          "reloadTimeS": 600,
+          "shotDelayS": 6
+        }
+      ],
+      "rMinKm": 0.06,
+      "reactionTimeS": 40,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          1.1868238913561
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.24434609527921,
+        "yaw": 0.38397243543875
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "MG 12.7mm",
+      "gunAmmo": [
+        "Utes_12_7x108",
+        "Utes_12_7x108_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 10,
+      "ln": 1,
+      "name": "12_7_MG",
+      "payloads": [
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.05235987755983,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.87266462599716
+      },
+      "ws": 2
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "availableFor": [
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "attributes": [
+      "Aircraft Carriers",
+      "Link4"
+    ],
+    "messages": [
+      "has no Link 4"
+    ]
+  },
+  "dcsId": "DeactivateLink4",
+  "defaultParams": {},
+  "description": "Dectivate active beacon (Link 4, etc) onboard of the group lead unit.",
+  "displayName": "Deactivate Link 4",
+  "id": "DEACTIVATE_LINK4",
+  "kind": "command",
+  "missions": {
+    "categories": [
+      "ship"
+    ],
+    "contexts": {
+      "triggered>WrappedAction": 1
+    },
+    "count": 1
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "DeactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "deactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "deactivatelink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "DeactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "deactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "deactivatelink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "DeactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "deactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "deactivatelink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "DeactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "deactivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "deactivatelink4",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

@@ -1,0 +1,2528 @@
+{
+  "aero": {
+    "emptyMassKg": 8000,
+    "internalFuelKg": 3045,
+    "maxSpeedKmh": 2336.4,
+    "maxTakeoffKg": 17000
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Multirole fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 0,
+      "default": 0,
+      "increment": 0
+    },
+    "cmdsEdit": false,
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          -1,
+          -1
+        ],
+        "position": [
+          -4.312,
+          -0.648,
+          -0.488
+        ]
+      },
+      {
+        "direction": [
+          0,
+          -1,
+          1
+        ],
+        "position": [
+          -4.312,
+          -0.648,
+          0.488
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 0,
+      "default": 0,
+      "increment": 0
+    },
+    "singleChargeTotal": 0
+  },
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 127.5,
+    "maxMHz": 400,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 70,
+    "irEmissionCoeff": 0.8,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 4.5,
+    "lengthM": 15.3,
+    "wingSpanM": 8.4
+  },
+  "displayName": "Mirage F1B",
+  "failures": [
+    {
+      "id": "battery_fail",
+      "label": "Battery failure"
+    },
+    {
+      "id": "alt1_fail",
+      "label": "Alternator 1 failure"
+    },
+    {
+      "id": "alt2_fail",
+      "label": "Alternator 2 failure"
+    },
+    {
+      "id": "tr1_fail",
+      "label": "Transformer 1 failure"
+    },
+    {
+      "id": "tr2_fail",
+      "label": "Transformer 2 failure"
+    },
+    {
+      "id": "triphase_inv_fail",
+      "label": "Three-phase inverter failure"
+    },
+    {
+      "id": "miss_bus_fail",
+      "label": "Missile bus failure"
+    },
+    {
+      "id": "left_fuel_pump_fail",
+      "label": "Left fuel pump failure"
+    },
+    {
+      "id": "right_fuel_pump_fail",
+      "label": "Right fuel pump failure"
+    },
+    {
+      "id": "detotalizer_fail",
+      "label": "Fuel detotalizer failure"
+    },
+    {
+      "id": "fuel_gauges_fail",
+      "label": "Fuel gauges failure"
+    },
+    {
+      "id": "fuel_intercom_fail",
+      "label": "Fuel crossfeed valve failure"
+    },
+    {
+      "id": "left_wing_transfer_fail",
+      "label": "Left wing fuel tank transfer failure"
+    },
+    {
+      "id": "right_wing_transfer_fail",
+      "label": "Right wing fuel tank transfer failure"
+    },
+    {
+      "id": "front_central_transfer_fail",
+      "label": "Front central fuel tank transfer failure"
+    },
+    {
+      "id": "left_front_transfer_fail",
+      "label": "Left front fuel tank transfer failure"
+    },
+    {
+      "id": "right_front_transfer_fail",
+      "label": "Right front fuel tank transfer failure"
+    },
+    {
+      "id": "left_rear_transfer_fail",
+      "label": "Left rear fuel tank transfer failure"
+    },
+    {
+      "id": "right_rear_transfer_fail",
+      "label": "Right rear fuel tank transfer failure"
+    },
+    {
+      "id": "external_tanks_transfer_fail",
+      "label": "External fuel tanks transfer failure"
+    },
+    {
+      "id": "left_wing_leaks",
+      "label": "Left wing fuel tank leaks"
+    },
+    {
+      "id": "right_wing_leaks",
+      "label": "Right wing fuel tank leaks"
+    },
+    {
+      "id": "front_central_leaks",
+      "label": "Front central fuel tank leaks"
+    },
+    {
+      "id": "left_front_leaks",
+      "label": "Left front fuel tank leaks"
+    },
+    {
+      "id": "right_front_leaks",
+      "label": "Right front fuel tank leaks"
+    },
+    {
+      "id": "left_rear_leaks",
+      "label": "Left rear fuel tank leaks"
+    },
+    {
+      "id": "right_rear_leaks",
+      "label": "Right rear fuel tank leaks"
+    },
+    {
+      "id": "left_feeder_leaks",
+      "label": "Left feeder fuel tank leaks"
+    },
+    {
+      "id": "right_feeder_leaks",
+      "label": "Right feeder fuel tank leaks"
+    },
+    {
+      "id": "fuel_accu_leaks",
+      "label": "Fuel accumulator leaks"
+    },
+    {
+      "id": "left_airbrake_fail",
+      "label": "Left airbrake failure"
+    },
+    {
+      "id": "right_airbrake_fail",
+      "label": "Right airbrake failure"
+    },
+    {
+      "id": "gear_lever_fail",
+      "label": "Gear actuation failure"
+    },
+    {
+      "id": "gear_down_lock_fail",
+      "label": "Gear locking failure"
+    },
+    {
+      "id": "gear_nose_stuck",
+      "label": "Nose gear stuck"
+    },
+    {
+      "id": "gear_left_stuck",
+      "label": "Left gear stuck"
+    },
+    {
+      "id": "gear_right_stuck",
+      "label": "Right gear stuck"
+    },
+    {
+      "id": "brakes_fail",
+      "label": "Wheel brakes failure"
+    },
+    {
+      "id": "chute_fail",
+      "label": "Drag chute failure"
+    },
+    {
+      "id": "electropump_fail",
+      "label": "Electropump failure"
+    },
+    {
+      "id": "hydr1_leaks",
+      "label": "Hydraulic circuit 1 leaks"
+    },
+    {
+      "id": "hydr1_reserv_leaks",
+      "label": "Hydraulic reservoir 1 leaks"
+    },
+    {
+      "id": "hydr1_pump_fail",
+      "label": "Hydraulic pump 1 failure"
+    },
+    {
+      "id": "hydr2_leaks",
+      "label": "Hydraulic circuit 2 leaks"
+    },
+    {
+      "id": "hydr2_reserv_leaks",
+      "label": "Hydraulic reservoir 2 leaks"
+    },
+    {
+      "id": "hydr2_pump_fail",
+      "label": "Hydraulic pump 2 failure"
+    },
+    {
+      "id": "hydr_serv_leaks",
+      "label": "Hydraulic servitudes circuit leaks"
+    },
+    {
+      "id": "flap_left_stuck",
+      "label": "Left flap stuck"
+    },
+    {
+      "id": "flap_right_stuck",
+      "label": "Right flap stuck"
+    },
+    {
+      "id": "flaps_stuck",
+      "label": "Both flaps stuck"
+    },
+    {
+      "id": "slat_inner_left_stuck",
+      "label": "Left inner slat stuck"
+    },
+    {
+      "id": "slat_inner_right_stuck",
+      "label": "Right inner slat stuck"
+    },
+    {
+      "id": "slat_outer_left_stuck",
+      "label": "Left outer slat stuck"
+    },
+    {
+      "id": "slat_outer_right_stuck",
+      "label": "Right outer slat stuck"
+    },
+    {
+      "id": "slats_stuck",
+      "label": "All slats stuck"
+    },
+    {
+      "id": "pitot_heat_fail",
+      "label": "Pitot tube heating failure"
+    },
+    {
+      "id": "altitude_chain_fail",
+      "label": "Altitude chain failure"
+    },
+    {
+      "id": "mach_chain_fail",
+      "label": "Mach chain failure"
+    },
+    {
+      "id": "incidometer_fail",
+      "label": "Incidometer failure"
+    },
+    {
+      "id": "incidometer_blockage_fail",
+      "label": "Incidometer stuck"
+    },
+    {
+      "id": "anemo_central_fail",
+      "label": "Anemometry central failure"
+    },
+    {
+      "id": "trim_pitch_fail",
+      "label": "Pitch trim fail"
+    },
+    {
+      "id": "trim_roll_fail",
+      "label": "Roll trim fail"
+    },
+    {
+      "id": "trim_yaw_fail",
+      "label": "Yaw trim fail"
+    },
+    {
+      "id": "trim_elect_supply",
+      "label": "Trim electric failure"
+    },
+    {
+      "id": "yaw_damper_fail",
+      "label": "Yaw damper failure"
+    },
+    {
+      "id": "pilot_aids_1_fail",
+      "label": "Pilot aids 1 electric supply failure"
+    },
+    {
+      "id": "pilot_aids_2_fail",
+      "label": "Pilot aids 2 electric supply failure"
+    },
+    {
+      "id": "pitch_chain_fail",
+      "label": "Pitch control chain failure"
+    },
+    {
+      "id": "ap_global_fail",
+      "label": "Autopilot failure"
+    },
+    {
+      "id": "broken_guards",
+      "label": "Engine nozzle vanes stuck"
+    },
+    {
+      "id": "oil_fail",
+      "label": "Engine oil pump failure"
+    },
+    {
+      "id": "nosecone_stuck",
+      "label": "Engine nosecones stuck"
+    },
+    {
+      "id": "nosecone_stuck_forward",
+      "label": "Engine nosecones stuck forwards"
+    },
+    {
+      "id": "nosecone_stuck_backward",
+      "label": "Engine nosecones stuck backwards"
+    },
+    {
+      "id": "start_fail",
+      "label": "Engine starter failure"
+    },
+    {
+      "id": "ignition_fail",
+      "label": "Engine ignition failure"
+    },
+    {
+      "id": "total_comp_stall",
+      "label": "Total compressor stall"
+    },
+    {
+      "id": "partial_comp_stall",
+      "label": "Partial compressor stall"
+    },
+    {
+      "id": "overspeed_fail",
+      "label": "Engine overspeed failure"
+    },
+    {
+      "id": "discharge_valves_fail",
+      "label": "Engine discharge valves failure"
+    },
+    {
+      "id": "engine_fire",
+      "label": "Engine fire"
+    },
+    {
+      "id": "AB_fire",
+      "label": "Afterburner fire"
+    },
+    {
+      "id": "compressor_damage",
+      "label": "Engine compressor damaged"
+    },
+    {
+      "id": "engine_flameout",
+      "label": "Engine flameout"
+    },
+    {
+      "id": "cabin_temp_fail",
+      "label": "Cabin temperature regulation fail"
+    },
+    {
+      "id": "equip_temp_fail",
+      "label": "Equipment bay temperature regulation fail"
+    },
+    {
+      "id": "oxygen_regulator_fail",
+      "label": "Oxygen regulator fail"
+    },
+    {
+      "id": "gyros_general_BSM_fail",
+      "label": "Gyroscopic central fail"
+    },
+    {
+      "id": "gyros_main_att_fail",
+      "label": "Main attitude gyroscope fail"
+    },
+    {
+      "id": "gyros_main_fail",
+      "label": "Main directional gyroscope fail"
+    },
+    {
+      "id": "gyros_emergency_fail",
+      "label": "Emergency directional gyroscope fail"
+    },
+    {
+      "id": "gyros_att_indicator",
+      "label": "Spherical indicator fail"
+    },
+    {
+      "id": "gyros_temp_drift",
+      "label": "Excessive gyro drift until realignment"
+    },
+    {
+      "id": "BARAX_fail",
+      "label": "BARAX emission fail"
+    }
+  ],
+  "flyable": false,
+  "id": "Mirage-F1B",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "RadarCoverSettings",
+      "label": "Radar Cover State",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "By global option"
+        },
+        {
+          "id": 2,
+          "label": "Force installed"
+        },
+        {
+          "id": 3,
+          "label": "Force not installed"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "MissSimplLock",
+      "label": "Simplified Missile Locking",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "No"
+        },
+        {
+          "id": 2,
+          "label": "Yes"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "ChaffMultiNumber",
+      "label": "Chaff Burst Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "1"
+        },
+        {
+          "id": 2,
+          "label": "2"
+        },
+        {
+          "id": 3,
+          "label": "3"
+        },
+        {
+          "id": 4,
+          "label": "4"
+        },
+        {
+          "id": 5,
+          "label": "6"
+        },
+        {
+          "id": 6,
+          "label": "8"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "ChaffMultiTime",
+      "label": "Chaff Burst Interval",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "0.1 s"
+        },
+        {
+          "id": 2,
+          "label": "0.2 s"
+        },
+        {
+          "id": 3,
+          "label": "0.3 s"
+        },
+        {
+          "id": 4,
+          "label": "0.4 s"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "ChaffProgramNumber",
+      "label": "Chaff Salvo Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "1"
+        },
+        {
+          "id": 2,
+          "label": "2"
+        },
+        {
+          "id": 3,
+          "label": "4"
+        },
+        {
+          "id": 4,
+          "label": "8"
+        },
+        {
+          "id": 5,
+          "label": "Continuous"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "ChaffProgramTime",
+      "label": "Chaff Salvo Interval",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "1.0 s"
+        },
+        {
+          "id": 2,
+          "label": "2.0 s"
+        },
+        {
+          "id": 3,
+          "label": "3.0 s"
+        },
+        {
+          "id": 4,
+          "label": "4.0 s"
+        },
+        {
+          "id": 5,
+          "label": "5.0 s"
+        },
+        {
+          "id": 6,
+          "label": "8.0 s"
+        },
+        {
+          "id": 7,
+          "label": "Random"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "FlareMultiNumber",
+      "label": "Flare Burst Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "1"
+        },
+        {
+          "id": 2,
+          "label": "2"
+        },
+        {
+          "id": 3,
+          "label": "4"
+        },
+        {
+          "id": 4,
+          "label": "8"
+        },
+        {
+          "id": 5,
+          "label": "Continuous"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "FlareMultiTime",
+      "label": "Flare Burst Interval",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "3.0 s"
+        },
+        {
+          "id": 2,
+          "label": "4.0 s"
+        },
+        {
+          "id": 3,
+          "label": "6.0 s"
+        },
+        {
+          "id": 4,
+          "label": "8.0 s"
+        },
+        {
+          "id": 5,
+          "label": "10.0 s"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "GunBurstSettings",
+      "label": "Gun Burst Settings",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Off"
+        },
+        {
+          "id": 1,
+          "label": "Burst"
+        },
+        {
+          "id": 2,
+          "label": "0.5 s"
+        },
+        {
+          "id": 3,
+          "label": "1 s"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "RocketBurstF1",
+      "label": "F1 Rocket Launcher Burst Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "6"
+        },
+        {
+          "id": 2,
+          "label": "12"
+        },
+        {
+          "id": 3,
+          "label": "18"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "RocketBurstF4",
+      "label": "F4/JL100 Rocket Launchers Burst Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "1"
+        },
+        {
+          "id": 2,
+          "label": "3"
+        },
+        {
+          "id": 3,
+          "label": "6"
+        },
+        {
+          "id": 4,
+          "label": "18"
+        }
+      ]
+    },
+    {
+      "control": "editbox",
+      "id": "IFFMode2Code",
+      "label": "IFF Mode 2 Code",
+      "playerOnly": true
+    },
+    {
+      "arg": 472,
+      "argTable": {
+        "false": 0,
+        "true": 0.9
+      },
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "weightKg": -80
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Instructor"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": {
+      "azimuth": [
+        -160,
+        160
+      ],
+      "elevation": [
+        -50,
+        90
+      ]
+    },
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          146
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          299
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          271
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          251
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          250
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          249
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          232
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          222
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 27
+      },
+      {
+        "args": [
+          220
+        ],
+        "cell": 28
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          219
+        ],
+        "cell": 31
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 32
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          245
+        ],
+        "cell": 41
+      },
+      {
+        "args": [
+          246
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          181
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          180
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          171
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          170
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          145
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          144
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 77
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          400
+        ],
+        "cell": 90
+      },
+      {
+        "args": [
+          401
+        ],
+        "cell": 91
+      }
+    ],
+    "file": "Mirage-F1B",
+    "lightsData": {
+      "lights": {
+        "11": {
+          "lights": [
+            {
+              "angle_change_rate": 0.13962634015955,
+              "angle_max": 0.55850536063819,
+              "angle_min": 0.19198621771938,
+              "argument": 905,
+              "color": [
+                255,
+                194,
+                97,
+                0.4
+              ],
+              "connector": "PILOT_LIGHT",
+              "movable": true,
+              "power_up_t": 1,
+              "range": 1500,
+              "typename": "spotlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.13962634015955,
+                  "angle_max": 0.5235987755983,
+                  "angle_min": 0.17453292519943,
+                  "argument": 209,
+                  "color": [
+                    255,
+                    194,
+                    97,
+                    0.4
+                  ],
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "power_up_t": 1,
+                  "range": 1500,
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_change_rate": -0.90757121103705,
+                  "angle_max": 2.8797932657906,
+                  "angle_min": 2.5307274153918,
+                  "color": [
+                    255,
+                    194,
+                    97,
+                    0.4
+                  ],
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "power_up_t": 1,
+                  "range": 40,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "exposure": [
+                [
+                  929,
+                  0,
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "power_up_t": 0.052,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "exposure": [
+                [
+                  929,
+                  0,
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "power_up_t": 0.052,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 83,
+              "exposure": [
+                [
+                  929,
+                  0,
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "flash_time": 0.3333,
+              "period": 1.3333,
+              "typename": "argnatostrobelight"
+            },
+            {
+              "argument": 802,
+              "exposure": [
+                [
+                  929,
+                  0,
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "power_up_t": 0.052,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "exposure": [
+                [
+                  928,
+                  0,
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 201,
+              "exposure": [
+                [
+                  928,
+                  0,
+                  1,
+                  0,
+                  1
+                ]
+              ],
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.13962634015955,
+                  "angle_max": 0.5235987755983,
+                  "angle_min": 0.17453292519943,
+                  "argument": 209,
+                  "color": [
+                    255,
+                    194,
+                    97,
+                    0.4
+                  ],
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "power_up_t": 1,
+                  "range": 1500,
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_change_rate": -0.90757121103705,
+                  "angle_max": 2.8797932657906,
+                  "angle_min": 2.5307274153918,
+                  "color": [
+                    255,
+                    194,
+                    97,
+                    0.4
+                  ],
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "power_up_t": 1,
+                  "range": 40,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "lights": [
+                    {
+                      "argument": 975,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 69,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 974,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 970,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 973,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 971,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 972,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "lights": [
+                    {
+                      "argument": 980,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 976,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 981,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 977,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 982,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 978,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 979,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "Mirage-F1B",
+    "shapeDestroyed": "Mirage-F1B_destr"
+  },
+  "module": "Mirage F1 Assets by Aerges",
+  "operations": {
+    "bigParkingRamp": false
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2019,
+        "to": 9999
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1980,
+        "to": 2014
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.5,
+    "bankAngleMaxDeg": 85,
+    "casMin": 50,
+    "enginesCount": 1,
+    "hMaxM": 15240,
+    "machMax": 2.1,
+    "nyMax": 7.2,
+    "rangeKm": 3300,
+    "vLandMs": 100,
+    "vMaxHMs": 649,
+    "vMaxSeaLevelMs": 400,
+    "vOptMs": 300,
+    "vTakeOffMs": 100
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": false,
+    "tankerType": 0
+  },
+  "sensors": [
+    "Abstract RWR",
+    "RDY"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}"
+        },
+        {
+          "clsid": "{R550_Magic_1}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -4.329,
+        "longitudinal": -3.215,
+        "vertical": -0.035
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{BLG66_AC}"
+        },
+        {
+          "clsid": "{BLU107B_DURANDAL}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT257}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT259E}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT257}"
+        },
+        {
+          "clsid": "{SAMP125LD}"
+        },
+        {
+          "clsid": "{SAMP250HD}"
+        },
+        {
+          "clsid": "{SAMP250LD}"
+        },
+        {
+          "clsid": "{SAMP400HD}"
+        },
+        {
+          "clsid": "{SAMP400LD}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -2.867,
+        "longitudinal": -1.982,
+        "vertical": -0.207
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "PTB-1200-F1"
+        },
+        {
+          "clsid": "PTB-1200-F1-EMPTY"
+        },
+        {
+          "clsid": "{AUF2_BLG66}"
+        },
+        {
+          "clsid": "{AUF2_BLU107}"
+        },
+        {
+          "clsid": "{AUF2_SAMP125LD}"
+        },
+        {
+          "clsid": "{AUF2_SAMP250HD}"
+        },
+        {
+          "clsid": "{AUF2_SAMP250LD}"
+        },
+        {
+          "clsid": "{BLG66_AC}"
+        },
+        {
+          "clsid": "{BLU107B_DURANDAL}"
+        },
+        {
+          "clsid": "{CC420_GUN_POD}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT257}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT259E}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT257}"
+        },
+        {
+          "clsid": "{R530F_EM}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{R530F_IR}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{S530F}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SAMP125LD}"
+        },
+        {
+          "clsid": "{SAMP250HD}"
+        },
+        {
+          "clsid": "{SAMP250LD}"
+        },
+        {
+          "clsid": "{SAMP400HD}"
+        },
+        {
+          "clsid": "{SAMP400LD}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -2.048,
+        "longitudinal": -1.647,
+        "vertical": -0.328
+      },
+      "station": 3,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "PTB-1200-F1"
+        },
+        {
+          "clsid": "PTB-1200-F1-EMPTY"
+        },
+        {
+          "clsid": "{AUF2_BLG66}"
+        },
+        {
+          "clsid": "{AUF2_BLU107}"
+        },
+        {
+          "clsid": "{AUF2_SAMP125LD}"
+        },
+        {
+          "clsid": "{AUF2_SAMP250HD}"
+        },
+        {
+          "clsid": "{AUF2_SAMP250LD}"
+        },
+        {
+          "clsid": "{BLG66_AC}"
+        },
+        {
+          "clsid": "{CC420_GUN_POD}"
+        },
+        {
+          "clsid": "{CLB4_BLU107}"
+        },
+        {
+          "clsid": "{CLB4_SAMP125LD}"
+        },
+        {
+          "clsid": "{CLB4_SAMP250HD}"
+        },
+        {
+          "clsid": "{CLB4_SAMP250LD}"
+        },
+        {
+          "clsid": "{CLB4_SAMP400HD}"
+        },
+        {
+          "clsid": "{CLB4_SAMP400LD}"
+        },
+        {
+          "clsid": "{R530F_EM}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{R530F_IR}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SAMP250HD}"
+        },
+        {
+          "clsid": "{SAMP250LD}"
+        },
+        {
+          "clsid": "{SAMP400HD}"
+        },
+        {
+          "clsid": "{SAMP400LD}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": -1.06,
+        "vertical": -1.283
+      },
+      "station": 4,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "PTB-1200-F1"
+        },
+        {
+          "clsid": "PTB-1200-F1-EMPTY"
+        },
+        {
+          "clsid": "{AUF2_BLG66}"
+        },
+        {
+          "clsid": "{AUF2_BLU107}"
+        },
+        {
+          "clsid": "{AUF2_SAMP125LD}"
+        },
+        {
+          "clsid": "{AUF2_SAMP250HD}"
+        },
+        {
+          "clsid": "{AUF2_SAMP250LD}"
+        },
+        {
+          "clsid": "{BLG66_AC}"
+        },
+        {
+          "clsid": "{BLU107B_DURANDAL}"
+        },
+        {
+          "clsid": "{CC420_GUN_POD}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT257}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT259E}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT257}"
+        },
+        {
+          "clsid": "{R530F_EM}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{R530F_IR}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{S530F}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{S530F}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_EM}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R530F_IR}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{SAMP125LD}"
+        },
+        {
+          "clsid": "{SAMP250HD}"
+        },
+        {
+          "clsid": "{SAMP250LD}"
+        },
+        {
+          "clsid": "{SAMP400HD}"
+        },
+        {
+          "clsid": "{SAMP400LD}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 2.048,
+        "longitudinal": -1.647,
+        "vertical": -0.328
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{BLG66_AC}"
+        },
+        {
+          "clsid": "{BLU107B_DURANDAL}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT257}"
+        },
+        {
+          "clsid": "{MATRA_F1_SNEBT259E}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT250}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT251}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT252}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT253}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_GREEN}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_RED}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT254_YELLOW}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT256}"
+        },
+        {
+          "clsid": "{MATRA_F4_SNEBT257}"
+        },
+        {
+          "clsid": "{SAMP125LD}"
+        },
+        {
+          "clsid": "{SAMP250HD}"
+        },
+        {
+          "clsid": "{SAMP250LD}"
+        },
+        {
+          "clsid": "{SAMP400HD}"
+        },
+        {
+          "clsid": "{SAMP400LD}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 2.867,
+        "longitudinal": -1.982,
+        "vertical": -0.207
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}"
+        },
+        {
+          "clsid": "{R550_Magic_1}"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 4.329,
+        "longitudinal": -3.215,
+        "vertical": -0.035
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 33,
+      "name": "Pinpoint Strike"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

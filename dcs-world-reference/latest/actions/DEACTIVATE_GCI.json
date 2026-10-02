@@ -1,0 +1,174 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "attributes": [
+      "GCI"
+    ],
+    "messages": [
+      "has no GCI"
+    ]
+  },
+  "dcsId": "DeactivateGCI",
+  "defaultParams": {},
+  "description": "This command deactivates GCI equipment",
+  "displayName": "Deactivate GCI",
+  "id": "DEACTIVATE_GCI",
+  "kind": "command",
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "DeactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "deactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "deactivategci",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "DeactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "deactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "deactivategci",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "DeactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "deactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "deactivategci",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "DeactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "deactivateGCI",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "deactivategci",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

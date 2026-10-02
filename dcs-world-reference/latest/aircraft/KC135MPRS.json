@@ -1,0 +1,789 @@
+{
+  "aero": {
+    "emptyMassKg": 44663,
+    "internalFuelKg": 90700,
+    "maxSpeedKmh": 1009.008,
+    "maxTakeoffKg": 146000
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Datalink",
+    "Link16",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable",
+    "Tankers"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 120,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "dispenserSystems": [
+      "AN/ALE-47"
+    ],
+    "flare": {
+      "chargeSize": 2,
+      "default": 60,
+      "increment": 15
+    },
+    "ircm": [
+      "AN/ALQ-157"
+    ],
+    "singleChargeTotal": 240
+  },
+  "crew": 4,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 225,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 13,
+    "name": "Refueling"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 4,
+    "rcsM2": 80
+  },
+  "dimensions": {
+    "heightM": 12.93,
+    "lengthM": 46.61,
+    "wingSpanM": 40
+  },
+  "displayName": "KC-135MPRS",
+  "flyable": false,
+  "id": "KC135MPRS",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.49640011097796,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          163
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          142
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          141
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          140
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          143
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 82
+      }
+    ],
+    "file": "KC-135MPRS",
+    "lightsData": {
+      "lights": [
+        {},
+        {
+          "lights": [
+            {
+              "argument": 209,
+              "connector": "MAIN_SPOT_PTR",
+              "position": [
+                -0.173,
+                -1.512,
+                2.648
+              ],
+              "typename": "spotlight"
+            },
+            {
+              "argument": 208,
+              "connector": "RESERV_SPOT_PTR",
+              "position": [
+                -0.173,
+                -1.512,
+                -2.648
+              ],
+              "typename": "spotlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 192,
+              "color": [
+                1,
+                1,
+                1
+              ],
+              "connector": "BANO_0",
+              "position": [
+                -6.079,
+                2.896,
+                0
+              ],
+              "typename": "omnilight"
+            },
+            {
+              "argument": 190,
+              "color": [
+                0.99,
+                0.11,
+                0.3
+              ],
+              "connector": "BANO_1",
+              "position": [
+                -1.516,
+                -0.026,
+                -7.249
+              ],
+              "typename": "omnilight"
+            },
+            {
+              "argument": 191,
+              "color": [
+                0,
+                0.894,
+                0.6
+              ],
+              "connector": "BANO_2",
+              "position": [
+                -1.516,
+                -0.026,
+                7.249
+              ],
+              "typename": "omnilight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 201,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 202,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 203,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 88,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      ],
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000064",
+    "positioning": "BYNORMAL",
+    "shape": "KC-135MPRS",
+    "shapeDestroyed": "KC-135MPRS-oblomok"
+  },
+  "module": "AV-8B N/A AI by RAZBAM Sims",
+  "operations": {
+    "eplrs": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1957,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1964,
+        "to": 9999
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 2010,
+        "to": 9999
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.1893,
+    "bankAngleMaxDeg": 45,
+    "casMin": 54,
+    "enginesCount": 4,
+    "hMaxM": 12000,
+    "machMax": 0.9,
+    "nyMax": 2.5,
+    "rangeKm": 12247,
+    "vLandMs": 61,
+    "vMaxHMs": 280.28,
+    "vMaxSeaLevelMs": 280.28,
+    "vOptMs": 220,
+    "vTakeOffMs": 58
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": true,
+    "tankerType": 0
+  },
+  "sensors": [
+    "Abstract RWR"
+  ],
+  "stations": [],
+  "tasks": [
+    {
+      "id": 13,
+      "name": "Refueling"
+    }
+  ]
+}

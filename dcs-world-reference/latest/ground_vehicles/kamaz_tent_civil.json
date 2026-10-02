@@ -1,0 +1,154 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "All",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 3000,
+    "nominalCapacity": 3000
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 8.5,
+    "massKg": 15000,
+    "widthM": 2.5
+  },
+  "displayName": "Truck KAMAZ-43101 civil",
+  "id": "kamaz_tent_civil",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 180,
+    "fordingDepthM": 0.8,
+    "maxRoadSpeedMs": 20.8333,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 74.99988,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 10.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "kamaz_tent_civil",
+    "mapClassKey": "P0091000005",
+    "positioning": "BYNORMAL",
+    "shape": "kamaz_tent_civil",
+    "shapeDestroyed": "KAMAZ-TENT-P_1"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Unarmed",
+    "Support & Logistics"
+  ]
+}

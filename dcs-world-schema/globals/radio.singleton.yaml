@@ -1,0 +1,16 @@
+globals:
+  radio:
+    kind: singleton
+    description: "Holds the radio modulation constants of the mission scripting environment."
+    environment: [MissionScripting]
+    properties:
+      modulation:
+        type: radio.modulation
+        description: "Provides access to the radio modulation enumerator."
+types:
+  radio.modulation:
+    kind: enum
+    description: "Enumerator for radio modulations: the `modulation` of AI tasks and commands such as `SetFrequency`."
+    values:
+      AM: 0
+      FM: 1

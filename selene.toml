@@ -1,0 +1,13 @@
+# Lua lint for the DCS hook/harness scripts and the Lua package
+# (`task lint:lua`); dcs.yml declares the DCS globals they use.
+std = "dcs"
+# The LuaLS fixtures (`task test:luals`) are mission scripts with deliberate
+# type errors and `$` cursor marks, not hook code.
+exclude = ["tools/luals/*"]
+
+[lints]
+# Compact one-line guards, loops and accessors are the house style and no
+# Lua formatter is in use; this rule is formatting, not correctness.
+multiple_statements = "allow"
+# The hooks exist to read and dump DCS's global environment (_G).
+global_usage = "allow"

@@ -1,0 +1,40 @@
+globals: {}
+
+types:
+  Entity.DatalinkType:
+    kind: enum
+    description: "Datalink standard implemented by a datalink entity."
+    values:
+      LINK16: "Link16"
+      SADL: "SADL"
+      IDM: "IDM"
+
+  Entity.Datalink:
+    kind: record
+    description: "The mission editor's datalink-page limits for a unit type, from the descriptor file its `datalinks` table names (run by tools/datamine/extract_datalink.py)."
+    fields:
+      id:
+        type: string
+        description: "Unique datalink identifier."
+      datalinkType:
+        type: Entity.DatalinkType
+        description: "Datalink standard implemented."
+      canBeLink16Donor:
+        type: boolean
+        description: "True if the unit type declares the `AddPropAircraft` property (`STN_L16`) the mission editor's Link16 pages offer donor and team-member units by."
+      supportsTeamMembers:
+        type: boolean
+        description: "True if the mission editor's datalink page has a team-member list (Link16, SADL: `network.teamMembers`; IDM: a preset's `network.presets[n].members`)."
+      supportsCrossFlightTeam:
+        type: boolean
+        description: "True if that list accepts units of another group (flight)."
+      maxDonors:
+        type: number
+        description: "Most units the page's `network.donors` list takes; 0 without a donor list."
+      maxTeamMembers:
+        type: number
+        description: "Most units the page's team-member list takes, the unit itself included."
+      notes:
+        type: string
+        description: "Optional free-form notes about the datalink implementation."
+    required: [id, datalinkType, canBeLink16Donor, supportsTeamMembers, supportsCrossFlightTeam, maxDonors, maxTeamMembers]

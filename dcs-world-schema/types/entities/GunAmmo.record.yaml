@@ -1,0 +1,23 @@
+globals: {}
+
+types:
+  Entity.GunAmmo:
+    kind: record
+    description: "A gun ammunition (shell) type."
+    fields:
+      id:
+        type: string
+        description: "Unique ammunition identifier."
+      displayName:
+        type: string
+        description: "Optional human-readable ammunition name (the shell's `display_name`)."
+      massKg:
+        type: number
+        description: "Optional mass per round in kilograms."
+      type:
+        type: string
+        description: "Optional ammunition type (for example HE, AP, API)."
+      attributes:
+        type: string[]
+        description: "Optional cross-reference: `Entity.Attribute` ids describing this ammunition."
+    required: [id]

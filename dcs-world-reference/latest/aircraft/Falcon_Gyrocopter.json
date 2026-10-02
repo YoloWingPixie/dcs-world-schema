@@ -1,0 +1,885 @@
+{
+  "aero": {
+    "emptyMassKg": 300,
+    "internalFuelKg": 54,
+    "maxSpeedKmh": 185,
+    "maxTakeoffKg": 560
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Transports"
+  ],
+  "cargo": {
+    "maximalCapacity": 100,
+    "nominalCapacity": 100
+  },
+  "countryOfOrigin": "CHN",
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 243,
+    "maxMHz": 399.975,
+    "minMHz": 30,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 31,
+    "name": "CAS"
+  },
+  "detection": {
+    "detectionRangeMax": 2,
+    "irEmissionCoeff": 0.05,
+    "rcsM2": 0.4
+  },
+  "dimensions": {
+    "heightM": 1.85,
+    "lengthM": 5.1,
+    "wingSpanM": 3.2
+  },
+  "displayName": "Falcon Assault Gyrocopter",
+  "flyable": false,
+  "id": "Falcon_Gyrocopter",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 10
+    }
+  ],
+  "missionOptions": [],
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.3649716762171,
+      -0.64278760968654,
+      0.11161889704895,
+      0.86602540378444
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          148
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          666
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          667
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          665
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          271
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          668
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          663
+        ],
+        "cell": 90
+      },
+      {
+        "args": [
+          664
+        ],
+        "cell": 91
+      }
+    ],
+    "file": "falcon_gyrocopter",
+    "lightsData": {
+      "lights": [
+        {},
+        {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "angle_max": 3.1415926535898,
+              "angle_min": 1.5707963267949,
+              "argument": 190,
+              "connector": "BANO_1",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "dir_correction": {
+                "azimuth": -0.78539816339745
+              },
+              "flash_time": 0.7,
+              "mode": 1,
+              "period": 1,
+              "power_up_t": 0.3,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 3.1415926535898,
+              "angle_min": 1.5707963267949,
+              "argument": 191,
+              "connector": "BANO_2",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "dir_correction": {
+                "azimuth": 0.78539816339745
+              },
+              "flash_time": 0.7,
+              "mode": 1,
+              "period": 1,
+              "power_up_t": 0.3,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "Spot"
+            }
+          ],
+          "typename": "Collection"
+        },
+        {},
+        {},
+        {}
+      ],
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000023",
+    "positioning": "BYNORMAL",
+    "shape": "falcon_gyrocopter",
+    "shapeDestroyed": "self"
+  },
+  "module": "China Asset Pack by Deka Ironwork Simulations and Eagle Dynamics",
+  "operations": {
+    "dateOfIntroduction": 2019.1,
+    "landRunwayCategories": [
+      "AircraftCarrier",
+      "AircraftCarrier With Catapult",
+      "AircraftCarrier With Tramplin"
+    ],
+    "laserDesignator": true,
+    "takeOffRunwayCategories": [
+      "AircraftCarrier",
+      "AircraftCarrier With Catapult",
+      "AircraftCarrier With Tramplin"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.015,
+    "bankAngleMaxDeg": 60,
+    "casMin": 27.777777777778,
+    "enginesCount": 1,
+    "hMaxM": 3000,
+    "machMax": 0.2,
+    "nyMax": 6,
+    "rangeKm": 600,
+    "vLandMs": 27.777777777778,
+    "vMaxHMs": 51.388888888889,
+    "vMaxSeaLevelMs": 51.388888888889,
+    "vOptMs": 38.888888888889,
+    "vTakeOffMs": 33.333333333333
+  },
+  "radios": [],
+  "sensors": [
+    "Winglong-1 CAM"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_HJ-12",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 4
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "DIS_HJ-12"
+              ],
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_HJ-12",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 4
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "DIS_HJ-12"
+              ],
+              "station": 3
+            }
+          ]
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_HJ-12",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 4
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "DIS_HJ-12"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "DIS_HJ-12",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 4
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "DIS_HJ-12"
+              ],
+              "station": 1
+            }
+          ]
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    },
+    {
+      "id": 35,
+      "name": "Transport"
+    }
+  ]
+}

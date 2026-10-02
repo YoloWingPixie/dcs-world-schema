@@ -16,21 +16,21 @@ jobs:
     name: 🔨 Build and Validate
     runs-on: ubuntu-latest
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
       
-      - name: 🐍 Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           
-      - name: 🌟 Install uv and Task
+      - name: Install uv and Task
         run: |
           pip install uv
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           
-      - name: 💾 Cache dependencies
+      - name: Cache dependencies
         uses: actions/cache@v4
         with:
           path: |
@@ -40,45 +40,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-uv-
             
-      - name: 📦 Install dependencies
-        run: task uv:sync
-        
-      - name: 📝 Validate YAML Schema
-        id: validate_yaml
+      - name: Pinned tool versions
+        id: tools
         run: |
-          echo "::group::Validate YAML Schema"
-          task validate
-          echo "::endgroup::"
-      
-      - name: 🔄 Merge YAML to JSON
-        id: merge_yaml
-        run: |
-          echo "::group::Merge YAML to JSON"
-          task merge:json
-          echo "::endgroup::"
-      
-      - name: 🔄 Merge YAML to YAML
-        id: merge_yml
-        run: |
-          echo "::group::Merge YAML to YAML"
-          task merge:yaml
-          echo "::endgroup::"
-          
-      - name: 🧩 Validate Types
-        id: validate_types
-        run: |
-          echo "::group::Validate Types"
-          task validate-types
-          echo "::endgroup::"
-      
-      - name: 🔬 Verify against DCS API
-        id: verify
-        run: |
-          echo "::group::Verify API Schema"
-          task verify
-          echo "::endgroup::"
-      
-      - name: 📊 Generate Statistics
+          selene=$(sed -n 's/^VERSION = "\(.*\)"/\1/p' tools/selene.py)
+          staticcheck=$(sed -n 's/^  STATICCHECK_VERSION: //p' Taskfile.yml)
+          echo "key=selene-$selene-staticcheck-$staticcheck" >> "$GITHUB_OUTPUT"
+
+      - name: Cache pinned tools
+        uses: actions/cache@v4
+        with:
+          path: .tools
+          key: ${{ runner.os }}-tools-${{ steps.tools.outputs.key }}-${{ hashFiles('packages/go/go.mod') }}
+
+      - name: Install Lua 5.1
+        run: sudo apt-get update && sudo apt-get install -y lua5.1
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: packages/typescript/package-lock.json
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: packages/go/go.mod
+          cache: false
+
+      - name: Validate, test and package
+        run: task ci
+
+      - name: Generate statistics
         id: stats
         if: github.event_name == 'pull_request'
         run: |
@@ -91,7 +85,7 @@ jobs:
           echo "TOTAL_SIZE=$TOTAL_SIZE" >> $GITHUB_ENV
           echo "::endgroup::"
       
-      - name: 💬 Create PR Comment
+      - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
         with:

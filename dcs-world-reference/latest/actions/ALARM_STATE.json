@@ -1,0 +1,238 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    },
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "Option",
+  "defaultParams": {
+    "name": 9
+  },
+  "description": "Set SAM readiness state.",
+  "displayName": "ALARM STATE",
+  "id": "ALARM_STATE",
+  "kind": "option",
+  "missions": {
+    "categories": [
+      "vehicle",
+      "ship"
+    ],
+    "contexts": {
+      "route>ComboTask>ControlledTask>WrappedAction": 9,
+      "route>ComboTask>WrappedAction": 4087,
+      "triggered>WrappedAction": 418
+    },
+    "count": 4514
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "option": "ALARM_STATE",
+  "optionName": 9,
+  "params": [
+    {
+      "missionCount": 4514,
+      "name": "name",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 4514,
+      "name": "value",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "numeric"
+      ],
+      "category": "vehicle",
+      "context": "setOption",
+      "hasTaskAfter": false,
+      "id": "9",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "numeric"
+      ],
+      "category": "ship",
+      "context": "setOption",
+      "hasTaskAfter": false,
+      "id": "9",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

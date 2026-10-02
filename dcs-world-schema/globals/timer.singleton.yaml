@@ -133,7 +133,7 @@ globals:
           - description: "The following will run a function named \"main\" 120 seconds from one the code would run."
             code: |
               local id = timer.scheduleFunction(main, {}, timer.getTime() + 120)
-          - description: "If further down in the code it was decided to run the main() function sooner it could look like this"
+          - description: "If further down in the code it was decided to run the main() function sooner it could look like this."
             code: |
               if mustGoFaster == true then  
                 timer.setFunctionTime(id, timer.getTime() + 1)

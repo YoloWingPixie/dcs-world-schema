@@ -1,0 +1,723 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "AFAC"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Antiship Strike"
+    },
+    {
+      "category": "plane",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Intercept"
+    },
+    {
+      "category": "plane",
+      "groupTask": "SEAD"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "AFAC"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Antiship Strike"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "SEAD"
+    },
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "AttackUnit",
+  "defaultParams": {
+    "attackQty": 1,
+    "attackQtyLimit": false,
+    "groupAttack": false
+  },
+  "description": "Attack the enemy unit or the enemy static object",
+  "displayName": "Attack Unit",
+  "id": "ATTACK_UNIT",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "plane",
+      "helicopter",
+      "vehicle"
+    ],
+    "contexts": {
+      "route>ComboTask": 587,
+      "route>ComboTask>ControlledTask": 57,
+      "triggered": 152,
+      "triggered>ControlledTask": 14
+    },
+    "count": 810
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 783,
+      "name": "altitude",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 23,
+      "name": "altitudeEdited",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 783,
+      "name": "altitudeEnabled",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 785,
+      "name": "attackQty",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 785,
+      "name": "attackQtyLimit",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "attackType",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "missionCount": 3,
+      "name": "counterbattaryRadius",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 783,
+      "name": "direction",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 783,
+      "name": "directionEnabled",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 785,
+      "missionStrings": [
+        {
+          "count": 430,
+          "value": "Auto"
+        },
+        {
+          "count": 222,
+          "value": "One"
+        },
+        {
+          "count": 89,
+          "value": "All"
+        },
+        {
+          "count": 27,
+          "value": "Two"
+        },
+        {
+          "count": 10,
+          "value": "Half"
+        },
+        {
+          "count": 5,
+          "value": "Four"
+        },
+        {
+          "count": 2,
+          "value": "Quarter"
+        }
+      ],
+      "name": "expend",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "missionCount": 785,
+      "name": "groupAttack",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 795,
+      "name": "unitId",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 810,
+      "name": "weaponType",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 2,
+      "name": "x",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 2,
+      "name": "y",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "AttackUnit",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "attackUnit",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "attackunit",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "AttackUnit",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "attackUnit",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "attackunit",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "AttackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "attackUnit",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "attackunit",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

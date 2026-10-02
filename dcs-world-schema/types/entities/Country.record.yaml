@@ -1,0 +1,89 @@
+globals: {}
+
+types:
+  Entity.Country:
+    kind: record
+    description: "A country in the DCS database (`db.Countries`)."
+    fields:
+      id:
+        type: country.id
+        description: "Country id (`WorldID`)."
+      idName:
+        type: string
+        description: "Optional `country.id` constant name of `id` (for example `RUSSIA`)."
+      name:
+        type: string
+        description: "Country name (`Name`)."
+      shortName:
+        type: string
+        description: "Optional short name (`ShortName`), as used by livery `description.lua` files."
+      internationalName:
+        type: string
+        description: "Optional international name (`InternationalName`)."
+      oldId:
+        type: string
+        description: "Optional legacy string id (`OldID`)."
+      awards:
+        type: Entity.CountryAward[]
+        description: "Optional `Awards`, in DCS order."
+      ranks:
+        type: Entity.CountryRank[]
+        description: "Optional `Ranks`, in DCS order."
+      troops:
+        type: Entity.CountryTroop[]
+        description: "Optional `Troops` (squadrons and units), in DCS order."
+    required: [id, name]
+
+  Entity.CountryAward:
+    kind: record
+    description: "One `Awards` entry of a country."
+    fields:
+      name:
+        type: string
+        description: "`name`."
+      nativeName:
+        type: string
+        description: "`nativeName`."
+      picture:
+        type: string
+        description: "`picture`, an image path."
+      threshold:
+        type: number
+        description: "`threshold`, raw."
+    required: [name, nativeName, picture, threshold]
+
+  Entity.CountryRank:
+    kind: record
+    description: "One `Ranks` entry of a country."
+    fields:
+      name:
+        type: string
+        description: "`name`."
+      nativeName:
+        type: string
+        description: "`nativeName`."
+      stripes:
+        type: string
+        description: "`stripes`, an image path."
+      pictureRect:
+        type: number[]
+        description: "`pictureRect`: the rank's rectangle in `stripes`, four numbers as DCS gives them."
+      threshold:
+        type: number
+        description: "`threshold`, raw."
+    required: [name, nativeName, stripes, pictureRect, threshold]
+
+  Entity.CountryTroop:
+    kind: record
+    description: "One `Troops` entry of a country."
+    fields:
+      name:
+        type: string
+        description: "`name`."
+      nativeName:
+        type: string
+        description: "`nativeName`."
+      picture:
+        type: string
+        description: "`picture`, an image path."
+    required: [name, nativeName, picture]

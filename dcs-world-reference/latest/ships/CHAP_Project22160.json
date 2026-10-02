@@ -1,0 +1,626 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "Corvettes",
+    "Datalink",
+    "DetectionByAWACS",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "HelicopterCarrier",
+    "Naval",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "Ships",
+    "Straight_in_approach_type"
+  ],
+  "detection": {
+    "airFindDistM": 80000,
+    "airWeaponDistM": 7000,
+    "detectionRangeM": 80000,
+    "rcsM2": 8000,
+    "sensor": {
+      "maxAltM": 20000,
+      "maxRangeM": 80000,
+      "minAltM": 0,
+      "minRangeM": 1000,
+      "position": [
+        27,
+        17,
+        0
+      ]
+    },
+    "threatRangeM": 7000
+  },
+  "dimensions": {
+    "heightM": 34.5,
+    "lengthM": 94,
+    "massKg": 1700000,
+    "widthM": 14
+  },
+  "displayName": "Patrol Ship 22160 Vasily Bykov [CH]",
+  "facilities": {
+    "deckLevelM": 6,
+    "helicopterNum": 1,
+    "landingPoint": [
+      -40,
+      5.44,
+      0
+    ],
+    "numParking": 1,
+    "planeNum": 0
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 80000,
+    "radarType": 102,
+    "radarTypeName": "wsType_Radar_Miss"
+  },
+  "id": "CHAP_Project22160",
+  "life": [
+    {
+      "source": "life",
+      "value": 1600
+    }
+  ],
+  "mobility": {
+    "economyDistance": 11100000,
+    "economyVelocity": 8.23,
+    "maxSpeedKmh": 55.548,
+    "maxSpeedMs": 15.43,
+    "minTurnRadiusM": 280,
+    "raceDistance": 2200000,
+    "raceVelocity": 12.35
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "arresting_wires": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "blast_fences": -1,
+      "flag_animation": 11,
+      "flight_deck_fences": 200,
+      "landing_strip_illumination": -1,
+      "locator_rotation": -1,
+      "luna_lights": -1,
+      "nav_lights": 69,
+      "radar1_rotation": 12,
+      "radar2_rotation": 250,
+      "radar3_rotation": 3,
+      "water_propeller": 40
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 15,
+          "value": 0.5
+        },
+        {
+          "arg": 18,
+          "value": -0.5
+        }
+      ]
+    },
+    "file": "CHAP_Project22160",
+    "mapClassKey": "P0091000069",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_Project22160"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "CH Pozitiv-ME 1.2 air",
+    "CH Pozitiv-ME 1.2 surface",
+    "long-range naval FLIR",
+    "long-range naval LLTV",
+    "long-range naval optics"
+  ],
+  "tags": [
+    "Corvette and Patrol"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 0.034906585039887,
+      "ecmK": 0.4,
+      "frequencyRangeHz": [
+        8000000000,
+        12000000000
+      ],
+      "hMaxM": 7000,
+      "hMinM": 0,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 70.0,
+      "rMinKm": 0.05,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          2.9670597283904,
+          -2.9670597283904,
+          -0.26179938779915,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.69813170079773,
+        "yaw": 0.78539816339745
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 1
+          }
+        ]
+      ],
+      "gunAmmo": [
+        "CHAP_76_PFHE"
+      ],
+      "hMaxM": 4000,
+      "launcherType": 11,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 152,
+          "gunAmmo": [
+            "CHAP_76_PFHE"
+          ],
+          "shotDelayS": 0.5
+        }
+      ],
+      "rMaxKm": 5.0,
+      "rMinKm": 0.05,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.6179938779915,
+          -2.6179938779915,
+          -0.087266462599716,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.69813170079773
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 1,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 1
+          }
+        ]
+      ],
+      "gunAmmo": [
+        "AK176_76"
+      ],
+      "hMaxM": 5000,
+      "launcherType": 6,
+      "ln": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 152,
+          "gunAmmo": [
+            "AK176_76"
+          ],
+          "shotDelayS": 0.5
+        }
+      ],
+      "rMinKm": 0.05,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.6179938779915,
+          -2.6179938779915,
+          -0.087266462599716,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.69813170079773
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 1,
+      "displayName": "КПВТ",
+      "gunAmmo": [
+        "KPVT_14_5",
+        "KPVT_14_5_T"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 12,
+      "ln": 1,
+      "name": "KPVT",
+      "payloads": [
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        }
+      ],
+      "rMaxKm": 1.6,
+      "rMinKm": 0.0,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          0,
+          -0.087266462599716,
+          0.78539816339745
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.61086523819802
+      },
+      "ws": 3
+    },
+    {
+      "barrels": 1,
+      "displayName": "КПВТ",
+      "gunAmmo": [
+        "KPVT_14_5",
+        "KPVT_14_5_T"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 12,
+      "ln": 1,
+      "name": "KPVT",
+      "payloads": [
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        },
+        {
+          "ammoCapacity": 50,
+          "ammoDisplayName": "KPVT_14_5",
+          "gunAmmo": [
+            "KPVT_14_5",
+            "KPVT_14_5_T"
+          ],
+          "portionAmmoCapacity": 50,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.1
+        }
+      ],
+      "rMaxKm": 1.6,
+      "rMinKm": 0.0,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.78539816339745
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.61086523819802
+      },
+      "ws": 4
+    },
+    {
+      "beamWidthRad": 0,
+      "hMaxM": 10000,
+      "hMinM": 0,
+      "launcherType": 102,
+      "ln": 1,
+      "rMaxKm": 15.0,
+      "rMinKm": 0.05,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          0,
+          -0.26179938779915,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.78539816339745,
+        "yaw": 0.78539816339745
+      },
+      "ws": 5
+    },
+    {
+      "beamWidthRad": 0,
+      "hMaxM": 10000,
+      "hMinM": 0,
+      "launcherType": 102,
+      "ln": 1,
+      "rMaxKm": 15.0,
+      "rMinKm": 0.05,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          0,
+          -3.1415926535898,
+          -0.26179938779915,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.78539816339745,
+        "yaw": 0.78539816339745
+      },
+      "ws": 6
+    }
+  ]
+}

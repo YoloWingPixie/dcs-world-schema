@@ -1,0 +1,31 @@
+{
+  "availableFor": [],
+  "dcsId": "StopRoute",
+  "id": "StopRoute",
+  "kind": "command",
+  "modules": [],
+  "params": [
+    {
+      "name": "value",
+      "seenIn": [
+        "scripts"
+      ],
+      "types": [
+        "boolean"
+      ]
+    }
+  ],
+  "scripts": [
+    {
+      "call": "setCommand",
+      "file": "Scripts/ScriptingSystem.lua",
+      "function": "trigger.action.groupStopMoving"
+    },
+    {
+      "call": "setCommand",
+      "file": "Scripts/ScriptingSystem.lua",
+      "function": "trigger.action.groupContinueMoving"
+    }
+  ],
+  "wrapped": false
+}

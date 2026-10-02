@@ -1,0 +1,292 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          33.6,
+          2
+        ],
+        [
+          33.6,
+          180,
+          0.75
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          45,
+          1
+        ],
+        [
+          45,
+          90,
+          0.5
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          2
+        ],
+        [
+          20,
+          180,
+          0.75
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.03
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 18300
+  },
+  "dimensions": {
+    "lengthM": 5.89,
+    "massKg": 26700,
+    "widthM": 2.75
+  },
+  "displayName": "SPH M12 GMC 155mm",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "M12_GMC",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 15
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 275.9,
+    "fordingDepthM": 0.6,
+    "maxRoadSpeedMs": 11.11,
+    "maxSlopeRad": 0.5235987755983,
+    "maxSpeedKmh": 39.996,
+    "maxVertObstacleM": 0.9,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "63": 2.69,
+        "64": 2.69
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.035
+        },
+        {
+          "arg": 1,
+          "value": 0.235
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "m12",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "m12",
+    "shapeDestroyed": "m12_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1942,
+        "to": 1945
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Artillery",
+    "SPA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M101"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 6,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 50,
+          "gunAmmo": [
+            "M101"
+          ],
+          "portionReloadTimeS": 30,
+          "shotDelayS": 30
+        }
+      ],
+      "rMaxKm": 18.3,
+      "rMinKm": 0.1,
+      "reactionTimeS": 100,
+      "sectorsRad": [
+        [
+          0.24434609527921,
+          -0.24434609527921,
+          -0.087266462599716,
+          0.5235987755983
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.034906585039887,
+        "yaw": 0.034906585039887
+      },
+      "ws": 1
+    }
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Ship",
+    "Armed ships",
+    "Light armed ships",
+    "NO_SAM",
+    "Naval",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Ships",
+    "low_reflection_vessel"
+  ],
+  "cargo": {
+    "maximalCapacity": 700,
+    "nominalCapacity": 700
+  },
+  "detection": {
+    "airFindDistM": 3000,
+    "airWeaponDistM": 1000,
+    "detectionRangeM": 3000,
+    "irEmissionCoeff": 0.08,
+    "rcsM2": 50,
+    "sensor": {
+      "heightM": 2,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 1000
+  },
+  "dimensions": {
+    "heightM": 2,
+    "lengthM": 11.05,
+    "massKg": 8200,
+    "widthM": 3.2
+  },
+  "displayName": "Boat LCVP Higgins",
+  "facilities": {
+    "deckLevelM": 0.6
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "Higgins_boat",
+  "life": [
+    {
+      "source": "life",
+      "value": 4.6
+    }
+  ],
+  "mobility": {
+    "draftM": 1.3,
+    "economyDistance": 300000,
+    "economyVelocity": 4,
+    "maxSpeedKmh": 21.996,
+    "maxSpeedMs": 6.11,
+    "minTurnRadiusM": 20,
+    "raceDistance": 200000,
+    "raceVelocity": 6
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "arresting_wires": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "blast_fences": [
+        61,
+        62,
+        63,
+        64
+      ],
+      "crew_presence": 50,
+      "flag_animation": 314,
+      "landing_strip_illumination": -1,
+      "locator_rotation": -1,
+      "nav_lights": 69,
+      "radar1_rotation": 1,
+      "radar2_rotation": 2,
+      "radar3_rotation": 3,
+      "water_propeller": 65
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 17,
+          "value": 0.19
+        },
+        {
+          "arg": 19,
+          "value": -0.1
+        }
+      ]
+    },
+    "file": "Higgins_boat",
+    "mapClassKey": "P0091000039",
+    "positioning": "BYNORMAL",
+    "shape": "Higgins_boat"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1942,
+        "to": 9999
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "tags": [
+    "Support"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Br303",
+        "Br303_tr"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "Browning .30 cal",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 1.5,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          1.5707963267949,
+          0.17453292519943,
+          -0.087266462599716,
+          1.221730476396
+        ],
+        [
+          0.17453292519943,
+          -0.95993108859688,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.69813170079773,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Br303",
+        "Br303_tr"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "Browning .30 cal",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 1.5,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.95993108859688,
+          -0.17453292519943,
+          -0.087266462599716,
+          1.221730476396
+        ],
+        [
+          -0.17453292519943,
+          -1.5707963267949,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.69813170079773,
+        "yaw": 1.0471975511966
+      },
+      "ws": 2
+    }
+  ]
+}

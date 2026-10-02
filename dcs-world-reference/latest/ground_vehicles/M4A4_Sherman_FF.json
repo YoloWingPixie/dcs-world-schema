@@ -1,0 +1,535 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          2
+        ],
+        [
+          30,
+          180,
+          1.09
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.4
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          1.69
+        ],
+        [
+          20,
+          168,
+          1.42
+        ],
+        [
+          168,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1.5
+        ],
+        [
+          25,
+          90,
+          0.4
+        ]
+      ]
+    },
+    "thickness": 0.03
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 5.89,
+    "massKg": 33000,
+    "widthM": 2.75
+  },
+  "displayName": "Tk M4A4 Sherman Firefly",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 4000
+  },
+  "id": "M4A4_Sherman_FF",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 15
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 275.9,
+    "fordingDepthM": 0.6,
+    "maxRoadSpeedMs": 11.11,
+    "maxSlopeRad": 0.5235987755983,
+    "maxSpeedKmh": 39.996,
+    "maxVertObstacleM": 0.9,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "63": 2.69,
+        "64": 2.69
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "M4A4_Sherman_FF",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "M4A4_Sherman_FF",
+    "shapeDestroyed": "M4A4_Sherman_FF_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1944,
+        "to": 1957
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1942,
+        "to": 1957
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA",
+      "years": {
+        "from": 1942,
+        "to": 1960
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1951,
+        "to": 1960
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1950,
+        "to": 1960
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1942,
+        "to": 1945
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND",
+      "years": {
+        "from": 1944,
+        "to": 1945
+      }
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Armor",
+    "Tank"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "APCBC"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 18,
+          "gunAmmo": [
+            "APCBC"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 8
+        },
+        {
+          "ammoCapacity": 40,
+          "gunAmmo": [
+            "APCBC"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 18
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "QF17_HE"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 2,
+      "ln": 2,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 5,
+          "gunAmmo": [
+            "QF17_HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 8
+        },
+        {
+          "ammoCapacity": 14,
+          "gunAmmo": [
+            "QF17_HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 18
+        }
+      ],
+      "rMaxKm": 4.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Br303",
+        "Br303_tr"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "Browning .30 cal",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 1.5,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    }
+  ]
+}

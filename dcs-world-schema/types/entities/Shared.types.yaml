@@ -1,0 +1,290 @@
+globals: {}
+
+types:
+  Entity.Aero:
+    kind: record
+    description: "Aerodynamic and mass properties shared by aircraft, stores and racks; each kind fills a different subset, so every field is optional."
+    fields:
+      emptyMassKg:
+        type: number
+        description: "Empty (dry) mass in kilograms."
+      maxTakeoffKg:
+        type: number
+        description: "Maximum take-off mass in kilograms."
+      internalFuelKg:
+        type: number
+        description: "Maximum internal fuel capacity in kilograms."
+      maxSpeedKmh:
+        type: number
+        description: "Maximum speed in kilometres per hour."
+      massKg:
+        type: number
+        description: "Fixed mass in kilograms (stores and racks)."
+      dragIndex:
+        type: number
+        description: "Aerodynamic drag index contribution when the entity is carried externally."
+    required: []
+
+  Entity.Position:
+    kind: record
+    description: "Mounting offset of a station in the carrying aircraft's BODY frame (lateral/longitudinal/vertical, metres), unlike the world-frame `Vec3`."
+    fields:
+      lateral:
+        type: number
+        description: "Lateral (left-right) offset. Sign conventions vary by module and may be corrected per airframe during extraction."
+      longitudinal:
+        type: number
+        description: "Longitudinal (fore-aft) offset."
+      vertical:
+        type: number
+        description: "Vertical (up-down) offset."
+    required: [lateral, longitudinal, vertical]
+
+  Entity.YearRange:
+    kind: record
+    description: "Inclusive service-year range during which an operator fielded an entity. An open-ended (still in service) range has no `to`."
+    fields:
+      from:
+        type: number
+        description: "First year of service."
+      to:
+        type: number
+        description: "Last year of service; absent while the entity is still in service."
+    required: [from]
+
+  Entity.Operator:
+    kind: record
+    description: "A country that operates an entity, optionally with the years it was in service."
+    fields:
+      country:
+        type: country.id
+        description: "Operating nation."
+      countryName:
+        type: string
+        description: "Optional `country.id` constant name of `country` (for example `USA`)."
+      years:
+        type: Entity.YearRange
+        description: "Optional service-year range, present when the dump includes the runtime `getYearsLocal` capture (`_G/__years__.lua`)."
+    required: [country]
+
+  Entity.FreqRange:
+    kind: record
+    description: "An inclusive radio frequency range in megahertz."
+    fields:
+      minMHz:
+        type: number
+        description: "Lowest tunable frequency in megahertz."
+      maxMHz:
+        type: number
+        description: "Highest tunable frequency in megahertz."
+    required: [minMHz, maxMHz]
+
+  Entity.UnitModel:
+    kind: record
+    description: "3D model identification of a unit."
+    fields:
+      shape:
+        type: string
+        description: "Optional model name: `Shape` (aircraft), else `visual.shape` (ground vehicles, ships), else `ShapeName` (structures, personnel)."
+      shapeDestroyed:
+        type: string
+        description: "Optional destroyed-model name: the first non-empty of `visual.shape_dstr`, `ShapeNameDestr`, `ShapeNameDstr`, `shape_table_data[1].desrt`."
+      file:
+        type: string
+        description: "Optional `shape_table_data[1].file`."
+      className:
+        type: string
+        description: "Optional `shape_table_data[1].classname`."
+      positioning:
+        type: string
+        description: "Optional `shape_table_data[1].positioning` (for example `BYNORMAL`, `ONLYHEIGTH`)."
+      mapClassKey:
+        type: string
+        description: "Optional `mapclasskey`."
+      liveryEntry:
+        type: string
+        description: "Optional `livery_entry`."
+      lightsData:
+        type: any
+        description: "Optional `lights_data` (aircraft), the raw DCS table: nested `collection`s of lights with `connector`, `argument`, `typename` and `proto`."
+      encyclopediaAnimation:
+        type: Entity.EncyclopediaPose
+        description: "Optional `encyclopediaAnimation`: the encyclopedia pose."
+      animationArguments:
+        type: any
+        description: "Optional `animation_arguments` (ground vehicles, ships), the raw DCS table: names to model arguments, or to argument/value lists."
+      damageArgs:
+        type: Entity.DamageCellArgs[]
+        description: "Optional model arguments of each `Damage` cell that names some (`Damage[cell].args`), sorted by cell."
+      canopyGeometry:
+        type: any
+        description: "Optional `CanopyGeometry`, raw: a number array (aircraft) or `{azimuth, elevation}` ranges (ground vehicles)."
+    required: []
+
+  Entity.ModelArgValue:
+    kind: record
+    description: "A model argument and its value (a Lua array's entries are arguments 1..n)."
+    fields:
+      arg:
+        type: number
+        description: "Argument number."
+      value:
+        type: number
+        description: "Value."
+    required: [arg, value]
+
+  Entity.EncyclopediaChild:
+    kind: record
+    description: "One `encyclopediaAnimation.children` entry: a model shown at a connector."
+    fields:
+      connector:
+        type: string
+        description: "Optional `connector`."
+      model:
+        type: string
+        description: "Optional `model`."
+      attachPoint:
+        type: string
+        description: "Optional `attach_point`."
+      args:
+        type: Entity.ModelArgValue[]
+        description: "Optional `args`, sorted by argument."
+    required: []
+
+  Entity.EncyclopediaPose:
+    kind: record
+    description: "`encyclopediaAnimation` of a unit."
+    fields:
+      args:
+        type: Entity.ModelArgValue[]
+        description: "Optional `args`, sorted by argument."
+      children:
+        type: Entity.EncyclopediaChild[]
+        description: "Optional `children`, in DCS order."
+    required: []
+
+  Entity.DamageCellArgs:
+    kind: record
+    description: "The model arguments of one damage cell."
+    fields:
+      cell:
+        type: number
+        description: "Damage cell number."
+      args:
+        type: number[]
+        description: "`args`, in DCS order."
+    required: [cell, args]
+
+  Entity.UnitLifeSource:
+    kind: enum
+    description: "The DCS field a unit life value comes from; each is on its own scale."
+    values:
+      LIFE: "Life"
+      LIFE_LOWER: "life"
+      CHASSIS_LIFE: "chassis.life"
+      SHAPE_TABLE_LIFE: "shape_table_data[1].life"
+
+  Entity.UnitLife:
+    kind: record
+    description: "A life (hit points) value and the DCS field it comes from."
+    fields:
+      source:
+        type: Entity.UnitLifeSource
+        description: "The DCS field."
+      value:
+        type: number
+        description: "Its value, raw."
+    required: [source, value]
+
+  Entity.SensorEnvelope:
+    kind: record
+    description: "A unit's `sensor` block: its target-finding envelope."
+    fields:
+      minRangeM:
+        type: number
+        description: "Optional `min_range_finding_target`, metres."
+      maxRangeM:
+        type: number
+        description: "Optional `max_range_finding_target`, metres."
+      minAltM:
+        type: number
+        description: "Optional `min_alt_finding_target`, metres."
+      maxAltM:
+        type: number
+        description: "Optional `max_alt_finding_target`, metres."
+      heightM:
+        type: number
+        description: "Optional `height`, metres."
+      position:
+        type: number[]
+        description: "Optional `pos` `{x, y, z}` in the unit's model frame, metres."
+      laser:
+        type: boolean
+        description: "Optional `laser`."
+    required: []
+
+  Entity.UnitDetection:
+    kind: record
+    description: "Detection, threat and signature values of a unit."
+    fields:
+      detectionRangeM:
+        type: number
+        description: "Optional `DetectionRange`, metres."
+      detectionRangeMax:
+        type: number
+        description: "Optional `detection_range_max` (aircraft), raw: DCS values mix scales (for example 70 and 400000)."
+      threatRangeM:
+        type: number
+        description: "Optional `ThreatRange`, metres."
+      threatRangeMinM:
+        type: number
+        description: "Optional `ThreatRangeMin`, metres."
+      airWeaponDistM:
+        type: number
+        description: "Optional `airWeaponDist`, metres."
+      airFindDistM:
+        type: number
+        description: "Optional `airFindDist`, metres."
+      irEmissionCoeff:
+        type: number
+        description: "Optional `IR_emission_coeff`, raw."
+      rcsM2:
+        type: number
+        description: "Optional `RCS`, square metres (per the DCS unit files' own comment)."
+      sensor:
+        type: Entity.SensorEnvelope
+        description: "Optional `sensor` block."
+    required: []
+
+  Entity.Transportable:
+    kind: record
+    description: "`Transportable`: whether the unit can be carried as cargo."
+    fields:
+      valid:
+        type: boolean
+        description: "Optional `valide`."
+      size:
+        type: number
+        description: "Optional `size`, raw (unit not stated by DCS)."
+    required: []
+
+  Entity.UnitCargo:
+    kind: record
+    description: "Cargo capacity, transportability and towing of a unit."
+    fields:
+      nominalCapacity:
+        type: number
+        description: "Optional `InternalCargo.nominalCapacity`, raw (unit not stated by DCS)."
+      maximalCapacity:
+        type: number
+        description: "Optional `InternalCargo.maximalCapacity`, raw (unit not stated by DCS)."
+      transportable:
+        type: Entity.Transportable
+        description: "Optional `Transportable`."
+      canTow:
+        type: string[]
+        description: "Optional `canTow` tow-coupling names."
+      canBeTowedBy:
+        type: string[]
+        description: "Optional `canBeTowedBy` tow-coupling names."
+    required: []

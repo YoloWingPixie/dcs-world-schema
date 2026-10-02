@@ -1,0 +1,340 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "DetectionByAWACS",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "NO_SAM",
+    "Naval",
+    "RADAR_BAND1_FOR_ARM",
+    "Ships",
+    "Submarines"
+  ],
+  "detection": {
+    "airFindDistM": 0,
+    "airWeaponDistM": 0,
+    "detectionRangeM": 42000,
+    "irEmissionCoeff": 0.2,
+    "rcsM2": 4000,
+    "threatRangeM": 42000
+  },
+  "dimensions": {
+    "heightM": 10.4,
+    "lengthM": 103,
+    "massKg": 5300000,
+    "widthM": 10.5
+  },
+  "displayName": "Type 093 Attack Submarine",
+  "facilities": {
+    "deckLevelM": 3
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 42000,
+    "radarType": 102,
+    "radarTypeName": "wsType_Radar_Miss"
+  },
+  "id": "Type_093",
+  "life": [
+    {
+      "source": "life",
+      "value": 1500
+    }
+  ],
+  "mobility": {
+    "draftM": 8,
+    "economyDistance": 72000000,
+    "economyVelocity": 5.15,
+    "maxSpeedKmh": 53.64,
+    "maxSpeedMs": 14.9,
+    "minTurnRadiusM": 345.6,
+    "raceDistance": 7200000,
+    "raceVelocity": 14.9
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 18,
+      "alarm_state_sequence": {
+        "1": [
+          3,
+          [
+            {
+              "endTime": 5,
+              "endVal": 0.75,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 15,
+              "endVal": 1,
+              "startTime": 5,
+              "startVal": 0.75
+            }
+          ]
+        ],
+        "2": [
+          14,
+          [
+            {
+              "endTime": 5,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 15,
+              "endVal": 0.75,
+              "startTime": 5,
+              "startVal": 0
+            }
+          ]
+        ],
+        "3": [
+          15,
+          [
+            {
+              "endTime": 5,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 15,
+              "endVal": 1,
+              "startTime": 5,
+              "startVal": 0
+            }
+          ]
+        ],
+        "4": [
+          16,
+          [
+            {
+              "endTime": 5,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 15,
+              "endVal": 1,
+              "startTime": 5,
+              "startVal": 0
+            }
+          ]
+        ],
+        "5": [
+          17,
+          [
+            {
+              "endTime": 5,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 15,
+              "endVal": 1,
+              "startTime": 5,
+              "startVal": 0
+            }
+          ]
+        ],
+        "6": [
+          18,
+          [
+            {
+              "endTime": 5,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 15,
+              "endVal": 1,
+              "startTime": 5,
+              "startVal": 0
+            }
+          ]
+        ],
+        "totalDuration": 15
+      },
+      "flag_animation": -1,
+      "nav_lights": 69,
+      "periscope": 16,
+      "radar1_rotation": -1,
+      "radar2_rotation": -1,
+      "radar3_rotation": -1,
+      "water_propeller": 65
+    },
+    "className": "lLandShip",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 14,
+          "value": 1
+        },
+        {
+          "arg": 15,
+          "value": 1
+        },
+        {
+          "arg": 16,
+          "value": 1
+        },
+        {
+          "arg": 17,
+          "value": 1
+        }
+      ]
+    },
+    "file": "093",
+    "mapClassKey": "P0091000038",
+    "positioning": "BYNORMAL",
+    "shape": "093"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 2006,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "052B SAM TR",
+    "PLAN Search Radar B",
+    "long-range naval FLIR",
+    "long-range naval LLTV",
+    "long-range naval optics"
+  ],
+  "tags": [
+    "Submarine"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 6,
+      "displayName": "YU-6",
+      "externalTrackingAwacs": false,
+      "launchDelayS": 2,
+      "launcherType": 32,
+      "ln": 1,
+      "missileChannels": 6,
+      "name": "YU6",
+      "payloads": [
+        {
+          "ammoCapacity": 18,
+          "ammoName": "YU-6",
+          "reloadTimeS": 9999,
+          "shotDelayS": 2,
+          "weapon": "YU-6"
+        }
+      ],
+      "rMaxKm": 20.0,
+      "rMinKm": 5.0,
+      "reactionTimeS": 3,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.3962634015955
+      },
+      "weapons": [
+        "YU-6"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 4,
+      "displayName": "YJ-82",
+      "externalTrackingAwacs": true,
+      "launchDelayS": 3,
+      "launcherType": 1,
+      "ln": 1,
+      "missileChannels": 4,
+      "name": "YJ-82",
+      "payloads": [
+        {
+          "ammoCapacity": 4,
+          "reloadTimeS": 1000000,
+          "shotDelayS": 3,
+          "weapon": "YJ-82"
+        }
+      ],
+      "rMaxKm": 42.0,
+      "rMinKm": 5.0,
+      "reactionTimeS": 8,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "weapons": [
+        "YJ-82"
+      ],
+      "ws": 2
+    }
+  ]
+}

@@ -1,0 +1,333 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          33.6,
+          2
+        ],
+        [
+          33.6,
+          180,
+          0.75
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          45,
+          1
+        ],
+        [
+          45,
+          90,
+          0.5
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          2
+        ],
+        [
+          20,
+          180,
+          0.75
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.04
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 2,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 5.54,
+    "massKg": 23400,
+    "widthM": 3.25
+  },
+  "displayName": "SPG StuG III G AG",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "Stug_III",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 10
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 223.71,
+    "fordingDepthM": 0.5,
+    "maxRoadSpeedMs": 11.11,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 39.996,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "exterior_randomization": 60,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "61": 1.6,
+        "62": 1.6,
+        "63": 2.69,
+        "64": 2.69
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "Stug_III",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "Stug_III",
+    "shapeDestroyed": "Stug_III_p_1"
+  },
+  "operators": [
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1942,
+        "to": 1945
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1943,
+        "to": 1944
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1942,
+        "to": 1945
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC",
+      "years": {
+        "from": 1943,
+        "to": 1945
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Armor",
+    "SPG"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Pzgr_39/40"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 10,
+          "gunAmmo": [
+            "Pzgr_39/40"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 7
+        },
+        {
+          "ammoCapacity": 23,
+          "gunAmmo": [
+            "Pzgr_39/40"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 16
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          0.17453292519943,
+          -0.17453292519943,
+          -0.087266462599716,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.25481807079117
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Sprgr_34_L48"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 5,
+          "gunAmmo": [
+            "Sprgr_34_L48"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 7
+        },
+        {
+          "ammoCapacity": 16,
+          "gunAmmo": [
+            "Sprgr_34_L48"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 16
+        }
+      ],
+      "rMaxKm": 6.0,
+      "rMinKm": 0.3,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          0.17453292519943,
+          -0.17453292519943,
+          -0.087266462599716,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.25481807079117
+      },
+      "ws": 1
+    }
+  ]
+}

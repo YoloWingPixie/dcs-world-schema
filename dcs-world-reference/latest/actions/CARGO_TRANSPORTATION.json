@@ -1,0 +1,267 @@
+{
+  "availableFor": [
+    {
+      "category": "helicopter",
+      "groupTask": "Antiship Strike"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "SEAD"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Transport"
+    }
+  ],
+  "capability": {
+    "messages": [
+      "Cargo transportation can not be assigned to"
+    ]
+  },
+  "dcsId": "CargoTransportation",
+  "defaultParams": {},
+  "description": "Cargo transportaion in zone",
+  "displayName": "Cargo Transportation (External)",
+  "id": "CARGO_TRANSPORTATION",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "helicopter"
+    ],
+    "contexts": {
+      "route>ComboTask": 9
+    },
+    "count": 9
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 9,
+      "name": "groupId",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 9,
+      "name": "unitId",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 2,
+      "name": "unitIdTransport",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 1,
+      "name": "x",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 1,
+      "name": "y",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 9,
+      "name": "zoneId",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "CargoTransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "cargoTransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "cargotransportation",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "CargoTransportation",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "cargoTransportation",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "cargotransportation",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

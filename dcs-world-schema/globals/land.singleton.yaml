@@ -29,9 +29,9 @@ globals:
         returns: land.SurfaceType
         addedVersion: "1.2.0"
       isVisible:
-        description: |
+        description: |-
           Performs line-of-sight check between two points, returning whether terrain obstructs visibility.
-          
+
           Note: This only tests terrain collision - buildings and other objects are not considered.
           When working with ground objects, offset the Y-value (height) to prevent false negatives from the origin point clipping into terrain.
         params:
@@ -69,13 +69,13 @@ globals:
         returns: Vec3Array
         addedVersion: "1.2.0"
       getClosestPointOnRoads:
-        description: |
+        description: |-
           Returns X and Y coordinates of the nearest point on a road from the given position.
-          
+
           Note: This function accepts individual X/Y coordinates rather than `Vec2` or `Vec3` objects.
         params:
           - name: roadType
-            type: string
+            type: '"roads" | "railroads"'
             description: "Road type to search. Valid values: `'roads'`, `'railroads'`."
           - name: xCoord
             type: number
@@ -86,15 +86,15 @@ globals:
         returns: Vec2
         addedVersion: "2.5"
       findPathOnRoads:
-        description: |
+        description: |-
           Returns a route as a sequence of points along roads between start and destination.
-          
+
           The result is a numerically-indexed table of `Vec2` points from start to destination.
-          
+
           Note: When using railroad paths, the parameter value should be `'rails'` (not `'railroads'`).
         params:
           - name: roadType
-            type: string
+            type: '"roads" | "rails"'
             description: "Road type to use. Valid values: `'roads'`, `'rails'`."
           - name: xCoord
             type: number

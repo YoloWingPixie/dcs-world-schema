@@ -1,0 +1,600 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.02
+  },
+  "attributes": [
+    "ATGM",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 800,
+    "nominalCapacity": 800
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 1000,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 2.15,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 6.74,
+    "massKg": 13500,
+    "widthM": 2.94
+  },
+  "displayName": "IFV BMP-1",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "BMP-1",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 5
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 300,
+    "maxRoadSpeedMs": 18.0556,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 65.00016,
+    "maxVertObstacleM": 0.8,
+    "minTurnRadiusM": 2.7,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0
+        },
+        {
+          "arg": 1,
+          "value": 0
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_MISSILE",
+          "model": "malutka"
+        }
+      ]
+    },
+    "mapClassKey": "P0091000002",
+    "shape": "bmp-1",
+    "shapeDestroyed": "Bmp-1_p_1"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA",
+      "years": {
+        "from": 2008,
+        "to": 9999
+      }
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1996,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1981,
+        "to": 2004
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 1992,
+        "to": 9999
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1982,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1974,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1972,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1972,
+        "to": 9999
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1985,
+        "to": 9999
+      }
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN",
+      "years": {
+        "from": 1995,
+        "to": 2006
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN",
+      "years": {
+        "from": 2001,
+        "to": 9999
+      }
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA",
+      "years": {
+        "from": 1977,
+        "to": 9999
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1968,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1981,
+        "to": 9999
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1974,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    }
+  ],
+  "sensors": [
+    "TKN-3B day",
+    "TKN-3B night"
+  ],
+  "tags": [
+    "Armor",
+    "IFV"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "2A28_73"
+      ],
+      "hMaxM": 300,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 9,
+      "payloads": [
+        {
+          "ammoCapacity": 40,
+          "gunAmmo": [
+            "2A28_73"
+          ],
+          "reloadTimeS": 600,
+          "shotDelayS": 7
+        }
+      ],
+      "rMaxKm": 0.6,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          0.57595865315813
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.26179938779915,
+        "yaw": 0.61086523819802
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "hMaxM": 3000,
+      "launchDelayS": 20,
+      "launcherType": 33,
+      "ln": 2,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 4,
+          "ammoName": "9M14",
+          "reloadTimeS": 80,
+          "shotDelayS": 20,
+          "weapon": "MALUTKA"
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.1,
+      "reactionTimeS": 10,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          0.57595865315813
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.26179938779915,
+        "yaw": 0.61086523819802
+      },
+      "weapons": [
+        "MALUTKA"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "MG 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 800,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "7_62_MG",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          0.57595865315813
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.26179938779915,
+        "yaw": 0.61086523819802
+      },
+      "ws": 1
+    }
+  ]
+}

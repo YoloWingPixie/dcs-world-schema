@@ -1,0 +1,216 @@
+globals: {}
+
+types:
+  Entity.Airbase:
+    kind: record
+    description: "A terrain airdrome. Static fields come from the terrain's `Radio.lua` and `Beacons.lua`, linked by their `airfield<N>_<k>` ids. Name, category, reference point, magnetic variation, runways and stands exist only at runtime (`terrain.cfg.lua` is encrypted): they come from the per-terrain runtime pass (`world.getAirbases()` joined by id to the terrain config's `Airdromes`) and are absent for terrains it has not run on."
+    fields:
+      id:
+        type: string
+        description: "`<theatre>.<airdromeId>`."
+      theatre:
+        type: string
+        ref: Entity.Theatre
+        description: "`Entity.Theatre` id."
+      airdromeId:
+        type: number
+        description: "DCS airdrome id N (`Airbase:getID()`; a mission's `airdromeId`)."
+      name:
+        type: string
+        description: "Optional DCS airbase name (`Airbase:getName()`); runtime only."
+      category:
+        type: number
+        description: "Optional DCS `Airbase.Category` (`getDesc().category`); runtime only."
+      categoryName:
+        type: string
+        description: "Optional `Airbase.Category` key of `category` (for example `AIRDROME`); runtime only."
+      referencePoint:
+        type: Entity.MapPoint
+        description: "Optional aerodrome reference point: the terrain config's `reference_point`; its `elevationM` is the field elevation. Runtime only."
+      magneticVariation:
+        type: Entity.MagneticVariation
+        description: "Optional magnetic variation at the reference point, as DCS computes it for 1 January of the DCS build year; runtime only."
+      longestRunwayM:
+        type: number
+        description: "Optional `lengthM` of the longest runway, metres; from `runways`."
+      services:
+        type: Entity.AirbaseService[]
+        description: "Optional ATC services, one per `Radio.lua` entry."
+      beacons:
+        type: string[]
+        ref: Entity.Beacon
+        description: "Optional `Entity.Beacon` ids of this airdrome."
+      navaids:
+        type: string[]
+        ref: Entity.Navaid
+        description: "Optional `Entity.Navaid` ids of this airdrome."
+      runways:
+        type: Entity.Runway[]
+        description: "Optional runways; runtime only."
+      stands:
+        type: Entity.AircraftStand[]
+        description: "Optional parking stands; runtime only."
+    required: [id, theatre, airdromeId]
+
+  Entity.AirbaseService:
+    kind: record
+    description: "One `Radio.lua` ATC radio of an airbase: its roles, call signs per faction and frequencies."
+    fields:
+      radioId:
+        type: string
+        description: "DCS `radioId` (`airfield<N>_<k>`)."
+      roles:
+        type: string[]
+        description: "DCS `role` strings, verbatim (`ground`, `tower`, `approach`)."
+      serviceTypes:
+        type: string[]
+        description: "Communication type code of each role, index for index (`GND`, `TWR`, `APP`); hand-authored mapping."
+      callsigns:
+        type: Entity.RadioCallsign[]
+        description: "Optional call signs."
+      channels:
+        type: Entity.RadioChannel[]
+        description: "Optional frequencies, one per band (DCS lists none for some airbases)."
+    required: [radioId, roles, serviceTypes]
+
+  Entity.RadioCallsign:
+    kind: record
+    description: "An ATC call sign for one faction."
+    fields:
+      faction:
+        type: string
+        description: "DCS faction key, verbatim (`common`, `nato`, `ussr`)."
+      callsign:
+        type: string
+        description: "Call sign (untranslated)."
+    required: [faction, callsign]
+
+  Entity.RadioChannel:
+    kind: record
+    description: "One frequency of an ATC service."
+    fields:
+      band:
+        type: Entity.FrequencyBand
+        description: "DCS band key."
+      bandName:
+        type: string
+        description: "DCS constant name of `band` (for example `VHF_HI`)."
+      modulation:
+        type: Entity.RadioModulationType
+        description: "DCS modulation."
+      modulationName:
+        type: string
+        description: "DCS constant name of `modulation` (for example `MODULATIONTYPE_AM`)."
+      frequencyHz:
+        type: number
+        description: "Frequency, hertz."
+    required: [band, bandName, modulation, modulationName, frequencyHz]
+
+  Entity.MagneticVariation:
+    kind: record
+    description: "Magnetic variation (declination) from DCS's own `magvar` (`magvar.init(month, year)`, `magvar.get_mag_decl(lat, lon)`); date-dependent, so recorded with its reference date."
+    fields:
+      degrees:
+        type: number
+        description: "Degrees, east positive (magnetic = true - degrees)."
+      date:
+        type: string
+        description: "Fixed reference date it was computed for, `YYYY-MM` (the month and year passed to DCS `magvar.init`)."
+      source:
+        type: string
+        description: "DCS function that produced it (for example `magvar.get_mag_decl`)."
+    required: [degrees, date, source]
+
+  Entity.Runway:
+    kind: record
+    description: "A physical runway: a `Terrain.getRunwayList` entry with its edge points, paired with the `Airbase:getRunways()` entry on its axis. Lengths in metres, bearings in degrees."
+    fields:
+      designator:
+        type: string
+        description: "Designator pair of the directions, lower number first (for example `13L/31R`)."
+      lengthM:
+        type: number
+        description: "Length, metres: straight-line distance between the runway list entry's two edge points, which are the runway spawn points at each end. Shorter than the runway drawn in the mission editor by a varying amount (about 200 m at Beirut, 826 m on Creech 08/26), so not a takeoff or landing distance."
+      directions:
+        type: Entity.RunwayDirection[]
+        description: "One per end."
+    required: [designator, lengthM, directions]
+
+  Entity.RunwayDirection:
+    kind: record
+    description: "One landing direction of a runway, with its threshold. Its `threshold` is the runway list's edge point DCS names `edge<k>name` (`edge<k>`), the runway spawn point at that end; the true bearing runs from it to the other edge."
+    fields:
+      designator:
+        type: string
+        description: "End designator: `name`, zero-padded to two digits, when its number is within 3 of round(`magneticBearingDeg` / 10) (0 becomes 36, wrapping 36 to 01; published names lag the drifting variation), otherwise that geometric number with DCS's L/C/R suffix if any. Runways whose axes lie within 5 degrees are parallel; a suffixless end sharing its number with another runway of its group is suffixed L/R or L/C/R by lateral position among the runways sharing it (collinear segments within 50 m share a letter), left to right along the direction of travel (in groups of more than three the whole designator comes from geometry: sets of two or three, larger first, numbered N, N+1, ... from the group's mean magnetic bearing)."
+      name:
+        type: string
+        description: "DCS's own name for this end, verbatim: of the runway list entry's `edge1name`/`edge2name`, the one whose number better matches this direction's magnetic bearing (DCS sometimes gives them the other way round)."
+      designatorMismatch:
+        type: boolean
+        description: "Optional; true when `name`, zero-padded to two digits, differs from `designator` (a number more than 3 off the geometry, a duplicated or missing end name, or an ambiguous name among parallel runways)."
+      trueBearingDeg:
+        type: number
+        description: "True bearing, degrees: great-circle bearing from the threshold to the other edge (their `coord.LOtoLL`; map x is grid north, not true north)."
+      magneticBearingDeg:
+        type: number
+        description: "Magnetic bearing, degrees: `trueBearingDeg` minus the airbase `magneticVariation`."
+      threshold:
+        type: Entity.MapPoint
+        description: "The runway spawn point at this end (the runway list edge point), not the painted threshold; `elevationM` is the ground elevation there."
+      tdzeM:
+        type: number
+        description: "Optional touchdown zone elevation, metres: highest `land.getHeight` sample (every 10 m or less along the centreline) within 914.4 m (3000 ft) of `threshold`."
+      navaids:
+        type: string[]
+        ref: Entity.Navaid
+        description: "Optional `Entity.Navaid` ids serving this direction (localizer `direction` + 180 within 10 degrees of the direction's map-grid bearing)."
+    required: [designator, name, trueBearingDeg, magneticBearingDeg, threshold]
+
+  Entity.AircraftStand:
+    kind: record
+    description: "A parking stand: an `Airbase:getParking()` spot joined to its `Terrain.getStandList` stand (by `Term_Index` = `crossroad_index`, else by position within 2 m), with the size limits the mission editor checks when placing aircraft; or, when it joins no listed stand, a runway take-off position (`runwayEnd`)."
+    fields:
+      name:
+        type: string
+        description: "Optional DCS stand name, verbatim (`getStandList` `name`; the mission's `parking_id`); absent when no listed stand joins the spot."
+      termIndex:
+        type: number
+        description: "DCS `Term_Index`."
+      termType:
+        type: number
+        description: "DCS `Term_Type` (DCS defines no names for its values)."
+      position:
+        type: Entity.MapPoint
+        description: "Stand position (`vTerminalPos`)."
+      limits:
+        type: Entity.StandLimits
+        description: "Size and use limits (`getStandList` `params`); present on every spot joined to a listed stand; absent on runway-end spots (`runwayEnd`), which no DCS source gives limits."
+      runwayEnd:
+        type: string
+        description: "Optional designator (`Entity.RunwayDirection` `designator`) of the runway threshold this spot lies on (within 2 m): a DCS runway take-off position (`Term_Type` 16 in DCS 2.9.29, one per runway end), not a parking stand; it has no `name` and no `limits`. Every spot that joins no listed stand is one."
+    required: [termIndex, termType, position]
+
+  Entity.StandLimits:
+    kind: record
+    description: "A stand's limits as the mission editor reads them (`Terrain.getStandList` params). The editor (`me_parking.getRightParkingAirport`) accepts an aircraft when its `wingSpanM` (else `rotorDiameterM`) < `maxWidthM`, `lengthM` < `maxLengthM` and `heightM` < `maxHeightM` (1000 when absent), and `helicopters` (for a helicopter) or `airplanes` (for a plane) is true (`Entity.AircraftDimensions`)."
+    fields:
+      maxWidthM:
+        type: number
+        description: "`WIDTH`, metres (compared with wing span / rotor diameter)."
+      maxLengthM:
+        type: number
+        description: "`LENGTH`, metres."
+      maxHeightM:
+        type: number
+        description: "Optional `HEIGHT`, metres (unlimited when absent)."
+      shelter:
+        type: boolean
+        description: "`SHELTER`."
+      helicopters:
+        type: boolean
+        description: "`FOR_HELICOPTERS`."
+      airplanes:
+        type: boolean
+        description: "`FOR_AIRPLANES`."
+    required: [maxWidthM, maxLengthM, shelter, helicopters, airplanes]

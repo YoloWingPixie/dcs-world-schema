@@ -1,0 +1,133 @@
+{
+  "availableFor": [
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "Option",
+  "defaultParams": {
+    "name": 32,
+    "value": false
+  },
+  "description": "Allows helicopter to take off and lands vertically if possible",
+  "displayName": "Prefer Take Off/Land vertically",
+  "id": "PREFER_VERTICAL",
+  "kind": "option",
+  "modules": [
+    "me_action_db"
+  ],
+  "option": "PREFER_VERTICAL",
+  "optionName": 32,
+  "params": [
+    {
+      "name": "name",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "value",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "boolean"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "numeric"
+      ],
+      "category": "helicopter",
+      "context": "setOption",
+      "hasTaskAfter": false,
+      "id": "32",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

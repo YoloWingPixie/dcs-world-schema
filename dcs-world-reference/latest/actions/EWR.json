@@ -1,0 +1,216 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "messages": [
+      "is not EWR"
+    ]
+  },
+  "dcsId": "EWR",
+  "defaultParams": {},
+  "description": "Make the lead aircraft of the group EWR",
+  "displayName": "EWR",
+  "id": "EWR",
+  "kind": "enrouteTask",
+  "missions": {
+    "categories": [
+      "vehicle"
+    ],
+    "contexts": {
+      "route>ComboTask": 1355,
+      "route>ComboTask>ControlledTask": 22,
+      "triggered": 25
+    },
+    "count": 1402
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 210,
+      "name": "callname",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "callsign",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "missionCount": 210,
+      "name": "number",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "EWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "eWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "ewr",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "EWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "eWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "ewr",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "EWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "eWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ewr",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "EWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "eWR",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "ewr",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

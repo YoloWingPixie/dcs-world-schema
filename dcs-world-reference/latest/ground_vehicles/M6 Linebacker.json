@@ -1,0 +1,320 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1.2
+        ],
+        [
+          30,
+          150,
+          0.8
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          45,
+          1
+        ],
+        [
+          45,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.0407
+  },
+  "attributes": [
+    "AA_flak",
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Datalink",
+    "Ground Units",
+    "Ground vehicles",
+    "IR Guided SAM",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 600,
+    "nominalCapacity": 600
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 8000,
+    "irEmissionCoeff": 0.095,
+    "sensor": {
+      "heightM": 2.58,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 8000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4500
+  },
+  "dimensions": {
+    "lengthM": 6.45,
+    "massKg": 21300,
+    "widthM": 3.2
+  },
+  "displayName": "SAM Linebacker - Bradley M6",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "M6 Linebacker",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 500,
+    "maxRoadSpeedMs": 18.3333,
+    "maxSlopeRad": 0.27,
+    "maxSpeedKmh": 65.99988,
+    "maxVertObstacleM": 0.91,
+    "minTurnRadiusM": 2.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "mapClassKey": "P0091000214",
+    "shape": "M6",
+    "shapeDestroyed": "M6_P1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1997,
+        "to": 2006
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "Linebacker IR",
+    "Linebacker day"
+  ],
+  "tags": [
+    "Air Defence",
+    "SAM SHORAD"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 4,
+      "ecmK": -1,
+      "launchDelayS": 1,
+      "launcherType": 4,
+      "ln": 1,
+      "missileChannels": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 12,
+          "ammoName": "FIM-92 Stinger",
+          "reloadTimeS": 240,
+          "shotDelayS": 20,
+          "weapon": "FIM_92C"
+        }
+      ],
+      "rMaxKm": 4.5,
+      "rMinKm": 0.2,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.0297442586767
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "weapons": [
+        "FIM_92C"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "M242 Bushmaster",
+      "gunAmmo": [
+        "M242_25_AP_M791",
+        "M242_25_HE_M792"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 12,
+      "ln": 2,
+      "name": "M242_Bushmaster",
+      "payloads": [
+        {
+          "ammoCapacity": 230,
+          "gunAmmo": [
+            "M242_25_HE_M792"
+          ],
+          "portionAmmoCapacity": 230,
+          "reloadTimeS": 800,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 70,
+          "gunAmmo": [
+            "M242_25_AP_M791"
+          ],
+          "portionAmmoCapacity": 70,
+          "reloadTimeS": 400,
+          "shotDelayS": 0.3
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.0297442586767
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "M240",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "M240",
+      "payloads": [
+        {
+          "ammoCapacity": 800,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 800,
+          "reloadTimeS": 480,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.0297442586767
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    }
+  ]
+}

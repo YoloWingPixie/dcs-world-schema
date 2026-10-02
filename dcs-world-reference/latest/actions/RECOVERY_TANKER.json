@@ -1,0 +1,288 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "Refueling"
+    }
+  ],
+  "dcsId": "RecoveryTanker",
+  "defaultParams": {
+    "lastWptIndexFlag": true,
+    "lastWptIndexFlagChangedManually": true,
+    "targetTypes": [
+      "Ships"
+    ]
+  },
+  "description": "Follow carrier with race track pattern awaiting AAR clients",
+  "displayName": "Recovery tanker",
+  "id": "RECOVERY_TANKER",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "plane"
+    ],
+    "contexts": {
+      "route>ComboTask": 28
+    },
+    "count": 28
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 28,
+      "name": "altitude",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 5,
+      "name": "altitudeEdited",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 28,
+      "name": "groupId",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 28,
+      "name": "lastWptIndex",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 28,
+      "name": "lastWptIndexFlag",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 28,
+      "name": "lastWptIndexFlagChangedManually",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 28,
+      "name": "speed",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 7,
+      "name": "speedEdited",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 28,
+      "name": "targetTypes",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "table"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "RecoveryTanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "recoveryTanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "recoverytanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "RecoveryTanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "recoveryTanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "recoverytanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "RecoveryTanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "recoveryTanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "recoverytanker",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "RecoveryTanker",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "recoveryTanker",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "recoverytanker",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

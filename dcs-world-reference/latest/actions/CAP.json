@@ -1,0 +1,244 @@
+{
+  "_source": {
+    "params[name=maxAltEnabled]": "hand-authored",
+    "params[name=maxAlt]": "hand-authored",
+    "params[name=minAltEnabled]": "hand-authored",
+    "params[name=minAlt]": "hand-authored"
+  },
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "CAP"
+    }
+  ],
+  "dcsId": "EngageTargets",
+  "defaultParams": {
+    "priority": 0,
+    "targetTypes": [
+      "Air"
+    ]
+  },
+  "description": "Engage enemy aircraft",
+  "displayName": "CAP",
+  "id": "CAP",
+  "key": "CAP",
+  "kind": "enrouteTask",
+  "missions": {
+    "categories": [
+      "plane"
+    ],
+    "contexts": {
+      "route>ComboTask": 6620,
+      "route>ComboTask>ControlledTask": 4,
+      "triggered": 21
+    },
+    "count": 6645
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "name": "maxAlt",
+      "seenIn": [],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "maxAltEnabled",
+      "seenIn": [],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "minAlt",
+      "seenIn": [],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "minAltEnabled",
+      "seenIn": [],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 6645,
+      "name": "priority",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 6645,
+      "name": "targetTypes",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "table"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "EngageTargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "engageTargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "engagetargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "EngageTargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "engageTargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "engagetargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "EngageTargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "engageTargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "engagetargets",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "EngageTargets",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "engageTargets",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "engagetargets",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

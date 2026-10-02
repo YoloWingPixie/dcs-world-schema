@@ -1,0 +1,267 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.04,
+    "sensor": {
+      "heightM": 1.8,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 10500
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 3
+  },
+  "displayName": "FH LeFH-18 105mm",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "LeFH_18-40-105",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 1,
+    "maxRoadSpeedMs": 1,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 3.6,
+    "maxVertObstacleM": 0.1,
+    "minTurnRadiusM": 0,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "alarm_state_sequence": {
+        "1": [
+          11,
+          [
+            {
+              "endTime": 3,
+              "leveling": true,
+              "startTime": 0
+            },
+            {
+              "endTime": 10,
+              "endVal": 1,
+              "startTime": 3,
+              "startVal": 1
+            }
+          ]
+        ],
+        "2": [
+          3,
+          [
+            {
+              "endTime": 7,
+              "endVal": 1,
+              "startTime": 3,
+              "startVal": 0
+            }
+          ]
+        ],
+        "totalDuration": 10
+      },
+      "locator_rotation": -1,
+      "wheels_rotation": 8
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 1,
+          "value": 0.042
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "LeFH_18-40-105mm",
+    "mapClassKey": "Field_Artillery",
+    "positioning": "BYNORMAL",
+    "shape": "LeFH_18-40-105mm",
+    "shapeDestroyed": "LeFH_18-40-105mm_p_1"
+  },
+  "operators": [
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1944,
+        "to": 1982
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1943,
+        "to": 1982
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1944,
+        "to": 1982
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN",
+      "years": {
+        "from": 1939,
+        "to": 1982
+      }
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1935,
+        "to": 1945
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Artillery",
+    "Howitzer"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "leFH18_105HE"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 6,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 40,
+          "gunAmmo": [
+            "leFH18_105HE"
+          ],
+          "portionReloadTimeS": 10,
+          "shotDelayS": 8
+        }
+      ],
+      "rMaxKm": 10.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 100,
+      "sectorsRad": [
+        [
+          0.4014257279587,
+          -0.4014257279587,
+          -0.078539816339745,
+          0.72431163957765
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.05235987755983
+      },
+      "ws": 1
+    }
+  ]
+}

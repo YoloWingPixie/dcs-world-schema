@@ -1,0 +1,5494 @@
+{
+  "aero": {
+    "emptyMassKg": 8866,
+    "internalFuelKg": 1929,
+    "maxSpeedKmh": 250,
+    "maxTakeoffKg": 13000
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Attack helicopters",
+    "Helicopters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Transport helicopters"
+  ],
+  "cargo": {
+    "maximalCapacity": 2400,
+    "nominalCapacity": 2400
+  },
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 0,
+      "default": 0,
+      "increment": 0
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          0.052,
+          -0.999
+        ],
+        "position": [
+          -0.55,
+          -0.32,
+          -1.28
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0.052,
+          0.999
+        ],
+        "position": [
+          -0.55,
+          -0.32,
+          1.28
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 128,
+      "increment": 32
+    },
+    "singleChargeTotal": 128
+  },
+  "countryOfOrigin": "RUS",
+  "crew": 4,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 127.5,
+    "maxMHz": 400,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 35,
+    "name": "Transport"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.6,
+    "rcsM2": 12
+  },
+  "dimensions": {
+    "heightM": 4.908,
+    "lengthM": 25.942,
+    "rotorDiameterM": 21.33
+  },
+  "displayName": "Mi-8MTV2",
+  "failures": [
+    {
+      "id": "LeftEngine_ShaveInOil",
+      "label": "Left Engine: shave in oil"
+    },
+    {
+      "id": "RightEngine_ShaveInOil",
+      "label": "Right Engine: shave in oil"
+    },
+    {
+      "id": "MainReductor_ShaveInOil",
+      "label": "Main Reductor: shave in oil"
+    },
+    {
+      "id": "TransitionalReductor_ShaveInOil",
+      "label": "Transitional Reductor: shave in oil"
+    },
+    {
+      "id": "TailReductor_ShaveInOil",
+      "label": "Tail Reductor: shave in oil"
+    },
+    {
+      "id": "hydro_main",
+      "label": "Main Hydraulic System Failure"
+    },
+    {
+      "id": "es_damage_GeneratorLeft",
+      "label": "Electric: Generator 1"
+    },
+    {
+      "id": "es_damage_GeneratorRight",
+      "label": "Electric: Generator 2"
+    },
+    {
+      "id": "SAR_2_101",
+      "label": "Left Engine: SAR Failure"
+    },
+    {
+      "id": "SAR_1_101",
+      "label": "Right Engine: SAR Failure"
+    },
+    {
+      "id": "Surge_LeftEngine",
+      "label": "Left Engine: Surge"
+    },
+    {
+      "id": "Surge_RightEngine",
+      "label": "Right Engine: Surge"
+    },
+    {
+      "id": "Failure_LeftEngine",
+      "label": "Left Engine: Failure"
+    },
+    {
+      "id": "Failure_RightEngine",
+      "label": "Right Engine: Failure"
+    },
+    {
+      "id": "EEC_Failure_LeftEngine",
+      "label": "Left Engine: ERD Failure"
+    },
+    {
+      "id": "EEC_Failure_RightEngine",
+      "label": "Right Engine: ERD Failure"
+    },
+    {
+      "id": "LeftEngine_LowOilPressure",
+      "label": "Left Engine: Oil Leak"
+    },
+    {
+      "id": "RightEngine_LowOilPressure",
+      "label": "Right Engine: Oil Leak"
+    },
+    {
+      "id": "MainReductor_LowOilPressure",
+      "label": "Main Reductor: Oil Leak"
+    },
+    {
+      "id": "CTRL_TAIL_ROTOR_CONTROL_FAILURE",
+      "label": "Tail Rotor Control Failure"
+    },
+    {
+      "id": "APU_Fire",
+      "label": "Main Reductor Fire"
+    },
+    {
+      "id": "LeftEngine_Fire",
+      "label": "Left Engine Fire"
+    },
+    {
+      "id": "RightEngine_Fire",
+      "label": "Right Engine Fire"
+    },
+    {
+      "id": "fuel_sys_feed_tank_pump",
+      "label": "Feed Tank Pump Failure"
+    },
+    {
+      "id": "fuel_sys_left_transfer_pump",
+      "label": "Left Fuel Pump Failure"
+    },
+    {
+      "id": "fuel_sys_right_transfer_pump",
+      "label": "Right Fuel Pump Failure"
+    },
+    {
+      "id": "RADAR_ALT_TOTAL_FAILURE",
+      "label": "Radar Altimeter failure"
+    },
+    {
+      "id": "JADRO_1A_FAILURE_TOTAL",
+      "label": "Jadro-1A failure"
+    },
+    {
+      "id": "es_damage_VU1",
+      "label": "Electric: Rectifier 1 Failure"
+    },
+    {
+      "id": "es_damage_VU2",
+      "label": "Electric: Rectifier 2 Failure"
+    },
+    {
+      "id": "es_damage_VU3",
+      "label": "Electric: Rectifier 3 Failure"
+    },
+    {
+      "id": "es_damage_DMR",
+      "label": "Electric: RCR Relay Failure"
+    },
+    {
+      "id": "TransitionalReductor_LowOilPressure",
+      "label": "Transitional Reductor: Oil Leak"
+    },
+    {
+      "id": "TailReductor_LowOilPressure",
+      "label": "Tail Reductor: Oil Leak"
+    },
+    {
+      "id": "hydro_diaphragm",
+      "label": "Hydraulic Diaphragm Failure"
+    },
+    {
+      "id": "hydro_auxiliary",
+      "label": "Auxiliary Hydraulic System Failure"
+    },
+    {
+      "id": "fuel_sys_300left",
+      "label": "300 Liters Left"
+    },
+    {
+      "id": "fuel_sys_swapping_pumps",
+      "label": "Feed Pumps Failure"
+    },
+    {
+      "id": "SAR_2_95",
+      "label": "Left Engine: RPM Sensor Failure"
+    },
+    {
+      "id": "SAR_1_95",
+      "label": "Right Engine: RPM Sensor Failure"
+    },
+    {
+      "id": "SAR_hover_flight_glide",
+      "label": "SAR: Low Vibration Failure"
+    },
+    {
+      "id": "SAR_fast",
+      "label": "SAR: High Vibration Failure"
+    },
+    {
+      "id": "RPMFault_LeftEngine",
+      "label": "Left Engine: RPM Failure"
+    },
+    {
+      "id": "RPMFault_RightEngine",
+      "label": "Right Engine: RPM Failure"
+    },
+    {
+      "id": "Vibration_LeftEngine",
+      "label": "Left Engine: High Vibration"
+    },
+    {
+      "id": "Vibration_RightEngine",
+      "label": "Right Engine: High Vibration"
+    },
+    {
+      "id": "PPF_LE_TEMPER_LIM_OFF",
+      "label": "Left Engine: Temperature Limit"
+    },
+    {
+      "id": "PPF_RE_TEMPER_LIM_OFF",
+      "label": "Right Engine: Temperature Limit"
+    }
+  ],
+  "flyable": false,
+  "id": "Mi-8MT",
+  "kind": "rotary",
+  "missionOptions": [
+    {
+      "arg": 457,
+      "control": "checkbox",
+      "default": true,
+      "id": "ExhaustScreen",
+      "label": "Exhaust IR suppressors",
+      "weightKg": 160
+    },
+    {
+      "control": "slider",
+      "default": 90,
+      "dimension": "%",
+      "id": "LeftEngineResource",
+      "label": "Remaining srvc. life (lh engine)",
+      "max": 100,
+      "min": 40,
+      "playerOnly": true
+    },
+    {
+      "control": "slider",
+      "default": 90,
+      "dimension": "%",
+      "id": "RightEngineResource",
+      "label": "Remaining srvc. life (rh engine)",
+      "max": 100,
+      "min": 40,
+      "playerOnly": true
+    },
+    {
+      "arg": 80,
+      "control": "checkbox",
+      "default": true,
+      "id": "AdditionalArmor",
+      "label": "Additional Armor",
+      "weightKg": 419
+    },
+    {
+      "arg": 250,
+      "booleanInverted": true,
+      "control": "checkbox",
+      "default": true,
+      "id": "CargoHalfdoor",
+      "label": "Cargo halfdoor",
+      "removeWeapons": {
+        "PKT_7_62": false
+      },
+      "weightKg": 130
+    },
+    {
+      "control": "slider",
+      "default": 90,
+      "dimension": "%",
+      "id": "GunnersAISkill",
+      "label": "Gunners AI Skill",
+      "max": 100,
+      "min": 10
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Copilot"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "HumanOrchestra",
+      "label": "Disable Multicrew",
+      "playerOnly": true
+    },
+    {
+      "control": "checkbox",
+      "default": true,
+      "id": "NS430allow",
+      "label": "Allow NS 430 nav device"
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.93969262078591,
+      -0.95280922353749,
+      -0.96592582628907,
+      -0.98106026219041,
+      -0.99619469809175
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          137
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          251
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          146
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          188
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          189
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          1100
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          138
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          252
+        ],
+        "cell": 62
+      },
+      {
+        "args": [
+          53
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          117
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          116
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          115
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          120
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          119
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          118
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          123
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          122
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          121
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          126
+        ],
+        "cell": 73
+      },
+      {
+        "args": [
+          125
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          124
+        ],
+        "cell": 75
+      },
+      {
+        "args": [
+          129
+        ],
+        "cell": 76
+      },
+      {
+        "args": [
+          128
+        ],
+        "cell": 77
+      },
+      {
+        "args": [
+          127
+        ],
+        "cell": 78
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 86
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 87
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 88
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 89
+      },
+      {
+        "args": [
+          663
+        ],
+        "cell": 90
+      },
+      {
+        "args": [
+          664
+        ],
+        "cell": 91
+      },
+      {
+        "args": [
+          665
+        ],
+        "cell": 92
+      },
+      {
+        "args": [
+          452
+        ],
+        "cell": 93
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 94
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 95
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 96
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 97
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          252
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 143
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 144
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 145
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "11": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 209,
+                  "connector": "RESERV_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.20943951023932,
+                    "angle_max": 0.83775804095728,
+                    "angle_min": 0,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.15545341380124
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 360
+                  },
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 208,
+                  "connector": "RESERV_SPOT_PTR_2",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR_2",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.20943951023932,
+                    "angle_max": 0.83775804095728,
+                    "angle_min": 0,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.15545341380124
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 360
+                  },
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 195,
+              "connector": "BANO_0",
+              "dir_correction": {
+                "azimuth": 3.1415926535898
+              },
+              "power_up_t": 1e-06,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  1,
+                  1,
+                  0.155
+                ],
+                "range": 30
+              },
+              "typename": "spotlight"
+            },
+            {
+              "argument": 190,
+              "connector": "BANO_1",
+              "dir_correction": {
+                "azimuth": -1.5707963267949,
+                "elevation": -0.78539816339745
+              },
+              "exposure": [
+                [
+                  1000,
+                  0,
+                  1,
+                  1,
+                  0
+                ]
+              ],
+              "power_up_t": 1e-06,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "spotlight"
+            },
+            {
+              "argument": 192,
+              "connector": "BANO_3",
+              "dir_correction": {
+                "azimuth": -1.5707963267949,
+                "elevation": -0.78539816339745
+              },
+              "exposure": [
+                [
+                  80,
+                  0,
+                  1,
+                  1,
+                  0
+                ]
+              ],
+              "power_up_t": 1e-06,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "spotlight"
+            },
+            {
+              "argument": 191,
+              "connector": "BANO_2",
+              "dir_correction": {
+                "azimuth": -1.5707963267949,
+                "elevation": 0.78539816339745
+              },
+              "exposure": [
+                [
+                  1000,
+                  0,
+                  1,
+                  1,
+                  0
+                ]
+              ],
+              "power_up_t": 1e-06,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "spotlight"
+            },
+            {
+              "argument": 194,
+              "connector": "BANO_4",
+              "dir_correction": {
+                "azimuth": -1.5707963267949,
+                "elevation": 0.78539816339745
+              },
+              "exposure": [
+                [
+                  80,
+                  0,
+                  1,
+                  1,
+                  0
+                ]
+              ],
+              "power_up_t": 1e-06,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "spotlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "5": {
+          "lights": [
+            {
+              "argument": 47,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 210,
+                  "typename": "argumentlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0,
+                    "elevation": 0.069813170079773
+                  },
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0.19198621771938,
+                    "elevation": 0.069813170079773
+                  },
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0.38397243543875,
+                    "elevation": 0.069813170079773
+                  },
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": -0.19198621771938,
+                    "elevation": 0.069813170079773
+                  },
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": -0.38397243543875,
+                    "elevation": 0.069813170079773
+                  },
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "argument": 193,
+              "connector": "RED_BEACON",
+              "emitter_shift_x": -0.25,
+              "emitter_shift_y": -0.04,
+              "proto": {
+                "angle_max": 0.78539816339745,
+                "angle_min": 0.61086523819802,
+                "angular_velocity": 6.2831853071796,
+                "color": [
+                  1,
+                  0,
+                  0,
+                  0.19049409439665
+                ],
+                "cups": 2,
+                "range": 40
+              },
+              "typename": "RotatingBeacon"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "color": [
+                1,
+                1,
+                1,
+                0.7
+              ],
+              "position": [
+                4.12,
+                0.237,
+                -0.622
+              ],
+              "range": 1.9,
+              "typename": "omnilight"
+            },
+            {
+              "color": [
+                1,
+                1,
+                1,
+                0.7
+              ],
+              "position": [
+                4.12,
+                0.237,
+                0.622
+              ],
+              "range": 1.9,
+              "typename": "omnilight"
+            },
+            {
+              "lights": [
+                {
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.71
+                  ],
+                  "intensity_max": 2.53,
+                  "position": [
+                    2.3,
+                    -0.2,
+                    -0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.71
+                  ],
+                  "intensity_max": 2.53,
+                  "position": [
+                    1.15,
+                    -0.2,
+                    -0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.71
+                  ],
+                  "intensity_max": 2.53,
+                  "position": [
+                    0,
+                    -0.2,
+                    -0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.71
+                  ],
+                  "intensity_max": 2.53,
+                  "position": [
+                    -1.15,
+                    -0.2,
+                    -0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.71
+                  ],
+                  "intensity_max": 2.53,
+                  "position": [
+                    -2.3,
+                    -0.2,
+                    -0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "angle_max": 1.221730476396,
+                  "angle_min": 0,
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.7
+                  ],
+                  "direction": {
+                    "azimuth": -1.3962634015955,
+                    "elevation": 0.78539816339745
+                  },
+                  "exposure": [
+                    [
+                      38,
+                      0,
+                      1
+                    ]
+                  ],
+                  "intensity_max": 9.9,
+                  "movable": true,
+                  "position": [
+                    2.649,
+                    -1.171,
+                    -1.205
+                  ],
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 1.9198621771938,
+                  "angle_min": 0,
+                  "color": [
+                    1,
+                    0.88,
+                    1,
+                    0.7
+                  ],
+                  "direction": {
+                    "azimuth": 3.1415926535898,
+                    "elevation": 0.78539816339745
+                  },
+                  "exposure": [
+                    [
+                      86,
+                      0,
+                      0.5
+                    ]
+                  ],
+                  "intensity_max": 14.85,
+                  "movable": true,
+                  "position": [
+                    -2.611,
+                    -0.4,
+                    0
+                  ],
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "color": [
+                1,
+                0,
+                0,
+                0.5
+              ],
+              "position": [
+                4.22,
+                0.037,
+                -0.722
+              ],
+              "range": 3.3,
+              "typename": "omnilight"
+            },
+            {
+              "color": [
+                1,
+                0,
+                0,
+                0.5
+              ],
+              "position": [
+                4.22,
+                0.037,
+                0.722
+              ],
+              "range": 3.3,
+              "typename": "omnilight"
+            },
+            {
+              "lights": [
+                {
+                  "color": [
+                    0.1,
+                    0.09,
+                    1,
+                    0.5
+                  ],
+                  "intensity_max": 2.9,
+                  "position": [
+                    2.3,
+                    -0.2,
+                    0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    0.1,
+                    0.09,
+                    1,
+                    0.5
+                  ],
+                  "intensity_max": 2.9,
+                  "position": [
+                    1.15,
+                    -0.2,
+                    0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    0.1,
+                    0.09,
+                    1,
+                    0.5
+                  ],
+                  "intensity_max": 2.9,
+                  "position": [
+                    0,
+                    -0.2,
+                    0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    0.1,
+                    0.09,
+                    1,
+                    0.5
+                  ],
+                  "intensity_max": 2.9,
+                  "position": [
+                    -1.15,
+                    -0.2,
+                    0.28
+                  ],
+                  "typename": "omnilight"
+                },
+                {
+                  "color": [
+                    0.1,
+                    0.09,
+                    1,
+                    0.5
+                  ],
+                  "intensity_max": 2.9,
+                  "position": [
+                    -2.3,
+                    -0.2,
+                    0.28
+                  ],
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000020",
+    "shape": "MI-8MT"
+  },
+  "operations": {
+    "bigParkingRamp": true,
+    "landRunwayCategories": [
+      "AircraftCarrier"
+    ],
+    "takeOffRunwayCategories": [
+      "AircraftCarrier"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2013,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA",
+      "years": {
+        "from": 1990,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1997,
+        "to": 9999
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 2012,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 2006,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 2010,
+        "to": 9999
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1995,
+        "to": 9999
+      }
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 2016,
+        "to": 9999
+      }
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1988,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1988,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA",
+      "years": {
+        "from": 2003,
+        "to": 9999
+      }
+    },
+    {
+      "country": 89,
+      "countryName": "PERU",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR",
+      "years": {
+        "from": 1995,
+        "to": 9999
+      }
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 2010,
+        "to": 9999
+      }
+    }
+  ],
+  "performance": {
+    "enginesCount": 2,
+    "nyMax": 1.5,
+    "rangeKm": 580
+  },
+  "radios": [],
+  "sensors": [],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_BU",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_GN",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_RD",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_VT",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_WH",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_YE",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OFP2",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "GUV_VOG",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB_250_M62}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -3.26,
+        "longitudinal": 0.4,
+        "vertical": -0.95
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_BU",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_GN",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_RD",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_VT",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_WH",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_YE",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OFP2",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "GUV_VOG",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "GUV_YakB_GSHP",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{05544F1A-C39C-466b-BC37-5BD1D52E57BB}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB_250_M62}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -2.75,
+        "longitudinal": 0.4,
+        "vertical": -0.95
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN-200.5>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_BU",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_GN",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_RD",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_VT",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_WH",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_YE",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OFP2",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB_250_M62}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -2.165,
+        "longitudinal": 0.4,
+        "vertical": -0.95
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN-200.5>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_BU",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_GN",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_RD",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_VT",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_WH",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_YE",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OFP2",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB_250_M62}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 2.16,
+        "longitudinal": 0.4,
+        "vertical": -0.95
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_BU",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_GN",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_RD",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_VT",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_WH",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_YE",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OFP2",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "GUV_VOG",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "GUV_YakB_GSHP",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{05544F1A-C39C-466b-BC37-5BD1D52E57BB}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB_250_M62}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 2.76,
+        "longitudinal": 0.4,
+        "vertical": -0.95
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_BU",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_GN",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_RD",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_VT",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_WH",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_CM_YE",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OFP2",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "B_8V20A_OM",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "GUV_VOG",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB_250_M62}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "<CLEAN-200.5>"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 5
+            }
+          ]
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 3.26,
+        "longitudinal": 0.4,
+        "vertical": -0.95
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "KORD_12_7"
+        }
+      ],
+      "displayName": "L MG",
+      "order": 7,
+      "position": {
+        "lateral": -1.5,
+        "longitudinal": 0.605,
+        "vertical": -0.979
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "PKT_7_62"
+        }
+      ],
+      "displayName": "R MG",
+      "order": 8,
+      "position": {
+        "lateral": 1.5,
+        "longitudinal": 0.605,
+        "vertical": -0.979
+      },
+      "station": 8,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 35,
+      "name": "Transport"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

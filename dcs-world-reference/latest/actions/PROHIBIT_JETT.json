@@ -1,0 +1,147 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "Option",
+  "defaultParams": {
+    "name": 15,
+    "value": false
+  },
+  "description": "Restrict Jettisoning external stores.",
+  "displayName": "Restrict Jettison",
+  "id": "PROHIBIT_JETT",
+  "kind": "option",
+  "missions": {
+    "categories": [
+      "plane"
+    ],
+    "contexts": {
+      "route>ComboTask>WrappedAction": 4725,
+      "triggered>WrappedAction": 21
+    },
+    "count": 4746
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "option": "PROHIBIT_JETT",
+  "optionName": 15,
+  "params": [
+    {
+      "missionCount": 4746,
+      "name": "name",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 4746,
+      "name": "value",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "numeric"
+      ],
+      "category": "plane",
+      "context": "setOption",
+      "hasTaskAfter": false,
+      "id": "15",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Option",
+      "logLines": 2,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "option",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

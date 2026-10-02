@@ -1,0 +1,594 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.003
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "SS_missile",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.09,
+    "sensor": {
+      "heightM": 2.617,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 285000,
+    "threatRangeMinM": 50000
+  },
+  "dimensions": {
+    "lengthM": 13.11,
+    "massKg": 42150,
+    "widthM": 3.15
+  },
+  "displayName": "SSM SS-1C Scud-B",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "Scud_B",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 330,
+    "fordingDepthM": 1.1,
+    "maxRoadSpeedMs": 16.6667,
+    "maxSlopeRad": 0.27,
+    "maxSpeedKmh": 60.00012,
+    "maxVertObstacleM": 1,
+    "minTurnRadiusM": 12.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 4,
+      "alarm_state_sequence": {
+        "1": [
+          2,
+          [
+            {
+              "endTime": 60,
+              "startTime": 0
+            },
+            {
+              "endTime": 447,
+              "endVal": 1,
+              "startTime": 60,
+              "startVal": 1
+            }
+          ]
+        ],
+        "2": [
+          3,
+          [
+            {
+              "endTime": 50,
+              "startTime": 0
+            },
+            {
+              "endTime": 60,
+              "leveling": true,
+              "startTime": 50
+            },
+            {
+              "endTime": 447,
+              "endVal": 1,
+              "startTime": 60,
+              "startVal": 1
+            }
+          ]
+        ],
+        "3": [
+          4,
+          [
+            {
+              "endTime": 63,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 243,
+              "endVal": 1,
+              "startTime": 63,
+              "startVal": 0
+            },
+            {
+              "endTime": 447,
+              "endVal": 1,
+              "startTime": 243,
+              "startVal": 1
+            }
+          ]
+        ],
+        "4": [
+          5,
+          [
+            {
+              "endTime": 63,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "conditions": [
+                [
+                  30,
+                  1
+                ]
+              ],
+              "endTime": 243,
+              "startTime": 63
+            },
+            {
+              "conditions": [
+                [
+                  30,
+                  1
+                ]
+              ],
+              "endTime": 266,
+              "endVal": 1,
+              "startTime": 243,
+              "startVal": 1
+            },
+            {
+              "conditions": [
+                [
+                  30,
+                  1
+                ]
+              ],
+              "endTime": 447,
+              "endVal": 0,
+              "startTime": 267,
+              "startVal": 1
+            }
+          ]
+        ],
+        "5": [
+          6,
+          [
+            {
+              "endTime": 246,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "conditions": [
+                [
+                  30,
+                  1
+                ]
+              ],
+              "endTime": 266,
+              "startTime": 246
+            },
+            {
+              "conditions": [
+                [
+                  30,
+                  1
+                ]
+              ],
+              "endTime": 427,
+              "endVal": 1,
+              "startTime": 266,
+              "startVal": 1
+            },
+            {
+              "conditions": [
+                [
+                  30,
+                  1
+                ]
+              ],
+              "endTime": 447,
+              "endVal": 0,
+              "startTime": 427,
+              "startVal": 1
+            }
+          ]
+        ],
+        "totalDurations": [
+          {
+            "1": 447,
+            "conditions": [
+              [
+                30,
+                1
+              ]
+            ]
+          },
+          {
+            "1": 243,
+            "conditions": [
+              [
+                30,
+                0
+              ]
+            ]
+          }
+        ]
+      },
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 2,
+          "value": 1
+        },
+        {
+          "arg": 4,
+          "value": 1
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_ROCKET",
+          "model": "R-17"
+        }
+      ]
+    },
+    "file": "Scud_B",
+    "mapClassKey": "P0091000208",
+    "positioning": "BYNORMAL",
+    "shape": "Scud_B",
+    "shapeDestroyed": "Scud_B_Crashed"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 2000
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 2007
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1972,
+        "to": 2002
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 2002
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1967,
+        "to": 1995
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1975,
+        "to": 2003
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1990,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1964,
+        "to": 1989
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1974,
+        "to": 1991
+      }
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA",
+      "years": {
+        "from": 1993,
+        "to": 2004
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1981,
+        "to": 9999
+      }
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA",
+      "years": {
+        "from": 1976,
+        "to": 2005
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1962,
+        "to": 1991
+      }
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN",
+      "years": {
+        "from": 1989,
+        "to": 2002
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 1989,
+        "to": 2009
+      }
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1964,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 1988,
+        "to": 2002
+      }
+    }
+  ],
+  "tags": [
+    "MissilesSS",
+    "SSM"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "externalTrackingAwacs": true,
+      "launcherType": 8,
+      "ln": 1,
+      "missileChannels": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 1,
+          "ammoName": "Scud R-17",
+          "reloadTimeS": 2400,
+          "shotDelayS": 10,
+          "weapon": "SCUD_RAKETA"
+        }
+      ],
+      "rMaxKm": 285.0,
+      "rMinKm": 50.0,
+      "reactionTimeS": 8,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "weapons": [
+        "SCUD_RAKETA"
+      ],
+      "ws": 1
+    }
+  ]
+}

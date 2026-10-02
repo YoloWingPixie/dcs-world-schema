@@ -6,8 +6,8 @@ types:
     description: "Defines the structure of a Lua table representing a route-based mission consisting of waypoints assigned to a group."
     fields:
       id:
-        type: string
-        description: "Task identifier, must be 'Mission'."
+        type: '"Mission"'
+        description: "Task identifier, always `\"Mission\"`."
       params:
         type: MissionParams
         description: "A table containing parameters that define the mission configuration."
@@ -30,7 +30,7 @@ types:
     description: "Defines the structure of a Lua table containing an ordered sequence of waypoints that form a route."
     fields:
       points:
-        type: table
+        type: MissionWaypoint[]
         description: "A numerically indexed table of waypoint objects that define the mission route."
     required: [points]
     
@@ -39,11 +39,11 @@ types:
     description: "Defines the structure of a Lua table representing a single navigation point within a mission route."
     fields:
       type:
-        type: string
-        description: "Waypoint type identifier (e.g., 'TakeOff', 'Land', 'Turning Point')."
+        type: AI.Task.WaypointType | "TakeOffGround" | "TakeOffGroundHot" | "LandingReFuAr" | "On Railroads"
+        description: "Waypoint type: `AI.Task.WaypointType`, or another type install missions use."
       airdromeId:
-        type: number
-        description: "Unique identifier of the airdrome for takeoff or landing waypoints."
+        type: DcsId.AirdromeId | number
+        description: "Unique identifier of the airdrome for takeoff or landing waypoints (`DcsId.Theatre.<theatre>.AirdromeId`)."
       timeReFuAr:
         type: number
         description: "Time in minutes allocated for refueling and rearming at an airdrome."
@@ -54,8 +54,8 @@ types:
         type: number
         description: "Unique identifier of the linked unit (same as helipadId but required for certain operations)."
       action:
-        type: string
-        description: "Turn method the aircraft will use when approaching this waypoint."
+        type: AI.Task.TurnMethod | AI.Task.VehicleFormation | "Turning Point" | "Landing" | "LandingReFuAr" | "From Runway" | "From Parking Area" | "From Parking Area Hot" | "From Ground Area" | "From Ground Area Hot" | "On Railroads" | "Custom"
+        description: "Turn method the aircraft will use when approaching this waypoint, or the ground formation to move in; the Mission Editor writes the other listed names."
       x:
         type: number
         description: "X coordinate of the waypoint in the DCS World coordinate system."
@@ -66,7 +66,7 @@ types:
         type: number
         description: "Altitude of the waypoint in meters."
       alt_type:
-        type: string
+        type: AI.Task.AltitudeType
         description: "Altitude measurement reference ('RADIO' for AGL, 'BARO' for MSL)."
       speed:
         type: number

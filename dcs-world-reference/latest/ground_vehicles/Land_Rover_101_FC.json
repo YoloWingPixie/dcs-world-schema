@@ -1,0 +1,250 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "All",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.075,
+    "sensor": {
+      "heightM": 1.9,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0,
+      "position": [
+        1.06,
+        1.9,
+        0.59
+      ]
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 4.29,
+    "massKg": 1500,
+    "widthM": 1.83
+  },
+  "displayName": "Truck Land Rover 101 FC",
+  "id": "Land_Rover_101_FC",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 60,
+      "control": "comboList",
+      "default": 4,
+      "id": "Variant",
+      "label": "Variant",
+      "values": [
+        {
+          "id": 1,
+          "label": "Covered/Empty",
+          "value": 0
+        },
+        {
+          "id": 2,
+          "label": "Covered/Loaded",
+          "value": 0.1
+        },
+        {
+          "id": 3,
+          "label": "Open/Loaded",
+          "value": 0.2
+        },
+        {
+          "id": 4,
+          "label": "Open/Empty",
+          "value": 0.3
+        }
+      ]
+    }
+  ],
+  "mobility": {
+    "enginePower": 90,
+    "fordingDepthM": 0.6,
+    "maxRoadSpeedMs": 34.7,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 124.92,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 7.15,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "land_rover_101_fc",
+    "mapClassKey": "P0091000212",
+    "positioning": "BYNORMAL",
+    "shape": "land_rover_101_fc",
+    "shapeDestroyed": "land_rover_101_fc_p_1"
+  },
+  "operators": [
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1972,
+        "to": 2000
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 1972,
+        "to": 2005
+      }
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "tags": [
+    "Unarmed",
+    "Support & Logistics"
+  ]
+}

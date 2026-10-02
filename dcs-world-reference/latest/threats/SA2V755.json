@@ -1,0 +1,92 @@
+{
+  "components": [
+    {
+      "requires": [
+        [
+          [
+            "self",
+            2
+          ]
+        ],
+        [
+          [
+            "p-19 s-125 sr"
+          ]
+        ],
+        [
+          [
+            "SNR_75V"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM TR"
+      ],
+      "rwrSymbol": "2",
+      "unit": "RD_75"
+    },
+    {
+      "alic": [
+        "126"
+      ],
+      "requires": [
+        [
+          [
+            "self",
+            2
+          ]
+        ],
+        [
+          [
+            "p-19 s-125 sr"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM TR"
+      ],
+      "rwrSymbol": "2",
+      "unit": "SNR_75V"
+    },
+    {
+      "envelope": {
+        "hMaxM": 25000,
+        "hMinM": 10,
+        "rMaxKm": 43.0,
+        "rMinKm": 7.0
+      },
+      "requires": [
+        [
+          [
+            "SNR_75V",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM LL"
+      ],
+      "unit": "S_75M_Volhov",
+      "weapons": [
+        "SA2V755"
+      ]
+    },
+    {
+      "alic": [
+        "122"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "S",
+      "unit": "p-19 s-125 sr"
+    }
+  ],
+  "id": "SA2V755",
+  "kind": "sam",
+  "natoDesignation": "SA-2",
+  "sensors": [
+    "p-19 s-125 sr",
+    "snr s-125 tr"
+  ]
+}

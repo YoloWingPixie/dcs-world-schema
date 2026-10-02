@@ -1,0 +1,519 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          10,
+          2.9
+        ],
+        [
+          10,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.67
+        ],
+        [
+          150,
+          180,
+          0.2
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.1
+        ],
+        [
+          -45,
+          11,
+          1
+        ],
+        [
+          11,
+          19,
+          2.9
+        ],
+        [
+          19,
+          40,
+          1
+        ],
+        [
+          40,
+          90,
+          0.15
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          10,
+          2.9
+        ],
+        [
+          10,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.67
+        ],
+        [
+          150,
+          180,
+          0.25
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          2.9
+        ],
+        [
+          18,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.15
+  },
+  "attributes": [
+    "ATGM",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 700,
+    "nominalCapacity": 700
+  },
+  "crew": {
+    "count": 3,
+    "members": [
+      "commander",
+      "gunner"
+    ]
+  },
+  "detection": {
+    "airWeaponDistM": 2000,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.09,
+    "sensor": {
+      "heightM": 2.6,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4000
+  },
+  "dimensions": {
+    "lengthM": 7.2,
+    "massKg": 22500,
+    "widthM": 3.45
+  },
+  "displayName": "IFV BMP-3 ERA [CH]",
+  "fireControl": {
+    "fireOnMove": true,
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "CHAP_BMP3_ERA",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 20
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "canSwim": false,
+    "enginePower": 500,
+    "fordingDepthM": 1.5,
+    "maxRoadSpeedMs": 18,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 64.8,
+    "maxVertObstacleM": 0.75,
+    "minTurnRadiusM": 0,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "CHAP_BMP3_ERA",
+    "mapClassKey": "P0091000002",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_BMP3_ERA",
+    "shapeDestroyed": "CHAP_BMP3_ERA_dest"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "1PZ-3",
+    "TKN-3B day",
+    "TKN-3B night"
+  ],
+  "tags": [
+    "Armor",
+    "IFV"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "2A72",
+      "gunAmmo": [
+        "2A42_30_AP",
+        "2A42_30_HE"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 12,
+      "ln": 1,
+      "name": "2A72",
+      "payloads": [
+        {
+          "ammoCapacity": 340,
+          "gunAmmo": [
+            "2A42_30_HE"
+          ],
+          "portionAmmoCapacity": 340,
+          "reloadTimeS": 1200,
+          "shotDelayS": 0.17647058823529
+        },
+        {
+          "ammoCapacity": 160,
+          "gunAmmo": [
+            "2A42_30_AP"
+          ],
+          "portionAmmoCapacity": 160,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.17647058823529
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.10471975511966,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.5235987755983
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "gunAmmo": [
+        "UOF_17_100HE"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 9,
+      "payloads": [
+        {
+          "ammoCapacity": 22,
+          "gunAmmo": [
+            "UOF_17_100HE"
+          ],
+          "portionReloadTimeS": 20,
+          "shotDelayS": 6
+        },
+        {
+          "ammoCapacity": 18,
+          "gunAmmo": [
+            "UOF_17_100HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 12
+        }
+      ],
+      "rMinKm": 0.1,
+      "reactionTimeS": 3,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.10471975511966,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.5235987755983
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "PKT 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "7_62_PKT",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 2000,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.10471975511966,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.5235987755983
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "hMaxM": 3000,
+      "launchDelayS": 10,
+      "launcherType": 33,
+      "ln": 4,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 8,
+          "ammoName": "9M117",
+          "reloadTimeS": 120,
+          "shotDelayS": 8,
+          "weapon": "P_9M117"
+        }
+      ],
+      "rMaxKm": 4.0,
+      "rMinKm": 0.1,
+      "reactionTimeS": 10,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.10471975511966,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.5235987755983
+      },
+      "weapons": [
+        "P_9M117"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "PKT 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "7_62_PKT",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 2000,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.5235987755983,
+          -0.087266462599716,
+          -0.087266462599716,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.34906585039887
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "PKT 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "7_62_PKT",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 2000,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.087266462599716,
+          -0.5235987755983,
+          -0.087266462599716,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.34906585039887
+      },
+      "ws": 3
+    }
+  ]
+}

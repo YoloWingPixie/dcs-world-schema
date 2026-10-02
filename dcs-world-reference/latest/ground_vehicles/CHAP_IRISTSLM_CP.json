@@ -1,0 +1,190 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "Air Defence",
+    "All",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM CC",
+    "SAM elements",
+    "SAM related",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 7,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 9.6,
+    "massKg": 35000,
+    "widthM": 2.55
+  },
+  "displayName": "SAM IRIS-T SLM C2 [CH]",
+  "id": "CHAP_IRISTSLM_CP",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 480,
+    "fordingDepthM": 1.5,
+    "maxRoadSpeedMs": 25,
+    "maxSlopeRad": 0.58,
+    "maxSpeedKmh": 90,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 10.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "CHAP_IRISTSLM_CP",
+    "mapClassKey": "P0091000046",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_IRISTSLM_CP",
+    "shapeDestroyed": "CHAP_IRISTSLM_CP_dest"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "Command & Control"
+  ]
+}

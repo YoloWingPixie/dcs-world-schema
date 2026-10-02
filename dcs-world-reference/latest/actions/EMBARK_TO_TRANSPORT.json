@@ -1,0 +1,290 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "attributes": [
+      "Infantry"
+    ],
+    "messages": [
+      "has no embark to transport capabilities"
+    ]
+  },
+  "dcsId": "EmbarkToTransport",
+  "defaultParams": {
+    "zoneRadius": 200
+  },
+  "description": "Embark to transport",
+  "displayName": "Embark to transport",
+  "id": "EMBARK_TO_TRANSPORT",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "vehicle"
+    ],
+    "contexts": {
+      "route>ComboTask": 88,
+      "triggered": 2
+    },
+    "count": 90
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 4,
+      "name": "concretteUnitChecked",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 84,
+      "missionStrings": [
+        {
+          "count": 49,
+          "value": "CH-47Fbl1"
+        },
+        {
+          "count": 17,
+          "value": "CH-47D"
+        },
+        {
+          "count": 7,
+          "value": "UH-1H"
+        },
+        {
+          "count": 5,
+          "value": "Mi-8MT"
+        },
+        {
+          "count": 2,
+          "value": "SH-60B"
+        },
+        {
+          "count": 2,
+          "value": "UH-60A"
+        },
+        {
+          "count": 1,
+          "value": "KrAZ6322"
+        },
+        {
+          "count": 1,
+          "value": "LAV-25"
+        }
+      ],
+      "name": "selectedType",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "missionCount": 4,
+      "name": "selectedUnit",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 90,
+      "name": "x",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 90,
+      "name": "y",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 90,
+      "name": "zoneRadius",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "EmbarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "embarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "embarktotransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "EmbarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "embarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "embarktotransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "EmbarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "embarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "embarktotransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "EmbarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "embarkToTransport",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "embarktotransport",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

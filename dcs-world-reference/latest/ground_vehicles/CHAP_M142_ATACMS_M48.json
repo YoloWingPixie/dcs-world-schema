@@ -1,0 +1,233 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "MLRS",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.075,
+    "sensor": {
+      "heightM": 3.2,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 300000,
+    "threatRangeMinM": 50000
+  },
+  "dimensions": {
+    "lengthM": 7.1,
+    "massKg": 16250,
+    "widthM": 2.44
+  },
+  "displayName": "MLRS M142 HIMARS ATACMS HE [CH]",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 300000
+  },
+  "id": "CHAP_M142_ATACMS_M48",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 330,
+    "fordingDepthM": 0.91,
+    "maxRoadSpeedMs": 23.61,
+    "maxSlopeRad": 0.58,
+    "maxSpeedKmh": 84.996,
+    "maxVertObstacleM": 0.51,
+    "minTurnRadiusM": 12,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 1,
+          "value": 0.5
+        }
+      ]
+    },
+    "file": "CHAP_M142_ATACMS",
+    "mapClassKey": "P0091000208",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_M142_ATACMS",
+    "shapeDestroyed": "CHAP_M142_ATACMS_dest"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Artillery",
+    "MRL"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "externalTrackingAwacs": false,
+      "launchDelayS": 2,
+      "launcherType": 8,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "missileChannels": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 1,
+          "reloadTimeS": 300,
+          "shotDelayS": 3,
+          "weapon": "M48"
+        }
+      ],
+      "rMaxKm": 300.0,
+      "rMinKm": 50.0,
+      "reactionTimeS": 3,
+      "sectorsRad": [
+        [
+          -0.5235987755983,
+          0.5235987755983,
+          0,
+          0.95993108859688
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.20943951023932,
+        "yaw": 0.43633231299858
+      },
+      "weapons": [
+        "M48"
+      ],
+      "ws": 1
+    }
+  ]
+}

@@ -1,0 +1,566 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.022
+  },
+  "attributes": [
+    "ATGM",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 400,
+    "nominalCapacity": 400,
+    "transportable": {
+      "size": 8700,
+      "valid": true
+    }
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 1000,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 1.97,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 5.4,
+    "massKg": 7200,
+    "widthM": 2.63
+  },
+  "displayName": "IFV BMD-1",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "BMD-1",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 240,
+    "maxRoadSpeedMs": 16.95,
+    "maxSlopeRad": 0.61,
+    "maxSpeedKmh": 61.02,
+    "maxVertObstacleM": 0.8,
+    "minTurnRadiusM": 2.536,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0
+        },
+        {
+          "arg": 1,
+          "value": 0
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_MISSILE",
+          "model": "malutka"
+        }
+      ]
+    },
+    "mapClassKey": "P0091000002",
+    "shape": "bmd-1",
+    "shapeDestroyed": "Bmd-1_p_1"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1998,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1981,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA",
+      "years": {
+        "from": 1977,
+        "to": 9999
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1968,
+        "to": 1991
+      }
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1978,
+        "to": 1988
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TKN-3B day",
+    "TKN-3B night"
+  ],
+  "tags": [
+    "Armor",
+    "IFV"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "2A28_73"
+      ],
+      "hMaxM": 300,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 9,
+      "payloads": [
+        {
+          "ammoCapacity": 40,
+          "gunAmmo": [
+            "2A28_73"
+          ],
+          "reloadTimeS": 600,
+          "shotDelayS": 7
+        }
+      ],
+      "rMaxKm": 0.6,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          0.57595865315813
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.26179938779915,
+        "yaw": 0.61086523819802
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "hMaxM": 3000,
+      "launchDelayS": 20,
+      "launcherType": 33,
+      "ln": 2,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 4,
+          "ammoName": "9M14",
+          "reloadTimeS": 80,
+          "shotDelayS": 20,
+          "weapon": "MALUTKA"
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.1,
+      "reactionTimeS": 10,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          0.57595865315813
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.26179938779915,
+        "yaw": 0.61086523819802
+      },
+      "weapons": [
+        "MALUTKA"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "MG 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 800,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "7_62_MG",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          0.57595865315813
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.26179938779915,
+        "yaw": 0.61086523819802
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "MG 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 800,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "7_62_MG",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.087266462599716,
+          -0.5235987755983,
+          -0.087266462599716,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.87266462599716
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 1,
+      "displayName": "MG 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 800,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "7_62_MG",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.5235987755983,
+          -0.087266462599716,
+          -0.087266462599716,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.87266462599716
+      },
+      "ws": 3
+    }
+  ]
+}

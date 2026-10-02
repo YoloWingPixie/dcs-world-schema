@@ -1,0 +1,282 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "Corvettes",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "HelicopterCarrier",
+    "Naval",
+    "RADAR_BAND2_FOR_ARM",
+    "Ships"
+  ],
+  "detection": {
+    "airFindDistM": 25000,
+    "airWeaponDistM": 3000,
+    "detectionRangeM": 25000,
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "heightM": 30,
+    "lengthM": 74,
+    "massKg": 1427,
+    "widthM": 13.2
+  },
+  "displayName": "Castle Class",
+  "facilities": {
+    "deckLevelM": 4.7,
+    "helicopterNum": 2,
+    "landingPoint": [
+      -29,
+      3.15,
+      0
+    ],
+    "numParking": 1,
+    "planeNum": 0
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 25000,
+    "radarType": 109
+  },
+  "id": "CastleClass_01",
+  "life": [
+    {
+      "source": "life",
+      "value": 1200
+    }
+  ],
+  "mobility": {
+    "draftM": 3.43,
+    "economyDistance": 10000,
+    "economyVelocity": 5.144,
+    "maxSpeedKmh": 48.15,
+    "maxSpeedMs": 13.375,
+    "minTurnRadiusM": 208.4,
+    "raceDistance": 2963.2,
+    "raceVelocity": 9
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "arresting_wires": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "blast_fences": [
+        61,
+        62,
+        63,
+        64
+      ],
+      "flag_animation": 314,
+      "landing_strip_illumination": -1,
+      "locator_rotation": -1,
+      "nav_lights": 69,
+      "radar1_rotation": 1,
+      "radar2_rotation": 2,
+      "radar3_rotation": 3,
+      "water_propeller": 65
+    },
+    "mapClassKey": "P0091000070",
+    "shape": "CastleClass_01",
+    "shapeDestroyed": "CastleClass_01"
+  },
+  "operators": [
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "long-range naval optics"
+  ],
+  "tags": [
+    "Corvette and Patrol"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "displayName": "M242 Bushmaster",
+      "gunAmmo": [
+        "M242_25_AP_M791",
+        "M242_25_HE_M792"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 12,
+      "ln": 1,
+      "name": "M242_Bushmaster",
+      "payloads": [
+        {
+          "ammoCapacity": 230,
+          "gunAmmo": [
+            "M242_25_HE_M792"
+          ],
+          "portionAmmoCapacity": 230,
+          "reloadTimeS": 800,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 70,
+          "gunAmmo": [
+            "M242_25_AP_M791"
+          ],
+          "portionAmmoCapacity": 70,
+          "reloadTimeS": 400,
+          "shotDelayS": 0.3
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          2.6179938779915,
+          -2.6179938779915,
+          -0.087266462599716,
+          1.221730476396
+        ],
+        [
+          -2.6179938779915,
+          2.6179938779915,
+          1.0471975511966,
+          1.221730476396
+        ]
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "M240",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "M240",
+      "payloads": [
+        {
+          "ammoCapacity": 800,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 800,
+          "reloadTimeS": 480,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          2.8797932657906,
+          -0.087266462599716,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "ws": 2
+    },
+    {
+      "barrels": 1,
+      "displayName": "M240",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "M240",
+      "payloads": [
+        {
+          "ammoCapacity": 800,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 800,
+          "reloadTimeS": 480,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.087266462599716,
+          -2.8797932657906,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "ws": 3
+    }
+  ]
+}

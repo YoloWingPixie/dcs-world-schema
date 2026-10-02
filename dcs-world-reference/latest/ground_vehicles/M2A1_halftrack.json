@@ -1,0 +1,941 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.009
+  },
+  "attributes": [
+    "APC",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 700,
+    "nominalCapacity": 700
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 3,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 1200
+  },
+  "dimensions": {
+    "lengthM": 5.96,
+    "massKg": 8890,
+    "widthM": 2.2
+  },
+  "displayName": "APC M2A1 Halftrack",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 6000
+  },
+  "id": "M2A1_halftrack",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 7
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 109.6,
+    "fordingDepthM": 0.8,
+    "maxRoadSpeedMs": 20,
+    "maxSlopeRad": 0.55850536063819,
+    "maxSpeedKmh": 72,
+    "maxVertObstacleM": 0.3,
+    "minTurnRadiusM": 9,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "61": 1.3,
+        "62": 1.3,
+        "63": 2.3,
+        "64": 2.3,
+        "8": 1
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 9,
+          "value": 0.766
+        },
+        {
+          "arg": 83,
+          "value": 0.5
+        }
+      ]
+    },
+    "file": "M2A1_halftrack",
+    "mapClassKey": "P0091000004",
+    "positioning": "BYNORMAL",
+    "shape": "M2A1_halftrack",
+    "shapeDestroyed": "M2A1_halftrack_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL",
+      "years": {
+        "from": 1941,
+        "to": 1952
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA",
+      "years": {
+        "from": 1941,
+        "to": 2006
+      }
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR",
+      "years": {
+        "from": 1960,
+        "to": 9999
+      }
+    }
+  ],
+  "tags": [
+    "Armor",
+    "APC"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "displayName": "M2 Browning",
+      "gunAmmo": [
+        "M2_12_7",
+        "M2_12_7_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "M2_Browning",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          2.8972465583106,
+          -0.17453292519943,
+          0.87266462599716
+        ],
+        [
+          2.8972465583106,
+          2.1816615649929,
+          0.034906585039887,
+          0.87266462599716
+        ],
+        [
+          2.1816615649929,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.87266462599716
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.87266462599716
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Br303",
+        "Br303_tr"
+      ],
+      "hMaxM": 600,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "Browning .30 cal",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 1.1,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          0.17453292519943,
+          -0.17453292519943,
+          1.0821041362365
+        ],
+        [
+          0.17453292519943,
+          0.11344640137963,
+          -0.17453292519943,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 2
+    }
+  ]
+}

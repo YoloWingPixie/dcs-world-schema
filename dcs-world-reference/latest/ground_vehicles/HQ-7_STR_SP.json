@@ -1,0 +1,949 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.03
+  },
+  "attributes": [
+    "Air Defence",
+    "All",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "SAM CC",
+    "SAM SR",
+    "SAM elements",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 30000,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 3.675,
+      "maxAltM": 6000,
+      "maxRangeM": 30000,
+      "minAltM": 10,
+      "minRangeM": 200
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 7.54,
+    "massKg": 13600,
+    "widthM": 3.3
+  },
+  "displayName": "HQ-7B SHORAD SR",
+  "fireControl": {
+    "fireOnMove": false,
+    "isDetector": true,
+    "maxTargetDetectionRangeM": 30000,
+    "radarType": 103,
+    "radarTypeName": "wsType_Radar_MissGun"
+  },
+  "id": "HQ-7_STR_SP",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 2
+    }
+  ],
+  "mobility": {
+    "canSwim": false,
+    "enginePower": 260,
+    "maxRoadSpeedMs": 22,
+    "maxSlopeRad": 0.6,
+    "maxSpeedKmh": 79.2,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 7,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "headlights": 38,
+      "locator_rotation": 11,
+      "markerlights": 39,
+      "stoplights": 37,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 3,
+          "value": 1
+        },
+        {
+          "arg": 11,
+          "value": 1
+        }
+      ]
+    },
+    "file": "hq7_str",
+    "mapClassKey": "P0091000083",
+    "positioning": "BYNORMAL",
+    "shape": "hq7_str",
+    "shapeDestroyed": "hq7_str_dstr"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1988,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1999,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "HQ-7 SR"
+  ],
+  "tags": [
+    "Air Defence",
+    "Search Radar"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 2
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 3
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 4
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 5
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 6
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 7
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 8
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 9
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 10
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 11
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 12
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 13
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 14
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 15
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 16
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 17
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 18
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 19
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 20
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 21
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 22
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 23
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 6000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 24
+    }
+  ]
+}

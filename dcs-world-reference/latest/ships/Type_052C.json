@@ -1,0 +1,805 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "Cruisers",
+    "DetectionByAWACS",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "HelicopterCarrier",
+    "NO_SAM",
+    "Naval",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "Ships",
+    "Straight_in_approach_type"
+  ],
+  "detection": {
+    "airFindDistM": 260000,
+    "airWeaponDistM": 150000,
+    "detectionRangeM": 260000,
+    "rcsM2": 75000,
+    "threatRangeM": 150000
+  },
+  "dimensions": {
+    "heightM": 37.2,
+    "lengthM": 155.5,
+    "massKg": 6800000,
+    "widthM": 17.2
+  },
+  "displayName": "Type 052C Destroyer",
+  "facilities": {
+    "deckLevelM": 3.98,
+    "helicopterNum": 1,
+    "landingPoint": [
+      -68.45,
+      3.98,
+      0
+    ],
+    "numParking": 1,
+    "planeNum": 0
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 450000,
+    "radarType": 102,
+    "radarTypeName": "wsType_Radar_Miss"
+  },
+  "id": "Type_052C",
+  "life": [
+    {
+      "source": "life",
+      "value": 3200
+    }
+  ],
+  "mobility": {
+    "draftM": 15,
+    "economyDistance": 8337000,
+    "economyVelocity": 7.71667,
+    "maxSpeedKmh": 55.55988,
+    "maxSpeedMs": 15.4333,
+    "minTurnRadiusM": 345.6,
+    "raceDistance": 3278000,
+    "raceVelocity": 15.4333
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "arresting_wires": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "blast_fences": [
+        61,
+        62,
+        63,
+        64
+      ],
+      "flag_animation": 314,
+      "flight_deck_fences": 150,
+      "landing_strip_illumination": -1,
+      "locator_rotation": -1,
+      "luna_lights": -1,
+      "nav_lights": 69,
+      "radar1_rotation": 1,
+      "radar2_rotation": 2,
+      "radar3_rotation": 3,
+      "water_propeller": 8
+    },
+    "className": "lLandShip",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 19,
+          "value": 1
+        }
+      ]
+    },
+    "file": "052c",
+    "mapClassKey": "P0091000069",
+    "positioning": "BYNORMAL",
+    "shape": "052c"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 2005,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "052C SAM STR",
+    "PLAN Search Radar A",
+    "long-range naval FLIR",
+    "long-range naval LLTV",
+    "long-range naval optics"
+  ],
+  "tags": [
+    "Destroyer"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "displayName": "H/PJ-87",
+      "gunAmmo": [
+        "PJ87_100_PFHE"
+      ],
+      "hMaxM": 8000,
+      "launcherType": 11,
+      "ln": 1,
+      "name": "H/PJ-87",
+      "payloads": [
+        {
+          "ammoCapacity": 240,
+          "gunAmmo": [
+            "PJ87_100_PFHE"
+          ],
+          "shotDelayS": 0.66666666666667
+        }
+      ],
+      "rMaxKm": 6.0,
+      "rMinKm": 0.05,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          -2.7925268031909,
+          -0.087266462599716,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.61086523819802,
+        "yaw": 0.87266462599716
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "H/PJ-87",
+      "gunAmmo": [
+        "AK100_100"
+      ],
+      "launcherType": 6,
+      "ln": 2,
+      "name": "H/PJ-87",
+      "payloads": [
+        {
+          "ammoCapacity": 240,
+          "gunAmmo": [
+            "AK100_100"
+          ],
+          "shotDelayS": 0.66666666666667
+        }
+      ],
+      "rMinKm": 0.05,
+      "reactionTimeS": 4,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          -2.7925268031909,
+          -0.087266462599716,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.61086523819802,
+        "yaw": 0.87266462599716
+      },
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 2
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 3
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 4
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 5
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 6
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 7
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 8
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.5,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 30000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 260.0,
+      "rMinKm": 1.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 9
+    },
+    {
+      "barrels": 36,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 2
+          }
+        ],
+        [
+          {
+            "selfWs": 3
+          }
+        ],
+        [
+          {
+            "selfWs": 4
+          }
+        ],
+        [
+          {
+            "selfWs": 5
+          }
+        ],
+        [
+          {
+            "selfWs": 6
+          }
+        ],
+        [
+          {
+            "selfWs": 7
+          }
+        ],
+        [
+          {
+            "selfWs": 8
+          }
+        ],
+        [
+          {
+            "selfWs": 9
+          }
+        ]
+      ],
+      "displayName": "HHQ-9A",
+      "ecmK": 0.4,
+      "launchDelayS": 2,
+      "launcherType": 4,
+      "ln": 1,
+      "missileChannels": 2,
+      "name": "HHQ-9A",
+      "payloads": [
+        {
+          "ammoCapacity": 36,
+          "reloadTimeS": 1000000,
+          "weapon": "HHQ-9"
+        }
+      ],
+      "rMaxKm": 150.0,
+      "rMinKm": 7.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "weapons": [
+        "HHQ-9"
+      ],
+      "ws": 10
+    },
+    {
+      "barrels": 12,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 2
+          }
+        ],
+        [
+          {
+            "selfWs": 3
+          }
+        ],
+        [
+          {
+            "selfWs": 4
+          }
+        ],
+        [
+          {
+            "selfWs": 5
+          }
+        ],
+        [
+          {
+            "selfWs": 6
+          }
+        ],
+        [
+          {
+            "selfWs": 7
+          }
+        ],
+        [
+          {
+            "selfWs": 8
+          }
+        ],
+        [
+          {
+            "selfWs": 9
+          }
+        ]
+      ],
+      "displayName": "HHQ-9A",
+      "ecmK": 0.4,
+      "launchDelayS": 2,
+      "launcherType": 4,
+      "ln": 1,
+      "missileChannels": 2,
+      "name": "HHQ-9A",
+      "payloads": [
+        {
+          "ammoCapacity": 36,
+          "reloadTimeS": 1000000,
+          "weapon": "HHQ-9"
+        }
+      ],
+      "rMaxKm": 150.0,
+      "rMinKm": 7.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "weapons": [
+        "HHQ-9"
+      ],
+      "ws": 11
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 1.5707963267949,
+      "displayName": "Type 730",
+      "gunAmmo": [
+        "AK630_30_AP",
+        "AK630_30_HE"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "Type 730",
+      "payloads": [
+        {
+          "ammoCapacity": 1280,
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 9999,
+          "shotDelayS": 0.010344827586207
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          2.0943951023932,
+          -2.0943951023932,
+          -0.43633231299858,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "ws": 12
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 1.5707963267949,
+      "displayName": "Type 730",
+      "gunAmmo": [
+        "AK630_30_AP",
+        "AK630_30_HE"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "Type 730",
+      "payloads": [
+        {
+          "ammoCapacity": 1280,
+          "gunAmmo": [
+            "AK630_30_AP",
+            "AK630_30_HE"
+          ],
+          "reloadTimeS": 9999,
+          "shotDelayS": 0.010344827586207
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          -0.5235987755983,
+          0.5235987755983,
+          -0.43633231299858,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "ws": 13
+    },
+    {
+      "barrels": 4,
+      "displayName": "YJ-62",
+      "externalTrackingAwacs": true,
+      "launchDelayS": 3,
+      "launcherType": 1,
+      "ln": 1,
+      "missileChannels": 2,
+      "name": "YJ-62",
+      "payloads": [
+        {
+          "ammoCapacity": 4,
+          "reloadTimeS": 1000000,
+          "shotDelayS": 3,
+          "weapon": "YJ-62"
+        }
+      ],
+      "rMaxKm": 300.0,
+      "rMinKm": 12.0,
+      "reactionTimeS": 6,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "weapons": [
+        "YJ-62"
+      ],
+      "ws": 14
+    },
+    {
+      "barrels": 4,
+      "displayName": "YJ-62",
+      "externalTrackingAwacs": true,
+      "launchDelayS": 3,
+      "launcherType": 1,
+      "ln": 1,
+      "missileChannels": 2,
+      "name": "YJ-62",
+      "payloads": [
+        {
+          "ammoCapacity": 4,
+          "reloadTimeS": 1000000,
+          "shotDelayS": 3,
+          "weapon": "YJ-62"
+        }
+      ],
+      "rMaxKm": 300.0,
+      "rMinKm": 12.0,
+      "reactionTimeS": 6,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.6179938779915,
+        "yaw": 2.2689280275926
+      },
+      "weapons": [
+        "YJ-62"
+      ],
+      "ws": 15
+    }
+  ]
+}

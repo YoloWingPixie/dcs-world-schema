@@ -1,0 +1,193 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "messages": [
+      "has no tow"
+    ]
+  },
+  "dcsId": "DetachTrailer",
+  "defaultParams": {},
+  "description": "Select a unit to detach from a tractor.",
+  "displayName": "Detach trailer",
+  "id": "DETACH_TRAILER",
+  "kind": "task",
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "name": "unitIdTractor",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "x",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "y",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "DetachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "detachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "detachtrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "DetachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "detachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "detachtrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "DetachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "detachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "detachtrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "DetachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "detachTrailer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "detachtrailer",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

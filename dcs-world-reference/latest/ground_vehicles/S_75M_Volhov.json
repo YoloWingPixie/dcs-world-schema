@@ -1,0 +1,432 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "LR SAM",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM LL",
+    "SAM elements",
+    "SAM related",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 0
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.03,
+    "sensor": {
+      "heightM": 2.617,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 43000,
+    "threatRangeMinM": 7000
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "SAM SA-2 S-75 \"Guideline\" LN",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 65000
+  },
+  "id": "S_75M_Volhov",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "locator_rotation": -1
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.255
+        },
+        {
+          "arg": 1,
+          "value": 0.4
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_ROCKET",
+          "model": "S_75_Rocket"
+        }
+      ]
+    },
+    "file": "S_75_Launcher",
+    "mapClassKey": "P0091000082",
+    "positioning": "BYNORMAL",
+    "shape": "S_75_Launcher",
+    "shapeDestroyed": "S_75_Launcher_p_1"
+  },
+  "natoReportingName": "Guideline",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 1996
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1962,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1963,
+        "to": 9999
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1963,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1963,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1962,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 1966,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1963,
+        "to": 9999
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1963,
+        "to": 9999
+      }
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA",
+      "years": {
+        "from": 1993,
+        "to": 2007
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1967,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1965,
+        "to": 9999
+      }
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN",
+      "years": {
+        "from": 1971,
+        "to": 9999
+      }
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA",
+      "years": {
+        "from": 1974,
+        "to": 9999
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA",
+      "years": {
+        "from": 1977,
+        "to": 9999
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1962,
+        "to": 1991
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1961,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1966,
+        "to": 9999
+      }
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1962,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 1974,
+        "to": 1996
+      }
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "Launcher"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "dependsOn": [
+        [
+          {
+            "unit": "SNR_75V",
+            "ws": 1
+          }
+        ]
+      ],
+      "ecmK": -1,
+      "launcherType": 4,
+      "ln": 1,
+      "missileChannels": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 1,
+          "ammoName": "SA2V755",
+          "reloadTimeS": 2700,
+          "shotDelayS": 0.1,
+          "weapon": "SA2V755"
+        }
+      ],
+      "rMaxKm": 43.0,
+      "rMinKm": 7.0,
+      "reactionTimeS": 5,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.3089969389957
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.05235987755983,
+        "yaw": 0.16580627893946
+      },
+      "weapons": [
+        "SA2V755"
+      ],
+      "ws": 1
+    }
+  ]
+}

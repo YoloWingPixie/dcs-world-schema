@@ -1,0 +1,2611 @@
+{
+  "aero": {
+    "emptyMassKg": 9361.2393,
+    "internalFuelKg": 3505.4,
+    "maxSpeedKmh": 1378.8,
+    "maxTakeoffKg": 17258.282
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Multirole fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable"
+  ],
+  "countryOfOrigin": "USA",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 254,
+    "maxMHz": 399.9,
+    "minMHz": 225,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 32,
+    "name": "Ground Attack"
+  },
+  "detection": {
+    "detectionRangeMax": 60,
+    "irEmissionCoeff": 0.8,
+    "rcsM2": 3
+  },
+  "dimensions": {
+    "heightM": 4.927,
+    "lengthM": 14.351,
+    "wingSpanM": 11.811
+  },
+  "displayName": "F-100D",
+  "failures": [
+    {
+      "id": "Devices/Clock",
+      "label": "ABU-11: Total Failure"
+    },
+    {
+      "id": "Devices/ADF",
+      "label": "ADF AN/ARA-50: Total Failure"
+    },
+    {
+      "id": "Devices/ADF/ADF",
+      "label": "ADF AN/ARA-50: ADF Failure"
+    },
+    {
+      "id": "Devices/ADF/ADF Antenna",
+      "label": "ADF AN/ARA-50: Antenna Failure"
+    },
+    {
+      "id": "Devices/Amp",
+      "label": "Amplifier: Total Failure"
+    },
+    {
+      "id": "Devices/Canopy/DC Supply",
+      "label": "Canopy: DC Failure"
+    },
+    {
+      "id": "Devices/Canopy/Emergency Jettison",
+      "label": "Canopy: Jettison Failure"
+    },
+    {
+      "id": "Devices/DCU9A",
+      "label": "DCU-9/A: Total Failure"
+    },
+    {
+      "id": "Devices/ECS/Pressure",
+      "label": "ECS: Cockpit Pressure Total Failure"
+    },
+    {
+      "id": "Devices/ECS/Pitot Heat",
+      "label": "ECS: Pitot Heat Total Failure"
+    },
+    {
+      "id": "Devices/ECS/Guide Vane",
+      "label": "ECS: Guide Vane Anti-Ice Total Failure"
+    },
+    {
+      "id": "Devices/ECS/Windshield Air",
+      "label": "ECS: Windshield Air Total Failure"
+    },
+    {
+      "id": "Devices/ECS/Climate Control",
+      "label": "ECS: Temperature Master Total Failure"
+    },
+    {
+      "id": "Devices/ECS/Air Con",
+      "label": "ECS: Air Conditioner Total Failure"
+    },
+    {
+      "id": "Devices/Electrical",
+      "label": "Electrical: Total Failure"
+    },
+    {
+      "id": "Devices/Electrical/Battery",
+      "label": "Electrical: Battery Failure"
+    },
+    {
+      "id": "Devices/Electrical/Generator AC",
+      "label": "Electrical: AC Generator Failure"
+    },
+    {
+      "id": "Devices/Electrical/Generator DC",
+      "label": "Electrical: DC Generator Failure"
+    },
+    {
+      "id": "Devices/Electrical/Intercom",
+      "label": "Intercom: Total Failure"
+    },
+    {
+      "id": "Devices/Fuel/AAR",
+      "label": "Fuel: Air-Air Refuel Failure"
+    },
+    {
+      "id": "Devices/Fuel/Drop Tank Control",
+      "label": "Fuel: Drop Tank Control Failure"
+    },
+    {
+      "id": "Devices/Fuel/Shutoff Valve",
+      "label": "Fuel: Shutoff Valve Failure"
+    },
+    {
+      "id": "Devices/Fuel/Boost Pump",
+      "label": "Fuel: Boost Pump Failure"
+    },
+    {
+      "id": "Devices/IFF",
+      "label": "IFF: Total Failure"
+    },
+    {
+      "id": "Devices/IFF/AC Supply",
+      "label": "IFF: AC Failure"
+    },
+    {
+      "id": "Devices/IFF/DC Supply",
+      "label": "IFF: DC Failure"
+    },
+    {
+      "id": "Devices/Hydraulics/DC Supply",
+      "label": "Hydraulics: Selector Valves Failure"
+    },
+    {
+      "id": "Devices/J4Compass",
+      "label": "J4 Compass: Total Failure"
+    },
+    {
+      "id": "Devices/J4Compass/Gyro",
+      "label": "J4 Compass: Gyro Failure"
+    },
+    {
+      "id": "Devices/J4Compass/Remote Compass",
+      "label": "J4 Compass: Remote Compass Failure"
+    },
+    {
+      "id": "Devices/Oxygen/Minor Leak",
+      "label": "Oxygen: Minor Leak"
+    },
+    {
+      "id": "Devices/Oxygen/Major Leak",
+      "label": "Oxygen: Major Leak"
+    },
+    {
+      "id": "Devices/Radio Compass",
+      "label": "Radio Compass AN/ARN-6: Total Failure"
+    },
+    {
+      "id": "Devices/Radio Compass/ADF",
+      "label": "Radio Compass AN/ARN-6: ADF Failure"
+    },
+    {
+      "id": "Devices/Radio Compass/Antenna",
+      "label": "Radio Compass AN/ARN-6: Antenna Failure"
+    },
+    {
+      "id": "Devices/Seek Silence",
+      "label": "Seek Silence: Total Failure"
+    },
+    {
+      "id": "Devices/TACAN",
+      "label": "TACAN AN/ARN-72: Total Failure"
+    },
+    {
+      "id": "Devices/TACAN/Transmitter",
+      "label": "TACAN AN/ARN-72: Transmitter Failure"
+    },
+    {
+      "id": "Devices/TACAN/Receiver",
+      "label": "TACAN AN/ARN-72: Receiver Failure"
+    },
+    {
+      "id": "Devices/Hook/DC Supply",
+      "label": "Tail Hook: Total Failure"
+    },
+    {
+      "id": "Devices/UHF",
+      "label": "UHF AN/ARC-34: Total Failure"
+    },
+    {
+      "id": "Devices/UHF/Remote Display",
+      "label": "UHF AN/ARC-34: Remote Display Failure"
+    },
+    {
+      "id": "Devices/UHF/Antenna",
+      "label": "UHF AN/ARC-34: Antenna Failure"
+    },
+    {
+      "id": "Devices/UHF/Transceiver",
+      "label": "UHF AN/ARC-34: Transceiver Failure"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Special Stores Relay 1",
+      "label": "Breaker: Special Stores Relay 1"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Special Stores Relay 2",
+      "label": "Breaker: Special Stores Relay 2"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Special Stores Relay 3",
+      "label": "Breaker: Special Stores Relay 3"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Special Stores Panel",
+      "label": "Breaker: Special Stores Panel"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Special Stores Fin Control",
+      "label": "Breaker: Special Stores Fin Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Gun Camera",
+      "label": "Breaker: Gun Camera"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/TER Power",
+      "label": "Breaker: TER Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Nose Arm",
+      "label": "Breaker: Nose Arm"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Tail Arm",
+      "label": "Breaker: Tail Arm"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Gun Fire Missile Camera",
+      "label": "Breaker: Gun Fire Missile Camera"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Land Pos Indicator Fuell Shutoff Light",
+      "label": "Breaker: Land Pos Indicator Fuell Shutoff Light"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Land Gear Pos Control",
+      "label": "Breaker: Land Gear Pos Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Land Gear Unsafe Warning",
+      "label": "Breaker: Land Gear Unsafe Warning"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Ram Air Turbine",
+      "label": "Breaker: Ram Air Turbine"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Flap Position",
+      "label": "Breaker: Flap Position"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Emergency Flaps",
+      "label": "Breaker: Emergency Flaps"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Anti-Skid Power",
+      "label": "Breaker: Anti-Skid Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Arm Safe Lockout | Land Taxi Lights Pos",
+      "label": "Breaker: Arm Safe Lockout | Land Taxi Lights Pos"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Ignition",
+      "label": "Breaker: Ignition"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Flight Control Hyd Press Test Fail Warning",
+      "label": "Breaker: Flight Control Hyd Press Test Fail Warning"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Wind Band",
+      "label": "Breaker: Wind Band"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Fuel Shutoff Starter Ignition Control",
+      "label": "Breaker: Fuel Shutoff Starter Ignition Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Landing Taxi Control",
+      "label": "Breaker: Landing Taxi Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Drop Tank Fuel Control",
+      "label": "Breaker: Drop Tank Fuel Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Instrument Panel Vibrator",
+      "label": "Breaker: Instrument Panel Vibrator"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Fire Detection",
+      "label": "Breaker: Fire Detection"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Turn Slip Indicator",
+      "label": "Breaker: Turn Slip Indicator"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Stores Lock Indicaator",
+      "label": "Breaker: Stores Lock Indicaator"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Takeoff Rudder Trim",
+      "label": "Breaker: Takeoff Rudder Trim"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Stab Aeileron Trim",
+      "label": "Breaker: Stab Aeileron Trim"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Speedbrake",
+      "label": "Breaker: Speedbrake"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Pitch Correction",
+      "label": "Breaker: Pitch Correction"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Missile Control",
+      "label": "Breaker: Missile Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Landing Taxi Power",
+      "label": "Breaker: Landing Taxi Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Nose Gear Steering",
+      "label": "Breaker: Nose Gear Steering"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/LABS Sight",
+      "label": "Breaker: LABS Sight"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/ARN-6 DC Power",
+      "label": "Breaker: ARN-6 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/APX-72 DC Power",
+      "label": "Breaker: APX-72 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/APX-72 AC Power",
+      "label": "Breaker: APX-72 AC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/LABS AC Power",
+      "label": "Breaker: LABS AC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/ARN-21 AC Power",
+      "label": "Breaker: ARN-21 AC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/ARN-21 DC Power",
+      "label": "Breaker: ARN-21 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/ARC-34 DC Power",
+      "label": "Breaker: ARC-34 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/AIC-10 DC Power",
+      "label": "Breaker: AIC-10 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Mode Selector",
+      "label": "Breaker: Mode Selector"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/ARAA-50 DC Power",
+      "label": "Breaker: ARAA-50 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Sight Power",
+      "label": "Breaker: Sight Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/AWE-1 AC Power",
+      "label": "Breaker: AWE-1 AC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Sight AC Power",
+      "label": "Breaker: Sight AC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Sight Heater 1",
+      "label": "Breaker: Sight Heater 1"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Sight Heater 2",
+      "label": "Breaker: Sight Heater 2"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/SST-181X DC Power",
+      "label": "Breaker: SST-181X DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/AWE-1 DC Power",
+      "label": "Breaker: AWE-1 DC Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/AC Power Control",
+      "label": "Breaker: AC Power Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Instrument AC Power Failure",
+      "label": "Breaker: Instrument AC Power Failure"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Instrument Inverter Control",
+      "label": "Breaker: Instrument Inverter Control"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Gyro Compass",
+      "label": "Breaker: Gyro Compass"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/QRC-160 Power",
+      "label": "Breaker: QRC-160 Power"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Gide Vane Anti-Ice",
+      "label": "Breaker: Gide Vane Anti-Ice"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Pilot Face Mask Heat",
+      "label": "Breaker: Pilot Face Mask Heat"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Seat CommnadPitch",
+      "label": "Breaker: Seat CommnadPitch"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Beacon Lights",
+      "label": "Breaker: Beacon Lights"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Position Fuselage Light",
+      "label": "Breaker: Position Fuselage Light"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Caution Warning Indicator Lights Test",
+      "label": "Breaker: Caution Warning Indicator Lights Test"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Standby COmapss Console Indirect Light",
+      "label": "Breaker: Standby COmapss Console Indirect Light"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Console Flood Lights",
+      "label": "Breaker: Console Flood Lights"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Instrument Flood Lights",
+      "label": "Breaker: Instrument Flood Lights"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Thunderstorm Lights",
+      "label": "Breaker: Thunderstorm Lights"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Utility Anti-Skid Warning",
+      "label": "Breaker: Utility Anti-Skid Warning"
+    },
+    {
+      "id": "Devices/Electrical/Breakers/Bleed Air Emergency",
+      "label": "Breaker: Bleed Air Emergency"
+    }
+  ],
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "F100_M39_20_API",
+      "F100_M39_20_API_T",
+      "F100_M39_20_HEI",
+      "F100_M39_20_HEI_T",
+      "F100_M39_20_TP",
+      "F100_M39_20_TP_T"
+    ],
+    "defaultMix": 2,
+    "mixes": [
+      {
+        "label": "HEI High Explosive Incendiary - Tracer"
+      },
+      {
+        "label": "CM Combat Mix - Tracer"
+      },
+      {
+        "label": "API Armor Piercing Incendiary - Tracer"
+      },
+      {
+        "label": "TP Target Practice - Tracer"
+      },
+      {
+        "label": "HEI High Explosive Incendiary - No Tracer"
+      },
+      {
+        "label": "CM Combat Mix - No Tracer"
+      },
+      {
+        "label": "API Armor Piercing Incendiary - No Tracer"
+      },
+      {
+        "label": "TP Target Practice - No Tracer"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "F100_M39_20_HEI",
+          "F100_M39_20_HEI_T",
+          "F100_M39_20_API",
+          "F100_M39_20_TP",
+          "F100_M39_20_TP_T",
+          "F100_M39_20_API_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI_T"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI_T",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API",
+              "F100_M39_20_API",
+              "F100_M39_20_API",
+              "F100_M39_20_API_T"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP",
+              "F100_M39_20_TP_T"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP"
+            ]
+          }
+        ],
+        "rounds": 200,
+        "type": "M-39 F-100"
+      },
+      {
+        "ammo": [
+          "F100_M39_20_HEI",
+          "F100_M39_20_HEI_T",
+          "F100_M39_20_API",
+          "F100_M39_20_TP",
+          "F100_M39_20_TP_T",
+          "F100_M39_20_API_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "F100_M39_20_HEI_T",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API",
+              "F100_M39_20_HEI_T",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API_T",
+              "F100_M39_20_API",
+              "F100_M39_20_API",
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP_T",
+              "F100_M39_20_TP"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP"
+            ]
+          }
+        ],
+        "rounds": 200,
+        "type": "M-39 F-100"
+      },
+      {
+        "ammo": [
+          "F100_M39_20_HEI",
+          "F100_M39_20_HEI_T",
+          "F100_M39_20_API",
+          "F100_M39_20_TP",
+          "F100_M39_20_TP_T",
+          "F100_M39_20_API_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI_T",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_API",
+              "F100_M39_20_HEI_T",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API",
+              "F100_M39_20_API_T",
+              "F100_M39_20_API",
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP",
+              "F100_M39_20_TP_T"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_API",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP"
+            ]
+          }
+        ],
+        "rounds": 200,
+        "type": "M-39 F-100"
+      },
+      {
+        "ammo": [
+          "F100_M39_20_HEI",
+          "F100_M39_20_HEI_T",
+          "F100_M39_20_API",
+          "F100_M39_20_TP",
+          "F100_M39_20_TP_T",
+          "F100_M39_20_API_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI_T",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_API",
+              "F100_M39_20_HEI_T"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API",
+              "F100_M39_20_API",
+              "F100_M39_20_API_T",
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP_T",
+              "F100_M39_20_TP"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_HEI",
+              "F100_M39_20_HEI",
+              "F100_M39_20_API",
+              "F100_M39_20_HEI"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_API"
+            ]
+          },
+          {
+            "ammo": [
+              "F100_M39_20_TP"
+            ]
+          }
+        ],
+        "rounds": 200,
+        "type": "M-39 F-100"
+      }
+    ],
+    "rounds": 800,
+    "type": "M-39 F-100"
+  },
+  "id": "F-100D",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 20
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 722,
+      "control": "comboList",
+      "default": 0,
+      "id": "PROBE_OPTION",
+      "label": "Refuel Probe",
+      "playerOnly": false,
+      "values": [
+        {
+          "id": 0,
+          "label": "Standard",
+          "value": 0
+        },
+        {
+          "id": 1,
+          "label": "Alternate",
+          "value": 0.5
+        },
+        {
+          "id": 2,
+          "label": "Removed",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "arg": 723,
+      "control": "comboList",
+      "default": 0,
+      "id": "BURNER_OPTION",
+      "label": "Afterburner Type",
+      "playerOnly": false,
+      "values": [
+        {
+          "id": 0,
+          "label": "J57-21",
+          "value": 0
+        },
+        {
+          "id": 1,
+          "label": "J57-23",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "CARTRIDGE_OPTION",
+      "label": "Install Starter Cartridge",
+      "playerOnly": true
+    },
+    {
+      "arg": 724,
+      "control": "checkbox",
+      "default": false,
+      "id": "RHAW_OPTION",
+      "label": "Remove RHAW Gear",
+      "playerOnly": false
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "SWITCH_OPTION",
+      "label": "Switch Configuration",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "None",
+          "value": 0
+        },
+        {
+          "id": 1,
+          "label": "Rockets",
+          "value": 1
+        },
+        {
+          "id": 2,
+          "label": "Bombs",
+          "value": 2
+        },
+        {
+          "id": 3,
+          "label": "Missiles",
+          "value": 3
+        },
+        {
+          "id": 4,
+          "label": "Guns",
+          "value": 4
+        },
+        {
+          "id": 5,
+          "label": "Takeoff",
+          "value": 5
+        },
+        {
+          "id": 6,
+          "label": "Landing",
+          "value": 6
+        },
+        {
+          "id": 7,
+          "label": "Refueling",
+          "value": 7
+        },
+        {
+          "id": 8,
+          "label": "Dispensers",
+          "value": 8
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.49640011097796,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          147
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          609
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          608
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          607
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          269
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          606
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          232
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          222
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 27
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 28
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          220
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          144
+        ],
+        "cell": 60
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          998
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          999
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          268
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          605
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          601
+        ],
+        "cell": 143
+      },
+      {
+        "args": [
+          602
+        ],
+        "cell": 144
+      },
+      {
+        "args": [
+          603
+        ],
+        "cell": 145
+      }
+    ],
+    "file": "F-100D",
+    "lightsData": {
+      "lights": {
+        "10": {
+          "lights": [
+            {
+              "argument": 212,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "11": {
+          "lights": [
+            {
+              "argument": 197,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 196,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 197,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "5": {},
+        "6": {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 419,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 427,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "flood_light_argument": 195,
+              "period": 0.75,
+              "range": 0,
+              "rotary_assembly_argument": 194,
+              "typename": "RotatingBeacon"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "F-100D",
+    "shapeDestroyed": "F-100D_Destroyed"
+  },
+  "module": "F-100D AI by GrinnelliDesigns",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1956,
+        "to": 1979
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1960,
+        "to": 1985
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1958,
+        "to": 1972
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK",
+      "years": {
+        "from": 1960,
+        "to": 1982
+      }
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.305,
+    "bankAngleMaxDeg": 60,
+    "casMin": 30,
+    "enginesCount": 1,
+    "hMaxM": 15100,
+    "machMax": 1.283,
+    "nyMax": 7.33,
+    "rangeKm": 1778,
+    "vLandMs": 85,
+    "vMaxHMs": 383,
+    "vMaxSeaLevelMs": 338.5,
+    "vOptMs": 192,
+    "vTakeOffMs": 82
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": false,
+    "receptaclePosition": [
+      5.093,
+      -0.571,
+      1.983
+    ],
+    "tankerType": 2
+  },
+  "sensors": [
+    "Abstract RWR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{00F5DAC4-0466-4122-998F-B1A298E34113}"
+        },
+        {
+          "clsid": "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CAE48299-A294-4bad-8EE6-89EFC5DCDF00}"
+        },
+        {
+          "clsid": "{CBU-52B}"
+        },
+        {
+          "clsid": "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_BOLT117}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-38/A}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-7/A}"
+        },
+        {
+          "clsid": "{HB_F4E_CBU-1/A}"
+        },
+        {
+          "clsid": "{HB_F4E_CBU-2/A}"
+        },
+        {
+          "clsid": "{HB_F4E_CBU-2B/A}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_WP156}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_WP156}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{00F5DAC4-0466-4122-998F-B1A298E34113}"
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AN_M65}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CBU-52B}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_275_GAL_TANK_L_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_275_GAL_TANK_L}"
+        },
+        {
+          "clsid": "{GD_F100_335_GAL_TANK_L_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_335_GAL_TANK_L}"
+        },
+        {
+          "clsid": "{GD_F100_450_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_450_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_BOLT117}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-38/A}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-7/A}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_WP156}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_WP156}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{00F5DAC4-0466-4122-998F-B1A298E34113}"
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AGM_45A}"
+        },
+        {
+          "clsid": "{AGM_45B}"
+        },
+        {
+          "clsid": "{AN_M65}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CBU-52B}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9B_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9B_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9E_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9E_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9J_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9J_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9L_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9L_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P3_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P3_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P5_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P5_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9_x1_Left}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9_x2}"
+        },
+        {
+          "clsid": "{GD_F100_BOLT117}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-38/A}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-7/A}"
+        },
+        {
+          "clsid": "{GD_F100_TER_BDU-33_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_BDU-50HD_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_BDU-50LD_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_CBU-52_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_CBU-52_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_M117_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-81_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-81_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-81_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_Snakeye_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_Snakeye_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_Snakeye_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_ROCKEYE_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_ROCKEYE_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_ROCKEYE_x3}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [],
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{00F5DAC4-0466-4122-998F-B1A298E34113}"
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AGM_45A}"
+        },
+        {
+          "clsid": "{AGM_45B}"
+        },
+        {
+          "clsid": "{AN_M65}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CBU-52B}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9B_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9B_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9E_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9E_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9J_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9J_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9L_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9L_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P3_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P3_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P5_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P5_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9P_x2}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9_x1_Right}"
+        },
+        {
+          "clsid": "{GD_F100_AIM-9_x2}"
+        },
+        {
+          "clsid": "{GD_F100_BOLT117}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-38/A}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-7/A}"
+        },
+        {
+          "clsid": "{GD_F100_TER_BDU-33_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_BDU-50HD_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_BDU-50LD_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_CBU-52_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_CBU-52_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_M117_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-81_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-81_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-81_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_Snakeye_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_Snakeye_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_Snakeye_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_MK-82_x3}"
+        },
+        {
+          "clsid": "{GD_F100_TER_ROCKEYE_x1}"
+        },
+        {
+          "clsid": "{GD_F100_TER_ROCKEYE_x2}"
+        },
+        {
+          "clsid": "{GD_F100_TER_ROCKEYE_x3}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{00F5DAC4-0466-4122-998F-B1A298E34113}"
+        },
+        {
+          "clsid": "{7A44FF09-527C-4B7E-B42B-3F111CFE50FB}"
+        },
+        {
+          "clsid": "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AN_M65}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CBU-52B}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_275_GAL_TANK_R_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_275_GAL_TANK_R}"
+        },
+        {
+          "clsid": "{GD_F100_335_GAL_TANK_R_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_335_GAL_TANK_R}"
+        },
+        {
+          "clsid": "{GD_F100_450_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_450_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_BOLT117}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-38/A}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-7/A}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_WP156}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_WP156}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 6,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{00F5DAC4-0466-4122-998F-B1A298E34113}"
+        },
+        {
+          "clsid": "{90321C8E-7ED1-47D4-A160-E074D5ABD902}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CAE48299-A294-4bad-8EE6-89EFC5DCDF00}"
+        },
+        {
+          "clsid": "{CBU-52B}"
+        },
+        {
+          "clsid": "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK_EMPTY}"
+        },
+        {
+          "clsid": "{GD_F100_200_GAL_TANK}"
+        },
+        {
+          "clsid": "{GD_F100_BOLT117}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-38/A}"
+        },
+        {
+          "clsid": "{GD_F100_CBU-7/A}"
+        },
+        {
+          "clsid": "{HB_F4E_CBU-1/A}"
+        },
+        {
+          "clsid": "{HB_F4E_CBU-2/A}"
+        },
+        {
+          "clsid": "{HB_F4E_CBU-2B/A}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU3_FFAR_WP156}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK1HE}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_MK5HEAT}"
+        },
+        {
+          "clsid": "{LAU68_FFAR_WP156}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 7,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{GD_F100_STRIKE_CAMERA}"
+        }
+      ],
+      "displayName": "CAM",
+      "order": 8,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 8,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{INV-SMOKE-BLUE}"
+        },
+        {
+          "clsid": "{INV-SMOKE-GREEN}"
+        },
+        {
+          "clsid": "{INV-SMOKE-ORANGE}"
+        },
+        {
+          "clsid": "{INV-SMOKE-RED}"
+        },
+        {
+          "clsid": "{INV-SMOKE-WHITE}"
+        },
+        {
+          "clsid": "{INV-SMOKE-YELLOW}"
+        }
+      ],
+      "displayName": "SMK",
+      "order": 9,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 9,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{GD_F100_ZELL}"
+        }
+      ],
+      "displayName": "ZELL",
+      "order": 10,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 10,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 29,
+      "name": "SEAD"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

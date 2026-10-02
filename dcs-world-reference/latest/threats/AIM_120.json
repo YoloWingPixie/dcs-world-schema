@@ -1,0 +1,80 @@
+{
+  "_source": {
+    "natoDesignation": "hand-authored"
+  },
+  "components": [
+    {
+      "requires": [
+        [
+          [
+            "NASAMS_Radar_MPQ64F1"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM CC"
+      ],
+      "unit": "NASAMS_Command_Post"
+    },
+    {
+      "envelope": {
+        "hMaxM": 20000,
+        "hMinM": 1,
+        "rMaxKm": 15.0,
+        "rMinKm": 1.0
+      },
+      "requires": [
+        [
+          [
+            "NASAMS_Command_Post"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM LL"
+      ],
+      "unit": "NASAMS_LN_B",
+      "weapons": [
+        "AIM_120"
+      ]
+    },
+    {
+      "envelope": {
+        "hMaxM": 26000,
+        "hMinM": 1,
+        "rMaxKm": 15.0,
+        "rMinKm": 1.0
+      },
+      "requires": [
+        [
+          [
+            "NASAMS_Command_Post"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM LL"
+      ],
+      "unit": "NASAMS_LN_C",
+      "weapons": [
+        "AIM_120C"
+      ]
+    },
+    {
+      "alic": [
+        "209"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "NS",
+      "unit": "NASAMS_Radar_MPQ64F1"
+    }
+  ],
+  "id": "AIM_120",
+  "kind": "sam",
+  "natoDesignation": "NASAMS",
+  "sensors": [
+    "NASAMS_Radar_MPQ64F1"
+  ]
+}

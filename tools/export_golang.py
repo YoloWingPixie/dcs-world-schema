@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
 import argparse
 import json
-import os
-import sys
 import re
-from typing import Any, Dict, List, Optional, Set
+import sys
+from pathlib import Path
+from typing import Any
 
-# Go type mapping
+from tools.datamine.common import load_json
+from tools.spec_types import (
+    Array,
+    Literal,
+    Map,
+    Primitive,
+    TypeNode,
+    Union,
+    api_spec,
+    is_literal_union,
+    members,
+    parse_type,
+    strip_null,
+)
+
 TYPE_MAPPING = {
     "number": "float64",
     "string": "string",
@@ -19,22 +33,15 @@ TYPE_MAPPING = {
 }
 
 # Track processed types to avoid duplicates
-processed_types: Set[str] = set()
-namespace_declarations: Dict[str, List[str]] = {}
-
-
-def load_schema(path: str) -> Dict[str, Any]:
-    """Load the schema from a JSON file"""
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+processed_types: set[str] = set()
+namespace_declarations: dict[str, list[str]] = {}
 
 
 def sanitize_go_name(name: str) -> str:
     """Make a name safe for Go"""
-    # Replace dots with underscores for non-namespaced names
     if "." in name:
         parts = name.split(".")
-        return "".join(p.capitalize() for p in parts)
+        return "".join(p[:1].upper() + p[1:] for p in parts)
 
     # Ensure name starts with capital letter for export
     if name and name[0].islower():
@@ -43,10 +50,8 @@ def sanitize_go_name(name: str) -> str:
     return name
 
 
-def sanitize_field_name(name: str) -> str:
-    """Make a field name safe for Go struct"""
-    # Handle reserved words and invalid characters
-    go_keywords = [
+GO_KEYWORDS = frozenset(
+    {
         "break",
         "default",
         "func",
@@ -72,32 +77,32 @@ def sanitize_field_name(name: str) -> str:
         "import",
         "return",
         "var",
-    ]
+    }
+)
 
-    # Remove special characters
+
+def sanitize_field_name(name: str) -> str:
+    """Make a field name safe for Go struct"""
     sanitized = re.sub(r"[^\w]", "_", name)
 
     # Capitalize first letter for export
     sanitized = sanitized[0].upper() + sanitized[1:] if sanitized else "Field"
 
-    # Handle keywords
-    if sanitized.lower() in go_keywords:
+    if sanitized.lower() in GO_KEYWORDS:
         sanitized += "_"
 
     return sanitized
 
 
-def format_description(desc: Optional[str]) -> str:
+def format_description(desc: str | None) -> str:
     """Format description as Go comment"""
     if not desc:
         return ""
 
-    # Clean up description
     desc = desc.strip()
     if not desc:
         return ""
 
-    # Format as Go comment
     lines = desc.split("\n")
     if len(lines) == 1:
         return f"// {desc}\n"
@@ -114,61 +119,151 @@ def map_type(type_str: Any) -> str:
     if not type_str:
         return "interface{}"
 
-    # Ensure type_str is a string
-    if not isinstance(type_str, str):
+    if not isinstance(type_str, str) or type_str == "interface{}":
         return "interface{}"
 
-    # Handle union types - Go doesn't have direct union types, use interface{}
-    if "|" in type_str:
-        return "interface{}"
-
-    # Handle array types
-    if type_str.endswith("[]"):
-        base_type = type_str[:-2].strip()
-        return f"[]{map_type(base_type)}"
-
-    # Handle map types
-    if type_str.startswith("map<") and type_str.endswith(">"):
-        # Extract key and value types
-        inner = type_str[4:-1].strip()
-        # Simplification: assuming maps have string keys
-        return f"map[string]{map_type(inner)}"
-
-    # Handle primitive types
-    if type_str in TYPE_MAPPING:
-        return TYPE_MAPPING[type_str]
-
-    # Handle namespaced types
-    if "." in type_str:
-        # Convert dot notation to CamelCase
-        return sanitize_go_name(type_str)
-
-    # Return type with first letter capitalized for Go exports
-    return sanitize_go_name(type_str)
+    return render_type(parse_type(type_str))
 
 
-def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
+def render_type(node: TypeNode) -> str:
+    """The Go type of a typeRef node."""
+    if isinstance(node, Union):
+        # Go has no literal types: a union of string literals is a string
+        # (see literal_constants); other unions (no sum types) interface{}.
+        return "string" if is_literal_union(node) else "interface{}"
+    if isinstance(node, Array):
+        return f"[]{render_type(node.item)}"
+    if isinstance(node, Map):
+        return f"map[{_key_type(node.key)}]{render_type(node.value)}"
+    if isinstance(node, Literal):
+        return "string"
+    if isinstance(node, Primitive):
+        return TYPE_MAPPING[node.name]
+    # Exported (capitalised) Go name of the referenced type
+    return sanitize_go_name(node.name)
+
+
+def _key_type(key: TypeNode) -> str:
+    """A Go map key: ``string`` / ``float64`` for those primitives, else string."""
+    if isinstance(key, Primitive) and key.name in ("string", "number"):
+        return TYPE_MAPPING[key.name]
+    return "string"
+
+
+def record_field_type(type_str: str) -> tuple[str, bool]:
+    """Go type of a record field's typeRef and whether it admits ``nil``.
+
+    ``nil`` members are dropped; a union of several remaining types becomes
+    ``interface{}`` (Go has no sum types).
+    """
+    return _field_type(parse_type(type_str or "any"))
+
+
+def _field_type(node: TypeNode) -> tuple[str, bool]:
+    non_null, nullable = strip_null(node)
+    if non_null is None:
+        return "interface{}", True
+    if is_literal_union(non_null):
+        return "string", nullable
+    if isinstance(non_null, Union):
+        return "interface{}", nullable
+    if isinstance(non_null, Array):
+        elem, _ = _field_type(non_null.item)
+        return f"[]{elem}", nullable
+    if isinstance(non_null, Map):
+        value_go, _ = _field_type(non_null.value)
+        return f"map[{_key_type(non_null.key)}]{value_go}", nullable
+    return render_type(non_null), nullable
+
+
+def is_nilable_go_type(go_type: str) -> bool:
+    """Whether a Go type already has a nil zero value (no pointer needed)."""
+    return go_type.startswith(("[]", "map[", "func(", "*")) or go_type in (
+        "interface{}",
+        "any",
+    )
+
+
+def go_field_name(field_name: str, used: set[str]) -> str:
+    """Exported Go name of a record field, unique among ``used`` (updated)."""
+    # Go only serialises exported fields: drop leading underscores
+    # (e.g. ``_source``); the json tag keeps the original key.
+    go_name = sanitize_field_name(field_name.lstrip("_") or field_name)
+    if not go_name[:1].isalpha():
+        go_name = f"F{go_name}"
+    while go_name in used:
+        go_name += "_"
+    used.add(go_name)
+    return go_name
+
+
+def literal_constants(go_type_name: str, type_def: dict[str, Any]) -> str:
+    """Constants for record fields typed by string literals.
+
+    Go has no literal types, so such a field is a ``string``; the value(s) it
+    must hold are exported as ``<Type>_<Field>`` (``_<Value>`` appended when
+    there are several), in the manner of ``http.MethodGet``.
+    """
+    used: set[str] = set()
+    lines: list[str] = []
+    for field_name, field_def in type_def.get("fields", {}).items():
+        go_name = go_field_name(field_name, used)
+        non_null, _ = strip_null(parse_type(field_def.get("type") or "any"))
+        if non_null is None or not is_literal_union(non_null):
+            continue
+        values = [m.value for m in members(non_null) if isinstance(m, Literal)]
+        for value in values:
+            const = f"{go_type_name}_{go_name}"
+            if len(values) > 1:
+                const += f"_{sanitize_field_name(str(value))}"
+            which = "a" if len(values) > 1 else "the only"
+            lines.append(f"// {const} is {which} value of {go_type_name}.{go_name}.")
+            lines.append(f"const {const} = {json.dumps(value)}")
+    return "\n" + "\n".join(lines) + "\n" if lines else ""
+
+
+def process_record_fields(type_def: dict[str, Any]) -> str:
+    """Struct fields for a ``kind: record`` type's ``fields``.
+
+    Fields not in ``required`` (or whose typeRef admits ``nil``) are optional:
+    tagged ``omitempty`` and, unless the Go type is already nilable, held by
+    pointer so absence is distinguishable from the zero value.
+    """
+    required = set(type_def.get("required") or [])
+    out = ""
+    used: set[str] = set()
+    for field_name, field_def in type_def.get("fields", {}).items():
+        go_type, nullable = record_field_type(field_def.get("type", "any"))
+        optional = nullable or field_name not in required
+        if optional and not is_nilable_go_type(go_type):
+            go_type = f"*{go_type}"
+        go_name = go_field_name(field_name, used)
+        tag = f"{field_name},omitempty" if optional else field_name
+        desc = " ".join((field_def.get("description") or "").split())
+        if desc:
+            out += f"\t// {go_name}: {desc}\n"
+        out += f'\t{go_name} {go_type} `json:"{tag}"`\n'
+    return out
+
+
+def process_enum(name: str, enum_def: dict[str, Any]) -> str:
     """Process an enum into Go constants"""
     values = enum_def.get("values", [])
     desc = enum_def.get("description", "")
 
-    # Handle different formats of enum values
     const_lines = []
     type_name = sanitize_go_name(name)
 
-    # Add description
     result = format_description(desc)
     result += f"type {type_name} string\n\n"
     result += "const (\n"
 
     if isinstance(values, list):
-        # List format
-        for i, val in enumerate(values):
+        for val in values:
             if isinstance(val, str):
                 const_name = f"{type_name}_{sanitize_field_name(val)}"
                 const_lines.append(f'\t{const_name} {type_name} = "{val}"')
     elif isinstance(values, dict):
-        # Object format
         for key, value in values.items():
             const_name = f"{type_name}_{sanitize_field_name(str(key))}"
             if isinstance(value, str):
@@ -185,7 +280,7 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
     return result
 
 
-def get_namespace_parts(full_name: str) -> tuple:
+def get_namespace_parts(full_name: str) -> tuple[str, str]:
     """Split a namespace.Type name into parts"""
     if "." not in full_name:
         return "", full_name
@@ -196,61 +291,66 @@ def get_namespace_parts(full_name: str) -> tuple:
     return namespace, type_name
 
 
-def process_struct(name: str, type_def: Dict[str, Any]) -> str:
+def process_struct(name: str, type_def: dict[str, Any]) -> str:
     """Process a type into Go struct definition"""
     if name in processed_types:
         return ""
 
     processed_types.add(name)
 
-    # Handle namespace
-    namespace, type_name = get_namespace_parts(name)
+    namespace, _ = get_namespace_parts(name)
     go_type_name = sanitize_go_name(name)  # Full name for Go
 
-    # Different handling based on type
     kind = type_def.get("kind", "")
 
     if kind == "enum":
         return process_enum(name, type_def)
 
-    # For regular types, create a struct
+    if kind == "union":
+        # Go has no sum types: any of the members.
+        result = format_description(type_def.get("description", ""))
+        members = ", ".join(type_def.get("anyOf") or [])
+        result += f"// One of: {members}.\n" if members else ""
+        result += f"type {go_type_name} = interface{{}}\n"
+        if namespace:
+            namespace_declarations.setdefault(namespace, []).append(result)
+            return ""
+        return result
+
     properties = {}
 
-    # Properties section
     if "properties" in type_def:
         properties.update(type_def["properties"])
 
-    # Static section
     if "static" in type_def:
         properties.update(type_def["static"])
 
-    # Start with description
     result = format_description(type_def.get("description", ""))
 
-    # Add struct definition
     result += f"type {go_type_name} struct {{\n"
 
-    # Add properties with JSON tags
     for prop_name, prop_def in properties.items():
         prop_type = prop_def.get("type", "interface{}")
         prop_desc = prop_def.get("description", "")
         field_name = sanitize_field_name(prop_name)
 
-        # Convert property type
         go_prop_type = map_type(prop_type)
 
-        # Add field with JSON tag
         if prop_desc:
-            result += f"\t// {prop_desc}\n"
+            result += f"\t// {' '.join(prop_desc.split())}\n"
         result += f'\t{field_name} {go_prop_type} `json:"{prop_name}"`\n'
 
-    # If no properties, add a comment
-    if not properties:
+    record_fields = kind == "record" and bool(type_def.get("fields"))
+    if record_fields:
+        result += process_record_fields(type_def)
+
+    if not properties and not record_fields:
         result += "\t// No fields defined\n"
 
     result += "}\n"
+    if record_fields:
+        result += literal_constants(go_type_name, type_def)
 
-    # Add methods as function declarations with receiver
     if "instance" in type_def:
         instance_methods = type_def["instance"]
         if instance_methods:
@@ -261,30 +361,28 @@ def process_struct(name: str, type_def: Dict[str, Any]) -> str:
             returns = method_def.get("returns", "")
             desc = method_def.get("description", "")
 
-            # Format method parameters
             param_list = []
             for param in params:
                 param_name = param.get("name", "param")
                 param_type = param.get("type", "interface{}")
                 sanitized_name = re.sub(r"[^\w]", "_", param_name)
+                if sanitized_name in GO_KEYWORDS:
+                    sanitized_name += "_"
                 param_list.append(f"{sanitized_name} {map_type(param_type)}")
 
-            # Format return type
             return_type = ""
             if returns and returns != "void":
                 return_type = map_type(returns)
                 if return_type:
                     return_type = " " + return_type
 
-            # Add method
             if desc:
-                result += f"// {desc}\n"
+                result += f"// {' '.join(desc.split())}\n"
             result += f"func (r *{go_type_name}) {sanitize_field_name(method_name)}({', '.join(param_list)}){return_type} {{\n"
             result += "\t// Method implementation would go here\n"
             result += '\tpanic("Not implemented")\n'
             result += "}\n"
 
-    # Add to namespace declarations if needed
     if namespace:
         if namespace not in namespace_declarations:
             namespace_declarations[namespace] = []
@@ -294,39 +392,32 @@ def process_struct(name: str, type_def: Dict[str, Any]) -> str:
     return result
 
 
-def generate_go_package(schema: Dict[str, Any], package_name: str) -> str:
+def generate_go_package(schema: dict[str, Any], package_name: str) -> str:
     """Generate Go package with all types"""
-    # Start with package declaration and imports
     result = f"// Package {package_name} provides types for the DCS World API\n"
     result += "// Generated from DCS World Schema - DO NOT EDIT\n\n"
     result += f"package {package_name}\n\n"
 
-    # Process types
     enums = []
     structs = []
 
     if "types" in schema:
         for type_name, type_def in sorted(schema["types"].items()):
-            # Skip namespace types for now
-            if "." not in type_name:
-                if type_def.get("kind", "") == "enum":
-                    enums.append(process_struct(type_name, type_def))
-                else:
-                    structs.append(process_struct(type_name, type_def))
+            # Namespaced (dotted) types are collected into namespace_declarations
+            if type_def.get("kind", "") == "enum":
+                enums.append(process_struct(type_name, type_def))
+            else:
+                structs.append(process_struct(type_name, type_def))
 
-    # Process globals
     if "globals" in schema:
         for global_name, global_def in sorted(schema["globals"].items()):
-            # Create a struct for each global namespace
             props = {}
 
-            # Combine properties and static items
             if "properties" in global_def:
                 props.update(global_def["properties"])
             if "static" in global_def:
                 props.update(global_def["static"])
 
-            # Create type definition
             global_def_dict = {
                 "properties": props,
                 "description": global_def.get(
@@ -334,7 +425,6 @@ def generate_go_package(schema: Dict[str, Any], package_name: str) -> str:
                 ),
             }
 
-            # If there are instance methods, add them
             if "instance" in global_def:
                 global_def_dict["instance"] = global_def["instance"]
 
@@ -349,7 +439,6 @@ def generate_go_package(schema: Dict[str, Any], package_name: str) -> str:
         if struct:
             result += struct + "\n"
 
-    # Process namespace types
     for namespace, types in sorted(namespace_declarations.items()):
         result += f"// Namespace: {namespace}\n"
         for type_def in types:
@@ -359,27 +448,25 @@ def generate_go_package(schema: Dict[str, Any], package_name: str) -> str:
 
 
 def export_to_golang(
-    schema: Dict[str, Any], output_path: str, package_name: str = "dcsapi"
+    schema: dict[str, Any], output_path: str, package_name: str = "dcsapi"
 ) -> None:
     """Export schema to Go code"""
-    output_dir = os.path.dirname(output_path)
-    os.makedirs(output_dir, exist_ok=True)
+    schema = api_spec(schema)
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
     # Reset global state
     processed_types.clear()
     namespace_declarations.clear()
 
-    # Generate Go code
     go_code = generate_go_package(schema, package_name)
 
-    # Write to file
-    with open(output_path, "w", encoding="utf-8") as f:
+    with Path(output_path).open("w", encoding="utf-8") as f:
         f.write(go_code)
 
     print(f"Go code exported to {output_path}")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(description="Export DCS schema to Go")
     parser.add_argument("schema", help="Path to the DCS schema JSON file")
     parser.add_argument(
@@ -395,7 +482,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        schema = load_schema(args.schema)
+        schema = load_json(Path(args.schema))
         export_to_golang(schema, args.output, args.package)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

@@ -1,0 +1,1674 @@
+{
+  "format": "dcs-export-docs/1",
+  "functions": {
+    "LoEnableExternalFlightModel": [
+      {
+        "line": 1447,
+        "name": "LoEnableExternalFlightModel",
+        "params": [],
+        "text": "call one time in start"
+      }
+    ],
+    "LoGeoCoordinatesToLoCoordinates": [
+      {
+        "assigns": "{x,y,z}",
+        "line": 851,
+        "name": "LoGeoCoordinatesToLoCoordinates",
+        "params": [
+          "longitude_degrees",
+          "latitude_degrees"
+        ],
+        "section": "Coordinates convertion :"
+      }
+    ],
+    "LoGetADIPitchBankYaw": [
+      {
+        "argsCount": 0,
+        "line": 460,
+        "name": "LoGetADIPitchBankYaw",
+        "params": [],
+        "results": "3 (rad)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 3 (rad))"
+      }
+    ],
+    "LoGetAccelerationUnits": [
+      {
+        "argsCount": 0,
+        "line": 456,
+        "name": "LoGetAccelerationUnits",
+        "params": [],
+        "results": "table {x = Nx,y = NY,z = NZ} 1 (G)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - table {x = Nx,y = NY,z = NZ} 1 (G))"
+      }
+    ],
+    "LoGetAircraftDrawArgumentValue": [
+      {
+        "argsCount": 1,
+        "line": 862,
+        "name": "LoGetAircraftDrawArgumentValue",
+        "params": [
+          "arg"
+        ],
+        "results": "1 (number)",
+        "section": "Coordinates convertion :",
+        "text": "-- (args - 1, results - 1 (number)) draw argument value for own object"
+      }
+    ],
+    "LoGetAltitude": [
+      {
+        "argsCount": 2,
+        "line": 649,
+        "name": "LoGetAltitude",
+        "params": [
+          "x",
+          "z"
+        ],
+        "results": "1 : altitude above terrain surface, meters",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 2 : meters, results - 1 : altitude above terrain surface, meters)"
+      }
+    ],
+    "LoGetAltitudeAboveGroundLevel": [
+      {
+        "argsCount": 0,
+        "line": 453,
+        "name": "LoGetAltitudeAboveGroundLevel",
+        "params": [],
+        "results": "1 (meters)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (meters))"
+      }
+    ],
+    "LoGetAltitudeAboveSeaLevel": [
+      {
+        "argsCount": 0,
+        "line": 452,
+        "name": "LoGetAltitudeAboveSeaLevel",
+        "params": [],
+        "results": "1 (meters)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (meters))"
+      }
+    ],
+    "LoGetAngleOfAttack": [
+      {
+        "argsCount": 0,
+        "line": 454,
+        "name": "LoGetAngleOfAttack",
+        "params": [],
+        "results": "1 (rad)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (rad))"
+      }
+    ],
+    "LoGetAngleOfSideSlip": [
+      {
+        "argsCount": 0,
+        "line": 455,
+        "name": "LoGetAngleOfSideSlip",
+        "params": [],
+        "results": "1 (rad)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (rad))"
+      }
+    ],
+    "LoGetAngularVelocity": [
+      {
+        "argsCount": 0,
+        "line": 856,
+        "name": "LoGetAngularVelocity",
+        "params": [],
+        "results": "1 (table {x,y,z})",
+        "section": "Coordinates convertion :",
+        "text": "-- (args - 0, results - 1 (table {x,y,z})) angular velocity (rad/s)"
+      }
+    ],
+    "LoGetBasicAtmospherePressure": [
+      {
+        "argsCount": 0,
+        "line": 465,
+        "name": "LoGetBasicAtmospherePressure",
+        "params": [],
+        "results": "1",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0,results - 1) (mm hg)"
+      }
+    ],
+    "LoGetCameraPosition": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "\t{",
+          "\t\tx = {x = ..., y = ..., z = ...},\t-- orientation x-vector",
+          "\t\ty = (x = ..., y = ..., z = ...},\t-- orientation y-vector",
+          "\t\tz = {x = ..., y = ..., z = ...},\t-- orientation z-vector",
+          "\t\tp = {x = ..., y = ..., z = ...}\t\t-- point vector",
+          "    }",
+          "    all coordinates are in meters. You can use Vector class for position vectors."
+        ],
+        "line": 651,
+        "name": "LoGetCameraPosition",
+        "params": [],
+        "results": "1 : view camera current position table:",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 : view camera current position table:"
+      }
+    ],
+    "LoGetControlPanel_HSI": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "result =",
+          "{",
+          "\tADF_raw, (rad)",
+          "\tRMI_raw, (rad)",
+          "\tHeading_raw, (rad)",
+          "\tHeadingPointer, (rad)",
+          "\tCourse, (rad)",
+          "\tBearingPointer, (rad)",
+          "\tCourseDeviation, (rad)",
+          "}"
+        ],
+        "fields": [
+          "ADF_raw",
+          "RMI_raw",
+          "Heading_raw",
+          "HeadingPointer",
+          "Course",
+          "BearingPointer",
+          "CourseDeviation"
+        ],
+        "line": 467,
+        "name": "LoGetControlPanel_HSI",
+        "params": [],
+        "results": "table",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0,results - table)"
+      }
+    ],
+    "LoGetEngineInfo": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "engineinfo =",
+          "{",
+          "\tRPM = {left, right},(%)",
+          "\tTemperature = { left, right}, (Celcium degrees)",
+          "\tHydraulicPressure = {left ,right},kg per square centimeter",
+          "\tFuelConsumption   = {left ,right},kg per sec",
+          "    fuel_internal      -- fuel quantity internal tanks\tkg",
+          "\tfuel_external      -- fuel quantity external tanks\tkg",
+          "",
+          "}"
+        ],
+        "fields": [
+          "RPM",
+          "Temperature",
+          "HydraulicPressure",
+          "FuelConsumption",
+          "fuel_internal",
+          "fuel_external"
+        ],
+        "line": 478,
+        "name": "LoGetEngineInfo",
+        "params": [],
+        "results": "table",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0 ,results = table)"
+      }
+    ],
+    "LoGetGlideDeviation": [
+      {
+        "argsCount": 0,
+        "line": 462,
+        "name": "LoGetGlideDeviation",
+        "params": [],
+        "results": "1",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0,results - 1)( -1 < result < 1)"
+      }
+    ],
+    "LoGetHeightWithObjects": [
+      {
+        "argsCount": 0,
+        "line": 861,
+        "name": "LoGetHeightWithObjects",
+        "params": [],
+        "results": "1 (number)",
+        "section": "Coordinates convertion :",
+        "text": "-- (args - 0, results - 1 (number)) height above surface incl. objects (meters)"
+      }
+    ],
+    "LoGetHelicopterFMData": [
+      {
+        "detail": [
+          "-- return table with fm data",
+          "--{",
+          "--G_factor = {x,y,z }    in cockpit",
+          "--speed = {x,y,z}   center of mass ,body axis",
+          "--acceleration= {x,y,z}   center of mass ,body axis",
+          "--angular_speed= {x,y,z}   rad/s",
+          "--angular_acceleration= {x,y,z}   rad/s^2",
+          "--yaw    radians",
+          "--pitch    radians",
+          "--roll    radians",
+          "--master  boolean  flag that player is actually in control of flight model for multiplayer  multicrew sessions",
+          "--}",
+          "",
+          "--#ifndef  _EXTERNAL_FM_DATA_H",
+          "--#define  _EXTERNAL_FM_DATA_H",
+          "",
+          "--struct external_FM_data",
+          "--{",
+          "--\tdouble orientation_X[3];",
+          "--\tdouble orientation_Y[3];",
+          "--\tdouble orientation_Z[3];",
+          "--\tdouble pos[3];",
+          "",
+          "--\t//",
+          "",
+          "--\tdouble velocity[3];",
+          "--\tdouble acceleration[3];",
+          "--\tdouble omega[3];",
+          "--};",
+          "-- #endif  _EXTERNAL_FM_DATA_H",
+          "",
+          "",
+          "-- you can export render targets via shared memory interface",
+          "-- using next functions"
+        ],
+        "line": 1457,
+        "name": "LoGetHelicopterFMData",
+        "params": [],
+        "text": "/  LoGetFMData()"
+      }
+    ],
+    "LoGetInAir": [
+      {
+        "argsCount": 0,
+        "line": 447,
+        "name": "LoGetInAir",
+        "params": [],
+        "results": "1 (boolean)",
+        "section": "Output:",
+        "text": "-- true if own object is in the air (args - 0, results - 1 (boolean))"
+      }
+    ],
+    "LoGetIndicatedAirSpeed": [
+      {
+        "argsCount": 0,
+        "line": 450,
+        "name": "LoGetIndicatedAirSpeed",
+        "params": [],
+        "results": "1",
+        "section": "-- Flight parameters",
+        "text": "-- indicated airspeed (args - 0, results - 1)"
+      }
+    ],
+    "LoGetLocalPlayer": [
+      {
+        "line": 350,
+        "name": "LoGetLocalPlayer",
+        "params": [],
+        "text": "-- returns player table { host_id, name }"
+      }
+    ],
+    "LoGetLockedTargetInformation": [
+      {
+        "argsCount": 0,
+        "detail": [
+          " this functions return the table of the next target data",
+          " target =",
+          " {",
+          "\tID ,                                  -- world ID (may be 0 ,when ground point track)",
+          "\ttype = {level1,level2,level3,level4}, -- world database classification",
+          "\tcountry = ,                           -- object country",
+          "\tposition = {x = {x,y,z},   -- orientation X ort",
+          "\t            y = {x,y,z},   -- orientation Y ort",
+          "\t\t\t\tz = {x,y,z},   -- orientation Z ort",
+          "\t\t\t\tp = {x,y,z}}   -- position of the center",
+          "\tvelocity =        {x,y,z}, -- world velocity vector m/s",
+          "\tdistance = ,               -- distance in meters",
+          "\tconvergence_velocity = ,   -- closing speed in m/s",
+          "\tmach = ,                   -- M number",
+          "\tdelta_psi = ,              -- aspect angle rad",
+          "\tfim = ,                    -- viewing angle horizontal (in your body axis) rad",
+          "\tfin = ,                    -- viewing angle vertical   (in your body axis) rad",
+          "\tflags = ,\t\t\t\t   -- field with constants detemining  method of the tracking",
+          "\t\t\t\t\t\t\t\t--\twhTargetRadarView\t\t= 0x0002;\t-- Radar review (BVR)",
+          "\t\t\t\t\t\t\t\t--\twhTargetEOSView\t\t\t= 0x0004;\t-- EOS   review (BVR)",
+          "\t\t\t\t\t\t\t\t--\twhTargetRadarLock\t\t= 0x0008;\t-- Radar lock (STT)  == whStaticObjectLock (pinpoint) (static objects,buildings lock)",
+          "\t\t\t\t\t\t\t\t--\twhTargetEOSLock\t\t\t= 0x0010;\t-- EOS   lock (STT)  == whWorldObjectLock (pinpoint)  (ground units lock)",
+          "\t\t\t\t\t\t\t\t--\twhTargetRadarTrack\t\t= 0x0020;\t-- Radar lock (TWS)",
+          "\t\t\t\t\t\t\t\t--\twhTargetEOSTrack\t\t= 0x0040;\t-- Radar lock (TWS)  == whImpactPointTrack (pinpoint) (ground point track)",
+          "\t\t\t\t\t\t\t\t--\twhTargetNetHumanPlane\t= 0x0200;\t-- net HumanPlane",
+          "\t\t\t\t\t\t\t\t--\twhTargetAutoLockOn  \t= 0x0400;\t-- EasyRadar  autolockon",
+          "\t\t\t\t\t\t\t\t--\twhTargetLockOnJammer  \t= 0x0800;\t-- HOJ   mode",
+          "",
+          "\treflection = ,             -- target cross section square meters",
+          "\tcourse = ,                 -- target course rad",
+          "\tisjamming = ,              -- target ECM on or not",
+          "\tstart_of_lock = ,          -- time of the beginning of lock",
+          "\tforces = { x,y,z},         -- vector of the acceleration units",
+          "\tupdates_number = ,         -- number of the radar updates",
+          "",
+          "\tjammer_burned = true/false -- indicates that jammer are burned",
+          " }"
+        ],
+        "fields": [
+          "ID",
+          "type",
+          "country",
+          "position",
+          "velocity",
+          "distance",
+          "convergence_velocity",
+          "mach",
+          "delta_psi",
+          "fim",
+          "fin",
+          "flags",
+          "reflection",
+          "course",
+          "isjamming",
+          "start_of_lock",
+          "forces",
+          "updates_number",
+          "jammer_burned"
+        ],
+        "line": 664,
+        "name": "LoGetLockedTargetInformation",
+        "params": [],
+        "results": "1 (table of current locked targets tables)",
+        "section": "-- Weapon Control System",
+        "text": "-- (args - 0, results - 1 (table of current locked targets tables))"
+      }
+    ],
+    "LoGetMCPState": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "\treturned table keys for LoGetMCPState():",
+          "\t\t\"LeftEngineFailure\"",
+          "\t\t\"RightEngineFailure\"",
+          "\t\t\"HydraulicsFailure\"",
+          "\t\t\"ACSFailure\"",
+          "\t\t\"AutopilotFailure\"",
+          "\t\t\"AutopilotOn\"",
+          "\t\t\"MasterWarning\"",
+          "\t\t\"LeftTailPlaneFailure\"",
+          "\t\t\"RightTailPlaneFailure\"",
+          "\t\t\"LeftAileronFailure\"",
+          "\t\t\"RightAileronFailure\"",
+          "\t\t\"CanopyOpen\"",
+          "\t\t\"CannonFailure\"",
+          "\t\t\"StallSignalization\"",
+          "\t\t\"LeftMainPumpFailure\"",
+          "\t\t\"RightMainPumpFailure\"",
+          "\t\t\"LeftWingPumpFailure\"",
+          "\t\t\"RightWingPumpFailure\"",
+          "\t\t\"RadarFailure\"",
+          "\t\t\"EOSFailure\"",
+          "\t\t\"MLWSFailure\"",
+          "\t\t\"RWSFailure\"",
+          "\t\t\"ECMFailure\"",
+          "\t\t\"GearFailure\"",
+          "\t\t\"MFDFailure\"",
+          "\t\t\"HUDFailure\"",
+          "\t\t\"HelmetFailure\"",
+          "\t\t\"FuelTankDamage\""
+        ],
+        "line": 581,
+        "name": "LoGetMCPState",
+        "params": [],
+        "results": "1 (table of key(string).value(boolean))",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (table of key(string).value(boolean))"
+      }
+    ],
+    "LoGetMachNumber": [
+      {
+        "argsCount": 0,
+        "line": 459,
+        "name": "LoGetMachNumber",
+        "params": [],
+        "results": "1",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1)"
+      }
+    ],
+    "LoGetMagneticYaw": [
+      {
+        "argsCount": 0,
+        "line": 461,
+        "name": "LoGetMagneticYaw",
+        "params": [],
+        "results": "1 (rad)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (rad)"
+      }
+    ],
+    "LoGetMechInfo": [
+      {
+        "detail": [
+          "result_is =",
+          "{",
+          "\tgear          = {status,value,main = {left = {rod},right = {rod},nose =  {rod}}}",
+          "\tflaps\t\t  = {status,value}",
+          "\tspeedbrakes   = {status,value}",
+          "\trefuelingboom = {status,value}",
+          "\tairintake     = {status,value}",
+          "\tnoseflap      = {status,value}",
+          "\tparachute     = {status,value}",
+          "\twheelbrakes   = {status,value}",
+          "\thook          = {status,value}",
+          "\twing          = {status,value}",
+          "\tcanopy        = {status,value}",
+          "\tcontrolsurfaces = {elevator = {left,right},eleron = {left,right},rudder = {left,right}} -- relative vlues (-1,1) (min /max) (sorry:(",
+          "}"
+        ],
+        "fields": [
+          "gear",
+          "flaps",
+          "speedbrakes",
+          "refuelingboom",
+          "airintake",
+          "noseflap",
+          "parachute",
+          "wheelbrakes",
+          "hook",
+          "wing",
+          "canopy",
+          "controlsurfaces"
+        ],
+        "line": 782,
+        "name": "LoGetMechInfo",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- mechanization info"
+      }
+    ],
+    "LoGetMissionStartTime": [
+      {
+        "argsCount": 0,
+        "line": 439,
+        "name": "LoGetMissionStartTime",
+        "params": [],
+        "results": "1 (sec)",
+        "section": "Output:",
+        "text": "-- mission start model time (args - 0, results - 1 (sec))"
+      }
+    ],
+    "LoGetModelTime": [
+      {
+        "argsCount": 0,
+        "line": 438,
+        "name": "LoGetModelTime",
+        "params": [],
+        "results": "1 (sec)",
+        "section": "Output:",
+        "text": "-- current model time (args - 0, results - 1 (sec))"
+      }
+    ],
+    "LoGetNameByType": [
+      {
+        "argsCount": 4,
+        "line": 661,
+        "name": "LoGetNameByType",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- args 4 (number : level1,level2,level3,level4), result string"
+      }
+    ],
+    "LoGetNavigationInfo": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "get_navigation_info_result =",
+          "{",
+          "\tSystemMode = {master,submode}, -- (string,string) current mode and submode",
+          "--[=[",
+          "\tmaster values (depend of plane type)",
+          "\t\t\t\t\"NAV\"  -- navigation",
+          "\t\t\t    \"BVR\"  -- beyond visual range AA mode",
+          "\t\t\t\t\"CAC\"  -- close air combat",
+          "\t\t\t\t\"LNG\"  -- longitudinal mode",
+          "\t\t\t\t\"A2G\"  -- air to ground",
+          "\t\t\t\t\"OFF\"  -- mode is absent",
+          "\tsubmode values (depend of plane type and master mode)",
+          "\t\"NAV\" submodes",
+          "\t{",
+          "\t\t\"ROUTE\"",
+          "\t\t\"ARRIVAL\"",
+          "\t\t\"LANDING\"",
+          "\t\t\"OFF\"",
+          "\t}",
+          "\t\"BVR\" submodes",
+          "\t{",
+          "\t\t\"GUN\"   -- Gunmode",
+          "\t\t\"RWS\"   -- RangeWhileSearch",
+          "\t\t\"TWS\"   -- TrackWhileSearch",
+          "\t\t\"STT\"   -- SingleTrackTarget (Attack submode)",
+          "\t\t\"OFF\"",
+          "\t}",
+          "\t\"CAC\" submodes",
+          "\t{",
+          "\t\t\"GUN\"",
+          "\t\t\"VERTICAL_SCAN\"",
+          "\t\t\"BORE\"",
+          "\t\t\"HELMET\"",
+          "\t\t\"STT\"",
+          "\t\t\"OFF\"",
+          "\t}",
+          "\t\"LNG\" submodes",
+          "\t{",
+          "\t\t\"GUN\"",
+          "\t\t\"OFF\"",
+          "\t\t\"FLOOD\"  -- F-15 only",
+          "\t}",
+          "\t\"A2G\" submodes",
+          "\t{",
+          "\t\t\"GUN\"",
+          "\t\t\"ETS\"       -- Emitter Targeting System On",
+          "\t\t\"PINPOINT\"",
+          "\t\t\"UNGUIDED\"  -- unguided weapon (free fall bombs, dispensers , rockets)",
+          "\t\t\"OFF\"",
+          "\t}",
+          "--]=]",
+          "\tRequirements =  -- required parameters of flight",
+          "\t{",
+          "\t\troll,\t   -- required roll,pitch.. , etc.",
+          "\t\tpitch,",
+          "\t\tspeed,",
+          "\t\tvertical_speed,",
+          "\t\taltitude,",
+          "\t}",
+          "\tACS =   -- current state of the Automatic Control System",
+          "\t{",
+          "\t\tmode = string ,",
+          "\t\t--[=[",
+          "\t\t\tmode values  are :",
+          "\t\t\t\t\t\"FOLLOW_ROUTE\",",
+          "\t\t\t\t\t\"BARO_HOLD\",",
+          "\t\t\t\t\t\"RADIO_HOLD\",",
+          "\t\t\t\t\t\"BARO_ROLL_HOLD\",",
+          "\t\t\t\t\t\"HORIZON_HOLD\",",
+          "\t\t\t\t\t\"PITCH_BANK_HOLD\",",
+          "\t\t\t\t\t\"OFF\"",
+          "\t\t--]=]",
+          "\t\tautothrust , -- 1(true) if autothrust mode is on or 0(false) when not;",
+          "\t}",
+          "}"
+        ],
+        "fields": [
+          "SystemMode",
+          "Requirements",
+          "ACS"
+        ],
+        "line": 505,
+        "name": "LoGetNavigationInfo",
+        "params": [],
+        "results": "1( table )",
+        "section": "-- Flight parameters",
+        "text": "(args - 0,results - 1( table )) -- information about ACS"
+      }
+    ],
+    "LoGetObjectById": [
+      {
+        "argsCount": 1,
+        "detail": [
+          " Returned object table structure:",
+          " {",
+          "\tName =",
+          "\tType =  {level1,level2,level3,level4},  ( see Scripts/database/wsTypes.lua) Subtype is absent  now",
+          "\tCountry   =   number ( see Scripts/database/db_countries.lua",
+          "\tCoalition =",
+          "\tCoalitionID = number ( 1 or 2 )",
+          "\tLatLongAlt = { Lat = , Long = , Alt = }",
+          "\tHeading =   radians",
+          "\tPitch      =   radians",
+          "\tBank      =  radians",
+          "\tPosition = {x,y,z} -- in internal DCS coordinate system ( see convertion routnes below)",
+          "\t-- only for units ( Planes,Hellicopters,Tanks etc)",
+          "\tUnitName    = unit name from mission (UTF8)",
+          "\tGroupName = unit name from mission (UTF8)",
+          "        Flags = {",
+          "\t\tRadarActive = true if the unit has its radar on",
+          "\t\tHuman = true if the unit is human-controlled",
+          "\t\tJamming = true if the unit uses EMI jamming",
+          "\t\tIRJamming = -- same for IR jamming",
+          "\t\tBorn = true if the unit is born (activated)",
+          "\t\tAI_ON = true if the unit's AI is active",
+          "\t\tInvisible = true if the unit is invisible",
+          "\t\tStatic - true if the unit is a static object",
+          "        }",
+          " }"
+        ],
+        "fields": [
+          "Name",
+          "Type",
+          "Country",
+          "Coalition",
+          "CoalitionID",
+          "LatLongAlt",
+          "Heading",
+          "Pitch",
+          "Bank",
+          "Position",
+          "UnitName",
+          "GroupName",
+          "Flags"
+        ],
+        "line": 611,
+        "name": "LoGetObjectById",
+        "params": [],
+        "results": "1 (table)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 1 (number), results - 1 (table))"
+      }
+    ],
+    "LoGetPayloadInfo": [
+      {
+        "detail": [
+          "result_of_LoGetPayloadInfo",
+          "{",
+          "\tCurrentStation = , -- number of current station (0 if no station selected)",
+          "\tStations = {},-- table of stations",
+          "\tCannon =",
+          "\t{",
+          "\t\tshells -- current shells count",
+          "\t}",
+          "}",
+          "station",
+          "{",
+          "\tcontainer = true/false , -- is station container",
+          "\tweapon    = {level1,level2,level3,level4} , -- world database classification of weapon",
+          "\tcount = ,",
+          "}"
+        ],
+        "fields": [
+          "CurrentStation",
+          "Stations",
+          "Cannon"
+        ],
+        "line": 766,
+        "name": "LoGetPayloadInfo",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- return weapon stations"
+      }
+    ],
+    "LoGetPilotName": [
+      {
+        "argsCount": 0,
+        "line": 444,
+        "name": "LoGetPilotName",
+        "params": [],
+        "results": "1 (text string)",
+        "section": "Output:",
+        "text": "-- pilot name (args - 0, results - 1 (text string))"
+      }
+    ],
+    "LoGetPlayerPlaneId": [
+      {
+        "argsCount": 0,
+        "line": 445,
+        "name": "LoGetPlayerPlaneId",
+        "params": [],
+        "results": "1 (number)",
+        "section": "Output:",
+        "text": "-- ID of the player-controlled aircraft (args - 0, results - 1 (number))"
+      }
+    ],
+    "LoGetPlayerUnitId": [
+      {
+        "argsCount": 0,
+        "line": 446,
+        "name": "LoGetPlayerUnitId",
+        "params": [],
+        "results": "1 (number)",
+        "section": "Output:",
+        "text": "-- ID of the player-controlled unit (air/ground), if applicable (args - 0, results - 1 (number))"
+      }
+    ],
+    "LoGetPlayers": [
+      {
+        "line": 351,
+        "name": "LoGetPlayers",
+        "params": [],
+        "text": "-- returns all players table { { host_id, name }, ... }"
+      }
+    ],
+    "LoGetRadarAltimeter": [
+      {
+        "argsCount": 0,
+        "line": 466,
+        "name": "LoGetRadarAltimeter",
+        "params": [],
+        "results": "1 (meters)",
+        "section": "-- Flight parameters",
+        "text": "-- radar altimeter reading (args - 0, results - 1 (meters))"
+      }
+    ],
+    "LoGetRadioBeaconsStatus": [
+      {
+        "detail": [
+          "{",
+          "\tairfield_near\t,",
+          "\tairfield_far,",
+          "\tcourse_deviation_beacon_lock\t,",
+          "\tglideslope_deviation_beacon_lock",
+          "}"
+        ],
+        "fields": [
+          "airfield_near",
+          "airfield_far",
+          "course_deviation_beacon_lock",
+          "glideslope_deviation_beacon_lock"
+        ],
+        "line": 799,
+        "name": "LoGetRadioBeaconsStatus",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- beacons lock"
+      }
+    ],
+    "LoGetRoute": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "get_route_result =",
+          "{",
+          "\tgoto_point, -- next waypoint",
+          "\troute       -- all waypoints of route (or approach route if arrival or landing)",
+          "}",
+          "waypoint_table =",
+          "{",
+          "\tthis_point_num,        -- number of point ( >= 0)",
+          "\tworld_point = {x,y,z}, -- world position in meters",
+          "\tspeed_req,             -- speed at point m/s",
+          "\testimated_time,        -- sec",
+          "\tnext_point_num,\t\t   -- if -1 that's the end of route",
+          "\tpoint_action           -- name of action \"ATTACKPOINT\",\"TURNPOINT\",\"LANDING\",\"TAKEOFF\"",
+          "}"
+        ],
+        "fields": [
+          "goto_point",
+          "route"
+        ],
+        "line": 490,
+        "name": "LoGetRoute",
+        "params": [],
+        "results": "table",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0,results = table)"
+      }
+    ],
+    "LoGetSelfData": [
+      {
+        "line": 647,
+        "name": "LoGetSelfData",
+        "section": "-- Flight parameters",
+        "text": "return the same result as LoGetObjectById but only for your aircraft and not depended on anti-cheat setting in Export/Config.lua"
+      }
+    ],
+    "LoGetShakeAmplitude": [
+      {
+        "argsCount": 0,
+        "line": 457,
+        "name": "LoGetShakeAmplitude",
+        "params": [],
+        "results": "1 (number)",
+        "section": "-- Flight parameters",
+        "text": "-- shake/vibration amplitude (args - 0, results - 1 (number))"
+      }
+    ],
+    "LoGetSideDeviation": [
+      {
+        "argsCount": 0,
+        "line": 463,
+        "name": "LoGetSideDeviation",
+        "params": [],
+        "results": "1",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0,results - 1)( -1 < result < 1)"
+      }
+    ],
+    "LoGetSightingSystemInfo": [
+      {
+        "detail": [
+          "{",
+          "\tManufacturer  = \"RUS\"/\"USA\"",
+          "\tLaunchAuthorized  = true/false",
+          "\tScanZone =",
+          "\t\t{",
+          "\t\t\t\tposition",
+          "\t\t\t\t{",
+          "\t\t\t\t\tazimuth",
+          "\t\t\t\t\televation",
+          "\t\t\t\t\tif Manufacturer  == \"RUS\" then",
+          "\t\t\t\t\t        distance_manual",
+          "\t\t\t\t\t       exceeding_manual",
+          "\t\t\t\t\tend",
+          "\t\t\t\t   }",
+          "\t\t\t\tcoverage_H",
+          "\t\t\t\t{",
+          "\t\t\t\t\tmin",
+          "\t\t\t\t\tmax",
+          "\t\t\t\t}",
+          "\t\t\t\tsize",
+          "\t\t\t\t{",
+          "\t\t\t\t\tazimuth",
+          "\t\t\t\t\televation",
+          "\t\t\t\t}",
+          "\t\t}",
+          "\t\tscale",
+          "\t\t{",
+          "\t\t\tdistance",
+          "\t\t\tazimuth",
+          "\t\t}",
+          "\t\tTDC",
+          "\t\t{",
+          "\t\t\t\tx",
+          "\t\t\t\ty",
+          "\t\t}",
+          "",
+          "\t\tradar_on   = true/false",
+          "\t\toptical_system_on= true/false",
+          "\t\tECM_on= true/false",
+          "\t\tlaser_on= true/false",
+          "",
+          "\t\tPRF =",
+          "\t\t{",
+          "\t\t\tcurrent ,    -- current PRF value ( changed in ILV mode ) , values are \"MED\" or \"HI\"",
+          "\t\t\tselection ,  -- selection value can be  \"MED\"  \"HI\" or \"ILV\"",
+          "\t\t}",
+          "",
+          "}"
+        ],
+        "fields": [
+          "Manufacturer",
+          "LaunchAuthorized",
+          "ScanZone",
+          "scale",
+          "TDC",
+          "radar_on",
+          "optical_system_on",
+          "ECM_on",
+          "laser_on",
+          "PRF"
+        ],
+        "line": 702,
+        "name": "LoGetSightingSystemInfo",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- sight system info"
+      }
+    ],
+    "LoGetSlipBallPosition": [
+      {
+        "argsCount": 0,
+        "line": 464,
+        "name": "LoGetSlipBallPosition",
+        "params": [],
+        "results": "1",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0,results - 1)( -1 < result < 1)"
+      }
+    ],
+    "LoGetSnares": [
+      {
+        "line": 859,
+        "name": "LoGetSnares",
+        "section": "Coordinates convertion :",
+        "text": "=   {chaff,flare}"
+      }
+    ],
+    "LoGetTWSInfo": [
+      {
+        "detail": [
+          "result_of_LoGetTWSInfo =",
+          "{",
+          "\tMode = , -- current mode (0 - all ,1 - lock only,2 - launch only",
+          "\tEmitters = {table of emitters}",
+          "}",
+          "emitter_table =",
+          "{",
+          "\tID =, -- world ID",
+          "\tType = {level1,level2,level3,level4}, -- world database classification of emitter",
+          "\tPower =, -- power of signal",
+          "\tAzimuth =,",
+          "\tPriority =,-- priority of emitter (int)",
+          "\tSignalType =, -- string with vlues: \"scan\" ,\"lock\", \"missile_radio_guided\",\"track_while_scan\";",
+          "}"
+        ],
+        "fields": [
+          "Mode",
+          "Emitters"
+        ],
+        "line": 751,
+        "name": "LoGetTWSInfo",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- return Threat Warning System status (result  the table )"
+      }
+    ],
+    "LoGetTargetInformation": [
+      {
+        "argsCount": 0,
+        "line": 663,
+        "name": "LoGetTargetInformation",
+        "params": [],
+        "results": "1 (table of current targets tables)",
+        "section": "-- Weapon Control System",
+        "text": "-- (args - 0, results - 1 (table of current targets tables))"
+      }
+    ],
+    "LoGetTrueAirSpeed": [
+      {
+        "argsCount": 0,
+        "line": 451,
+        "name": "LoGetTrueAirSpeed",
+        "params": [],
+        "results": "1 (m/s)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1 (m/s))"
+      }
+    ],
+    "LoGetVectorVelocity": [
+      {
+        "argsCount": 0,
+        "line": 855,
+        "name": "LoGetVectorVelocity",
+        "params": [],
+        "results": "1 (table {x,y,z})",
+        "section": "Coordinates convertion :",
+        "text": "-- (args - 0, results - 1 (table {x,y,z})) velocity vector (world axis)"
+      }
+    ],
+    "LoGetVectorWindVelocity": [
+      {
+        "argsCount": 0,
+        "line": 857,
+        "name": "LoGetVectorWindVelocity",
+        "params": [],
+        "results": "1 (table {x,y,z})",
+        "section": "Coordinates convertion :",
+        "text": "-- (args - 0, results - 1 (table {x,y,z})) wind velocity vector (world axis)"
+      }
+    ],
+    "LoGetVerticalVelocity": [
+      {
+        "argsCount": 0,
+        "line": 458,
+        "name": "LoGetVerticalVelocity",
+        "params": [],
+        "results": "1(m/s)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0, results - 1(m/s))"
+      }
+    ],
+    "LoGetWindAtPoint": [
+      {
+        "argsCount": 4,
+        "detail": [
+          "-- returns: wind_x, wind_y, wind_z, y_w_used",
+          "-- where:",
+          "--   x_w, y_w, z_w - world coordinates (meters)",
+          "--   is_radio_alt  - boolean; if true, y_w is treated as radar altitude and will be converted to absolute altitude",
+          "-- Example:",
+          "--   local wx, wy, wz, yabs = LoGetWindAtPoint(0, 2000, 0, true)",
+          "",
+          "Some analogous joystick/mouse input commands:",
+          "command = 2001 - joystick pitch",
+          "command = 2002 - joystick roll",
+          "command = 2003 - joystick rudder",
+          "-- Thrust values are inverted for some internal reasons, sorry.",
+          "command = 2004 - joystick thrust (both engines)",
+          "command = 2005 - joystick left engine thrust",
+          "command = 2006 - joystick right engine thrust",
+          "command = 2007 - mouse camera rotate left/right",
+          "command = 2008 - mouse camera rotate up/down",
+          "command = 2009 - mouse camera zoom",
+          "command = 2010 - joystick camera rotate left/right",
+          "command = 2011 - joystick camera rotate up/down",
+          "command = 2012 - joystick camera zoom",
+          "command = 2013 - mouse pitch",
+          "command = 2014 - mouse roll",
+          "command = 2015 - mouse rudder",
+          "-- Thrust values are inverted for some internal reasons, sorry.",
+          "command = 2016 - mouse thrust (both engines)",
+          "command = 2017 - mouse left engine thrust",
+          "command = 2018 - mouse right engine thrust",
+          "command = 2019 - mouse trim pitch",
+          "command = 2020 - mouse trim roll",
+          "command = 2021 - mouse trim rudder",
+          "command = 2022 - joystick trim pitch",
+          "command = 2023 - joystick trim roll",
+          "command = 2024 - trim rudder",
+          "command = 2025 - mouse rotate radar antenna left/right",
+          "command = 2026 - mouse rotate radar antenna up/down",
+          "command = 2027 - joystick rotate radar antenna left/right",
+          "command = 2028 - joystick rotate radar antenna up/down",
+          "command = 2029 - mouse MFD zoom",
+          "command = 2030 - joystick MFD zoom",
+          "command = 2031 - mouse move selecter left/right",
+          "command = 2032 - mouse move selecter up/down",
+          "command = 2033 - joystick move selecter left/right",
+          "command = 2034 - joystick move selecter up/down",
+          "",
+          "Some discrete keyboard input commands (value is absent):",
+          "command = 7\t-- Cockpit view",
+          "command = 8\t-- External view",
+          "command = 9\t-- Fly-by view",
+          "command = 10 -- Ground units view",
+          "command = 11 -- Civilian transport view",
+          "command = 12 -- Chase view",
+          "command = 13 -- Navy view",
+          "command = 14 -- Close air combat view",
+          "command = 15 -- Theater view",
+          "command = 16 -- Airfield (free camera) view",
+          "command = 17 --\tInstruments panel view on",
+          "command = 18 -- Instruments panel view off",
+          "command = 19 -- Padlock toggle",
+          "command = 20 --\tStop padlock (in cockpit only)",
+          "command = 21 --\tExternal view for my plane",
+          "command = 22 --\tAutomatic chase mode for launched weapon",
+          "command = 23 --\tView allies only filter",
+          "command = 24 --\tView enemies only filter",
+          "command = 26 -- View allies & enemies filter",
+          "command = 28 -- Rotate the camera left fast",
+          "command = 29 -- Rotate the camera right fast",
+          "command = 30 -- Rotate the camera up fast",
+          "command = 31 -- Rotate the camera down fast",
+          "command = 32 -- Rotate the camera left slow",
+          "command = 33 -- Rotate the camera right slow",
+          "command = 34 -- Rotate the camera up slow",
+          "command = 35 -- Rotate the camera down slow",
+          "command = 36 -- Return the camera to default position",
+          "command = 37 --\tView zoom in fast",
+          "command = 38 -- View zoom out fast",
+          "command = 39 -- View zoom in slow",
+          "command = 40 -- View zoom out slow",
+          "command = 41 -- Pan the camera left",
+          "command = 42 -- Pan the camera right",
+          "command = 43 -- Pan the camera up",
+          "command = 44 -- Pan the camera down",
+          "command = 45 -- Pan the camera left slow",
+          "command = 46 -- Pan the camera right slow",
+          "command = 47 -- Pan the camera up slow",
+          "command = 48 -- Pan the camera down slow",
+          "command = 49 -- Disable panning the camera",
+          "command = 50 -- Allies chat",
+          "command = 51 -- Mission quit",
+          "command = 52 -- Suspend/resume model time",
+          "command = 53 -- Accelerate model time",
+          "command = 54 -- Step by step simulation when model time is suspended",
+          "command = 55 --\tTake control in the track",
+          "command = 57 -- Common chat",
+          "command = 59 -- Altitude stabilization",
+          "command = 62 -- Autopilot",
+          "command = 63 -- Auto-thrust",
+          "command = 64 -- Power up",
+          "command = 65 -- Power down",
+          "command = 68 -- Gear",
+          "command = 69 -- Hook",
+          "command = 70 -- Pack wings",
+          "command = 71 -- Canopy",
+          "command = 72 -- Flaps",
+          "command = 73 -- Air brake",
+          "command = 74 -- Wheel brakes on",
+          "command = 75 -- Wheel brakes off",
+          "command = 76 -- Release drogue chute",
+          "command = 77 -- Drop snar",
+          "command = 78 -- Wingtip smoke",
+          "command = 79 -- Refuel on",
+          "command = 80 -- Refuel off",
+          "command = 81 -- Salvo",
+          "command = 82 -- Jettison weapons",
+          "command = 83 -- Eject",
+          "command = 84 -- Fire on",
+          "command = 85 -- Fire off",
+          "command = 86 -- Radar",
+          "command = 87 -- EOS",
+          "command = 88 -- Rotate the radar antenna left",
+          "command = 89 -- Rotate the radar antenna right",
+          "command = 90 -- Rotate the radar antenna up",
+          "command = 91 -- Rotate the radar antenna down",
+          "command = 92 -- Center the radar antenna",
+          "command = 93 -- Trim left",
+          "command = 94 -- Trim right",
+          "command = 95 -- Trim up",
+          "command = 96 -- Trim down",
+          "command = 97 -- Cancel trimming",
+          "command = 98 -- Trim the rudder left",
+          "command = 99 -- Trim the rudder right",
+          "command = 100 -- Lock the target",
+          "command = 101 -- Change weapon",
+          "command = 102 -- Change target",
+          "command = 103 -- MFD zoom in",
+          "command = 104 -- MFD zoom out",
+          "command = 105 -- Navigation mode   (value 1, 2, 3, 4 for navmode_none, navmode_route, navmode_arrival ,navmode_landing\t)",
+          "command = 106 -- BVR mode",
+          "command = 107 -- VS\tmode",
+          "command = 108 -- Bore mode",
+          "command = 109 -- Helmet mode",
+          "command = 110 -- FI0 mode",
+          "command = 111 -- A2G mode",
+          "command = 112 -- Grid mode",
+          "command = 113 -- Cannon",
+          "command = 114 -- Dispatch wingman - complete mission and RTB",
+          "command = 115 -- Dispatch wingman - complete mission and rejoin",
+          "command = 116 -- Dispatch wingman - toggle formation",
+          "command = 117 -- Dispatch wingman - join up formation",
+          "command = 118 -- Dispatch wingman - attack my target",
+          "command = 119 -- Dispatch wingman - cover my six",
+          "command = 120 -- Take off from ship",
+          "command = 121 -- Cobra",
+          "command = 122 -- Sound on/off",
+          "command = 123 -- Sound recording on",
+          "command = 124 -- Sound recording off",
+          "command = 125 -- View right mirror on",
+          "command = 126 -- View right mirror off",
+          "command = 127 -- View left mirror on",
+          "command = 128 -- View left mirror off",
+          "command = 129 -- Natural head movement view",
+          "command = 131 -- LSO view",
+          "command = 135 -- Weapon to target view",
+          "command = 136 -- Active jamming",
+          "command = 137 -- Increase details level",
+          "command = 138 -- Decrease details level",
+          "command = 139 -- Scan zone left",
+          "command = 140 -- Scan zone right",
+          "command = 141 -- Scan zone up",
+          "command = 142 -- Scan zone down",
+          "command = 143 -- Unlock target",
+          "command = 144 -- Reset master warning",
+          "command = 145 -- Flaps on",
+          "command = 146 -- Flaps off",
+          "command = 147 -- Air brake on",
+          "command = 148 -- Air brake off",
+          "command = 149 -- Weapons view",
+          "command = 150 -- Static objects view",
+          "command = 151 -- Mission targets view",
+          "command = 152 -- Info bar details",
+          "command = 155 -- Refueling boom",
+          "command = 156 -- HUD color selection",
+          "command = 158 -- Jump to terrain view",
+          "command = 159 -- Starts moving F11 camera forward",
+          "command = 160 -- Starts moving F11 camera backward",
+          "command = 161 -- Power up left engine",
+          "command = 162 -- Power down left engine",
+          "command = 163 -- Power up right engine",
+          "command = 164 -- Power down right engine",
+          "command = 169 -- Immortal mode",
+          "command = 175 -- On-board lights",
+          "command = 176 -- Drop snar once",
+          "command = 177 -- Default cockpit angle of view",
+          "command = 178 -- Jettison fuel tanks",
+          "command = 179 -- Wingmen commands panel",
+          "command = 180 -- Reverse objects switching in views",
+          "command = 181 -- Forward objects switching in views",
+          "command = 182 -- Ignore current object in views",
+          "command = 183 -- View all ignored objects in views again",
+          "command = 184 -- Padlock terrain point",
+          "command = 185 -- Reverse the camera",
+          "command = 186 -- Plane up",
+          "command = 187 -- Plane down",
+          "command = 188 -- Bank left",
+          "command = 189 -- Bank right",
+          "command = 190 -- Local camera rotation mode",
+          "command = 191 -- Decelerate model time",
+          "command = 192 -- Jump into the other plane",
+          "command = 193 -- Nose down",
+          "command = 194 -- Nose down end",
+          "command = 195 -- Nose up",
+          "command = 196 -- Nose up end",
+          "command = 197 -- Bank left",
+          "command = 198 -- Bank left end",
+          "command = 199 -- Bank right",
+          "command = 200 -- Bank right end",
+          "command = 201 -- Rudder left",
+          "command = 202 -- Rudder left end",
+          "command = 203 -- Rudder right",
+          "command = 204 -- Rudder right end",
+          "command = 205 -- View up right",
+          "command = 206 -- View down right",
+          "command = 207 -- View down left",
+          "command = 208 -- View up left",
+          "command = 209 -- View stop",
+          "command = 210 -- View up right slow",
+          "command = 211 -- View down right slow",
+          "command = 212 -- View down left slow",
+          "command = 213 -- View up left slow",
+          "command = 214 -- View stop slow",
+          "command = 215 -- Stop trimming",
+          "command = 226 -- Scan zone up right",
+          "command = 227 -- Scan zone down right",
+          "command = 228 -- Scan zone down left",
+          "command = 229 -- Scan zone up left",
+          "command = 230 -- Scan zone stop",
+          "command = 231 -- Radar antenna up right",
+          "command = 232 -- Radar antenna down right",
+          "command = 233 -- Radar antenna down left",
+          "command = 234 -- Radar antenna up left",
+          "command = 235 -- Radar antenna stop",
+          "command = 236 -- Save snap view angles",
+          "command = 237 -- Cockpit panel view toggle",
+          "command = 245 -- Coordinates units toggle",
+          "command = 246 -- Disable model time acceleration",
+          "command = 252 -- Automatic spin recovery",
+          "command = 253 -- Speed retention",
+          "command = 254 -- Easy landing",
+          "command = 258 -- Threat missile padlock",
+          "command = 259 -- All missiles padlock",
+          "command = 261 -- Marker state",
+          "command = 262 -- Decrease radar scan area",
+          "command = 263 -- Increase radar scan area",
+          "command = 264 -- Marker state plane",
+          "command = 265 -- Marker state rocket",
+          "command = 266 -- Marker state plane ship",
+          "command = 267 -- Ask AWACS home airbase",
+          "command = 268 -- Ask AWACS available tanker",
+          "command = 269 -- Ask AWACS nearest target",
+          "command = 270 -- Ask AWACS declare target",
+          "command = 271 -- Easy radar",
+          "command = 272 -- Auto lock on nearest aircraft",
+          "command = 273 -- Auto lock on center aircraft",
+          "command = 274 -- Auto lock on next aircraft",
+          "command = 275 -- Auto lock on previous aircraft",
+          "command = 276 -- Auto lock on nearest surface target",
+          "command = 277 -- Auto lock on center surface target",
+          "command = 278 -- Auto lock on next surface target",
+          "command = 279 -- Auto lock on previous surface target",
+          "command = 280 -- Change cannon rate of fire",
+          "command = 281 -- Change ripple quantity",
+          "command = 282 -- Change ripple interval",
+          "command = 283 -- Switch master arm",
+          "command = 284 -- Change release mode",
+          "command = 285 -- Change radar mode RWS/TWS",
+          "command = 286 -- Change RWR/SPO mode",
+          "command = 288 -- Flight clock reset",
+          "command = 289 -- Zoom in slow stop",
+          "command = 290 -- Zoom out slow stop",
+          "command = 291 -- Zoom in stop",
+          "command = 292 -- Zoom out stop",
+          "command = 295 -- View horizontal stop",
+          "command = 296 -- View vertical stop",
+          "command = 298 -- Jump to fly-by view",
+          "command = 299 -- Camera jiggle",
+          "command = 300 -- Cockpit illumination",
+          "command = 308 -- Change ripple interval down",
+          "command = 309 -- Engines start",
+          "command = 310 -- Engines stop",
+          "command = 311 -- Left engine start",
+          "command = 312 -- Right engine start",
+          "command = 313 -- Left engine stop",
+          "command = 314 -- Right engine stop",
+          "command = 315 -- Power on/off",
+          "command = 316 -- Altimeter pressure increase",
+          "command = 317 -- Altimeter pressure decrease",
+          "command = 318 -- Altimeter pressure stop",
+          "command = 321 -- Fast mouse in views",
+          "command = 322 -- Slow mouse in views",
+          "command = 323 -- Normal mouse in views",
+          "command = 326 -- HUD only view",
+          "command = 327 -- Recover my plane",
+          "command = 328 -- Toggle gear light Near/Far/Off",
+          "command = 331 -- Fast keyboard in views",
+          "command = 332 -- Slow keyboard in views",
+          "command = 333 -- Normal keyboard in views",
+          "command = 334 -- Zoom in for external views",
+          "command = 335 -- Stop zoom in for external views",
+          "command = 336 -- Zoom out for external views",
+          "command = 337 -- Stop zoom out for external views",
+          "command = 338 -- Default zoom in external views",
+          "command = 341 -- A2G combat view",
+          "command = 342 -- Camera view up-left",
+          "command = 343 -- Camera view up-right",
+          "command = 344 -- Camera view down-left",
+          "command = 345 -- Camera view down right",
+          "command = 346 -- Camera pan mode toggle",
+          "command = 347 -- Return the camera",
+          "command = 348 -- Trains/cars toggle",
+          "command = 349 -- Launch permission override",
+          "command = 350 -- Release weapon",
+          "command = 351 -- Stop release weapon",
+          "command = 352 -- Return camera base",
+          "command = 353 -- Camera view up-left slow",
+          "command = 354 -- Camera view up-right slow",
+          "command = 355 -- Camera view down-left slow",
+          "command = 356 -- Camera view down-right slow",
+          "command = 357 -- Drop flare once",
+          "command = 358 -- Drop chaff once",
+          "command = 359 -- Rear view",
+          "command = 360 -- Scores window",
+          "command = 386 -- PlaneStabPitchBank",
+          "command = 387 -- PlaneStabHbarBank",
+          "command = 388 -- PlaneStabHorizont",
+          "command = 389 -- PlaneStabHbar",
+          "command = 390 -- PlaneStabHrad",
+          "command = 391 -- Active IR jamming on/off",
+          "command = 392 -- Laser range-finder on/off",
+          "command = 393 -- Night TV on/off(IR or LLTV)",
+          "command = 394 -- Change radar PRF",
+          "command = 395 -- Keep F11 camera altitude over terrain",
+          "command = 396 -- SnapView0",
+          "command = 397 -- SnapView1",
+          "command = 398 -- SnapView2",
+          "command = 399 -- SnapView3",
+          "command = 400 -- SnapView4",
+          "command = 401 -- SnapView5",
+          "command = 402 -- SnapView6",
+          "command = 403 -- SnapView7",
+          "command = 404 -- SnapView8",
+          "command = 405 -- SnapView9",
+          "command = 406 -- SnapViewStop",
+          "command = 407 -- F11 view binocular mode",
+          "command = 408 -- PlaneStabCancel",
+          "command = 409 -- ThreatWarnSoundVolumeDown",
+          "command = 410 -- ThreatWarnSoundVolumeUp",
+          "command = 411 -- F11 binocular view laser range-finder on/off",
+          "command = 412 -- PlaneIncreaseBase_Distance",
+          "command = 413 -- PlaneDecreaseBase_Distance",
+          "command = 414 -- PlaneStopBase_Distance",
+          "command = 425 -- F11 binocular view IR mode on/off",
+          "command = 426 -- F8 view player targets / all targets",
+          "command = 427 -- Plane autopilot override on",
+          "command = 428 -- Plane autopilot override off",
+          "command = 429 -- Plane route autopilot on/off",
+          "command = 430 -- Gear up",
+          "command = 431 -- Gear down",
+          "",
+          "To be continued..."
+        ],
+        "line": 877,
+        "name": "LoGetWindAtPoint",
+        "params": [
+          "x_w",
+          "y_w",
+          "z_w",
+          "is_radio_alt"
+        ],
+        "results": "4",
+        "section": "Input:",
+        "text": "-- (args - 4, results - 4)"
+      }
+    ],
+    "LoGetWingInfo": [
+      {
+        "detail": [
+          "wingmen_is =",
+          "{",
+          "\twingmen_id   -- world id of wingmen",
+          "\twingmen_position -- world position {x = {x,y,z},   -- orientation X ort",
+          "\t\t\t\t\t\t\t\t\t\ty = {x,y,z},   -- orientation Y ort",
+          "\t\t\t\t\t\t\t\t\t\tz = {x,y,z},   -- orientation Z ort",
+          "\t\t\t\t\t\t\t\t\t\tp = {x,y,z}}   -- position of the center",
+          "\tcurrent_target -- world id of target",
+          "\tordered_target -- world id of target",
+          "\tcurrent_task   -- name of task",
+          "\tordered_task   -- name of task",
+          "\t--[=[",
+          "\tname can be :",
+          "\t\t\t\"NOTHING\"",
+          "\t\t\t\"ROUTE\"",
+          "\t\t\t\"DEPARTURE\"",
+          "\t\t\t\"ARRIVAL\"",
+          "\t\t\t\"REFUELING\"",
+          "\t\t\t\"SOS\"    -- Save Soul of your Wingmen :)",
+          "\t\t\t\"ROUTE\"",
+          "\t\t\t\"INTERCEPT\"",
+          "\t\t\t\"PATROL\"",
+          "\t\t\t\"AIR_ATTACK\"",
+          "\t\t\t\"REFUELING\"",
+          "\t\t\t\"AWACS\"",
+          "\t\t\t\"RECON\"",
+          "\t\t\t\"ESCORT\"",
+          "\t\t\t\"PINPOINT\"",
+          "\t\t\t\"CAS\"",
+          "\t\t\t\"MISSILE_EVASION\"",
+          "\t\t\t\"ENEMY_EVASION\"",
+          "\t\t\t\"SEAD\"",
+          "\t\t\t\"ANTISHIP\"",
+          "\t\t\t\"RUNWAY_ATTACK\"",
+          "\t\t\t\"TRANSPORT\"",
+          "\t\t\t\"LANDING\"",
+          "\t\t\t\"TAKEOFF\"",
+          "\t\t\t\"TAXIING\"",
+          "\t--]=]",
+          "",
+          "}"
+        ],
+        "line": 807,
+        "name": "LoGetWingInfo",
+        "params": [],
+        "section": "-- Weapon Control System",
+        "text": "-- your wingmens info result is vector of wingmens with value:"
+      }
+    ],
+    "LoGetWingTargets": [
+      {
+        "line": 858,
+        "name": "LoGetWingTargets",
+        "section": "Coordinates convertion :",
+        "text": "=   table of {x,y,z}"
+      }
+    ],
+    "LoGetWorldObjects": [
+      {
+        "detail": [
+          "    \"units\" (default)",
+          "    \"ballistic\" - for different type of unguided munition ()bombs,shells,rockets)",
+          "    \"airdromes\" - to get airdrome objects",
+          " Returned table index = object identificator",
+          " Returned object table structure (see LoGetObjectById())"
+        ],
+        "line": 640,
+        "name": "LoGetWorldObjects",
+        "params": [],
+        "results": "1 (table of object tables)",
+        "section": "-- Flight parameters",
+        "text": "-- (args - 0- 1, results - 1 (table of object tables))  arg can be"
+      }
+    ],
+    "LoIsObjectExportAllowed": [
+      {
+        "line": 433,
+        "name": "LoIsObjectExportAllowed",
+        "params": [],
+        "section": "Output:",
+        "text": "-- returns true if world objects data is available"
+      }
+    ],
+    "LoIsOwnshipExportAllowed": [
+      {
+        "detail": [
+          "",
+          "-- Time / simulation state"
+        ],
+        "line": 435,
+        "name": "LoIsOwnshipExportAllowed",
+        "params": [],
+        "section": "Output:",
+        "text": "-- true if ownship data is available"
+      }
+    ],
+    "LoIsSensorExportAllowed": [
+      {
+        "line": 434,
+        "name": "LoIsSensorExportAllowed",
+        "params": [],
+        "section": "Output:",
+        "text": "-- returns true if radar/targets data is available"
+      }
+    ],
+    "LoLoCoordinatesToGeoCoordinates": [
+      {
+        "assigns": "{latitude,longitude}",
+        "detail": [
+          "",
+          "-- Misc (ownship)"
+        ],
+        "line": 852,
+        "name": "LoLoCoordinatesToGeoCoordinates",
+        "params": [
+          "x",
+          "z"
+        ],
+        "section": "Coordinates convertion :"
+      }
+    ],
+    "LoRemoveSharedTexture": [
+      {
+        "line": 1493,
+        "name": "LoRemoveSharedTexture",
+        "params": [
+          "name"
+        ],
+        "text": "-- copy texture with name \"name\"  to named shared memory area \"name\""
+      }
+    ],
+    "LoSendForceCamera": [
+      {
+        "line": 353,
+        "name": "LoSendForceCamera",
+        "params": [
+          "host_id",
+          "request"
+        ],
+        "text": "-- send camera request to host_id ( 0 -> to all other hosts )"
+      }
+    ],
+    "LoSetAllowRemoteForceCameraRequests": [
+      {
+        "line": 352,
+        "name": "LoSetAllowRemoteForceCameraRequests",
+        "params": [
+          "true/false"
+        ],
+        "text": "-- false by default, set true to process incoming remote camera requests locally"
+      }
+    ],
+    "LoSetCameraPosition": [
+      {
+        "argsCount": 1,
+        "detail": [
+          "\tpos table structure:",
+          "\t{",
+          "\t\tx = {x = ..., y = ..., z = ...},\t-- orientation x-vector",
+          "\t\ty = (x = ..., y = ..., z = ...},\t-- orientation y-vector",
+          "\t\tz = {x = ..., y = ..., z = ...},\t-- orientation z-vector",
+          "\t\tp = {x = ..., y = ..., z = ...}\t\t-- point vector",
+          "    }",
+          "    all coordinates are in meters. You can use Vector class for position vectors."
+        ],
+        "line": 864,
+        "name": "LoSetCameraPosition",
+        "params": [
+          "pos"
+        ],
+        "results": "0",
+        "section": "Input:",
+        "text": "-- (args - 1: view camera current position table, results - 0)"
+      }
+    ],
+    "LoSetCommand": [
+      {
+        "argsCount": 2,
+        "detail": [
+          "-1.0 <= value <= 1.0"
+        ],
+        "line": 874,
+        "name": "LoSetCommand",
+        "params": [
+          "command",
+          "value"
+        ],
+        "results": "0",
+        "section": "Input:",
+        "text": "-- (args - 2, results - 0)"
+      }
+    ],
+    "LoSetSharedTexture": [
+      {
+        "line": 1492,
+        "name": "LoSetSharedTexture",
+        "params": [
+          "name"
+        ],
+        "text": "-- register texture with name \"name\"  to export"
+      }
+    ],
+    "LoSimulationOnActivePause": [
+      {
+        "argsCount": 0,
+        "detail": [
+          "",
+          "-- Player / ownship"
+        ],
+        "line": 441,
+        "name": "LoSimulationOnActivePause",
+        "params": [],
+        "results": "1 (boolean)",
+        "section": "Output:",
+        "text": "-- true if simulation is in active pause (args - 0, results - 1 (boolean))"
+      }
+    ],
+    "LoSimulationOnPause": [
+      {
+        "argsCount": 0,
+        "line": 440,
+        "name": "LoSimulationOnPause",
+        "params": [],
+        "results": "1 (boolean)",
+        "section": "Output:",
+        "text": "-- true if simulation is paused (args - 0, results - 1 (boolean))"
+      }
+    ],
+    "LoUpdateExternalFlightModel": [
+      {
+        "detail": [
+          "",
+          "",
+          "--local seat_number \t\t \t = LoGetPlayerSeat()  \t\t\t\t-- get active player seat number for multicrew  aircraft (starting with 0)  , requires ownship export allowed",
+          "--local acceleration_factor = LoGetModelTimeAcceleration() \t-- return current model time acceleration factor",
+          "--local netrunning  \t\t\t = LoGetNetIsRunning()  \t\t\t-- return  true in session is running in multiplayer mode",
+          "--local istrack     \t\t\t = LoGetTrackIsReading() \t\t\t-- return  true in session is actually track replay"
+        ],
+        "line": 1448,
+        "name": "LoUpdateExternalFlightModel",
+        "params": [
+          "binary_data"
+        ],
+        "text": "update function"
+      }
+    ],
+    "LoUpdateSharedTexture": [
+      {
+        "detail": [
+          "--       texture exported like Windows BMP file",
+          "--      --------------------------------",
+          "--      |BITMAPFILEHEADER   |",
+          "--      |BITMAPINFOHEADER |",
+          "--      |bits                                  |",
+          "--      --------------------------------",
+          "--      sample textures   :  \"mfd0\"    -  full  SHKVAL screen",
+          "--                                      \"mfd1\"     -  ABRIS map screen",
+          "--                                      \"mfd2\"    - not used",
+          "--                                      \"mfd3\"    - not used",
+          "--                                      \"mirrors\" - mirrors"
+        ],
+        "line": 1494,
+        "name": "LoUpdateSharedTexture",
+        "params": [
+          "name"
+        ],
+        "text": "-- unregister texture"
+      }
+    ]
+  },
+  "source": "Scripts/Export.lua comments"
+}

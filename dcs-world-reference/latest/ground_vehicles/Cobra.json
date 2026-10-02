@@ -1,0 +1,324 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.01
+  },
+  "attributes": [
+    "APC",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 700,
+    "nominalCapacity": 700
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.07,
+    "sensor": {
+      "heightM": 1.9,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 1200
+  },
+  "dimensions": {
+    "lengthM": 5.23,
+    "massKg": 6200,
+    "widthM": 2.22
+  },
+  "displayName": "Scout Cobra",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "Cobra",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2.8
+    }
+  ],
+  "mobility": {
+    "enginePower": 190,
+    "fordingDepthM": 1.9,
+    "maxRoadSpeedMs": 32,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 115.2,
+    "maxVertObstacleM": 0.32,
+    "minTurnRadiusM": 8.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "mapClassKey": "P0091000004",
+    "shape": "Otokar_Cobra",
+    "shapeDestroyed": "Otokar_Cobra_p1"
+  },
+  "operators": [
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1997,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 2006,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN",
+      "years": {
+        "from": 2008,
+        "to": 9999
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 2005,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA",
+      "years": {
+        "from": 2019,
+        "to": 9999
+      }
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    }
+  ],
+  "tags": [
+    "Armor",
+    "Scout/Recon"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "displayName": "MG 12.7mm",
+      "gunAmmo": [
+        "Utes_12_7x108",
+        "Utes_12_7x108_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "12_7_MG",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.08
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "Utes_12_7x108",
+            "Utes_12_7x108_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 20,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          2.3561944901923,
+          -2.3561944901923,
+          -0.15707963267949,
+          1.0471975511966
+        ],
+        [
+          -2.3561944901923,
+          2.3561944901923,
+          -0.047123889803847,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    }
+  ]
+}

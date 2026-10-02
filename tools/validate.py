@@ -1,36 +1,40 @@
 #!/usr/bin/env python3
-import sys
-import json
 import argparse
+import json
 import re
+import sys
+from collections.abc import Iterable, Sequence
 from pathlib import Path
+from typing import Any
+
 from jsonschema import Draft7Validator, RefResolver
+from jsonschema.protocols import Validator
 from ruamel.yaml import YAML
-from ruamel.yaml.error import YAMLError
 from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.error import YAMLError
 
 DEFAULT_SCHEMA_FILENAME = "dcs_yaml_schema.yaml"
 _yaml = YAML(typ="safe")
 
 
-def load_schema(path: Path):
+def load_schema(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as f:
         return (
             _yaml.load(f) if path.suffix.lower() in {".yaml", ".yml"} else json.load(f)
         )
 
 
-def load_yaml(path: Path):
+def load_yaml(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as f:
         return _yaml.load(f)
 
 
-def lc(node):
+def lc(node: Any) -> tuple[int | None, int | None]:
     return (node.lc.line + 1, node.lc.col + 1) if hasattr(node, "lc") else (None, None)
 
 
-def collect(paths):
-    out = []
+def collect(paths: Iterable[str | Path]) -> list[Path]:
+    out: list[Path] = []
     for p in paths:
         p = Path(p)
         if p.is_file():
@@ -41,7 +45,12 @@ def collect(paths):
     return sorted(set(out))
 
 
-def tree_lines(segs, msg, line=None, col=None):
+def tree_lines(
+    segs: Iterable[str | int],
+    msg: str,
+    line: int | None = None,
+    col: int | None = None,
+) -> list[str]:
     segs = [s for s in segs if s]
     lines = []
     for i, seg in enumerate(segs):
@@ -50,14 +59,14 @@ def tree_lines(segs, msg, line=None, col=None):
             lines.append(f"{indent}└─ {seg}")
         else:
             loc = f" (line {line}, col {col})" if line else ""
-            lines.append(f"{indent}└─ {seg} – {msg}{loc}")
+            lines.append(f"{indent}└─ {seg} \N{EN DASH} {msg}{loc}")
     return lines
 
 
-def collect_errors(entry, validator, base=""):
-    errs = []
+def collect_errors(entry: Any, validator: Validator, base: str = "") -> list[str]:
+    errs: list[str] = []
     for err in sorted(validator.iter_errors(entry), key=lambda e: (e.path, e.message)):
-        full_path = list(filter(None, base.split("/"))) + list(err.path)
+        full_path: list[str | int] = [*filter(None, base.split("/")), *err.path]
         line_num, c = lc(err.instance)
         errs.extend(tree_lines(full_path, err.message, line_num, c))
         if err.validator == "additionalProperties" and isinstance(
@@ -74,13 +83,13 @@ def collect_errors(entry, validator, base=""):
                     )
                     errs.extend(
                         tree_lines(
-                            full_path + [k], f"unexpected property '{k}'", kl, kc
+                            [*full_path, k], f"unexpected property '{k}'", kl, kc
                         )
                     )
     return errs
 
 
-def build_validators(schema):
+def build_validators(schema: Any) -> tuple[Validator, Validator, Validator]:
     resolver = RefResolver.from_schema(schema)
     return (
         Draft7Validator(schema, resolver=resolver),
@@ -89,8 +98,10 @@ def build_validators(schema):
     )
 
 
-def validate_file(fp, data, v_root, v_global, v_type):
-    errors = []
+def validate_file(
+    fp: Path, data: Any, v_root: Validator, v_global: Validator, v_type: Validator
+) -> list[str]:
+    errors: list[str] = []
     if isinstance(data, dict) and ("globals" in data or "types" in data):
         if "globals" in data:
             for n, e in data["globals"].items():
@@ -113,7 +124,7 @@ def validate_file(fp, data, v_root, v_global, v_type):
     return errors
 
 
-def resolve_schema(paths, explicit):
+def resolve_schema(paths: Sequence[str], explicit: str | None) -> Path:
     if explicit:
         return Path(explicit)
     if len(paths) == 1 and Path(paths[0]).is_dir():
@@ -123,7 +134,7 @@ def resolve_schema(paths, explicit):
     return Path.cwd() / DEFAULT_SCHEMA_FILENAME
 
 
-def main():
+def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("target", nargs="?", default=".")
     ap.add_argument("--schema")

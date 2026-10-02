@@ -1,0 +1,42 @@
+globals: {}
+
+types:
+  Entity.Attribute:
+    kind: record
+    description: "A unit attribute: a capability or classification tag that units, weapons and sensors reference by id."
+    fields:
+      id:
+        type: string
+        description: "Unique attribute identifier."
+      description:
+        type: string
+        description: "Optional human-readable explanation of the attribute; the dump has none."
+      units:
+        type: Entity.AttributeUnits
+        description: "Optional ids of the unit records carrying this attribute (derived from their `attributes`)."
+    required: [id]
+
+  Entity.AttributeUnits:
+    kind: record
+    description: "Unit ids per unit series, sorted. Ids are unique only within a series."
+    fields:
+      aircraft:
+        type: string[]
+        ref: Entity.Aircraft
+        description: "Optional `Entity.Aircraft` ids."
+      groundVehicles:
+        type: string[]
+        ref: Entity.GroundVehicle
+        description: "Optional `Entity.GroundVehicle` ids."
+      personnel:
+        type: string[]
+        ref: Entity.Personnel
+        description: "Optional `Entity.Personnel` ids."
+      ships:
+        type: string[]
+        ref: Entity.Ship
+        description: "Optional `Entity.Ship` ids."
+      structures:
+        type: string[]
+        ref: Entity.Structure
+        description: "Optional `Entity.Structure` ids."

@@ -1,0 +1,282 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          33.6,
+          2
+        ],
+        [
+          33.6,
+          180,
+          0.75
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          45,
+          1
+        ],
+        [
+          45,
+          90,
+          0.5
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          2
+        ],
+        [
+          20,
+          180,
+          0.75
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.01
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.07,
+    "sensor": {
+      "heightM": 2.3,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 10500
+  },
+  "dimensions": {
+    "lengthM": 4.88,
+    "massKg": 11000,
+    "widthM": 2.28
+  },
+  "displayName": "SPH Sd.Kfz.124 Wespe 105mm",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "Wespe124",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 103,
+    "fordingDepthM": 0.5,
+    "maxRoadSpeedMs": 11.11,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 39.996,
+    "maxVertObstacleM": 0.42,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "61": 1.36,
+        "62": 1.36,
+        "63": 2.69,
+        "64": 2.69
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.115
+        },
+        {
+          "arg": 1,
+          "value": 0.255
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "Wespe124",
+    "mapClassKey": "P0091000006",
+    "positioning": "BYNORMAL",
+    "shape": "Wespe124",
+    "shapeDestroyed": "Wespe124_p_1"
+  },
+  "operators": [
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1943,
+        "to": 1945
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day"
+  ],
+  "tags": [
+    "Artillery",
+    "SPA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "leFH18_105HE"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 6,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 40,
+          "gunAmmo": [
+            "leFH18_105HE"
+          ],
+          "portionReloadTimeS": 10,
+          "shotDelayS": 10
+        }
+      ],
+      "rMaxKm": 10.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 100,
+      "sectorsRad": [
+        [
+          0.34906585039887,
+          -0.34906585039887,
+          -0.087266462599716,
+          0.73303828583762
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.17453292519943
+      },
+      "ws": 1
+    }
+  ]
+}

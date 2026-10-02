@@ -10,9 +10,22 @@ vars:
   OUTPUT_GO: "{{.DIST_DIR}}/dcs-world-api.go"
   OUTPUT_PYTHON: "{{.DIST_DIR}}/dcs_world_api.py"
   OUTPUT_SELENE_YAML: "{{.DIST_DIR}}/dcs-world-selene.yml"
-  DCS_API_DUMP: ./reference_data/dcs_world_api_dump_latest.json
+  OUTPUT_JSON_SCHEMA: "{{.DIST_DIR}}/dcs-world-entities.schema.json"
+  # `task verify` compares the mission scripting API with the API dump hook's
+  # scripting env (and the argument probe next to it).
+  DCS_API_DUMP: ./dcs-world-reference/latest/api/scripting.json
   LINT_TARGETS: "{{.SCHEMA_DIR}}/*.yaml"
-  SRC_PY: ./tools
+  SRC_PY: ./tools ./packages
+  # Pinned staticcheck (honnef.co/go/tools v0.8.1 = 2026.2.1), installed into .tools/.
+  STATICCHECK_VERSION: v0.8.1
+  STATICCHECK_DIR: "{{.ROOT_DIR}}/.tools/staticcheck-{{.STATICCHECK_VERSION}}"
+  STATICCHECK: "{{.STATICCHECK_DIR}}/staticcheck{{exeExt}}"
+  PKG_TS: ./packages/typescript
+  PKG_PY: ./packages/python
+  PKG_LUA: ./packages/lua
+  PKG_GO: ./packages/go
+  # dcs-headless for `task datamine`; pinned to a commit on main.
+  DCS_HEADLESS: "dcs-headless @ git+https://github.com/YoloWingPixie/dcs-headless@b1c5879930f55dc5a9a965a66fe98c747ba26b01"
 
 tasks:
   setup:
@@ -142,21 +155,36 @@ tasks:
 
   merge:
     desc: "Merge all source YAML into a single JSON and YAML schema"
+    run: once
     deps:
       - merge:json
       - merge:yaml
 
   merge:json:
     desc: "Merge all source YAML into a single JSON schema"
+    run: once
+    sources:
+      - "{{.SCHEMA_DIR}}/**/*.yaml"
+      - tools/merge.py
+      - tools/spec_types.py
+    generates:
+      - "{{.OUTPUT_SCHEMA_JSON}}"
     cmds:
       - echo "Merging YAML files from {{.SCHEMA_DIR}} into {{.OUTPUT_SCHEMA_JSON}}..."
-      - uv run ./tools/merge.py {{.OUTPUT_SCHEMA_JSON}} --root {{.SCHEMA_DIR}} -f json
+      - uv run python -m tools.merge {{.OUTPUT_SCHEMA_JSON}} --root {{.SCHEMA_DIR}} -f json
 
   merge:yaml:
     desc: "Merge all source YAML into a single YAML schema"
+    run: once
+    sources:
+      - "{{.SCHEMA_DIR}}/**/*.yaml"
+      - tools/merge.py
+      - tools/spec_types.py
+    generates:
+      - "{{.OUTPUT_SCHEMA_YAML}}"
     cmds:
       - echo "Merging YAML files from {{.SCHEMA_DIR}} into {{.OUTPUT_SCHEMA_YAML}}..."
-      - uv run ./tools/merge.py {{.OUTPUT_SCHEMA_YAML}} --root {{.SCHEMA_DIR}} -f yaml
+      - uv run python -m tools.merge {{.OUTPUT_SCHEMA_YAML}} --root {{.SCHEMA_DIR}} -f yaml
 
   validate:
     desc: "Validate all YAML files in the schema directory"
@@ -177,20 +205,166 @@ tasks:
     deps:
       - merge
     cmds:
-      - "uv run ./tools/validate_types.py {{.OUTPUT_SCHEMA_JSON}}"
+      - "uv run python -m tools.validate_types {{.OUTPUT_SCHEMA_JSON}}"
 
   verify:
-    desc: "Compare generated schema with the official DCS API dump"
+    desc: "Compare the merged schema with the mission scripting API dump (dcs-world-reference/latest/api/scripting.json)"
     deps:
       - merge
     cmds:
-      - "uv run ./tools/verify.py {{.OUTPUT_SCHEMA_JSON}} {{.DCS_API_DUMP}}"
+      - "uv run python -m tools.verify {{.OUTPUT_SCHEMA_JSON}} {{.DCS_API_DUMP}}"
+
+  check-enums:
+    desc: >-
+      Fail where an enum disagrees with DCS: its scripting API table, its
+      constant family, the Mission Editor values it takes or the AI.Option tables
+    deps:
+      - merge:json
+    cmds:
+      - "uv run python -m tools.datamine.check_enums {{.OUTPUT_SCHEMA_JSON}}"
+
+  validate-data:
+    desc: >-
+      Validate dcs-world-reference/latest/ against the entity JSON Schema and its
+      cross-references; overlay-listed upstream gaps only warn
+    deps:
+      - build:jsonschema
+    cmds:
+      - "uv run python -m tools.datamine.validate_data"
+
+  test:
+    desc: "Run the datamine and packaging unit tests"
+    cmds:
+      - "uv run pytest -q tools/datamine/tests tools/package/tests"
+
+  coverage:
+    desc: "Run the datamine and packaging unit tests with branch coverage of tools/ ([tool.coverage] in pyproject.toml)"
+    cmds:
+      - "uv run pytest -q --cov --cov-report=term-missing:skip-covered tools/datamine/tests tools/package/tests"
 
   "fmt:py":
-    desc: "Auto-format Python tool scripts"
+    desc: "Check lint and formatting of the Python tools and packages (no changes; fix with `task fmt:py:fix`)"
+    cmds:
+      - "uv run ruff check {{.SRC_PY}}"
+      - "uv run ruff format --check {{.SRC_PY}}"
+
+  "lint:py:types":
+    desc: "Type-check the Python tools with mypy --strict ([tool.mypy] in pyproject.toml)"
+    cmds:
+      - "uv run mypy"
+
+  "lint:lua":
+    desc: "Lint the Lua hooks, harnesses and package with selene (pinned binary in .tools/)"
+    cmds:
+      - "uv run python -m tools.selene"
+
+  "lint:schema":
+    desc: "Check the hand-written schema YAML against the CONTRIBUTING.md conventions"
+    cmds:
+      - "uv run python -m tools.conventions {{.SCHEMA_DIR}}"
+
+  lint:
+    desc: "Run every linter that needs no package build (Python, Lua, schema YAML); TypeScript and Go lint in package:test"
+    deps:
+      - "fmt:py"
+      - "lint:py:types"
+      - "lint:lua"
+      - "lint:schema"
+
+  "fmt:py:fix":
+    desc: "Apply ruff fixes and formatting to the Python tools and packages"
     cmds:
       - "uv run ruff check --fix {{.SRC_PY}}"
       - "uv run ruff format {{.SRC_PY}}"
+
+  "datamine:extract":
+    desc: >-
+      Re-extract reference data from the cached .datamine/ dumps without DCS.
+      Usage: task datamine:extract -- [G_DIR] [--out DIR] --install-dir DIR
+      [--terrains-dir DIR] [--api-dir DIR] [--probe-dir DIR]
+    cmds:
+      - "uv run python -m tools.datamine.extract {{.CLI_ARGS}}"
+
+  "datamine:dcs-database-types":
+    desc: >-
+      Regenerate dcs-world-schema/types/dcs-database/ from a _G dump (default .datamine/_G).
+      Usage: task datamine:dcs-database-types -- [--g-dir DIR] [--out DIR] [--check]
+    cmds:
+      - "uv run python -m tools.datamine.dcs_database_types {{.CLI_ARGS}}"
+
+  "datamine:dcs-database-types:check":
+    desc: >-
+      Fail if types/dcs-database/ differs from .datamine/_G; skipped without a dump
+      of the committed DCS version
+    cmds:
+      - "uv run python -m tools.datamine.dcs_database_types --check --if-dumped"
+
+  "datamine:api-schema":
+    desc: >-
+      Regenerate globals/{hooks,server,export}/ from dcs-world-reference/latest/api.
+      Usage: task datamine:api-schema -- [--api-dir DIR] [--out DIR] [--check]
+    cmds:
+      - "uv run python -m tools.datamine.api_schema {{.CLI_ARGS}}"
+
+  "datamine:api-schema:check":
+    desc: >-
+      Fail if globals/{hooks,server,export}/ differ from
+      dcs-world-reference/latest/api; skipped without API dumps
+    cmds:
+      - "uv run python -m tools.datamine.api_schema --check"
+
+  "datamine:actions":
+    desc: >-
+      Print the Mission Editor AI actions/options extraction (counts, problems) without writing.
+      Usage: task datamine:actions -- --install-dir DIR [--g-dir DIR] [--json]
+    cmds:
+      - "uv run python -m tools.datamine.extract_actions {{.CLI_ARGS}}"
+
+  "datamine:action-types":
+    desc: >-
+      Regenerate dcs-world-schema/types/ai/ (DcsTask.*) from dcs-world-reference/latest actions/options.
+      Usage: task datamine:action-types -- [--data-dir DIR] [--out DIR] [--check]
+    cmds:
+      - "uv run python -m tools.datamine.action_types {{.CLI_ARGS}}"
+
+  "datamine:action-types:check":
+    desc: "Fail if dcs-world-schema/types/ai/ differs from dcs-world-reference/latest actions/options"
+    cmds:
+      - "uv run python -m tools.datamine.action_types --check"
+
+  "datamine:id-types":
+    desc: >-
+      Regenerate dcs-world-schema/types/ids/ (DcsId.*) from dcs-world-reference/latest.
+      Usage: task datamine:id-types -- [--data-dir DIR] [--out DIR] [--check]
+    cmds:
+      - "uv run python -m tools.datamine.id_types {{.CLI_ARGS}}"
+
+  "datamine:id-types:check":
+    desc: "Fail if dcs-world-schema/types/ids/ differs from dcs-world-reference/latest"
+    cmds:
+      - "uv run python -m tools.datamine.id_types --check"
+
+  "datamine:actions-probe:plan":
+    desc: >-
+      Show what `task datamine -- --actions-probe` (or, with --followup,
+      `--actions-probe-followup`) would run, without DCS.
+      Usage: task datamine:actions-probe:plan -- [--followup] [--data-dir DIR] [--plan-out FILE] [--plan-json FILE]
+    cmds:
+      - "uv run python -m tools.datamine.actions_probe {{.CLI_ARGS}}"
+
+  datamine:
+    desc: >-
+      Refresh dcs-world-reference by running DCS headless (Windows + WSL; not in ci).
+      Flags: -- --force --probe --actions-probe --actions-probe-followup --probe-restarts N --probe-stall S --install-dir DIR --auth-from DIR
+    cmds:
+      - 'uv run --with "{{.DCS_HEADLESS}}" python -m tools.datamine.refresh {{.CLI_ARGS}}'
+
+  "datamine:probe:plan":
+    desc: >-
+      Show what `task datamine -- --probe` would call and deny, without DCS.
+      Usage: task datamine:probe:plan -- [--api-dir DIR] [--plan-out FILE]
+    cmds:
+      - "uv run python -m tools.datamine.api_probe {{.CLI_ARGS}}"
 
   build:lua:
     desc: "Generate EmmyLua type definitions from the schema"
@@ -198,7 +372,16 @@ tasks:
       - merge:json
     cmds:
       - echo "Generating EmmyLua type definitions to {{.OUTPUT_LUA}}..."
-      - "uv run python ./tools/export_lua.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_LUA}}"
+      - "uv run python -m tools.export_lua {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_LUA}}"
+
+  "test:luals":
+    desc: >-
+      Check dist/dcs-world-api.lua in the pinned LuaLS (.tools/): the
+      diagnostics, completions and hovers the tools/luals/ fixtures expect
+    deps:
+      - build:lua
+    cmds:
+      - "uv run python -m tools.luals {{.OUTPUT_LUA}}"
 
   build:typescript:
     desc: "Generate TypeScript definitions from the schema"
@@ -206,7 +389,7 @@ tasks:
       - merge:json
     cmds:
       - echo "Generating TypeScript definitions to {{.OUTPUT_TS}}..."
-      - "uv run python ./tools/export_typescript.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_TS}}"
+      - "uv run python -m tools.export_typescript {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_TS}}"
 
   build:golang:
     desc: "Generate Go struct definitions from the schema"
@@ -214,7 +397,7 @@ tasks:
       - merge:json
     cmds:
       - echo "Generating Go struct definitions to {{.OUTPUT_GO}}..."
-      - "uv run python ./tools/export_golang.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_GO}}"
+      - "uv run python -m tools.export_golang {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_GO}}"
 
   build:python:
     desc: "Generate Python definitions from the schema"
@@ -222,7 +405,7 @@ tasks:
       - merge:json
     cmds:
       - echo "Generating Python definitions to {{.OUTPUT_PYTHON}}..."
-      - "uv run python ./tools/export_python.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_PYTHON}}"
+      - "uv run python -m tools.export_python {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_PYTHON}}"
 
   build:selene:
     desc: "Generate Selene standard library from the schema"
@@ -230,26 +413,187 @@ tasks:
       - merge:json
     cmds:
       - echo "Generating Selene YAML to {{.OUTPUT_SELENE_YAML}}..."
-      - "uv run python ./tools/export_selene_yaml.py {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_SELENE_YAML}}"
+      - "uv run python -m tools.export_selene_yaml {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_SELENE_YAML}}"
+
+  build:envs:
+    desc: >-
+      Generate dist/dcs-world-api-<env>-schema.json, .lua, .d.ts for the hooks,
+      server and export environments
+    cmds:
+      - "uv run python -m tools.datamine.api_schema dist --dist {{.DIST_DIR}}"
+
+  build:jsonschema:
+    desc: "Generate the entity JSON Schema (validates dcs-world-reference records)"
+    run: once
+    deps:
+      - merge:json
+    sources:
+      - "{{.OUTPUT_SCHEMA_JSON}}"
+      - tools/export_jsonschema.py
+      - tools/spec_types.py
+    generates:
+      - "{{.OUTPUT_JSON_SCHEMA}}"
+      - "{{.DIST_DIR}}/schemas/*.schema.json"
+    cmds:
+      - "uv run python -m tools.export_jsonschema {{.OUTPUT_SCHEMA_JSON}} --output {{.OUTPUT_JSON_SCHEMA}} --editor-dir {{.DIST_DIR}}/schemas"
+
+  "vscode:schemas":
+    desc: >-
+      Regenerate the json.schemas mapping in .vscode/settings.json
+    cmds:
+      - "uv run python -m tools.export_jsonschema --vscode-settings .vscode/settings.json"
 
   build:
     desc: "Generate all exportable formats"
     deps:
+      - build:jsonschema
       - build:lua
       - build:typescript
       - build:golang
       - build:python
       - build:selene
+      - build:envs
     cmds: []
 
-  ci:
-    desc: "Aggregate tasks suitable for CI pipeline"
+  package:
+    desc: >-
+      Build the npm, Python, Lua, SQLite and Go reference-data packages from
+      dcs-world-reference/latest/ (needs Node >= 20.10 and Go >= 1.24)
     deps:
-      - setup
-      - clean
+      - build:jsonschema
+    cmds:
+      - "uv run python -m tools.package.build"
+      - "uv run python -m tools.package.sqlite"
+      - "uv run python -m tools.package.go_package"
+      - task: package:npm
+      - "npm --prefix {{.PKG_TS}} run build"
+      - "npm pack {{.PKG_TS}} --pack-destination {{.DIST_DIR}}"
+      - "uv build {{.PKG_PY}} --out-dir {{.DIST_DIR}}"
+
+  "package:sqlite":
+    desc: >-
+      Build dist/dcs-world-reference-<version>-dcs<dcs version>.sqlite
+    deps:
+      - build:jsonschema
+    cmds:
+      - "uv run python -m tools.package.bundles"
+      - "uv run python -m tools.package.sqlite"
+
+  "package:vectors":
+    desc: >-
+      Regenerate the helper conformance vectors from the Python package
+      (after `task package`)
+    cmds:
+      - "uv run python -m tools.package.vectors"
+
+  "package:go":
+    desc: >-
+      Generate the Go module's gitignored files in packages/go
+    deps:
+      - build:jsonschema
+    cmds:
+      - "uv run python -m tools.package.build"
+      - "uv run python -m tools.package.go_package"
+
+  "package:go-release":
+    desc: >-
+      Commit the generated Go files onto a release commit off HEAD and tag
+      v<VERSION> and packages/go/v<VERSION>. Usage: task package:go-release -- --dry-run
+    deps:
+      - "package:go"
+    cmds:
+      - "uv run python -m tools.package.go_release {{.CLI_ARGS}}"
+
+  "package:npm":
+    desc: "Install the TypeScript package's dev dependencies (when its lock file changed)"
+    internal: true
+    sources:
+      - "{{.PKG_TS}}/package.json"
+      - "{{.PKG_TS}}/package-lock.json"
+    generates:
+      - "{{.PKG_TS}}/node_modules/.package-lock.json"
+    cmds:
+      - "npm --prefix {{.PKG_TS}} ci --no-audit --no-fund"
+
+  "tools:staticcheck":
+    desc: "Install the pinned staticcheck into .tools/ (when it is missing)"
+    internal: true
+    status:
+      - test -f "{{.STATICCHECK}}"
+    cmds:
+      - 'GOBIN="{{.STATICCHECK_DIR}}" go install honnef.co/go/tools/cmd/staticcheck@{{.STATICCHECK_VERSION}}'
+
+  "package:test":
+    desc: >-
+      Build the packages, type-check the bundles and run each package's tests
+      and the helper conformance vectors
+    deps:
+      - package
+    vars:
+      VERSION:
+        sh: tr -d '[:space:]' < VERSION
+      WHEEL: "{{.DIST_DIR}}/dcs_world_reference-{{.VERSION}}-py3-none-any.whl"
+      PY_TEST_ENV: "uv run --isolated --no-project --reinstall-package dcs-world-reference --with {{.WHEEL}} --with pytest --with mypy==2.3.1"
+    cmds:
+      - "uv run python -m tools.package.vectors --check"
+      - "npm --prefix {{.PKG_TS}} test"
+      - "npm --prefix {{.PKG_TS}} run lint -- --cache"
+      - |
+        tgz="$(pwd)/{{.DIST_DIR}}/dcs-world-reference-{{.VERSION}}.tgz"
+        tmp="$(mktemp -d)"
+        trap 'rm -rf "$tmp"' EXIT
+        cd "$tmp"
+        npm init -y >/dev/null
+        npm install --no-audit --no-fund --silent "$tgz"
+        node --input-type=module -e "
+          import { aircraftCarrying, dcsVersion, loadAircraft } from 'dcs-world-reference';
+          import { stores } from 'dcs-world-reference/stores';
+          const aircraft = await loadAircraft();
+          if (!Object.keys(aircraft).length || !Object.keys(stores).length) throw new Error('empty series');
+          if (!(await aircraftCarrying('AIM_120C')).length) throw new Error('empty index');
+          console.log('npm tarball loads:', dcsVersion);
+        "
+      - >-
+        {{.PY_TEST_ENV}} sh -c
+        "mypy --strict {{.PKG_PY}}/src/dcs_world_reference {{.PKG_PY}}/tests
+        && pytest -q -p no:cacheprovider {{.PKG_PY}}/tests"
+      - "uv run pytest -q {{.PKG_LUA}}/tests"
+      - task: "tools:staticcheck"
+      - |
+        cd {{.PKG_GO}}
+        unformatted="$(gofmt -l .)"
+        if [ -n "$unformatted" ]; then echo "not gofmt-formatted: $unformatted"; exit 1; fi
+        go vet ./...
+        "{{.STATICCHECK}}" -checks all ./...
+        go test ./...
+      - >-
+        DCS_REF_SQLITE="$(ls {{.DIST_DIR}}/dcs-world-reference-{{.VERSION}}-dcs*.sqlite)"
+        uv run pytest -q tools/package/tests/test_sqlite.py
+
+  ci:
+    desc: >-
+      Everything CI runs, from a clean dist/; fails if `task package` changed the
+      committed package versions (needs Node, Go and Lua 5.1)
+    cmds:
+      - task: setup
+      - task: clean
+      - task: ci:checks
+      - git diff --exit-code -- {{.PKG_TS}}/package.json {{.PKG_TS}}/package-lock.json {{.PKG_PY}}/pyproject.toml
+
+  ci:checks:
+    internal: true
+    deps:
       - merge
       - validate
       - validate-types
       - verify
-      - "fmt:py"
-    cmds: []
+      - check-enums
+      - "test:luals"
+      - validate-data
+      - test
+      - "datamine:dcs-database-types:check"
+      - "datamine:api-schema:check"
+      - "datamine:action-types:check"
+      - "datamine:id-types:check"
+      - lint
+      - "package:test"

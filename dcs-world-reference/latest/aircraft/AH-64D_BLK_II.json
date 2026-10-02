@@ -1,0 +1,2766 @@
+{
+  "aero": {
+    "emptyMassKg": 5930.47,
+    "internalFuelKg": 1140,
+    "maxSpeedKmh": 365,
+    "maxTakeoffKg": 9189.94
+  },
+  "attributes": [
+    "AFAPD",
+    "Air",
+    "All",
+    "Attack helicopters",
+    "Datalink",
+    "Helicopters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Refuelable"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 30,
+      "increment": 30
+    },
+    "cmdsEdit": false,
+    "dispensers": [
+      {
+        "direction": [
+          0.821,
+          -0.191,
+          -0.537
+        ],
+        "position": [
+          -5.857,
+          -0.301,
+          -0.543
+        ]
+      },
+      {
+        "direction": [
+          0.821,
+          -0.191,
+          0.537
+        ],
+        "position": [
+          -5.857,
+          -0.301,
+          0.542
+        ]
+      },
+      {
+        "direction": [
+          -0.484,
+          0.75,
+          -0.451
+        ],
+        "position": [
+          -7.339,
+          -0.169,
+          -0.456
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 60,
+      "increment": 30
+    },
+    "singleChargeTotal": 90
+  },
+  "countryOfOrigin": "USA",
+  "crew": 2,
+  "datalink": "AH-64D_BLK_II",
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 225,
+    "maxMHz": 399.975,
+    "minMHz": 30,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 31,
+    "name": "CAS"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.2,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 4.15,
+    "lengthM": 17.87,
+    "rotorDiameterM": 14.63
+  },
+  "displayName": "AH-64D BLK.II",
+  "failures": [
+    {
+      "id": "APU_Fire",
+      "label": "APU Fire"
+    },
+    {
+      "id": "LeftEngine_Fire",
+      "label": "Engine 1 Fire"
+    },
+    {
+      "id": "RightEngine_Fire",
+      "label": "Engine 2 Fire"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "M230_HEDP M789",
+      "M230_TP M788"
+    ],
+    "defaultMix": 1,
+    "mixes": [
+      {
+        "label": "M789 HEDP"
+      },
+      {
+        "label": "M788 TP"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "M230_HEDP M789",
+          "M230_TP M788"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "M230_HEDP M789"
+            ]
+          },
+          {
+            "ammo": [
+              "M230_TP M788"
+            ]
+          }
+        ],
+        "rounds": 1200,
+        "type": "M_230_new"
+      }
+    ],
+    "rounds": 1200,
+    "type": "M_230_new"
+  },
+  "id": "AH-64D_BLK_II",
+  "kind": "rotary",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 20
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 509,
+      "control": "checkbox",
+      "default": true,
+      "id": "PltNVG",
+      "label": "Allow Plt NVG"
+    },
+    {
+      "arg": 519,
+      "control": "checkbox",
+      "default": true,
+      "id": "CpgNVG",
+      "label": "Allow Cpg NVG"
+    },
+    {
+      "control": "label",
+      "id": "flaresProgram_Label",
+      "label": "FLARES"
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "FlareBurstCount",
+      "label": "Flare Burst Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "1"
+        },
+        {
+          "id": 1,
+          "label": "2"
+        },
+        {
+          "id": 2,
+          "label": "3"
+        },
+        {
+          "id": 3,
+          "label": "4"
+        },
+        {
+          "id": 4,
+          "label": "6"
+        },
+        {
+          "id": 5,
+          "label": "8"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "FlareBurstInterval",
+      "label": "Flare Burst Interval, [sec]",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "0.1"
+        },
+        {
+          "id": 1,
+          "label": "0.2"
+        },
+        {
+          "id": 2,
+          "label": "0.3"
+        },
+        {
+          "id": 3,
+          "label": "0.4"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "FlareSalvoCount",
+      "label": "Flare Salvo Count",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "1"
+        },
+        {
+          "id": 1,
+          "label": "2"
+        },
+        {
+          "id": 2,
+          "label": "4"
+        },
+        {
+          "id": 3,
+          "label": "8"
+        },
+        {
+          "id": 4,
+          "label": "Continuous"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "FlareSalvoInterval",
+      "label": "Flare Salvo Interval, [sec]",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "1"
+        },
+        {
+          "id": 1,
+          "label": "2"
+        },
+        {
+          "id": 2,
+          "label": "3"
+        },
+        {
+          "id": 3,
+          "label": "4"
+        },
+        {
+          "id": 4,
+          "label": "5"
+        },
+        {
+          "id": 5,
+          "label": "8"
+        },
+        {
+          "id": 6,
+          "label": "Random"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 3,
+      "id": "FlareProgramDelay",
+      "label": "Flare Delay btw. Programs, [sec]",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "1"
+        },
+        {
+          "id": 1,
+          "label": "2"
+        },
+        {
+          "id": 2,
+          "label": "3"
+        },
+        {
+          "id": 3,
+          "label": "4"
+        }
+      ]
+    },
+    {
+      "control": "label",
+      "id": "mul_Label",
+      "label": "AI HELPER"
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "OverrideIFF",
+      "label": "AI IFF Detection Mode",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Auto"
+        },
+        {
+          "id": 1,
+          "label": "Simple"
+        },
+        {
+          "id": 2,
+          "label": "Label Only"
+        },
+        {
+          "id": 3,
+          "label": "Realistic"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": true,
+      "id": "TrackAirTargets",
+      "label": "Track Air Targets"
+    },
+    {
+      "control": "label",
+      "id": "mul_Label",
+      "label": "MULTIPLAYER"
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "CPG"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "AIDisabled",
+      "label": "AI Disabled"
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "HumanOrchestra",
+      "label": "Disable Multicrew",
+      "playerOnly": true
+    },
+    {
+      "control": "label",
+      "id": "dataluink_Label",
+      "label": "DATALINK"
+    },
+    {
+      "control": "editbox",
+      "id": "TN_IDM_LB",
+      "label": "Datalink Originator ID"
+    },
+    {
+      "control": "editbox",
+      "id": "OwnshipCallSign",
+      "label": "Ownship CallSign"
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.93969262078591,
+      -0.95280922353749,
+      -0.96592582628907,
+      -0.049950211252315,
+      0.86602540378444
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          610
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          264
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          257
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          256
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          62
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          61
+        ],
+        "cell": 41
+      },
+      {
+        "args": [
+          245,
+          -1,
+          -1,
+          -1,
+          -1,
+          81
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 44
+      },
+      {
+        "args": [
+          63
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          117
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          116
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          120
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          119
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          123
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          122
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          126
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          125
+        ],
+        "cell": 75
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 100
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 136
+      }
+    ],
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 507,
+          "value": 1
+        },
+        {
+          "arg": 517,
+          "value": 1
+        }
+      ]
+    },
+    "file": "AH-64D_bl2",
+    "lightsData": {
+      "lights": {
+        "1": {
+          "lights": [
+            {
+              "argument": 193,
+              "controller": "Strobe",
+              "flash_time": 0.05,
+              "period": 1.7,
+              "phase_shift": 0.5,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 194,
+              "controller": "Strobe",
+              "flash_time": 0.05,
+              "period": 1.7,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "12": {
+          "lights": [
+            {
+              "argument": 195,
+              "controller": "Strobe",
+              "flash_time": 0.05,
+              "period": 1.7,
+              "phase_shift": 0.5,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 196,
+              "controller": "Strobe",
+              "flash_time": 0.05,
+              "period": 1.7,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000021",
+    "positioning": "BYNORMAL",
+    "shape": "AH-64D_bl2",
+    "shapeDestroyed": "AH-64D_destr"
+  },
+  "module": "AH-64D BLK.II AI",
+  "operations": {
+    "eplrs": true,
+    "landRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ],
+    "laserDesignator": true,
+    "laserRangefinder": true,
+    "takeOffRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1997,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1998,
+        "to": 9999
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 2005,
+        "to": 9999
+      }
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 2003,
+        "to": 9999
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN",
+      "years": {
+        "from": 2006,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA",
+      "years": {
+        "from": 2008,
+        "to": 9999
+      }
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT",
+      "years": {
+        "from": 2005,
+        "to": 9999
+      }
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 2008,
+        "to": 9999
+      }
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "enginesCount": 2,
+    "nyMax": 3.5,
+    "rangeKm": 480
+  },
+  "radios": [
+    "AH-64D_BLK_II__radio0",
+    "AH-64D_BLK_II__radio1",
+    "AH-64D_BLK_II__radio2",
+    "AH-64D_BLK_II__radio3"
+  ],
+  "refuelling": {
+    "receptaclePosition": [
+      -0.051,
+      0.911,
+      0
+    ],
+    "tankerType": 2
+  },
+  "sensors": [
+    "AN/APG-78",
+    "Abstract RWR",
+    "TADS DTV",
+    "TADS FLIR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "M261_MK151",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{88D18A5E-99C8-4B04-B40B-1C02F2018B6E}"
+        },
+        {
+          "clsid": "{EFT_230GAL}"
+        },
+        {
+          "clsid": "{M261_M151_M433}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M229}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_OUTBOARD_AB_M151_E_M274}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_OUTBOARD_AB_M151_E_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_OUTBOARD_AB_M151_E_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_M274}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_3xAGM_114L_PRT}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114L_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_1xAGM_114L_PRT}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114L_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_4xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_EMPTY}"
+        }
+      ],
+      "displayName": "1",
+      "order": 1,
+      "position": {
+        "lateral": -2.36,
+        "longitudinal": 0.588,
+        "vertical": -0.32
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M261_MK151",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{88D18A5E-99C8-4B04-B40B-1C02F2018B6E}"
+        },
+        {
+          "clsid": "{EFT_230GAL}"
+        },
+        {
+          "clsid": "{M261_INBOARD_DE_M151_C_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "M261_MK151",
+                "{M261_INBOARD_DE_M151_C_M274}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_INBOARD_DE_M151_C_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "M261_MK151",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M151_M433}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M229}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_3xAGM_114L_PRT}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114L_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_1xAGM_114L_PRT}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114L_OUTBOARD_PORT}"
+        },
+        {
+          "clsid": "{M299_4xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_EMPTY}"
+        }
+      ],
+      "displayName": "2",
+      "order": 2,
+      "position": {
+        "lateral": -1.6,
+        "longitudinal": 0.588,
+        "vertical": -0.32
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M261_MK151",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{88D18A5E-99C8-4B04-B40B-1C02F2018B6E}"
+        },
+        {
+          "clsid": "{EFT_230GAL}"
+        },
+        {
+          "clsid": "{M261_INBOARD_DE_M151_C_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "M261_MK151",
+                "{M261_INBOARD_DE_M151_C_M274}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_INBOARD_DE_M151_C_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "M261_MK151",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M151_M433}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M229}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_3xAGM_114L_STRBRD}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114L_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_1xAGM_114L_STRBRD}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114L_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_4xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_EMPTY}"
+        }
+      ],
+      "displayName": "3",
+      "order": 4,
+      "position": {
+        "lateral": 1.6,
+        "longitudinal": 0.588,
+        "vertical": -0.32
+      },
+      "station": 3,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M261_MK151",
+          "forbidden": [
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{88D18A5E-99C8-4B04-B40B-1C02F2018B6E}"
+        },
+        {
+          "clsid": "{EFT_230GAL}"
+        },
+        {
+          "clsid": "{M261_M151_M433}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M229}",
+                "{M261_M282}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M229}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M257}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_OUTBOARD_AB_M151_E_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_OUTBOARD_AB_M151_E_M274}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_OUTBOARD_AB_M151_E_M257}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_M257}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M274}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M274}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{M261_OUTBOARD_AB_M151_E_M274}",
+          "forbidden": [
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}",
+                "{M261_M274}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "M261_MK151",
+                "{M261_M229}",
+                "{M261_M257}",
+                "{M261_M282}",
+                "{M261_M151_M433}",
+                "{M261_OUTBOARD_AB_M151_E_M257}",
+                "{M261_INBOARD_DE_M151_C_M274}",
+                "{M261_INBOARD_DE_M151_C_M257}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_3xAGM_114L_STRBRD}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114K_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_1xAGM_114L_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114K}"
+        },
+        {
+          "clsid": "{M299_2xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_1xAGM_114L_STRBRD}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114K_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_3xAGM_114L_OUTBOARD_STARBOARD}"
+        },
+        {
+          "clsid": "{M299_4xAGM_114L}"
+        },
+        {
+          "clsid": "{M299_EMPTY}"
+        }
+      ],
+      "displayName": "4",
+      "order": 5,
+      "position": {
+        "lateral": 2.36,
+        "longitudinal": 0.588,
+        "vertical": -0.32
+      },
+      "station": 4,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{IAFS_ComboPak_100}"
+        }
+      ],
+      "displayName": "IAFS",
+      "order": 3,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0.3717,
+        "vertical": -0.35
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{AN_APG_78}"
+        }
+      ],
+      "displayName": "MMA",
+      "order": 6,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0.350867,
+        "vertical": 2.526422
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

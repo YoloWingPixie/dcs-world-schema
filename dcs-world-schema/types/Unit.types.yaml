@@ -43,7 +43,7 @@ types:
 
   UnitAttributes:
     kind: record
-    description: "A table of capability and characteristic flags that define the features and abilities of a unit. Fields correspond to attributes from the Attributes enum."
+    description: "A table of capability and characteristic flags that define the features and abilities of a unit. Fields correspond to `DcsId.Attribute` names."
     fields: {}
 
   UnitAmmoDesc:
@@ -136,7 +136,7 @@ types:
         type: Unit.SensorType
         description: "An `Unit.SensorType` enumerator specifying the general category of the sensor system."
       typeName:
-        type: string
+        type: DcsId.SensorName | string
         description: "A string containing the specific model name or designation of the sensor."
       detectionDistanceAir:
         type: UnitSensorDetectionDistanceAir | nil
@@ -156,7 +156,7 @@ types:
     description: "Defines the structure of a Lua table representing the basic properties and capabilities common to all unit types in the DCS World."
     fields:
       typeName:
-        type: string
+        type: DcsId.UnitType | string
         description: "A string containing the internal identifier for the unit type used by the DCS World engine."
       displayName:
         type: string

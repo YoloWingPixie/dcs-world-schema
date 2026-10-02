@@ -1,0 +1,52 @@
+globals: {}
+
+types:
+  Entity.Beacon:
+    kind: record
+    description: "One radio navigation transmitter from a terrain's `Beacons.lua`: VOR, DME, TACAN, NDB/homer, localizer, glidepath, RSBN, PRMG. Values are DCS's, verbatim."
+    fields:
+      id:
+        type: string
+        description: "`<theatre>.<beaconId>` (`beaconId` is unique only within a terrain)."
+      beaconId:
+        type: string
+        description: "DCS `beaconId` (for example `airfield22_2`)."
+      theatre:
+        type: string
+        ref: Entity.Theatre
+        description: "`Entity.Theatre` id."
+      displayName:
+        type: string
+        description: "Optional DCS `display_name`, a free label (not reliably the airbase name)."
+      type:
+        type: Entity.BeaconType
+        description: "DCS `type` (BEACON_TYPE_*)."
+      typeName:
+        type: string
+        description: "DCS constant name of `type` (for example `BEACON_TYPE_TACAN`)."
+      callsign:
+        type: string
+        description: "Optional identifier (Morse ident)."
+      frequencyHz:
+        type: number
+        description: "Optional DCS `frequency`, hertz (for TACAN the DCS receiver frequency)."
+      channel:
+        type: number
+        description: "Optional DCS `channel` (TACAN/DME/RSBN/PRMG channel number; TACAN X/Y mode is not given)."
+      position:
+        type: Entity.MapPosition
+        description: "DCS `position`."
+      latitude:
+        type: number
+        description: "DCS `positionGeo.latitude`, degrees."
+      longitude:
+        type: number
+        description: "DCS `positionGeo.longitude`, degrees."
+      direction:
+        type: number
+        description: "DCS `direction`, degrees, verbatim (0 for omnidirectional equipment)."
+      airbase:
+        type: string
+        ref: Entity.Airbase
+        description: "Optional `Entity.Airbase` id, when the `beaconId` is `airfield<N>_<k>` (airdrome N)."
+    required: [id, beaconId, theatre, type, typeName, position, latitude, longitude, direction]

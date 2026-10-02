@@ -1,0 +1,1085 @@
+{
+  "aero": {
+    "emptyMassKg": 1614,
+    "internalFuelKg": 191,
+    "maxSpeedKmh": 464.4,
+    "maxTakeoffKg": 2146
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "position": [
+          -5.776,
+          1.4,
+          -0.422
+        ]
+      },
+      {
+        "direction": [
+          0,
+          1,
+          0
+        ],
+        "position": [
+          -5.776,
+          1.4,
+          0.422
+        ]
+      }
+    ]
+  },
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 156,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.1,
+    "rcsM2": 2.5
+  },
+  "dimensions": {
+    "heightM": 3.25,
+    "lengthM": 6.13,
+    "wingSpanM": 9.004
+  },
+  "displayName": "I-16",
+  "failures": [
+    {
+      "id": "ENG0_GOVERNOR_FAILURE",
+      "label": "Prop governor Fault."
+    },
+    {
+      "id": "ENG0_MAGNETO0",
+      "label": "Magneto 1 Fault."
+    },
+    {
+      "id": "ENG0_MAGNETO1",
+      "label": "Magneto 2 Fault."
+    },
+    {
+      "id": "ENG0_JAMMED",
+      "label": "Engine Jam"
+    },
+    {
+      "id": "ENG0_BOOST_REGULATOR_MALFUNCTION",
+      "label": "Boost regulator failure"
+    },
+    {
+      "id": "ELEC_RETICLE_BULB_FAILURE",
+      "label": "Reticle bulb broken"
+    },
+    {
+      "id": "ENG0_MIXTURE_AUTOMATIC_CONTROL_FAILURE",
+      "label": "Mixture automatic control failure"
+    },
+    {
+      "id": "OXYGEN_AUTOMATIC_CONTROL_MALFUNCTION",
+      "label": "Breathe oxygen automatic control malfunction"
+    },
+    {
+      "id": "OXYGEN_AUTOMATIC_CONTROL_FAILURE",
+      "label": "Breathe oxygen automatic control failure"
+    },
+    {
+      "id": "GEAR_DOWN_AUTOMATIC_BRAKE_FAILURE",
+      "label": "Gear down automatic brake failure"
+    }
+  ],
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "7_62x54",
+      "7_62x54_NOTRACER"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "7_62x54",
+          "7_62x54_NOTRACER"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "7_62x54",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER"
+            ]
+          }
+        ],
+        "rounds": 900,
+        "type": "SHKAS_GUN"
+      },
+      {
+        "ammo": [
+          "7_62x54",
+          "7_62x54_NOTRACER"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "7_62x54_NOTRACER",
+              "7_62x54",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER"
+            ]
+          }
+        ],
+        "rounds": 500,
+        "type": "SHKAS_GUN"
+      },
+      {
+        "ammo": [
+          "7_62x54",
+          "7_62x54_NOTRACER"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER",
+              "7_62x54",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER"
+            ]
+          }
+        ],
+        "rounds": 500,
+        "type": "SHKAS_GUN"
+      },
+      {
+        "ammo": [
+          "7_62x54",
+          "7_62x54_NOTRACER"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER",
+              "7_62x54_NOTRACER",
+              "7_62x54",
+              "7_62x54_NOTRACER"
+            ]
+          }
+        ],
+        "rounds": 900,
+        "type": "SHKAS_GUN"
+      }
+    ],
+    "rounds": 2800,
+    "type": "SHKAS_GUN"
+  },
+  "id": "I-16",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 15
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 457,
+      "control": "checkbox",
+      "default": false,
+      "id": "landingTorch",
+      "label": "Landing Torch",
+      "playerOnly": true,
+      "weightKg": 20
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.51342418176678,
+      -0.93969262078591,
+      -0.51342418176678,
+      -0.087155742747658
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          264
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          55
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          56
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 42
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          429
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          380
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          430
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          381
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      }
+    ],
+    "file": "I-16",
+    "lightsData": {
+      "lights": {
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "argument": 69,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "I-16",
+    "shapeDestroyed": "I-16_destr"
+  },
+  "module": "I-16 AI by OctopusG",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1941,
+        "to": 1944
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 1936,
+        "to": 1955
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1937,
+        "to": 1944
+      }
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1939,
+        "to": 1944
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1939,
+        "to": 1944
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1941,
+        "to": 1944
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1941,
+        "to": 1944
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1934,
+        "to": 1944
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.08,
+    "bankAngleMaxDeg": 60,
+    "casMin": 56,
+    "enginesCount": 1,
+    "hMaxM": 9700,
+    "machMax": 0.41,
+    "nyMax": 8,
+    "rangeKm": 440,
+    "vLandMs": 39,
+    "vMaxHMs": 129,
+    "vMaxSeaLevelMs": 113,
+    "vOptMs": 97,
+    "vTakeOffMs": 45
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": false,
+    "tankerType": 0
+  },
+  "sensors": [
+    "Merkury LLTV"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "I16_RS_82"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_RS_82"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_RS_82"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_DROP_FUEL_TANK"
+        },
+        {
+          "clsid": "I16_FAB_100SV"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 4,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_DROP_FUEL_TANK"
+        },
+        {
+          "clsid": "I16_FAB_100SV"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 5,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_RS_82"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_RS_82"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "I16_RS_82"
+        }
+      ],
+      "order": 8,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 8,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

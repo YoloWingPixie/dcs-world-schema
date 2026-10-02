@@ -1,0 +1,2765 @@
+{
+  "aero": {
+    "emptyMassKg": 11625,
+    "internalFuelKg": 5029,
+    "maxSpeedKmh": 720,
+    "maxTakeoffKg": 21081
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 240,
+      "increment": 60
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          -1,
+          0
+        ],
+        "position": [
+          -1.748,
+          -1,
+          -2.33
+        ]
+      },
+      {
+        "direction": [
+          0,
+          -1,
+          0
+        ],
+        "position": [
+          -1.748,
+          -1,
+          2.33
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0,
+          0
+        ],
+        "position": [
+          -6,
+          0,
+          -8.5
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0,
+          0
+        ],
+        "position": [
+          -6,
+          0,
+          8.5
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 2,
+      "default": 120,
+      "increment": 30
+    },
+    "singleChargeTotal": 480
+  },
+  "countryOfOrigin": "USA",
+  "crew": 1,
+  "defaultRadio": {
+    "frequencyMHz": 124,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 31,
+    "name": "CAS"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.53,
+    "rcsM2": 10
+  },
+  "dimensions": {
+    "heightM": 4.47,
+    "lengthM": 16.26,
+    "wingSpanM": 17.53
+  },
+  "displayName": "A-10A",
+  "failures": [
+    {
+      "id": "asc",
+      "label": "ASC"
+    },
+    {
+      "id": "autopilot",
+      "label": "AUTOPILOT"
+    },
+    {
+      "id": "hydro",
+      "label": "HYDRO"
+    },
+    {
+      "id": "l_engine",
+      "label": "L-ENGINE"
+    },
+    {
+      "id": "r_engine",
+      "label": "R-ENGINE"
+    },
+    {
+      "id": "mlws",
+      "label": "MLWS"
+    },
+    {
+      "id": "rws",
+      "label": "RWS"
+    },
+    {
+      "id": "ecm",
+      "label": "ECM"
+    },
+    {
+      "id": "hud",
+      "label": "HUD"
+    },
+    {
+      "id": "mfd",
+      "label": "MFD"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "GAU8_30_AP",
+      "GAU8_30_HE",
+      "GAU8_30_TP"
+    ],
+    "mixes": [
+      {
+        "label": "CM - Combat Mix"
+      },
+      {
+        "label": "HEI - High Explosive Incendiary"
+      },
+      {
+        "label": "TP - Target Practice"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "GAU8_30_AP",
+          "GAU8_30_HE",
+          "GAU8_30_TP"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "GAU8_30_AP",
+              "GAU8_30_AP",
+              "GAU8_30_AP",
+              "GAU8_30_AP",
+              "GAU8_30_HE"
+            ]
+          },
+          {
+            "ammo": [
+              "GAU8_30_HE"
+            ]
+          },
+          {
+            "ammo": [
+              "GAU8_30_TP"
+            ]
+          }
+        ],
+        "rounds": 1150,
+        "type": "GAU_8"
+      }
+    ],
+    "rounds": 1150,
+    "type": "GAU_8"
+  },
+  "id": "A-10A",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 32
+    }
+  ],
+  "missionOptions": [],
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.64085638205579,
+      -0.93969262078591,
+      -0.29883623873012,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          249
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          229
+        ],
+        "cell": 31
+      },
+      {
+        "args": [
+          219
+        ],
+        "cell": 32
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          144
+        ],
+        "cell": 60
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      }
+    ],
+    "file": "a-10a",
+    "lightsData": {
+      "lights": {
+        "1": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_max": 1.9198621771938,
+                  "angle_min": 1.3962634015955,
+                  "argument": 195,
+                  "connector": "WHITE_BEACON L",
+                  "controller": "Strobe",
+                  "exposure": [
+                    [
+                      223,
+                      0.245,
+                      0.255,
+                      1,
+                      0
+                    ]
+                  ],
+                  "movable": true,
+                  "period": 1.2,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "angle_min": 0.5235987755983,
+                    "color": [
+                      0.92,
+                      0.92,
+                      1,
+                      0.20784609690827
+                    ],
+                    "controller": "Strobe",
+                    "period": 1,
+                    "range": 48
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "WHITE_BEACON L",
+                  "controller": "Strobe",
+                  "exposure": [
+                    [
+                      223,
+                      0.245,
+                      0.255,
+                      1,
+                      0
+                    ]
+                  ],
+                  "movable": true,
+                  "period": 1.2,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "angle_min": 0.5235987755983,
+                    "color": [
+                      0.92,
+                      0.92,
+                      1,
+                      0.20784609690827
+                    ],
+                    "controller": "Strobe",
+                    "period": 1,
+                    "range": 48
+                  },
+                  "range": 18.2,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "angle_max": 1.9198621771938,
+                  "angle_min": 1.3962634015955,
+                  "argument": 196,
+                  "connector": "WHITE_BEACON R",
+                  "controller": "Strobe",
+                  "exposure": [
+                    [
+                      213,
+                      0.245,
+                      0.255,
+                      1,
+                      0
+                    ]
+                  ],
+                  "movable": true,
+                  "period": 1.2,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "angle_min": 0.5235987755983,
+                    "color": [
+                      0.92,
+                      0.92,
+                      1,
+                      0.20784609690827
+                    ],
+                    "controller": "Strobe",
+                    "period": 1,
+                    "range": 48
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "WHITE_BEACON R",
+                  "controller": "Strobe",
+                  "exposure": [
+                    [
+                      213,
+                      0.245,
+                      0.255,
+                      1,
+                      0
+                    ]
+                  ],
+                  "movable": true,
+                  "period": 1.2,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "angle_min": 0.5235987755983,
+                    "color": [
+                      0.92,
+                      0.92,
+                      1,
+                      0.20784609690827
+                    ],
+                    "controller": "Strobe",
+                    "period": 1,
+                    "range": 48
+                  },
+                  "range": 18.2,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "angle_max": 1.9198621771938,
+                  "angle_min": 1.3962634015955,
+                  "argument": 203,
+                  "connector": "BANO_0_BACK",
+                  "controller": "Strobe",
+                  "exposure": [
+                    [
+                      81,
+                      0.245,
+                      0.255,
+                      1,
+                      0
+                    ]
+                  ],
+                  "movable": true,
+                  "period": 1.2,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "angle_min": 0.5235987755983,
+                    "color": [
+                      0.92,
+                      0.92,
+                      1,
+                      0.20784609690827
+                    ],
+                    "controller": "Strobe",
+                    "period": 1,
+                    "range": 48
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "BANO_0_BACK",
+                  "controller": "Strobe",
+                  "exposure": [
+                    [
+                      81,
+                      0.245,
+                      0.255,
+                      1,
+                      0
+                    ]
+                  ],
+                  "movable": true,
+                  "period": 1.2,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "angle_min": 0.5235987755983,
+                    "color": [
+                      0.92,
+                      0.92,
+                      1,
+                      0.20784609690827
+                    ],
+                    "controller": "Strobe",
+                    "period": 1,
+                    "range": 48
+                  },
+                  "range": 18.2,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "10": {
+          "lights": [
+            {
+              "position": [
+                6.5,
+                0.4,
+                0
+              ],
+              "proto": {
+                "angle_max": 0.7679448708775,
+                "angle_min": 0.614355896702,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.2137366596101
+                ],
+                "power_up_t": 0.75,
+                "range": 840
+              },
+              "range": 8,
+              "typename": "omnilight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "12": {
+          "lights": [
+            {
+              "angle_max": 0.48869219055841,
+              "argument": 211,
+              "direction": {
+                "azimuth": 0.78539816339745
+              },
+              "position": [
+                0,
+                -0.3,
+                -5.8
+              ],
+              "proto": {
+                "angle_max": 0.48869219055841,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.12792304845413
+                ],
+                "range": 250
+              },
+              "typename": "spotlight"
+            },
+            {
+              "angle_max": 0.48869219055841,
+              "argument": 210,
+              "direction": {
+                "azimuth": -0.78539816339745
+              },
+              "position": [
+                0,
+                -0.3,
+                5.8
+              ],
+              "proto": {
+                "angle_max": 0.48869219055841,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.12792304845413
+                ],
+                "range": 250
+              },
+              "typename": "spotlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 209,
+                  "connector": "MAIN_SPOT_PTR_02",
+                  "dir_correction": {
+                    "azimuth": 0.017453292519943
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 2.9670597283904,
+                  "connector": "MAIN_SPOT_PTR_02",
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "range": 16,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 208,
+                  "connector": "MAIN_SPOT_PTR_01",
+                  "dir_correction": {
+                    "azimuth": -0.05235987755983
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR_01",
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "pos_correction": [
+                    0.5,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "range": 8,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "angle_max": 2.6179938779915,
+              "angle_min": 1.5707963267949,
+              "argument": 190,
+              "connector": "BANO_1",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "dir_correction": {
+                "azimuth": 0.78539816339745
+              },
+              "exposure": [
+                [
+                  223,
+                  0.245,
+                  0.255,
+                  1,
+                  0
+                ]
+              ],
+              "mode": 0,
+              "movable": true,
+              "period": 0.73,
+              "power_up_t": 0.25,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "reduced_flash_time": 0.5,
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 2.6179938779915,
+              "angle_min": 1.5707963267949,
+              "argument": 191,
+              "connector": "BANO_2",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "dir_correction": {
+                "azimuth": 2.3561944901923
+              },
+              "exposure": [
+                [
+                  213,
+                  0.245,
+                  0.255,
+                  1,
+                  0
+                ]
+              ],
+              "mode": 0,
+              "movable": true,
+              "period": 0.73,
+              "power_up_t": 0.25,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "reduced_flash_time": 0.5,
+              "typename": "Spot"
+            },
+            {
+              "argument": 192,
+              "connector": "BANO_0_BACK",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "exposure": [
+                [
+                  81,
+                  0.245,
+                  0.255,
+                  1,
+                  0
+                ]
+              ],
+              "mode": 0,
+              "movable": true,
+              "period": 0.73,
+              "power_up_t": 0.25,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  1,
+                  1,
+                  0.155
+                ],
+                "range": 30
+              },
+              "reduced_flash_time": 0.5,
+              "typename": "Spot"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 202,
+              "color": [
+                1,
+                1,
+                1,
+                0.12
+              ],
+              "connector": "BANO_0_TOP",
+              "pos_correction": [
+                0,
+                0.2,
+                0
+              ],
+              "range": 10,
+              "typename": "omnilight"
+            },
+            {
+              "argument": 201,
+              "color": [
+                1,
+                1,
+                1,
+                0.12
+              ],
+              "connector": "BANO_0_BOTTOM",
+              "pos_correction": [
+                0,
+                -0.2,
+                0
+              ],
+              "range": 10,
+              "typename": "omnilight"
+            },
+            {
+              "angle_max": 0.78539816339745,
+              "argument": 205,
+              "connector": "BANO_W_HR",
+              "dir_correction": {
+                "azimuth": -0.017453292519943,
+                "elevation": 0.05235987755983
+              },
+              "pos_correction": [
+                0,
+                0.1,
+                0
+              ],
+              "proto": {
+                "angle_max": 0.48869219055841,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.12792304845413
+                ],
+                "range": 250
+              },
+              "typename": "spotlight"
+            },
+            {
+              "angle_max": 0.78539816339745,
+              "argument": 204,
+              "connector": "BANO_W_HL",
+              "dir_correction": {
+                "azimuth": -0.017453292519943,
+                "elevation": -0.05235987755983
+              },
+              "pos_correction": [
+                0,
+                -0.1,
+                0
+              ],
+              "proto": {
+                "angle_max": 0.48869219055841,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.12792304845413
+                ],
+                "range": 250
+              },
+              "typename": "spotlight"
+            },
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "5": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_max": 0.48869219055841,
+                  "argument": 212,
+                  "direction": {
+                    "azimuth": 2.6179938779915,
+                    "elevation": 0.087266462599716
+                  },
+                  "position": [
+                    0.5,
+                    1.2,
+                    0
+                  ],
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 0.48869219055841,
+                  "direction": {
+                    "azimuth": -2.6179938779915,
+                    "elevation": 0.087266462599716
+                  },
+                  "position": [
+                    0.5,
+                    1.2,
+                    0
+                  ],
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 208,
+                  "connector": "MAIN_SPOT_PTR_01",
+                  "dir_correction": {
+                    "azimuth": -0.05235987755983
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR_01",
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "pos_correction": [
+                    0.5,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "range": 8,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "argument": 69,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000025",
+    "positioning": "BYNORMAL",
+    "shape": "a-10a",
+    "shapeDestroyed": "A-10_DAM"
+  },
+  "module": "A-10 Warthog",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1976,
+        "to": 2011
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.302,
+    "bankAngleMaxDeg": 60,
+    "casMin": 58,
+    "enginesCount": 2,
+    "hMaxM": 10000,
+    "machMax": 0.75,
+    "nyMax": 5.9,
+    "rangeKm": 1500,
+    "vLandMs": 68,
+    "vMaxHMs": 200,
+    "vMaxSeaLevelMs": 236,
+    "vOptMs": 125,
+    "vTakeOffMs": 62
+  },
+  "radios": [
+    "A-10A__radio0"
+  ],
+  "refuelling": {
+    "receptaclePosition": [
+      6.317,
+      0.65,
+      0
+    ],
+    "tankerType": 1
+  },
+  "sensors": [
+    "Abstract RWR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "ALQ_184"
+        },
+        {
+          "clsid": "LAU-105_1*AIM-9L_L"
+        },
+        {
+          "clsid": "LAU-105_1*AIM-9M_L"
+        },
+        {
+          "clsid": "LAU-105_2*AIM-9L"
+        },
+        {
+          "clsid": "LAU-105_2*AIM-9P3"
+        },
+        {
+          "clsid": "LAU-105_2*AIM-9P5"
+        },
+        {
+          "clsid": "LAU-105_AIS_ASQ_T50_L"
+        },
+        {
+          "clsid": "{3C0745ED-8B0B-42eb-B907-5BD5C1717447}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E741}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E742}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E743}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E744}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E745}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E746}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -6.365,
+        "longitudinal": -0.615,
+        "vertical": -0.016
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0877B74B-5A00-4e61-BA8A-A56450BA9E27}"
+        },
+        {
+          "clsid": "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}"
+        },
+        {
+          "clsid": "{1CA5E00B-D545-4ff9-9B53-5970E292F14D}"
+        },
+        {
+          "clsid": "{1F7136CB-8120-4e77-B97B-945FF01FB67C}"
+        },
+        {
+          "clsid": "{2AF2EC3F-9065-4de5-93E1-1739C9A71EF7}"
+        },
+        {
+          "clsid": "{319293F2-392C-4617-8315-7C88C22AF7C4}"
+        },
+        {
+          "clsid": "{4F977A2A-CD25-44df-90EF-164BFA2AE72F}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{647C5F26-BDD1-41e6-A371-8DE1E4CC0E94}"
+        },
+        {
+          "clsid": "{65396399-9F5C-4ec3-A7D2-5A8F4C1D90C4}"
+        },
+        {
+          "clsid": "{69926055-0DA8-4530-9F2F-C86B157EA9F6}"
+        },
+        {
+          "clsid": "{6D6D5C07-2A90-4a68-9A74-C5D0CFFB05D9}"
+        },
+        {
+          "clsid": "{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CAE48299-A294-4bad-8EE6-89EFC5DCDF00}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{D22C2D63-E5C9-4247-94FB-5E8F3DE22B71}"
+        },
+        {
+          "clsid": "{DAD45FE5-CFF0-4a2b-99D4-5D044D3BC22F}"
+        },
+        {
+          "clsid": "{DDCE7D70-5313-4181-8977-F11018681662}"
+        },
+        {
+          "clsid": "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -5.408,
+        "longitudinal": -0.615,
+        "vertical": -0.144
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33"
+        },
+        {
+          "clsid": "LAU_117_AGM_65G"
+        },
+        {
+          "clsid": "LAU_117_AGM_65H"
+        },
+        {
+          "clsid": "LAU_88_AGM_65H_2_L"
+        },
+        {
+          "clsid": "LAU_88_AGM_65H_3"
+        },
+        {
+          "clsid": "{0877B74B-5A00-4e61-BA8A-A56450BA9E27}"
+        },
+        {
+          "clsid": "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}"
+        },
+        {
+          "clsid": "{1CA5E00B-D545-4ff9-9B53-5970E292F14D}"
+        },
+        {
+          "clsid": "{1F7136CB-8120-4e77-B97B-945FF01FB67C}"
+        },
+        {
+          "clsid": "{2AF2EC3F-9065-4de5-93E1-1739C9A71EF7}"
+        },
+        {
+          "clsid": "{319293F2-392C-4617-8315-7C88C22AF7C4}"
+        },
+        {
+          "clsid": "{444BA8AE-82A7-4345-842E-76154EFCCA46}"
+        },
+        {
+          "clsid": "{4F977A2A-CD25-44df-90EF-164BFA2AE72F}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}"
+        },
+        {
+          "clsid": "{647C5F26-BDD1-41e6-A371-8DE1E4CC0E94}"
+        },
+        {
+          "clsid": "{65396399-9F5C-4ec3-A7D2-5A8F4C1D90C4}"
+        },
+        {
+          "clsid": "{69926055-0DA8-4530-9F2F-C86B157EA9F6}"
+        },
+        {
+          "clsid": "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}"
+        },
+        {
+          "clsid": "{6D6D5C07-2A90-4a68-9A74-C5D0CFFB05D9}"
+        },
+        {
+          "clsid": "{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{BRU-42_3*Mk-82AIR}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{D22C2D63-E5C9-4247-94FB-5E8F3DE22B71}"
+        },
+        {
+          "clsid": "{DAC53A2F-79CA-42FF-A77A-F5649B601308}"
+        },
+        {
+          "clsid": "{DAD45FE5-CFF0-4a2b-99D4-5D044D3BC22F}"
+        },
+        {
+          "clsid": "{DDCE7D70-5313-4181-8977-F11018681662}"
+        },
+        {
+          "clsid": "{E6A6262A-CA08-4B3D-B030-E1A993B98452}"
+        },
+        {
+          "clsid": "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -4.015,
+        "longitudinal": -0.615,
+        "vertical": -0.337
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33"
+        },
+        {
+          "clsid": "Fuel_Tank_FT600"
+        },
+        {
+          "clsid": "{0877B74B-5A00-4e61-BA8A-A56450BA9E27}"
+        },
+        {
+          "clsid": "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}"
+        },
+        {
+          "clsid": "{1CA5E00B-D545-4ff9-9B53-5970E292F14D}"
+        },
+        {
+          "clsid": "{1F7136CB-8120-4e77-B97B-945FF01FB67C}"
+        },
+        {
+          "clsid": "{2AF2EC3F-9065-4de5-93E1-1739C9A71EF7}"
+        },
+        {
+          "clsid": "{319293F2-392C-4617-8315-7C88C22AF7C4}"
+        },
+        {
+          "clsid": "{4F977A2A-CD25-44df-90EF-164BFA2AE72F}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}"
+        },
+        {
+          "clsid": "{647C5F26-BDD1-41e6-A371-8DE1E4CC0E94}"
+        },
+        {
+          "clsid": "{65396399-9F5C-4ec3-A7D2-5A8F4C1D90C4}"
+        },
+        {
+          "clsid": "{69926055-0DA8-4530-9F2F-C86B157EA9F6}"
+        },
+        {
+          "clsid": "{6D6D5C07-2A90-4a68-9A74-C5D0CFFB05D9}"
+        },
+        {
+          "clsid": "{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{BRU-42_3*Mk-82AIR}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{D22C2D63-E5C9-4247-94FB-5E8F3DE22B71}"
+        },
+        {
+          "clsid": "{DAD45FE5-CFF0-4a2b-99D4-5D044D3BC22F}"
+        },
+        {
+          "clsid": "{DDCE7D70-5313-4181-8977-F11018681662}"
+        },
+        {
+          "clsid": "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": -1.853,
+        "longitudinal": -0.615,
+        "vertical": -0.501
+      },
+      "station": 4,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{CBU-87}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": -0.587,
+        "longitudinal": -0.615,
+        "vertical": -0.501
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "Fuel_Tank_FT600",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{CBU-87}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 7
+            }
+          ]
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 0,
+        "longitudinal": -0.615,
+        "vertical": -0.527
+      },
+      "station": 6,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{CBU-87}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "required": [
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 0.587,
+        "longitudinal": -0.615,
+        "vertical": -0.501
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33"
+        },
+        {
+          "clsid": "Fuel_Tank_FT600"
+        },
+        {
+          "clsid": "{0877B74B-5A00-4e61-BA8A-A56450BA9E27}"
+        },
+        {
+          "clsid": "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}"
+        },
+        {
+          "clsid": "{1CA5E00B-D545-4ff9-9B53-5970E292F14D}"
+        },
+        {
+          "clsid": "{1F7136CB-8120-4e77-B97B-945FF01FB67C}"
+        },
+        {
+          "clsid": "{2AF2EC3F-9065-4de5-93E1-1739C9A71EF7}"
+        },
+        {
+          "clsid": "{319293F2-392C-4617-8315-7C88C22AF7C4}"
+        },
+        {
+          "clsid": "{4F977A2A-CD25-44df-90EF-164BFA2AE72F}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}"
+        },
+        {
+          "clsid": "{647C5F26-BDD1-41e6-A371-8DE1E4CC0E94}"
+        },
+        {
+          "clsid": "{65396399-9F5C-4ec3-A7D2-5A8F4C1D90C4}"
+        },
+        {
+          "clsid": "{69926055-0DA8-4530-9F2F-C86B157EA9F6}"
+        },
+        {
+          "clsid": "{6D6D5C07-2A90-4a68-9A74-C5D0CFFB05D9}"
+        },
+        {
+          "clsid": "{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{BRU-42_3*Mk-82AIR}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{D22C2D63-E5C9-4247-94FB-5E8F3DE22B71}"
+        },
+        {
+          "clsid": "{DAD45FE5-CFF0-4a2b-99D4-5D044D3BC22F}"
+        },
+        {
+          "clsid": "{DDCE7D70-5313-4181-8977-F11018681662}"
+        },
+        {
+          "clsid": "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 8,
+      "position": {
+        "lateral": 1.853,
+        "longitudinal": -0.615,
+        "vertical": -0.501
+      },
+      "station": 8,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "BRU-42_3*BDU-33"
+        },
+        {
+          "clsid": "LAU_117_AGM_65G"
+        },
+        {
+          "clsid": "LAU_117_AGM_65H"
+        },
+        {
+          "clsid": "LAU_88_AGM_65H_2_R"
+        },
+        {
+          "clsid": "LAU_88_AGM_65H_3"
+        },
+        {
+          "clsid": "{0877B74B-5A00-4e61-BA8A-A56450BA9E27}"
+        },
+        {
+          "clsid": "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}"
+        },
+        {
+          "clsid": "{1CA5E00B-D545-4ff9-9B53-5970E292F14D}"
+        },
+        {
+          "clsid": "{1F7136CB-8120-4e77-B97B-945FF01FB67C}"
+        },
+        {
+          "clsid": "{2AF2EC3F-9065-4de5-93E1-1739C9A71EF7}"
+        },
+        {
+          "clsid": "{319293F2-392C-4617-8315-7C88C22AF7C4}"
+        },
+        {
+          "clsid": "{444BA8AE-82A7-4345-842E-76154EFCCA46}"
+        },
+        {
+          "clsid": "{4F977A2A-CD25-44df-90EF-164BFA2AE72F}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}"
+        },
+        {
+          "clsid": "{647C5F26-BDD1-41e6-A371-8DE1E4CC0E94}"
+        },
+        {
+          "clsid": "{65396399-9F5C-4ec3-A7D2-5A8F4C1D90C4}"
+        },
+        {
+          "clsid": "{69926055-0DA8-4530-9F2F-C86B157EA9F6}"
+        },
+        {
+          "clsid": "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}"
+        },
+        {
+          "clsid": "{6D6D5C07-2A90-4a68-9A74-C5D0CFFB05D9}"
+        },
+        {
+          "clsid": "{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{BRU-42_3*Mk-82AIR}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{D22C2D63-E5C9-4247-94FB-5E8F3DE22B71}"
+        },
+        {
+          "clsid": "{DAC53A2F-79CA-42FF-A77A-F5649B601308}"
+        },
+        {
+          "clsid": "{DAD45FE5-CFF0-4a2b-99D4-5D044D3BC22F}"
+        },
+        {
+          "clsid": "{DDCE7D70-5313-4181-8977-F11018681662}"
+        },
+        {
+          "clsid": "{E6A6262A-CA08-4B3D-B030-E1A993B98453}"
+        },
+        {
+          "clsid": "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 9,
+      "position": {
+        "lateral": 4.015,
+        "longitudinal": -0.615,
+        "vertical": -0.337
+      },
+      "station": 9,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0877B74B-5A00-4e61-BA8A-A56450BA9E27}"
+        },
+        {
+          "clsid": "{174C6E6D-0C3D-42ff-BCB3-0853CB371F5C}"
+        },
+        {
+          "clsid": "{1CA5E00B-D545-4ff9-9B53-5970E292F14D}"
+        },
+        {
+          "clsid": "{1F7136CB-8120-4e77-B97B-945FF01FB67C}"
+        },
+        {
+          "clsid": "{2AF2EC3F-9065-4de5-93E1-1739C9A71EF7}"
+        },
+        {
+          "clsid": "{319293F2-392C-4617-8315-7C88C22AF7C4}"
+        },
+        {
+          "clsid": "{4F977A2A-CD25-44df-90EF-164BFA2AE72F}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{647C5F26-BDD1-41e6-A371-8DE1E4CC0E94}"
+        },
+        {
+          "clsid": "{65396399-9F5C-4ec3-A7D2-5A8F4C1D90C4}"
+        },
+        {
+          "clsid": "{69926055-0DA8-4530-9F2F-C86B157EA9F6}"
+        },
+        {
+          "clsid": "{6D6D5C07-2A90-4a68-9A74-C5D0CFFB05D9}"
+        },
+        {
+          "clsid": "{A021F29D-18AB-4d3e-985C-FC9C60E35E9E}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CAE48299-A294-4bad-8EE6-89EFC5DCDF00}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{D22C2D63-E5C9-4247-94FB-5E8F3DE22B71}"
+        },
+        {
+          "clsid": "{DAD45FE5-CFF0-4a2b-99D4-5D044D3BC22F}"
+        },
+        {
+          "clsid": "{DDCE7D70-5313-4181-8977-F11018681662}"
+        },
+        {
+          "clsid": "{FC85D2ED-501A-48ce-9863-49D468DDD5FC}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 10,
+      "position": {
+        "lateral": 5.408,
+        "longitudinal": -0.615,
+        "vertical": -0.144
+      },
+      "station": 10,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "ALQ_184"
+        },
+        {
+          "clsid": "LAU-105_1*AIM-9L_R"
+        },
+        {
+          "clsid": "LAU-105_1*AIM-9M_R"
+        },
+        {
+          "clsid": "LAU-105_2*AIM-9L"
+        },
+        {
+          "clsid": "LAU-105_2*AIM-9P3"
+        },
+        {
+          "clsid": "LAU-105_2*AIM-9P5"
+        },
+        {
+          "clsid": "LAU-105_AIS_ASQ_T50_R"
+        },
+        {
+          "clsid": "{3C0745ED-8B0B-42eb-B907-5BD5C1717447}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{6D21ECEA-F85B-4E8D-9D51-31DC9B8AA4EF}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E741}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E742}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E743}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E744}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E745}"
+        },
+        {
+          "clsid": "{A4BCC903-06C8-47bb-9937-A30FEDB4E746}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        }
+      ],
+      "order": 11,
+      "position": {
+        "lateral": 6.365,
+        "longitudinal": -0.615,
+        "vertical": -0.016
+      },
+      "station": 11,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

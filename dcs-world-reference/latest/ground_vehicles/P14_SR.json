@@ -1,0 +1,1012 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "Air Defence",
+    "All",
+    "Ground Units",
+    "Ground vehicles",
+    "LR SAM",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "SAM SR",
+    "SAM elements",
+    "SAM related",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 400000,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 11,
+      "maxAltM": 35000,
+      "maxRangeM": 400000,
+      "minRangeM": 2000
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "SAM SA-5 S-200 P-14 'Tall king' SR",
+  "fireControl": {
+    "isDetector": true,
+    "maxTargetDetectionRangeM": 400000,
+    "radarType": 102,
+    "radarTypeName": "wsType_Radar_Miss"
+  },
+  "id": "P14_SR",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 5
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "locator_rotation": 11
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 11,
+          "value": 0.2
+        }
+      ]
+    },
+    "file": "evr_p14_awr",
+    "mapClassKey": "P0091000083",
+    "positioning": "BYNORMAL",
+    "shape": "evr_p14_awr",
+    "shapeDestroyed": "evr_p14_awr_p_1"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 2013
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 1991,
+        "to": 2008
+      }
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 2015
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 1995
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1985,
+        "to": 1999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1989,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1987,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1982,
+        "to": 9999
+      }
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA",
+      "years": {
+        "from": 1985,
+        "to": 2012
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1974,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1985,
+        "to": 9999
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1985,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "P14_SR"
+  ],
+  "tags": [
+    "Air Defence",
+    "Search Radar"
+  ],
+  "weaponSystems": [
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 1
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 2
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 3
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 4
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 5
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 6
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 7
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 8
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 9
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 10
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 11
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 12
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 13
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 14
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 15
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 16
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 17
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 18
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 19
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 20
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 21
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 22
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 23
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 24
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 25
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 26
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 27
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 28
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 29
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 30
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 31
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 35000,
+      "hMinM": 50,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 400.0,
+      "rMinKm": 2.0,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          0.26179938779915
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 32
+    }
+  ]
+}

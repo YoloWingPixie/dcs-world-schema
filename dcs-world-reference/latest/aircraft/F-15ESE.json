@@ -1,0 +1,8195 @@
+{
+  "aero": {
+    "emptyMassKg": 17661,
+    "internalFuelKg": 10245.529841878,
+    "maxSpeedKmh": 2649.996,
+    "maxTakeoffKg": 36741
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Datalink",
+    "Fighters",
+    "Link16",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 120,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          -1,
+          0
+        ],
+        "position": [
+          1.20589,
+          -0.80452,
+          0.9748
+        ]
+      },
+      {
+        "direction": [
+          0,
+          -1,
+          0
+        ],
+        "position": [
+          1.20589,
+          -0.80452,
+          -0.9748
+        ]
+      }
+    ],
+    "ecm": [
+      "AN/ALQ-135"
+    ],
+    "flare": {
+      "chargeSize": 2,
+      "default": 60,
+      "increment": 15
+    },
+    "singleChargeTotal": 240
+  },
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 243,
+    "maxMHz": 399.975,
+    "minMHz": 30,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 32,
+    "name": "Ground Attack"
+  },
+  "detection": {
+    "detectionRangeMax": 250,
+    "irEmissionCoeff": 0.91,
+    "rcsM2": 6
+  },
+  "dimensions": {
+    "heightM": 5.63,
+    "lengthM": 19.43,
+    "wingSpanM": 13.05
+  },
+  "displayName": "F-15E S4+",
+  "failures": [
+    {
+      "id": "AAQ13_TF_RADAR_SENSOR_FAIL",
+      "label": "AN/AAQ13 TF radar fail"
+    },
+    {
+      "id": "CARA_RADALT_FAIL",
+      "label": "CARA Radar Altimeter fail"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "M61_20_HEIT_RED",
+      "M61_20_HE_INVIS",
+      "M61_20_PGU28"
+    ],
+    "defaultMix": 1,
+    "mixes": [
+      {
+        "label": "PGU-28/B SAPHEI High Explosive Armor Piercing PGU"
+      },
+      {
+        "label": "M56 HEI High Explosive Incendiary"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "M61_20_HEIT_RED",
+          "M61_20_HE_INVIS",
+          "M61_20_PGU28"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "M61_20_PGU28",
+              "M61_20_PGU28",
+              "M61_20_PGU28",
+              "M61_20_PGU28",
+              "M61_20_HEIT_RED"
+            ]
+          },
+          {
+            "ammo": [
+              "M61_20_HE_INVIS",
+              "M61_20_HE_INVIS",
+              "M61_20_HE_INVIS",
+              "M61_20_HE_INVIS",
+              "M61_20_HEIT_RED"
+            ]
+          }
+        ],
+        "rounds": 510,
+        "type": "M-61"
+      }
+    ],
+    "rounds": 510,
+    "type": "M-61"
+  },
+  "id": "F-15ESE",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "control": "label",
+      "id": "iff_Label",
+      "label": "IFF",
+      "playerOnly": true
+    },
+    {
+      "control": "editbox",
+      "id": "IFF_M2_CODE",
+      "label": "IFF Mode 2 code",
+      "playerOnly": true
+    },
+    {
+      "control": "label",
+      "id": "misc_Label",
+      "label": "MISC.",
+      "playerOnly": true
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "MountNVG",
+      "label": "Equip AN/AVS-9 NVG and NVG Filters"
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "needsGCAlign",
+      "label": "Cold Aircraft needs GC Alignment",
+      "playerOnly": true,
+      "weightWhenOnKg": -80
+    },
+    {
+      "control": "slider",
+      "default": 0,
+      "dimension": "min",
+      "id": "InitAirborneTime",
+      "label": "Time Airborne (minutes)",
+      "max": 180,
+      "min": 0
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "InitAlertStatus",
+      "label": "Cold Aircraft is in ALERT status",
+      "playerOnly": true,
+      "weightWhenOnKg": -80
+    },
+    {
+      "control": "label",
+      "id": "LaserCode_Label",
+      "label": "GBU LASER CODES"
+    },
+    {
+      "control": "spinbox",
+      "default": 688,
+      "dimension": " ",
+      "id": "Sta2LaserCode",
+      "label": "Laser code for Station 2 1xxx",
+      "max": 888,
+      "min": 111
+    },
+    {
+      "control": "spinbox",
+      "default": 688,
+      "dimension": " ",
+      "id": "LCFTLaserCode",
+      "label": "Laser code for Left CFT  1xxx",
+      "max": 888,
+      "min": 111
+    },
+    {
+      "control": "spinbox",
+      "default": 688,
+      "dimension": " ",
+      "id": "Sta5LaserCode",
+      "label": "Laser code for Station 5 1xxx",
+      "max": 888,
+      "min": 111
+    },
+    {
+      "control": "spinbox",
+      "default": 688,
+      "dimension": " ",
+      "id": "RCFTLaserCode",
+      "label": "Laser code for Right CFT 1xxx",
+      "max": 888,
+      "min": 111
+    },
+    {
+      "control": "spinbox",
+      "default": 688,
+      "dimension": " ",
+      "id": "Sta8LaserCode",
+      "label": "Laser code for Station 8 1xxx",
+      "max": 888,
+      "min": 111
+    },
+    {
+      "control": "label",
+      "id": "MC_Label",
+      "label": "MULTIPLAYER"
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "playerOnly": true,
+      "weightWhenOnKg": -80
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "WSO"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "HumanOrchestra",
+      "label": "Disable Multicrew",
+      "playerOnly": true
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.49640011097796,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150,
+          428
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149,
+          428
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          298,
+          428
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          299,
+          428
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          246
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 44
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          137
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          268
+        ],
+        "cell": 98
+      },
+      {
+        "args": [
+          169
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          163
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          168
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 143
+      }
+    ],
+    "file": "F-15E_Suite4",
+    "lightsData": {
+      "lights": {
+        "1": {
+          "lights": [
+            {
+              "argument": 198,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 199,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "10": {
+          "lights": [
+            {
+              "argument": 210,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 201,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 202,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 203,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 204,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 205,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "5": {
+          "lights": [
+            {
+              "argument": 207,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "Collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "F-15E_Suite4",
+    "shapeDestroyed": "F15E_destr"
+  },
+  "module": "F-15E AI by RAZBAM",
+  "operations": {
+    "eplrs": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.271,
+    "bankAngleMaxDeg": 60,
+    "casMin": 58,
+    "enginesCount": 2,
+    "hMaxM": 18300,
+    "machMax": 2.45,
+    "nyMax": 8,
+    "rangeKm": 2540,
+    "vLandMs": 71,
+    "vMaxHMs": 736.11,
+    "vMaxSeaLevelMs": 411,
+    "vOptMs": 254,
+    "vTakeOffMs": 61
+  },
+  "radios": [
+    "F-15ESE__radio0",
+    "F-15ESE__radio1"
+  ],
+  "refuelling": {
+    "isTanker": false,
+    "receptaclePosition": [
+      1.42503,
+      0.32304,
+      -1.66084
+    ],
+    "tankerType": 1
+  },
+  "sensors": [
+    "AN/APG-63",
+    "Abstract RWR",
+    "Sniper XR CCD TV",
+    "Sniper XR FLIR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "CATM-9M",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{GBU_15_V_31B}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9J}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{GBU_15_V_31B}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "displayName": "2A",
+      "order": 1,
+      "position": {
+        "lateral": -3.325,
+        "longitudinal": 0.66,
+        "vertical": -0.078
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 1
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 1
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 1
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_MK82LD_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82SE_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82AR_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_GBU_12_x_4}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_MK82LD_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82SE_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82AR_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_GBU_12_x_4}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{AGM-154A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_MK82LD_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82SE_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82AR_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_GBU_12_x_4}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LGB}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{CBU-87}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_MK82LD_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82SE_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_MK82AR_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_GBU_12_x_4}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 1
+            },
+            {
+              "anyStore": true,
+              "station": 3
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{F15E_EXTTANK_EMPTY}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{F15E_EXTTANK}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31V3B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-38}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU_54_V_1B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_GP}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_TP}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_L_CBU_87_x_6}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{CFT_L_CBU_97_x_6}"
+              ],
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "displayName": "2",
+      "order": 2,
+      "position": {
+        "lateral": -2.944,
+        "longitudinal": -0.155,
+        "vertical": -0.343
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "CATM-9M",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{GBU_15_V_31B}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9J}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{GBU_15_V_31B}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "displayName": "2B",
+      "order": 3,
+      "position": {
+        "lateral": -2.563,
+        "longitudinal": 0.66,
+        "vertical": -0.078
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{AGM-154A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LGB}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50HD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50HD_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50HD_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50LD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50LD_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50LD_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50LGB_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU50LGB_x_4}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BDU56AR_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BLU107_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_BLU107_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_CBU_100_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_CBU_100_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_CBU_87_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_CBU_87_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_CBU_97_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_CBU_97_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "anyStore": true,
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_10_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_12_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_12_x_4}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_31V3B_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_31_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_38_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_GBU_54_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82AR_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82AR_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82AR_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82LD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82LD_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82LD_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82SE_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82SE_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK82SE_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK84AR_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_L_MK84LD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31V3B}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_GP}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_TP}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 5
+            },
+            {
+              "anyStore": true,
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            }
+          ]
+        }
+      ],
+      "displayName": "L-CFT",
+      "order": 4,
+      "position": {
+        "lateral": -2.1,
+        "longitudinal": 0,
+        "vertical": -0.6
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7F}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7H}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "displayName": "3C",
+      "order": 5,
+      "position": {
+        "lateral": -1.75,
+        "longitudinal": 1.9,
+        "vertical": -1.1
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7F}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7H}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "displayName": "4C",
+      "order": 6,
+      "position": {
+        "lateral": -1.75,
+        "longitudinal": -3.2,
+        "vertical": -0.88
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{F-15E_AAQ-14_LANTIRN}"
+        }
+      ],
+      "displayName": "TGP",
+      "order": 7,
+      "position": {
+        "lateral": -1.3,
+        "longitudinal": 2.4,
+        "vertical": -1.1
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "MXU-648-TP"
+        },
+        {
+          "clsid": "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+        },
+        {
+          "clsid": "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AGM-154A}"
+        },
+        {
+          "clsid": "{AN_AXQ_14}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{BDU-50HD}"
+        },
+        {
+          "clsid": "{BDU-50LD}"
+        },
+        {
+          "clsid": "{BDU-50LGB}"
+        },
+        {
+          "clsid": "{CBU-87}"
+        },
+        {
+          "clsid": "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+        },
+        {
+          "clsid": "{F15E_EXTTANK_EMPTY}"
+        },
+        {
+          "clsid": "{F15E_EXTTANK}"
+        },
+        {
+          "clsid": "{GBU-31V3B}"
+        },
+        {
+          "clsid": "{GBU-31}"
+        },
+        {
+          "clsid": "{GBU-38}"
+        },
+        {
+          "clsid": "{GBU_54_V_1B}"
+        },
+        {
+          "clsid": "{Mk82AIR}"
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}"
+        },
+        {
+          "clsid": "{Mk_84AIR_GP}"
+        },
+        {
+          "clsid": "{Mk_84AIR_TP}"
+        }
+      ],
+      "displayName": "5",
+      "order": 8,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0.184,
+        "vertical": -1.03
+      },
+      "station": 8,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{F-15E_AAQ-13_LANTIRN}"
+        }
+      ],
+      "displayName": "NVP",
+      "order": 9,
+      "position": {
+        "lateral": 1.3,
+        "longitudinal": 2.4,
+        "vertical": -1.1
+      },
+      "station": 9,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7F}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7H}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        }
+      ],
+      "displayName": "6C",
+      "order": 10,
+      "position": {
+        "lateral": 1.75,
+        "longitudinal": -3.2,
+        "vertical": -0.88
+      },
+      "station": 10,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7F}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-7H}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 12
+            }
+          ]
+        }
+      ],
+      "displayName": "7C",
+      "order": 11,
+      "position": {
+        "lateral": 1.75,
+        "longitudinal": 1.9,
+        "vertical": -1.1
+      },
+      "station": 11,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{AGM-154A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LGB}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50HD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50HD_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50HD_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50LD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50LD_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50LD_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50LGB_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU50LGB_x_4}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BDU56AR_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BLU107_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_BLU107_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_CBU_100_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_CBU_100_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_CBU_87_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_CBU_87_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_CBU_97_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_CBU_97_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "anyStore": true,
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_10_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_12_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_12_x_4}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_31V3B_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_31_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_38_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_GBU_54_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82AR_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82AR_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82AR_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82LD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82LD_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82LD_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82SE_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82SE_x_3}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK82SE_x_6}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM-154A}"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK84AR_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{CFT_R_MK84LD_x_2}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31V3B}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_GP}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_TP}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 10
+            },
+            {
+              "anyStore": true,
+              "station": 11
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Dx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Hx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{LAU_88A_AGM_65Kx3}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{F06B775B-FC70-44B5-8A9F-5B5E2EB839C7}"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "displayName": "R-CFT",
+      "order": 12,
+      "position": {
+        "lateral": 2.1,
+        "longitudinal": 0,
+        "vertical": -0.6
+      },
+      "station": 12,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "CATM-9M",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9J}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        }
+      ],
+      "displayName": "8A",
+      "order": 13,
+      "position": {
+        "lateral": 2.563,
+        "longitudinal": 0.66,
+        "vertical": -0.078
+      },
+      "station": 13,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 13
+            },
+            {
+              "anyStore": true,
+              "station": 15
+            }
+          ]
+        },
+        {
+          "clsid": "MXU-648-TP",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 13
+            },
+            {
+              "anyStore": true,
+              "station": 15
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 13
+            },
+            {
+              "anyStore": true,
+              "station": 15
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{5335D97A-35A5-4643-9D9B-026C75961E52}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_MK82LD_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82SE_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82AR_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_GBU_12_x_4}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_MK82LD_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82SE_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82AR_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_GBU_12_x_4}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{AGM-154A}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_MK82LD_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82SE_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82AR_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_GBU_12_x_4}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50HD}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LD}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{BDU-50LGB}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{CBU-87}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_MK82LD_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82SE_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_MK82AR_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_GBU_12_x_4}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}",
+          "forbidden": [
+            {
+              "anyStore": true,
+              "station": 13
+            },
+            {
+              "anyStore": true,
+              "station": 15
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{F15E_EXTTANK_EMPTY}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{F15E_EXTTANK}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31V3B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-31}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU-38}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{GBU_54_V_1B}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82AIR}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk82SNAKEYE}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_GP}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        },
+        {
+          "clsid": "{Mk_84AIR_TP}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{CFT_R_CBU_87_x_6}"
+              ],
+              "station": 12
+            },
+            {
+              "clsids": [
+                "{CFT_R_CBU_97_x_6}"
+              ],
+              "station": 12
+            }
+          ]
+        }
+      ],
+      "displayName": "8",
+      "order": 14,
+      "position": {
+        "lateral": 2.944,
+        "longitudinal": -0.155,
+        "vertical": -0.343
+      },
+      "station": 14,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "CATM-9M",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{GBU_15_V_31B}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9J}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{AIM-9L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{EF0A9419-01D6-473B-99A3-BEBDB923B14D}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        },
+        {
+          "clsid": "{C8E06185-7CD6-4C90-959F-044679E90751}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{51F9AAE5-964F-4D21-83FB-502E3BFE5F8A}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{DB769D48-67D7-42ED-A2BE-108D566C8B1E}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{GBU_15_V_31B}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{34759BBC-AF1E-4AEE-A581-498FF7A6EBCE}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "{AGM_130C_9}"
+              ],
+              "station": 14
+            },
+            {
+              "clsids": [
+                "<CLEAN>"
+              ],
+              "station": 14
+            }
+          ]
+        }
+      ],
+      "displayName": "8B",
+      "order": 15,
+      "position": {
+        "lateral": 3.325,
+        "longitudinal": 0.66,
+        "vertical": -0.078
+      },
+      "station": 15,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 33,
+      "name": "Pinpoint Strike"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

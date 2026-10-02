@@ -1,0 +1,83 @@
+globals: {}
+
+types:
+  Entity.StationForbidden:
+    kind: record
+    description: "A launcher entry's `forbidden` rule, normalised: while this store is on this station, station `station` must not hold any of `clsids`, or must be empty with `anyStore`. Exactly one of `clsids` and `anyStore` is present."
+    fields:
+      station:
+        type: number
+        description: "`station`: the station the rule constrains."
+      clsids:
+        type: string[]
+        ref: Entity.Store
+        description: "Optional `loadout`: the store CLSIDs it must not hold, DCS order."
+      anyStore:
+        type: boolean
+        description: "Optional; true when DCS gives no `loadout`: the station must hold no store."
+    required: [station]
+
+  Entity.StationRequired:
+    kind: record
+    description: "A launcher entry's `required` rule, normalised: while this store is on this station, station `station` must hold one of `clsids`, or be empty when `allowEmpty`."
+    fields:
+      station:
+        type: number
+        description: "`station`: the station the rule constrains."
+      clsids:
+        type: string[]
+        ref: Entity.Store
+        description: "`loadout` without `\"\"`: the store CLSIDs it may hold, DCS order (empty when DCS lists only `\"\"`)."
+      allowEmpty:
+        type: boolean
+        description: "True when `loadout` lists `\"\"`, DCS's empty station (the mission editor clears the station to meet the rule)."
+    required: [station, clsids, allowEmpty]
+
+  Entity.StationStore:
+    kind: record
+    description: "A store a station accepts, with the launcher entry's loadout rules (entries of one CLSID merged). The mission editor applies them when the store is loaded: `forbidden` stations are cleared of the listed stores (of any store with `anyStore`), `required` stations get the first listed CLSID unless they hold one (cleared when that is `\"\"`)."
+    fields:
+      clsid:
+        type: string
+        ref: Entity.Store
+        description: "Cross-reference: `Entity.Store` CLSID."
+      forbidden:
+        type: Entity.StationForbidden[]
+        description: "Optional `forbidden` rules, DCS order."
+      required:
+        type: Entity.StationRequired[]
+        description: "Optional `required` rules, DCS order."
+    required: [clsid]
+
+  Entity.Station:
+    kind: record
+    description: "A weapon or store station (pylon) on an aircraft entity: every `Pylons` entry, as the mission editor lists them."
+    fields:
+      station:
+        type: number
+        description: "`Number`: station (pylon) index as numbered by the module."
+      type:
+        type: number
+        description: "Optional `Type`, the raw DCS pylon type (0, 1 or 2; 2 on internal bays and smoke stations, among others). DCS names none, and the mission editor offers a station's launchers whatever its type (MissionEditor/modules/me_loadoututils.lua `getPylonsNames`, `getPylonLaunchers`), as `fitStores` does."
+      displayName:
+        type: string
+        description: "Optional `DisplayName`, the mission editor's column label (default: the column's position)."
+      order:
+        type: number
+        description: "Optional `Order`, the mission editor's column order (default: `station`)."
+      wet:
+        type: boolean
+        description: "True if the station accepts a store whose launcher `category` is fuel tank."
+      position:
+        type: Entity.Position
+        description: "Optional mounting offset of the station on the airframe; absent when the pylon lacks any of `X`/`Y`/`Z`."
+      accepts:
+        type: Entity.StationStore[]
+        description: "Stores that can be mounted on this station, by CLSID."
+      obsoleteAccepts:
+        type: Entity.StationStore[]
+        description: "Optional launcher entries DCS marks `obsolete = true` (every entry of the CLSID), which the mission editor hides (MissionEditor/modules/me_loadoututils.lua `getPylonLaunchers`): stores the station no longer accepts, by CLSID. `stationsAccepting`, `canMount`, `fitStores`, `loadoutMass` and the `carriers` index (`aircraftCarrying`, `launchPlatforms`) read only `accepts`."
+      _source:
+        type: any
+        description: "Optional provenance map keyed by field path (for example `position.lateral: corrected`, a per-airframe sign correction from tools/datamine/overlays.yaml). Absent fields are datamined."
+    required: [station, wet, accepts]

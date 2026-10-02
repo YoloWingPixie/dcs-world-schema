@@ -1,0 +1,199 @@
+globals: {}
+
+types:
+  Entity.Seeker:
+    kind: record
+    description: "Seeker parameters DCS gives a weapon as plainly typed fields; each is absent when the weapon's record (and its same-name `_G/rockets` record) lacks it. Field-of-view angles are left out: the newer schemes give several seeker blocks with different `FOV`s."
+    fields:
+      generation:
+        type: number
+        description: "Optional `SeekerGen` (annotated `-- Seeker generation` in the install's weapon scripts)."
+      cooled:
+        type: boolean
+        description: "Optional `SeekerCooled`, else the `cooled` flag of its `simple_IR_seeker`/`IR_seeker`/`sensor` block (they must agree)."
+      irSensitivityRangeKm:
+        type: number
+        description: "Optional `SeekerSensivityDistance` in kilometres (annotated `-- The range of target with IR value = 1. In meters.` in the install's weapon scripts)."
+      activeRadarLockRangeKm:
+        type: number
+        description: "Optional `active_radar_lock_dist` in kilometres."
+      maxLockRangeKm:
+        type: number
+        description: "Optional `seeker.max_lock_dist` in kilometres."
+      maxSeekerRangeKm:
+        type: number
+        description: "Optional `max_seeker_range` of its `seeker`/`laser_seeker`/`laser_spot_seeker`/`sensor` block, in kilometres (the blocks must agree)."
+      gimbalAzimuthMaxDeg:
+        type: number
+        description: "Optional `gimbal.yaw_max` (else `gimbal.az_max`), radians converted to degrees."
+      gimbalElevationMaxDeg:
+        type: number
+        description: "Optional `gimbal.pitch_max` (else `gimbal.el_max`), radians converted to degrees."
+
+  Entity.ClusterElement:
+    kind: record
+    description: "One block of a cluster's `client` table that carries a `count` (bomblets, dispenser parts, skeets...)."
+    fields:
+      name:
+        type: string
+        description: "The block's key (for example `bomblets`, `cluster`, `BLU_108`, `skeet`, `dispenser`)."
+      count:
+        type: number
+        description: "`count`."
+      model:
+        type: string
+        description: "Optional `model_name`."
+      massKg:
+        type: number
+        description: "Optional `mass`, kilograms."
+    required: [name, count]
+
+  Entity.Cluster:
+    kind: record
+    description: "A cluster weapon's `client.launcher.cluster` (else `launcher.cluster`) block."
+    fields:
+      submunition:
+        type: string
+        description: "`name`: the submunition's DCS name (not an `Entity.Weapon` id)."
+      displayName:
+        type: string
+        description: "Optional `display_name`."
+      count:
+        type: number
+        description: "Optional submunition count: `count` of the `bomblets` block, else of the `cluster` block; absent when neither exists (see `elements`)."
+      elements:
+        type: Entity.ClusterElement[]
+        description: "Every counted block, sorted by name."
+      warhead:
+        type: string
+        ref: Entity.Warhead
+        description: "Optional cross-reference: the `Entity.Warhead` of the block's `client.warhead` (one submunition's), id `<weapon>.cluster`."
+      warhead2:
+        type: string
+        ref: Entity.Warhead
+        description: "Optional cross-reference: the `Entity.Warhead` of `client.warhead2`, id `<weapon>.cluster2`."
+    required: [submunition, elements]
+
+  Entity.ArmingDelay:
+    kind: record
+    description: "`arming_delay` of a weapon's `client` block."
+    fields:
+      enabled:
+        type: boolean
+        description: "`enabled`."
+      timeS:
+        type: number
+        description: "`delay_time`, seconds (DCS's weapon scripts: delay is enabled for all bombs by default; the vane default is calibrated to 0.8 s)."
+    required: [enabled, timeS]
+
+  Entity.ArmingVane:
+    kind: record
+    description: "`arming_vane` of a weapon's `client` block."
+    fields:
+      enabled:
+        type: boolean
+        description: "`enabled`."
+      velK:
+        type: number
+        description: "`velK`, raw (DCS's weapon scripts: 0.00834 arms in 0.8 s at 150 m/s release speed)."
+    required: [enabled, velK]
+
+  Entity.Arming:
+    kind: record
+    description: "Fuze arming of a weapon."
+    fields:
+      delay:
+        type: Entity.ArmingDelay
+        description: "Optional `arming_delay`."
+      vane:
+        type: Entity.ArmingVane
+        description: "Optional `arming_vane`."
+    required: []
+
+  Entity.Weapon:
+    kind: record
+    description: "A weapon (projectile record). Cross-references are string ids."
+    fields:
+      id:
+        type: string
+        description: "Unique weapon identifier: the projectile record's `name`."
+      displayName:
+        type: string
+        description: "Human-readable weapon name."
+      category:
+        type: Entity.WsTypeWeaponLevel2
+        description: "Optional wsType level 2 of `ws_type`/`wsTypeOfWeapon` when level 1 is wsType_Weapon. A record without a wsType takes it from the launchers that deliver it exactly (slot 4) when they all agree (`_source.category: launcher`); failing both, a record defined in DCS's own `bombs` table is wsType_Bomb (`_source.category: table`; every `bombs` record carrying a wsType is wsType_Weapon/wsType_Bomb, asserted at extraction); absent otherwise."
+      categoryName:
+        type: string
+        description: "Optional DCS constant name of `category` (for example `wsType_Missile`)."
+      launcherCategory:
+        type: Entity.LauncherCategory
+        description: "Optional top-level `category` of the projectile record."
+      launcherCategoryName:
+        type: string
+        description: "Optional DCS constant name of `launcherCategory` (for example `CAT_AIR_TO_AIR`)."
+      warhead:
+        type: string
+        ref: Entity.Warhead
+        description: "Optional cross-reference: `Entity.Warhead` id fitted to this weapon: the `warhead` (else `client.warhead`) with a `mass` of the weapon's own record, else of a same-name projectile record defining the same DCS object (equal `_unique_resource_name`, else equal `ws_type`), with `_source.warhead: <dir>` (e.g. `bombs`). A cluster weapon without one takes `cluster.warhead` (one submunition's)."
+      cluster:
+        type: Entity.Cluster
+        description: "Optional cluster block (submunitions)."
+      arming:
+        type: Entity.Arming
+        description: "Optional fuze arming."
+      natoName:
+        type: string
+        description: "Optional `NatoName`."
+      massKg:
+        type: number
+        description: "Total launch mass of the weapon in kilograms (`M`, else `mass`, else the legacy `client` block)."
+      subcategory:
+        type: number
+        description: "Optional wsType level 3 of `ws_type`/`wsTypeOfWeapon` (a weapon without its own wsType takes it with `category` from its exact-delivering launchers when they agree on it, `_source.subcategory: launcher`). Its meaning depends on `category` (level-3 numbers repeat across level 2), hence `subcategoryName`."
+      subcategoryName:
+        type: string
+        description: "Optional DCS constant name of `subcategory` among the level-3 constants Scripts/Database/wsTypes.lua lists for `categoryName` (for example `wsType_AA_Missile`, `wsType_Bomb_Guided`; tools/datamine/dcs_constants.py WEAPON_LEVEL3); absent when none carries the number (wsType_Bomb level 3 32 on the AO-2-5 and PTAB-2-5 submunitions)."
+      className:
+        type: string
+        description: "Optional `class_name`: the DCS simulation class of the projectile (for example `wAmmunitionSelfHoming`, `wAmmunitionLaserHoming`, `wAmmunitionChangeableTrajectory`, `wAmmunitionNURS`)."
+      scheme:
+        type: string
+        description: "Optional `scheme`: the DCS simulation scheme file the projectile runs (for example `schemes/missiles/aa_missile_semi_active.sch`, `schemes/bombs/bomb_jdam.sch`)."
+      seekerType:
+        type: number
+        description: "Optional `Head_Type`, the seeker head type code of missiles and torpedoes (from the same-name `_G/rockets` record when the weapon's own lacks it, `_source.seekerType: rockets`)."
+      seekerTypeName:
+        type: string
+        description: "Optional name of `seekerType` from tools/datamine/overlays.yaml `weapons/seekerTypes` (`InfraredSeeker`, `ActiveRadar`, `AntiRadar`, `LaserHoming`, `Autopilot`, `SemiActiveRadar`, `SemiAutoAT`: the engine constants the install's AJS37 weapon script quotes), `_source.seekerTypeName: hand-authored`; absent for codes no DCS source names (0 on torpedoes, 8 on command-guided SAMs)."
+      seeker:
+        type: Entity.Seeker
+        description: "Optional seeker parameters (`_source.seeker: rockets` when any comes from the same-name `_G/rockets` record)."
+      rangeKm:
+        type: number
+        description: "Optional maximum range in kilometres: the first positive of `Range_max`, `D_max`, the largest cell of the `LaunchDistData` launch-range table (altitude x speed) and `dist_max` (unguided rockets' max range), missile fields read from the same-name `_G/rockets` record when the weapon's own lacks them (`_source.rangeKm: rockets`). DCS writes 0 for an unset range. Absent for weapons DCS gives no range: unguided and most guided bombs, and rockets whose `dist_max` is 0."
+      rangeField:
+        type: string
+        description: "Optional DCS field `rangeKm` was read from: `Range_max`, `D_max`, `LaunchDistData` or `dist_max`."
+      rangeMinKm:
+        type: number
+        description: "Optional minimum range in kilometres: `D_min`, else `dist_min` of a rocket with a positive `dist_max`."
+      rangeMinField:
+        type: string
+        description: "Optional DCS field `rangeMinKm` was read from: `D_min` or `dist_min`."
+      launchRangeMaxKm:
+        type: number
+        description: "Optional `D_max` in kilometres (annotated `-- max launch distance` in the install's AJS37 weapon script); it differs from `Range_max` on many missiles (air-to-air ones often below it)."
+      attributes:
+        type: string[]
+        description: "Cross-reference: `Entity.Attribute` ids describing this weapon."
+      rwrSymbol:
+        type: string
+        description: "Optional: the weapon's own RWR symbol in the install's AN_ALR_SymbolsBase.lua (active-radar missiles DCS shows on the RWR, e.g. AIM-54, PL-12, SD-10), joined exactly by projectile name or wsType; see tools/datamine/rwr.py."
+      alic:
+        type: string[]
+        description: "Optional: the weapon's distinct HARM/ALIC codes in the install's AN_ALR_HarmIDs.lua, joined like `rwrSymbol`, sorted numerically."
+      _source:
+        type: any
+        description: "Optional provenance map keyed by field path: `category`/`subcategory: launcher` when they come from the delivering launchers; `category: table` when it comes from membership of DCS's `bombs` table (wsType_Bomb); `rockets` on `seekerType`, `seeker`, `rangeKm`, `rangeMinKm` and `launchRangeMaxKm` when read from the weapon's same-name `_G/rockets` record (which must agree with its own on every field both carry); `seekerTypeName: hand-authored`; `warhead: cluster` when it is the cluster's. Absent fields are the weapon's own."
+    required: [id, displayName, massKg, attributes]

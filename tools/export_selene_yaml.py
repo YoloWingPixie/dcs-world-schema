@@ -1,17 +1,22 @@
 import argparse
-import json
-import os
-from typing import Any, Dict, Iterable, List, Tuple
+from collections.abc import Iterable
+from pathlib import Path
+from typing import Any
 
-try:
-    import yaml  # type: ignore
-except Exception as exc:  # noqa: BLE001
-    raise RuntimeError(
-        "PyYAML is required to export Selene YAML. Add pyyaml to dependencies."
-    ) from exc
+import yaml
 
+from tools.datamine.common import load_json
+from tools.spec_types import (
+    Primitive,
+    Ref,
+    api_spec,
+    is_literal_union,
+    is_type_only,
+    parse_type,
+    runtime_roots,
+)
 
-PRIMITIVE_TYPE_MAP: Dict[str, str] = {
+PRIMITIVE_TYPE_MAP: dict[str, str] = {
     "string": "string",
     "number": "number",
     "boolean": "bool",
@@ -24,32 +29,30 @@ PRIMITIVE_TYPE_MAP: Dict[str, str] = {
 }
 
 
-def load_schema(path: str) -> Dict[str, Any]:
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def normalize_arg_type(type_string: str) -> Tuple[str, Any]:
+def normalize_arg_type(type_string: str) -> tuple[str, Any]:
     t = (type_string or "").strip()
     if not t:
         return ("primitive", "any")
     if t == "...":
         return ("primitive", "...")
-    if "|" in t or "," in t or "[" in t or "]" in t:
-        return ("display", {"display": t})
-    mapped = PRIMITIVE_TYPE_MAP.get(t.lower())
-    if mapped is not None:
-        return ("primitive", mapped)
+    node = parse_type(t)
+    # A string literal, or a union of them, is a string to Selene.
+    if is_literal_union(node):
+        return ("primitive", "string")
+    if isinstance(node, (Primitive, Ref)):
+        mapped = PRIMITIVE_TYPE_MAP.get(node.name.lower())
+        if mapped is not None:
+            return ("primitive", mapped)
     return ("display", {"display": t})
 
 
-def build_function_args(params: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    out: List[Dict[str, Any]] = []
+def build_function_args(params: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
+    out: list[dict[str, Any]] = []
     for p in params:
         type_str = p.get("type") or p.get("luaType") or "any"
         required = not bool(p.get("optional") or (p.get("required") is False))
         kind, value = normalize_arg_type(type_str)
-        arg: Dict[str, Any] = {}
+        arg: dict[str, Any] = {}
         if kind == "primitive":
             arg["type"] = value
         else:
@@ -60,10 +63,11 @@ def build_function_args(params: Iterable[Dict[str, Any]]) -> List[Dict[str, Any]
     return out
 
 
-def export_to_selene_yaml(schema: Dict[str, Any]) -> Dict[str, Any]:
-    globals_out: Dict[str, Any] = {}
+def export_to_selene_yaml(schema: dict[str, Any]) -> dict[str, Any]:
+    schema = api_spec(schema)
+    globals_out: dict[str, Any] = {}
 
-    globals_def: Dict[str, Any] = schema.get("globals", {})
+    globals_def: dict[str, Any] = schema.get("globals", {})
 
     for global_name, global_def in sorted(globals_def.items()):
         # Properties
@@ -80,7 +84,7 @@ def export_to_selene_yaml(schema: Dict[str, Any]) -> Dict[str, Any]:
 
             # If the property defines nested static functions, emit them as functions
             if isinstance(prop_def, dict):
-                nested_static = (prop_def.get("static") or {})
+                nested_static = prop_def.get("static") or {}
                 if isinstance(nested_static, dict):
                     for func_name, func_def in nested_static.items():
                         params = func_def.get("params") or []
@@ -115,25 +119,22 @@ def export_to_selene_yaml(schema: Dict[str, Any]) -> Dict[str, Any]:
                 "args": build_function_args(params),
             }
 
-    # Export enums as read-only properties for each constant
-    types_def: Dict[str, Any] = schema.get("types", {})
+    # Export enums as read-only properties for each constant, but only where
+    # DCS has the table: a type-only enum (DcsTask.OptionName) is no global
+    types_def: dict[str, Any] = schema.get("types", {})
+    roots = runtime_roots(schema)
     for type_name, type_def in sorted(types_def.items()):
-        if not isinstance(type_def, dict):
+        if not isinstance(type_def, dict) or is_type_only(type_name, roots):
             continue
         if (type_def.get("kind") or "").lower() != "enum":
             continue
         values = type_def.get("values")
         if isinstance(values, dict):
-            for const_name in values.keys():
+            for const_name in values:
                 const_key = f"{type_name}.{const_name}"
                 globals_out[const_key] = {"property": "read-only"}
 
-    doc: Dict[str, Any] = {
-        "base": "lua51",
-        "name": "dcs-world",
-        "globals": globals_out,
-    }
-    return doc
+    return {"base": "lua51", "name": "dcs-world", "globals": globals_out}
 
 
 def main() -> None:
@@ -149,12 +150,11 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    schema = load_schema(args.schema)
+    schema = load_json(Path(args.schema))
     data = export_to_selene_yaml(schema)
-    output_dir = os.path.dirname(args.output)
-    if output_dir:
-        os.makedirs(output_dir, exist_ok=True)
-    with open(args.output, "w", encoding="utf-8") as f:
+    output = Path(args.output)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with output.open("w", encoding="utf-8") as f:
         yaml.safe_dump(data, f, sort_keys=False, allow_unicode=True)
     print(f"Selene YAML exported to {args.output}")
 

@@ -1,0 +1,299 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.002
+  },
+  "attributes": [
+    "AA_flak",
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Datalink",
+    "Ground Units",
+    "Ground vehicles",
+    "IR Guided SAM",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 5200,
+    "irEmissionCoeff": 0.075,
+    "sensor": {
+      "heightM": 3.076,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5200,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4500
+  },
+  "dimensions": {
+    "lengthM": 4.72,
+    "massKg": 3990,
+    "widthM": 2.18
+  },
+  "displayName": "SAM Avenger (Stinger)",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "M1097 Avenger",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2.5
+    }
+  ],
+  "mobility": {
+    "enginePower": 160,
+    "fordingDepthM": 0.76,
+    "maxRoadSpeedMs": 31.3889,
+    "maxSlopeRad": 0.5,
+    "maxSpeedKmh": 113.00004,
+    "maxVertObstacleM": 0.56,
+    "minTurnRadiusM": 7.62,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "crew_presence": 50,
+      "locator_rotation": 11,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "mapClassKey": "P0091000213",
+    "shape": "HMMWV_M973",
+    "shapeDestroyed": "HMMWV_M973_P_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1989,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 2000,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 2013,
+        "to": 9999
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN",
+      "years": {
+        "from": 2003,
+        "to": 9999
+      }
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN",
+      "years": {
+        "from": 2016,
+        "to": 9999
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "generic SAM IR search visir",
+    "generic SAM search visir"
+  ],
+  "tags": [
+    "Air Defence",
+    "SAM SHORAD"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 8,
+      "ecmK": -1,
+      "launchDelayS": 1,
+      "launcherType": 4,
+      "ln": 1,
+      "maxShootingSpeed": 8.34,
+      "missileChannels": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 16,
+          "ammoName": "FIM-92 Stinger",
+          "reloadTimeS": 400,
+          "shotDelayS": 40,
+          "weapon": "FIM_92C"
+        }
+      ],
+      "rMaxKm": 4.5,
+      "rMinKm": 0.2,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0472,
+        "yaw": 1.0472
+      },
+      "weapons": [
+        "FIM_92C"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "M2 Browning",
+      "gunAmmo": [
+        "M2_12_7",
+        "M2_12_7_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 2,
+      "name": "M2_Browning",
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 25,
+          "shotDelayS": 0.054545454545455
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0472,
+        "yaw": 1.0472
+      },
+      "ws": 1
+    }
+  ]
+}

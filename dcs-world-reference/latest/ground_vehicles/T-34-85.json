@@ -1,0 +1,488 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          10,
+          2.9
+        ],
+        [
+          10,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.67
+        ],
+        [
+          150,
+          180,
+          0.2
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.1
+        ],
+        [
+          -45,
+          11,
+          1
+        ],
+        [
+          11,
+          19,
+          2.9
+        ],
+        [
+          19,
+          40,
+          1
+        ],
+        [
+          40,
+          90,
+          0.15
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          10,
+          2.9
+        ],
+        [
+          10,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.67
+        ],
+        [
+          150,
+          180,
+          0.25
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          2.9
+        ],
+        [
+          18,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.125
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3,
+    "members": [
+      "commander",
+      "gunner",
+      "loader"
+    ]
+  },
+  "detection": {
+    "airWeaponDistM": 1000,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 2.713,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 5200
+  },
+  "dimensions": {
+    "lengthM": 6.1,
+    "massKg": 32000,
+    "widthM": 3
+  },
+  "displayName": "Tk T-34-85",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "T-34-85",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 15
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 5
+    }
+  ],
+  "mobility": {
+    "enginePower": 500,
+    "fordingDepthM": 0.5,
+    "maxRoadSpeedMs": 54,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 194.4,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "t34-85",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "t34-85",
+    "shapeDestroyed": "t34-85_p_1"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1945,
+        "to": 1995
+      }
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1948,
+        "to": 1978
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1950,
+        "to": 1990
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1945,
+        "to": 1995
+      }
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1948,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1945,
+        "to": 1986
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1945,
+        "to": 1995
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1955,
+        "to": 9999
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1944,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1961,
+        "to": 9999
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1953,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 1957,
+        "to": 2000
+      }
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Armor",
+    "Tank"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "UBR_365_85AP"
+      ],
+      "hMaxM": 500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 30,
+          "gunAmmo": [
+            "UBR_365_85AP"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 10
+        }
+      ],
+      "rMaxKm": 5.2,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.38397243543875
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.73303828583762,
+        "yaw": 0.73303828583762
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "UO_365K_85HE"
+      ],
+      "hMaxM": 500,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 30,
+          "gunAmmo": [
+            "UO_365K_85HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 10
+        }
+      ],
+      "rMaxKm": 5.2,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.38397243543875
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.73303828583762,
+        "yaw": 0.73303828583762
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "PKT 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "7_62_PKT",
+      "payloads": [
+        {
+          "ammoCapacity": 2898,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 2898,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          0.38397243543875
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.73303828583762,
+        "yaw": 0.73303828583762
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "PKT 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 500,
+      "launcherType": 10,
+      "ln": 1,
+      "name": "7_62_PKT",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.20943951023932,
+          -0.20943951023932,
+          -0.10471975511966,
+          0.27925268031909
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.3962634015955
+      },
+      "ws": 2
+    }
+  ]
+}

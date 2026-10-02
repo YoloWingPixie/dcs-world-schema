@@ -1,0 +1,1645 @@
+{
+  "aero": {
+    "emptyMassKg": 3537,
+    "internalFuelKg": 1796,
+    "maxSpeedKmh": 925.2,
+    "maxTakeoffKg": 5366
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 225,
+    "maxMHz": 399.975,
+    "minMHz": 225,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 17,
+    "name": "Reconnaissance"
+  },
+  "detection": {
+    "detectionRangeMax": 30,
+    "irEmissionCoeff": 0.2,
+    "rcsM2": 2.5
+  },
+  "dimensions": {
+    "heightM": 4.25,
+    "lengthM": 12.25,
+    "wingSpanM": 10.6
+  },
+  "displayName": "C-101EB",
+  "failures": [
+    {
+      "id": "generator_fail",
+      "label": "Generator failure"
+    },
+    {
+      "id": "starter_fail",
+      "label": "Starter failure"
+    },
+    {
+      "id": "batteries_fail",
+      "label": "Batteries failure"
+    },
+    {
+      "id": "inverters_fail",
+      "label": "Inverters failure"
+    },
+    {
+      "id": "inverter1_fail",
+      "label": "Normal inverter failure"
+    },
+    {
+      "id": "inverter2_fail",
+      "label": "Standby inverter failure"
+    },
+    {
+      "id": "engine_flameout_irrecoverable",
+      "label": "Engine flameout without relight"
+    },
+    {
+      "id": "engine_flameout_recoverable",
+      "label": "Engine flameout with relight"
+    },
+    {
+      "id": "engine_fire",
+      "label": "Engine fire"
+    },
+    {
+      "id": "oil_press_drop",
+      "label": "Oil pressure drop"
+    },
+    {
+      "id": "chip_in_oil",
+      "label": "Chip in oil"
+    },
+    {
+      "id": "fuel_leak",
+      "label": "Fuel leak"
+    },
+    {
+      "id": "engine_seized",
+      "label": "Engine seized"
+    },
+    {
+      "id": "engine_antiice_fail",
+      "label": "Engine anti-ice failure"
+    },
+    {
+      "id": "eng_computer_fail",
+      "label": "Engine computer fail (manual mode)"
+    },
+    {
+      "id": "hydr_leak",
+      "label": "Hydraulic leak"
+    },
+    {
+      "id": "elevator_loss",
+      "label": "Elevator loss"
+    },
+    {
+      "id": "aileron_loss",
+      "label": "Aileron loss"
+    },
+    {
+      "id": "rudder_loss",
+      "label": "Rudder loss"
+    },
+    {
+      "id": "pitch_trim_runaway_up",
+      "label": "Pitch trim runaway - Nose up"
+    },
+    {
+      "id": "pitch_trim_runaway_down",
+      "label": "Pitch trim runaway - Nose down"
+    },
+    {
+      "id": "pitch_trim_fail",
+      "label": "Control stick pitch trim switch failure"
+    },
+    {
+      "id": "aileron_trim_fail",
+      "label": "Control stick aileron trim switch failure"
+    },
+    {
+      "id": "airbrake_cutout_microsw_malf",
+      "label": "Airbrake autotrim cutout malfunction"
+    },
+    {
+      "id": "LGear_ext_fault",
+      "label": "Left gear extension fault"
+    },
+    {
+      "id": "LGear_ret_fault",
+      "label": "Left gear retraction fault"
+    },
+    {
+      "id": "RGear_ext_fault",
+      "label": "Right gear extension fault"
+    },
+    {
+      "id": "RGear_ret_fault",
+      "label": "Right gear retraction fault"
+    },
+    {
+      "id": "NGear_ext_fault",
+      "label": "Nose gear extension fault"
+    },
+    {
+      "id": "NGear_ret_fault",
+      "label": "Nose gear retraction fault"
+    },
+    {
+      "id": "antiskid_fail",
+      "label": "Antiskid failure"
+    },
+    {
+      "id": "flaps_fault",
+      "label": "Flaps fault"
+    },
+    {
+      "id": "explosive_depressurization",
+      "label": "Explosive depressurization"
+    },
+    {
+      "id": "pitot_blocked",
+      "label": "Pitot tube blocked"
+    },
+    {
+      "id": "static_blocked",
+      "label": "Static port blocked"
+    },
+    {
+      "id": "pitot_heat_fail",
+      "label": "Pitot heat failure"
+    },
+    {
+      "id": "gs_fail",
+      "label": "ILS receiver GS signal fail"
+    },
+    {
+      "id": "loc_fail",
+      "label": "ILS receiver LOC signal fail"
+    },
+    {
+      "id": "vor_fail",
+      "label": "VOR receiver nav signal fail"
+    },
+    {
+      "id": "tacan_fail",
+      "label": "TACAN receiver nav signal fail"
+    },
+    {
+      "id": "dme_fail",
+      "label": "DME signal fail"
+    }
+  ],
+  "flyable": true,
+  "id": "C-101EB",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 472,
+      "argTable": {
+        "false": 0,
+        "true": 0.5
+      },
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "weightWhenOnKg": -80
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Instructor"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "MountIFRHood",
+      "label": "Mount IFR Hood",
+      "playerOnly": true
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "NS430allow",
+      "label": "NS 430 Setup",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Not installed"
+        },
+        {
+          "id": 1,
+          "label": "Forward seat"
+        },
+        {
+          "id": 2,
+          "label": "Rear seat"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "SmokeOnGround",
+      "label": "Allow Smoke On Ground",
+      "playerOnly": true
+    }
+  ],
+  "model": {
+    "canopyGeometry": {
+      "azimuth": [
+        -160,
+        160
+      ],
+      "elevation": [
+        -50,
+        90
+      ]
+    },
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          402
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          232
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          263
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          256
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          264
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          254
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          262
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          261
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          257
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          249
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          250
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          271
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          269
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          273
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          270
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          252
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          110
+        ],
+        "cell": 60
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 62
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          229
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 79
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 81
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          400
+        ],
+        "cell": 90
+      },
+      {
+        "args": [
+          401
+        ],
+        "cell": 91
+      }
+    ],
+    "file": "C-101EB",
+    "lightsData": {
+      "lights": {
+        "1": {
+          "lights": [
+            {
+              "argument": 83,
+              "period": 1.333,
+              "phase_shift": 0,
+              "typename": "argnatostrobelight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.19634954084936,
+                  "angle_max": 0.5235987755983,
+                  "angle_min": 0.34906585039887,
+                  "argument": 208,
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.7104226669544
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 3.0019663134302,
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.7104226669544
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "range": 2,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0,
+                    0.25,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "range": 3,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.19634954084936,
+                  "angle_max": 0.5235987755983,
+                  "angle_min": 0.34906585039887,
+                  "argument": 209,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.7104226669544
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 3.0019663134302,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.7104226669544
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "range": 2,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0,
+                    0.25,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.047996554429844,
+                    "angle_max": 0.19198621771938,
+                    "angle_min": 0.1221730476396,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.27855844122716
+                    ],
+                    "power_up_t": 1,
+                    "range": 3120
+                  },
+                  "range": 3,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 190,
+                  "typename": "argumentlight"
+                },
+                {
+                  "angle_change_rate": 1.0471975511966,
+                  "angle_max": 1.9198621771938,
+                  "angle_min": 0.48869219055841,
+                  "direction": {
+                    "azimuth": -1.5707963267949,
+                    "elevation": 1.221730476396
+                  },
+                  "position": [
+                    0.376,
+                    -0.594,
+                    -0.75
+                  ],
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "Spot"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 191,
+                  "typename": "argumentlight"
+                },
+                {
+                  "angle_change_rate": 1.0471975511966,
+                  "angle_max": 1.9198621771938,
+                  "angle_min": 0.48869219055841,
+                  "direction": {
+                    "azimuth": 1.5707963267949,
+                    "elevation": 1.221730476396
+                  },
+                  "position": [
+                    0.376,
+                    -0.594,
+                    0.75
+                  ],
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.12792304845413
+                    ],
+                    "range": 250
+                  },
+                  "typename": "Spot"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 88,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 208,
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.9024088846738
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 3.0019663134302,
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.9024088846738
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "range": 2,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0,
+                    0.25,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "range": 3,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 209,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.9024088846738
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 3.0019663134302,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": -1.9024088846738
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "range": 2,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0,
+                    0.25,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.19198621771938,
+                    "angle_max": 0.7679448708775,
+                    "angle_min": 0.614355896702,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.2137366596101
+                    ],
+                    "power_up_t": 1.55,
+                    "range": 612
+                  },
+                  "range": 3,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "lights": [
+                    {
+                      "argument": 1010,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1011,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1012,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1013,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1014,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 1015,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1016,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 69,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 970,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "lights": [
+                    {
+                      "argument": 1017,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1018,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1019,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1020,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1021,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 1022,
+                      "typename": "argumentlight"
+                    },
+                    {
+                      "argument": 1023,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 519,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                },
+                {
+                  "lights": [
+                    {
+                      "argument": 971,
+                      "typename": "argumentlight"
+                    }
+                  ],
+                  "typename": "collection"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "C-101EB",
+    "shapeDestroyed": "C-101_destr"
+  },
+  "module": "C-101 Aviojet by AvioDev",
+  "operations": {
+    "bigParkingRamp": false
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN",
+      "years": {
+        "from": 1987,
+        "to": 2018
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS",
+      "years": {
+        "from": 1984,
+        "to": 2014
+      }
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 1986,
+        "to": 2022
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.08,
+    "bankAngleMaxDeg": 60,
+    "casMin": 56,
+    "enginesCount": 1,
+    "hMaxM": 12500,
+    "machMax": 0.8,
+    "nyMax": 6,
+    "rangeKm": 1015,
+    "vLandMs": 61,
+    "vMaxHMs": 257,
+    "vMaxSeaLevelMs": 205,
+    "vOptMs": 125,
+    "vTakeOffMs": 53
+  },
+  "radios": [
+    "C-101EB__radio0"
+  ],
+  "refuelling": {
+    "isTanker": false,
+    "tankerType": 0
+  },
+  "sensors": [],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{SMOKE-SYSTEM-AVIOJET}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0.144,
+        "longitudinal": -4.755,
+        "vertical": -0.156
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{SMOKE-RED-AVIOJET}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SMOKE-SYSTEM-AVIOJET}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{SMOKE-YELLOW-AVIOJET}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{SMOKE-SYSTEM-AVIOJET}"
+              ],
+              "station": 1
+            }
+          ]
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 0.144,
+        "longitudinal": -4.755,
+        "vertical": -0.156
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

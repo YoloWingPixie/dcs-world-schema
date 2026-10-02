@@ -1,0 +1,128 @@
+globals: {}
+
+types:
+  Entity.Theatre:
+    kind: record
+    description: "A DCS terrain (map) from `Mods/terrains/<directory>/entry.lua`, with its map projection fitted to the terrain's beacons (or, without beacons, to the runtime pass's `coord.LOtoLL` grid)."
+    fields:
+      id:
+        type: string
+        description: "Terrain plugin id (`entry.lua` `id`; a mission's `theatre`)."
+      displayName:
+        type: string
+        description: "Optional `entry.lua` `localizedName` (untranslated)."
+      directory:
+        type: string
+        description: "Terrain directory under `Mods/terrains`."
+      projection:
+        type: Entity.MapProjection
+        description: "Optional map projection; absent when the terrain ships no geo-referenced beacons and has no runtime dump to fit it from."
+      datum:
+        type: Entity.GeoPoint
+        description: "Optional WGS84 latitude/longitude of the map origin (x = 0, z = 0) through `projection`."
+      aliases:
+        type: string[]
+        description: "Optional other names the theatre goes by (e.g. `NTTR`), hand-authored in tools/datamine/overlays.yaml (`_source`); none repeats the id, displayName or directory, and no two theatres share one."
+      _source:
+        type: any
+        description: "Optional provenance map keyed by field path: `aliases` is `hand-authored`. Absent fields are datamined."
+    required: [id, directory]
+
+  Entity.MapProjection:
+    kind: record
+    description: "Transverse Mercator (WGS84, latitude of origin 0) mapping latitude/longitude to DCS map metres: z = falseEasting + k·E, x = falseNorthing + k·N. Least-squares fit to every beacon's `position` against its `positionGeo` (or to `coord.LOtoLL` on a 9 x 9 grid over the airdromes); parameters rounded to what 6-decimal `positionGeo` resolves."
+    fields:
+      method:
+        type: string
+        description: "`TransverseMercator`."
+      ellipsoid:
+        type: string
+        description: "`WGS84`."
+      latitudeOfOrigin:
+        type: number
+        description: "Degrees; fixed at 0 (it trades exactly against `falseNorthing`)."
+      centralMeridian:
+        type: number
+        description: "Degrees east."
+      scaleFactor:
+        type: number
+        description: "Scale factor on the central meridian."
+      falseEasting:
+        type: number
+        description: "Metres added to the projected easting to give map z."
+      falseNorthing:
+        type: number
+        description: "Metres added to the projected northing to give map x."
+      fit:
+        type: Entity.ProjectionFit
+        description: "Quality of the fit."
+    required: [method, ellipsoid, latitudeOfOrigin, centralMeridian, scaleFactor, falseEasting, falseNorthing, fit]
+
+  Entity.ProjectionFit:
+    kind: record
+    description: "Residuals of the projection fit, horizontal metres; extraction fails above 1 m or with fewer than 10 points spanning 50 km."
+    fields:
+      points:
+        type: number
+        description: "Points used."
+      source:
+        type: string
+        description: "Optional `coord.LOtoLL` when fitted to the runtime grid; absent: the beacons."
+      spanKm:
+        type: number
+        description: "Largest distance between two of the points, kilometres."
+      rmsResidualM:
+        type: number
+        description: "Root-mean-square residual."
+      maxResidualM:
+        type: number
+        description: "Largest residual."
+    required: [points, spanKm, rmsResidualM, maxResidualM]
+
+  Entity.GeoPoint:
+    kind: record
+    description: "A WGS84 latitude/longitude in decimal degrees."
+    fields:
+      latitude:
+        type: number
+        description: "Degrees north."
+      longitude:
+        type: number
+        description: "Degrees east."
+    required: [latitude, longitude]
+
+  Entity.MapPosition:
+    kind: record
+    description: "A DCS map (world) position in metres: `x` north, `y` up (altitude above MSL), `z` east of the map origin."
+    fields:
+      x:
+        type: number
+        description: "Metres north."
+      y:
+        type: number
+        description: "Metres up."
+      z:
+        type: number
+        description: "Metres east."
+    required: [x, y, z]
+
+  Entity.MapPoint:
+    kind: record
+    description: "A surface point in map metres (`x` north, `z` east) with its WGS84 latitude/longitude and optional elevation."
+    fields:
+      x:
+        type: number
+        description: "Metres north."
+      z:
+        type: number
+        description: "Metres east."
+      latitude:
+        type: number
+        description: "Degrees north (DCS `coord.LOtoLL`)."
+      longitude:
+        type: number
+        description: "Degrees east (DCS `coord.LOtoLL`)."
+      elevationM:
+        type: number
+        description: "Optional terrain height at the point, metres above MSL (`land.getHeight`)."
+    required: [x, z, latitude, longitude]

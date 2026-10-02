@@ -1,0 +1,101 @@
+globals: {}
+
+types:
+  Entity.ThreatKind:
+    kind: enum
+    description: "What a threat is: an air defence system firing missiles (`sam`) or only radar-directed guns (`aaa`), an early-warning radar (`ewr`), or a ship or aircraft on DCS's RWR tables."
+    values:
+      SAM: "sam"
+      AAA: "aaa"
+      EWR: "ewr"
+      SHIP: "ship"
+      AIRCRAFT: "aircraft"
+
+  Entity.ThreatEnvelope:
+    kind: record
+    description: "An engagement envelope, in kilometres and metres: the launcher's own limits (`distanceMin`/`distanceMax`, `min_trg_alt`/`max_trg_alt` of its weapon systems, the widest across them), else the missile's (`D_min`/`D_max`, `H_min`/`H_max`)."
+    fields:
+      rMaxKm:
+        type: number
+        description: "Maximum engagement range in kilometres."
+      rMinKm:
+        type: number
+        description: "Optional minimum engagement range in kilometres."
+      hMaxM:
+        type: number
+        description: "Optional maximum engagement altitude in metres."
+      hMinM:
+        type: number
+        description: "Optional minimum engagement altitude in metres."
+    required: [rMaxKm]
+
+  Entity.ThreatComponent:
+    kind: record
+    description: "A unit of a `sam`/`aaa` threat: one component per unit. Being a launcher is what `weapons` (with `envelope`) and `gunAmmo` (with `gunEnvelope`) say; `roles` holds only the unit's DCS attributes."
+    fields:
+      unit:
+        type: string
+        ref: "Entity.Aircraft | Entity.GroundVehicle | Entity.Personnel | Entity.Ship | Entity.Structure"
+        description: "Cross-reference: unit type id of the component."
+      roles:
+        type: string[]
+        description: "The unit's DCS role attributes among `SAM SR`, `SAM TR`, `SAM LL`, `SAM CC`, `SAM AUX`, `AAA` and `EWR`, in that order; nothing invented, so possibly empty (e.g. the M48 Chaparral launcher, which only `weapons` marks as one)."
+      requires:
+        type: any
+        description: "Optional: the alternatives of the unit's `WS[i].LN[j].depends_on_unit` tables (WS/LN order, no repeats), each exactly as DCS writes it: a list of `{unit type or \"self\", weapon-system index?}` entries. The alternatives are any-of (DCS lists `{{\"none\"}}` as one for guns that may also fire unguided, e.g. flak18); every alternative in DCS data holds one entry."
+      weapons:
+        type: string[]
+        ref: Entity.Weapon
+        description: "Optional cross-reference: `Entity.Weapon` ids of the missiles the unit fires."
+      envelope:
+        type: Entity.ThreatEnvelope
+        description: "Optional (with `weapons`): envelope of the unit's missile weapon systems."
+      gunAmmo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Optional cross-reference: `Entity.GunAmmo` ids the unit fires."
+      gunEnvelope:
+        type: Entity.ThreatEnvelope
+        description: "Optional (with `gunAmmo`): envelope of the unit's gun weapon systems."
+      rwrSymbol:
+        type: string
+        description: "Optional: the unit's RWR symbol in the install's AN_ALR_SymbolsBase.lua."
+      alic:
+        type: string[]
+        description: "Optional: the unit's distinct HARM/ALIC codes in the install's AN_ALR_HarmIDs.lua, sorted numerically (a unit type can match by name and by a wsType it shares with another)."
+    required: [unit, roles]
+
+  Entity.ThreatSystem:
+    kind: record
+    description: "A threat: what DCS puts on an RWR (the install's AN_ALR_SymbolsBase.lua and AN_ALR_HarmIDs.lua, joined exactly by unit type or wsType), plus air defence systems firing without a radar. `sam`/`aaa` systems are Air Defence units linked by the missiles they fire and by `depends_on_unit`; see tools/datamine/extract_threats.py. Cross-references are stored as string ids."
+    fields:
+      id:
+        type: string
+        description: "Unique id from DCS data: a `sam` system's smallest missile name; an `aaa` system's smallest launcher unit type; otherwise the emitter's unit type."
+      kind:
+        type: Entity.ThreatKind
+        description: "What the threat is."
+      natoDesignation:
+        type: string
+        description: "Optional NATO designation (e.g. `SA-11`) of the system's launchers and track radars, else its western system name (e.g. `Patriot`) or, for a system known only by its radar, that radar's NATO reporting name (e.g. `Dog Ear`); component units' own reporting names are `natoReportingName` on their records: from tools/datamine/overlays.yaml (by unit type) where DCS's NATO speech protocol (the install's Scripts/Speech/NATO.lua) does not name them or calls them by a non-formal name (`MANPADS`, `Zeus`), else the name NATO.lua calls them by; absent when they carry different names."
+      components:
+        type: Entity.ThreatComponent[]
+        description: "Optional (`sam`, `aaa`): the system's units, one component each, by unit type."
+      unit:
+        type: string
+        ref: "Entity.Aircraft | Entity.GroundVehicle | Entity.Personnel | Entity.Ship | Entity.Structure"
+        description: "Optional cross-reference (`ewr`, `ship`, `aircraft`): the emitter's unit type; its record holds the weapons."
+      rwrSymbol:
+        type: string
+        description: "Optional (`ewr`, `ship`, `aircraft`): the emitter's RWR symbol."
+      alic:
+        type: string[]
+        description: "Optional (`ewr`, `ship`, `aircraft`): the emitter's distinct HARM/ALIC codes, sorted numerically."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Optional cross-reference: `Entity.Sensor` ids of the components (`sam`, `aaa`), the unit (`ewr`), or the aircraft's radars."
+      _source:
+        type: any
+        description: "Provenance map keyed by field path: `natoDesignation` is `hand-authored` when it comes from tools/datamine/overlays.yaml. Absent fields are datamined."
+    required: [id, kind]

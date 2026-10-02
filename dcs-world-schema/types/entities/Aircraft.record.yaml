@@ -1,0 +1,442 @@
+globals: {}
+
+types:
+  Entity.AircraftKind:
+    kind: enum
+    description: "Airframe locomotion class of an aircraft entity."
+    values:
+      FIXEDWING: "fixedwing"
+      ROTARY: "rotary"
+
+  Entity.Gun:
+    kind: record
+    description: "Internal gun armament of an aircraft entity."
+    fields:
+      type:
+        type: string
+        description: "Optional gun model identifier (the first gun's `short_name` or `display_name`)."
+      ammo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Cross-reference: `Entity.GunAmmo` ids loadable in any of the guns, sorted."
+      rounds:
+        type: number
+        description: "Total round capacity of the guns."
+      mixes:
+        type: Entity.GunMix[]
+        description: "Optional ammunition mixes the mission editor offers, DCS order: one per `ammo_type` label (stored as the 1-based `payload.ammo_type`); mix i of every `mounts` entry is its belt."
+      defaultMix:
+        type: number
+        description: "Optional `ammo_type_default`, 1-based index into `mixes` (the editor's default is 1 without it)."
+      mounts:
+        type: Entity.GunMount[]
+        description: "One entry per `Guns[]` gun, DCS order."
+    required: [ammo, rounds, mounts]
+
+  Entity.GunMix:
+    kind: record
+    description: "One gun ammunition mix the mission editor offers."
+    fields:
+      label:
+        type: string
+        description: "`ammo_type` label."
+    required: [label]
+
+  Entity.GunMount:
+    kind: record
+    description: "One gun of an aircraft (a `Guns[]` entry) and its ammunition supply."
+    fields:
+      type:
+        type: string
+        description: "Optional gun model identifier (`short_name`, else `display_name`)."
+      rounds:
+        type: number
+        description: "Round capacity: `supply.count`, or `count1` + `count2` for a dual-feed gun."
+      ammo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Cross-reference: `Entity.GunAmmo` ids of `supply.shells` (else `shell1`, `shell2`), DCS order; `mixes` index them."
+      mixes:
+        type: Entity.GunBelt[]
+        description: "Optional `supply.mixes`, DCS order (one per `Entity.Gun.mixes` label when there are labels). Absent when the gun has none, or when an index names no shell (an upstream gap in tools/datamine/overlays.yaml)."
+    required: [rounds, ammo]
+
+  Entity.GunBelt:
+    kind: record
+    description: "One `supply.mixes` entry of a gun: its belt pattern."
+    fields:
+      ammo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Cross-reference: shell indices as `Entity.GunAmmo` ids, belt order, repeats kept."
+    required: [ammo]
+
+  Entity.AircraftDimensions:
+    kind: record
+    description: "Airframe dimensions, metres, as the DCS unit database gives them (`wing_span`, `rotor_diameter`, `length`, `height`). The mission editor's stand fit (`Entity.StandLimits`) compares `wingSpanM` (else `rotorDiameterM`), `lengthM` and `heightM` with a stand's limits."
+    fields:
+      wingSpanM:
+        type: number
+        description: "Optional `wing_span` (fixed wing)."
+      rotorDiameterM:
+        type: number
+        description: "Optional `rotor_diameter` (rotary wing)."
+      lengthM:
+        type: number
+        description: "Optional `length`."
+      heightM:
+        type: number
+        description: "Optional `height`."
+    required: []
+
+  Entity.AircraftTask:
+    kind: record
+    description: "A DCS task (`Tasks[i]`/`DefaultTask`) of an aircraft."
+    fields:
+      id:
+        type: number
+        description: "`WorldID`."
+      name:
+        type: string
+        description: "`Name`."
+    required: [id, name]
+
+  Entity.AircraftPerformance:
+    kind: record
+    description: "AI flight-performance figures of an aircraft."
+    fields:
+      hMaxM:
+        type: number
+        description: "Optional `H_max`, metres."
+      machMax:
+        type: number
+        description: "Optional `Mach_max`."
+      vMaxSeaLevelMs:
+        type: number
+        description: "Optional `V_max_sea_level`, m/s."
+      vMaxHMs:
+        type: number
+        description: "Optional `V_max_h` (at altitude), m/s."
+      vOptMs:
+        type: number
+        description: "Optional `V_opt` (cruise), m/s."
+      rangeKm:
+        type: number
+        description: "Optional `range`, kilometres."
+      enginesCount:
+        type: number
+        description: "Optional `engines_count`."
+      vTakeOffMs:
+        type: number
+        description: "Optional `V_take_off`, m/s."
+      vLandMs:
+        type: number
+        description: "Optional `V_land`, m/s."
+      casMin:
+        type: number
+        description: "Optional `CAS_min`, raw (DCS comments call it both a speed in m/s and minutes)."
+      nyMax:
+        type: number
+        description: "Optional `Ny_max`, max load factor (g)."
+      bankAngleMaxDeg:
+        type: number
+        description: "Optional `bank_angle_max`, degrees."
+      averageFuelConsumptionKgS:
+        type: number
+        description: "Optional `average_fuel_consumption`, kg/s."
+    required: []
+
+  Entity.AircraftOperations:
+    kind: record
+    description: "Basing and equipment flags of an aircraft."
+    fields:
+      takeOffRunwayCategories:
+        type: string[]
+        description: "Optional `TakeOffRWCategories[].Name` (for example `AircraftCarrier With Catapult`)."
+      landRunwayCategories:
+        type: string[]
+        description: "Optional `LandRWCategories[].Name`."
+      bigParkingRamp:
+        type: boolean
+        description: "Optional `bigParkingRamp`."
+      laserDesignator:
+        type: boolean
+        description: "Optional `laserEquipment.laserDesignator`."
+      laserRangefinder:
+        type: boolean
+        description: "Optional `laserEquipment.laserRangefinder`."
+      eplrs:
+        type: boolean
+        description: "Optional `EPLRS`."
+      dateOfIntroduction:
+        type: number
+        description: "Optional `date_of_introduction`, raw (year with a fractional part)."
+    required: []
+
+  Entity.AircraftFailure:
+    kind: record
+    description: "One `Failures` entry the mission editor offers."
+    fields:
+      id:
+        type: string
+        description: "`id`."
+      label:
+        type: string
+        description: "`label`."
+    required: [id, label]
+
+  Entity.MissionOptionValue:
+    kind: record
+    description: "One `values` entry of a combo-list mission option."
+    fields:
+      id:
+        type: number | string
+        description: "Optional `id`, the value the mission stores."
+      label:
+        type: string
+        description: "`dispName`."
+      value:
+        type: number
+        description: "Optional `value`, the model draw-argument value (`arg`)."
+      weightWhenOnKg:
+        type: number
+        description: "Optional `weightWhenOn`, kg."
+      weightDependentOfFuel:
+        type: number
+        description: "Optional `weightDependentOfFuel`, raw."
+      guiAction:
+        type: any
+        description: "Optional `guiAction` `{controls, onSelect}`: editor controls enabled or disabled on selection."
+    required: [label]
+
+  Entity.MissionOption:
+    kind: record
+    description: "One mission-editor special option (`AddPropAircraft`/`AddPropVehicle` entry), stored in the mission unit's `AddPropAircraft`/`AddPropVehicle` by `id`. Layout fields (`wCtrl`, `xCtrl`, `wLbl`, `xLbl`) are left out; function fields are not in the dump."
+    fields:
+      id:
+        type: string
+        description: "`id`."
+      control:
+        type: string
+        description: "`control`: `comboList`, `checkbox`, `editbox`, `spinbox`, `slider` or `label` (a heading)."
+      label:
+        type: string
+        description: "Optional `label`."
+      playerOnly:
+        type: boolean
+        description: "Optional `playerOnly`."
+      default:
+        type: boolean | number | string
+        description: "Optional `defValue`."
+      min:
+        type: number
+        description: "Optional `min`."
+      max:
+        type: number
+        description: "Optional `max`."
+      dimension:
+        type: string
+        description: "Optional `dimension`, the unit label shown."
+      maxLength:
+        type: number
+        description: "Optional `maxLength` of an editbox."
+      hint:
+        type: string
+        description: "Optional `hint`."
+      arg:
+        type: number
+        description: "Optional `arg`, the model draw argument it sets."
+      argTable:
+        type: any
+        description: "Optional `argTbl`: `{option value: draw-argument value}`."
+      booleanInverted:
+        type: boolean
+        description: "Optional `boolean_inverted`."
+      weightKg:
+        type: number
+        description: "Optional `weight`, kg."
+      weightWhenOnKg:
+        type: number
+        description: "Optional `weightWhenOn`, kg."
+      values:
+        type: Entity.MissionOptionValue[]
+        description: "Optional `values`, DCS order."
+      forcedPylons:
+        type: any
+        description: "Optional `forcedPylons`: per option value, station -> CLSID forced on it."
+      weaponRestricted:
+        type: any
+        description: "Optional `weaponRestricted`: `{store CLSID: boolean}`."
+      removeWeapons:
+        type: any
+        description: "Optional `removeWeapons`: `{weapon or gun id: boolean}`."
+    required: [id, control]
+
+  Entity.AircraftRefuelling:
+    kind: record
+    description: "Air-to-air refuelling of an aircraft."
+    fields:
+      isTanker:
+        type: boolean | number
+        description: "Optional `is_tanker` as DCS gives it (a boolean, a number in some DCS entries)."
+      tankerType:
+        type: number
+        description: "Optional `tanker_type`, the raw DCS number."
+      receptaclePosition:
+        type: number[]
+        description: "Optional `air_refuel_receptacle_pos` `{x, y, z}` in the airframe's model frame, metres."
+    required: []
+
+  Entity.CountermeasureCharge:
+    kind: record
+    description: "`passivCounterm.chaff`/`flare`."
+    fields:
+      chargeSize:
+        type: number
+        description: "Optional `chargeSz`."
+      default:
+        type: number
+        description: "Optional `default` load."
+      increment:
+        type: number
+        description: "Optional `increment`."
+    required: []
+
+  Entity.Dispenser:
+    kind: record
+    description: "One `chaff_flare_dispenser` entry, in the airframe's model frame."
+    fields:
+      position:
+        type: number[]
+        description: "`pos` `{x, y, z}`, metres."
+      direction:
+        type: number[]
+        description: "`dir` `{x, y, z}`."
+    required: [position, direction]
+
+  Entity.AircraftCountermeasures:
+    kind: record
+    description: "Chaff and flare load (`passivCounterm`) and dispensers (`chaff_flare_dispenser`)."
+    fields:
+      cmdsEdit:
+        type: boolean
+        description: "Optional `CMDS_Edit`."
+      singleChargeTotal:
+        type: number
+        description: "Optional `SingleChargeTotal`."
+      chaff:
+        type: Entity.CountermeasureCharge
+        description: "Optional `chaff`."
+      flare:
+        type: Entity.CountermeasureCharge
+        description: "Optional `flare`."
+      dispensers:
+        type: Entity.Dispenser[]
+        description: "Optional dispensers, in DCS order; an entry that is not `{dir, pos}` is reported at extraction and left out."
+      ecm:
+        type: string[]
+        description: "Optional `Countermeasures.ECM` system names."
+      ircm:
+        type: string[]
+        description: "Optional `Countermeasures.IRCM` system names."
+      dispenserSystems:
+        type: string[]
+        description: "Optional `Countermeasures.DISPENSER` system names."
+    required: []
+
+  Entity.Aircraft:
+    kind: record
+    description: "A flyable or AI aircraft type. Cross-references are string ids."
+    fields:
+      id:
+        type: string
+        description: "Unique aircraft type identifier (DCS unit type name)."
+      displayName:
+        type: string
+        description: "Human-readable aircraft name shown in the UI."
+      kind:
+        type: Entity.AircraftKind
+        description: "Airframe locomotion class."
+      flyable:
+        type: boolean
+        description: "True if the aircraft can be flown by a human: a flyable plugin of the extracting DCS install declares it (`make_flyable`/`MAC_flyable` in a `Mods/*/*/entry.lua`), or the dump marks it `_file_flyable`. Reflects the modules installed where the data was extracted."
+      module:
+        type: string
+        description: "Optional DCS plugin that registered the aircraft (the unit's `_origin`, for example \"A-10 Warthog\"); absent for aircraft defined by the core game scripts."
+      attributes:
+        type: string[]
+        ref: Entity.Attribute
+        description: "Cross-reference: `Entity.Attribute` ids describing this aircraft's capabilities and classifications."
+      aero:
+        type: Entity.Aero
+        description: "Aerodynamic and mass properties."
+      dimensions:
+        type: Entity.AircraftDimensions
+        description: "Optional airframe dimensions from the unit's DCS database entry."
+      crew:
+        type: number
+        description: "Optional number of crew stations (`crew_size`, else the number of `crew_members`)."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Cross-reference: `Entity.Sensor` ids fitted to this aircraft."
+      radios:
+        type: string[]
+        ref: Entity.Radio
+        description: "Cross-reference: `Entity.Radio` ids fitted to this aircraft."
+      defaultRadio:
+        type: Entity.DefaultRadio
+        description: "Optional `HumanRadio`: the group radio the mission editor sets, AI aircraft included."
+      datalink:
+        type: string
+        ref: Entity.Datalink
+        description: "Optional cross-reference: `Entity.Datalink` id fitted to this aircraft."
+      gun:
+        type: Entity.Gun
+        description: "Optional internal gun armament."
+      stations:
+        type: Entity.Station[]
+        description: "Weapon and store stations (pylons) on this aircraft."
+      model:
+        type: Entity.UnitModel
+        description: "Optional 3D model identification."
+      life:
+        type: Entity.UnitLife[]
+        description: "Optional life values, one per DCS field that sets one."
+      detection:
+        type: Entity.UnitDetection
+        description: "Optional detection and signature values."
+      cargo:
+        type: Entity.UnitCargo
+        description: "Optional internal cargo capacity."
+      performance:
+        type: Entity.AircraftPerformance
+        description: "Optional AI flight-performance figures."
+      operations:
+        type: Entity.AircraftOperations
+        description: "Optional basing and equipment flags."
+      failures:
+        type: Entity.AircraftFailure[]
+        description: "Optional `Failures`, DCS order (empty when DCS's table is empty)."
+      missionOptions:
+        type: Entity.MissionOption[]
+        description: "Optional `AddPropAircraft`, DCS order."
+      tasks:
+        type: Entity.AircraftTask[]
+        description: "Optional `Tasks`, in DCS order (empty when DCS's table is empty)."
+      defaultTask:
+        type: Entity.AircraftTask
+        description: "Optional `DefaultTask`."
+      refuelling:
+        type: Entity.AircraftRefuelling
+        description: "Optional air-to-air refuelling."
+      countermeasures:
+        type: Entity.AircraftCountermeasures
+        description: "Optional chaff and flare load and dispensers."
+      countryOfOrigin:
+        type: string
+        description: "Optional `country_of_origin` (or DCS's misspelling `country_of_orgin`), as DCS gives it (for example `USA`)."
+      operators:
+        type: Entity.Operator[]
+        description: "Countries that operate this aircraft and their service-year ranges."
+    required: [id, displayName, kind, flyable, attributes, aero, sensors, radios, stations, operators]

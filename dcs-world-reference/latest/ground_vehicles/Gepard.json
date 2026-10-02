@@ -1,0 +1,311 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.04
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "Mobile AAA",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "RADAR_BAND1_FOR_ARM",
+    "Rocket Attack Valid AirDefence",
+    "SAM SR",
+    "SAM TR",
+    "SAM elements",
+    "SAM related",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 15000,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 3.854,
+      "maxAltM": 3000,
+      "maxRangeM": 15000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4000
+  },
+  "dimensions": {
+    "lengthM": 7.73,
+    "massKg": 47300,
+    "widthM": 3.37
+  },
+  "displayName": "SPAAA Gepard",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000,
+    "radarType": 104,
+    "radarTypeName": "wsType_MissGun"
+  },
+  "id": "Gepard",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 20
+    }
+  ],
+  "mobility": {
+    "enginePower": 830,
+    "fordingDepthM": 1.2,
+    "maxRoadSpeedMs": 18.0556,
+    "maxSlopeRad": 0.27,
+    "maxSpeedKmh": 65.00016,
+    "maxVertObstacleM": 1.15,
+    "minTurnRadiusM": 2.694,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": 11,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 1,
+          "value": 0.14
+        },
+        {
+          "arg": 3,
+          "value": 1
+        },
+        {
+          "arg": 11,
+          "value": 1
+        }
+      ]
+    },
+    "mapClassKey": "P0091000017",
+    "shape": "gepard",
+    "shapeDestroyed": "Gepard_p_1"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 2022,
+        "to": 9999
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1976,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1977,
+        "to": 9999
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1977,
+        "to": 2008
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 2008,
+        "to": 2011
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL",
+      "years": {
+        "from": 2013,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "Gepard",
+    "Karat visir"
+  ],
+  "tags": [
+    "Air Defence",
+    "SP AAA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 2,
+      "beamWidthRad": 1.5707963267949,
+      "displayName": "KDA 35mm",
+      "frequencyRangeHz": [
+        10000000000,
+        20000000000
+      ],
+      "gunAmmo": [
+        "KDA_35_HE"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "KDA_35mm",
+      "payloads": [
+        {
+          "ammoCapacity": 660,
+          "gunAmmo": [
+            "KDA_35_HE"
+          ],
+          "portionAmmoCapacity": 660,
+          "reloadTimeS": 1800,
+          "shotDelayS": 0.10909090909091
+        }
+      ],
+      "rMaxKm": 4.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          2.3561944901923,
+          -2.3561944901923,
+          -0.13962634015955,
+          1.4835
+        ],
+        [
+          -2.3561944901923,
+          2.3561944901923,
+          -0.078539816339745,
+          1.4835
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.0943951023932,
+        "yaw": 1.9198621771938
+      },
+      "ws": 1
+    }
+  ]
+}

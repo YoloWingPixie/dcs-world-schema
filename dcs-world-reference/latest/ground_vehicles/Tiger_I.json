@@ -1,0 +1,679 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          33.6,
+          1.25
+        ],
+        [
+          33.6,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          33,
+          0.8
+        ],
+        [
+          33,
+          90,
+          0.224
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          45,
+          1.25
+        ],
+        [
+          45,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          30,
+          0.8
+        ],
+        [
+          30,
+          90,
+          0.224
+        ]
+      ]
+    },
+    "thickness": 0.1
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.105,
+    "sensor": {
+      "heightM": 3.27,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 6.316,
+    "massKg": 56900,
+    "widthM": 3.705
+  },
+  "displayName": "Tk Tiger 1",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 6000
+  },
+  "id": "Tiger_I",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 20
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 515,
+    "fordingDepthM": 0.6,
+    "maxRoadSpeedMs": 12.22,
+    "maxSlopeRad": 0.27,
+    "maxSpeedKmh": 43.992,
+    "maxVertObstacleM": 0.8,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "Tiger_I",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "Tiger_I",
+    "shapeDestroyed": "Tiger_I_p_1"
+  },
+  "operators": [
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1942,
+        "to": 1945
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1942,
+        "to": 1945
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day"
+  ],
+  "tags": [
+    "Armor",
+    "Tank"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Pzgr_39"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 10,
+          "gunAmmo": [
+            "Pzgr_39"
+          ],
+          "portionReloadTimeS": 8,
+          "shotDelayS": 7.5
+        },
+        {
+          "ammoCapacity": 50,
+          "gunAmmo": [
+            "Pzgr_39"
+          ],
+          "portionReloadTimeS": 10,
+          "shotDelayS": 14
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          2.8797932657906,
+          -2.8797932657906,
+          -0.10471975511966,
+          0.29670597283904
+        ],
+        [
+          -2.8797932657906,
+          2.8797932657906,
+          -0.026179938779915,
+          0.29670597283904
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.10471975511966,
+        "yaw": 0.10471975511966
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Sprgr_39"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 6,
+          "gunAmmo": [
+            "Sprgr_39"
+          ],
+          "portionReloadTimeS": 8,
+          "shotDelayS": 7.5
+        },
+        {
+          "ammoCapacity": 26,
+          "gunAmmo": [
+            "Sprgr_39"
+          ],
+          "portionReloadTimeS": 10,
+          "shotDelayS": 14
+        }
+      ],
+      "rMaxKm": 4.0,
+      "rMinKm": 0.3,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          2.8797932657906,
+          -2.8797932657906,
+          -0.10471975511966,
+          0.29670597283904
+        ],
+        [
+          -2.8797932657906,
+          2.8797932657906,
+          -0.026179938779915,
+          0.29670597283904
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.10471975511966,
+        "yaw": 0.10471975511966
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "7_92x57_Smkl",
+        "7_92x57sS"
+      ],
+      "hMaxM": 600,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "MG34",
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.1,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          2.8797932657906,
+          -2.8797932657906,
+          -0.10471975511966,
+          0.29670597283904
+        ],
+        [
+          -2.8797932657906,
+          2.8797932657906,
+          -0.026179938779915,
+          0.29670597283904
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.10471975511966,
+        "yaw": 0.10471975511966
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "7_92x57_Smkl",
+        "7_92x57sS"
+      ],
+      "hMaxM": 600,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "MG34",
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.1,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.34906585039887,
+          -0.34906585039887,
+          -0.17453292519943,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 2
+    }
+  ]
+}

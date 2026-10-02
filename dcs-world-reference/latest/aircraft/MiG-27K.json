@@ -1,0 +1,809 @@
+{
+  "aero": {
+    "emptyMassKg": 11000,
+    "internalFuelKg": 4500,
+    "maxSpeedKmh": 1810,
+    "maxTakeoffKg": 18900
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Bombers",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 60,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "ecm": [
+      "Siren SPS-141"
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 60,
+      "increment": 30
+    },
+    "singleChargeTotal": 120
+  },
+  "countryOfOrigin": "RUS",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 32,
+    "name": "Ground Attack"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.69,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 5.64,
+    "lengthM": 16.7,
+    "wingSpanM": 14
+  },
+  "displayName": "MiG-27K",
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "GSH301_30_AP"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "GSH301_30_AP"
+        ],
+        "rounds": 320,
+        "type": "GSh_30_6"
+      }
+    ],
+    "rounds": 320,
+    "type": "GSh_30_6"
+  },
+  "id": "MiG-27K",
+  "kind": "fixedwing",
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.45315389351832,
+      -0.81915204428899,
+      0.023436679747723,
+      0.86602540378444
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          67
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          68
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          55
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          56
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          61
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          63
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          64
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          57
+        ],
+        "cell": 53
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 51,
+                  "direction": {
+                    "azimuth": -0.17453292519943,
+                    "elevation": 0.13962634015955
+                  },
+                  "position": [
+                    2.542,
+                    -0.826,
+                    -0.812
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "direction": {
+                    "elevation": 0.13962634015955
+                  },
+                  "position": [
+                    2.542,
+                    -0.826,
+                    0.789
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "position": [
+                    3.042,
+                    -0.826,
+                    -0.812
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                },
+                {
+                  "position": [
+                    3.042,
+                    -0.826,
+                    0.789
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "3": {
+          "argument": 49,
+          "typename": "argumentlight"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 51,
+                  "direction": {
+                    "azimuth": -0.17453292519943,
+                    "elevation": 0.20943951023932
+                  },
+                  "position": [
+                    2.542,
+                    -0.826,
+                    -0.812
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "direction": {
+                    "elevation": 0.20943951023932
+                  },
+                  "position": [
+                    2.542,
+                    -0.826,
+                    0.789
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "intensity_max": 8,
+                  "position": [
+                    2.792,
+                    -0.826,
+                    -0.812
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Omni"
+                },
+                {
+                  "intensity_max": 8,
+                  "position": [
+                    2.792,
+                    -0.826,
+                    0.789
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000025",
+    "shape": "MiG-27"
+  },
+  "operations": {
+    "bigParkingRamp": false,
+    "laserDesignator": true,
+    "laserRangefinder": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 1993
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1980,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.4244,
+    "bankAngleMaxDeg": 60,
+    "casMin": 76,
+    "enginesCount": 1,
+    "hMaxM": 17000,
+    "machMax": 1.7,
+    "nyMax": 5.9,
+    "rangeKm": 1950,
+    "vLandMs": 80,
+    "vMaxHMs": 523.61,
+    "vMaxSeaLevelMs": 375,
+    "vOptMs": 210,
+    "vTakeOffMs": 84
+  },
+  "radios": [],
+  "sensors": [
+    "Abstract RWR",
+    "Kaira-1"
+  ],
+  "stations": [
+    {
+      "accepts": [],
+      "order": 1,
+      "position": {
+        "lateral": -2.146,
+        "longitudinal": -2.356,
+        "vertical": -0.256
+      },
+      "station": 1,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{292960BB-6518-41AC-BADA-210D65D5073C}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{601C99F7-9AF3-4ed7-A565-F8B8EC0D7AAC}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{752AF1D2-EBCC-4bd7-A1E7-2357F5601C70}"
+        },
+        {
+          "clsid": "{79D73885-0801-45a9-917F-C90FE1CE3DFC}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{APU-60-1_R_60M}"
+        },
+        {
+          "clsid": "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}"
+        },
+        {
+          "clsid": "{BA565F89-2373-4A84-9502-A0E017D3A44A}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D4A8D9B9-5C45-42e7-BBD2-0E54F8308432}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E2C426E3-8B10-4E09-B733-9CDC26520F48}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{Kh-25MP}"
+        },
+        {
+          "clsid": "{R-60 2L}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -1.554,
+        "longitudinal": 0.154,
+        "vertical": -0.041
+      },
+      "station": 2,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{APU-60-1_R_60M}"
+        },
+        {
+          "clsid": "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{R-60 2L}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -0.328,
+        "longitudinal": 1.055,
+        "vertical": -1.071
+      },
+      "station": 3,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{FAB_250_M62}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": -0.76,
+        "longitudinal": -3.584,
+        "vertical": -0.701
+      },
+      "station": 4,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0,
+        "longitudinal": -0.234,
+        "vertical": -1.131
+      },
+      "station": 5,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{FAB_250_M62}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 0.76,
+        "longitudinal": -3.584,
+        "vertical": -0.701
+      },
+      "station": 6,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{275A2855-4A79-4B2D-B082-91EA2ADF4691}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{APU-60-1_R_60M}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{R-60 2R}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 0.328,
+        "longitudinal": 1.055,
+        "vertical": -1.071
+      },
+      "station": 7,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{275A2855-4A79-4B2D-B082-91EA2ADF4691}"
+        },
+        {
+          "clsid": "{292960BB-6518-41AC-BADA-210D65D5073C}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{601C99F7-9AF3-4ed7-A565-F8B8EC0D7AAC}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{752AF1D2-EBCC-4bd7-A1E7-2357F5601C70}"
+        },
+        {
+          "clsid": "{79D73885-0801-45a9-917F-C90FE1CE3DFC}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{APU-60-1_R_60M}"
+        },
+        {
+          "clsid": "{BA565F89-2373-4A84-9502-A0E017D3A44A}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D4A8D9B9-5C45-42e7-BBD2-0E54F8308432}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E2C426E3-8B10-4E09-B733-9CDC26520F48}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{Kh-25MP}"
+        },
+        {
+          "clsid": "{R-60 2R}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 8,
+      "position": {
+        "lateral": 1.554,
+        "longitudinal": 0.154,
+        "vertical": -0.041
+      },
+      "station": 8,
+      "type": 1,
+      "wet": false
+    },
+    {
+      "accepts": [],
+      "order": 9,
+      "position": {
+        "lateral": 2.146,
+        "longitudinal": -2.356,
+        "vertical": -0.256
+      },
+      "station": 9,
+      "type": 1,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 33,
+      "name": "Pinpoint Strike"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 29,
+      "name": "SEAD"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

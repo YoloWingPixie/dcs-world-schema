@@ -1,0 +1,245 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "attributes": [
+      "Jammer"
+    ],
+    "messages": [
+      "has no jammer"
+    ]
+  },
+  "dcsId": "ActivateJammer",
+  "defaultParams": {
+    "glonassSpoofing": 0,
+    "gpsSpoofing": 0,
+    "jammingEnd": 120,
+    "jammingStart": 120,
+    "radioJamming": 0
+  },
+  "description": "This command activates jammer",
+  "displayName": "Activate jammer",
+  "id": "ACTIVATE_JAMMER",
+  "kind": "command",
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "name": "glonassSpoofing",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "gpsSpoofing",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "jammingEnd",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "jammingStart",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "radioJamming",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "x",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "y",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "ActivateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activatejammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "ActivateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activatejammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ActivateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activatejammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "ActivateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activateJammer",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "hasTaskAfter": false,
+      "id": "activatejammer",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

@@ -1,0 +1,1722 @@
+# Every hand-authored fact of the datamine lives here; extractor code holds
+# only generic logic. Loaded by tools/datamine/overlays.py.
+#
+# Provenance: a record's `_source` maps a field path to how its value was
+# obtained; a field absent from `_source` was read from DCS as is.
+#   hand-authored  set by a patch here, or taken or derived from a table here
+#   corrected      a DCS value transformed by a patch `op` here
+#   launcher, table, rockets  derived from other DCS data (see extract_stores.py); not from here
+#
+# Every entry has `series`, `note` and `evidence`, and optionally `versions`
+# (the DCS versions it applies to; default all), plus one of:
+#   id + field + value   set a field of an extracted record    -> hand-authored
+#   id + field + op      transform a datamined field            -> corrected
+#   id + field + add     add the list element `field`'s last `name[key=value]`
+#                        selects ({key: value, ...add}), stamped by its path
+#                        on the record (or the enclosing selected element)
+#                                                               -> hand-authored
+#   table + value        a table an extractor reads: a key -> value mapping,
+#                        or a list of rules; the extractor names the provenance
+# `id` may list several records, each patched alike.
+# `field` is a dotted path; `name[key=value]` selects the one list element whose
+# `key` equals `value`. A rule's `when` maps a fact the extractor names to
+# comparisons (`<`, `<=`, `>`, `>=` -> bound), all of which must hold; the first
+# matching rule wins and a rule without `when` always matches.
+#
+# Stale entries are errors: a patch whose record or field is gone, that no
+# longer changes the value or whose `raw_sign` guard fails, an `add` whose
+# element is extracted now, and a table key or rule nothing uses stop the
+# extraction; an upstream gap that now resolves fails the extraction
+# (threats) or `task validate-data` (stores, units).
+
+entries:
+  # ----------------------------------------------------------------------------
+  # Record patches: fix or fill a field of one extracted record.
+  # ----------------------------------------------------------------------------
+
+  - series: aircraft
+    id: F-16C_50
+    field: stations[station=10].position.lateral
+    op: negate
+    raw_sign: 1
+    note: Chin hardpoint 10 is on the left; its pylon Z ships with the right-hand sign.
+    evidence: >-
+      _G/db/Units/Planes/Plane F-16C_50 Pylons: stations 1-4 (left) have Z < 0,
+      yet station 10 has Z = +0.55 and station 11 has Z = -0.55.
+
+  - series: aircraft
+    id: F-16C_50
+    field: stations[station=11].position.lateral
+    op: negate
+    raw_sign: -1
+    note: Chin hardpoint 11 is on the right; its pylon Z ships with the left-hand sign.
+    evidence: See the station 10 entry.
+
+  # AI action parameters no DCS source shows (Mission Editor defaults, its
+  # source, DCS's scripts, install missions), kept from the former
+  # hand-written task records; their descriptions are in actions/descriptions.
+
+  - series: actions
+    id: [ATTACK_MAP_OBJECT, BOMBING, CARPET_BOMBING, ENGAGE_TARGETS_IN_ZONE, FIRE_AT_POINT, LAND, ORBIT, STRAFING]
+    field: params[name=point]
+    add: {seenIn: [], types: [table]}
+    note: >-
+      A Vec2 `point` target, the alternative to the `x`/`y` the Mission
+      Editor writes; which DCS reads is open (the actions probe follow-up
+      runs both).
+    evidence: >-
+      dcs-world-schema/types/tasks/{AttackMapObject,Bombing,CarpetBombing,
+      fireAtPoint,land,orbit,Strafing}.record.yaml and
+      enrouteTasks/EngageTargetsInZone.record.yaml at 7747097d; the first
+      actions probe (2.9.29.27468/api/actions-probe.json) accepted steps
+      giving both forms.
+
+  - series: actions
+    id: ORBIT
+    field: params[name=point2]
+    add: {seenIn: [], types: [table]}
+    note: The second Vec2 point of a Race-Track orbit.
+    evidence: dcs-world-schema/types/tasks/orbit.record.yaml at 7747097d.
+
+  - series: actions
+    id: FIRE_AT_POINT
+    field: params[name=radius]
+    add: {seenIn: [], types: [number]}
+    note: The radius (m) of the area fired at.
+    evidence: dcs-world-schema/types/tasks/fireAtPoint.record.yaml at 7747097d.
+
+  - series: actions
+    id: [ESCORT, FOLLOW, WW2_BIG_FORMATION]
+    field: params[name=formation]
+    add: {seenIn: [], types: [number]}
+    note: The formation number, as the FORMATION option takes.
+    evidence: >-
+      dcs-world-schema/types/tasks/{escort,follow,followBigFormation}.record.yaml
+      at 7747097d.
+
+  - series: actions
+    id: ENGAGE_GROUP
+    field: params[name=attackQty]
+    add: {seenIn: [], types: [number]}
+    note: Attack passes, as AttackGroup and EngageUnit take.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageGroup.record.yaml at 7747097d.
+
+  - series: actions
+    id: ENGAGE_GROUP
+    field: params[name=attackQtyLimit]
+    add: {seenIn: [], types: [boolean]}
+    note: Whether attackQty limits the passes, as AttackGroup and EngageUnit take.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageGroup.record.yaml at 7747097d.
+
+  - series: actions
+    id: ENGAGE_GROUP
+    field: params[name=direction]
+    add: {seenIn: [], types: [number]}
+    note: Attack direction (rad), as AttackGroup and EngageUnit take.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageGroup.record.yaml at 7747097d.
+
+  - series: actions
+    id: ENGAGE_GROUP
+    field: params[name=expend]
+    add: {seenIn: [], types: [string]}
+    note: Weapons expended per attack, as AttackGroup and EngageUnit take.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageGroup.record.yaml at 7747097d.
+
+  - series: actions
+    id: &engageTargets [ANTI_SHIP, CAP, CAS, ENGAGE_TARGETS, FIGHTER_SWEEP, SEAD]
+    field: params[name=maxAlt]
+    add: {seenIn: [], types: [number]}
+    note: Maximum target altitude (m) of an EngageTargets task.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageTargets.record.yaml at 7747097d.
+
+  - series: actions
+    id: *engageTargets
+    field: params[name=maxAltEnabled]
+    add: {seenIn: [], types: [boolean]}
+    note: Whether an EngageTargets task uses maxAlt.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageTargets.record.yaml at 7747097d.
+
+  - series: actions
+    id: *engageTargets
+    field: params[name=minAlt]
+    add: {seenIn: [], types: [number]}
+    note: Minimum target altitude (m) of an EngageTargets task.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageTargets.record.yaml at 7747097d.
+
+  - series: actions
+    id: *engageTargets
+    field: params[name=minAltEnabled]
+    add: {seenIn: [], types: [boolean]}
+    note: Whether an EngageTargets task uses minAlt.
+    evidence: dcs-world-schema/types/enrouteTasks/EngageTargets.record.yaml at 7747097d.
+
+  - series: actions
+    id: FAC
+    field: params[name=priority]
+    add: {seenIn: [], types: [number]}
+    note: Task priority, as the other en-route tasks take.
+    evidence: dcs-world-schema/types/enrouteTasks/FAC.record.yaml at 7747097d.
+
+  # ----------------------------------------------------------------------------
+  # Lookup and rule tables: facts the extractors apply across records.
+  # ----------------------------------------------------------------------------
+
+  - series: radios
+    table: bandRules
+    note: >-
+      The `band` of a radio whose DCS `panelRadio` name names none (e.g.
+      `ARC-186`, `R-828`), from its whole tunable range (facts `minMHz`,
+      `maxMHz`); tools/datamine/extract_radios.py, stamped hand-authored.
+    evidence: >-
+      Aviation radio band edges: HF ends at 30 MHz; the military UHF air band
+      is 225-400 MHz; a set reaching 225 MHz from below is a combined V/UHF
+      set; anything else (up to 225 MHz, the 30-88 MHz FM band included) is
+      VHF.
+    value:
+      - band: HF
+        when: {maxMHz: {"<=": 30}}
+      - band: UHF
+        when: {minMHz: {">=": 225}}
+      - band: V/UHF
+        when: {maxMHz: {">=": 225}}
+      - band: VHF
+
+  - series: radios
+    table: guardMHz
+    note: >-
+      Emergency (guard) frequencies a radio of each band may cover; `guard` is
+      whether one of its range segments covers one (stamped hand-authored).
+    evidence: Aeronautical emergency frequencies 121.5 MHz (VHF) and 243.0 MHz (UHF).
+    value:
+      UHF: [243.0]
+      VHF: [121.5]
+      V/UHF: [121.5, 243.0]
+      HF: []
+
+  - series: radios
+    table: stepKHz
+    note: >-
+      Tuning step per band (stamped hand-authored). DCS unit data has none; the
+      cockpit radio devices' `GUI.range.step` (Mods/aircraft/*/Cockpit) is
+      not linked to a `panelRadio` entry.
+    evidence: Conventional 25 kHz VHF/UHF channel spacing.
+    value:
+      UHF: 25
+      VHF: 25
+      V/UHF: 25
+
+  - series: airbases
+    table: serviceTypes
+    note: >-
+      Terrain Radio.lua `role` -> communication type code of an airbase
+      service's `serviceTypes` (tools/datamine/extract_theatres.py), stamped
+      hand-authored.
+    evidence: >-
+      Communication type codes GND (ground control), TWR (tower) and APP
+      (approach control); DCS 2.9.29.27468 terrains use exactly the roles
+      ground, tower and approach.
+    value:
+      ground: GND
+      tower: TWR
+      approach: APP
+
+  - series: threats
+    table: natoDesignation
+    note: >-
+      Unit type -> the NATO designation (SA-n; else the western system name,
+      or the radar's reporting name for a radar-only system) of the threat it
+      launches or tracks for (tools/datamine/extract_threats.py):
+      for units Scripts/Speech/NATO.lua does not name, and in place of NATO.lua
+      radio callouts that are not formal names. An entry for a unit no threat
+      takes its name from, or equal to NATO.lua's name, is an error.
+    evidence: >-
+      Public NATO designations and western system names. Overrides of
+      NATO.lua (DCS 2.9.29.27468) callouts:
+      the Igla units say "MANPADS" but all three fire the 9M39 Igla (Igla_1E)
+      and DCS's own displayName calls each one SA-18 "Grouse", Igla-S included
+      (the SA-24 "Grinch" 9M342 is not modelled); the Stinger units say
+      "MANPADS", "Avenger" and "Linebacker" but are one threat, the FIM-92
+      Stinger (a US system, no NATO reporting name); the ZSU-23-4 says "Zeus",
+      a crew nickname, where NATO designates the vehicle ZSU-23-4 ("Gun Dish"
+      is its radar).
+    value:
+      # Overrides of NATO.lua callouts.
+      Igla manpad INS: SA-18
+      SA-18 Igla manpad: SA-18
+      SA-18 Igla-S manpad: SA-18
+      Soldier stinger: Stinger
+      M1097 Avenger: Stinger
+      M6 Linebacker: Stinger
+      ZSU-23-4 Shilka: ZSU-23-4
+      # Units NATO.lua does not name.
+      NASAMS_LN_B: NASAMS
+      NASAMS_LN_C: NASAMS
+      Dog Ear radar: Dog Ear
+      HEMTT_C-RAM_Phalanx: C-RAM
+      HQ-7_LN_P: HQ-7
+      HQ-7_LN_SP: HQ-7
+      SON_9: Fire Can
+      Roland ADS: Roland
+      CHAP_PantsirS1: SA-22
+      CHAP_TorM2: SA-15
+      CHAP_IRISTSLM_LN: IRIS-T SLM
+      S-200_Launcher: SA-5
+
+  - series: units
+    table: natoReportingName
+    note: >-
+      Unit type -> the NATO reporting name of a ground vehicle or ship
+      (tools/datamine/extract_units.py name_reporting): for units whose DCS
+      displayName quotes none, and in place of a quoted system name on a unit
+      NATO names on its own. An entry for a unit type no ground vehicle or
+      ship record defines, or equal to the name DCS quotes, is an error.
+    evidence: >-
+      Public NATO reporting names of the S-300PS (SA-10 "Grumble") and 9K37
+      Buk (SA-11 "Gadfly") radars; DCS 2.9.29.27468 quotes the system name and
+      writes the part's own name unquoted after it: 40B6M tr
+      `SAM SA-10 S-300 "Grumble" Flap Lid-A TR`, 5H63C 30H6_tr `... Flap
+      Lid-B TR`, 40B6MD sr `... Clam Shell SR`, 64H6E sr `... Big Bird SR`,
+      40B6MD sr_19J6 `... Tin Shield SR`, SA-11 LN 9A310M1 `SAM SA-11 Buk
+      "Gadfly" Fire Dome TEL` (the TELAR's own radar), SA-11 SR 9S18M1 `...
+      Snow Drift SR`. The launchers and command posts have no reporting name
+      of their own and keep the system's.
+    value:
+      S-300PS 40B6M tr: Flap Lid A
+      S-300PS 5H63C 30H6_tr: Flap Lid B
+      S-300PS 40B6MD sr: Clam Shell
+      S-300PS 64H6E sr: Big Bird
+      S-300PS 40B6MD sr_19J6: Tin Shield
+      SA-11 Buk LN 9A310M1: Fire Dome
+      SA-11 Buk SR 9S18M1: Snow Drift
+
+  - series: theatres
+    table: aliases
+    note: >-
+      Theatre id -> other names the theatre goes by, emitted as the record's
+      `aliases` (stamped hand-authored) for name lookups
+      (tools/datamine/extract_theatres.py). An alias equal to the theatre's
+      id, displayName or directory (ASCII case-insensitive, trimmed), one two
+      theatres share, is an error; an entry for a theatre not installed is
+      skipped (warned).
+    evidence: >-
+      Eagle Dynamics' product names for the terrains ("DCS: Nevada Test and
+      Training Range Map", "DCS: Normandy 1944 Map", "DCS: Marianas WWII",
+      "DCS: Cold War Germany") and the geographic names of the areas they
+      cover (the Falkland Islands of the South Atlantic map, the Mariana
+      Islands); DCS 2.9.29.27468 entry.lua names them Nevada, Normandy 2.0,
+      MarianasWWII, Cold War Germany, South Atlantic and Marianas.
+    value:
+      Falklands: [Falkland Islands]
+      GermanyCW: [Germany Cold War, Germany]
+      MarianaIslands: [Mariana Islands]
+      MarianaIslandsWWII: [Marianas WWII, Mariana Islands WWII]
+      Nevada: [NTTR, Nevada Test and Training Range]
+      Normandy: [Normandy 1944]
+
+  - series: beacons
+    table: tacanPlan
+    note: >-
+      The DME/TACAN channel plan the package's tacanFrequency, tacanChannel
+      and isValidTacan helpers apply, shipped as the `tacan` index
+      (tools/package/tables.py). Channels `first`..`last` in each of `bands`;
+      the airborne interrogation is `interrogationMHz.base` + (channel -
+      `first`) MHz in both bands; the ground reply is the interrogation plus
+      the `replyOffsetMHz` of the channel's range; a channel of a
+      `vhfPairing` range pairs with the VOR/ILS frequency `baseKHz` +
+      (channel - `from`) * `stepKHz` + the band's `bandOffsetKHz`. Every
+      beacon of `beaconTypes` with a `channel` of 1 or more must have its
+      channel in the plan and, with a `frequencyHz`, a frequency equal to its
+      channel's reply or paired VHF frequency in either band (DCS gives no
+      X/Y mode), unless tacanPlanExceptions lists it; the build fails
+      otherwise.
+    evidence: >-
+      ICAO Annex 10 Volume I, Chapter 3, Table A (DME channelling and
+      pairing): channels 1X-126X and 1Y-126Y; interrogation 1025-1150 MHz in
+      1 MHz steps; X replies 63 MHz below the interrogation on channels 1-63
+      and above it on 64-126, Y replies the other way round; channels
+      17X-59Y pair with 108.00-112.25 MHz and 70X-126Y with 112.30-117.95 MHz
+      in 100 kHz steps, Y channels 50 kHz above X. DCS 2.9.29.27468 beacons
+      match it: Caucasus TACAN frequencies are X replies (Batumi channel 16,
+      977 MHz; Kobuleti 67, 1154 MHz), VORTAC and VOR/DME frequencies are the
+      paired VHF frequencies (Nevada VORTAC LAS channel 116, 116.9 MHz;
+      GermanyCW VOR/DME WRB channel 104, 115.75 MHz, a Y pairing).
+    value:
+      channels: {first: 1, last: 126}
+      bands: [X, Y]
+      interrogationMHz: {base: 1025}
+      replyOffsetMHz:
+        X: [{from: 1, to: 63, offset: -63}, {from: 64, to: 126, offset: 63}]
+        Y: [{from: 1, to: 63, offset: 63}, {from: 64, to: 126, offset: -63}]
+      vhfPairing:
+        ranges: [{from: 17, to: 59, baseKHz: 108000}, {from: 70, to: 126, baseKHz: 112300}]
+        stepKHz: 100
+        bandOffsetKHz: {X: 0, Y: 50}
+      beaconTypes:
+        - BEACON_TYPE_TACAN
+        - BEACON_TYPE_VORTAC
+        - BEACON_TYPE_DME
+        - BEACON_TYPE_VOR_DME
+        - BEACON_TYPE_VOR
+        - BEACON_TYPE_ILS_LOCALIZER
+        - BEACON_TYPE_ILS_GLIDESLOPE
+
+  - series: beacons
+    table: tacanPlanExceptions
+    note: >-
+      Beacons (id -> why) whose DCS `frequencyHz` is neither the reply nor the
+      paired VHF frequency of their `channel` in either band, so tacanPlan
+      cannot reproduce them; tools/package/tables.py fails on any other
+      mismatch and on an entry here that now matches or names no beacon.
+      The package helpers compute frequencies from the channel and never read
+      these values.
+    evidence: >-
+      The beacon records of the DCS 2.9.29.27468 extraction's beacons
+      (Beacons.lua, verbatim): each frequency below against tacanPlan's reply
+      and paired VHF frequencies for its channel, X and Y.
+    value:
+      Afghanistan.airfield17_1: "TACAN 65: 133.8 MHz; 65X/65Y reply 1152/1026 MHz, 65 is unpaired."
+      Afghanistan.world_19: "DME 108: 334 MHz; 108X pairs with 116.10 MHz."
+      Afghanistan.world_35: "VOR/DME 78: 113.0 MHz, the 77X pairing; 78X pairs with 113.10 MHz."
+      Falklands.airfield6_4: "TACAN 31: 1 MHz; 31X reply 992 MHz, pairs with 109.40 MHz."
+      GermanyCW.airfield11_1: "VORTAC 95: 110.0 MHz; 95X pairs with 114.80 MHz."
+      GermanyCW.airfield155_0: "TACAN 24: 482 MHz; 24X reply 985 MHz, pairs with 108.70 MHz."
+      GermanyCW.airfield158_0: "TACAN 48: 362.3 MHz; 48X reply 1009 MHz, pairs with 111.10 MHz."
+      GermanyCW.airfield32_1: "TACAN 116: 114.85 MHz; 116X/116Y pair with 116.90/116.95 MHz."
+      GermanyCW.airfield33_3: "VOR/DME 30: 112.0 MHz; 30X pairs with 109.30 MHz."
+      GermanyCW.airfield41_18: "DME 32: 110.5 MHz; 32X pairs with 109.50 MHz."
+      GermanyCW.airfield48_0: "VORTAC 77: 116.2 MHz; 77X pairs with 113.00 MHz."
+      Iraq.airfield2_6: "TACAN 64: 121.7 MHz; 64X/64Y reply 1151/1025 MHz, 64 is unpaired."
+      Kola.airfield25_3: "TACAN 67: 134.0 MHz; 67X/67Y reply 1154/1028 MHz, 67 is unpaired."
+      PersianGulf.airfield1_0: "DME 101: 0.285 MHz; 101X pairs with 115.40 MHz."
+      PersianGulf.airfield18_0: "TACAN 97: 122.5 MHz; 97X pairs with 115.00 MHz."
+      PersianGulf.airfield20_0: "VOR/DME 119: 128.925 MHz; 119X pairs with 117.20 MHz."
+      PersianGulf.airfield22_0: "DME 119: 114.25 MHz; 119X pairs with 117.20 MHz."
+      PersianGulf.airfield23_0: "VOR 119: 114.0 MHz; 119X pairs with 117.20 MHz."
+      PersianGulf.airfield25_0: "VOR/DME 119: 112.6 MHz; 119X pairs with 117.20 MHz."
+      SinaiMap.airfield11_0: "TACAN 55: 113.7 MHz; 55X pairs with 111.80 MHz."
+      SinaiMap.airfield23_0: "TACAN 87: 113.7 MHz; 87X pairs with 114.00 MHz."
+      SinaiMap.airfield5_0: "VOR/DME 38: 115.65 MHz; 38X pairs with 110.10 MHz."
+
+  - series: weapons
+    table: seekerTypes
+    note: >-
+      Weapon `Head_Type` (seeker head type) code -> the name of the DCS engine
+      constant carrying it, as `seekerTypeName`
+      (tools/datamine/extract_stores.py), stamped hand-authored. Neither the
+      _G dump's constants nor any install script defines these as Lua values.
+    evidence: >-
+      DCS 2.9.29.27468 CoreMods/aircraft/AJS37/Entry/Weapons.lua lines 3-11
+      quote the engine's seeker-head enum ("-- Headtypes ... const int
+      InfraredSeeker = 1; ActiveRadar = 2; AntiRadar = 3; LaserHoming = 4;
+      Autopilot = 5; SemiActiveRadar = 6; SemiAutoAT = 7"), repeated at line
+      3353 ("Seaker" type: InfraredSeeker = 1; ... SemiAutoAT = 7). Weak: a
+      Lua comment quoting C++ constants, not a runtime value.
+      Consistent with the data: 1 on AIM-9/R-73/Igla/Stinger, 2 on
+      AIM-120/AIM-54/R-77, 3 on AGM-88/AGM-45/Kh-25MP, 4 on laser weapons
+      (AGM-114K, APKWS, Kh-29L), 6 on AIM-7/R-27R/SA-6/Patriot, 7 on
+      command-guided ATGMs (Ataka, HOT, AGM-12).
+    value:
+      1: InfraredSeeker
+      2: ActiveRadar
+      3: AntiRadar
+      4: LaserHoming
+      5: Autopilot
+      6: SemiActiveRadar
+      7: SemiAutoAT
+
+  - series: countries
+    table: aliases
+    note: >-
+      Country `idName` -> other names it goes by, for the package's countryId
+      helper (shipped as the `countryAliases` index by
+      tools/package/tables.py). An alias equal to any country's name,
+      shortName, internationalName, idName or oldId (ASCII case-insensitive,
+      trimmed), shared by two countries, or for an idName the data lacks
+      fails the build.
+    evidence: >-
+      ISO 3166-1 English short names where DCS 2.9.29.27468 db.Countries
+      names differ: United States of America (DCS USA), United Kingdom of
+      Great Britain and Northern Ireland (DCS UK), Netherlands (DCS The
+      Netherlands), Czechia (DCS Czech Republic, renamed in ISO 3166 in 2016);
+      "United States" and "United Kingdom" are their common short forms.
+    value:
+      USA: [United States, United States of America]
+      UK: [United Kingdom, Great Britain]
+      THE_NETHERLANDS: [Netherlands]
+      CHEZH_REPUBLIC: [Czechia]
+
+  - series: countries
+    table: allLiveries
+    note: >-
+      Country `shortName`s the mission editor offers every livery of a unit
+      type, whatever the livery's `countries`: the package's liveriesFor
+      helper returns all of a unit's liveries for them (shipped as the
+      `allLiveryCountries` index, country id -> shortName, by
+      tools/package/tables.py).
+      A shortName no country has, or two countries share, fails the build.
+    evidence: >-
+      DCS 2.9.29.27468 MissionEditor/modules/loadLiveries.lua lines 23-29
+      (loadSchemes): "--[DCSCORE-5294: Allow all liveries to be availiable to
+      Joint task force red and blue]" then, when countryShortName is "BLUE"
+      or "RED", sets countryShortName = nil, which line 19 documents as "nil
+      (all countries)" for DCS.getObjectLiveriesNames (line 31). db.Countries
+      gives shortName BLUE to Combined Joint Task Forces Blue (id 80) and RED
+      to Combined Joint Task Forces Red (id 81).
+    value: [BLUE, RED]
+
+  - series: units
+    table: classes
+    note: >-
+      Ordered rules giving a unit one class (the package helpers' unitClass;
+      tools/package/rules.py ships them in the `classification` index). A rule
+      matches when each fact it names holds: `any` (at least one of),
+      `all` (every one of) and `none` (none of) the listed values. Facts:
+      `series` (the unit's series), `attributes` (its DCS attributes) and
+      `kind` (an aircraft's `kind`). The first matching rule wins; a unit no
+      rule matches is `other`. A rule that matches no unit, or names an
+      attribute, series or kind the data lacks, fails `task package`.
+    evidence: >-
+      DCS's own unit categories and attributes (DCS 2.9.29.27468
+      _G/db/Units and the attribute tree of Scripts/Database/db_attributes.lua):
+      the series is the db/Units category; `Aircraft Carriers`, `Submarines`,
+      `EWR`, the `SAM *`/`MANPADS*`/`IR Guided SAM`/`AA_missile` air defence
+      attributes, `AAA`/`AA_flak`/`Static AAA`/`Mobile AAA`, `Artillery`/`MLRS`/
+      `Indirect fire`/`SS_missile`, `Tanks`, `IFV`, `APC`/`Infantry carriers`,
+      `Infantry`, `RailwayUnits`, `Fortifications`, the `PRMG_*`/`RSBN` beacon
+      attributes, `Trucks`/`Trailers` and `Cars` are DCS attribute names. The
+      order puts the more specific class first (an S-300 launcher is also
+      `Armed vehicles`; a MANPADS soldier is also `Infantry`). DCS gives
+      radar-directed guns the SAM attributes of their radar (ZSU-23-4,
+      Gepard and M163 carry `SAM TR`/`SAM elements`), so a gun unit is `aaa`
+      unless it also fires missiles (`AA_missile`, `SAM LL`, `IR Guided SAM`,
+      `MANPADS`: the 2S6 Tunguska is `sam`).
+    value:
+      - class: carrier
+        when: {attributes: {any: [Aircraft Carriers]}}
+      - class: submarine
+        when: {attributes: {any: [Submarines]}}
+      - class: ship
+        when: {series: {any: [ships]}}
+      - class: helicopter
+        when: {series: {any: [aircraft]}, kind: {any: [rotary]}}
+      - class: airplane
+        when: {series: {any: [aircraft]}}
+      - class: personnel
+        when: {series: {any: [personnel]}}
+      - class: structure
+        when: {series: {any: [structures]}}
+      - class: ewr
+        when: {attributes: {any: [EWR]}}
+      - class: aaa
+        when:
+          attributes:
+            any: [AAA, AA_flak, Static AAA, Mobile AAA]
+            none: [AA_missile, SAM LL, IR Guided SAM, MANPADS]
+      - class: sam
+        when:
+          attributes:
+            any: [SAM SR, SAM TR, SAM LL, SAM CC, SAM AUX, SAM elements, SAM related,
+                  SAM, MANPADS, MANPADS AUX, IR Guided SAM, AA_missile]
+      - class: artillery
+        when: {attributes: {any: [Artillery, MLRS, Indirect fire, SS_missile]}}
+      - class: armor
+        when: {attributes: {any: [Tanks]}}
+      - class: ifv
+        when: {attributes: {any: [IFV]}}
+      - class: apc
+        when: {attributes: {any: [APC, Infantry carriers]}}
+      - class: infantry
+        when: {attributes: {any: [Infantry]}}
+      - class: train
+        when: {attributes: {any: [RailwayUnits]}}
+      - class: fortification
+        when: {attributes: {any: [Fortifications]}}
+      - class: navaid
+        when: {attributes: {any: [PRMG_GLIDEPATH, PRMG_LOCALIZER, RSBN]}}
+      - class: truck
+        when: {attributes: {any: [Trucks, Trailers]}}
+      - class: car
+        when: {attributes: {any: [Cars]}}
+
+  - series: aircraft
+    table: roles
+    note: >-
+      Rules giving an aircraft its roles (the package helpers'
+      aircraftRoles; tools/package/rules.py ships them in the
+      `classification` index): the roles of every matching rule, so a role
+      may have several rules. Matching as in units/classes, with the facts
+      `attributes`, `kind`, `tasks` (the names of its `tasks`), `defaultTask`
+      (its `defaultTask` name) and `isTanker` (`"true"` when
+      `refuelling.isTanker` is true or non-zero). A rule that matches no
+      aircraft, or names a value the data lacks, fails `task package`.
+    evidence: >-
+      DCS's own aircraft attributes (`Tankers`, `AWACS`, `UAVs`, `Fighters`,
+      `Interceptors`, `Multirole fighters`, `Bombers`, `Strategic bombers`,
+      `Battleplanes`, `Attack helicopters`, `Transports`, `Transport
+      helicopters`), `is_tanker`, the airframe `kind` and the DCS task names
+      `CAS`, `Ground Attack` and `Reconnaissance` of DCS 2.9.29.27468.
+    value:
+      - role: tanker
+        when: {isTanker: {any: ["true"]}}
+      - role: tanker
+        when: {attributes: {any: [Tankers]}}
+      - role: awacs
+        when: {attributes: {any: [AWACS]}}
+      - role: uav
+        when: {attributes: {any: [UAVs]}}
+      - role: rotary
+        when: {kind: {any: [rotary]}}
+      - role: fighter
+        when: {attributes: {any: [Fighters, Interceptors, Multirole fighters]}}
+      - role: bomber
+        when: {attributes: {any: [Bombers, Strategic bombers]}}
+      - role: attack
+        when: {attributes: {any: [Battleplanes, Attack helicopters]}}
+      - role: attack
+        when: {defaultTask: {any: [CAS, Ground Attack]}}
+      - role: transport
+        when: {attributes: {any: [Transports, Transport helicopters]}}
+      - role: recon
+        when: {defaultTask: {any: [Reconnaissance]}}
+
+  # ----------------------------------------------------------------------------
+  # Upstream gaps: names DCS references but does not define.
+  # ----------------------------------------------------------------------------
+
+  - series: threats
+    table: natoDesignationUpstreamGaps
+    note: >-
+      Unit types Scripts/Speech/NATO.lua names that no db/Units record defines;
+      any other such name is an error, as is an entry that now resolves.
+    evidence: Checked against every _G/db/Units record of DCS 2.9.29.27468.
+    value:
+      S-75M_Volhov: The SA-2 launcher's unit type is S_75M_Volhov.
+      Stinger manpad: No such unit; the Stinger units are Soldier stinger, Stinger comm and Stinger comm dsr.
+      Stinger manpad GRG: See Stinger manpad.
+      Stinger manpad dsr: See Stinger manpad.
+
+  - series: stores
+    table: upstreamGaps
+    note: >-
+      Store CLSIDs aircraft Pylons list in Launchers[] that no _G/launcher record
+      defines; references to them are warnings in validate-data. An entry that
+      now resolves is an error.
+    evidence: Checked case-insensitively against every _G/launcher file of DCS 2.9.29.27468.
+    value:
+      LAU_131x3_HYDRA_70_M278: Listed by A-10C and A-10C_2 pylons.
+      "{1FE353C6-5EB6-4d22-9CFD-6DB384EC7296}": Listed by A-10C and A-10C_2 pylons.
+      "{9115A5AF-6D5C-4b6b-BEA9-31D48B5C6001}": Listed by A-10C, A-10C_2 and AV8BNA pylons.
+      "{AM39_exocet}": Listed by Mirage-F1M-EE pylons.
+      "{AUF2_BRP250}": Listed by Mirage F1 variant pylons.
+      "{B2DC636E-5E45-42db-81D9-38F3E059107C}": Listed by A-10C and A-10C_2 pylons.
+      "{HB_A6E_BDU45SE_TER_2x_LEFT}": Listed by A6E pylons.
+      "{HB_A6E_BDU45_TER_2x_LEFT}": Listed by A6E pylons.
+      "{HB_F4E_CBU-52B_6x}": Listed by F-4E-45MC pylons.
+      "{MBDA_MistralD}": Listed by SA342Mistral pylons.
+      "{MBDA_MistralG}": Listed by SA342Mistral pylons.
+      "{MERPYLON}": Listed by AJS37 pylons.
+      "{MINIGUN}": Listed by SA342Minigun pylons.
+
+  - series: weapons
+    table: seekerTypeUpstreamGaps
+    note: >-
+      `Head_Type` codes weapons use that no DCS source names; those weapons
+      keep `seekerType` without `seekerTypeName`. Any other unnamed code is an
+      error, as is an entry no weapon uses.
+    evidence: >-
+      Not in the enum CoreMods/aircraft/AJS37/Entry/Weapons.lua quotes (1-7);
+      the only other Head_Type comment in the DCS 2.9.29.27468 install's Lua
+      (Scripts, CoreMods, Mods) is ChinaAssetPack mils_cm802akg.lua
+      "Head_Type = 5, -- TV". Nothing names 0 or 8.
+    value:
+      0: Every torpedo (Mark_46, mk46torp_name, LTF_5B, G7A_T1, YU-6).
+      8: Rapier, HQ-7B, SA9M311 (2K22 Tunguska), SA57E6 (Pantsir) and CM-400AKG; the Rapier's scheme is command_guided_missile_rapier.
+
+  - series: units
+    table: upstreamGaps
+    note: >-
+      Unit types a weapon system's `depends_on_unit` names that no db/Units
+      record defines; references to them are warnings in validate-data. An
+      entry that now resolves is an error.
+    evidence: >-
+      Checked against every _G/db/Units record of DCS 2.9.29.27468; no Lua file
+      under the install's Scripts or CoreMods/tech names it.
+    value:
+      M109_FDDM: Named by M-109 WS[1].LN[1].depends_on_unit (alternative to `none`).
+
+  # ----------------------------------------------------------------------------
+  # API argument probe: functions it never calls.
+  # ----------------------------------------------------------------------------
+
+  - series: probe
+    table: doNotCall
+    note: >-
+      Functions the argument probe (tools/datamine/api_probe.py,
+      hook/api-probe.lua) never calls: they end or replace the run, write
+      files, reach the network or another program, or break what the probe
+      relies on. A key is a function path as the API dump writes it; `*`
+      matches any text. `envs` limits an entry to those envs (default all);
+      `unsure: true` marks entries denied as a precaution or a scope choice.
+      Every path of a denied function (the same function under another name)
+      is denied too. A crash on an unlisted function is recorded as `crashed`
+      and the run goes on, so this list is for irreversible effects, not
+      crashes.
+    evidence: >-
+      Classified by name, and by the calling Lua code where DCS ships it,
+      from the functions of the DCS 2.9.29.27468 extraction's api/{scripting,
+      hooks,export}.json.
+    value:
+      # Ends, reloads or replaces the process, the mission or the server.
+      DCS.exitProcess: {reason: "Exits DCS."}
+      DCS.stopMission: {reason: "Ends the mission."}
+      DCS.startMission: {reason: "Loads another mission in place of this one."}
+      DCS.restartMission: {reason: "Reloads the mission; the probe's samples and state are lost."}
+      DCS.LMSRestart: {reason: "Restarts the mission (last-man-standing mode)."}
+      DCS.reloadUserScripts: {reason: "Reloads the GameGUI hooks, the probe hook among them."}
+      DCS.reloadOptions: {reason: "Reapplies the options; may reinitialise graphics and sound mid-run.", unsure: true}
+      DCS.setNeedRestartApplication: {reason: "Flags DCS for a restart.", unsure: true}
+      DCS.updaterOperation: {reason: "Runs the DCS updater."}
+      DCS.takeTrackControl: {reason: "Takes control of a playing track; ends track replay.", unsure: true}
+      DCS.setPause: {reason: "Pauses the simulation; model time and the shell the Weapon sample needs stop."}
+      DCS.setViewPause: {reason: "Pauses the simulation view.", unsure: true}
+      DCS.setUserCallbacks: {reason: "Registers GameGUI callbacks; a table argument can replace the probe hook's own."}
+      net.stop_game: {reason: "Stops the mission on the server."}
+      net.stop_network: {reason: "Stops the server."}
+      net.restart: {reason: "Restarts the server's mission."}
+      net.load_mission: {reason: "Loads another mission."}
+      net.load_next_mission: {reason: "Loads the next mission of the list."}
+      net.missionlist_run: {reason: "Runs another mission of the list."}
+      net.start_server: {reason: "Starts a server in place of this one."}
+      net.start_client: {reason: "Connects to a server, leaving this one."}
+      env.crash: {reason: "Crashes the mission environment on purpose."}
+      env.exit: {reason: "Exits the mission environment."}
+      env.stop: {reason: "Stops the simulation."}
+      env.start: {reason: "Starts a simulation in the running one."}
+      env.restart: {reason: "Restarts the simulation."}
+      env.load: {reason: "Loads a mission."}
+      env.startServer: {reason: "Starts a server."}
+      env.startClient: {reason: "Connects to a server."}
+      env.setModeMP: {reason: "Switches the multiplayer mode of the running simulation.", unsure: true}
+      env.reloadDatabase: {reason: "Reloads the unit database under the running mission.", unsure: true}
+      sound.exit: {reason: "Shuts the sound system down."}
+      sound.init: {reason: "Reinitialises the sound system.", unsure: true}
+      terrain.Release: {reason: "Frees the GameGUI terrain the mission uses."}
+      terrain.Init: {reason: "Reinitialises the GameGUI terrain.", unsure: true}
+      terrain.Create: {reason: "Creates a GameGUI terrain in place of the loaded one.", unsure: true}
+      terrain.InitLight: {reason: "Reinitialises the GameGUI terrain in light mode.", unsure: true}
+      Weather.initAtmospere: {reason: "Reinitialises the GameGUI atmosphere.", unsure: true}
+      view.start: {reason: "Starts the camera/view system of the running simulation again.", unsure: true}
+      view.stop: {reason: "Stops the camera/view system of the running simulation.", unsure: true}
+      # Moves the server's own player into a slot or spawns one.
+      DCS.spawnPlayer: {reason: "Spawns the local player into the mission."}
+      DCS.setPlayerUnit: {reason: "Puts the local player into a unit."}
+      DCS.setPlayerCoalition: {reason: "Moves the local player to a coalition."}
+      DCS.enter_with_dyngroup: {reason: "Spawns the local player into a dynamic slot."}
+      DCS.create_client_aircraft: {reason: "Spawns a client aircraft for the local player."}
+      DCS.selfKillPilot: {reason: "Kills the local player's pilot."}
+      DCS.preloadCockpit: {reason: "Loads a cockpit for the local player.", unsure: true}
+      net.spawn_player: {reason: "Spawns a player into the mission."}
+      net.force_player_slot: {reason: "Forces a player into a slot."}
+      net.set_slot: {reason: "Moves the local player to a slot."}
+      net.set_coalition: {reason: "Moves the local player to a coalition."}
+      # Input and commands by id: ids include pause, quit and end mission.
+      DCS.dispatchDigitalAction: {reason: "Sends an input command by id; ids include pause and quit."}
+      DCS.dispatchAnalogAction: {reason: "Sends an analog input command by id.", unsure: true}
+      "*LoSetCommand": {reason: "Sends an input command by id to the player aircraft; ids include pause and quit.", unsure: true}
+      # Opens something on the user's desktop.
+      DCS.openHomePage: {reason: "Opens a web browser."}
+      DCS.activateSteamOverlayToStore: {reason: "Opens the Steam overlay store page."}
+      DCS.onShowDialog: {reason: "Shows a GUI dialog; a modal one blocks the headless run.", unsure: true}
+      DCS.setDebriefingShow: {reason: "Shows the debriefing screen.", unsure: true}
+      # Writes or deletes files.
+      DCS.makeScreenShot: {reason: "Writes a screenshot file."}
+      DCS.exportToMiz: {reason: "Writes a .miz file."}
+      DCS.saveMissionTo: {reason: "Writes a mission file."}
+      DCS.writeDebriefing: {reason: "Writes a debriefing file."}
+      DCS.MACSavePSData: {reason: "Writes persistent-state data.", unsure: true}
+      lfs.mkdir: {reason: "Creates a directory."}
+      lfs.rmdir: {reason: "Deletes a directory."}
+      lfs.chdir: {reason: "Changes the working directory every relative path of DCS resolves against."}
+      lfs.create_lockfile: {reason: "Creates a lock file."}
+      lfs.add_location: {reason: "Adds a location to DCS's virtual file system.", unsure: true}
+      lfs.del_location: {reason: "Removes a location from DCS's virtual file system.", unsure: true}
+      log.set_output: {reason: "Opens a new log file."}
+      log.set_output_rules: {reason: "Reroutes log output; the runner watches dcs.log for stalls and failures."}
+      log.backup: {reason: "Rotates dcs.log, which the runner watches."}
+      minizip.zipCreate: {reason: "Creates a zip file."}
+      minizip.zipAppend: {reason: "Opens a zip file for writing."}
+      minizip.zipAddFile: {reason: "Writes into a zip file."}
+      minizip.zipClose: {reason: "Finishes writing a zip file."}
+      minizip.unzUnpackCurrentFile: {reason: "Extracts a file from a zip to disk."}
+      doZipFile: {reason: "Writes a zip file.", unsure: true}
+      net.screenshot_request: {reason: "Requests a client screenshot, saved to disk."}
+      net.screenshot_del: {reason: "Deletes a saved screenshot."}
+      net.missionlist_append: {reason: "Changes the server's mission list (saved with the server settings)."}
+      net.missionlist_delete: {reason: "Changes the server's mission list."}
+      net.missionlist_clear: {reason: "Clears the server's mission list."}
+      net.missionlist_move: {reason: "Changes the server's mission list."}
+      net.missionlist_set_loop: {reason: "Changes the server's mission list settings."}
+      net.missionlist_set_shuffle: {reason: "Changes the server's mission list settings."}
+      # Reaches the network, other players or ED's servers.
+      net.send_chat: {reason: "Sends a chat message."}
+      net.send_chat_to: {reason: "Sends a chat message to a player."}
+      net.recv_chat: {reason: "Injects a received chat message.", unsure: true}
+      net.send_rpc_request: {reason: "Sends an RPC request."}
+      net.send_rpc_result: {reason: "Sends an RPC result."}
+      net.send_rpc_error: {reason: "Sends an RPC error."}
+      _websocket_send: {reason: "Sends on the GUI websocket."}
+      net.kick: {reason: "Kicks a player."}
+      net.banlist_add: {reason: "Bans a player (saved to the ban list)."}
+      net.banlist_add_by_ucid: {reason: "Bans a player (saved to the ban list)."}
+      net.banlist_remove: {reason: "Changes the saved ban list."}
+      net.serverlist_search: {reason: "Queries ED's master server."}
+      net.serverlist_reset: {reason: "Resets the master-server list query.", unsure: true}
+      net.serverinfo_request: {reason: "Queries a remote server."}
+      net.set_name: {reason: "Renames the local player (saved in the profile).", unsure: true}
+      _TryAuthorize: {reason: "Logs in to ED's servers."}
+      _AttachModule: {reason: "Attaches a module (DRM/licence path).", unsure: true}
+      _ValidateTerrain: {reason: "Validates a terrain licence.", unsure: true}
+      DCS.onUserLogin: {reason: "Runs the user login flow.", unsure: true}
+      RPC.*: {reason: "GUI RPC client (remote calls).", unsure: true, envs: [hooks]}
+      # Breaks what the probe relies on in the mission.
+      world.addEventHandler: {reason: "Adds a handler; a {} handler errors on every event and stops world.onEvent's dispatch, the probe's shot capture included."}
+      world.removeEventHandler: {reason: "Removes event handlers, the probe's shot capture among them.", unsure: true}
+      world.removeJunk: {reason: "Removes objects in a volume; irreversible and could take a sample.", unsure: true}
+      beforeStart: {reason: "The mission environment's start hook; runs the mission start logic again.", unsure: true, envs: [scripting]}
+      afterStart: {reason: "The mission environment's start hook; runs the mission start logic again.", unsure: true, envs: [scripting]}
+      ModuleLocker.*: {reason: "Module lock (licence) checks.", unsure: true}
+      i_18n.set_locale: {reason: "Changes the GUI language for the rest of the run; later localised results would differ.", unsure: true}
+      i_18n.set_locale_dir: {reason: "Changes where localisations load from.", unsure: true}
+      i_18n.init: {reason: "Reinitialises localisation.", unsure: true}
+      # GUI: native widgets and GUI Lua modules. Scope choice: not the mission
+      # API, calls create windows or modal dialogs (which block a headless run)
+      # and a stray widget handle crashes DCS.
+      dxgui.*: {reason: "Native GUI widget API.", unsure: true}
+      dxguiWin.*: {reason: "Native GUI window API.", unsure: true}
+      Gui.*: {reason: "Native GUI widget API.", unsure: true}
+      GuiWin.*: {reason: "Native GUI window API.", unsure: true}
+      Skin.*: {reason: "GUI skin module.", unsure: true}
+      Widget.*: {reason: "GUI widget module.", unsure: true}
+      Window.*: {reason: "GUI window module.", unsure: true}
+      Panel.*: {reason: "GUI widget module.", unsure: true}
+      Static.*: {reason: "GUI widget module.", unsure: true}
+      StaticList.*: {reason: "GUI widget module.", unsure: true}
+      StaticMenu.*: {reason: "GUI widget module.", unsure: true}
+      Button.*: {reason: "GUI widget module.", unsure: true}
+      Slider.*: {reason: "GUI widget module.", unsure: true}
+      HorzSlider.*: {reason: "GUI widget module.", unsure: true}
+      SpinBox.*: {reason: "GUI widget module.", unsure: true}
+      CheckListBox.*: {reason: "GUI widget module.", unsure: true}
+      CheckListBoxItem.*: {reason: "GUI widget module.", unsure: true}
+      ListBoxItem.*: {reason: "GUI widget module.", unsure: true}
+      TabSheetBar.*: {reason: "GUI widget module.", unsure: true}
+      Layout.*: {reason: "GUI layout module.", unsure: true}
+      HorzLayout.*: {reason: "GUI layout module.", unsure: true}
+      VertLayout.*: {reason: "GUI layout module.", unsure: true}
+      FormLayout.*: {reason: "GUI layout module.", unsure: true}
+      AnchorLayout.*: {reason: "GUI layout module.", unsure: true}
+      BorderLayout.*: {reason: "GUI layout module.", unsure: true}
+      Align.*: {reason: "GUI layout module.", unsure: true}
+      Size.*: {reason: "GUI layout module.", unsure: true}
+      Factory.*: {reason: "GUI widget factory.", unsure: true}
+      DialogLoader.*: {reason: "Loads and shows GUI dialogs.", unsure: true}
+      MsgWindow.*: {reason: "Shows modal message windows.", unsure: true}
+      UICommon.*: {reason: "GUI helpers.", unsure: true}
+      CommandMenu.*: {reason: "Radio command menu GUI.", unsure: true}
+      CommandDialog.*: {reason: "Radio command dialog GUI.", unsure: true}
+      CommandDialogsPanel.*: {reason: "Radio command dialogs GUI.", unsure: true}
+      RadioCommandDialogsPanel.*: {reason: "Radio command dialogs GUI.", unsure: true}
+      AWACSInfo.*: {reason: "AWACS info GUI.", unsure: true}
+      AirdromeData.*: {reason: "Airdrome info GUI.", unsure: true}
+      debriefing.*: {reason: "Debriefing GUI.", unsure: true}
+      DebriefingEventsData.*: {reason: "Debriefing GUI data.", unsure: true}
+      DebriefingMissionData.*: {reason: "Debriefing GUI data.", unsure: true}
+      "plugins[*": {reason: "Module plugin declarations and their GUI/ME callbacks.", unsure: true}
+      me_db.*: {reason: "Mission editor database module.", unsure: true}
+      me_utilities.*: {reason: "Mission editor utilities (file copies, saving).", unsure: true}
+      ConfigHelper.*: {reason: "Reads and writes configuration files.", unsure: true}
+      Serializer.*: {reason: "Serialises tables to open files.", unsure: true}
+
+  # ----------------------------------------------------------------------------
+  # API argument probe: its mission and the argument values it tries first.
+  # ----------------------------------------------------------------------------
+
+  - series: probe
+    table: mission
+    note: >-
+      The argument probe's mission (tools/datamine/probe_mission.py): per
+      coalition a country, its aircraft's `callsign` (a name: Enfield11,
+      Enfield21, ...; a number: 101, 102, ...), its airbase (warehouse stocked
+      with `warehouse`) and two anchors, `land` (the airbase's reference point) and `sea`
+      ([x, y] m, x north, y east). Each of `objects` is placed for both
+      coalitions at `offset` from its `anchor`, named `<name>_BLUE` /
+      `<name>_RED` (a group's unit `<group>-1`; a static's unit has the group
+      name); `type` is one type or one per coalition. `kind`: plane,
+      helicopter (airborne, orbiting at `alt` m and `speed` m/s, with `fuel`
+      kg, radio on `radioMHz`), client (an airborne player slot), vehicle,
+      ship, static (`category`; `unit` fields are copied into the static's
+      unit). An aircraft's `fuel: internal` is its type's `aero.internalFuelKg`
+      and `speed: optimal` its `performance.vOptMs` (aircraft series of the
+      probed version, else the newest); a number is a probe setting. Every
+      AI group but `fires` ones holds fire (`roe`: the scripting API's
+      `AI.Option.<Air|Ground|Naval>.val.ROE` names for holding fire and for
+      firing, resolved with `AI.Option.<domain>.id.ROE` from the API dump)
+      and aircraft are immortal and invisible, so the two sides never
+      destroy a sample. `zones`, `drawings` and `marks` sit at an
+      offset from a side's anchor; zones are circles (`radius`) or quads
+      (`quad` corners); a mark is made and `flags` are set by a
+      mission-start script (a .miz has no marks or flag values). `samples`
+      names the objects probe-call.lua's setupMission takes its class
+      samples from (the mortar is ordered to fire at `target`, an offset from
+      it, so a Weapon is in flight); a missing one is spawned at runtime.
+    evidence: >-
+      Anchors: DCS 2.9.29.27468 airbases/Caucasus/Kutaisi.json
+      (airdromeId 25) and Sukhumi-Babushara.json (20) referencePoint; the sea
+      anchors lie 40-45 km off the coast in the Black Sea (a CSG-8 Caucasus
+      mission's carrier group sails at x -345676, y 499137). Types, shapes
+      and cargo mass from .datamine/_G/db/Units of 2.9.29.27468; the
+      helicopters' 40 m/s is a probe setting (the aircraft series gives
+      rotary types no vOptMs); weapon wsTypes from .datamine/_G/__wstype_ids__.lua
+      (AIM_9 4,4,7,22; AIM_120C 4,4,7,106; Mk_82 4,5,9,31); aircraft
+      wsTypes from a mission editor warehouse (F-15C 1,1,1,6; Su-27 1,1,1,3).
+      Countries USA (2) and Russia (0) are in MissionEditor/data/scripts/
+      default_coalitions.lua blue and red; mission editor saves give US
+      aircraft callsign tables ({1, 1, 1, name = "Enfield11"}) and Russian
+      ones numbers (100). 251 MHz is in the UHF range of the F-15C, Su-27,
+      UH-60A and Mi-8MT radios.
+    value:
+      theatre: Caucasus
+      radioMHz: 251
+      roe: {hold: WEAPON_HOLD, fires: OPEN_FIRE}
+      sides:
+        blue:
+          country: {id: 2, name: USA}
+          callsign: Enfield
+          airbase: {id: 25, name: Kutaisi}
+          land: [-284887, 683859]
+          sea: [-300000, 590000]
+        red:
+          country: {id: 0, name: Russia}
+          callsign: 100
+          airbase: {id: 20, name: Sukhumi-Babushara}
+          land: [-220592, 564392]
+          sea: [-240000, 530000]
+      objects:
+        - {name: PROBE_PLANE, kind: plane, anchor: land, offset: [0, 0], alt: 3000, type: {blue: F-15C, red: Su-27}, fuel: internal, speed: optimal}
+        - {name: PROBE_HELO, kind: helicopter, anchor: land, offset: [2000, -2000], alt: 300, type: {blue: UH-60A, red: Mi-8MT}, fuel: internal, speed: 40}
+        - {name: PROBE_CLIENT, kind: client, anchor: land, offset: [-3000, 0], alt: 4000, type: {blue: F-15C, red: Su-27}, fuel: internal, speed: optimal}
+        - {name: PROBE_GROUND, kind: vehicle, anchor: land, offset: [1500, 1500], type: {blue: M-1 Abrams, red: T-72B}}
+        - {name: PROBE_SAM, kind: vehicle, anchor: land, offset: [1500, 1700], type: {blue: Roland ADS, red: Osa 9A33 ln}}
+        - {name: PROBE_ARTY, kind: vehicle, anchor: land, offset: [1500, 1900], type: 2B11 mortar, fires: true}
+        - {name: PROBE_STATIC, kind: static, category: Fortifications, anchor: land, offset: [1300, 1500], type: Windsock, unit: {shape_name: H-Windsock_RW}}
+        - {name: PROBE_CARGO, kind: static, category: Cargos, anchor: land, offset: [1300, 1700], type: ammo_cargo, unit: {shape_name: ammo_box_cargo, mass: 1500, canCargo: true}}
+        - {name: PROBE_FARP, kind: static, category: Heliports, anchor: land, offset: [1000, 2500], type: FARP, unit: {shape_name: FARPS, heliport_callsign_id: 1, heliport_frequency: "127.5", heliport_modulation: 0}}
+        - {name: PROBE_SHIP, kind: ship, anchor: sea, offset: [0, 0], type: {blue: PERRY, red: MOLNIYA}}
+        - {name: PROBE_CARRIER, kind: ship, anchor: sea, offset: [3000, 0], type: {blue: Stennis, red: KUZNECOW}}
+      zones:
+        - {name: PROBE_ZONE_C, side: blue, anchor: land, offset: [0, 3000], radius: 1000}
+        - {name: PROBE_ZONE_Q, side: blue, anchor: land, offset: [0, -3000], quad: [[-500, -500], [-500, 500], [500, 500], [500, -500]]}
+      drawings:
+        - {name: PROBE_DRAWING, side: blue, anchor: land, offset: [0, 5000], radius: 1000}
+      marks:
+        - {id: 1, text: PROBE_MARK, side: blue, anchor: land, offset: [0, 4000]}
+      flags: {PROBE_FLAG: 1, "1": 1}
+      warehouse:
+        fuel: 100
+        weapons: [{wsType: [4, 4, 7, 22], initialAmount: 20}, {wsType: [4, 4, 7, 106], initialAmount: 20}, {wsType: [4, 5, 9, 31], initialAmount: 40}]
+        planes: {F-15C: {wsType: [1, 1, 1, 6], initialAmount: 4}, Su-27: {wsType: [1, 1, 1, 3], initialAmount: 4}}
+      samples: {airbase: Kutaisi, air: PROBE_PLANE_BLUE, ground: PROBE_GROUND_BLUE, arty: PROBE_ARTY_BLUE, static: PROBE_STATIC_BLUE, target: [3000, 0]}
+
+  - series: probe
+    table: contextSamples
+    note: >-
+      Argument values the probe tries before its plain samples ("probe" for a
+      string, 1 for a number), for arguments that name something: the
+      functions of `paths` (as in doNotCall: `*` matches any text; `envs`
+      limits a rule to those envs) get, at argument `position` (default 1),
+      the first entry of `pool`, from the probe mission: groups, units,
+      statics (static unit names), zones, airbases (the sides' airbases,
+      FARPs and ships), drawings, flags, unitTypes, staticTypes (strings);
+      sides, countries (numbers; blue first). The first matching rule wins;
+      when the call then fails with an error that names no argument, the
+      plain sample is tried in its place.
+    evidence: >-
+      Parameter names and types of the hand-written mission scripting schema
+      (dcs-world-schema/globals: Group.getByName, Unit.getByName,
+      StaticObject.getByName, Airbase.getByName, Warehouse.getByName `name`;
+      Unit/StaticObject.getDescByName `typeName`; trigger.misc.getZone
+      `zoneName`; trigger.misc.getUserFlag, trigger.action.setUserFlag
+      `flagNameOrId`; trigger.action.ctfColorTag, setUnitInternalCargo
+      `unitName`; coalition.* `coalition.side` / `country.id`) and the
+      2.9.29.27468 probe run's messages ("Parameter #1 (group name) missed"
+      from forceAttackGroup, "Parameter #2 (country id) missed" from
+      coalition.getCountryCoalition).
+    value:
+      - {paths: [Group.getByName, forceAttackGroup, coalition.remove_dyn_group], pool: groups}
+      - {paths: [Unit.getByName, trigger.action.ctfColorTag, trigger.action.setUnitInternalCargo], pool: units}
+      - {paths: [StaticObject.getByName], pool: statics}
+      - {paths: [Airbase.getByName, Warehouse.getByName], pool: airbases}
+      - {paths: [trigger.misc.getZone], pool: zones}
+      - {paths: [trigger.misc.getUserFlag, trigger.action.setUserFlag], pool: flags}
+      - {paths: [Unit.getDescByName], pool: unitTypes}
+      - {paths: [StaticObject.getDescByName], pool: staticTypes}
+      - {paths: [coalition.getCountryCoalition, trigger.action.outTextForCountry, trigger.action.outSoundForCountry], pool: countries}
+      - {paths: [coalition.getCountryCoalition], position: 2, pool: countries}
+      - {paths: ["coalition.get*", coalition.checkChooseCargo, coalition.checkDescent, trigger.action.outTextForCoalition, trigger.action.outSoundForCoalition], pool: sides}
+
+  - series: probe
+    table: actions
+    note: >-
+      The live AI actions probe (tools/datamine/actions_probe.py,
+      hook/actions-probe.lua, hook/actions-probe-lib.lua). `samples`: per
+      group category the probe/mission object whose blue group's controller
+      takes that category's calls. `route`: where the late-activated route
+      groups of a category spawn (an [x, y] m offset from the blue side's
+      `anchor`); only one is active at a time. `effects`: ids whose steps also
+      measure a behaviour change against a control step with the same params
+      (`object` replaces the category's sample; `params` are merged over the
+      Mission Editor's defaults and may use the placeholders $target,
+      $target.x, $target.y, $alt, $speed). `measures`: turnToward (target
+      `distance` m at `bearing` degrees from the lead unit's velocity, negative
+      to the left; observed when the end angle to it is at most `maxEndAngle`
+      and the control's is more), stop (observed when the end ground speed is
+      at most `maxEndSpeed` and the control's more; route groups drive at
+      `routeSpeed` m/s), shoot (target `distance` m ahead; observed with at
+      least `minShots` shots and the control fewer). `deny`: `kind:dcsId`
+      patterns never called, with a reason.
+    evidence: >-
+      Samples and anchors are the probe/mission objects (PROBE_PLANE F-15C at
+      3000 m, PROBE_HELO UH-60A at 300 m, PROBE_GROUND M-1 Abrams,
+      PROBE_ARTY 2B11 mortar, PROBE_SHIP PERRY). Offsets keep route groups
+      clear of the samples and of the land/sea boundary of Caucasus (the
+      blue land anchor is Kutaisi, the sea anchor 40-45 km off the coast).
+      Orbit, Land, Hold and FireAtPoint: MissionEditor/modules/me_action_db.lua
+      writes FireAtPoint and Land targets as x/y and orbits at the waypoint;
+      the hand-written schema uses `point`, so both are given. A 2B11 mortar
+      reaches 2 km. No action is known to be destructive: tasks only change
+      what the probe mission's immortal, invisible samples do.
+    value:
+      samples: {plane: PROBE_PLANE, helicopter: PROBE_HELO, vehicle: PROBE_GROUND, ship: PROBE_SHIP}
+      route:
+        plane: {anchor: land, offset: [30000, 0]}
+        helicopter: {anchor: land, offset: [10000, -10000]}
+        vehicle: {anchor: land, offset: [4000, 4000]}
+        ship: {anchor: sea, offset: [0, 20000]}
+      effects:
+        - {dcsId: Orbit, categories: [plane, helicopter], measure: turnToward, seconds: 30, params: {pattern: Circle, point: $target, x: $target.x, y: $target.y, altitude: $alt, speed: $speed}}
+        - {dcsId: Land, categories: [helicopter], measure: turnToward, seconds: 30, params: {point: $target, x: $target.x, y: $target.y}}
+        - {dcsId: Hold, categories: [vehicle], measure: stop, seconds: 20}
+        - {dcsId: FireAtPoint, categories: [vehicle], object: PROBE_ARTY, measure: shoot, seconds: 30, params: {point: $target, x: $target.x, y: $target.y, expendQty: 1, expendQtyEnabled: true}}
+      measures:
+        turnToward: {distance: 10000, bearing: -90, maxEndAngle: 45}
+        stop: {maxEndSpeed: 0.5, routeSpeed: 10}
+        shoot: {distance: 2000, bearing: 0, minShots: 1}
+      deny: []
+
+  - series: probe
+    table: actionsFollowup
+    note: >-
+      The actions probe's follow-up (tools/datamine/actions_probe.py
+      `followup_plan`, hook/actions-probe-followup-lib.lua): open questions of
+      the first run. Samples, route places and measures are probe/actions'.
+      `cases`: one AI action (`kind`, `dcsId`; params over the Mission
+      Editor's defaults of that id, when it has one) per `categories` and
+      `contexts`, once per `variants` entry (its params merged last, after the
+      keys of every variant are dropped), plus a control (ActionsProbeNoSuchId, first variant's params); with a
+      `measure` (probe/actions `measures`) over `seconds`, every API-context
+      step runs on a fresh late-activated copy of the sample (`object`
+      replaces it) flying or driving straight, activated at reset and
+      destroyed after. `compare`: other ids run like a variant (labelled) in
+      the listed contexts, judged against the same control. Placeholders
+      without a measure resolve to the group's own position. A measured case
+      may also give `at` (where its spawned and route groups start, as a
+      probe/actions `route` entry), `leg` (metres flown or driven straight
+      ahead, over the measure's) and `target`: an object whose group fixes
+      the effect target ($target; its first side's place), and whose hits by
+      the step's group a `shoot` step counts next to its shots (`hits`, not
+      judged). `objects`: probe/mission objects added to the follow-up's
+      mission, with `sides` (placed for these only), `anchorSide` (whose
+      anchors), `pylons` (aircraft: station -> CLSID) and `immortal`
+      (vehicles); an aircraft that `fires` gets probe/mission `roe.fires`, so it attacks
+      only what it is tasked with. `options`: setOption calls of each option
+      with every Mission Editor value of the category and its
+      `missionValues` most frequent install mission values (no value when
+      there is none).
+    evidence: >-
+      Ids and params: the first run (DCS 2.9.29.27468
+      api/actions-probe.json, plan 311bdd7d22614797) took only
+      DCS casing; its point/x/y steps passed both forms, so which DCS reads
+      is open. StopRoute: Scripts/ScriptingSystem.lua
+      trigger.action.groupStopMoving/groupContinueMoving send
+      setCommand({id = 'StopRoute', params = {value = true|false}}); the
+      former hand-written CommandId had stopRoute. A WrappedAction replaces
+      the route task, so SetInvisible (inert on the invisible samples) shows
+      whether any wrapped command stops a vehicle. Option values: the options
+      series (FORMATION: Mission Editor values 1-18, missions mostly packed
+      values such as 131074; RADIO_USAGE_*: missions strings such as
+      "none;"). Bombing and EngageTargetsInZone: the first run's F-15C sample
+      carried no air-to-ground stores and had no target, so its steps showed
+      acceptance only. PROBE_BOMBER is the stock AI F-15E (module null in
+      DCS 2.9.29.27468 aircraft/F-15E.json), whose
+      stations 4-6 and 14-16 accept {Mk82AIR}
+      (stores/{Mk82AIR}.json); a bomb release is an S_EVENT_SHOT. PROBE_TARGET
+      is a red T-72B (PROBE_GROUND's red type), immortal so every step finds
+      it, at the Bombing point and the centre of the EngageTargetsInZone zone
+      (zoneRadius 5000 by default). Both lie in the Colchis lowland west of
+      Kutaisi (between Kutaisi, elevation 45 m, and Senaki-Kolkhi, 13 m, in
+      airbases/Caucasus), the bomber starting 12 km south of the target and
+      heading north over it, clear of the other probe groups.
+    value:
+      objects:
+        - {name: PROBE_BOMBER, kind: plane, sides: [blue], anchor: land, offset: [-8000, 6000], alt: 3000, type: F-15E, fuel: internal, speed: optimal, fires: true, pylons: {4: "{Mk82AIR}", 5: "{Mk82AIR}", 6: "{Mk82AIR}", 14: "{Mk82AIR}", 15: "{Mk82AIR}", 16: "{Mk82AIR}"}}
+        - {name: PROBE_TARGET, kind: vehicle, sides: [red], anchorSide: blue, anchor: land, offset: [-2000, -23000], type: T-72B, immortal: true}
+      cases:
+        - kind: task
+          dcsId: Orbit
+          categories: [plane, helicopter]
+          contexts: [setTask, route]
+          measure: turnToward
+          seconds: 30
+          params: {pattern: Circle, altitude: $alt, speed: $speed}
+          variants: &pointVariants
+            both: {point: $target, x: $target.x, y: $target.y}
+            point: {point: $target}
+            xy: {x: $target.x, y: $target.y}
+            none: {}
+        - {kind: task, dcsId: Land, categories: [helicopter], contexts: [setTask, route], measure: turnToward, seconds: 30, variants: *pointVariants}
+        - kind: task
+          dcsId: Bombing
+          categories: [plane]
+          object: PROBE_BOMBER
+          contexts: [setTask, route]
+          measure: shoot
+          seconds: 120
+          target: PROBE_TARGET
+          at: &bomberStart {anchor: land, offset: [-14000, -23000]}
+          leg: 30000
+          variants: *pointVariants
+        - {kind: task, dcsId: FireAtPoint, categories: [vehicle], object: PROBE_ARTY, contexts: [setTask, route], measure: shoot, seconds: 30, params: {expendQty: 1, expendQtyEnabled: true}, variants: *pointVariants}
+        - kind: enrouteTask
+          dcsId: EngageTargetsInZone
+          categories: [plane]
+          object: PROBE_BOMBER
+          contexts: [pushTask, route]
+          measure: shoot
+          seconds: 150
+          target: PROBE_TARGET
+          at: *bomberStart
+          leg: 30000
+          variants: *pointVariants
+        - kind: command
+          dcsId: StopRoute
+          categories: [vehicle]
+          contexts: [setCommand, wrappedAction, route]
+          measure: stop
+          seconds: 20
+          params: {value: true}
+          compare:
+            - {id: SetInvisible, label: inert, params: {value: true}, contexts: [wrappedAction]}
+      options:
+        ids: [FORMATION, NO_OPTION, RADIO_USAGE_CONTACT, RADIO_USAGE_ENGAGE, RADIO_USAGE_KILL]
+        missionValues: 3
+
+  - series: actions
+    table: descriptions
+    note: >-
+      Hand-written descriptions of the AI task, en-route task and command
+      types generated from the actions series (tools/datamine/action_types.py,
+      dcs-world-schema/types/ai/*.generated.yaml), moved from the former
+      hand-written Task*/TaskEnRoute*/Command* records. Text only: the
+      types' ids and parameters are the actions series' (with the parameters
+      the record patches above add). Keyed by kind and DCS id: `description`
+      of the type, `params` of its parameters (text, or `{type,
+      description}` to name a schema type for one). An id or parameter the
+      series lacks is an error. Ids the former records had only in another
+      casing are listed under DCS's. `param` types a parameter name in every
+      action that has it (without its own type): a scripting API enum,
+      widened by the Mission Editor's own values (`expend` `"Auto"`,
+      `pattern` `"Anchored"`, `designation` `"WP+Laser"`), or a `DcsId`
+      type (open: `| string`, `| number`) where mods add ids.
+    evidence: >-
+      dcs-world-schema/types/tasks/*.record.yaml, enrouteTasks/*.record.yaml
+      and commands/*.record.yaml at 7747097d, matched to the Mission Editor
+      ids of DCS 2.9.29.27468 (MissionEditor/modules/me_action_db.lua)
+      ignoring case. DisembarkFromTransport matches no Mission Editor id
+      and the live actions probe (api/actions-probe.json) shows setTask
+      rejects it ("Unknown task"), so it is dropped. stopRoute matches none
+      either; Scripts/ScriptingSystem.lua sends id 'StopRoute' with
+      setCommand, so it is kept as StopRoute (an actions series record of
+      DCS's scripts).
+      `param` types: the string values install missions write (the actions
+      series' missionStrings) against AI.Task.WeaponExpend, OrbitPattern and
+      Designation of api/scripting.json; the Mission Editor writes "Auto"
+      (expend, 4406 uses), "Anchored" (Orbit pattern, 6) and "WP+Laser"
+      (designation, 12), which those tables lack. Install missions also
+      write: modeChannel "X"/"Y" (1782); attackType "Dive" and "Carpet"
+      (me_action_db.lua defaults add "Toss"); weaponType sums of
+      Weapon.flag bits (1073741822, 9663676414) beside its members;
+      modulation 0/1; selectedType unit types of helicopters and ground
+      vehicles (KrAZ6322, LAV-25); formationType 15 (a db.FormationID);
+      targetTypes/noTargetTypes unit attributes plus five missile ones
+      (DcsId.Attribute). formation (Escort, Follow) is in no install
+      mission, so its type stays open.
+    value:
+      command:
+        ActivateACLS:
+          description: Command that activates an Automatic Carrier Landing System
+            (ACLS) on an aircraft carrier.
+          params:
+            name: Name of the ACLS (label only).
+            unitId: ID of the ship unit that will provide the ACLS functionality (requires carrier with appropriate
+              systems).
+        ActivateBeacon:
+          description: Command that activates a radio navigation beacon on a unit
+            or group.
+          params:
+            callsign: Morse code identifier transmitted by the beacon for identification.
+            frequency: Broadcast frequency in Hertz for the navigation beacon.
+            name: Descriptive name for the beacon shown in the mission editor interface.
+            system:
+              type: BeaconSystemName
+              description: Navigation system that will process the beacon signal.
+            type:
+              type: BeaconType
+              description: Beacon type identifier determining its functional characteristics.
+        ActivateICLS:
+          description: Command that activates an Instrument Carrier Landing System
+            (ICLS) beacon for aircraft carriers.
+          params:
+            channel: ICLS channel number (1-20) that aircraft will tune to for landing guidance.
+            name: Name of the ICLS beacon (label only).
+            type:
+              type: BeaconType
+              description: Fixed value of 131584 identifying an ICLS beacon type.
+            unitId: ID of the ship unit that will broadcast the ICLS beacon signal.
+        ActivateLink4:
+          description: Command that activates a Link 4 data link system for aircraft
+            carrier operations.
+          params:
+            frequency: Operating frequency in Hertz for the data link communications.
+            name: Name of the Link 4 system (label only).
+            unitId: ID of the ship unit that will broadcast the Link 4 signal (must have Link 4 capability).
+        DeactivateACLS:
+          description: Command that deactivates any active Automatic Carrier Landing
+            System (ACLS) on a unit or group.
+        DeactivateBeacon:
+          description: Command that deactivates any active radio navigation beacon
+            on a unit or group.
+        DeactivateICLS:
+          description: Command that deactivates any active Instrument Carrier Landing
+            System (ICLS) beacon on a unit or group.
+        DeactivateLink4:
+          description: Command that deactivates any active Link 4 data link system
+            on a unit or group.
+        EPLRS:
+          description: Command that toggles the Enhanced Position Location Reporting
+            System (EPLRS) data link capabilities for a unit or group.
+          params:
+            groupId: Track number assigned to the first unit in the group (only relevant for ground vehicle
+              groups).
+            value: EPLRS state where true activates the data link, false deactivates it.
+        LoadingShip:
+          description: Command that adjusts a ship's cargo loading level, affecting
+            its buoyancy and water line position.
+          params:
+            cargo: Cargo load percentage (0-100) determining how much the ship sits in water (lower values raise
+              the waterline).
+            unitId: ID of the ship unit whose cargo load level will be modified.
+        SMOKE_ON_OFF:
+          description: Command that toggles aircraft smoke pod emission.
+          params:
+            value: Smoke state where true activates smoke emission, false deactivates it.
+        Script:
+          description: Command that executes a Lua script within the context of a
+            group, providing access to the group through the '...' self-reference.
+          params:
+            command: Lua code string to be executed within the group's context.
+        SetCallsign:
+          description: Command that changes a group's identification callsign for
+            radio communications.
+          params:
+            callname: Callsign name identifier (varies by unit type; 1-19 for JTAC units per Callsigns_JTAC
+              enum).
+            number: Numeric suffix for the callsign (1-9), used to distinguish between units with the same callname.
+        SetFrequency:
+          description: Command that changes the radio broadcasting frequency for
+            an AI group.
+          params:
+            frequency: 'Radio frequency in Hertz (note: mission editor displays MHz, multiply by 1,000,000 to
+              convert).'
+            modulation: Radio modulation type (0 = AM, 1 = FM).
+            power: Radio transmit power in watts, determining broadcast range.
+        SetFrequencyForUnit:
+          description: Command that changes the radio broadcasting frequency for
+            a specific unit within an AI group.
+          params:
+            frequency: 'Radio frequency in Hertz (note: mission editor displays MHz, multiply by 1,000,000 to
+              convert).'
+            modulation: Radio modulation type (0 = AM, 1 = FM).
+            power: Radio transmit power in watts, determining broadcast range.
+            unitId: ID of the specific unit within the group whose radio frequency will be modified.
+        SetImmortal:
+          description: Command that toggles a group's invulnerability to all damage.
+          params:
+            value: Immortality state where true makes the group immune to all damage, false restores normal
+              vulnerability.
+        SetInvisible:
+          description: Command that toggles a group's visibility to enemy AI sensors.
+          params:
+            value: Invisibility state where true makes the group undetectable by enemy AI, false restores normal
+              detection.
+        SetUnlimitedFuel:
+          description: Command that toggles infinite fuel supply for a unit or group.
+          params:
+            value: Fuel state where true prevents fuel depletion during operation, false restores normal fuel
+              consumption.
+        Start:
+          description: Command that activates an initially inactive group, triggering
+            AI units to follow their designated route.
+        StopRoute:
+          description: Halts or resumes a group's movement along its route.
+          params:
+            value: true halts the group in place, false resumes its route.
+        StopTransmission:
+          description: Command that terminates any active radio message transmission
+            from a unit or group.
+        SwitchAction:
+          description: Command that changes the active task action within a mission
+            group's task queue.
+          params:
+            actionIndex: Index of the target action in the group's task queue to make active.
+        SwitchWaypoint:
+          description: Command that changes the active route leg for a group, allowing
+            control of navigation between waypoints.
+          params:
+            fromWaypointIndex: Index of the waypoint where the group will begin its new route leg.
+            goToWaypointIndex: Index of the destination waypoint the group will navigate toward.
+        TransmitMessage:
+          description: Command that broadcasts an audio message over a unit or group's
+            active radio frequency.
+          params:
+            duration: Display time in seconds for the message subtitles (ignored when loop is true).
+            file: Path to the sound file that will be played as the radio transmission.
+            loop: Transmission mode where true causes the message to repeat continuously until stopped.
+            subtitle: Text displayed in the radio message queue representing the transmission content.
+      enrouteTask:
+        AWACS:
+          description: En-route task that assigns the aircraft
+            to act as an AWACS for friendly forces.
+        EWR:
+          description: En-route task that assigns the group
+            to act as an EWR radar for friendly forces.
+        EngageGroup:
+          description: En-route task that assigns the controlled
+            group to search for and engage a specific group. The target must be detected for AI to engage it.
+          params:
+            groupId: Unique identifier for the target group.
+            priority: 'The priority of the tasking, where lower numbers indicate higher importance (default:
+              0).'
+            weaponType: Defines the preferred weapon type to engage the enemy.
+            attackQty: Number of times the group will attack if the target is still alive and AI still have ammo.
+            attackQtyLimit: Determines if the attack quantity limit is enabled.
+            direction: Defines the direction from which the flight will engage from (in radians).
+            expend: Defines how many munitions the AI will expend per attack run (QUARTER, TWO, ONE, FOUR, HALF, ALL).
+        EngageTargets:
+          description: En-route task that assigns the controlled
+            group to engage targets matching specific parameters.
+          params:
+            maxDist: Maximum distance to search for targets in meters.
+            maxDistEnabled: Whether to use the maxDist parameter.
+            priority: Priority of the task, where lower numbers indicate higher importance.
+            targetTypes: Table of target categories to engage.
+            value: The value of the task.
+            maxAlt: Maximum altitude for targets in meters.
+            maxAltEnabled: Whether to use the maxAlt parameter.
+            minAlt: Minimum altitude for targets in meters.
+            minAltEnabled: Whether to use the minAlt parameter.
+        EngageTargetsInZone:
+          description: En-route task that assigns the controlled
+            group to engage targets with specific attributes within a defined zone.
+          params:
+            priority: 'The priority of the tasking, where lower numbers indicate higher importance (default:
+              0).'
+            targetTypes: Table of attribute names that define valid targets.
+            zoneRadius: Radius in meters defining the size of the area the group will engage targets within.
+            point:
+              type: Vec2
+              description: A `Vec2` point defining the center of the area the group will engage targets within in the DCS World coordinate system.
+        EngageUnit:
+          description: En-route task that assigns the controlled
+            group to search for and engage a specific unit. The target must be detected for AI to engage it.
+          params:
+            attackQty: Number of times the group will attack if the target is still alive and AI still have
+              ammo.
+            attackQtyLimit: Determines if the attack quantity limit is enabled.
+            direction: Defines the direction from which the flight will engage from (in radians).
+            expend: Defines how many munitions the AI will expend per attack run (QUARTER, TWO, ONE, FOUR, HALF,
+              ALL).
+            groupAttack: If true, each aircraft in the group will attack the unit.
+            priority: 'The priority of the tasking, where lower numbers indicate higher importance (default:
+              0).'
+            unitId: Unique identifier of the target unit.
+            weaponType: Defines the preferred weapon type to engage the enemy.
+        FAC:
+          description: En-route task that assigns the controlled
+            group to act as a Forward Air Controller or JTAC. Any detected targets will be assigned as targets
+            to the player via the JTAC radio menu.
+          params:
+            callname:
+              type: Callsigns_JTAC
+              description: JTAC callsign identifier (Axeman, Darknight, etc.).
+            frequency: Radio frequency to use for the JTAC communications.
+            modulation: Radio modulation type for JTAC communications.
+            number: JTAC callsign number.
+            priority: 'The priority of the tasking, where lower numbers indicate higher importance (default: 0).'
+        FAC_EngageGroup:
+          description: En-route task that assigns the controlled
+            group to act as a Forward Air Controller or JTAC and engage the specified group as a JTAC target
+            once detected.
+          params:
+            callname:
+              type: Callsigns_JTAC
+              description: JTAC callsign identifier (Axeman, Darknight, etc.).
+            datalink: Determines whether the JTAC will send the 9-line via SADL, enabled by default.
+            designation: Type of designation to be used (NO, WP, IR_POINTER, LASER, AUTO).
+            frequency: Radio frequency to use for the JTAC communications.
+            groupId: ID of the group that is to be assigned by JTAC.
+            modulation: Radio modulation type for JTAC communications.
+            number: JTAC callsign number.
+            priority: 'The priority of the tasking, where lower numbers indicate higher importance (default:
+              0).'
+            weaponType: Weapon flag type that defines the preferred weapon of choice.
+        Tanker:
+          description: En-route task that assigns the aircraft
+            to act as an airborne tanker for friendly forces. The aircraft must be a certified tanker aircraft.
+      param:
+        attackType: '"Dive" | "Carpet" | "Toss" | string'
+        callname: number
+        designation: AI.Task.Designation | "WP+Laser"
+        expend: AI.Task.WeaponExpend | "Auto"
+        formation: DcsId.FormationValue | number
+        formationType: DcsId.FormationId | number
+        modeChannel: '"X" | "Y"'
+        modulation: radio.modulation
+        noTargetTypes: (DcsId.Attribute | string)[]
+        pattern: AI.Task.OrbitPattern | "Anchored"
+        selectedType: DcsId.UnitType | string
+        targetTypes: (DcsId.Attribute | string)[]
+        weaponType: Weapon.flag | number
+      task:
+        AttackGroup:
+          description: Attack task that directs a group
+            to engage another group.
+          params:
+            altitude: Attack altitude in meters.
+            altitudeEnabled: Determines whether to use the specified altitude for attack.
+            attackQty: Number of attack passes the group will perform on the target.
+            attackQtyLimit: Determines whether to use the attackQty parameter as a limit.
+            direction: Attack direction in radians, defining the approach vector.
+            directionEnabled: Determines whether to use the specified direction for attack.
+            expend: Quantity of weapons to expend during the attack (QUARTER, TWO, ONE, FOUR, HALF, ALL).
+            groupId: Unique ID of the group to attack.
+            weaponType: Weapon flag type to use for the attack.
+        AttackMapObject:
+          description: Assigns the nearest world object to the point for AI to attack.
+          params:
+            attackQty: Number of times the group will attack if the target
+            attackQtyLimit: If true the attackQty value will be followed
+            direction: Attack direction in radians
+            expend: Quantity of weapons to expend (QUARTER, TWO, ONE, FOUR, HALF, ALL)
+            groupAttack: If true then each aircraft in the group will attack the target
+            weaponType: Weapon flag type to use for the attack
+            x: X coordinate of the target (alternative to point)
+            y: Y coordinate of the target (alternative to point)
+            point:
+              type: Vec2
+              description: Vec2 coordinate of the target point
+        AttackUnit:
+          description: Attack task that directs a group
+            to engage a specific unit.
+          params:
+            attackQty: Number of attack passes the group will perform on the target.
+            attackQtyLimit: Determines whether to use the attackQty parameter as a limit.
+            direction: Attack direction in radians, defining the approach vector.
+            expend: Quantity of weapons to expend during the attack (QUARTER, TWO, ONE, FOUR, HALF, ALL).
+            groupAttack: Determines whether each aircraft in the group will attack individually (true) or as
+              a coordinated unit (false).
+            unitId: Unique ID of the unit to attack.
+            weaponType: Weapon flag type to use for the attack.
+        Bombing:
+          description: Assigns a point on the ground for which the AI will attack. Best used for discriminant
+            carpet bombing of a target or having a GBU hit a specific point on the map.
+          params:
+            altitude: Altitude in meters for the attack
+            altitudeEnabled: Whether to use the altitude parameter
+            attackQty: Number of times the group will attack the target
+            attackQtyLimit: Whether to use the attackQty parameter
+            attackType: Attack profile to use (e.g. 'Dive' for dive bombing)
+            direction: Attack direction in radians
+            expend: Quantity of weapons to expend (QUARTER, TWO, ONE, FOUR, HALF, ALL)
+            groupAttack: If true then each aircraft in the group will attack the point
+            weaponType: Weapon flag type to use for the attack
+            x: X coordinate of the target (alternative to point)
+            y: Y coordinate of the target (alternative to point)
+            point:
+              type: Vec2
+              description: Vec2 coordinate of the target
+        BombingRunway:
+          description: Assigns the AI a task to bomb an airbases runway. By default the AI will line up along
+            the length of the runway and drop its payload.
+          params:
+            attackQty: Number of times the group will attack the target
+            attackQtyLimit: Whether to use the attackQty parameter
+            direction: If provided the AI will attack from this azimuth and ignore bombing along the length
+              of the runway
+            expend: Quantity of weapons to expend (QUARTER, TWO, ONE, FOUR, HALF, ALL)
+            groupAttack: If true then each aircraft in the group will attack the runway
+            runwayId: Index of the airbase for which is to be bombed
+            weaponType: Weapon flag type to use for the attack
+        CarpetBombing:
+          description: Assigns a point on the ground for which the AI will attack. Similar to the bombing task,
+            but with more control over target area. Can be combined with follow big formation task for all participating
+            aircraft to simultaneously bomb a target.
+          params:
+            altitude: Altitude in meters for the attack
+            altitudeEnabled: Whether to use the altitude parameter
+            attackQty: Number of times the group will attack the target
+            attackQtyLimit: Whether to use the attackQty parameter
+            attackType: Type of attack, typically 'Carpet'
+            carpetLength: Distance in meters the pattern should cover
+            expend: Quantity of weapons to expend (QUARTER, TWO, ONE, FOUR, HALF, ALL)
+            groupAttack: If true then each aircraft in the group will attack the point
+            weaponType: Weapon flag type to use for the attack
+            x: X coordinate of the target (alternative to point)
+            y: Y coordinate of the target (alternative to point)
+            point:
+              type: Vec2
+              description: Vec2 coordinate of the target
+        Escort:
+          description: Controlled aircraft will follow the assigned group along their route in formation and
+            will engage threats within a defined distance from the followed group.
+          params:
+            engagementDistMax: Maximum distance of targets from the followed aircraft that the AI will actively
+              engage
+            groupId: Unique ID of the group to escort
+            lastWptIndex: 'Identifies the waypoint at which the following group will stop its task (default:
+              -1)'
+            lastWptIndexFlag: 'If true the AI will follow the group until it reaches a specified waypoint (default:
+              true)'
+            pos: Vec3 point defining the relative position the controlled flight will form up on
+            targetTypes: Array of attribute types which the AI will engage
+            formation: Formation number, as the FORMATION option takes (DcsTask.OptionValue.FORMATION_*).
+        FAC_AttackGroup:
+          description: Assigns the controlled group to act as a Forward Air Controller or JTAC in attacking
+            the specified group. This task adds the group to the JTAC radio menu and interacts with a player
+            to destroy the target.
+          params:
+            callname:
+              type: Callsigns_JTAC
+              description: JTAC callsign identifier (Axeman, Darknight, etc.)
+            datalink: Determines whether or not the JTAC will send the 9-line via SADL, enabled by default
+            designation: Type of designation to be used (NO, WP, IR_POINTER, LASER, AUTO)
+            frequency: Radio frequency to use for the JTAC
+            groupId: ID of the group that is to be assigned by JTAC
+            modulation: Radio modulation type
+            number: JTAC callsign number
+            weaponType: Weapon flag type that defines the preferred weapon of choice
+        FireAtPoint:
+          description: Assigns a point on the ground for which the AI will shoot at. Most commonly used with
+            artillery to shell a target.
+          params:
+            alt_type: Determines if the altitude is defined by AGL (1) or MSL (0)
+            altitude: If present the task will be focused on shooting at the specified altitude for the point
+            counterbattaryRadius: The radius in meters from the group leader that the group will move in random
+              directions after completing the fireAtPoint task
+            expendQty: Specifies number of shots to be fired
+            expendQtyEnabled: Whether or not expendQty will be used
+            weaponType: Weapon flag type to use for the attack
+            x: X coordinate of the target (alternative to point)
+            y: Y coordinate of the target (alternative to point)
+            point:
+              type: Vec2
+              description: Vec2 coordinate to define where the AI will aim
+            radius: Optional radius in meters that defines the area AI will attempt to hit
+        Follow:
+          description: Follow task that directs aircraft
+            to join formation with another group or orbit above ground units.
+          params:
+            groupId: Unique ID of the group to follow or orbit above if it's a ground unit.
+            lastWptIndex: Waypoint index of the lead group that, when reached, will cause the following aircraft
+              to terminate the task.
+            lastWptIndexFlag: Determines whether the AI will terminate the follow task when the lead group reaches
+              a specified waypoint.
+            pos: A `Vec3` representing the relative position the controlled flight will maintain within the
+              formation in the DCS World coordinate system.
+            formation: Formation number, as the FORMATION option takes (DcsTask.OptionValue.FORMATION_*).
+        FollowBigFormation:
+          description: Advanced formation-following task
+            for coordinated bombing missions with multiple aircraft.
+          params:
+            groupId: Unique ID of the lead aircraft group to follow.
+            lastWptIndex: Waypoint index of the lead group that, when reached, will cause the following aircraft
+              to terminate the task.
+            lastWptIndexFlag: Determines whether the AI will terminate the follow task when the lead group reaches
+              a specified waypoint.
+            pos: A `Vec3` representing the relative position the controlled flight will maintain within the
+              formation in the DCS World coordinate system.
+            formation: Formation number, as the FORMATION option takes (DcsTask.OptionValue.FORMATION_*).
+        GroundEscort:
+          description: Ground escort task that directs helicopters
+            to provide aerial protection for ground units.
+          params:
+            engagementDistMax: Maximum distance in meters defining the size/length of the orbit pattern before
+              the helicopter returns to the escorted group.
+            groupId: Unique ID of the ground group to escort and protect.
+            lastWptIndex: Waypoint index at which the escorting helicopter will terminate its escort task.
+            lastWptIndexFlag: Determines whether the helicopter will follow the ground group until it reaches
+              a specified waypoint.
+            lastWptIndexFlagChangedManually: Indicates whether the lastWptIndexFlag was manually configured
+              rather than using system defaults.
+            targetTypes: A numerically indexed table of `Attributes` defining which enemy unit types the escorting
+              helicopter will engage.
+        Hold:
+          description: Hold task that commands ground forces
+            to cease movement and maintain their current position.
+        Land:
+          description: Landing task that directs helicopters
+            to touch down at specific coordinates.
+          params:
+            duration: Time in seconds that the helicopter will remain landed before automatically taking off
+              if durationFlag is true.
+            durationFlag: Determines whether the helicopter will remain on the ground for a specific duration
+              before taking off again.
+            point:
+              type: Vec2
+              description: A `Vec2` representing the landing coordinates in the DCS World coordinate system where the helicopter will attempt to touch down.
+        Orbit:
+          description: Orbit task that directs aircraft
+            to fly various pattern types at specified locations.
+          params:
+            altitude: Altitude in meters the AI will maintain during the orbit.
+            clockWise: Determines whether the anchored orbit will fly clockwise (true) or anti-clockwise (false).
+            hotLegDir: Heading in radians that the aircraft will fly for the return leg of the anchored orbit
+              pattern.
+            legLength: Distance in meters that the aircraft will fly before turning in an anchored orbit pattern.
+            pattern: Type of orbit pattern the AI will execute (RACE_TRACK, CIRCLE, Anchored).
+            speed: Speed in meters per second the AI will maintain during the orbit pattern.
+            width: Distance in meters that represents the diameter of the anchored orbit pattern.
+            point:
+              type: Vec2
+              description: A `Vec2` representing the primary orbit point in the DCS World coordinate system.
+            point2:
+              type: Vec2
+              description: A `Vec2` representing the secondary point for a Race-Track orbit pattern in the DCS World coordinate system.
+        RecoveryTanker:
+          description: Naval recovery tanker task that directs
+            an aircraft to orbit above a vessel group, providing refueling services.
+          params:
+            altitude: Altitude in meters at which the tanker will orbit above the naval group.
+            groupId: The group ID of the naval group to follow and provide tanker services to.
+            lastWptIndex: Waypoint index of the naval group that, when reached, will cause the recovery tanker
+              to end its task.
+            lastWptIndexFlag: Determines whether the tanker task should terminate when the naval group reaches
+              a specific waypoint.
+            speed: Speed of the tanker in meters per second while performing its orbit pattern.
+        Refueling:
+          description: Air refueling task directing aircraft
+            to seek and connect with the nearest available tanker.
+        Strafing:
+          description: Strafing task that directs AI to
+            perform gun or rocket attacks on a ground point.
+          params:
+            attackQty: Number of attack passes the group will perform on the target.
+            attackQtyLimit: Determines whether to use the attackQty parameter as a limit.
+            direction: Attack direction in radians, defining the approach vector.
+            directionEnabled: Determines whether to use the specified direction for attack.
+            expend: Quantity of weapons to expend during the attack (QUARTER, TWO, ONE, FOUR, HALF, ALL).
+            groupAttack: Determines whether each aircraft in the group will attack individually (true) or as
+              a coordinated unit (false).
+            length: Total length of the strafing target area in meters.
+            weaponType: Weapon flag type to use for the attack.
+            x: X coordinate of the target (alternative to using the point field).
+            y: Y coordinate of the target (alternative to using the point field).
+            point:
+              type: Vec2
+              description: A `Vec2` representing the target coordinates in the DCS World coordinate system.
+
+  - series: liveries
+    table: unmappedCountryUpstreamGaps
+    note: >-
+      Strings stock livery description.lua `countries` tables list that no
+      country has as its ShortName; tools/datamine/extract_liveries.py keeps
+      them in the record's `unmappedCountries`. Any other such string is an
+      error, as is an entry no livery lists or that now maps.
+    evidence: >-
+      The Mission Editor asks for liveries by `country.ShortName`
+      (MissionEditor/modules/loadLiveries.lua loadSchemes and its callers);
+      ShortName is the 4th argument of `country:add` in
+      Scripts/Database/db_countries.lua. Checked against every db.Countries
+      ShortName of DCS 2.9.29.27468.
+    value:
+      "": Empty string listed after the real countries by 3 SA342Mistral liveries (Cyprus air force, Dutch Fictional, Portuguese Modern Fictional).
+      EGP: Listed by 5 La_Combattante_II liveries (EGP_601-605); Egypt's ShortName is EGY.
+      LIB: Listed by 5 La_Combattante_II liveries (LIB_518-522); Libya's ShortName is LBY.
+      SPA: Listed by the f_a-18a livery grupo 12 eaf torrejon ab; Spain's ShortName is SPN.
+      USAF: Listed with 75 real ShortNames (AUSAF among them) by 6 UB_32A, UB_32A_24 and b-8v20a liveries; no country has it (USAF Aggressors is AUSAF).
+      XXX: Placeholder listed by 4 placeholder liveries (Leopard-2 in TechWeaponPack and Bazar leopard-2, mi-8mt, su-27).
+      hide: Listed by 3 Soldier stinger liveries (default, GRC; USA with AUSAF); `hide` is a db_countries.lua country field, not a ShortName.
+
+  # ----------------------------------------------------------------------------
+  # Loadout rules and gun mixes: upstream gaps (tools/datamine/extract_units.py).
+  # ----------------------------------------------------------------------------
+
+  - series: stores
+    table: loadoutRuleUpstreamGaps
+    note: >-
+      Store CLSIDs aircraft Pylons name in a launcher's `forbidden`/`required`
+      `loadout` that no _G/launcher record defines; references to them are
+      warnings in validate-data. An entry that now resolves is an error.
+    evidence: >-
+      Checked case-insensitively against every _G/launcher file of DCS
+      2.9.30.28536; each defined CLSID named in the note differs by a brace
+      or a suffix.
+    value:
+      "{BRU-70_3*GBU-38}": Named by AV8BNA pylon rules; the defined rack is {BRU-70A_3GBU-38}.
+      "{{FN_HMP400}": Named by SA342L pylon rules; the defined pod is {FN_HMP400}.
+      "{{FN_HMP400_100}": Named by SA342L pylon rules; the defined pod is {FN_HMP400_100}.
+      "{{FN_HMP400_200}": Named by SA342L pylon rules; the defined pod is {FN_HMP400_200}.
+      "{Tiny_Tim_Corsair}": Named by F4U-1D and F4U-1D_CW pylon rules; the defined launchers are {Tiny_Tim_Corsair_L} and {Tiny_Tim_Corsair_R}.
+
+  - series: aircraft
+    table: gunMixUpstreamGaps
+    note: >-
+      Aircraft whose Guns[].supply.mixes DCS does not resolve: a mix index
+      naming no supply.shells entry, or not one mix per ammo_type label. The
+      gun keeps no `mixes` when an index names no shell. Any other such
+      aircraft is an error, as is an entry that now resolves.
+    evidence: >-
+      _G/db/Units Planes and Helicopters of DCS 2.9.30.28536; the indices are
+      1-based into the same gun's supply.shells.
+    value:
+      A-20G: Guns[7] and Guns[8] (A20_TopTurret_M2_R/L) have one shell (M134_7_62_T) but mix {1, 1, 4}.
+      MiG-29 Fulcrum: ammo_type has one label (HEI-T); its GSh_30_1 gun has no supply.mixes.
+      Mirage-F1AD: Both defa_553 guns have one shell (DEFA552_30) but mixes {2, 1, 1, 1, 1, 1} and {1, 1, 2, 1, 1, 1}.
+      Mirage-F1AZ: As Mirage-F1AD.
+      Mirage-F1C: As Mirage-F1AD.
+      Mirage-F1C-200: As Mirage-F1AD.
+      Mirage-F1CE: As Mirage-F1AD.
+      Mirage-F1CG: As Mirage-F1AD.
+      Mirage-F1CH: As Mirage-F1AD.
+      Mirage-F1CJ: As Mirage-F1AD.
+      Mirage-F1CK: As Mirage-F1AD.
+      Mirage-F1CR: Its one defa_553 gun has one shell (DEFA552_30) but mix {2, 1, 1, 1, 1, 1}.
+      Mirage-F1CT: Its one defa_553 gun has one shell (DEFA552_30) but mix {1, 1, 2, 1, 1, 1}.
+      Mirage-F1CZ: As Mirage-F1AD.
+      Mirage-F1ED: As Mirage-F1AD.
+      Mirage-F1EDA: As Mirage-F1AD.
+      Mirage-F1EE: As Mirage-F1AD.
+      Mirage-F1EH: As Mirage-F1AD.
+      Mirage-F1EQ: As Mirage-F1AD.
+      Mirage-F1JA: As Mirage-F1AD.
+      Mirage-F1M-CE: As Mirage-F1AD.
+      Mirage-F1M-EE: As Mirage-F1AD.
