@@ -1,0 +1,397 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "Frigates",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "Naval",
+    "RADAR_BAND2_FOR_ARM",
+    "Ships"
+  ],
+  "detection": {
+    "airFindDistM": 30000,
+    "airWeaponDistM": 16000,
+    "detectionRangeM": 30000,
+    "irEmissionCoeff": 0.35,
+    "rcsM2": 40000,
+    "sensor": {
+      "maxAltM": 10000,
+      "maxRangeM": 30000,
+      "minAltM": 0,
+      "minRangeM": 0,
+      "position": [
+        3,
+        12,
+        0
+      ]
+    },
+    "threatRangeM": 16000
+  },
+  "dimensions": {
+    "heightM": 22.7,
+    "lengthM": 123,
+    "massKg": 3650000,
+    "widthM": 9
+  },
+  "displayName": "Frigate 1135M Rezky",
+  "facilities": {
+    "deckLevelM": 4.7
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 30000,
+    "radarType": 102,
+    "radarTypeName": "wsType_Radar_Miss"
+  },
+  "id": "REZKY",
+  "life": [
+    {
+      "source": "life",
+      "value": 1800
+    }
+  ],
+  "mobility": {
+    "draftM": 6.5,
+    "economyDistance": 8519200,
+    "economyVelocity": 10.2889,
+    "maxSpeedMs": 16.4622,
+    "minTurnRadiusM": 247,
+    "raceDistance": 2963200,
+    "raceVelocity": 15.4333
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "arresting_wires": [
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108
+      ],
+      "blast_fences": [
+        61,
+        62,
+        63,
+        64
+      ],
+      "flag_animation": 314,
+      "landing_strip_illumination": -1,
+      "locator_rotation": -1,
+      "nav_lights": 69,
+      "radar1_rotation": 1,
+      "radar2_rotation": 2,
+      "radar3_rotation": 3,
+      "water_propeller": -1
+    },
+    "mapClassKey": "P0091000069",
+    "shape": "rezky"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1975,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "Osa 9A33 ln",
+    "long-range naval LLTV",
+    "long-range naval optics",
+    "rezki search radar"
+  ],
+  "tags": [
+    "Frigate"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.65,
+      "frequencyRangeHz": [
+        14.2,
+        14.8
+      ],
+      "hMaxM": 5000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 30.0,
+      "rMinKm": 1.2,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          2.1816615649929,
+          -2.1816615649929,
+          -0.087266462599716,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2,
+        "yaw": 2
+      },
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.65,
+      "frequencyRangeHz": [
+        14.2,
+        14.8
+      ],
+      "hMaxM": 5000,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 2,
+      "rMaxKm": 30.0,
+      "rMinKm": 1.2,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          2.3561944901923,
+          -2.3561944901923,
+          -0.087266462599716,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2,
+        "yaw": 2
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 2,
+      "beamWidthRad": 0.017453292519943,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 1
+          }
+        ]
+      ],
+      "ecmK": -1,
+      "launchDelayS": 3,
+      "launcherType": 4,
+      "ln": 1,
+      "maxShootingSpeed": 15,
+      "payloads": [
+        {
+          "ammoCapacity": 22,
+          "ammoName": "9M33",
+          "reloadTimeS": 1000000,
+          "shotDelayS": 18,
+          "weapon": "SA9M33"
+        }
+      ],
+      "rMaxKm": 10.3,
+      "rMinKm": 1.5,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          2.1816615649929,
+          -2.1816615649929,
+          -0.0087266462599716,
+          1.5690509975429
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "weapons": [
+        "SA9M33"
+      ],
+      "ws": 3
+    },
+    {
+      "barrels": 2,
+      "beamWidthRad": 0.017453292519943,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 2
+          }
+        ]
+      ],
+      "ecmK": -1,
+      "launchDelayS": 3,
+      "launcherType": 4,
+      "ln": 1,
+      "maxShootingSpeed": 15,
+      "payloads": [
+        {
+          "ammoCapacity": 22,
+          "ammoName": "9M33",
+          "reloadTimeS": 1000000,
+          "shotDelayS": 18,
+          "weapon": "SA9M33"
+        }
+      ],
+      "rMaxKm": 10.3,
+      "rMinKm": 1.5,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          2.3561944901923,
+          -2.3561944901923,
+          -0.0087266462599716,
+          1.5690509975429
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "weapons": [
+        "SA9M33"
+      ],
+      "ws": 4
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "AK100_100"
+      ],
+      "hMaxM": 5000,
+      "launcherType": 6,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 175,
+          "gunAmmo": [
+            "AK100_100"
+          ],
+          "shotDelayS": 1.1
+        }
+      ],
+      "rMinKm": 0.05,
+      "reactionTimeS": 15,
+      "sectorsRad": [
+        [
+          2.1816615649929,
+          -2.1816615649929,
+          -0.17453292519943,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.6,
+        "yaw": 0.6
+      },
+      "ws": 5
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "AK100_100"
+      ],
+      "hMaxM": 5000,
+      "launcherType": 6,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 175,
+          "gunAmmo": [
+            "AK100_100"
+          ],
+          "shotDelayS": 1.1
+        }
+      ],
+      "rMinKm": 0.05,
+      "reactionTimeS": 15,
+      "sectorsRad": [
+        [
+          2.1816615649929,
+          -2.1816615649929,
+          -0.17453292519943,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.6,
+        "yaw": 0.6
+      },
+      "ws": 6
+    }
+  ]
+}

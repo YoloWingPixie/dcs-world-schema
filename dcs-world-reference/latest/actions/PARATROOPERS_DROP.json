@@ -1,0 +1,425 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "edPublicHidden": true,
+      "groupTask": "Airborne"
+    },
+    {
+      "category": "helicopter",
+      "edPublicHidden": true,
+      "groupTask": "Airborne"
+    }
+  ],
+  "dcsId": "ParatroopersDrop",
+  "defaultParams": {
+    "attackQty": 1,
+    "attackQtyLimit": false,
+    "attackType": "Carpet",
+    "carpetLength": 500,
+    "groupAttack": false,
+    "groupsOnBoard": {},
+    "scriptFileName": ""
+  },
+  "description": "Perform paratroopers drop at target",
+  "displayName": "Drop of paratroopers",
+  "id": "PARATROOPERS_DROP",
+  "kind": "task",
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "name": "altitude",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "altitudeEdited",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "altitudeEnabled",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "attackQty",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "attackQtyLimit",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "attackType",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "name": "carpetLength",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "name": "groupAttack",
+      "seenIn": [
+        "default"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "groupsOnBoard",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "table"
+      ]
+    },
+    {
+      "name": "scriptFileName",
+      "seenIn": [
+        "default",
+        "panel"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "name": "x",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    },
+    {
+      "name": "y",
+      "seenIn": [
+        "panel"
+      ],
+      "types": []
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "ParatroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersdrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "ParatroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersdrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ParatroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersdrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "ParatroopersDrop",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "paratroopersDrop",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "paratroopersdrop",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "ParatroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersdrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "ParatroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersdrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ParatroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersDrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "paratroopersdrop",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "ParatroopersDrop",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "paratroopersDrop",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "paratroopersdrop",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

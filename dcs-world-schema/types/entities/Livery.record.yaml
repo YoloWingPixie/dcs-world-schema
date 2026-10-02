@@ -1,0 +1,36 @@
+globals: {}
+
+types:
+  Entity.Livery:
+    kind: record
+    description: "A stock livery (skin) shipped in the DCS install for a given unit type."
+    fields:
+      id:
+        type: string
+        description: "Unique id: the livery's `path`."
+      entryPoint:
+        type: string
+        description: "The livery's folder name: the entry point DCS looks it up by (a unit's `livery_entry`, else its type, `/` as `_`; case-insensitive)."
+      unitTypes:
+        type: string[]
+        ref: "Entity.Aircraft | Entity.GroundVehicle | Entity.Personnel | Entity.Ship | Entity.Structure"
+        description: "Cross-reference: unit type ids whose entry point this is; empty when it is no unit's (e.g. a weapon model's liveries)."
+      name:
+        type: string
+        description: "Livery name as shown in the UI."
+      countries:
+        type: country.id[]
+        description: "Optional countries the livery is offered for: the `country.id` values whose `ShortName` its `description.lua` `countries` table lists (the Mission Editor matches liveries by `ShortName`). Absent when there is no such table: the livery is offered for every country. Present but empty when the table lists no known country (see `unmappedCountries`) or is `{}`: offered for none."
+      countryNames:
+        type: string[]
+        description: "Optional `country.id` constant names of `countries`, index for index; present exactly when `countries` is."
+      unmappedCountries:
+        type: string[]
+        description: "Optional strings of the `description.lua` `countries` table that are no country's `ShortName`, sorted, as written (typos, placeholders such as `XXX`); absent when every string maps."
+      module:
+        type: string
+        description: "Optional path of the owning module directory relative to `CoreMods` (for example `aircraft/F-16C`); absent for Bazar liveries."
+      path:
+        type: string
+        description: "Path of the livery's `description.lua` (or its folder when there is none), relative to the DCS install."
+    required: [id, entryPoint, unitTypes, name, path]

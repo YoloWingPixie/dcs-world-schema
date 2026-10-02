@@ -1,0 +1,341 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.003
+  },
+  "attributes": [
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Datalink",
+    "Ground Units",
+    "Ground vehicles",
+    "IR Guided SAM",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 10000,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 2.52,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 10000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 8500
+  },
+  "dimensions": {
+    "lengthM": 4.863,
+    "massKg": 11253,
+    "widthM": 2.686
+  },
+  "displayName": "SAM Chaparral M48",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "M48 Chaparral",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 212,
+    "maxRoadSpeedMs": 16.6667,
+    "maxSlopeRad": 0.61,
+    "maxSpeedKmh": 60.00012,
+    "maxVertObstacleM": 0.61,
+    "minTurnRadiusM": 2.17,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.4
+        },
+        {
+          "arg": 1,
+          "value": 0.255
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_M48_1_1",
+          "model": "MIM-72"
+        },
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_M48_1_2",
+          "model": "MIM-72"
+        },
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_M48_1_3",
+          "model": "MIM-72"
+        },
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_M48_1_4",
+          "model": "MIM-72"
+        }
+      ]
+    },
+    "mapClassKey": "P0091000215",
+    "shape": "M48",
+    "shapeDestroyed": "M48_P1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1969,
+        "to": 1998
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1973,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1988,
+        "to": 9999
+      }
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA",
+      "years": {
+        "from": 2002,
+        "to": 9999
+      }
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO",
+      "years": {
+        "from": 1976,
+        "to": 9999
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL",
+      "years": {
+        "from": 1988,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR",
+      "years": {
+        "from": 1995,
+        "to": 9999
+      }
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "SAM SHORAD"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 4,
+      "ecmK": -1,
+      "launchDelayS": 1,
+      "launcherType": 4,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "missileChannels": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 8,
+          "ammoName": "MIM-72G",
+          "reloadTimeS": 320,
+          "shotDelayS": 40,
+          "weapon": "MIM_72G"
+        }
+      ],
+      "rMaxKm": 8.5,
+      "rMinKm": 0.5,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          1.221730476396,
+          -0.15707963267949,
+          1.553343034275
+        ],
+        [
+          1.221730476396,
+          -1.221730476396,
+          0.41887902047864,
+          1.553343034275
+        ],
+        [
+          -1.221730476396,
+          -3.1415926535898,
+          -0.15707963267949,
+          1.553343034275
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.6,
+        "yaw": 0.5
+      },
+      "weapons": [
+        "MIM_72G"
+      ],
+      "ws": 1
+    }
+  ]
+}

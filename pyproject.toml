@@ -1,14 +1,74 @@
 [project]
 name = "dcs-world-schema"
 version = "0.1.0"
-description = "Add your description here"
+description = "DCS World Lua API schema and reference-data tooling"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "argparse>=1.4.0",
+    "fastjsonschema>=2.21",
     "jsonschema>=4.23.0",
+    "lupa>=2.0",
     "pyyaml>=6.0.2",
     "ruamel-yaml>=0.18.10",
-    "ruff>=0.11.9",
+    "ruff==0.16.9",
     "yamllint>=1.37.1",
 ]
+
+[dependency-groups]
+dev = [
+    "mypy==2.3.1",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "types-jsonschema==4.26.0.20260518",
+    "types-pyyaml==6.0.12.20260906",
+]
+
+# dcs-headless (`task datamine` only) comes from `uv run --with` in Taskfile.yml.
+
+[tool.ruff]
+# Pinned so results don't depend on a contributor's global ruff config.
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E", "F", "W", "I", "B", "UP", "SIM", "RUF", "C4", "PIE", "RET", "PTH",
+]
+# E501: `ruff format` owns line length; what it leaves long are string
+# literals, URLs and comments that read worse when split.
+# RET503: ruff can't see that `fail()` (datamine/common.py) is NoReturn across
+# modules; mypy --strict checks missing returns instead.
+# SIM905: a word list reads better as one `"...".split()` than one item a line.
+ignore = ["E501", "RET503", "SIM905"]
+
+[tool.mypy]
+files = ["tools"]
+strict = true
+# tools/ runs as `python -m tools.…`; tests import conftest and siblings from
+# tools/datamine/tests (pytest's pythonpath below).
+explicit_package_bases = true
+mypy_path = [".", "tools/datamine/tests"]
+
+[[tool.mypy.overrides]]
+# Installed but ships no py.typed; its source is plain enough to analyse.
+module = ["fastjsonschema", "fastjsonschema.*"]
+follow_untyped_imports = true
+
+[[tool.mypy.overrides]]
+# No usable stubs: types-lupa's LuaRuntime() omits the real keyword arguments
+# (encoding, register_eval, max_memory) and types results as `object`.
+module = ["lupa", "lupa.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Private DCS launcher, only present under `task datamine` (`uv run --with`).
+module = ["dcs_headless", "dcs_headless.*"]
+ignore_missing_imports = true
+
+[tool.coverage.run]
+source = ["tools"]
+omit = ["tools/*/tests/*"]
+branch = true
+
+[tool.pytest.ini_options]
+pythonpath = [".", "tools/datamine/tests"]

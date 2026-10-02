@@ -9,10 +9,10 @@ types:
         type: string
         description: "A string identifier for the group, must be unique within the mission."
       task:
-        type: string
-        description: "The primary mission task assigned to the group, determines default behavior patterns."
+        type: DcsId.MainTask | string
+        description: "The primary mission task assigned to the group, determines default behavior patterns; ground groups have `\"Ground Nothing\"`."
       units:
-        type: table
+        type: UnitSpawnData[]
         description: "A numerically indexed table of unit definitions for all units in the group, each containing position, type, and other properties."
       x:
         type: number
@@ -30,7 +30,7 @@ types:
         type: boolean
         description: "Indicates if the task is selected for execution when the group spawns."
       route:
-        type: table
+        type: MissionRoute
         description: "A table defining waypoints and assigned tasks for the group's route, determining movement patterns."
       hidden:
         type: boolean

@@ -1,0 +1,551 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed Air Defence",
+    "Armed Ship",
+    "Armed ships",
+    "DetectionByAWACS",
+    "Frigates",
+    "Heavy armed ships",
+    "HeavyArmoredUnits",
+    "HelicopterCarrier",
+    "Naval",
+    "RADAR_BAND1_FOR_ARM",
+    "Ships"
+  ],
+  "detection": {
+    "airFindDistM": 150000,
+    "airWeaponDistM": 100000,
+    "detectionRangeM": 150000,
+    "sensor": {
+      "maxAltM": 30000,
+      "maxRangeM": 50000,
+      "minAltM": 0,
+      "minRangeM": 0,
+      "position": [
+        -14.1,
+        16,
+        0
+      ]
+    },
+    "threatRangeM": 100000
+  },
+  "dimensions": {
+    "heightM": 29.5,
+    "lengthM": 113.64,
+    "massKg": 3200000,
+    "widthM": 13
+  },
+  "displayName": "CNS Almirante Condell (PFG-06)",
+  "facilities": {
+    "deckLevelM": 4.511,
+    "helicopterNum": 1,
+    "landingPoint": [
+      -45.1,
+      4.511,
+      0
+    ],
+    "numParking": 1
+  },
+  "fireControl": {
+    "maxTargetDetectionRangeM": 25000,
+    "radarType": 109
+  },
+  "id": "leander-gun-condell",
+  "life": [
+    {
+      "source": "life",
+      "value": 1000
+    }
+  ],
+  "mobility": {
+    "draftM": 7,
+    "economyDistance": 4200000,
+    "economyVelocity": 7.2,
+    "maxSpeedKmh": 51.84,
+    "maxSpeedMs": 14.4,
+    "minTurnRadiusM": 208.4,
+    "raceDistance": 3000000,
+    "raceVelocity": 15
+  },
+  "model": {
+    "animationArguments": {
+      "flight_deck_fences": 88,
+      "nav_lights": 69,
+      "radar1_rotation": 11,
+      "radar2_rotation": 2,
+      "radar3_rotation": 3,
+      "water_propeller": 8
+    },
+    "mapClassKey": "P0091000070",
+    "shape": "leander-gun-condell"
+  },
+  "operators": [
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "Patriot str",
+    "long-range naval FLIR",
+    "long-range naval LLTV",
+    "long-range naval optics",
+    "ticonderoga search radar"
+  ],
+  "tags": [
+    "Frigate"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.65,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 25000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 3,
+      "rMaxKm": 150.0,
+      "rMinKm": 0.4,
+      "reactionTimeS": 2.5,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          1.5707963267949,
+          -0.17453292519943,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.65,
+      "frequencyRangeHz": [
+        500000000,
+        580000000
+      ],
+      "hMaxM": 25000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 3,
+      "rMaxKm": 150.0,
+      "rMinKm": 0.4,
+      "reactionTimeS": 2.5,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          2.9670597283904,
+          -2.9670597283904
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 2,
+      "gunAmmo": [
+        "A222_130"
+      ],
+      "hMaxM": 2000,
+      "launcherType": 6,
+      "ln": 1,
+      "name": "406 mm Mark 6",
+      "payloads": [
+        {
+          "ammoCapacity": 150,
+          "gunAmmo": [
+            "A222_130"
+          ],
+          "shotDelayS": 4
+        }
+      ],
+      "rMaxKm": 27.5,
+      "rMinKm": 0.5,
+      "reactionTimeS": 15,
+      "sectorsRad": [
+        [
+          2.6179938779915,
+          0.69813170079773,
+          -0.034906585039887,
+          1.3962634015955
+        ],
+        [
+          0.69813170079773,
+          -0.69813170079773,
+          0.087266462599716,
+          1.3962634015955
+        ],
+        [
+          -0.69813170079773,
+          -2.6179938779915,
+          -0.034906585039887,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.6,
+        "yaw": 0.6
+      },
+      "ws": 3
+    },
+    {
+      "barrels": 0,
+      "beamWidthRad": 1.5707963267949,
+      "displayName": "Phalanx",
+      "frequencyRangeHz": [
+        12000000000,
+        18000000000
+      ],
+      "gunAmmo": [
+        "M61_20_AP_gr",
+        "M61_20_HE_gr"
+      ],
+      "hMaxM": 2000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "Phalanx",
+      "payloads": [
+        {
+          "ammoCapacity": 4000,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        },
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M61_20_AP_gr",
+            "M61_20_HE_gr"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.013333333333333
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.3,
+      "reflectionLimit": 0.049,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          0.34906585039887,
+          0,
+          1.4835298641952
+        ],
+        [
+          0.34906585039887,
+          -0.34906585039887,
+          1.0471975511966,
+          1.4835298641952
+        ],
+        [
+          -0.34906585039887,
+          -3.1415926535898,
+          0,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.0245819323134,
+        "yaw": 2.0071286397935
+      },
+      "ws": 4
+    },
+    {
+      "barrels": 0,
+      "beamWidthRad": 0.017453292519943,
+      "gunAmmo": [
+        "Rh202_20_AP",
+        "Rh202_20_HE"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "20 mm Oerlikon",
+      "payloads": [
+        {
+          "ammoCapacity": 4000,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "Rh202_20_AP",
+            "Rh202_20_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.13333333333333
+        }
+      ],
+      "rMaxKm": 3.6,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "sectorsRad": [
+        [
+          -2.8797932657906,
+          0.087266462599716,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.0245819323134,
+        "yaw": 2.0071286397935
+      },
+      "ws": 5
+    },
+    {
+      "barrels": 0,
+      "beamWidthRad": 0.017453292519943,
+      "gunAmmo": [
+        "Rh202_20_AP",
+        "Rh202_20_HE"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "20 mm Oerlikon",
+      "payloads": [
+        {
+          "ammoCapacity": 4000,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "Rh202_20_AP",
+            "Rh202_20_HE"
+          ],
+          "reloadTimeS": 1000000,
+          "shotDelayS": 0.13333333333333
+        }
+      ],
+      "rMaxKm": 3.6,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "sectorsRad": [
+        [
+          -0.087266462599716,
+          2.8797932657906,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.0245819323134,
+        "yaw": 2.0071286397935
+      },
+      "ws": 6
+    },
+    {
+      "barrels": 2,
+      "hMaxM": 18300,
+      "launchDelayS": 2,
+      "launcherType": 1,
+      "ln": 1,
+      "missileChannels": 8,
+      "payloads": [
+        {
+          "ammoCapacity": 2,
+          "reloadTimeS": 1000000,
+          "weapon": "AGM_84S"
+        }
+      ],
+      "rMaxKm": 95.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 3,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "weapons": [
+        "AGM_84S"
+      ],
+      "ws": 7
+    },
+    {
+      "barrels": 2,
+      "hMaxM": 18300,
+      "launchDelayS": 2,
+      "launcherType": 1,
+      "ln": 1,
+      "missileChannels": 8,
+      "payloads": [
+        {
+          "ammoCapacity": 2,
+          "reloadTimeS": 1000000,
+          "weapon": "AGM_84S"
+        }
+      ],
+      "rMaxKm": 95.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 3,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "weapons": [
+        "AGM_84S"
+      ],
+      "ws": 8
+    }
+  ]
+}

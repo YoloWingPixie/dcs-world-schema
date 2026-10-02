@@ -1,0 +1,1862 @@
+{
+  "aero": {
+    "emptyMassKg": 11400,
+    "internalFuelKg": 3054.592,
+    "maxSpeedKmh": 285,
+    "maxTakeoffKg": 22680
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Helicopters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Transport helicopters"
+  ],
+  "cargo": {
+    "maximalCapacity": 10886,
+    "nominalCapacity": 2400
+  },
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 120,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0.75876,
+          -0.27004,
+          -0.59275
+        ],
+        "position": [
+          -5.804,
+          0.371,
+          -1.571
+        ]
+      },
+      {
+        "direction": [
+          0.76288,
+          -0.28056,
+          0.58248
+        ],
+        "position": [
+          -5.783,
+          0.348,
+          1.578
+        ]
+      },
+      {
+        "direction": [
+          0.75179,
+          -0.37749,
+          -0.54065
+        ],
+        "position": [
+          -6.036,
+          -0.124,
+          -1.608
+        ]
+      },
+      {
+        "direction": [
+          0.72049,
+          -0.39576,
+          0.56944
+        ],
+        "position": [
+          -6.537,
+          0.153,
+          1.571
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0.64278,
+          -0.76604
+        ],
+        "position": [
+          -2.192,
+          0.112,
+          -1.654
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0.64278,
+          0.76604
+        ],
+        "position": [
+          -2.455,
+          0.111,
+          1.659
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0.64278,
+          -0.76604
+        ],
+        "position": [
+          -2.435,
+          0.112,
+          -1.654
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0.64278,
+          0.76604
+        ],
+        "position": [
+          -2.213,
+          0.111,
+          1.659
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 120,
+      "increment": 30
+    },
+    "singleChargeTotal": 240
+  },
+  "countryOfOrigin": "USA",
+  "crew": 6,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 30,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 35,
+    "name": "Transport"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.1,
+    "rcsM2": 12.5
+  },
+  "dimensions": {
+    "heightM": 5.998,
+    "lengthM": 28.3,
+    "rotorDiameterM": 18.3
+  },
+  "displayName": "CH-47F",
+  "failures": [
+    {
+      "id": "CTRL_ACS_FAILURE",
+      "label": "DUAL FCC / hard DAFCS failure"
+    },
+    {
+      "id": "ELEC_FADEC1_PRI_CIRCUIT_FAILURE",
+      "label": "FADEC 1 primary circuitry hard failure"
+    },
+    {
+      "id": "ELEC_FADEC1_REV_CIRCUIT_FAILURE",
+      "label": "FADEC 1 reversionary circuitry hard failure"
+    },
+    {
+      "id": "ELEC_FADEC2_PRI_CIRCUIT_FAILURE",
+      "label": "FADEC 2 primary circuitry hard failure"
+    },
+    {
+      "id": "ELEC_FADEC2_REV_CIRCUIT_FAILURE",
+      "label": "FADEC 2 reversionary circuitry hard failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_0_FAILURE",
+      "label": "Fuel level sender (LH Forward Auxiliary) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_1_FAILURE",
+      "label": "Fuel level sender (LH Main 1) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_2_FAILURE",
+      "label": "Fuel level sender (LH Main 2) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_3_FAILURE",
+      "label": "Fuel level sender (LH Main 3) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_4_FAILURE",
+      "label": "Fuel level sender (LH Aft Auxiliary) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_5_FAILURE",
+      "label": "Fuel level sender (RH Forward Auxiliary) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_6_FAILURE",
+      "label": "Fuel level sender (RH Main 1) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_7_FAILURE",
+      "label": "Fuel level sender (RH Main 2) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_8_FAILURE",
+      "label": "Fuel level sender (RH Main 3) failure"
+    },
+    {
+      "id": "FUEL_LEVEL_SENDER_9_FAILURE",
+      "label": "Fuel level sender (RH Aft Auxiliary) failure"
+    },
+    {
+      "id": "FUEL_LH_LOW_LEVEL_SENSOR_FAILURE",
+      "label": "LH main fuel tank low level sensor failure"
+    },
+    {
+      "id": "FUEL_RH_LOW_LEVEL_SENSOR_FAILURE",
+      "label": "RH main fuel tank low level sensor failure"
+    },
+    {
+      "id": "HYDR_ACCUMULATOR_LOW_AIR_PRESSURE",
+      "label": "Hydro acc. low air pressure"
+    },
+    {
+      "id": "HYDR_FCS1_PRES_SWITCH_DISCO",
+      "label": "FCS No. 1 pressure switch disconnected"
+    },
+    {
+      "id": "HYDR_FCS1_PRES_SWITCH_LOOSE",
+      "label": "FCS No. 1 pressure switch connector loose"
+    },
+    {
+      "id": "HYDR_FCS1_PRES_SWITCH_SHORT",
+      "label": "FCS No. 1 pressure switch loom short circuit"
+    },
+    {
+      "id": "HYDR_FCS2_PRES_SWITCH_DISCO",
+      "label": "FCS No. 2 pressure switch disconnected"
+    },
+    {
+      "id": "HYDR_FCS2_PRES_SWITCH_LOOSE",
+      "label": "FCS No. 2 pressure switch connector loose"
+    },
+    {
+      "id": "HYDR_FCS2_PRES_SWITCH_SHORT",
+      "label": "FCS No. 2 pressure switch loom short circuit"
+    },
+    {
+      "id": "HYDR_UTIL_PRES_SWITCH_DISCO",
+      "label": "Hydraulic utility system pressure switch disconnected"
+    },
+    {
+      "id": "HYDR_UTIL_PRES_SWITCH_LOOSE",
+      "label": "Hydraulic utility system pressure switch connector loose"
+    },
+    {
+      "id": "HYDR_UTIL_PRES_SWITCH_SHORT",
+      "label": "Hydraulic utility system pressure switch loom shorted"
+    },
+    {
+      "id": "ENG0_DAMAGED_BEYOND_REPAIR",
+      "label": "Engine No. 1 damaged beyond repair"
+    },
+    {
+      "id": "ENG1_DAMAGED_BEYOND_REPAIR",
+      "label": "Engine No. 2 damaged beyond repair"
+    },
+    {
+      "id": "EXTE_FWD_MECHANICAL_FAILURE",
+      "label": "Forward exterior cargo hook mechanical failure"
+    },
+    {
+      "id": "EXTE_CTR_MECHANICAL_FAILURE",
+      "label": "Centre exterior cargo hook mechanical failure"
+    },
+    {
+      "id": "EXTE_AFT_MECHANICAL_FAILURE",
+      "label": "Aft exterior cargo hook mechanical failure"
+    },
+    {
+      "id": "CDU_1_FAILURE",
+      "label": "Failure.CH47.CDU_1_FAILURE"
+    },
+    {
+      "id": "CDU_2_FAILURE",
+      "label": "Failure.CH47.CDU_2_FAILURE"
+    },
+    {
+      "id": "MFD_1_FAILURE",
+      "label": "Failure.CH47.MFD_1_FAILURE"
+    },
+    {
+      "id": "MFD_2_FAILURE",
+      "label": "Failure.CH47.MFD_2_FAILURE"
+    },
+    {
+      "id": "MFD_3_FAILURE",
+      "label": "Failure.CH47.MFD_3_FAILURE"
+    },
+    {
+      "id": "MFD_4_FAILURE",
+      "label": "Failure.CH47.MFD_4_FAILURE"
+    },
+    {
+      "id": "MFD_5_FAILURE",
+      "label": "Failure.CH47.MFD_5_FAILURE"
+    },
+    {
+      "id": "EGI_1_FAILURE",
+      "label": "Failure.CH47.EGI_1_FAILURE"
+    },
+    {
+      "id": "EGI_2_FAILURE",
+      "label": "Failure.CH47.EGI_2_FAILURE"
+    },
+    {
+      "id": "RALT_HOLD_FAILURE",
+      "label": "Failure.CH47.RALT_HOLD_FAILURE"
+    },
+    {
+      "id": "ADF_TOTAL_FAILURE",
+      "label": "Failure.CH47.ADF_TOTAL_FAILURE"
+    },
+    {
+      "id": "ADF_DAMAGE",
+      "label": "Failure.CH47.ADF_DAMAGE"
+    },
+    {
+      "id": "ADF_ANT_DAMAGE",
+      "label": "Failure.CH47.ADF_ANTENNA_DAMAGE"
+    },
+    {
+      "id": "VOR_ILS_TOTAL_FAILURE",
+      "label": "Failure.CH47.VOR_ILS_TOTAL_FAILURE"
+    },
+    {
+      "id": "VOR_ILS_ANT_DAMAGE",
+      "label": "Failure.CH47.VOR_ILS_ANTENNA_DAMAGE"
+    },
+    {
+      "id": "TCN_TOTAL_FAILURE",
+      "label": "Failure.CH47.TACAN_TOTAL_FAILURE"
+    },
+    {
+      "id": "TCN_TRANSMITTER_FAILURE",
+      "label": "Failure.CH47.TACAN_TRANSMITTER_FAILURE"
+    },
+    {
+      "id": "TCN_RECEIVER_FAILURE",
+      "label": "Failure.CH47.TACAN_RECEIVER_FAILURE"
+    },
+    {
+      "id": "CHIPS_FOR_EVERYONE",
+      "label": "DEBUG Initiate CHIPS annunciators"
+    },
+    {
+      "id": "DEBRIS_FOR_EVERYONE",
+      "label": "DEBUG Initiate DEBRIS annunciators"
+    },
+    {
+      "id": "EXTE_CUSTOM_FAILURE_1",
+      "label": "Hydro acc. low air pressure"
+    },
+    {
+      "id": "EXTE_CUSTOM_FAILURE_2",
+      "label": "FCS No. 1 pressure switch disconnected"
+    },
+    {
+      "id": "ARC_201_FAILURE_TRANSIVER",
+      "label": "Failure.CH47.ARC_201_FAILURE_TRANSIVER"
+    },
+    {
+      "id": "ARC_201_FAILURE_ANTENNA",
+      "label": "Failure.CH47.ARC_201_FAILURE_ANTENNA"
+    },
+    {
+      "id": "ARC_201_DEGRADED",
+      "label": "Failure.CH47.ARC_201_DEGRADED"
+    },
+    {
+      "id": "ARC_164_FAILURE_TRANSIVER",
+      "label": "Failure.CH47.ARC_164_FAILURE_TRANSIVER"
+    },
+    {
+      "id": "ARC_164_FAILURE_ANTENNA",
+      "label": "Failure.CH47.ARC_164_FAILURE_ANTENNA"
+    },
+    {
+      "id": "ARC_164_DEGRADED",
+      "label": "Failure.CH47.ARC_164_DEGRADED"
+    },
+    {
+      "id": "ARC_186_FAILURE_TRANSIVER",
+      "label": "Failure.CH47.ARC_186_FAILURE_TRANSIVER"
+    },
+    {
+      "id": "ARC_186_FAILURE_ANTENNA",
+      "label": "Failure.CH47.ARC_186_FAILURE_ANTENNA"
+    },
+    {
+      "id": "ARC_186_DEGRADED",
+      "label": "Failure.CH47.ARC_186_DEGRADED"
+    },
+    {
+      "id": "ARC_220_FAILURE_TRANSIVER",
+      "label": "Failure.CH47.ARC_220_FAILURE_TRANSIVER"
+    },
+    {
+      "id": "ARC_220_FAILURE_ANTENNA",
+      "label": "Failure.CH47.ARC_220_FAILURE_ANTENNA"
+    },
+    {
+      "id": "ARC_220_DEGRADED",
+      "label": "Failure.CH47.ARC_220_DEGRADED"
+    }
+  ],
+  "flyable": true,
+  "id": "CH-47Fbl1",
+  "kind": "rotary",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 58
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 456,
+      "control": "checkbox",
+      "default": false,
+      "id": "DustProtectionDevices",
+      "label": "EAPS",
+      "weightKg": 107
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Co-Pilot"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.99984769515639,
+      -0.99984769515639,
+      -0.99984769515639,
+      -0.99984769515639,
+      -0.99984769515639
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          188
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          189
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          222
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          252
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          250
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          231
+        ],
+        "cell": 27
+      },
+      {
+        "args": [
+          221
+        ],
+        "cell": 28
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          220
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 60
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 62
+      },
+      {
+        "args": [
+          53
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          117
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          116
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          115
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          120
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          119
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          118
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          123
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          122
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          121
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          126
+        ],
+        "cell": 73
+      },
+      {
+        "args": [
+          125
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          124
+        ],
+        "cell": 75
+      },
+      {
+        "args": [
+          129
+        ],
+        "cell": 76
+      },
+      {
+        "args": [
+          128
+        ],
+        "cell": 77
+      },
+      {
+        "args": [
+          127
+        ],
+        "cell": 78
+      },
+      {
+        "args": [
+          132
+        ],
+        "cell": 79
+      },
+      {
+        "args": [
+          131
+        ],
+        "cell": 80
+      },
+      {
+        "args": [
+          130
+        ],
+        "cell": 81
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 88
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 89
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 94
+      },
+      {
+        "args": [
+          299
+        ],
+        "cell": 95
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 96
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 97
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          303
+        ],
+        "cell": 100
+      },
+      {
+        "args": [
+          54
+        ],
+        "cell": 136
+      },
+      {
+        "args": [
+          137
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 138
+      }
+    ],
+    "file": "CH-47F_bl1",
+    "lightsData": {
+      "lights": {
+        "1": {
+          "lights": [
+            {
+              "argument": 197,
+              "controller": "Strobe",
+              "period": 1.49,
+              "typename": "Argument"
+            },
+            {
+              "argument": 198,
+              "controller": "Strobe",
+              "period": 1.51,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "11": {
+          "lights": [
+            {
+              "argument": 208,
+              "movable": true,
+              "typename": "Argument"
+            },
+            {
+              "argument": 209,
+              "movable": true,
+              "typename": "Argument"
+            },
+            {
+              "lights": [
+                {
+                  "connector": "LIGHT_IR_L",
+                  "movable": true,
+                  "proto": {
+                    "color": [
+                      255,
+                      0,
+                      0,
+                      0.28
+                    ],
+                    "cool_down_t": 0.05,
+                    "flir_amount": 0.28,
+                    "power_up_t": 0.05,
+                    "range": 1
+                  },
+                  "typename": "Omni"
+                },
+                {
+                  "connector": "LIGHT_IR_L",
+                  "movable": true,
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "angle_min": 0.34906585039887,
+                    "color": [
+                      2,
+                      0,
+                      0,
+                      0.17
+                    ],
+                    "cool_down_t": 0.05,
+                    "flir_amount": 0.094,
+                    "power_up_t": 0.05,
+                    "range": 1800
+                  },
+                  "typename": "Spot"
+                }
+              ],
+              "typename": "Collection"
+            },
+            {
+              "lights": [
+                {
+                  "connector": "LIGHT_IR_R",
+                  "movable": true,
+                  "proto": {
+                    "color": [
+                      255,
+                      0,
+                      0,
+                      0.28
+                    ],
+                    "cool_down_t": 0.05,
+                    "flir_amount": 0.28,
+                    "power_up_t": 0.05,
+                    "range": 1
+                  },
+                  "typename": "Omni"
+                },
+                {
+                  "connector": "LIGHT_IR_R",
+                  "movable": true,
+                  "proto": {
+                    "angle_max": 0.48869219055841,
+                    "angle_min": 0.34906585039887,
+                    "color": [
+                      2,
+                      0,
+                      0,
+                      0.17
+                    ],
+                    "cool_down_t": 0.05,
+                    "flir_amount": 0.094,
+                    "power_up_t": 0.05,
+                    "range": 1800
+                  },
+                  "typename": "Spot"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "12": {
+          "lights": [
+            {
+              "argument": 194,
+              "typename": "Argument"
+            },
+            {
+              "argument": 195,
+              "typename": "Argument"
+            },
+            {
+              "argument": 196,
+              "typename": "Argument"
+            },
+            {
+              "connector": "BEACON_IR_T",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "VariablePatternStrobe",
+                "flir_amount": 1,
+                "mode": "1 Flash",
+                "period": 0.5,
+                "range": 16
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "BEACON_IR_B",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "VariablePatternStrobe",
+                "flir_amount": 1,
+                "mode": "1 Flash",
+                "period": 0.5,
+                "range": 16
+              },
+              "typename": "Omni"
+            },
+            {
+              "argument": 601,
+              "typename": "Argument"
+            },
+            {
+              "argument": 602,
+              "typename": "Argument"
+            },
+            {
+              "argument": 605,
+              "typename": "Argument"
+            },
+            {
+              "argument": 606,
+              "typename": "Argument"
+            },
+            {
+              "argument": 607,
+              "typename": "Argument"
+            },
+            {
+              "argument": 608,
+              "typename": "Argument"
+            },
+            {
+              "argument": 609,
+              "typename": "Argument"
+            },
+            {
+              "argument": 610,
+              "typename": "Argument"
+            },
+            {
+              "argument": 611,
+              "typename": "Argument"
+            },
+            {
+              "argument": 612,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "13": {
+          "lights": [
+            {
+              "argument": 193,
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Argument"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_1",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_2",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_3",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_4",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_5",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_6",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_7",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            },
+            {
+              "connector": "SIDE_LIGHT_IR_8",
+              "proto": {
+                "color": [
+                  2,
+                  0,
+                  0,
+                  0.12
+                ],
+                "controller": "Strobe",
+                "cool_down_t": 0.05,
+                "flir_amount": 0.68,
+                "mode": 0,
+                "period": 1.2,
+                "power_up_t": 0.25,
+                "range": 0.84,
+                "reduced_flash_time": 0.5
+              },
+              "typename": "Omni"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "14": {
+          "lights": [
+            {
+              "argument": 604,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "argument": 209,
+              "movable": true,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "controller": "Strobe",
+              "cool_down_t": 0.5,
+              "mode": 0,
+              "period": 0.73,
+              "power_up_t": 0.25,
+              "reduced_flash_time": 0.5,
+              "typename": "Argument"
+            },
+            {
+              "argument": 191,
+              "controller": "Strobe",
+              "cool_down_t": 0.5,
+              "mode": 0,
+              "period": 0.73,
+              "power_up_t": 0.25,
+              "reduced_flash_time": 0.5,
+              "typename": "Argument"
+            },
+            {
+              "argument": 192,
+              "controller": "Strobe",
+              "cool_down_t": 0.5,
+              "mode": 0,
+              "period": 0.73,
+              "power_up_t": 0.25,
+              "reduced_flash_time": 0.5,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "controller": "Strobe",
+              "cool_down_t": 0.05,
+              "mode": 0,
+              "period": 1,
+              "power_up_t": 0.05,
+              "reduced_flash_time": 0.5,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "argument": 209,
+              "movable": true,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "argument": 601,
+              "typename": "Argument"
+            },
+            {
+              "argument": 606,
+              "typename": "Argument"
+            },
+            {
+              "argument": 608,
+              "typename": "Argument"
+            },
+            {
+              "argument": 609,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "argument": 603,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "Collection"
+        }
+      },
+      "typename": "Collection"
+    },
+    "liveryEntry": "CH-47F",
+    "mapClassKey": "P0091000020",
+    "positioning": "BYNORMAL",
+    "shape": "CH-47F_bl1",
+    "shapeDestroyed": "CH-47F_bl1_oblomki"
+  },
+  "module": "CH-47F bl.1 AI",
+  "operations": {
+    "bigParkingRamp": false,
+    "dateOfIntroduction": 2001.31,
+    "landRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ],
+    "takeOffRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "enginesCount": 2,
+    "nyMax": 1.2,
+    "rangeKm": 465
+  },
+  "radios": [
+    "CH-47Fbl1__radio0",
+    "CH-47Fbl1__radio1",
+    "CH-47Fbl1__radio2"
+  ],
+  "sensors": [
+    "Abstract RWR",
+    "Merkury LLTV"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{CH47_PORT_M240H}"
+        },
+        {
+          "clsid": "{CH47_PORT_M60D}"
+        }
+      ],
+      "displayName": "L MG",
+      "order": 100,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{CH47_STBD_M240H}"
+        },
+        {
+          "clsid": "{CH47_STBD_M60D}"
+        }
+      ],
+      "displayName": "R MG",
+      "order": 300,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{CH47_AFT_M240H}"
+        },
+        {
+          "clsid": "{CH47_AFT_M60D}"
+        }
+      ],
+      "displayName": "Aft MG",
+      "order": 200,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 35,
+      "name": "Transport"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    }
+  ]
+}

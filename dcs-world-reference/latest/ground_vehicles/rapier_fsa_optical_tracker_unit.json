@@ -1,0 +1,287 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "Air Defence",
+    "All",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM SR",
+    "SAM elements",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 20000,
+    "irEmissionCoeff": 0.03,
+    "sensor": {
+      "heightM": 1.44,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "SAM Rapier Tracker",
+  "fireControl": {
+    "isDetector": true,
+    "maxTargetDetectionRangeM": 20000
+  },
+  "id": "rapier_fsa_optical_tracker_unit",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "locator_rotation": -1
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.255
+        }
+      ]
+    },
+    "file": "rapier_fsa_optical_tracker_unit",
+    "mapClassKey": "P0091000082",
+    "positioning": "BYNORMAL",
+    "shape": "rapier_fsa_optical_tracker_unit",
+    "shapeDestroyed": "rapier_fsa_optical_tracker_unit_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1971,
+        "to": 9999
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 1978,
+        "to": 2005
+      }
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND",
+      "years": {
+        "from": 1982,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1972,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1984,
+        "to": 2003
+      }
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA",
+      "years": {
+        "from": 2002,
+        "to": 9999
+      }
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA",
+      "years": {
+        "from": 1985,
+        "to": 9999
+      }
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN",
+      "years": {
+        "from": 1976,
+        "to": 9999
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 1976,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "sensors": [
+    "generic SAM search visir"
+  ],
+  "tags": [
+    "Air Defence",
+    "Optical Tracker"
+  ],
+  "weaponSystems": [
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "rapier_fsa_launcher",
+            "ws": 1
+          }
+        ]
+      ],
+      "ecmK": -1,
+      "hMaxM": 8000,
+      "hMinM": 20,
+      "launcherType": 100,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.4,
+      "reactionTimeS": 6,
+      "reflectionLimit": 0,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 1
+    }
+  ]
+}

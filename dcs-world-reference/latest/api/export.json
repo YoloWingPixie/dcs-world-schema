@@ -1,0 +1,913 @@
+{
+  "dcsVersion": "2.9.30.28536",
+  "env": "export",
+  "excluded": [
+    "_G",
+    "_VERSION",
+    "assert",
+    "collectgarbage",
+    "coroutine",
+    "debug",
+    "dofile",
+    "error",
+    "gcinfo",
+    "getfenv",
+    "getmetatable",
+    "io",
+    "ipairs",
+    "load",
+    "loadfile",
+    "loadstring",
+    "math",
+    "module",
+    "newproxy",
+    "next",
+    "os",
+    "package",
+    "pairs",
+    "pcall",
+    "print",
+    "rawequal",
+    "rawget",
+    "rawset",
+    "require",
+    "select",
+    "setfenv",
+    "setmetatable",
+    "string",
+    "table",
+    "tonumber",
+    "tostring",
+    "type",
+    "unpack",
+    "xpcall"
+  ],
+  "format": "dcs-api-dump/2",
+  "globals": {
+    "ED_FINAL_VERSION": {
+      "type": "boolean",
+      "value": true
+    },
+    "ED_PUBLIC_AVAILABLE": {
+      "type": "boolean",
+      "value": true
+    },
+    "GetClickableElements": {
+      "type": "function",
+      "what": "C"
+    },
+    "GetDevice": {
+      "type": "function",
+      "what": "C"
+    },
+    "GetIndicator": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoCreateCameraRequest": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoCreateCoroutineActivity": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoCreateUserBookmarkRequest": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoForceCamera": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGeoCoordinatesToLoCoordinates": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetADIPitchBankYaw": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAccelerationUnits": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAircraftDrawArgumentValue": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAltitude": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAltitudeAboveGroundLevel": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAltitudeAboveSeaLevel": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAngleOfAttack": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAngleOfSideSlip": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetAngularVelocity": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetBasicAtmospherePressure": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetCameraPosition": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetControlPanel_HSI": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetEngineInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetF15_TWS_Contacts": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetFMData": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetGlideDeviation": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetHeightWithObjects": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetHelicopterFMData": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetInAir": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetIndicatedAirSpeed": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetLocalPlayer": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetLockedTargetInformation": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetMCPState": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetMachNumber": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetMagneticYaw": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetMechInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetMissionStartTime": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetModelTime": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetModelTimeAcceleration": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetNameByType": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetNavigationInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetNetIsRunning": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetObjectById": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetPayloadInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetPilotName": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetPlayerPlaneId": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetPlayerSeat": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetPlayerUnitId": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetPlayers": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetRadarAltimeter": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetRadioBeaconsStatus": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetRoute": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetSelfData": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetShakeAmplitude": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetSideDeviation": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetSightingSystemInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetSlipBallPosition": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetSnares": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetTWSInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetTargetInformation": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetTrackIsReading": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetTrueAirSpeed": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetUserBookmarks": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetVectorVelocity": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetVectorWindVelocity": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetVersionInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetVerticalVelocity": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetWindAtPoint": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetWingInfo": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetWingTargets": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoGetWorldObjects": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoIsObjectExportAllowed": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoIsOwnshipExportAllowed": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoIsSensorExportAllowed": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoLoCoordinatesToGeoCoordinates": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoRemoveSharedTexture": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSendForceCamera": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSetAllowRemoteForceCameraRequests": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSetCameraPosition": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSetCommand": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSetSharedTexture": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSimulationOnActivePause": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoSimulationOnPause": {
+      "type": "function",
+      "what": "C"
+    },
+    "LoUpdateSharedTexture": {
+      "type": "function",
+      "what": "C"
+    },
+    "_APP_VERSION": {
+      "type": "string",
+      "value": "2.9.30.28536"
+    },
+    "_ARCHITECTURE": {
+      "type": "string",
+      "value": "x86_64"
+    },
+    "a_cockpit_highlight": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_highlight_indication": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_highlight_position": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_lock_player_seat": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_param_save_as": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_perform_clickable_action": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_pop_actor": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_push_actor": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_remove_highlight": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_cockpit_unlock_player_seat": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_start_listen_command": {
+      "type": "function",
+      "what": "C"
+    },
+    "a_start_listen_event": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_argument_in_range": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_cockpit_highlight_visible": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_cockpit_param_equal_to": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_cockpit_param_in_range": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_cockpit_param_is_equal_to_another": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_indication_txt_equal_to": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_start_wait_for_user": {
+      "type": "function",
+      "what": "C"
+    },
+    "c_stop_wait_for_user": {
+      "type": "function",
+      "what": "C"
+    },
+    "dbg_print": {
+      "type": "function",
+      "what": "C"
+    },
+    "get_param_handle": {
+      "type": "function",
+      "what": "C"
+    },
+    "lfs": {
+      "members": [
+        {
+          "key": "add_location",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "attributes",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "chdir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "create_lockfile",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "currentdir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "del_location",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "dir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "locations",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "md5sum",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "mkdir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "normpath",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "realpath",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "rmdir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "tempdir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "writedir",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        }
+      ],
+      "type": "table"
+    },
+    "list_cockpit_params": {
+      "type": "function",
+      "what": "C"
+    },
+    "list_indication": {
+      "type": "function",
+      "what": "C"
+    },
+    "log": {
+      "members": [
+        {
+          "key": "ALERT",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        },
+        {
+          "key": "ALL",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 255
+          }
+        },
+        {
+          "key": "ALL_LEVELS",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 255
+          }
+        },
+        {
+          "key": "ASYNC",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 0
+          }
+        },
+        {
+          "key": "BACKUP",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 32768
+          }
+        },
+        {
+          "key": "DEBUG",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 128
+          }
+        },
+        {
+          "key": "ERROR",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 8
+          }
+        },
+        {
+          "key": "EXTRA_INFO",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 512
+          }
+        },
+        {
+          "key": "FULL",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 271
+          }
+        },
+        {
+          "key": "IMMEDIATE",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 1
+          }
+        },
+        {
+          "key": "INFO",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 64
+          }
+        },
+        {
+          "key": "LEVEL",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 2
+          }
+        },
+        {
+          "key": "MESSAGE",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 0
+          }
+        },
+        {
+          "key": "MODELTIME",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 512
+          }
+        },
+        {
+          "key": "MODULE",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 4
+          }
+        },
+        {
+          "key": "NO_HEADER_FOOTER",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 16384
+          }
+        },
+        {
+          "key": "RELIABLE",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 32768
+          }
+        },
+        {
+          "key": "THREAD",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 8
+          }
+        },
+        {
+          "key": "TIME",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 1
+          }
+        },
+        {
+          "key": "TIME_LOCAL",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 129
+          }
+        },
+        {
+          "key": "TIME_RELATIVE",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 128
+          }
+        },
+        {
+          "key": "TIME_UTC",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 1
+          }
+        },
+        {
+          "key": "TRACE",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 256
+          }
+        },
+        {
+          "key": "WARNING",
+          "keyType": "string",
+          "value": {
+            "type": "number",
+            "value": 16
+          }
+        },
+        {
+          "key": "alert",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "backup",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "debug",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "error",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "info",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "set_output",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "set_output_rules",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "warning",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        },
+        {
+          "key": "write",
+          "keyType": "string",
+          "value": {
+            "type": "function",
+            "what": "C"
+          }
+        }
+      ],
+      "type": "table"
+    },
+    "log_G_effect": {
+      "type": "function",
+      "what": "C"
+    },
+    "safe_require": {
+      "type": "function",
+      "what": "C"
+    },
+    "show_param_handles_list": {
+      "type": "function",
+      "what": "C"
+    }
+  },
+  "limits": {
+    "apiDepth": 1,
+    "enumDepth": 4,
+    "enumEntries": 500,
+    "maxDepth": 8,
+    "maxString": 4096,
+    "maxTables": 20000,
+    "scanBudget": 200000
+  },
+  "skippedKeys": {},
+  "state": "export",
+  "stats": {
+    "refs": 0,
+    "summarised": 0,
+    "tables": 2,
+    "truncatedBudget": 0,
+    "truncatedDepth": 0
+  },
+  "status": "ok"
+}

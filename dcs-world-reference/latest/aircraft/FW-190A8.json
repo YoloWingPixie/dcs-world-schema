@@ -1,0 +1,1772 @@
+{
+  "aero": {
+    "emptyMassKg": 3640,
+    "internalFuelKg": 409,
+    "maxSpeedKmh": 900,
+    "maxTakeoffKg": 4840
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 38.4,
+    "maxMHz": 42.4,
+    "minMHz": 38.4,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.1,
+    "rcsM2": 2.5
+  },
+  "dimensions": {
+    "heightM": 4.77,
+    "lengthM": 12.13,
+    "wingSpanM": 10.5
+  },
+  "displayName": "Fw 190 A-8",
+  "failures": [
+    {
+      "id": "ENG0_OIL_RADIATOR_0_PIERCED",
+      "label": "Oil Radiator pierced."
+    },
+    {
+      "id": "ENG0_OIL_HOSE_0_LEAK",
+      "label": "Oil Leak."
+    },
+    {
+      "id": "ENG0_OIL_HOSE_0_BURST",
+      "label": "Oil line burst open"
+    },
+    {
+      "id": "ENG0_OIL_PUMP_FAILURE",
+      "label": "Oil Pump FAILURE"
+    },
+    {
+      "id": "ELEC_MAIN_FUEL_PUMP_FAILURE",
+      "label": "Fuel Pump Fault."
+    },
+    {
+      "id": "INSUF_FUEL_PRES",
+      "label": "Fuel strainer clogged."
+    },
+    {
+      "id": "FUEL_TANK_00_LEAK_STOPPED",
+      "label": "Rear fuel tank leak stopped"
+    },
+    {
+      "id": "FUEL_TANK_00_MINOR_LEAK",
+      "label": "Rear fuel tank minor leak"
+    },
+    {
+      "id": "FUEL_TANK_00_MEDIUM_LEAK",
+      "label": "Rear fuel tank major leak"
+    },
+    {
+      "id": "FUEL_TANK_00_MAJOR_LEAK",
+      "label": "Rear fuel tank ruptured"
+    },
+    {
+      "id": "FUEL_TANK_00_FIRE_STOPPED",
+      "label": "Rear fuel tank fire stopped"
+    },
+    {
+      "id": "FUEL_TANK_00_FIRE",
+      "label": "Rear fuel tank is on fire"
+    },
+    {
+      "id": "FUEL_TANK_00_EXPLODED",
+      "label": "Rear fuel tank exploded"
+    },
+    {
+      "id": "FUEL_TANK_01_LEAK_STOPPED",
+      "label": "Forward fuel tank leak stopped"
+    },
+    {
+      "id": "FUEL_TANK_01_MINOR_LEAK",
+      "label": "Forward fuel tank minor leak"
+    },
+    {
+      "id": "FUEL_TANK_01_MEDIUM_LEAK",
+      "label": "Forward fuel tank major leak"
+    },
+    {
+      "id": "FUEL_TANK_01_MAJOR_LEAK",
+      "label": "Forward fuel tank ruptured"
+    },
+    {
+      "id": "FUEL_TANK_01_FIRE_STOPPED",
+      "label": "Forward fuel tank fire stopped"
+    },
+    {
+      "id": "FUEL_TANK_01_FIRE",
+      "label": "Forward fuel tank is on fire"
+    },
+    {
+      "id": "FUEL_TANK_01_EXPLODED",
+      "label": "Forward fuel tank exploded"
+    },
+    {
+      "id": "FUEL_NITRO_TANK_00_LEAK_STOPPED",
+      "label": "Aux fuel tank leak stopped"
+    },
+    {
+      "id": "FUEL_NITRO_TANK_00_MINOR_LEAK",
+      "label": "Aux fuel tank leak"
+    },
+    {
+      "id": "FUEL_NITRO_TANK_00_MAJOR_LEAK",
+      "label": "Aux fuel tank major leak"
+    },
+    {
+      "id": "FUEL_DROPTANK_MINOR_LEAK",
+      "label": "External Fuel Tank Leak."
+    },
+    {
+      "id": "ELEC_FORWARD_FUEL_PUMP_FAILURE",
+      "label": "Forward Tank Pump Fault."
+    },
+    {
+      "id": "ELEC_REAR_FUEL_PUMP_FAILURE",
+      "label": "Rear Tank Pump Fault."
+    },
+    {
+      "id": "ELEC_DROPTANK_FUEL_PUMP_FAILURE",
+      "label": "External Tank Pump Fault."
+    },
+    {
+      "id": "FUEL_GAUGE_FAULT",
+      "label": "Fuel Gauge Fault."
+    },
+    {
+      "id": "OXYN_TOP_CONTAINER_PERFORATED",
+      "label": "Top Oxygen cylinder leak."
+    },
+    {
+      "id": "OXYN_RIGHT_CONTAINER_PERFORATED",
+      "label": "Right Oxygen cylinder leak."
+    },
+    {
+      "id": "OXYN_LEFT_CONTAINER_PERFORATED",
+      "label": "Left Oxygen cylinder leak."
+    },
+    {
+      "id": "UNCR_C_STRUT_DOWN_LOCK_FAILURE",
+      "label": "Tail Gear Downlock Fault."
+    },
+    {
+      "id": "UNCR_LH_STRUT_UP_LOCK_JAMMED",
+      "label": "Left Gear Uplock Jammed."
+    },
+    {
+      "id": "UNCR_RH_STRUT_UP_LOCK_JAMMED",
+      "label": "Right Gear Uplock Jammed."
+    },
+    {
+      "id": "UNCR_LH_STRUT_UP_LOCK_FAILURE",
+      "label": "Left Gear Uplock Not Locked."
+    },
+    {
+      "id": "UNCR_RH_STRUT_UP_LOCK_FAILURE",
+      "label": "Right Gear Uplock Not Locked."
+    },
+    {
+      "id": "UNCR_LH_STRUT_DRIVE_FAILURE",
+      "label": "Left Gear Motor Fault."
+    },
+    {
+      "id": "UNCR_RH_STRUT_DRIVE_FAILURE",
+      "label": "Right Gear Motor Fault."
+    },
+    {
+      "id": "UNCR_LH_WHEEL_BRAKE_DAMAGED",
+      "label": "Left Gear Brake Fault."
+    },
+    {
+      "id": "UNCR_RH_WHEEL_BRAKE_DAMAGED",
+      "label": "Right Gear Brake Fault."
+    },
+    {
+      "id": "GUN_LEFT_MG151_OPEN_CIRCUIT",
+      "label": "Left MG 151 gun wiring fault"
+    },
+    {
+      "id": "GUN_LEFT_MG131_OPEN_CIRCUIT",
+      "label": "Left MG 131 gun wiring fault"
+    },
+    {
+      "id": "GUN_RIGHT_MG131_OPEN_CIRCUIT",
+      "label": "Right MG 131 gun wiring fault"
+    },
+    {
+      "id": "GUN_RIGHT_MG151_OPEN_CIRCUIT",
+      "label": "Right MG 151 gun wiring fault"
+    },
+    {
+      "id": "GUN_LEFT_MG151_AMMUN_FAULT",
+      "label": "Left MG 151 gun ammunition fault"
+    },
+    {
+      "id": "GUN_LEFT_MG131_AMMUN_FAULT",
+      "label": "Left MG 131 gun ammunition fault"
+    },
+    {
+      "id": "GUN_RIGHT_MG131_AMMUN_FAULT",
+      "label": "Right MG 131 gun ammunition fault"
+    },
+    {
+      "id": "GUN_RIGHT_MG151_AMMUN_FAULT",
+      "label": "Right MG 151 gun ammunition fault"
+    },
+    {
+      "id": "GUN_LEFT_MG151_BARREL_WORN",
+      "label": "Left MG 151 gun worn"
+    },
+    {
+      "id": "GUN_LEFT_MG131_BARREL_WORN",
+      "label": "Left MG 131 gun worn"
+    },
+    {
+      "id": "GUN_RIGHT_MG131_BARREL_WORN",
+      "label": "Right MG 131 gun worn"
+    },
+    {
+      "id": "GUN_RIGHT_MG151_BARREL_WORN",
+      "label": "Right MG 151 gun worn"
+    },
+    {
+      "id": "BOMBS_DAMAGE_LINKAGE",
+      "label": "Bomb rack release link fail"
+    },
+    {
+      "id": "BOMBS_DAMAGE_ELINKAGE",
+      "label": "Bomb rack electrical linkage damaged"
+    },
+    {
+      "id": "BOMBS_ARMING_BROKEN_WIRING",
+      "label": "Bomb rack arm broken wiring"
+    },
+    {
+      "id": "ELEC_RETICLE_BULB_FAILURE",
+      "label": "Reticle bulb broken"
+    },
+    {
+      "id": "ELEC_BATTERY_OVERHEAT",
+      "label": "Battery overheated."
+    },
+    {
+      "id": "ELEC_STARTER_BURNOUT",
+      "label": "Starter burnt out."
+    },
+    {
+      "id": "ELEC_GENERATOR_FAILURE",
+      "label": "Generator Fault."
+    },
+    {
+      "id": "PITOT_HEAT_FAULT",
+      "label": "Pitot Fault."
+    },
+    {
+      "id": "BAT_SOLENOID_FAULT",
+      "label": "Bat. Solenoid Fault."
+    },
+    {
+      "id": "CTRL_ELEVATOR_TRIM_FAILURE",
+      "label": "Trimmer Motor Fault."
+    },
+    {
+      "id": "CTRL_LANDING_FLAPS_LH_DRIVE_DAMAGED",
+      "label": "Left Flap Motor Fault."
+    },
+    {
+      "id": "CTRL_LANDING_FLAPS_RH_DRIVE_DAMAGED",
+      "label": "Right Flap Motor Fault."
+    },
+    {
+      "id": "ELEC_LH_JUNCTION_BOX_DESTROYED",
+      "label": "Left electrical junction box break."
+    },
+    {
+      "id": "ELEC_RH_JUNCTION_BOX_DESTROYED",
+      "label": "Right electrical junction box break."
+    },
+    {
+      "id": "ELEC_LH_GEAR_DRIVE_WIRE_SEVERED",
+      "label": "Left Gear Motor wire broken."
+    },
+    {
+      "id": "ELEC_RH_GEAR_DRIVE_WIRE_SEVERED",
+      "label": "Right Gear Motor wire broken."
+    },
+    {
+      "id": "ELEC_LH_FLAPS_DRIVE_WIRE_SEVERED",
+      "label": "Left Flap Motor wire broken."
+    },
+    {
+      "id": "ELEC_RH_FLAPS_DRIVE_WIRE_SEVERED",
+      "label": "Right Flap Motor wire broken."
+    },
+    {
+      "id": "ELEC_BOMBABWGERAT_RELEASE_MALFUNCTION",
+      "label": "ZSK 244 bombing panel malfunction"
+    },
+    {
+      "id": "ELEC_BOMBABWGERAT_RELEASE_FAILURE",
+      "label": "ZSK 244 bombing panel power circuit severed"
+    },
+    {
+      "id": "ELEC_BOMBABWGERAT_CHARGING_MALFUNCTION",
+      "label": "ZSK 244 charging circuit malfunction"
+    },
+    {
+      "id": "ELEC_BOMBABWGERAT_CHARGING_FAILURE",
+      "label": "ZSK 244 charging circuit severed"
+    },
+    {
+      "id": "ENG0_GOVERNOR_MALFUNCTION",
+      "label": "Kommandgerat command oil failure"
+    },
+    {
+      "id": "ENG0_GOVERNOR_FAILURE",
+      "label": "Propeller governor failure"
+    },
+    {
+      "id": "ENG0_GOVERNOR_REGULATOR_MALFUNCTION",
+      "label": "Propeller manual regulator failure"
+    },
+    {
+      "id": "ENG0_MAGNETO0",
+      "label": "Magneto 1 Fault."
+    },
+    {
+      "id": "ENG0_MAGNETO1",
+      "label": "Magneto 2 Fault."
+    },
+    {
+      "id": "ENG0_JAMMED",
+      "label": "Engine Jam"
+    },
+    {
+      "id": "MANIFOLD_LINE_LEAK",
+      "label": "Manifold ind. line leak."
+    },
+    {
+      "id": "TACH_BREAK_CIRCUIT",
+      "label": "Tachometer circuit break."
+    },
+    {
+      "id": "OIL_T_IND_FAULT",
+      "label": "Oil Temp. ind. fault."
+    },
+    {
+      "id": "STARTER_RELAY_FAULT",
+      "label": "Starter Relay fault."
+    },
+    {
+      "id": "VHF_TOTAL_DAMAGE",
+      "label": "Radio Transceiver Fault."
+    },
+    {
+      "id": "VHF_ANTENNA_FAULT",
+      "label": "Radio Antenna Damaged"
+    },
+    {
+      "id": "HORIZON_FAULT",
+      "label": "Art. Horizon Fault."
+    },
+    {
+      "id": "ELEC_MASTER_COMPASS_HARNESS_CUT",
+      "label": "Master compass harness severed"
+    },
+    {
+      "id": "INST_MASTER_COMPASS_FAILURE",
+      "label": "Master compass malfunction"
+    },
+    {
+      "id": "INST_COMPASS_MALFUNCTION",
+      "label": "Repeater compass malfunction"
+    },
+    {
+      "id": "COMPASS_ERRATIC_OPERATION",
+      "label": "Repeater compass wires shorted or open. Erratic operation"
+    }
+  ],
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "MG_13x64_API",
+      "MG_13x64_APT",
+      "MG_13x64_HE",
+      "MG_13x64_HEI_T",
+      "MG_13x64_I",
+      "MG_13x64_I_T",
+      "MG_20x82_API",
+      "MG_20x82_HEI_T",
+      "MG_20x82_MGsch"
+    ],
+    "mixes": [
+      {
+        "label": "CM - Combat Mix"
+      },
+      {
+        "label": "HE - Anti-Bomber"
+      },
+      {
+        "label": "AG - Ground Attack"
+      },
+      {
+        "label": "CS - No Tracers"
+      },
+      {
+        "label": "TP - Target Practice"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "MG_20x82_HEI_T",
+          "MG_20x82_API",
+          "MG_20x82_MGsch"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "MG_20x82_HEI_T",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_HEI_T",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_HEI_T",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_MGsch"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_HEI_T",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          }
+        ],
+        "rounds": 250,
+        "type": "MG_151_20"
+      },
+      {
+        "ammo": [
+          "MG_13x64_APT",
+          "MG_13x64_API",
+          "MG_13x64_HEI_T",
+          "MG_13x64_I",
+          "MG_13x64_I_T",
+          "MG_13x64_HE"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_HEI_T",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_HEI_T",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_I_T",
+              "MG_13x64_I",
+              "MG_13x64_I",
+              "MG_13x64_I",
+              "MG_13x64_I"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_I_T",
+              "MG_13x64_I",
+              "MG_13x64_I",
+              "MG_13x64_I",
+              "MG_13x64_I"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API"
+            ]
+          }
+        ],
+        "rounds": 400,
+        "type": "MG_131"
+      },
+      {
+        "ammo": [
+          "MG_13x64_APT",
+          "MG_13x64_API",
+          "MG_13x64_HEI_T",
+          "MG_13x64_I",
+          "MG_13x64_I_T",
+          "MG_13x64_HE"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_HEI_T",
+              "MG_13x64_HE",
+              "MG_13x64_HE"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_I",
+              "MG_13x64_I",
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_HEI_T",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_I_T",
+              "MG_13x64_I",
+              "MG_13x64_I"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_I",
+              "MG_13x64_I",
+              "MG_13x64_APT",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_I_T",
+              "MG_13x64_I",
+              "MG_13x64_I"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_HE",
+              "MG_13x64_HE",
+              "MG_13x64_HE"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_13x64_API",
+              "MG_13x64_API",
+              "MG_13x64_I_T",
+              "MG_13x64_API",
+              "MG_13x64_API"
+            ]
+          }
+        ],
+        "rounds": 400,
+        "type": "MG_131"
+      },
+      {
+        "ammo": [
+          "MG_20x82_HEI_T",
+          "MG_20x82_API",
+          "MG_20x82_MGsch"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_HEI_T",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_MGsch",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          }
+        ],
+        "rounds": 250,
+        "type": "MG_151_20"
+      },
+      {
+        "ammo": [
+          "MG_20x82_HEI_T",
+          "MG_20x82_API",
+          "MG_20x82_MGsch"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_MGsch",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_HEI_T",
+              "MG_20x82_MGsch"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_MGsch",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API"
+            ]
+          }
+        ],
+        "rounds": 125,
+        "type": "MG_151_20"
+      },
+      {
+        "ammo": [
+          "MG_20x82_HEI_T",
+          "MG_20x82_API",
+          "MG_20x82_MGsch"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_MGsch",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_MGsch",
+              "MG_20x82_HEI_T",
+              "MG_20x82_MGsch"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_MGsch",
+              "MG_20x82_API",
+              "MG_20x82_API"
+            ]
+          },
+          {
+            "ammo": [
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_API",
+              "MG_20x82_HEI_T",
+              "MG_20x82_API"
+            ]
+          }
+        ],
+        "rounds": 125,
+        "type": "MG_151_20"
+      }
+    ],
+    "rounds": 1550,
+    "type": "MG_151_20"
+  },
+  "id": "FW-190A8",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "FW_MW50TankContents",
+      "label": "MW/Fuel Tank Contents",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Empty",
+          "weightWhenOnKg": 0
+        },
+        {
+          "id": 2,
+          "label": "Additional fuel",
+          "weightWhenOnKg": 89.7
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.45315389351832,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          64
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          305
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          299
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 31
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 32
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          146
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          429
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          380
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          430
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          381
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          431
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          382
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 86
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 87
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 88
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          302
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          303
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          304
+        ],
+        "cell": 143
+      },
+      {
+        "args": [
+          273
+        ],
+        "cell": 144
+      }
+    ],
+    "file": "FW190a-8",
+    "lightsData": {
+      "lights": {
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "FW190a-8",
+    "shapeDestroyed": "fw190a-8-oblomoki"
+  },
+  "module": "World War II AI Units by Eagle Dynamics",
+  "operations": {
+    "dateOfIntroduction": 1944.3
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1944,
+        "to": 1945
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 1944,
+        "to": 1945
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1944,
+        "to": 1945
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.302,
+    "bankAngleMaxDeg": 60,
+    "casMin": 56,
+    "enginesCount": 1,
+    "hMaxM": 11000,
+    "machMax": 0.8,
+    "nyMax": 8,
+    "rangeKm": 1015,
+    "vLandMs": 50,
+    "vMaxHMs": 250,
+    "vMaxSeaLevelMs": 230,
+    "vOptMs": 125,
+    "vTakeOffMs": 53
+  },
+  "radios": [],
+  "sensors": [],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "BF109K_4_FUEL_TANK"
+        },
+        {
+          "clsid": "ER_4_SC50"
+        },
+        {
+          "clsid": "SC_501_SC250"
+        },
+        {
+          "clsid": "SC_501_SC500"
+        },
+        {
+          "clsid": "{AB_250_2_SD_10A}"
+        },
+        {
+          "clsid": "{AB_250_2_SD_2}"
+        },
+        {
+          "clsid": "{AB_500_1_SD_10A}"
+        },
+        {
+          "clsid": "{SC_250_T1_L2}"
+        },
+        {
+          "clsid": "{SC_500_L2}"
+        },
+        {
+          "clsid": "{SD_250_Stg}"
+        },
+        {
+          "clsid": "{SD_500_A}"
+        }
+      ],
+      "order": 200,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{WGr21}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{WGr21}"
+              ],
+              "station": 3
+            }
+          ]
+        }
+      ],
+      "order": 100,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{WGr21}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{WGr21}"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 300,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

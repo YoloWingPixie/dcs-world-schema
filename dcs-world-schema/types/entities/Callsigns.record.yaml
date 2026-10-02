@@ -1,0 +1,50 @@
+globals: {}
+
+types:
+  Entity.Callsign:
+    kind: record
+    description: "One `db.Callnames` entry."
+    fields:
+      id:
+        type: number
+        description: "Callsign id (`WorldID`)."
+      name:
+        type: string
+        description: "Callsign name (`Name`)."
+    required: [id, name]
+
+  Entity.CallsignCategory:
+    kind: record
+    description: "The callsigns of one `db.Callnames` category for a country."
+    fields:
+      category:
+        type: string
+        description: "Category key: a unit attribute (`Air`, `AWACS`, `Tankers`, ...) or a unit type."
+      country:
+        type: country.id
+        description: "Country whose `db.Callnames` list this is: the record's own, else its `fallbackCountry`."
+      callsigns:
+        type: Entity.Callsign[]
+        description: "Callsigns, in DCS order."
+    required: [category, country, callsigns]
+
+  Entity.CountryCallsigns:
+    kind: record
+    description: "A country's callsigns as the mission editor resolves them (`db.Callnames`, `db.DefaultCountry`)."
+    fields:
+      country:
+        type: country.id
+        description: "Country id (`WorldID`)."
+      countryName:
+        type: string
+        description: "Optional `country.id` constant name of `country`."
+      numeric:
+        type: boolean
+        description: "True when `db.callnamesRussia` lists the country: the mission generator gives it numeric (red) callsigns."
+      fallbackCountry:
+        type: country.id
+        description: "Country whose lists fill categories the country lacks: `db.DefaultCountry[country]`, else USA (MissionEditor callsign.lua `getCallnames`)."
+      categories:
+        type: Entity.CallsignCategory[]
+        description: "Every category of the country or its fallback, by name."
+    required: [country, numeric, fallbackCountry, categories]

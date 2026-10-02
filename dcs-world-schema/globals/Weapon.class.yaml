@@ -2,10 +2,10 @@ globals:
   Weapon:
     kind: class
     description: "Represents a weapon entity in the DCS World, including shells, rockets, missiles, and bombs."
-    addedVersion: "1.2.4" # Based on Hoggit Wiki class page
+    addedVersion: "1.2.4"
     inherits:
       - Object
-      - CoalitionObject # Added based on Hoggit Wiki
+      - CoalitionObject
     instance:
       getCategory:
         description: "Returns an `Object.Category` enumerator and a `Weapon.Category` enumerator representing the weapon's classification."
@@ -29,7 +29,7 @@ globals:
         addedVersion: "1.2.0"
       getTypeName:
         description: "Returns a `string` representing the weapon's type designation."
-        returns: string
+        returns: DcsId.WeaponType | string
         addedVersion: "1.2.0"
       getDesc:
         description: "Returns a table containing detailed technical specifications of the weapon. The exact structure depends on the weapon category."

@@ -842,7 +842,7 @@ globals:
                 type: string
                 description: "Path to the sound file that was originally played."
             returns: void
-            addedVersion: "1.2.0" # Assuming same as outSound
+            addedVersion: "1.2.0"
           setUserFlag:
             description: "Sets the value of a mission user flag."
             params:
@@ -854,6 +854,10 @@ globals:
                 description: "Value to set the flag to."
             returns: void
             addedVersion: "1.2.0"
+          userEvent:
+            description: "Present in DCS 2.9.29. Signature probed (DCS 2.9.29.27468): no arguments; returned nothing; extra arguments not probed."
+            params: []
+            returns: void
       misc:
         type: table
         description: "Contains utility functions for trigger operations and flag management."
@@ -865,13 +869,13 @@ globals:
                 type: string
                 description: "Name of the new trigger."
               - name: condition
-                type: string # Or function
+                type: string
                 description: "Lua code string or function defining the trigger condition."
               - name: action
-                type: string # Or function
+                type: string
                 description: "Lua code string or function defining the trigger action."
-            returns: void # Or number (triggerId)
-            addedVersion: "1.2.0" # Placeholder
+            returns: void
+            addedVersion: "1.2.0"
           addZone:
             description: "(Placeholder) Adds a new trigger zone dynamically."
             params:
@@ -892,8 +896,8 @@ globals:
                 type: boolean
                 description: "Whether the zone is hidden on the map."
                 optional: true
-            returns: void # Or table (zone object)
-            addedVersion: "1.2.0" # Placeholder
+            returns: void
+            addedVersion: "1.2.0"
           getUserFlag:
             description: "Returns the current value of a mission user flag."
             params:

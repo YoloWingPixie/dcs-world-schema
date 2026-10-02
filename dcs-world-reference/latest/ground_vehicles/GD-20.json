@@ -1,0 +1,221 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "All",
+    "Cars",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles",
+    "human_vehicle"
+  ],
+  "cargo": {
+    "canTow": [
+      "Saddle22"
+    ]
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 1.9,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0,
+      "position": [
+        -1.67,
+        1.636,
+        -0.536
+      ]
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 4.2,
+    "massKg": 1821,
+    "widthM": 2
+  },
+  "displayName": "GD-20 Lift Truck",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 0
+  },
+  "id": "GD-20",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 2
+    }
+  ],
+  "mobility": {
+    "canSwim": false,
+    "enginePower": 30,
+    "maxRoadSpeedMs": 4,
+    "maxSlopeRad": 0.15,
+    "maxSpeedKmh": 14.4,
+    "maxVertObstacleM": 0.15,
+    "minTurnRadiusM": 1.6,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 1,
+          "value": 0.15
+        },
+        {
+          "arg": 9,
+          "value": 0.8
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 0
+            },
+            {
+              "arg": 2,
+              "value": 0
+            }
+          ],
+          "connector": "master_coupler_point",
+          "model": "gd-load-sd10"
+        }
+      ]
+    },
+    "file": "gd-20",
+    "mapClassKey": "P0091000005",
+    "positioning": "BYNORMAL",
+    "shape": "gd-20",
+    "shapeDestroyed": "M92_MJ-1_dst"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Unarmed",
+    "Support & Logistics"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "displayName": "Lift Operator",
+      "launcherType": 103,
+      "ln": 1,
+      "name": "Lift_Operator",
+      "rMaxKm": 0.03,
+      "rMinKm": 0.0,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.0471975511966,
+          1.3962634015955
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.3962634015955
+      },
+      "ws": 1
+    }
+  ]
+}

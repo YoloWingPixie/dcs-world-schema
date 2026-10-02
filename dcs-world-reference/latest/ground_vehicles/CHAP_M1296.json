@@ -1,0 +1,332 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.015
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 900,
+    "nominalCapacity": 900
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.09,
+    "sensor": {
+      "heightM": 3.1,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 6.95,
+    "massKg": 22500,
+    "widthM": 2.72
+  },
+  "displayName": "IFV M1296 Dragoon [CH]",
+  "fireControl": {
+    "fireOnMove": true,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "CHAP_M1296",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 450,
+    "fordingDepthM": 1.2,
+    "maxRoadSpeedMs": 26.9,
+    "maxSlopeRad": 0.6,
+    "maxSpeedKmh": 96.84,
+    "maxVertObstacleM": 0.61,
+    "minTurnRadiusM": 8.8,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "CHAP_M1296",
+    "mapClassKey": "P0091000002",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_M1296",
+    "shapeDestroyed": "CHAP_M1296_dest"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "M151 Protector RWS IR",
+    "M151 Protector RWS day"
+  ],
+  "tags": [
+    "Armor",
+    "IFV"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "displayName": "XM813",
+      "gunAmmo": [
+        "CHAP_30_MK258_APFSDS_T",
+        "CHAP_30_MK266_HEI_T"
+      ],
+      "hMaxM": 2000,
+      "launcherType": 3,
+      "ln": 1,
+      "maxShootingSpeed": 15,
+      "name": "XM813",
+      "payloads": [
+        {
+          "ammoCapacity": 78,
+          "gunAmmo": [
+            "CHAP_30_MK266_HEI_T"
+          ],
+          "portionAmmoCapacity": 78,
+          "reloadTimeS": 50,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 78,
+          "gunAmmo": [
+            "CHAP_30_MK266_HEI_T"
+          ],
+          "portionAmmoCapacity": 78,
+          "reloadTimeS": 50,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 54,
+          "gunAmmo": [
+            "CHAP_30_MK266_HEI_T"
+          ],
+          "portionAmmoCapacity": 78,
+          "reloadTimeS": 50,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 78,
+          "gunAmmo": [
+            "CHAP_30_MK258_APFSDS_T"
+          ],
+          "portionAmmoCapacity": 78,
+          "reloadTimeS": 50,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 78,
+          "gunAmmo": [
+            "CHAP_30_MK258_APFSDS_T"
+          ],
+          "portionAmmoCapacity": 78,
+          "reloadTimeS": 50,
+          "shotDelayS": 0.3
+        },
+        {
+          "ammoCapacity": 54,
+          "gunAmmo": [
+            "CHAP_30_MK258_APFSDS_T"
+          ],
+          "portionAmmoCapacity": 78,
+          "reloadTimeS": 50,
+          "shotDelayS": 0.3
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1,
+      "sectorsRad": [
+        [
+          2.6179938779915,
+          -2.6179938779915,
+          -0.17453292519943,
+          0.78539816339745
+        ],
+        [
+          -2.6179938779915,
+          2.6179938779915,
+          -0.017453292519943,
+          0.78539816339745
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "M240",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 2,
+      "name": "M240",
+      "payloads": [
+        {
+          "ammoCapacity": 800,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 800,
+          "reloadTimeS": 480,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          2.6179938779915,
+          -2.6179938779915,
+          -0.17453292519943,
+          0.78539816339745
+        ],
+        [
+          -2.6179938779915,
+          2.6179938779915,
+          -0.017453292519943,
+          0.78539816339745
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    }
+  ]
+}

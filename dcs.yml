@@ -1,0 +1,38 @@
+# selene std for the DCS hook scripts and their harnesses: Lua 5.1 plus the
+# DCS hook-environment globals they reference.
+base: lua51
+name: dcs
+globals:
+  # Lua 5.1 accepts these without the arguments selene's lua51 std requires.
+  assert:
+    args:
+      - type: any
+      - required: false
+        type: any
+  debug.sethook:
+    args:
+      - required: false
+        type: any
+      - required: false
+        type: string
+      - required: false
+        type: number
+  # DCS hook environment.
+  DCS:
+    property: new-fields
+    any: true
+  net:
+    property: new-fields
+    any: true
+  lfs:
+    property: new-fields
+    any: true
+  log:
+    property: new-fields
+    any: true
+  country:
+    property: full-write
+    any: true
+  # The Lua harnesses' stand-in for lfs.writedir(), set from argv.
+  WRITEDIR:
+    property: full-write

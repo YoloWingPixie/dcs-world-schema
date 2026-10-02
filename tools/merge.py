@@ -1,19 +1,28 @@
 #!/usr/bin/env python3
 """
 Merge YAML schema files into a single output file (JSON or YAML).
-Usage: python merge.py <output_filepath> --root <dir> [--subdirs <subdir1> <subdir2>...] [-f format] [-v]
+Usage: python -m tools.merge <output_filepath> --root <dir> [--subdirs <subdir1> <subdir2>...] [-f format] [-v]
+
+The output leaves out the ``DcsDb.*`` types (``spec_types.DCS_DB_PREFIX``).
 """
 
-import os
-import sys
-import yaml
-import json
 import argparse
 import copy
-from collections.abc import Mapping
+import json
+import os
+import sys
+from collections.abc import Iterable, Mapping
+from pathlib import Path
+from typing import Any
+
+import yaml
+
+from tools.spec_types import DCS_DB_PREFIX, without_types
 
 
-def deep_merge(source, destination):
+def deep_merge(
+    source: Mapping[str, Any], destination: dict[str, Any]
+) -> dict[str, Any]:
     """Deeply merge source dict into destination dict."""
     for key, value in source.items():
         if isinstance(value, Mapping):
@@ -30,14 +39,16 @@ def deep_merge(source, destination):
     return destination
 
 
-def resolve_inheritance(merged_data, verbose=False):
+Members = dict[str, dict[str, Any]]
+
+
+def resolve_inheritance(merged_data: dict[str, Any], verbose: bool = False) -> None:
     """Resolve inheritance in merged_data['globals']."""
     merged_globals = merged_data.get("globals")
     if not merged_globals or not isinstance(merged_globals, dict):
         return
 
-    # Helper function to merge members
-    def merge_members(parent, child):
+    def merge_members(parent: Members, child: Members) -> Members:
         merged = copy.deepcopy(parent)
         for mtype in ["instance", "static", "properties"]:
             if mtype in child:
@@ -46,8 +57,12 @@ def resolve_inheritance(merged_data, verbose=False):
                 merged[mtype].update(child.get(mtype, {}))
         return merged
 
-    # Helper function to get inherited members recursively
-    def get_members(class_name, all_classes, cache, visited=None):
+    def get_members(
+        class_name: str,
+        all_classes: dict[str, Any],
+        cache: dict[str, Members],
+        visited: set[str] | None = None,
+    ) -> Members:
         visited = visited or set()
         if class_name in visited:
             return {"instance": {}, "static": {}, "properties": {}}
@@ -61,20 +76,18 @@ def resolve_inheritance(merged_data, verbose=False):
             cache[class_name] = {"instance": {}, "static": {}, "properties": {}}
             return cache[class_name]
 
-        # Get own members
-        own_members = {
+        own_members: Members = {
             t: class_data.get(t, {}) for t in ["instance", "static", "properties"]
         }
         for t in own_members:
             if not isinstance(own_members[t], dict):
                 own_members[t] = {}
 
-        # Get and merge parent members
         parents = class_data.get("inherits", [])
         if not isinstance(parents, list):
             parents = []
 
-        combined = {"instance": {}, "static": {}, "properties": {}}
+        combined: Members = {"instance": {}, "static": {}, "properties": {}}
         for parent in parents:
             if parent in all_classes:
                 parent_members = get_members(parent, all_classes, cache, visited.copy())
@@ -85,18 +98,74 @@ def resolve_inheritance(merged_data, verbose=False):
         visited.remove(class_name)
         return final
 
-    # Process all classes
-    cache = {}
+    cache: dict[str, Members] = {}
     for class_name in merged_globals:
         if class_name not in cache:
             get_members(class_name, merged_globals, cache)
 
 
-def main():
+# Globals of the other Lua environments (the API dump's hooks, server and
+# export states). Each is its own spec: the main one is mission scripting.
+ENV_DIRS = ("globals/export", "globals/hooks", "globals/server")
+
+
+def merge_tree(
+    abs_root: str,
+    subdirs: list[str] | None = None,
+    ignore_files: Iterable[str] = (),
+    verbose: bool = False,
+) -> tuple[dict[str, Any], int]:
+    """(merged spec, file count) of every YAML file under ``abs_root`` (only
+    ``subdirs`` when given, else all but ``ENV_DIRS``)."""
+    root = Path(abs_root)
+    ignored_files = [os.path.normpath((root / f).absolute()) for f in ignore_files]
+    search_paths = [root / d for d in subdirs] if subdirs else [root]
+    search_paths = [p for p in search_paths if p.is_dir()]
+    excluded = set() if subdirs else {os.path.normpath(root / d) for d in ENV_DIRS}
+
+    merged_data: dict[str, Any] = {}
+    count = 0
+    for path in search_paths:
+        for dirpath, dirnames, filenames in os.walk(path):
+            dirnames[:] = [
+                d
+                for d in dirnames
+                if os.path.normpath(Path(dirpath) / d) not in excluded
+            ]
+            for filename in filenames:
+                if not filename.endswith((".yaml", ".yml")):
+                    continue
+
+                filepath = Path(dirpath) / filename
+                abs_path = os.path.normpath(filepath.absolute())
+
+                if not abs_path.startswith(abs_root):
+                    if verbose:
+                        print(f"Skipping file outside root: {filepath}")
+                    continue
+
+                if abs_path in ignored_files:
+                    continue
+
+                try:
+                    with filepath.open(encoding="utf-8") as f:
+                        data = yaml.safe_load(f)
+                    if data:
+                        merged_data = deep_merge(data, merged_data)
+                        count += 1
+                        if verbose:
+                            print(f"Merged: {filepath}")
+                except Exception as e:
+                    print(f"✖ Error processing {filepath}: {e}")
+    resolve_inheritance(merged_data, verbose)
+    return merged_data, count
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(description="Merge YAML schema files.")
     parser.add_argument("output_filepath", help="Output file path for merged schema")
     parser.add_argument(
-        "--root", "-r", default=os.getcwd(), help="Root directory to search"
+        "--root", "-r", default=Path.cwd(), help="Root directory to search"
     )
     parser.add_argument(
         "--subdirs", "-s", nargs="*", help="Specific subdirectories to search"
@@ -110,66 +179,24 @@ def main():
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
     args = parser.parse_args()
 
-    # Find YAML files
-    abs_root = os.path.abspath(args.root)
-    ignored_files = [
-        os.path.abspath(os.path.join(abs_root, f)) for f in args.ignore_files
-    ]
-
-    if not os.path.isdir(abs_root):
+    abs_root = os.path.normpath(Path(args.root).absolute())
+    if not Path(abs_root).is_dir():
         print(f"✖ Root directory not found: {abs_root}")
         sys.exit(1)
-
-    search_paths = (
-        [os.path.join(abs_root, d) for d in args.subdirs]
-        if args.subdirs
-        else [abs_root]
+    merged_data, count = merge_tree(
+        abs_root, args.subdirs, args.ignore_files, args.verbose
     )
-    search_paths = [p for p in search_paths if os.path.isdir(p)]
-
-    # Process files
-    merged_data, count = {}, 0
-    for path in search_paths:
-        for dirpath, _, filenames in os.walk(path):
-            for filename in filenames:
-                if not filename.endswith((".yaml", ".yml")):
-                    continue
-
-                filepath = os.path.join(dirpath, filename)
-                abs_path = os.path.abspath(filepath)
-
-                if not abs_path.startswith(abs_root):
-                    if args.verbose:
-                        print(f"Skipping file outside root: {filepath}")
-                    continue
-
-                if abs_path in ignored_files:
-                    continue
-
-                try:
-                    with open(filepath, "r", encoding="utf-8") as f:
-                        data = yaml.safe_load(f)
-                    if data:
-                        merged_data = deep_merge(data, merged_data)
-                        count += 1
-                        if args.verbose:
-                            print(f"Merged: {filepath}")
-                except Exception as e:
-                    print(f"✖ Error processing {filepath}: {e}")
-
     if count == 0:
         print("⚠️ No YAML files were found or processed.")
         return
+    if "types" in merged_data:
+        merged_data = without_types(merged_data, DCS_DB_PREFIX)
 
-    # Process inheritance and write output
-    resolve_inheritance(merged_data, args.verbose)
-
-    output_dir = os.path.dirname(args.output_filepath)
-    if output_dir and not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    output = Path(args.output_filepath)
+    output.parent.mkdir(parents=True, exist_ok=True)
 
     try:
-        with open(args.output_filepath, "w", encoding="utf-8") as outfile:
+        with output.open("w", encoding="utf-8") as outfile:
             if args.format == "json":
                 json.dump(merged_data, outfile, indent=2, ensure_ascii=False)
             else:

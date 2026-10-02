@@ -1,0 +1,95 @@
+{
+  "components": [
+    {
+      "alic": [
+        "206"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "HK",
+      "unit": "Hawk cwar"
+    },
+    {
+      "envelope": {
+        "hMaxM": 40000,
+        "hMinM": 15,
+        "rMaxKm": 45.0,
+        "rMinKm": 1.5
+      },
+      "requires": [
+        [
+          [
+            "Hawk tr",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM LL"
+      ],
+      "unit": "Hawk ln",
+      "weapons": [
+        "HAWK_RAKETA"
+      ]
+    },
+    {
+      "requires": [
+        [
+          [
+            "Hawk sr"
+          ]
+        ],
+        [
+          [
+            "Hawk cwar"
+          ]
+        ],
+        [
+          [
+            "Hawk tr",
+            2
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM CC"
+      ],
+      "unit": "Hawk pcp"
+    },
+    {
+      "alic": [
+        "203"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "HK",
+      "unit": "Hawk sr"
+    },
+    {
+      "alic": [
+        "204"
+      ],
+      "requires": [
+        [
+          [
+            "Hawk pcp"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM TR"
+      ],
+      "rwrSymbol": "HK",
+      "unit": "Hawk tr"
+    }
+  ],
+  "id": "HAWK_RAKETA",
+  "kind": "sam",
+  "natoDesignation": "Hawk",
+  "sensors": [
+    "Hawk sr",
+    "Hawk tr"
+  ]
+}

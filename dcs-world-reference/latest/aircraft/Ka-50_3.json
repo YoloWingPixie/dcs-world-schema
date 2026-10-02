@@ -1,0 +1,1503 @@
+{
+  "aero": {
+    "emptyMassKg": 8030,
+    "internalFuelKg": 1450,
+    "maxSpeedKmh": 350,
+    "maxTakeoffKg": 11900
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Attack helicopters",
+    "Helicopters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 0,
+      "default": 0,
+      "increment": 0
+    },
+    "cmdsEdit": true,
+    "dispenserSystems": [
+      "UV-26"
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 128,
+      "increment": 32
+    },
+    "singleChargeTotal": 128
+  },
+  "countryOfOrigin": "RUS",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 400,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 31,
+    "name": "CAS"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.6,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 5.6,
+    "lengthM": 15.84,
+    "rotorDiameterM": 14.4
+  },
+  "displayName": "Ka-50 III",
+  "failures": [
+    {
+      "id": "hydro_main",
+      "label": "HYDRO MAIN"
+    },
+    {
+      "id": "hydro_common",
+      "label": "HYDRO COMMON"
+    },
+    {
+      "id": "l_engine",
+      "label": "L-ENGINE"
+    },
+    {
+      "id": "r_engine",
+      "label": "R-ENGINE"
+    },
+    {
+      "id": "asc_p",
+      "label": "ASC PITCH"
+    },
+    {
+      "id": "asc_r",
+      "label": "ASC ROLL"
+    },
+    {
+      "id": "asc_y",
+      "label": "ASC YAW"
+    },
+    {
+      "id": "asc_a",
+      "label": "ASC ALT"
+    },
+    {
+      "id": "abris_software",
+      "label": "ABRIS SOFTWARE"
+    },
+    {
+      "id": "abris_hardware",
+      "label": "ABRIS HARDWARE"
+    },
+    {
+      "id": "laser_failure",
+      "label": "LASER FAILURE"
+    },
+    {
+      "id": "RADAR_ALT_TOTAL_FAILURE",
+      "label": "RALT FAILURE"
+    },
+    {
+      "id": "DNS_FAILURE",
+      "label": "DNS failure"
+    },
+    {
+      "id": "IMU_FAILURE",
+      "label": "INS failure"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "2A42_30_AP",
+      "2A42_30_HE"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "2A42_30_HE",
+          "2A42_30_AP"
+        ],
+        "rounds": 460,
+        "type": "2A42"
+      }
+    ],
+    "rounds": 460,
+    "type": "2A42"
+  },
+  "id": "Ka-50_3",
+  "kind": "rotary",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 15
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 737,
+      "control": "comboList",
+      "default": "Ka-50_3",
+      "forcedPylons": {
+        "Ka-50": {
+          "5": "<CLEAN>",
+          "6": "<CLEAN>"
+        }
+      },
+      "id": "modification",
+      "label": "Modification",
+      "values": [
+        {
+          "id": "Ka-50_3",
+          "label": "Version 2022",
+          "value": 1
+        },
+        {
+          "id": "Ka-50",
+          "label": "Version 2011",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "Helmet-mounted device",
+      "label": "Helmet-mounted device",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "AUTO"
+        },
+        {
+          "id": 1,
+          "label": "HMS"
+        },
+        {
+          "id": 2,
+          "label": "NVG"
+        }
+      ]
+    },
+    {
+      "arg": 457,
+      "control": "checkbox",
+      "default": true,
+      "id": "ExhaustScreen",
+      "label": "Exhaust IR suppressors",
+      "weightKg": 160
+    },
+    {
+      "control": "label",
+      "id": "idPlaceHolder",
+      "playerOnly": true
+    },
+    {
+      "control": "label",
+      "id": "idLabel",
+      "label": "INS ALIGNMENT",
+      "playerOnly": true
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "Realistic INS",
+      "label": "Realism",
+      "playerOnly": true,
+      "values": [
+        {
+          "guiAction": {
+            "controls": [
+              "IMU alignment type"
+            ],
+            "onSelect": "disable"
+          },
+          "id": 0,
+          "label": "No alignment and fixtaking needed"
+        },
+        {
+          "guiAction": {
+            "controls": [
+              "IMU alignment type"
+            ],
+            "onSelect": "enable"
+          },
+          "id": 2,
+          "label": "No alignment needed but fixtaking"
+        },
+        {
+          "guiAction": {
+            "controls": [
+              "IMU alignment type"
+            ],
+            "onSelect": "enable"
+          },
+          "id": 1,
+          "label": "Fully realistic"
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 3,
+      "id": "IMU alignment type",
+      "label": "At Hot Start",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 1,
+          "label": "Fast"
+        },
+        {
+          "id": 2,
+          "label": "Normal"
+        },
+        {
+          "id": 3,
+          "label": "Normal with Gyro"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.25881904510252,
+      -0.61237243569579,
+      -0.96592582628907,
+      -0.049950211252315,
+      0.86602540378444
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          150,
+          298
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          149,
+          301,
+          302
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          249
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154,
+          299
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153,
+          302,
+          303
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          188
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          189
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          81,
+          304,
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          81,
+          305,
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          81,
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          144
+        ],
+        "cell": 60
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          250
+        ],
+        "cell": 62
+      },
+      {
+        "args": [
+          53
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          117
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          116
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          115
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          120
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          119
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          118
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          123
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          122
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          121
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          126
+        ],
+        "cell": 73
+      },
+      {
+        "args": [
+          125
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          124
+        ],
+        "cell": 75
+      },
+      {
+        "args": [
+          129
+        ],
+        "cell": 76
+      },
+      {
+        "args": [
+          128
+        ],
+        "cell": 77
+      },
+      {
+        "args": [
+          127
+        ],
+        "cell": 78
+      },
+      {
+        "args": [
+          132
+        ],
+        "cell": 79
+      },
+      {
+        "args": [
+          131
+        ],
+        "cell": 80
+      },
+      {
+        "args": [
+          130
+        ],
+        "cell": 81
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      }
+    ],
+    "file": "Ka-50_3",
+    "lightsData": {
+      "lights": {
+        "11": {
+          "lights": [
+            {
+              "argument": 45,
+              "connector": "RESERV_SPOT_PTR",
+              "movable": true,
+              "proto": {
+                "angle_change_rate": 0.10471975511966,
+                "angle_max": 0.22689280275926,
+                "angle_min": 0.19198621771938,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.28690682760248
+                ],
+                "cool_down_t": 1.12,
+                "power_up_t": 1.12,
+                "range": 3600
+              },
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 46,
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "argumentlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 190,
+                  "proto": {
+                    "angle_max": 2.6179938779915,
+                    "angle_min": 1.5707963267949,
+                    "color": [
+                      1,
+                      0.35,
+                      0.15,
+                      0.15
+                    ],
+                    "range": 40
+                  },
+                  "typename": "argumentlight"
+                },
+                {
+                  "argument": 191,
+                  "proto": {
+                    "angle_max": 2.6179938779915,
+                    "angle_min": 1.5707963267949,
+                    "color": [
+                      0,
+                      0.894,
+                      0.6,
+                      0.15
+                    ],
+                    "range": 40
+                  },
+                  "typename": "argumentlight"
+                },
+                {
+                  "argument": 192,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.12
+                    ],
+                    "range": 18
+                  },
+                  "typename": "argumentlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 200,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "5": {
+          "lights": [
+            {
+              "argument": 47,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 46,
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "argumentlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angular_velocity": 4.1887902047864,
+                  "argument": -1,
+                  "connector": "RED_BEACON",
+                  "flood_light_argument": 193,
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "range": 0,
+                  "rotary_assembly_argument": 195,
+                  "typename": "RotatingBeacon"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000021",
+    "positioning": "BYNORMAL",
+    "shape": "Ka-50_3",
+    "shapeDestroyed": "KA-50-OBLOMOK"
+  },
+  "module": "Ka-50 Black Shark",
+  "operations": {
+    "landRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ],
+    "laserDesignator": true,
+    "laserRangefinder": true,
+    "takeOffRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 2000,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "enginesCount": 2,
+    "nyMax": 3.5,
+    "rangeKm": 450
+  },
+  "radios": [
+    "Ka-50_3__radio0",
+    "Ka-50_3__radio1"
+  ],
+  "sensors": [
+    "Shkval"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "B_8V20A_CM"
+        },
+        {
+          "clsid": "B_8V20A_OFP2"
+        },
+        {
+          "clsid": "B_8V20A_OM"
+        },
+        {
+          "clsid": "{05544F1A-C39C-466b-BC37-5BD1D52E57BB}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}"
+        },
+        {
+          "clsid": "{6DADF342-D4BA-4D8A-B081-BA928C4AF86D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A6FD14D3-6D30-4C85-88A7-8D17BEE120E2}"
+        },
+        {
+          "clsid": "{FAB_250_M62}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{PTB_450}"
+        }
+      ],
+      "displayName": "1",
+      "order": 2,
+      "position": {
+        "lateral": -2.694,
+        "longitudinal": 0.848,
+        "vertical": -0.289
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "B_8V20A_CM"
+        },
+        {
+          "clsid": "B_8V20A_OFP2"
+        },
+        {
+          "clsid": "B_8V20A_OM"
+        },
+        {
+          "clsid": "{05544F1A-C39C-466b-BC37-5BD1D52E57BB}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{FAB_250_M62}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{PTB_450}"
+        }
+      ],
+      "displayName": "2",
+      "order": 3,
+      "position": {
+        "lateral": -1.984,
+        "longitudinal": 0.848,
+        "vertical": -0.33
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "B_8V20A_CM"
+        },
+        {
+          "clsid": "B_8V20A_OFP2"
+        },
+        {
+          "clsid": "B_8V20A_OM"
+        },
+        {
+          "clsid": "{05544F1A-C39C-466b-BC37-5BD1D52E57BB}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{FAB_250_M62}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{PTB_450}"
+        }
+      ],
+      "displayName": "3",
+      "order": 4,
+      "position": {
+        "lateral": 1.984,
+        "longitudinal": 0.848,
+        "vertical": -0.33
+      },
+      "station": 3,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "B_8V20A_CM"
+        },
+        {
+          "clsid": "B_8V20A_OFP2"
+        },
+        {
+          "clsid": "B_8V20A_OM"
+        },
+        {
+          "clsid": "{05544F1A-C39C-466b-BC37-5BD1D52E57BB}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+        },
+        {
+          "clsid": "{6A4B9E69-64FE-439a-9163-3A87FB6A4D81}"
+        },
+        {
+          "clsid": "{6DADF342-D4BA-4D8A-B081-BA928C4AF86D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A6FD14D3-6D30-4C85-88A7-8D17BEE120E2}"
+        },
+        {
+          "clsid": "{FAB_250_M62}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{PTB_450}"
+        }
+      ],
+      "displayName": "4",
+      "order": 5,
+      "position": {
+        "lateral": 2.694,
+        "longitudinal": 0.848,
+        "vertical": -0.289
+      },
+      "station": 4,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{9S846_2xIGLA}"
+        }
+      ],
+      "displayName": "AAM L",
+      "order": 1,
+      "position": {
+        "lateral": -3.236,
+        "longitudinal": 0.85,
+        "vertical": -0.2587
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "<CLEAN>"
+        },
+        {
+          "clsid": "{9S846_2xIGLA}"
+        }
+      ],
+      "displayName": "AAM R",
+      "order": 6,
+      "position": {
+        "lateral": 3.236,
+        "longitudinal": 0.85,
+        "vertical": -0.2587
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

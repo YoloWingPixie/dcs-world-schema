@@ -1,0 +1,474 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.032
+  },
+  "attributes": [
+    "Air Defence",
+    "All",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "SAM SR",
+    "SAM elements",
+    "SAM related",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 35000,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 6.87,
+      "maxAltM": 6000,
+      "maxRangeM": 35000,
+      "minRangeM": 1500
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 6.79,
+    "massKg": 29207,
+    "widthM": 3.24
+  },
+  "displayName": "SAM Roland EWR",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 35000,
+    "radarType": 104,
+    "radarTypeName": "wsType_MissGun"
+  },
+  "id": "Roland Radar",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 5
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 600,
+    "maxRoadSpeedMs": 20.8333,
+    "maxSlopeRad": 0.61,
+    "maxSpeedKmh": 74.99988,
+    "maxVertObstacleM": 1,
+    "minTurnRadiusM": 3.8,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": 11,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "mapClassKey": "P0091000083",
+    "shape": "roland-rls",
+    "shapeDestroyed": "Marder_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1977,
+        "to": 2007
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1977,
+        "to": 2007
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 1988,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1982,
+        "to": 9999
+      }
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA",
+      "years": {
+        "from": 1985,
+        "to": 9999
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL",
+      "years": {
+        "from": 1978,
+        "to": 9999
+      }
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR",
+      "years": {
+        "from": 1987,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA",
+      "years": {
+        "from": 1982,
+        "to": 9999
+      }
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA",
+      "years": {
+        "from": 1991,
+        "to": 2016
+      }
+    }
+  ],
+  "sensors": [
+    "Roland Radar"
+  ],
+  "tags": [
+    "Air Defence",
+    "Search & Track Radar"
+  ],
+  "weaponSystems": [
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 1
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 2
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 3
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 4
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 5
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 6
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 7
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 8
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 9
+    },
+    {
+      "ecmK": 0.65,
+      "hMaxM": 6000,
+      "hMinM": 15,
+      "launcherType": 101,
+      "ln": 1,
+      "rMaxKm": 35.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 12,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          0.69813170079773
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 10
+    }
+  ]
+}

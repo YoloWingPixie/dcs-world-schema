@@ -1,0 +1,629 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          33.6,
+          2
+        ],
+        [
+          33.6,
+          180,
+          0.75
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          45,
+          1
+        ],
+        [
+          45,
+          90,
+          0.5
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          2
+        ],
+        [
+          20,
+          180,
+          0.75
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.0125
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 2000
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 7890,
+    "widthM": 2.54
+  },
+  "displayName": "Scout M8 Greyhound AC",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "M8_Greyhound",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 60,
+      "control": "comboList",
+      "default": 1,
+      "id": "Visual element",
+      "label": "Visual element",
+      "values": [
+        {
+          "id": 1,
+          "label": "All",
+          "value": 0
+        },
+        {
+          "id": 2,
+          "label": "None",
+          "value": 0.1
+        },
+        {
+          "id": 3,
+          "label": "Left back",
+          "value": 0.15
+        },
+        {
+          "id": 4,
+          "label": "Left front",
+          "value": 0.2
+        },
+        {
+          "id": 5,
+          "label": "Right back",
+          "value": 0.25
+        },
+        {
+          "id": 6,
+          "label": "Right front",
+          "value": 0.3
+        },
+        {
+          "id": 7,
+          "label": "Both front and left back",
+          "value": 0.6
+        },
+        {
+          "id": 8,
+          "label": "Both front and right back",
+          "value": 0.75
+        },
+        {
+          "id": 9,
+          "label": "Both back and right front",
+          "value": 0.65
+        },
+        {
+          "id": 10,
+          "label": "Both left",
+          "value": 0.7
+        },
+        {
+          "id": 11,
+          "label": "Both right",
+          "value": 0.8
+        }
+      ]
+    }
+  ],
+  "mobility": {
+    "enginePower": 82,
+    "fordingDepthM": 1,
+    "maxRoadSpeedMs": 24.7,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 88.92,
+    "maxVertObstacleM": 0.4,
+    "minTurnRadiusM": 7.2,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 9,
+          "value": 1
+        },
+        {
+          "arg": 80,
+          "value": 0.255
+        },
+        {
+          "arg": 82,
+          "value": 0
+        }
+      ]
+    },
+    "file": "m8_greyhound",
+    "mapClassKey": "P0091000004",
+    "positioning": "BYNORMAL",
+    "shape": "m8_greyhound",
+    "shapeDestroyed": "m8_greyhound_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1943,
+        "to": 1966
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1943,
+        "to": 1966
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1943,
+        "to": 1964
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA",
+      "years": {
+        "from": 1943,
+        "to": 1970
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1960,
+        "to": 1975
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA",
+      "years": {
+        "from": 1953,
+        "to": 1970
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 1950,
+        "to": 1970
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1951,
+        "to": 1980
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU",
+      "years": {
+        "from": 1958,
+        "to": 9999
+      }
+    }
+  ],
+  "tags": [
+    "Armor",
+    "Scout/Recon"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M51_37AP"
+      ],
+      "hMaxM": 200,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 10,
+          "gunAmmo": [
+            "M51_37AP"
+          ],
+          "portionReloadTimeS": 5,
+          "shotDelayS": 2.2
+        },
+        {
+          "ammoCapacity": 36,
+          "gunAmmo": [
+            "M51_37AP"
+          ],
+          "portionReloadTimeS": 7,
+          "shotDelayS": 5
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.34906585039887,
+        "yaw": 0.4014257279587
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M63_37HE"
+      ],
+      "hMaxM": 200,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 6,
+          "gunAmmo": [
+            "M63_37HE"
+          ],
+          "portionReloadTimeS": 5,
+          "shotDelayS": 2.2
+        },
+        {
+          "ammoCapacity": 28,
+          "gunAmmo": [
+            "M63_37HE"
+          ],
+          "portionReloadTimeS": 7,
+          "shotDelayS": 5
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.02,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.34906585039887,
+        "yaw": 0.4014257279587
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Br303",
+        "Br303_tr"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "Browning .30 cal",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 250,
+          "ammoDisplayName": ".303 British",
+          "gunAmmo": [
+            "Br303",
+            "Br303_tr"
+          ],
+          "portionAmmoCapacity": 250,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 1.5,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.34906585039887,
+        "yaw": 0.4014257279587
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "M2 Browning",
+      "gunAmmo": [
+        "M2_12_7",
+        "M2_12_7_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 10,
+      "ln": 1,
+      "name": "M2_Browning",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.43633231299858,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.87266462599716
+      },
+      "ws": 2
+    }
+  ]
+}

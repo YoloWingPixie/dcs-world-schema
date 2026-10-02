@@ -1,0 +1,468 @@
+{
+  "aero": {
+    "emptyMassKg": 550,
+    "internalFuelKg": 400,
+    "maxSpeedKmh": 280,
+    "maxTakeoffKg": 1150
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "UAVs"
+  ],
+  "countryOfOrigin": "CHN",
+  "defaultRadio": {
+    "frequencyMHz": 127.5,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 31,
+    "name": "CAS"
+  },
+  "detection": {
+    "detectionRangeMax": 10000,
+    "irEmissionCoeff": 0.02,
+    "rcsM2": 0.55
+  },
+  "dimensions": {
+    "heightM": 2.77,
+    "lengthM": 9.05,
+    "wingSpanM": 14
+  },
+  "displayName": "WingLoong-I",
+  "flyable": false,
+  "id": "WingLoong-I",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.3649716762171,
+      -0.64278760968654,
+      0.11161889704895,
+      0.86602540378444
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          148
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          229
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          219
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          271
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          115
+        ],
+        "cell": 100
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 143
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 144
+      },
+      {
+        "args": [
+          246
+        ],
+        "cell": 145
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 146
+      }
+    ],
+    "file": "wingloong-1",
+    "lightsData": {
+      "lights": [
+        {},
+        {},
+        {
+          "lights": [
+            {
+              "angle_max": 3.1415926535898,
+              "angle_min": 1.5707963267949,
+              "argument": 190,
+              "connector": "BANO_1",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "dir_correction": {
+                "azimuth": -0.78539816339745
+              },
+              "flash_time": 0.7,
+              "mode": 1,
+              "period": 1,
+              "power_up_t": 0.3,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 3.1415926535898,
+              "angle_min": 1.5707963267949,
+              "argument": 191,
+              "connector": "BANO_2",
+              "controller": "Strobe",
+              "cool_down_t": 0.6,
+              "dir_correction": {
+                "azimuth": 0.78539816339745
+              },
+              "flash_time": 0.7,
+              "mode": 1,
+              "period": 1,
+              "power_up_t": 0.3,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.12
+                ],
+                "range": 22.2
+              },
+              "typename": "Spot"
+            }
+          ],
+          "typename": "Collection"
+        },
+        {},
+        {},
+        {}
+      ],
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000023",
+    "positioning": "BYNORMAL",
+    "shape": "wingloong-1",
+    "shapeDestroyed": "self"
+  },
+  "module": "China Asset Pack by Deka Ironwork Simulations and Eagle Dynamics",
+  "operations": {
+    "dateOfIntroduction": 2007.1,
+    "eplrs": true,
+    "laserDesignator": true
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 2008,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 2011,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN",
+      "years": {
+        "from": 2016,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 2018,
+        "to": 9999
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 2018,
+        "to": 9999
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 2011,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.02,
+    "bankAngleMaxDeg": 30,
+    "casMin": 27.777777777778,
+    "enginesCount": 1,
+    "hMaxM": 7500,
+    "machMax": 0.4,
+    "nyMax": 2,
+    "rangeKm": 4000,
+    "vLandMs": 27.777777777778,
+    "vMaxHMs": 77.777777777778,
+    "vMaxSeaLevelMs": 77.777777777778,
+    "vOptMs": 60,
+    "vTakeOffMs": 27.777777777778
+  },
+  "radios": [],
+  "sensors": [
+    "Winglong-1 CAM",
+    "Winglong-1 FLIR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_AKD-10"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -1.128,
+        "longitudinal": 0.119,
+        "vertical": -0.437
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "DIS_AKD-10"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 1.128,
+        "longitudinal": 0.119,
+        "vertical": -0.437
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

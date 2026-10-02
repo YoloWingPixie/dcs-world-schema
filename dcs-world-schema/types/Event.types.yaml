@@ -1,7 +1,6 @@
 globals: {}
 
 types:
-  # Main type used by world.onEvent and world.addEventHandler
   EventData:
     kind: record
     description: "Event data structure that contains information about an event. The id field identifies which type of event is being handled."
@@ -16,12 +15,10 @@ types:
         type: Object | nil
         description: "The initiating object (can be a Unit, StaticObject, or other object type depending on event)."
       
-      # Target fields
       target:
         type: Object | nil
         description: "The target object involved in the event (present in hit, kill, shooting events)."
       
-      # Weapon fields
       weapon:
         type: Weapon | nil
         description: "The weapon used during the event (present in shot, hit, kill events)."
@@ -29,7 +26,6 @@ types:
         type: string | nil
         description: "Name of the weapon (present in weapon_add events)."
         
-      # Place fields  
       place:
         type: Airbase | nil
         description: "The place object (used in landing, takeoff, birth, base_captured events)."
@@ -37,7 +33,6 @@ types:
         type: world.BirthPlace | nil
         description: "The specific location within the place (used in birth events)."
         
-      # Mark fields
       MarkID:
         type: number | nil
         description: "ID of the mark in mark-related events."
@@ -51,17 +46,14 @@ types:
         type: coalition.side | nil
         description: "Coalition that owns the mark."
       
-      # Zone fields
       Zone: 
         type: Zone | nil
         description: "The zone object in trigger zone events."
       
-      # Cargo fields
       Cargo:
         type: Cargo | nil
         description: "The cargo object in cargo-related events."
       
-      # Additional fields for specific events
       IniCoalition:
         type: coalition.side | nil
         description: "Coalition of the initiator."
@@ -287,7 +279,7 @@ types:
 
   EventDataGeneric:
     kind: record
-    description: "Comprehensive event data structure containing all possible fields from any event type."
+    description: "Event data structure containing all possible fields from any event type."
     fields:
       id:
         type: world.event
@@ -342,7 +334,6 @@ types:
         type: string | nil
         description: "(UNIT) The UCID of the initiating player in case the Unit is a client or player slot."
 
-      # Target fields
       target:
         type: Object | nil
         description: "(UNIT/STATIC) The target object (Unit/StaticObject/other depending on event type)."
@@ -389,7 +380,6 @@ types:
         type: string | nil
         description: "(UNIT) The UCID of the target player in case the Unit is a client or player slot."
 
-      # Weapon fields
       weapon:
         type: Weapon | nil
         description: "The weapon used during the event (present in shot, hit, kill events)."
@@ -415,7 +405,6 @@ types:
         type: Unit | nil
         description: "Sometimes, the weapon is a player unit."
 
-      # Place fields
       place:
         type: Airbase | nil
         description: "The place object (used in landing, takeoff, birth, base_captured events)."
@@ -426,7 +415,6 @@ types:
         type: world.BirthPlace | nil
         description: "The specific location within the place (used in birth events)."
 
-      # Mark fields
       MarkID:
         type: number | nil
         description: "ID of the mark in mark-related events."
@@ -446,7 +434,6 @@ types:
         type: number | nil
         description: "Group ID associated with the mark, if applicable."
 
-      # Cargo fields
       Cargo:
         type: Cargo | nil
         description: "The cargo object in cargo-related events."
@@ -454,7 +441,6 @@ types:
         type: string | nil
         description: "The name of the cargo."
       
-      # Dynamic cargo fields
       IniDynamicCargo:
         type: DynamicCargo | nil
         description: "The dynamic cargo object in dynamic cargo events."
@@ -462,7 +448,6 @@ types:
         type: string | nil
         description: "The name of the dynamic cargo."
 
-      # Zone fields
       Zone: 
         type: Zone | nil
         description: "The zone object in zone-related events."

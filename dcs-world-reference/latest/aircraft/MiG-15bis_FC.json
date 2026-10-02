@@ -1,0 +1,977 @@
+{
+  "aero": {
+    "emptyMassKg": 3753,
+    "internalFuelKg": 1172,
+    "maxSpeedKmh": 992,
+    "maxTakeoffKg": 6106
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countryOfOrigin": "SUN",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 3.75,
+    "maxMHz": 5,
+    "minMHz": 3.75,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 30,
+    "irEmissionCoeff": 0.26,
+    "rcsM2": 2
+  },
+  "dimensions": {
+    "heightM": 3.7,
+    "lengthM": 10.11,
+    "wingSpanM": 10.08
+  },
+  "displayName": "MiG-15bis FC",
+  "failures": [
+    {
+      "id": "es_damage_Generator",
+      "label": "Generator FAILURE"
+    },
+    {
+      "id": "es_damage_Starter",
+      "label": "Starter FAILURE"
+    },
+    {
+      "id": "es_damage_Battery",
+      "label": "Battery FAILURE"
+    },
+    {
+      "id": "fs_damage_TransferPump",
+      "label": "Fuel Transfer Pump FAILURE"
+    },
+    {
+      "id": "fs_damage_BoosterPump",
+      "label": "Fuel Booster Pump FAILURE"
+    },
+    {
+      "id": "hs_damage_MainPump",
+      "label": "Main Hydraulic Pump FAILURE"
+    },
+    {
+      "id": "hs_damage_MainAccumulator",
+      "label": "Main Hydraulic Accumulator FAILURE"
+    },
+    {
+      "id": "hs_damage_MainAutoUnload",
+      "label": "Main Relief Valve FAILURE"
+    },
+    {
+      "id": "hs_damage_GainPump",
+      "label": "Booster Pump FAILURE"
+    },
+    {
+      "id": "hs_damage_GainAccumulator",
+      "label": "Booster Accumulator FAILURE"
+    },
+    {
+      "id": "hs_damage_GainAutoUnload",
+      "label": "Booster Relief Valve FAILURE"
+    },
+    {
+      "id": "os_damage_BalloonLeakage",
+      "label": "Oxygen FAILURE"
+    },
+    {
+      "id": "as_damage_Depressurization",
+      "label": "Depressurization"
+    },
+    {
+      "id": "AGK_47B_GYRO_TOTAL_FAILURE",
+      "label": "AGK-47B gyro failure"
+    }
+  ],
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "N37_37x155_API_T",
+      "N37_37x155_HEI_T",
+      "NR23_23x115_API",
+      "NR23_23x115_HEI_T"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "N37_37x155_HEI_T",
+          "N37_37x155_API_T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "N37_37x155_HEI_T",
+              "N37_37x155_HEI_T",
+              "N37_37x155_HEI_T",
+              "N37_37x155_API_T"
+            ]
+          }
+        ],
+        "rounds": 40,
+        "type": "N-37"
+      },
+      {
+        "ammo": [
+          "NR23_23x115_HEI_T",
+          "NR23_23x115_API"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "NR23_23x115_API",
+              "NR23_23x115_HEI_T",
+              "NR23_23x115_HEI_T",
+              "NR23_23x115_HEI_T"
+            ]
+          }
+        ],
+        "rounds": 80,
+        "type": "NR-23"
+      },
+      {
+        "ammo": [
+          "NR23_23x115_HEI_T",
+          "NR23_23x115_API"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "NR23_23x115_HEI_T",
+              "NR23_23x115_HEI_T",
+              "NR23_23x115_API",
+              "NR23_23x115_HEI_T"
+            ]
+          }
+        ],
+        "rounds": 80,
+        "type": "NR-23"
+      }
+    ],
+    "rounds": 200,
+    "type": "N-37"
+  },
+  "id": "MiG-15bis_FC",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 15
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.64085638205579,
+      -0.93969262078591,
+      -0.29883623873012,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 40
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 44
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      }
+    ],
+    "file": "MiG_15bis_FC",
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "argument": 51,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "argument": 51,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "liveryEntry": "MiG-15bis",
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "MiG_15bis_FC",
+    "shapeDestroyed": "Fighter-2-crush"
+  },
+  "module": "MiG-15bis AI by Eagle Dynamics",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1953,
+        "to": 1969
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1950,
+        "to": 1986
+      }
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1955,
+        "to": 1982
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1957,
+        "to": 1975
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1953,
+        "to": 1996
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1952,
+        "to": 1992
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1955,
+        "to": 1976
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1950,
+        "to": 1970
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1964,
+        "to": 1988
+      }
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1961,
+        "to": 1982
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1956,
+        "to": 1986
+      }
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.5,
+    "bankAngleMaxDeg": 85,
+    "casMin": 50,
+    "enginesCount": 1,
+    "hMaxM": 15100,
+    "machMax": 0.95,
+    "nyMax": 8,
+    "rangeKm": 1240,
+    "vLandMs": 78,
+    "vMaxHMs": 275.55555555556,
+    "vMaxSeaLevelMs": 294.16666666667,
+    "vOptMs": 236.11111111111,
+    "vTakeOffMs": 63
+  },
+  "radios": [],
+  "sensors": [],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "FAB_100M"
+        },
+        {
+          "clsid": "FAB_50"
+        },
+        {
+          "clsid": "PTB300_MIG15"
+        },
+        {
+          "clsid": "PTB400_MIG15"
+        },
+        {
+          "clsid": "PTB600_MIG15"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -2.976318,
+        "longitudinal": -0.309661,
+        "vertical": -0.226186
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "FAB_100M"
+        },
+        {
+          "clsid": "FAB_50"
+        },
+        {
+          "clsid": "PTB300_MIG15"
+        },
+        {
+          "clsid": "PTB400_MIG15"
+        },
+        {
+          "clsid": "PTB600_MIG15"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 2.976639,
+        "longitudinal": -0.309661,
+        "vertical": -0.226186
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    }
+  ]
+}

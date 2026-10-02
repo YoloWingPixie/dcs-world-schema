@@ -1,0 +1,44 @@
+globals: {}
+
+types:
+  Entity.TaskTarget:
+    kind: record
+    description: "A `db.Targets.Tasks` target category of a task."
+    fields:
+      category:
+        type: string
+        description: "Target category (`Planes`, `Vehicles`, `Point`, ...)."
+      default:
+        type: boolean
+        description: "DCS value for the category."
+    required: [category, default]
+
+  Entity.Task:
+    kind: record
+    description: "A DCS unit task (`Tasks`/`DefaultTask` of the unit database)."
+    fields:
+      id:
+        type: string
+        description: "Task name (`Name`)."
+      worldId:
+        type: number
+        description: "Task id (`WorldID`), as in `Entity.AircraftTask.id`."
+      oldId:
+        type: string
+        description: "Optional `OldID`: the name missions write as a group's `task` (`Antiship Strike` for `Anti-ship Strike`)."
+      targets:
+        type: Entity.TaskTarget[]
+        description: "Optional `db.Targets.Tasks[worldId]` categories, by name."
+    required: [id, worldId]
+
+  Entity.Skill:
+    kind: record
+    description: "A unit skill level (`db.Units.Skills`), the mission's `skill` value."
+    fields:
+      id:
+        type: string
+        description: "Skill name (`Name`)."
+      worldId:
+        type: number
+        description: "Skill id (`WorldID`)."
+    required: [id, worldId]

@@ -1,0 +1,924 @@
+{
+  "aero": {
+    "emptyMassKg": 648,
+    "internalFuelKg": 71,
+    "maxSpeedKmh": 306,
+    "maxTakeoffKg": 726
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countryOfOrigin": "USA",
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 305,
+    "maxMHz": 390,
+    "minMHz": 118,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 15,
+    "name": "Nothing"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.04,
+    "rcsM2": 1.5
+  },
+  "dimensions": {
+    "heightM": 1.9812,
+    "lengthM": 5.6388,
+    "wingSpanM": 11.594846
+  },
+  "displayName": "Christen Eagle II",
+  "failures": [
+    {
+      "id": "ELECTRIC_FAILURE",
+      "label": "Electric"
+    },
+    {
+      "id": "ENGINE_FAILURE",
+      "label": "Engine"
+    },
+    {
+      "id": "RADIO_FAILURE",
+      "label": "Radio"
+    },
+    {
+      "id": "LIGHTS_FAILURE",
+      "label": "Lights"
+    },
+    {
+      "id": "PITOT_FAILURE",
+      "label": "Pitot Tube"
+    }
+  ],
+  "flyable": false,
+  "id": "Christen Eagle II",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 12
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 472,
+      "argTable": {
+        "false": 0,
+        "true": 0.5
+      },
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "playerOnly": true
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Instructor"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    },
+    {
+      "control": "checkbox",
+      "default": true,
+      "id": "NS430allow",
+      "label": "NS430 Allow",
+      "playerOnly": true
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.64085638205579,
+      -0.93969262078591,
+      -0.51342418176678,
+      -0.087155742747658
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          147
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          264
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          260
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          256
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          261
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          257
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          229
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          219
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          155
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          429
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          430
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          431
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 86
+      },
+      {
+        "args": [
+          263
+        ],
+        "cell": 87
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 94
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 95
+      }
+    ],
+    "file": "CE2",
+    "lightsData": {
+      "lights": [
+        {
+          "lights": [
+            {
+              "argument": 194,
+              "period": 1.333,
+              "phase_shift": 0.5,
+              "typename": "argnatostrobelight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": {},
+          "typename": "collection"
+        },
+        {
+          "lights": {},
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 68,
+              "color": [
+                1,
+                0,
+                0
+              ],
+              "position": [
+                -0.6,
+                0,
+                0
+              ],
+              "typename": "omnilight"
+            }
+          ],
+          "typename": "collection"
+        }
+      ],
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000025",
+    "positioning": "BYNORMAL",
+    "shapeDestroyed": "Fighter-2-crush"
+  },
+  "module": "Christen Eagle II AI by Magnitude 3 LLC",
+  "operations": {
+    "bigParkingRamp": false,
+    "dateOfIntroduction": 1977
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1977,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.01,
+    "bankAngleMaxDeg": 60,
+    "casMin": 29,
+    "enginesCount": 1,
+    "hMaxM": 6000,
+    "machMax": 0.3,
+    "nyMax": 7,
+    "rangeKm": 690,
+    "vLandMs": 44,
+    "vMaxHMs": 85,
+    "vMaxSeaLevelMs": 93.6,
+    "vOptMs": 67,
+    "vTakeOffMs": 42
+  },
+  "radios": [],
+  "refuelling": {
+    "isTanker": false,
+    "receptaclePosition": [
+      0,
+      0,
+      0
+    ],
+    "tankerType": 0
+  },
+  "sensors": [],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{CE2_SMOKE_WHITE}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 35,
+      "name": "Transport"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

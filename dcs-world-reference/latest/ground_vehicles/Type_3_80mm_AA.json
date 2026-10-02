@@ -1,0 +1,198 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Rocket Attack Valid AirDefence",
+    "Static AAA",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 10000,
+    "irEmissionCoeff": 0.01,
+    "sensor": {
+      "heightM": 3,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3200
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "AAA 80mm Type 3 Flak",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "Type_3_80mm_AA",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "locator_rotation": -1
+    },
+    "className": "lLandVehicle",
+    "file": "Type_3_80mm_AA",
+    "mapClassKey": "P0091000015",
+    "positioning": "BYNORMAL",
+    "shape": "Type_3_80mm_AA",
+    "shapeDestroyed": "Type_3_80mm_AA_Destroyed"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "long-range air defence optics"
+  ],
+  "tags": [
+    "Air Defence",
+    "AAA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "76mm_AA_JAP"
+      ],
+      "hMaxM": 6800,
+      "launcherType": 11,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "gunAmmo": [
+            "76mm_AA_JAP"
+          ],
+          "portionAmmoCapacity": 20,
+          "reloadTimeS": 10,
+          "shotDelayS": 3.3333333333333
+        },
+        {
+          "ammoCapacity": 200,
+          "gunAmmo": [
+            "76mm_AA_JAP"
+          ],
+          "portionAmmoCapacity": 20,
+          "reloadTimeS": 10,
+          "shotDelayS": 3.3333333333333
+        },
+        {
+          "ammoCapacity": 200,
+          "gunAmmo": [
+            "76mm_AA_JAP"
+          ],
+          "portionAmmoCapacity": 20,
+          "reloadTimeS": 10,
+          "shotDelayS": 3.3333333333333
+        },
+        {
+          "ammoCapacity": 200,
+          "gunAmmo": [
+            "76mm_AA_JAP"
+          ],
+          "portionAmmoCapacity": 20,
+          "reloadTimeS": 10,
+          "shotDelayS": 3.3333333333333
+        }
+      ],
+      "rMaxKm": 10.8,
+      "rMinKm": 0.1,
+      "reactionTimeS": 5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.3089969389957
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.1221730476396,
+        "yaw": 0.19198621771938
+      },
+      "ws": 1
+    }
+  ]
+}

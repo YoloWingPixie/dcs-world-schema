@@ -1,0 +1,331 @@
+globals: {}
+
+types:
+  Entity.ActionKind:
+    kind: enum
+    description: "Mission Editor action type (`me_action_db.ActionType`)."
+    values:
+      task: "task"
+      enrouteTask: "enrouteTask"
+      command: "command"
+      option: "option"
+
+  Entity.ActionParam:
+    kind: record
+    description: "A parameter name of an action and where it was seen."
+    fields:
+      name:
+        type: string
+        description: "Key in the task's `params` (a command's or option's in `params.action.params`)."
+      seenIn:
+        type: string[]
+        description: "`default` (the Mission Editor's default task), `declared` (`key = nil` in its `actionsData` entry), `makeParams` (returned by its `makeParams`), `panel` (`actionParams.<key>` in its parameter panels), `scripts` (a task table of DCS's own scripts), `missions` (install missions); empty for a parameter tools/datamine/overlays.yaml adds (the record's `_source` has `params[name=<name>]: hand-authored`)."
+      types:
+        type: string[]
+        description: "Lua types of the default, script literal and mission values (empty when only named in the source)."
+      missionCount:
+        type: number
+        description: "Optional number of install mission actions that set it."
+      missionStrings:
+        type: Entity.ActionParamString[]
+        description: "Optional string values install missions set it to, most used first (only when at most 12 distinct)."
+    required: [name, seenIn, types]
+
+  Entity.ActionParamString:
+    kind: record
+    description: "A string value install missions give a parameter."
+    fields:
+      value:
+        type: string
+        description: "The value."
+      count:
+        type: number
+        description: "Occurrences."
+    required: [value, count]
+
+  Entity.ActionCapability:
+    kind: record
+    description: "The Mission Editor's check that a group can take the action (`verifyGroupCapability`; `verifyUnitCapability` for statics)."
+    fields:
+      rule:
+        type: string
+        description: "Optional name of the check function (absent for an inline function)."
+      attributes:
+        type: string[]
+        description: "Optional unit attributes the check tests (`findAttribute`)."
+      messages:
+        type: string[]
+        description: "Optional untranslated messages the check returns."
+
+  Entity.ActionMakeParams:
+    kind: record
+    description: "The Mission Editor function that fills a new action's params from its group (`makeParams`)."
+    fields:
+      rule:
+        type: string
+        description: "Optional function name (absent for an inline function)."
+
+  Entity.ActionScript:
+    kind: record
+    description: "A DCS script (`Scripts/`) passing the action's table to a controller."
+    fields:
+      file:
+        type: string
+        description: "Script path relative to the install (`Scripts/ScriptingSystem.lua`)."
+      call:
+        type: string
+        description: "`Controller` method: `setCommand`, `setTask` or `pushTask`."
+      function:
+        type: string
+        description: "Optional named function making the call (`trigger.action.groupStopMoving`)."
+    required: [file, call]
+
+  Entity.ActionAvailability:
+    kind: record
+    description: "A group category and group task whose action list (`availableActions`) offers the action."
+    fields:
+      category:
+        type: string
+        description: "Mission Editor group type: `plane`, `helicopter`, `vehicle`, `ship`, or `static` (me_staticAction_db)."
+      groupTask:
+        type: string
+        description: "Group task name (`Default` applies to tasks without their own list)."
+      edPublicHidden:
+        type: boolean
+        description: "Optional; true when the list drops it while the global `ED_PUBLIC_AVAILABLE` is set."
+    required: [category, groupTask]
+
+  Entity.ActionMissions:
+    kind: record
+    description: "Where install missions use the action."
+    fields:
+      count:
+        type: number
+        description: "Occurrences."
+      categories:
+        type: string[]
+        description: "Group categories using it."
+      contexts:
+        type: any
+        description: "Occurrences per context: `route` (waypoint task) or `triggered` (group triggered action), then the wrappers it sits in (`>ComboTask`, `>ControlledTask`, `>WrappedAction`)."
+    required: [count, categories, contexts]
+
+  Entity.ActionManeuverParam:
+    kind: record
+    description: "A parameter of an aerobatics maneuver (`AerobaticsManeuversData[...].param`)."
+    fields:
+      name:
+        type: string
+        description: "Parameter name."
+      value:
+        type: any
+        description: "Optional default value."
+      min_v:
+        type: number
+        description: "Optional minimum."
+      max_v:
+        type: number
+        description: "Optional maximum."
+      step:
+        type: number
+        description: "Optional step."
+      order:
+        type: number
+        description: "Optional panel order."
+    required: [name]
+
+  Entity.ActionManeuver:
+    kind: record
+    description: "An aerobatics maneuver (`AerobaticsManeuversData`)."
+    fields:
+      id:
+        type: string
+        description: "Maneuver key (`LOOP`, ...)."
+      displayName:
+        type: string
+        description: "Untranslated display name."
+      description:
+        type: string
+        description: "Optional untranslated description."
+      params:
+        type: Entity.ActionManeuverParam[]
+        description: "Parameters by name."
+    required: [id, displayName, params]
+
+  Entity.ActionProbeResult:
+    kind: record
+    description: "One id casing of an action in one context of the live actions probe (api/actions-probe.json)."
+    fields:
+      context:
+        type: string
+        description: "`setTask`, `pushTask`, `comboTask`, `wrappedAction`, `setCommand`, `setOption` or `route` (a late-activated mission group's waypoint task)."
+      category:
+        type: string
+        description: "Group category of the probed controller."
+      casings:
+        type: string[]
+        description: "Casing labels of the id: `dcs`, `lowerCamel`, `lower`, `schema`, `numeric`."
+      id:
+        type: string
+        description: "The id string used."
+      accepted:
+        type: boolean
+        description: "Optional; the call raised no Lua error (absent when not run)."
+      hasTaskAfter:
+        type: boolean
+        description: "Optional `Controller:hasTask()` a frame later."
+      effectObserved:
+        type: boolean
+        description: "Optional; the action's measured effect beat the control's (absent without an effect measure)."
+      logLines:
+        type: number
+        description: "Optional number of dcs.log lines attributed to the call."
+      status:
+        type: string
+        description: "`done`, `crashed`, `denied`, `unavailable` or `notRun`."
+    required: [context, category, casings, id, status]
+
+  Entity.Action:
+    kind: record
+    description: "A Mission Editor AI action (`me_action_db.actionsData`, `me_staticAction_db.actionsData`): task, en-route task, command or option; or a command only DCS's own scripts send (no `modules`)."
+    fields:
+      id:
+        type: string
+        description: "`ActionId` name (`ORBIT`, `CAP`, `INVISIBLE`, `ROE`, ...); the DCS id of a command only DCS's scripts send (`StopRoute`)."
+      kind:
+        type: Entity.ActionKind
+        description: "Action type."
+      modules:
+        type: string[]
+        description: "Mission Editor modules defining it (`me_action_db`, `me_staticAction_db`); empty for a command only DCS's scripts send."
+      dcsId:
+        type: string
+        description: "Task id as the Mission Editor writes it (a command's or option's `WrappedAction` action id)."
+      key:
+        type: string
+        description: "Optional Mission Editor variant key of a shared `dcsId` (en-route `EngageTargets`: `CAP`, `CAS`, ...)."
+      wrapped:
+        type: boolean
+        description: "Whether the Mission Editor stores it as a `WrappedAction` (false for a command only DCS's scripts send, unwrapped)."
+      option:
+        type: string
+        description: "Optional `OptionName` of an option."
+        ref: Entity.ActionOption
+      optionName:
+        type: number
+        description: "Optional option number (`params.name`)."
+      displayName:
+        type: string
+        description: "Untranslated display name; absent for a command only DCS's scripts send."
+      description:
+        type: string
+        description: "Optional untranslated description (`desc`)."
+      defaultParams:
+        type: any
+        description: "Params of the default task the Mission Editor creates; absent for a command only DCS's scripts send."
+      params:
+        type: Entity.ActionParam[]
+        description: "Every parameter name seen, by name."
+      capability:
+        type: Entity.ActionCapability
+        description: "Optional capability check."
+      makeParams:
+        type: Entity.ActionMakeParams
+        description: "Optional params filler."
+      scripts:
+        type: Entity.ActionScript[]
+        description: "Optional DCS scripts sending it."
+      availableFor:
+        type: Entity.ActionAvailability[]
+        description: "Group categories and tasks offering it."
+      missions:
+        type: Entity.ActionMissions
+        description: "Optional use in install missions."
+      maneuvers:
+        type: Entity.ActionManeuver[]
+        description: "Optional aerobatics maneuvers (AEROBATICS)."
+      probe:
+        type: Entity.ActionProbeResult[]
+        description: "Optional live actions probe results of this DCS version (of `probedOn` when set)."
+      probedOn:
+        type: string
+        description: "Optional DCS version the `probe` results were measured on, when this version has no actions probe of its own (the newest earlier version's)."
+      _source:
+        type: any
+        description: "Optional provenance map keyed by field path (for example `params[name=point]: hand-authored`, a parameter added by tools/datamine/overlays.yaml). Absent fields are datamined."
+    required: [id, kind, modules, dcsId, wrapped, params, availableFor]
+
+  Entity.ActionOptionValue:
+    kind: record
+    description: "An allowed option value."
+    fields:
+      value:
+        type: any
+        description: "The value (`setOption` second argument)."
+      name:
+        type: string
+        description: "Optional untranslated display name (`optionValueDisplayName`)."
+    required: [value]
+
+  Entity.ActionOptionValueSet:
+    kind: record
+    description: "An option's allowed values (`optionValues`) for some group categories."
+    fields:
+      categories:
+        type: string[]
+        description: "Optional group categories (Mission Editor `optionValues` keys); absent when one set serves all."
+      values:
+        type: Entity.ActionOptionValue[]
+        description: "Optional list of values, in DCS order."
+      default:
+        type: any
+        description: "Optional default value."
+      min:
+        type: number
+        description: "Optional minimum."
+      max:
+        type: number
+        description: "Optional maximum."
+      units:
+        type: string
+        description: "Optional Mission Editor unit table of the value (`timeUnits`, `altitudeUnits`)."
+      displayName:
+        type: string
+        description: "Optional untranslated value label (`DisplayNameValue`)."
+
+  Entity.ActionOptionMissionValue:
+    kind: record
+    description: "A value install missions set an option to."
+    fields:
+      value:
+        type: any
+        description: "Optional value; absent when missions leave it nil."
+      count:
+        type: number
+        description: "Occurrences."
+    required: [count]
+
+  Entity.ActionOption:
+    kind: record
+    description: "A Mission Editor AI option (`OptionName` of me_action_db.lua)."
+    fields:
+      id:
+        type: string
+        description: "`OptionName` name (`ROE`, ...)."
+      value:
+        type: number
+        description: "Option number (`Controller.setOption` first argument, `params.name`)."
+      actions:
+        type: string[]
+        description: "Mission Editor actions setting it."
+        ref: Entity.Action
+      categories:
+        type: string[]
+        description: "Group categories whose option list offers it."
+      valueSets:
+        type: Entity.ActionOptionValueSet[]
+        description: "Optional allowed values."
+      missionValues:
+        type: Entity.ActionOptionMissionValue[]
+        description: "Optional values install missions use, most used first."
+    required: [id, value, actions, categories]

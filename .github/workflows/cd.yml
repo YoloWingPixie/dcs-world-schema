@@ -18,26 +18,37 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
           fetch-depth: 0
 
-      - name: 🐍 Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
           
-      - name: 🔧 Install uv and task
+      - name: Install uv and Task
         run: |
           pip install uv
           sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-          
-      - name: 📚 Install dependencies
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .venv
+            ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('pyproject.toml', 'uv.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-uv-
+
+      - name: Install dependencies
         run: task uv:sync
         
-      - name: 🔍 Check if version tag exists
+      - name: Check whether the version tag exists
         id: check_version
         run: |
           # Ensure tags are fetched
@@ -60,7 +71,7 @@ jobs:
             echo "version_tag=$VERSION_TAG" >> $GITHUB_OUTPUT
           fi
           
-      - name: 🏷️ Determine release type and RC number
+      - name: Determine release type and RC number
         id: release_type
         run: |
           if [[ "${{ github.event.workflow_run.event }}" == "pull_request" ]]; then
@@ -94,27 +105,84 @@ jobs:
             echo "rc_number=" >> $GITHUB_OUTPUT
           fi
       
-      - name: 🔄 Build Schemas
+      - name: Set up Node
+        if: steps.check_version.outputs.version_changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: packages/typescript/package-lock.json
+
+      - name: Set up Go
+        if: steps.check_version.outputs.version_changed == 'true'
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: packages/go/go.mod
+          cache: false
+
+      - name: Build outputs and packages
         if: steps.check_version.outputs.version_changed == 'true'
         run: |
-          echo "::group::Merge YAML to JSON and YAML"
+          task clean
           task merge
-          echo "::endgroup::"
-          
-      - name: 🧩 Generate Lua Definitions
+          task build
+          task package
+
+      # Each pattern must match exactly one file; the list feeds the release.
+      - name: Collect release assets
+        if: steps.check_version.outputs.version_changed == 'true'
+        id: assets
+        run: |
+          VERSION="${{ steps.check_version.outputs.version }}"
+          patterns=(
+            dist/dcs-world-api-schema.json
+            dist/dcs-world-api-schema.yaml
+            dist/dcs-world-api.lua
+            dist/dcs-world-selene.yml
+            dist/dcs-world-api.d.ts
+            dist/dcs-world-api.go
+            dist/dcs_world_api.py
+            dist/dcs-world-api-hooks-schema.json
+            dist/dcs-world-api-hooks.lua
+            dist/dcs-world-api-hooks.d.ts
+            dist/dcs-world-api-export-schema.json
+            dist/dcs-world-api-export.lua
+            dist/dcs-world-api-export.d.ts
+            dist/dcs-world-entities.schema.json
+            "dist/dcs-world-reference-$VERSION.tgz"
+            "dist/dcs_world_reference-$VERSION-py3-none-any.whl"
+            "dist/dcs_world_reference-$VERSION.tar.gz"
+            "dist/dcs-world-reference-lua-$VERSION-dcs*.zip"
+            "dist/dcs-world-reference-$VERSION-dcs*.sqlite"
+          )
+          files=()
+          for pattern in "${patterns[@]}"; do
+            # shellcheck disable=SC2206 # the pattern is globbed on purpose
+            matches=($pattern)
+            if [ "${#matches[@]}" -ne 1 ] || [ ! -f "${matches[0]}" ]; then
+              echo "::error::$pattern matches ${#matches[@]} files: ${matches[*]}"
+              exit 1
+            fi
+            files+=("${matches[0]}")
+          done
+          ls -l "${files[@]}"
+          {
+            echo "files<<EOF"
+            printf '%s\n' "${files[@]}"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      # The Go module's generated files are gitignored on main, but `go get` needs
+      # them at the tag: commit them off this commit and tag v<version> and
+      # packages/go/v<version>; the release below reuses v<version>.
+      - name: Tag the Go module release commit
         if: steps.check_version.outputs.version_changed == 'true'
         run: |
-          echo "::group::Generating EmmyLua type definitions"
-          task build:lua
-          echo "::endgroup::"
-      - name: 🧩 Generate Selene Std (YAML)
-        if: steps.check_version.outputs.version_changed == 'true'
-        run: |
-          echo "::group::Generating Selene YAML standard library"
-          task build:selene
-          echo "::endgroup::"
-      
-      - name: 📄 Extract changelog for current version
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          task package:go-release -- --tag "v${{ steps.check_version.outputs.version }}${{ steps.release_type.outputs.rc_suffix }}" --push
+
+      - name: Extract the version's changelog
         if: steps.check_version.outputs.version_changed == 'true'
         id: changelog
         run: |
@@ -124,7 +192,7 @@ jobs:
           CHANGELOG_CONTENT=$(awk "/^## \[${VERSION}\]/{flag=1; next} /^## \[/{flag=0} flag" CHANGELOG.md)
           
           # Remove any trailing whitespace and ensure we have content
-          CHANGELOG_CONTENT=$(echo "$CHANGELOG_CONTENT" | sed '/^$/d' | head -n -1)
+          CHANGELOG_CONTENT=$(echo "$CHANGELOG_CONTENT" | sed '/^$/d')
           
           if [ -z "$CHANGELOG_CONTENT" ]; then
             echo "No changelog content found for version $VERSION"
@@ -136,7 +204,7 @@ jobs:
           echo "$CHANGELOG_CONTENT" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: 🚀 Create Release
+      - name: Create release
         if: steps.check_version.outputs.version_changed == 'true'
         id: create_release
         uses: softprops/action-gh-release@v2
@@ -153,16 +221,18 @@ jobs:
             ${{ steps.changelog.outputs.changelog_content }}
             
             ## 📦 Assets
-            
-            - **JSON Schema**: `dcs-world-api-schema.json` - Complete API schema in JSON format
-            - **YAML Schema**: `dcs-world-api-schema.yaml` - Complete API schema in YAML format  
-            - **EmmyLua Type Definitions**: `dcs-world-api.lua` - Lua type definitions for IDE support
-            - **Selene Std (YAML)**: `dcs-world-selene.yml` - Selene standard library (current)
-          files: |
-            dist/dcs-world-api-schema.json
-            dist/dcs-world-api-schema.yaml
-            dist/dcs-world-api.lua
-            dist/dcs-world-selene.yml
+
+            - `dcs-world-api-schema.json`, `.yaml`: merged mission scripting schema
+            - `dcs-world-api.lua`: EmmyLua annotations for LuaLS
+            - `dcs-world-selene.yml`: Selene standard library
+            - `dcs-world-api.d.ts`, `.go`, `dcs_world_api.py`: TypeScript, Go, Python definitions (experimental)
+            - `dcs-world-api-hooks-*`, `dcs-world-api-export-*`: schema, EmmyLua and TypeScript for the hooks and export environments
+            - `dcs-world-entities.schema.json`: JSON Schema of the reference-data records
+            - `dcs-world-reference-<version>.tgz`: npm package (`npm install <file>`)
+            - `dcs_world_reference-<version>-py3-none-any.whl`, `.tar.gz`: Python package (`pip install <file>`)
+            - `dcs-world-reference-lua-<version>-dcs<dcs version>.zip`: Lua 5.1 / DCS package
+            - `dcs-world-reference-<version>-dcs<dcs version>.sqlite`: reference data as SQLite
+          files: ${{ steps.assets.outputs.files }}
           draft: false
           prerelease: ${{ steps.release_type.outputs.is_prerelease }}
           fail_on_unmatched_files: true
@@ -170,7 +240,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
-      - name: 📢 Notify about release
+      - name: Report release
         if: steps.check_version.outputs.version_changed == 'true'
         run: |
           if [[ "${{ steps.release_type.outputs.is_prerelease }}" == "true" ]]; then

@@ -1,0 +1,506 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Datalink",
+    "Ground Units",
+    "Ground vehicles",
+    "Mobile AAA",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "RADAR_BAND1_FOR_ARM",
+    "Rocket Attack Valid AirDefence",
+    "SAM SR",
+    "SAM TR",
+    "SAM elements",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 20000,
+    "detectionRangeM": 36000,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 4.8,
+      "maxAltM": 15000,
+      "maxRangeM": 36000,
+      "minAltM": 5,
+      "minRangeM": 200
+    },
+    "threatRangeM": 20000
+  },
+  "dimensions": {
+    "lengthM": 8.7,
+    "massKg": 34000,
+    "widthM": 2.8
+  },
+  "displayName": "SAM SA-22 Pantsir-S1 \"Greyhound\" [CH]",
+  "fireControl": {
+    "fireOnMove": true,
+    "maxTargetDetectionRangeM": 36000,
+    "radarType": 104,
+    "radarTypeName": "wsType_MissGun"
+  },
+  "id": "CHAP_PantsirS1",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 5
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 15,
+      "booleanInverted": false,
+      "control": "checkbox",
+      "default": false,
+      "id": "Hydraulic lifts extended",
+      "label": "Hydraulic lifts extended"
+    }
+  ],
+  "mobility": {
+    "canSwim": false,
+    "enginePower": 400,
+    "fordingDepthM": 1.75,
+    "maxRoadSpeedMs": 25,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 90,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 12,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": 11,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 1,
+          "value": 0.25
+        },
+        {
+          "arg": 3,
+          "value": 1
+        },
+        {
+          "arg": 101,
+          "value": 1
+        },
+        {
+          "arg": 102,
+          "value": 1
+        },
+        {
+          "arg": 103,
+          "value": 1
+        },
+        {
+          "arg": 104,
+          "value": 1
+        },
+        {
+          "arg": 105,
+          "value": 1
+        },
+        {
+          "arg": 106,
+          "value": 1
+        },
+        {
+          "arg": 107,
+          "value": 1
+        },
+        {
+          "arg": 108,
+          "value": 1
+        },
+        {
+          "arg": 109,
+          "value": 1
+        },
+        {
+          "arg": 110,
+          "value": 1
+        },
+        {
+          "arg": 111,
+          "value": 1
+        },
+        {
+          "arg": 112,
+          "value": 1
+        }
+      ]
+    },
+    "file": "CHAP_PantsirS1",
+    "mapClassKey": "P0091000014",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_PantsirS1",
+    "shapeDestroyed": "CHAP_PantsirS1_dest"
+  },
+  "natoReportingName": "Greyhound",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "CH 1TPP1 Optic Sight IR",
+    "CH 1TPP1 Optic Sight TV",
+    "CH 2RL80 air"
+  ],
+  "tags": [
+    "Air Defence",
+    "SP AAA"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 0.034906585039887,
+      "ecmK": 0.4,
+      "frequencyRangeHz": [
+        8000000000,
+        18000000000
+      ],
+      "hMaxM": 15000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 0.034906585039887,
+      "ecmK": 0.4,
+      "frequencyRangeHz": [
+        8000000000,
+        18000000000
+      ],
+      "hMaxM": 15000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          0.78539816339745,
+          -0.78539816339745,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "ws": 2
+    },
+    {
+      "beamWidthRad": 0.034906585039887,
+      "ecmK": 0.4,
+      "frequencyRangeHz": [
+        8000000000,
+        18000000000
+      ],
+      "hMaxM": 15000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          0.78539816339745,
+          -0.78539816339745,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "ws": 3
+    },
+    {
+      "beamWidthRad": 0.034906585039887,
+      "ecmK": 0.4,
+      "frequencyRangeHz": [
+        8000000000,
+        18000000000
+      ],
+      "hMaxM": 15000,
+      "hMinM": 5,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          0.78539816339745,
+          -0.78539816339745,
+          -0.087266462599716,
+          1.221730476396
+        ]
+      ],
+      "ws": 4
+    },
+    {
+      "barrels": 4,
+      "beamWidthRad": 0.034906585039887,
+      "displayName": "2A38M",
+      "gunAmmo": [
+        "2A38_30_AP",
+        "2A38_30_HE"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 3,
+      "ln": 1,
+      "maxShootingSpeed": 6,
+      "name": "2A38M",
+      "payloads": [
+        {
+          "ammoCapacity": 1400,
+          "gunAmmo": [
+            "2A38_30_AP",
+            "2A38_30_HE"
+          ],
+          "portionAmmoCapacity": 1400,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.024
+        }
+      ],
+      "rMaxKm": 3.5,
+      "rMinKm": 0.2,
+      "reactionTimeS": 1,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.017453292519943,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.69813170079773,
+        "yaw": 1.0471975511966
+      },
+      "ws": 5
+    },
+    {
+      "barrels": 12,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 1
+          }
+        ],
+        [
+          {
+            "selfWs": 2
+          }
+        ],
+        [
+          {
+            "selfWs": 3
+          }
+        ],
+        [
+          {
+            "selfWs": 4
+          }
+        ]
+      ],
+      "displayName": "57E6",
+      "ecmK": 0.4,
+      "externalTrackingAwacs": false,
+      "launchDelayS": 1,
+      "launcherType": 4,
+      "ln": 2,
+      "maxShootingSpeed": 2.77,
+      "missileChannels": 1,
+      "name": "57E6",
+      "payloads": [
+        {
+          "ammoCapacity": 12,
+          "reloadTimeS": 75,
+          "weapon": "SA57E6"
+        }
+      ],
+      "rMaxKm": 20.0,
+      "rMinKm": 1.2,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.02,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.017453292519943,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.69813170079773,
+        "yaw": 1.0471975511966
+      },
+      "weapons": [
+        "SA57E6"
+      ],
+      "ws": 5
+    }
+  ]
+}

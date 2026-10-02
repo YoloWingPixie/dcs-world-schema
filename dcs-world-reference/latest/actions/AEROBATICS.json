@@ -1,0 +1,526 @@
+{
+  "availableFor": [
+    {
+      "category": "plane",
+      "groupTask": "CAP"
+    },
+    {
+      "category": "plane",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Default"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Fighter Sweep"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Ground Attack"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Intercept"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Nothing"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Reconnaissance"
+    },
+    {
+      "category": "plane",
+      "groupTask": "Transport"
+    }
+  ],
+  "dcsId": "Aerobatics",
+  "defaultParams": {},
+  "description": "Perform aerobatics maneuvers",
+  "displayName": "Aerobatics",
+  "id": "AEROBATICS",
+  "kind": "task",
+  "maneuvers": [
+    {
+      "description": "Perform aileron roll.",
+      "displayName": "AILERON_ROLL",
+      "id": "AILERON_ROLL",
+      "params": [
+        {
+          "max_v": 180,
+          "min_v": 0,
+          "name": "FIXSECTOR",
+          "order": 9,
+          "step": 5,
+          "value": 0
+        },
+        {
+          "max_v": 450,
+          "min_v": 15,
+          "name": "RollRate",
+          "order": 7,
+          "step": 5,
+          "value": 90
+        },
+        {
+          "name": "SECTOR",
+          "order": 8,
+          "value": 360
+        },
+        {
+          "name": "SIDE",
+          "order": 6,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform barrel roll.",
+      "displayName": "BARREL_ROLL",
+      "id": "BARREL_ROLL",
+      "params": [
+        {
+          "max_v": 450,
+          "min_v": 15,
+          "name": "RollRate",
+          "order": 7,
+          "step": 5,
+          "value": 90
+        },
+        {
+          "name": "SECTOR",
+          "order": 8,
+          "value": 360
+        },
+        {
+          "name": "SIDE",
+          "order": 6,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform tailslide.",
+      "displayName": "TAILSLIDE",
+      "id": "CANDLE",
+      "params": []
+    },
+    {
+      "description": "Perform climb.",
+      "displayName": "CLIMB",
+      "id": "CLIMB",
+      "params": [
+        {
+          "max_v": 90,
+          "min_v": 15,
+          "name": "Angle",
+          "order": 6,
+          "step": 5,
+          "value": 45
+        },
+        {
+          "name": "FinalAltitude",
+          "order": 7,
+          "value": 4000
+        }
+      ]
+    },
+    {
+      "description": "Perform dive.",
+      "displayName": "DIVE",
+      "id": "DIVE",
+      "params": [
+        {
+          "max_v": 90,
+          "min_v": 15,
+          "name": "Angle",
+          "order": 6,
+          "step": 5,
+          "value": 45
+        },
+        {
+          "name": "FinalAltitude",
+          "order": 7,
+          "value": 1000
+        }
+      ]
+    },
+    {
+      "description": "Perform flight on edge.",
+      "displayName": "Edge Flight",
+      "id": "EDGE_FLIGHT",
+      "params": [
+        {
+          "max_v": 200,
+          "min_v": 1,
+          "name": "FlightTime",
+          "order": 6,
+          "step": 0.1,
+          "value": 10
+        },
+        {
+          "name": "SIDE",
+          "order": 7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform Forced Turn.",
+      "displayName": "Forced Turn",
+      "id": "FORCED_TURN",
+      "params": [
+        {
+          "max_v": 200,
+          "min_v": 0,
+          "name": "FlightTime",
+          "order": 8,
+          "step": 0.1,
+          "value": 0
+        },
+        {
+          "max_v": 3000,
+          "min_v": 30,
+          "name": "MinSpeed",
+          "order": 9,
+          "step": 10,
+          "value": 250
+        },
+        {
+          "name": "SECTOR",
+          "order": 6,
+          "value": 360
+        },
+        {
+          "name": "SIDE",
+          "order": 7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform two different side turns.",
+      "displayName": "Horizontal Eight",
+      "id": "HORIZONTAL_EIGHT",
+      "params": [
+        {
+          "name": "ROLL1",
+          "order": 7,
+          "value": 60
+        },
+        {
+          "name": "ROLL2",
+          "order": 8,
+          "value": 60
+        },
+        {
+          "name": "SIDE",
+          "order": 9,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform hummerhead.",
+      "displayName": "HUMMERHEAD",
+      "id": "HUMMERHEAD",
+      "params": [
+        {
+          "name": "SIDE",
+          "order": 6,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform immelman (half loop up and half barrel).",
+      "displayName": "IMMELMAN",
+      "id": "IMMELMAN",
+      "params": []
+    },
+    {
+      "description": "Perform Loop.",
+      "displayName": "Loop",
+      "id": "LOOP",
+      "params": []
+    },
+    {
+      "description": "Perform Military Turn.",
+      "displayName": "Military Turn",
+      "id": "MILITARY_TURN",
+      "params": [
+        {
+          "name": "SIDE",
+          "order": 6,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform Skewed Loop.",
+      "displayName": "Skewed Loop",
+      "id": "SKEWED_LOOP",
+      "params": [
+        {
+          "name": "ROLL",
+          "order": 6,
+          "value": 60
+        },
+        {
+          "name": "SIDE",
+          "order": 7,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform spirals.",
+      "displayName": "SPIRAL",
+      "id": "SPIRAL",
+      "params": [
+        {
+          "max_v": 80,
+          "min_v": 5,
+          "name": "Angle",
+          "order": 10,
+          "step": 5,
+          "value": 45
+        },
+        {
+          "name": "ROLL",
+          "order": 7,
+          "value": 60
+        },
+        {
+          "name": "SECTOR",
+          "order": 6,
+          "value": 360
+        },
+        {
+          "name": "SIDE",
+          "order": 8,
+          "value": 0
+        },
+        {
+          "name": "UPDOWN",
+          "order": 9,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform split-s (half barrel and half loop down).",
+      "displayName": "SPLIT_S",
+      "id": "SPLIT_S",
+      "params": [
+        {
+          "name": "FinalSpeed",
+          "order": 6,
+          "value": 500
+        }
+      ]
+    },
+    {
+      "description": "Perform straight flight.",
+      "displayName": "Straight flight",
+      "id": "STRAIGHT_FLIGHT",
+      "params": [
+        {
+          "max_v": 200,
+          "min_v": 1,
+          "name": "FlightTime",
+          "order": 6,
+          "step": 0.1,
+          "value": 10
+        }
+      ]
+    },
+    {
+      "description": "Perform turn.",
+      "displayName": "Turn",
+      "id": "TURN",
+      "params": [
+        {
+          "name": "Ny_req",
+          "order": 6,
+          "value": 2
+        },
+        {
+          "name": "ROLL",
+          "order": 7,
+          "value": 60
+        },
+        {
+          "name": "SECTOR",
+          "order": 8,
+          "value": 360
+        },
+        {
+          "name": "SIDE",
+          "order": 9,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "description": "Perform wingover flight.",
+      "displayName": "Wingover Flight",
+      "id": "WINGOVER_FLIGHT",
+      "params": [
+        {
+          "max_v": 200,
+          "min_v": 1,
+          "name": "FlightTime",
+          "order": 6,
+          "step": 0.1,
+          "value": 10
+        }
+      ]
+    }
+  ],
+  "missions": {
+    "categories": [
+      "plane"
+    ],
+    "contexts": {
+      "route>ComboTask": 878,
+      "route>ComboTask>ControlledTask": 122,
+      "triggered": 142,
+      "triggered>ControlledTask": 31
+    },
+    "count": 1173
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 377,
+      "name": "maneuversParams",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "table"
+      ]
+    },
+    {
+      "missionCount": 1173,
+      "name": "maneuversSequency",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "table"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "Aerobatics",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "aerobatics",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "Aerobatics",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "aerobatics",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "Aerobatics",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "aerobatics",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "Aerobatics",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower"
+      ],
+      "category": "plane",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "aerobatics",
+      "logLines": 1,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

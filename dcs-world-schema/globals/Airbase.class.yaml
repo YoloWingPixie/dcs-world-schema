@@ -11,7 +11,8 @@ globals:
         description: "Returns an `Airbase` object corresponding to the airbase with the specified name, or `nil` if no such airbase exists."
         params:
           - name: name
-            type: string
+            type: DcsId.AirbaseName | string
+            description: "Airfield name (`DcsId.AirbaseName`), or the unit name of a FARP or ship."
         returns: Airbase | nil
       getCommunicator:
         description: "Returns a communicator object for the specified airbase."
@@ -86,7 +87,7 @@ globals:
             optional: true
         returns: AirbaseParking[]
       getRunways:
-        description: "Returns a numerically indexed table where each element is a table detailing runway information, including dimensions, course, and name."
+        description: "Returns a numerically indexed table where each element is a table detailing runway information, including dimensions, course, and name. At fields with several runways (DCS 2.9.29), element k carries its own position and course but the length, width and Name of runway ceil(k / 2)."
         params: []
         returns: AirbaseRunway[]
       getDispatcherTowerPos:

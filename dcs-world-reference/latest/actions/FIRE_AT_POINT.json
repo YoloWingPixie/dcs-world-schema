@@ -1,0 +1,503 @@
+{
+  "_source": {
+    "params[name=point]": "hand-authored",
+    "params[name=radius]": "hand-authored"
+  },
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    },
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "FireAtPoint",
+  "defaultParams": {
+    "alt_type": 1,
+    "expendQty": 1,
+    "expendQtyEnabled": false,
+    "templateId": "",
+    "zoneRadius": 0
+  },
+  "description": "Fire at point",
+  "displayName": "Fire at Point",
+  "id": "FIRE_AT_POINT",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "vehicle",
+      "ship"
+    ],
+    "contexts": {
+      "route>ComboTask": 2471,
+      "route>ComboTask>ControlledTask": 289,
+      "triggered": 210,
+      "triggered>ControlledTask": 52
+    },
+    "count": 3022
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 11,
+      "name": "MRSI",
+      "seenIn": [
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 716,
+      "name": "alt_type",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 370,
+      "name": "altitude",
+      "seenIn": [
+        "declared",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 88,
+      "name": "counterbattaryRadius",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 3021,
+      "name": "expendQty",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 3021,
+      "name": "expendQtyEnabled",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "point",
+      "seenIn": [],
+      "types": [
+        "table"
+      ]
+    },
+    {
+      "name": "radius",
+      "seenIn": [],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 3022,
+      "missionStrings": [
+        {
+          "count": 3022,
+          "value": ""
+        }
+      ],
+      "name": "templateId",
+      "seenIn": [
+        "default",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "missionCount": 2388,
+      "name": "weaponType",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 3022,
+      "name": "x",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 3022,
+      "name": "y",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 3022,
+      "name": "zoneRadius",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "FireAtPoint",
+      "logLines": 4,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "FireAtPoint",
+      "logLines": 3,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "FireAtPoint",
+      "logLines": 3,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "effectObserved": true,
+      "hasTaskAfter": false,
+      "id": "FireAtPoint",
+      "logLines": 3,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "FireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "setTask",
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "FireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "pushTask",
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "FireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "FireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "fireAtPoint",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "fireatpoint",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

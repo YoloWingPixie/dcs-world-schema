@@ -19,11 +19,15 @@ globals:
         description: "Returns a table containing detailed properties of a static object type without requiring an instance."
         params:
           - name: typeName
-            type: string
+            type: DcsId.StaticType | string
             description: "Type name of the static object to retrieve information about."
         returns: StaticObjectDesc
         addedVersion: "1.2.0"
     instance:
+      getTypeName:
+        description: "Returns the static object's type name as defined in the DCS database."
+        returns: DcsId.StaticType | string
+        addedVersion: "1.2.0"
       getLife:
         description: "Returns the current health value of this static object, where values below 1 indicate destruction."
         returns: number

@@ -1,0 +1,469 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.02
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3,
+    "members": [
+      "commander",
+      "gunner"
+    ]
+  },
+  "detection": {
+    "airWeaponDistM": 1200,
+    "detectionRangeM": 5000,
+    "irEmissionCoeff": 0.06,
+    "sensor": {
+      "heightM": 2,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 5000
+  },
+  "dimensions": {
+    "lengthM": 4.79,
+    "massKg": 7950,
+    "widthM": 2.24
+  },
+  "displayName": "LT FV101 Scorpion [CH]",
+  "fireControl": {
+    "fireOnMove": true,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "CHAP_FV101",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 8
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 190,
+    "fordingDepthM": 1,
+    "maxRoadSpeedMs": 22.22,
+    "maxSlopeRad": 0.58,
+    "maxSpeedKmh": 79.992,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 8,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "CHAP_FV101",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_FV101",
+    "shapeDestroyed": "CHAP_FV101_dest"
+  },
+  "operators": [
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "sensors": [
+    "Raven day",
+    "Raven night"
+  ],
+  "tags": [
+    "Armor",
+    "Scout/Recon"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "L23A1 76 mm",
+      "gunAmmo": [
+        "CHAP_76_HESH_T"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "name": "L23A1 76 mm",
+      "payloads": [
+        {
+          "ammoCapacity": 20,
+          "gunAmmo": [
+            "CHAP_76_HESH_T"
+          ],
+          "reloadTimeS": 9999,
+          "shotDelayS": 6
+        }
+      ],
+      "rMaxKm": 2.2,
+      "rMinKm": 0.05,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.61086523819802
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.78539816339745
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "L23A1 76 mm",
+      "gunAmmo": [
+        "CHAP_76_HE_T"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 0,
+      "name": "L23A1 76 mm",
+      "payloads": [
+        {
+          "ammoCapacity": 20,
+          "gunAmmo": [
+            "CHAP_76_HE_T"
+          ],
+          "reloadTimeS": 9999,
+          "shotDelayS": 6
+        }
+      ],
+      "rMaxKm": 5.0,
+      "rMinKm": 0.05,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.61086523819802
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.78539816339745
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "L37A1 7.62 mm",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "L37A1 7.62 mm",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.001,
+      "reactionTimeS": 0.5,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.61086523819802
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.5235987755983,
+        "yaw": 0.78539816339745
+      },
+      "ws": 1
+    }
+  ]
+}

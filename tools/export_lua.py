@@ -1,11 +1,30 @@
 #!/usr/bin/env python3
 import argparse
 import json
-import os
 import sys
-from typing import Any, Dict, List, Set, Union, Tuple
-import datetime
 from collections import deque
+from pathlib import Path
+from typing import Any
+
+from tools.datamine.common import load_json
+from tools.package.lua_data import is_lua_name
+from tools.spec_types import (
+    Array,
+    Literal,
+    Map,
+    Primitive,
+    Ref,
+    TypeNode,
+    api_spec,
+    is_type_only,
+    parse_type,
+    runtime_roots,
+    strip_null,
+    walk,
+)
+from tools.spec_types import (
+    Union as TypeUnion,
+)
 
 # LUA primitive type mapping
 TYPE_MAPPING = {
@@ -13,33 +32,24 @@ TYPE_MAPPING = {
     "string": "string",
     "boolean": "boolean",
     "table": "table",
-    "function": "fun(...)",  # EmmyLua convention for generic function
+    # LuaLS's any-function type (``fun(...)`` would return nothing).
+    "function": "function",
     "any": "any",
     "nil": "nil",
     "void": "nil",  # Changed from "void" to "nil" for EmmyLua consistency
 }
 
 PRIMITIVE_LUA_TYPES = set(TYPE_MAPPING.values())
+# Spec types LuaLS defines itself; redefining one is a duplicate-doc-alias.
+LUALS_BUILTIN_TYPES = frozenset({"unknown"})
 
 # Track processed types to avoid re-defining ---@class/---@alias/---@enum annotations
-processed_types: Set[str] = set()
+processed_types: set[str] = set()
 # Track globals/namespaces for which Lua tables have been initialized
-initialized_lua_tables: Set[str] = set()
-
-
-def load_schema(path: str) -> Dict[str, Any]:
-    """
-    Load the schema from a JSON file.
-
-    :param path: Path to the JSON schema file.
-    :type path: str
-    :raises FileNotFoundError: If the schema file does not exist.
-    :raises json.JSONDecodeError: If the schema file is not valid JSON.
-    :returns: The loaded schema as a dictionary.
-    :rtype: Dict[str, Any]
-    """
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+initialized_lua_tables: set[str] = set()
+# The DCS globals of the spec being exported: a type under any other root is
+# only a type, annotated without a runtime table (``spec_types.is_type_only``)
+lua_runtime_roots: set[str] = set()
 
 
 def sanitize_lua_name(name: str) -> str:
@@ -87,7 +97,7 @@ def sanitize_lua_name(name: str) -> str:
     return name
 
 
-def map_type(type_str: Union[str, List[str]]) -> str:
+def map_type(type_str: str | list[str]) -> str:
     """
     Map DCS schema type to Lua type annotation for EmmyLua.
 
@@ -100,31 +110,63 @@ def map_type(type_str: Union[str, List[str]]) -> str:
     :rtype: str
     """
     if isinstance(type_str, list):  # For union types represented as a list
-        return "|".join(sorted(list(set(map_type(t) for t in type_str))))
+        return "|".join(sorted({map_type(t) for t in type_str}))
 
     if not type_str:
         return "any"
 
-    original_type_str = type_str.strip()
+    return render_type(parse_type(type_str))
 
-    if "|" in original_type_str:
-        types = [map_type(t.strip()) for t in original_type_str.split("|")]
-        return "|".join(sorted(list(set(types))))
-    if original_type_str.endswith("[]"):
-        base_type = original_type_str[:-2].strip()
-        return f"{map_type(base_type)}[]"
-    if original_type_str.startswith("map<") and original_type_str.endswith(">"):
-        inner_content = original_type_str[4:-1].strip()
-        parts = inner_content.split(",", 1)
-        if len(parts) == 2:
-            key_type = map_type(parts[0].strip())
-            value_type = map_type(parts[1].strip())
-            return f"table<{key_type}, {value_type}>"
-        else:
-            return f"table<any, {map_type(inner_content)}>"
-    if original_type_str in TYPE_MAPPING:
-        return TYPE_MAPPING[original_type_str]
-    return original_type_str  # Assume it's a custom type
+
+def render_type(node: TypeNode) -> str:
+    """The EmmyLua type of a typeRef node; union members sorted, deduplicated."""
+    if isinstance(node, TypeUnion):
+        return "|".join(sorted({render_type(m) for m in node.members}))
+    if isinstance(node, Array):
+        item = render_type(node.item)
+        return f"({item})[]" if isinstance(node.item, TypeUnion) else f"{item}[]"
+    if isinstance(node, Map):
+        return f"table<{render_type(node.key)}, {render_type(node.value)}>"
+    if isinstance(node, Literal):
+        return f'"{node.value}"'
+    if isinstance(node, Primitive):
+        return TYPE_MAPPING[node.name]
+    return node.name  # Assume it's a custom type
+
+
+def record_field_annotation(
+    field_name: str, field_def: dict[str, Any], required: set[str]
+) -> tuple[str, str]:
+    """``(name, type)`` for a record field's ``---@field`` annotation.
+
+    The name gains ``?`` when the field is not in the record's ``required``
+    list (or is flagged ``optional``); a ``nil`` member of its typeRef is
+    folded into that ``?`` rather than repeated in the type. Names that are
+    not Lua identifiers (or are keywords) are written ``["key"]``.
+    """
+    type_val = field_def.get("type", "any")
+    node = parse_type(type_val) if isinstance(type_val, str) and type_val else None
+    non_null, nullable = strip_null(node) if node is not None else (None, False)
+    optional = (
+        field_def.get("optional", False) or nullable or field_name not in required
+    )
+    if nullable:
+        lua_type = render_type(non_null) if non_null is not None else "nil"
+    else:
+        lua_type = map_type(type_val)
+    if is_lua_name(field_name):
+        return field_name + ("?" if optional else ""), lua_type
+    # A key that is not a Lua name takes LuaLS's ``["key"]`` form, which has
+    # no ``?`` marker: optional is spelled ``|nil``.
+    if optional:
+        lua_type = f"({lua_type})|nil" if "fun(" in lua_type else f"{lua_type}|nil"
+    return f"[{json.dumps(field_name)}]", lua_type
+
+
+def since(version: str) -> str:
+    """An ``addedVersion`` as text: LuaLS's ``---@version`` names Lua runtime
+    versions and marks anything tagged with another one deprecated."""
+    return f"Since DCS {version}."
 
 
 def format_description(desc: str, indent: str = "") -> str:
@@ -175,7 +217,7 @@ def format_multiline_annotation_desc(description: str) -> str:
     return formatted
 
 
-def process_param_for_annotation(param: Dict[str, Any]) -> str:
+def process_param_for_annotation(param: dict[str, Any]) -> str:
     """
     Processes a single parameter definition into an EmmyLua @param annotation.
 
@@ -200,7 +242,7 @@ def process_param_for_annotation(param: Dict[str, Any]) -> str:
     return annotation
 
 
-def generate_fun_signature_for_field(func_def: Dict[str, Any]) -> str:
+def generate_fun_signature_for_field(func_def: dict[str, Any]) -> str:
     """
     Generates a Lua function signature string for use in ---@field type annotations.
     Example: fun(param1:type1, param2?:type2):returnType or fun():(ret1, ret2)
@@ -250,9 +292,9 @@ def generate_fun_signature_for_field(func_def: Dict[str, Any]) -> str:
 
 
 def process_function_common(
-    class_name_or_nil: Union[str, None],
+    class_name_or_nil: str | None,
     func_name: str,
-    func_def: Dict[str, Any],
+    func_def: dict[str, Any],
     is_static: bool,
 ) -> str:
     """
@@ -278,7 +320,7 @@ def process_function_common(
 
     result = format_description(desc)
     if added_version:
-        result += f"---@version {added_version}\n"
+        result += f"--- {since(added_version)}\n"
 
     for param_def in params_list:
         result += process_param_for_annotation(param_def) + "\n"
@@ -329,7 +371,7 @@ def process_function_common(
     if lua_func_name != func_name and (
         not hasattr(func_name, "isidentifier")
         or not func_name.isidentifier()
-        or func_name in TYPE_MAPPING.keys()
+        or func_name in TYPE_MAPPING
     ):
         lua_func_name = f'["{func_name}"]'
 
@@ -344,7 +386,7 @@ def process_function_common(
 
 
 def process_method(
-    class_name: str, method_name: str, method_def: Dict[str, Any]
+    class_name: str, method_name: str, method_def: dict[str, Any]
 ) -> str:
     """
     Processes an instance method definition.
@@ -362,7 +404,7 @@ def process_method(
 
 
 def process_static_function(
-    class_name: str, func_name: str, func_def: Dict[str, Any]
+    class_name: str, func_name: str, func_def: dict[str, Any]
 ) -> str:
     """
     Processes a static function definition for a class/table.
@@ -379,7 +421,7 @@ def process_static_function(
     return process_function_common(class_name, func_name, func_def, is_static=True)
 
 
-def ensure_lua_table_initialized(name: str, existing_code_parts: List[str]) -> None:
+def ensure_lua_table_initialized(name: str, existing_code_parts: list[str]) -> None:
     """
     Ensures that Lua tables for namespaces are initialized (e.g., AI = AI or {}).
     Adds initialization code to `existing_code_parts` if not already processed.
@@ -389,6 +431,8 @@ def ensure_lua_table_initialized(name: str, existing_code_parts: List[str]) -> N
     :param existing_code_parts: A list of strings to which initialization code will be appended.
     :type existing_code_parts: List[str]
     """
+    if is_type_only(name, lua_runtime_roots):
+        return
     parts = name.split(".")
     current_path = ""
     for i, part in enumerate(parts):
@@ -416,7 +460,7 @@ def ensure_lua_table_initialized(name: str, existing_code_parts: List[str]) -> N
 
 
 def ensure_lua_table_initialized_for_alias_parent(
-    name: str, existing_code_parts: List[str]
+    name: str, existing_code_parts: list[str]
 ) -> None:
     """
     Ensures that parent Lua tables for a namespaced alias are initialized.
@@ -427,7 +471,7 @@ def ensure_lua_table_initialized_for_alias_parent(
     :param existing_code_parts: A list of strings to which initialization code will be appended.
     :type existing_code_parts: List[str]
     """
-    if "." not in name:
+    if "." not in name or is_type_only(name, lua_runtime_roots):
         return
 
     parts = name.split(".")
@@ -453,7 +497,29 @@ def ensure_lua_table_initialized_for_alias_parent(
             initialized_lua_tables.add(current_parent_path)
 
 
-def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
+def _lua_literal(value: Any) -> str:
+    """An enum value as a LuaLS literal type."""
+    if isinstance(value, bool):
+        return str(value).lower()
+    if isinstance(value, int):
+        return str(value)
+    return json.dumps(str(value), ensure_ascii=False)
+
+
+def _alias_members(values: dict[str, Any] | list[Any]) -> str:
+    """``---|`` lines of an alias of enum ``values``, each named in a comment
+    unless its name is the value."""
+    if not values:
+        return "---| nil\n"
+    pairs = values.items() if isinstance(values, dict) else ((v, v) for v in values)
+    return "".join(
+        f"---| {_lua_literal(v)}{'' if str(k) == str(v) else f' # {k}'}\n"
+        for k, v in pairs
+        if k != ""
+    )
+
+
+def process_enum(name: str, enum_def: dict[str, Any]) -> str:
     """
     Processes an enum definition from the schema.
 
@@ -469,12 +535,12 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
     added_version = enum_def.get("addedVersion", "")
     examples = enum_def.get("examples", [])
 
-    lua_assignment_parts = []
+    lua_assignment_parts: list[str] = []
     ensure_lua_table_initialized(name, lua_assignment_parts)
 
     result = format_description(desc)
     if added_version:
-        result += f"---@version {added_version}\n"
+        result += f"--- {since(added_version)}\n"
 
     if examples:
         result += "--- ### Examples\n"
@@ -488,6 +554,10 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
                 for line in example_code.split("\n"):
                     result += f"--- {line}\n"
                 result += "--- ```\n"
+
+    if is_type_only(name, lua_runtime_roots):
+        # No such table in DCS: an alias of the values, named in comments.
+        return result + f"---@alias {name}\n" + _alias_members(values)
 
     result += f"---@enum {name}\n"
 
@@ -523,7 +593,7 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
                     str(value).lower() if isinstance(value, bool) else str(value)
                 )
             else:
-                formatted_value = f'"{str(value)}"'
+                formatted_value = f'"{value!s}"'
             enum_table_content += f"    {key_repr} = {formatted_value}"
             if i < len(items) - 1:
                 enum_table_content += ","
@@ -539,8 +609,8 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
 
 def process_class_like_definition(
     name: str,
-    def_data: Dict[str, Any],
-    schema: Dict[str, Any],
+    def_data: dict[str, Any],
+    schema: dict[str, Any],
     is_global_declaration: bool,
 ) -> str:
     """
@@ -587,7 +657,7 @@ def process_class_like_definition(
         not is_global_declaration
         or not (def_data.get("static") or def_data.get("instance"))
     ):
-        class_annotation_block += f"---@version {added_version}\n"
+        class_annotation_block += f"--- {since(added_version)}\n"
 
     if examples:
         class_annotation_block += "--- ### Examples\n"
@@ -608,9 +678,13 @@ def process_class_like_definition(
     class_annotation_block += "\n"
 
     instance_properties = def_data.get("properties", {})
+    record_fields = False
     if not instance_properties and "fields" in def_data:
         instance_properties = def_data.get("fields", {})
+        record_fields = True
+    record_required = set(def_data.get("required") or [])
 
+    nested: list[tuple[str, dict[str, Any]]] = []
     for prop_name, prop_def in instance_properties.items():
         prop_type_val = prop_def.get("type", "any")
         prop_desc_val = prop_def.get("description", "")
@@ -619,10 +693,19 @@ def process_class_like_definition(
         prop_version_val = prop_def.get("addedVersion", "")
         prop_examples_list = prop_def.get("examples", [])
 
-        lua_prop_name = sanitize_lua_name(prop_name)
-        if prop_optional:
-            lua_prop_name += "?"
-        type_str = map_type(prop_type_val)
+        if record_fields:
+            lua_prop_name, type_str = record_field_annotation(
+                prop_name, prop_def, record_required
+            )
+        else:
+            lua_prop_name = sanitize_lua_name(prop_name)
+            if prop_optional:
+                lua_prop_name += "?"
+            type_str = map_type(prop_type_val)
+        if prop_def.get("static") or prop_def.get("instance"):
+            # A table of functions (``trigger.action``): its own class.
+            type_str = f"{name}.{prop_name}"
+            nested.append((type_str, prop_def))
 
         field_line = f"---@field {lua_prop_name} {type_str}"
         if prop_readonly:
@@ -633,9 +716,7 @@ def process_class_like_definition(
             field_line += format_multiline_annotation_desc(prop_desc_val)
 
         if prop_version_val:
-            if not prop_desc_val and not prop_readonly:
-                field_line += " "
-            field_line += f"@version {prop_version_val}"
+            field_line += f" {since(prop_version_val)}"
 
         current_field_lines.append(field_line)
 
@@ -659,10 +740,8 @@ def process_class_like_definition(
 
     static_members = def_data.get("static", {})
     for static_name, static_def in static_members.items():
-        if (
-            "params" in static_def
-            or "returns" in static_def
-            and static_def.get("kind") != "enum"
+        if "params" in static_def or (
+            "returns" in static_def and static_def.get("kind") != "enum"
         ):
             continue
 
@@ -683,9 +762,7 @@ def process_class_like_definition(
         if static_desc_val:
             field_line += format_multiline_annotation_desc(static_desc_val)
         if static_version_val:
-            if not static_desc_val and not static_readonly:
-                field_line += " "
-            field_line += f"@version {static_version_val}"
+            field_line += f" {since(static_version_val)}"
 
         current_field_lines.append(field_line)
 
@@ -715,15 +792,16 @@ def process_class_like_definition(
         "\n".join(lua_assignment_parts) + "\n" if lua_assignment_parts else ""
     )
 
-    if not is_global_declaration and "." not in name:
-        if not (
+    if (
+        not is_global_declaration
+        and "." not in name
+        and not (
             def_data.get("static")
             or def_data.get("instance")
             or def_data.get("methods")
-        ):
-            lua_assignment_code = ""
-            if name in initialized_lua_tables:
-                pass
+        )
+    ):
+        lua_assignment_code = ""
 
     method_definitions_parts = []
 
@@ -760,11 +838,17 @@ def process_class_like_definition(
                 process_static_function(name, func_name, current_func_def)
             )
 
-    return f"{class_annotation_block}{lua_assignment_code}{''.join(method_definitions_parts)}"
+    nested_parts = [
+        process_class_like_definition(n, d, schema, False) for n, d in nested
+    ]
+    return (
+        f"{class_annotation_block}{lua_assignment_code}"
+        f"{''.join(method_definitions_parts)}{''.join(nested_parts)}"
+    )
 
 
 def process_type_definition(
-    name: str, type_def: Dict[str, Any], schema: Dict[str, Any]
+    name: str, type_def: dict[str, Any], schema: dict[str, Any]
 ) -> str:
     """
     Processes a single type definition from the schema's 'types' section.
@@ -814,7 +898,7 @@ def process_type_definition(
         output_parts.append(format_description(enhanced_desc_text))
 
         if added_version:
-            output_parts.append(f"---@version {added_version}\n")
+            output_parts.append(f"--- {since(added_version)}\n")
 
         if examples:
             output_parts.append("--- ### Examples\n")
@@ -832,10 +916,12 @@ def process_type_definition(
         output_parts.append(f"---@class {name}\n")
 
         if fields:
+            required = set(type_def.get("required") or [])
             for field_name, field_def_val in fields.items():
-                field_type_str = map_type(field_def_val.get("type", "any"))
-                lua_field_key = sanitize_lua_name(field_name)
-                field_optional_char = "?" if field_def_val.get("optional") else ""
+                lua_field_key, field_type_str = record_field_annotation(
+                    field_name, field_def_val, required
+                )
+                field_optional_char = ""
 
                 field_description_val = field_def_val.get("description", "")
                 field_version_val = field_def_val.get("addedVersion", "")
@@ -854,9 +940,7 @@ def process_type_definition(
                     )
 
                 if field_version_val:
-                    if not field_description_val and not field_readonly_val:
-                        field_annotation_line += " "
-                    field_annotation_line += f"@version {field_version_val}"
+                    field_annotation_line += f" {since(field_version_val)}"
 
                 output_parts.append(field_annotation_line + "\n")
 
@@ -864,7 +948,7 @@ def process_type_definition(
 
     header_block = format_description(desc)
     if added_version:
-        header_block += f"---@version {added_version}\n"
+        header_block += f"--- {since(added_version)}\n"
     if examples:
         header_block += "--- ### Examples\n"
         for example in examples:
@@ -882,7 +966,7 @@ def process_type_definition(
         processed_types.add(name)
         return process_enum(name, type_def)
 
-    if "." in name:
+    if "." in name and kind not in ("array", "union"):
         if kind == "enum":
             processed_types.add(name)
             return process_enum(name, type_def)
@@ -895,21 +979,18 @@ def process_type_definition(
         alias_definition = f"---@alias {name} {mapped_array_of_type}[]\n"
         return f"{header_block}{alias_definition}"
 
-    elif kind == "union":
+    if kind == "union":
         processed_types.add(name)
         union_of_types = type_def.get("anyOf", [])
         if not union_of_types:
             mapped_union_str = "any"
         else:
-            mapped_union_types = sorted(list(set(map_type(t) for t in union_of_types)))
+            mapped_union_types = sorted({map_type(t) for t in union_of_types})
             mapped_union_str = "|".join(mapped_union_types)
         alias_definition = f"---@alias {name} {mapped_union_str}\n"
         return f"{header_block}{alias_definition}"
 
-    elif kind == "record":
-        return process_class_like_definition(name, type_def, schema, False)
-
-    elif kind == "class":
+    if kind == "record" or kind == "class":
         return process_class_like_definition(name, type_def, schema, False)
 
     processed_types.add(name)
@@ -920,11 +1001,11 @@ def process_type_definition(
 
 
 def get_dependencies_from_type_str(
-    type_str_val: Union[str, List[str]], all_defined_type_names: Set[str]
-) -> Set[str]:
+    type_str_val: str | list[str], all_defined_type_names: set[str]
+) -> set[str]:
     """
     Extracts non-primitive dependency type names from a type string.
-    Handles unions, arrays, and table<k,v> syntax.
+    Handles unions, arrays, and map<k, v> syntax.
 
     :param type_str_val: The type string or list of type strings.
     :type type_str_val: Union[str, List[str]]
@@ -941,44 +1022,18 @@ def get_dependencies_from_type_str(
             )
         return dependencies
 
-    if not isinstance(type_str_val, str):
+    if not isinstance(type_str_val, str) or not type_str_val.strip():
         return dependencies
 
-    # Split unions first
-    parts = type_str_val.split("|")
-    for part in parts:
-        part = part.strip()
-        if not part:
-            continue
-
-        # Handle arrays: extract base type
-        if part.endswith("[]"):
-            part = part[:-2].strip()
-
-        # Handle table<key, value> and table<value>
-        if part.startswith("table<") and part.endswith(">"):
-            inner_content = part[len("table<") : -1].strip()
-            # Simple split by comma, then recurse on parts
-            table_parts = inner_content.split(",", 1)
-            for tp in table_parts:
-                dependencies.update(
-                    get_dependencies_from_type_str(tp.strip(), all_defined_type_names)
-                )
-            continue  # Skip adding 'table' itself as a dependency
-
-        # Check if the cleaned part is a defined custom type and not a primitive
-        if (
-            part in all_defined_type_names
-            and part not in PRIMITIVE_LUA_TYPES
-            and part != "fun(...)"
-        ):
-            dependencies.add(part)
+    for node in walk(parse_type(type_str_val)):
+        if isinstance(node, Ref) and node.name in all_defined_type_names:
+            dependencies.add(node.name)
     return dependencies
 
 
 def get_item_dependencies(
-    item_name: str, item_def: Dict[str, Any], all_defined_type_names: Set[str]
-) -> Set[str]:
+    item_name: str, item_def: dict[str, Any], all_defined_type_names: set[str]
+) -> set[str]:
     """
     Gets all direct non-primitive type dependencies for a given schema item.
 
@@ -991,7 +1046,7 @@ def get_item_dependencies(
     :returns: A set of dependency type names.
     :rtype: Set[str]
     """
-    dependencies: Set[str] = set()
+    dependencies: set[str] = set()
 
     # Dependencies from 'inherits'
     inherits = item_def.get("inherits", [])
@@ -1108,7 +1163,7 @@ def get_item_dependencies(
     return dependencies
 
 
-def topological_sort(graph_adj: Dict[str, Set[str]]) -> List[str]:
+def topological_sort(graph_adj: dict[str, set[str]]) -> list[str]:
     """
     Performs a topological sort on a graph represented by an adjacency list.
     Uses Kahn's algorithm. If a cycle is detected, it returns the successfully
@@ -1120,8 +1175,8 @@ def topological_sort(graph_adj: Dict[str, Set[str]]) -> List[str]:
     :returns: A list of nodes in topologically sorted order (or best-effort if cycles exist).
     :rtype: List[str]
     """
-    in_degree = {node: 0 for node in graph_adj}
-    adj_list_outgoing: Dict[str, Set[str]] = {node: set() for node in graph_adj}
+    in_degree = dict.fromkeys(graph_adj, 0)
+    adj_list_outgoing: dict[str, set[str]] = {node: set() for node in graph_adj}
 
     for node, dependencies in graph_adj.items():
         for dep in dependencies:
@@ -1133,9 +1188,7 @@ def topological_sort(graph_adj: Dict[str, Set[str]]) -> List[str]:
                 dep in in_degree
             ):  # Only consider dependencies that are part of the sortable items
                 in_degree[node] += 1
-            elif (
-                dep not in PRIMITIVE_LUA_TYPES and dep != "fun(...)"
-            ):  # Warn about unknown types
+            elif dep not in PRIMITIVE_LUA_TYPES:  # Warn about unknown types
                 pass  # Silently ignore unknown types for in_degree calculation, as they are external
 
     queue = deque([node for node, degree in in_degree.items() if degree == 0])
@@ -1145,7 +1198,7 @@ def topological_sort(graph_adj: Dict[str, Set[str]]) -> List[str]:
         node = queue.popleft()
         sorted_order.append(node)
 
-        for neighbor in sorted(list(adj_list_outgoing.get(node, set()))):
+        for neighbor in sorted(adj_list_outgoing.get(node, set())):
             if neighbor in in_degree:  # Ensure neighbor is part of the graph
                 in_degree[neighbor] -= 1
                 if in_degree[neighbor] == 0:
@@ -1153,29 +1206,26 @@ def topological_sort(graph_adj: Dict[str, Set[str]]) -> List[str]:
 
     if len(sorted_order) == len(graph_adj):
         return sorted_order
-    else:
-        # Cycle detected or unreachable nodes
-        processed_in_sorted = set(sorted_order)
-        remaining_nodes = [
-            node for node in graph_adj if node not in processed_in_sorted
-        ]
-        remaining_nodes.sort()
+    # Cycle detected or unreachable nodes
+    processed_in_sorted = set(sorted_order)
+    remaining_nodes = [node for node in graph_adj if node not in processed_in_sorted]
+    remaining_nodes.sort()
 
-        # For debugging, identify nodes that still have positive in-degree
-        cycle_participants = [
-            node
-            for node, degree in in_degree.items()
-            if degree > 0 and node in remaining_nodes
-        ]
+    # For debugging, identify nodes that still have positive in-degree
+    cycle_participants = [
+        node
+        for node, degree in in_degree.items()
+        if degree > 0 and node in remaining_nodes
+    ]
 
-        print(
-            f"Warning: Cycle detected in dependency graph or some nodes were unreachable. Nodes involved or dependent on cycles (or otherwise unsorted): {cycle_participants if cycle_participants else remaining_nodes}. Output order may not be optimal for these.",
-            file=sys.stderr,
-        )
-        return sorted_order + remaining_nodes
+    print(
+        f"Warning: Cycle detected in dependency graph or some nodes were unreachable. Nodes involved or dependent on cycles (or otherwise unsorted): {cycle_participants if cycle_participants else remaining_nodes}. Output order may not be optimal for these.",
+        file=sys.stderr,
+    )
+    return sorted_order + remaining_nodes
 
 
-def export_to_lua(schema: Dict[str, Any], output_path: str) -> None:
+def export_to_lua(schema: dict[str, Any], output_path: str) -> None:
     """
     Exports the given DCS schema to an EmmyLua annotation file,
     processing types in a topologically sorted order to ensure dependencies are met.
@@ -1185,19 +1235,17 @@ def export_to_lua(schema: Dict[str, Any], output_path: str) -> None:
     :param output_path: The path where the .lua file will be saved.
     :type output_path: str
     """
-    output_dir = os.path.dirname(output_path)
-    if output_dir:
-        os.makedirs(output_dir, exist_ok=True)
+    schema = api_spec(schema)
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
     source_file_name = "unknown_schema.json"
-    if "source_file_path" in schema and schema["source_file_path"]:
-        source_file_name = os.path.basename(schema["source_file_path"])
+    if schema.get("source_file_path"):
+        source_file_name = Path(schema["source_file_path"]).name
 
     header_info = [
         "--[[ DCS World Lua Type Definitions",
         f"Generated from schema: {source_file_name}",
         "DO NOT MODIFY - AUTO-GENERATED FILE",
-        f"Generated on: {datetime.datetime.now().isoformat()}",
         "--]]",
         "",
         "---@meta",
@@ -1206,19 +1254,23 @@ def export_to_lua(schema: Dict[str, Any], output_path: str) -> None:
     output_content_parts = []
     processed_types.clear()
     initialized_lua_tables.clear()
+    lua_runtime_roots.clear()
+    lua_runtime_roots.update(runtime_roots(schema))
 
-    all_items: Dict[str, Tuple[Dict[str, Any], bool]] = {}
-    all_defined_type_names: Set[str] = set()
+    all_items: dict[str, tuple[dict[str, Any], bool]] = {}
+    all_defined_type_names: set[str] = set()
 
     for name, definition in schema.get("globals", {}).items():
         all_items[name] = (definition, True)
         all_defined_type_names.add(name)
     for name, definition in schema.get("types", {}).items():
+        if name in LUALS_BUILTIN_TYPES:
+            continue
         if name not in all_items:
             all_items[name] = (definition, False)
         all_defined_type_names.add(name)
 
-    dependency_graph: Dict[str, Set[str]] = {}
+    dependency_graph: dict[str, set[str]] = {}
     for name, (item_def, _) in all_items.items():
         dependencies = get_item_dependencies(name, item_def, all_defined_type_names)
         dependency_graph[name] = dependencies
@@ -1263,12 +1315,12 @@ def export_to_lua(schema: Dict[str, Any], output_path: str) -> None:
     if not full_output_content.endswith("\n"):
         full_output_content += "\n"
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    with Path(output_path).open("w", encoding="utf-8") as f:
         f.write(full_output_content)
     print(f"Lua type definitions exported to {output_path}")
 
 
-def main():
+def main() -> None:
     """
     Main function to parse arguments and initiate the export process.
     """
@@ -1285,7 +1337,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        schema_data = load_schema(args.schema_file)
+        schema_data = load_json(Path(args.schema_file))
         schema_data["source_file_path"] = args.schema_file
         export_to_lua(schema_data, args.output)
     except Exception as e:

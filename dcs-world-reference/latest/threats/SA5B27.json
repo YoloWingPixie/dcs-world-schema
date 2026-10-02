@@ -1,0 +1,73 @@
+{
+  "components": [
+    {
+      "envelope": {
+        "hMaxM": 18000,
+        "hMinM": 20,
+        "rMaxKm": 18.0,
+        "rMinKm": 1.5
+      },
+      "requires": [
+        [
+          [
+            "snr s-125 tr",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM LL"
+      ],
+      "unit": "5p73 s-125 ln",
+      "weapons": [
+        "SA5B27"
+      ]
+    },
+    {
+      "alic": [
+        "122"
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "rwrSymbol": "S",
+      "unit": "p-19 s-125 sr"
+    },
+    {
+      "alic": [
+        "123"
+      ],
+      "requires": [
+        [
+          [
+            "self",
+            2
+          ]
+        ],
+        [
+          [
+            "self",
+            3
+          ]
+        ],
+        [
+          [
+            "p-19 s-125 sr"
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM TR"
+      ],
+      "rwrSymbol": "3",
+      "unit": "snr s-125 tr"
+    }
+  ],
+  "id": "SA5B27",
+  "kind": "sam",
+  "natoDesignation": "SA-3",
+  "sensors": [
+    "p-19 s-125 sr",
+    "snr s-125 tr"
+  ]
+}

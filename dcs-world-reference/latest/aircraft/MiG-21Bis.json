@@ -1,0 +1,2490 @@
+{
+  "aero": {
+    "emptyMassKg": 6255,
+    "internalFuelKg": 2280,
+    "maxSpeedKmh": 2509.2,
+    "maxTakeoffKg": 10400
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 18,
+      "increment": 18
+    },
+    "cmdsEdit": false,
+    "dispensers": [
+      {
+        "direction": [
+          -1.3,
+          -1.3,
+          1.3
+        ],
+        "position": [
+          -1.35,
+          -0.55,
+          0.25
+        ]
+      },
+      {
+        "direction": [
+          -1.3,
+          -1.3,
+          -1.3
+        ],
+        "position": [
+          -1.35,
+          -0.55,
+          -0.25
+        ]
+      },
+      {
+        "direction": [
+          -1.3,
+          -1.3,
+          1.3
+        ],
+        "position": [
+          -1.714,
+          -0.38,
+          0.5
+        ]
+      },
+      {
+        "direction": [
+          -1.3,
+          -1.3,
+          -1.3
+        ],
+        "position": [
+          -1.714,
+          -0.38,
+          -0.5
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 40,
+      "increment": 40
+    },
+    "singleChargeTotal": 58
+  },
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 390,
+    "minMHz": 118,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 30,
+    "irEmissionCoeff": 0.6,
+    "rcsM2": 3
+  },
+  "dimensions": {
+    "heightM": 4.125,
+    "lengthM": 14.5,
+    "wingSpanM": 7.154
+  },
+  "displayName": "MiG-21Bis",
+  "failures": [
+    {
+      "id": "DC_BUS_FAILURE_TOTAL",
+      "label": "DC Bus"
+    },
+    {
+      "id": "DC_BUS_GENERATOR_FAILURE",
+      "label": "DC Generator"
+    },
+    {
+      "id": "AC_BUS_FAILURE_TOTAL",
+      "label": "AC Bus"
+    },
+    {
+      "id": "AC_BUS_PO7501_FAILURE",
+      "label": "PO7501 Inverter"
+    },
+    {
+      "id": "AC_BUS_PO7502_FAILURE",
+      "label": "PO7502 Inverter"
+    },
+    {
+      "id": "ENGINE_FAILURE_TOTAL",
+      "label": "Engine"
+    },
+    {
+      "id": "GYROS_FAILURE_TOTAL",
+      "label": "Gyroscopes"
+    },
+    {
+      "id": "PITOT_FAILURE_TOTAL",
+      "label": "Pitot Tubes"
+    },
+    {
+      "id": "WEAPONS_FAILURE_TOTAL",
+      "label": "Weapons System"
+    },
+    {
+      "id": "SOPLO_FAILURE_PARTIAL",
+      "label": "Engine Nozzle"
+    },
+    {
+      "id": "RADAR_FAILURE_TOTAL",
+      "label": "Radar"
+    },
+    {
+      "id": "KPP_FAILURE_PARTIAL",
+      "label": "Kpp"
+    },
+    {
+      "id": "LANDING_LIGHTS_FAILURE",
+      "label": "Landing lights failure"
+    }
+  ],
+  "flyable": true,
+  "gun": {
+    "ammo": [
+      "GSH_23_AP",
+      "GSH_23_HE"
+    ],
+    "mixes": [
+      {
+        "label": "General gun shells mix"
+      },
+      {
+        "label": "A-G gun shells mix"
+      },
+      {
+        "label": "A-A gun shells mix"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "GSH_23_HE",
+          "GSH_23_AP"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "GSH_23_HE",
+              "GSH_23_AP"
+            ]
+          },
+          {
+            "ammo": [
+              "GSH_23_AP",
+              "GSH_23_HE",
+              "GSH_23_AP"
+            ]
+          },
+          {
+            "ammo": [
+              "GSH_23_HE",
+              "GSH_23_AP",
+              "GSH_23_HE"
+            ]
+          }
+        ],
+        "rounds": 260,
+        "type": "GSH_23"
+      }
+    ],
+    "rounds": 260,
+    "type": "GSH_23"
+  },
+  "id": "MiG-21Bis",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 20
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.49640011097796,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          146
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          300
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          145,
+          153
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          249
+        ],
+        "cell": 7
+      },
+      {
+        "args": [
+          264
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          304
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          305
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          185
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          183
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          260
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          256
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          261
+        ],
+        "cell": 27
+      },
+      {
+        "args": [
+          257
+        ],
+        "cell": 28
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          268
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          266
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          244
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          245
+        ],
+        "cell": 41
+      },
+      {
+        "args": [
+          246
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          168
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          168
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          162
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          291
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          292
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          148,
+          301
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          299
+        ],
+        "cell": 60
+      },
+      {
+        "args": [
+          296
+        ],
+        "cell": 61
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 62
+      },
+      {
+        "args": [
+          145,
+          147
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          290
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          187
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          289
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          260
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          261
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          256
+        ],
+        "cell": 73
+      },
+      {
+        "args": [
+          257
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 76
+      },
+      {
+        "args": [
+          254
+        ],
+        "cell": 77
+      },
+      {
+        "args": [
+          254
+        ],
+        "cell": 78
+      },
+      {
+        "args": [
+          267
+        ],
+        "cell": 79
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 81
+      },
+      {
+        "args": [
+          306
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 86
+      },
+      {
+        "args": [
+          229
+        ],
+        "cell": 87
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 88
+      },
+      {
+        "args": [
+          219
+        ],
+        "cell": 89
+      },
+      {
+        "args": [
+          170
+        ],
+        "cell": 90
+      },
+      {
+        "args": [
+          170
+        ],
+        "cell": 91
+      },
+      {
+        "args": [
+          302
+        ],
+        "cell": 92
+      },
+      {
+        "args": [
+          303
+        ],
+        "cell": 93
+      },
+      {
+        "args": [
+          116
+        ],
+        "cell": 96
+      },
+      {
+        "args": [
+          115
+        ],
+        "cell": 97
+      },
+      {
+        "args": [
+          117
+        ],
+        "cell": 98
+      },
+      {
+        "args": [
+          144
+        ],
+        "cell": 100
+      },
+      {
+        "args": [
+          301
+        ],
+        "cell": 137
+      }
+    ],
+    "file": "MiG-21Bis",
+    "lightsData": {
+      "lights": [
+        {
+          "lights": {},
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 51,
+              "speed": 1,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": [
+            {
+              "argument": 190,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 191,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 192,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        {
+          "lights": {},
+          "typename": "collection"
+        },
+        {
+          "lights": {},
+          "typename": "collection"
+        }
+      ],
+      "typename": "collection"
+    },
+    "liveryEntry": "MiG-21Bis",
+    "mapClassKey": "P0091000024",
+    "positioning": "BYNORMAL",
+    "shape": "MiG-21Bis",
+    "shapeDestroyed": "MiG-21Bis_Destroyed"
+  },
+  "module": "MiG-21Bis AI by Magnitude 3 LLC",
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1985,
+        "to": 1993
+      }
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1983,
+        "to": 2015
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA",
+      "years": {
+        "from": 1995,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1977,
+        "to": 1998
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1977,
+        "to": 2001
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1977,
+        "to": 2006
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1983,
+        "to": 1991
+      }
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1999,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1979,
+        "to": 2003
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA",
+      "years": {
+        "from": 2006,
+        "to": 9999
+      }
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1977,
+        "to": 1991
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1972,
+        "to": 1991
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1981,
+        "to": 2003
+      }
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA",
+      "years": {
+        "from": 1981,
+        "to": 9999
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1975,
+        "to": 1990
+      }
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 1979,
+        "to": 1992
+      }
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.48,
+    "bankAngleMaxDeg": 76,
+    "casMin": 78,
+    "enginesCount": 1,
+    "hMaxM": 20000,
+    "machMax": 2.05,
+    "nyMax": 7.5,
+    "rangeKm": 1210,
+    "vLandMs": 94,
+    "vMaxHMs": 697,
+    "vMaxSeaLevelMs": 362,
+    "vOptMs": 223,
+    "vTakeOffMs": 100
+  },
+  "radios": [
+    "MiG-21Bis__radio0"
+  ],
+  "refuelling": {
+    "isTanker": false,
+    "receptaclePosition": [
+      0,
+      0,
+      0
+    ],
+    "tankerType": 0
+  },
+  "sensors": [
+    "Abstract RWR",
+    "N-008",
+    "Shkval"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB-250-M54-TU}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FAB-250-M54-TU}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{PTB_490_MIG21}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{PTB_490_MIG21}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{R-13M1}"
+        },
+        {
+          "clsid": "{R-13M}"
+        },
+        {
+          "clsid": "{R-3R}"
+        },
+        {
+          "clsid": "{R-3S}"
+        },
+        {
+          "clsid": "{R-60 2L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 4
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M 2L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 4
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{RS-2US}"
+        },
+        {
+          "clsid": "{S-24A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24A}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{S-24B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24B}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{UB-16_S5M}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UB-16_S5M}"
+              ],
+              "station": 5
+            }
+          ]
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{08164777-5E9C-4B08-B48E-5AA7AFB246E2}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{08164777-5E9C-4B08-B48E-5AA7AFB246E2}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB-100-4}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FAB-100-4}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{Kh-66_Grom}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{Kh-66_Grom}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{OFAB-100-120-TU}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{OFAB-100-120-TU}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{R-13M1}"
+        },
+        {
+          "clsid": "{R-13M}"
+        },
+        {
+          "clsid": "{R-3R}"
+        },
+        {
+          "clsid": "{R-3S}"
+        },
+        {
+          "clsid": "{R-55}"
+        },
+        {
+          "clsid": "{R-60 2L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 5
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M 2L}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 5
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{RS-2US}"
+        },
+        {
+          "clsid": "{S-24A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24A}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{S-24B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24B}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{UB-16_S5M}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UB-16_S5M}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{UB-32_S5M}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UB-32_S5M}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{UPK-23-250 MiG-21}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{PTB_490C_MIG21}"
+        },
+        {
+          "clsid": "{PTB_800_MIG21}"
+        },
+        {
+          "clsid": "{RN-24}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{RN-28}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{SPS-141-100}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{ASO-2}"
+              ],
+              "station": 6
+            }
+          ]
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{08164777-5E9C-4B08-B48E-5AA7AFB246E2}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{08164777-5E9C-4B08-B48E-5AA7AFB246E2}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB-100-4}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FAB-100-4}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{Kh-66_Grom}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{Kh-66_Grom}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{OFAB-100-120-TU}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{OFAB-100-120-TU}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{R-13M1}"
+        },
+        {
+          "clsid": "{R-13M}"
+        },
+        {
+          "clsid": "{R-3R}"
+        },
+        {
+          "clsid": "{R-3S}"
+        },
+        {
+          "clsid": "{R-55}"
+        },
+        {
+          "clsid": "{R-60 2R}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 1
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M 2R}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 1
+            },
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 1
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{RS-2US}"
+        },
+        {
+          "clsid": "{S-24A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24A}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{S-24B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24B}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{UB-16_S5M}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UB-16_S5M}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{UB-32_S5M}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UB-32_S5M}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{UPK-23-250 MiG-21}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UPK-23-250 MiG-21}"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{3C612111-C7AD-476E-8A8E-2485812F4E5C}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{3C612111-C7AD-476E-8A8E-2485812F4E5C}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{FAB-250-M54-TU}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FAB-250-M54-TU}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{PTB_490_MIG21}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{PTB_490_MIG21}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{R-13M1}"
+        },
+        {
+          "clsid": "{R-13M}"
+        },
+        {
+          "clsid": "{R-3R}"
+        },
+        {
+          "clsid": "{R-3S}"
+        },
+        {
+          "clsid": "{R-60 2R}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 2
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M 2R}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{R-60M 2R}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R-60 2R}"
+              ],
+              "station": 4
+            },
+            {
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 2
+            },
+            {
+              "clsids": [
+                "{R-60 2L}"
+              ],
+              "station": 2
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{R-60M 2L}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{R-60M}"
+        },
+        {
+          "clsid": "{R-60}"
+        },
+        {
+          "clsid": "{RS-2US}"
+        },
+        {
+          "clsid": "{S-24A}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24A}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{S-24B}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{S-24B}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{UB-16_S5M}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{UB-16_S5M}"
+              ],
+              "station": 1
+            }
+          ]
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ASO-2}"
+        },
+        {
+          "clsid": "{SPRD}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{MIG21_SMOKE_WHITE}"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    }
+  ]
+}

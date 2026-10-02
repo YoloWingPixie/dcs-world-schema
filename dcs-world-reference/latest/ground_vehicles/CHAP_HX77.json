@@ -1,0 +1,207 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 3000,
+    "nominalCapacity": 3000
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 10,
+    "massKg": 25000,
+    "widthM": 2.55
+  },
+  "displayName": "Truck HX77 [CH]",
+  "id": "CHAP_HX77",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 60,
+      "control": "comboList",
+      "default": 1,
+      "id": "Variant",
+      "label": "Variant",
+      "values": [
+        {
+          "id": 1,
+          "label": "Flatbed",
+          "value": 0
+        },
+        {
+          "id": 2,
+          "label": "Flatbed with cargo",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "mobility": {
+    "enginePower": 480,
+    "fordingDepthM": 1.5,
+    "maxRoadSpeedMs": 25,
+    "maxSlopeRad": 0.58,
+    "maxSpeedKmh": 90,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 10.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "CHAP_HX77",
+    "mapClassKey": "P0091000212",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_HX77",
+    "shapeDestroyed": "CHAP_HX77_dest"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "tags": [
+    "Unarmed",
+    "Support & Logistics"
+  ]
+}

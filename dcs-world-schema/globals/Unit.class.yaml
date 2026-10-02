@@ -23,18 +23,47 @@ globals:
         description: "Returns a table containing detailed description of the specified unit type. The exact type of descriptor returned depends on the unit's category: AIRPLANE units return UnitDescAirplane, HELICOPTER units return UnitDescHelicopter, GROUND_UNIT units return UnitDescVehicle, SHIP units return UnitDescShip, and other types return the base UnitDesc. Functions even for unit types not present in the current mission."
         params:
           - name: typeName
-            type: string
+            type: DcsId.UnitType | string
             description: "Internal type name of the unit, e.g. 'FA-18C_hornet'."
         returns: UnitDesc | UnitDescAircraft | UnitDescAirplane | UnitDescHelicopter | UnitDescVehicle | UnitDescShip
         addedVersion: "1.2.4"
         environment:
           - MissionScripting
     instance:
+      getTypeName:
+        description: "Returns the unit's type name as defined in the DCS database."
+        params: []
+        returns: DcsId.UnitType | string
+        addedVersion: "1.2.0"
       isActive:
         description: "Returns `true` if the unit is activated in the mission, `false` otherwise."
         params: []
         returns: boolean
         addedVersion: "1.2.0"
+        environment:
+          - MissionScripting
+      isAlive:
+        description: "Present in DCS 2.9.29. Signature probed (DCS 2.9.29.27468): no arguments besides self; returns from one call; accepts an extra argument."
+        params: []
+        returns: boolean
+        environment:
+          - MissionScripting
+      isBroken:
+        description: "Present in DCS 2.9.29. Signature probed (DCS 2.9.29.27468): no arguments besides self; returns from one call; accepts an extra argument."
+        params: []
+        returns: boolean
+        environment:
+          - MissionScripting
+      isDead:
+        description: "Present in DCS 2.9.29. Signature probed (DCS 2.9.29.27468): no arguments besides self; returns from one call; accepts an extra argument."
+        params: []
+        returns: boolean
+        environment:
+          - MissionScripting
+      isEffective:
+        description: "Present in DCS 2.9.29. Signature probed (DCS 2.9.29.27468): no arguments besides self; returns from one call; accepts an extra argument."
+        params: []
+        returns: boolean
         environment:
           - MissionScripting
       getPlayerName:

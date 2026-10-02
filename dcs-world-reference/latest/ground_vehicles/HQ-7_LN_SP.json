@@ -1,0 +1,365 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.03
+  },
+  "attributes": [
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "RADAR_BAND1_FOR_ARM",
+    "RADAR_BAND2_FOR_ARM",
+    "SAM LL",
+    "SAM TR",
+    "SAM elements",
+    "SAM related",
+    "SR SAM",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 20000,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 3.675,
+      "maxAltM": 5500,
+      "maxRangeM": 20000,
+      "minAltM": 10,
+      "minRangeM": 200
+    },
+    "threatRangeM": 15000
+  },
+  "dimensions": {
+    "lengthM": 7.54,
+    "massKg": 13600,
+    "widthM": 3.3
+  },
+  "displayName": "HQ-7B SHORAD TELAR",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 20000,
+    "radarType": 103,
+    "radarTypeName": "wsType_Radar_MissGun"
+  },
+  "id": "HQ-7_LN_SP",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 2
+    }
+  ],
+  "mobility": {
+    "canSwim": false,
+    "enginePower": 260,
+    "maxRoadSpeedMs": 22,
+    "maxSlopeRad": 0.6,
+    "maxSpeedKmh": 79.2,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 7,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "headlights": 38,
+      "locator_rotation": 11,
+      "markerlights": 39,
+      "pitch_k": 0.4,
+      "roll_k": 0.4,
+      "stoplights": 37,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 1,
+          "value": 0.3
+        },
+        {
+          "arg": 3,
+          "value": 1
+        },
+        {
+          "arg": 18,
+          "value": 1
+        },
+        {
+          "arg": 19,
+          "value": 1
+        },
+        {
+          "arg": 27,
+          "value": 1
+        },
+        {
+          "arg": 28,
+          "value": 1
+        }
+      ]
+    },
+    "file": "hq7_ln",
+    "mapClassKey": "P0091000086",
+    "positioning": "BYNORMAL",
+    "shape": "hq7_ln",
+    "shapeDestroyed": "hq7_ln_dstr"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1988,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1999,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "HQ-7 TR",
+    "HQ-7B Optic Sight",
+    "HQ-7B search visir"
+  ],
+  "tags": [
+    "Air Defence",
+    "SAM TELAR"
+  ],
+  "weaponSystems": [
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        10000000000,
+        20000000000
+      ],
+      "hMaxM": 5500,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.5235987755983,
+          1.4835298641952
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.3962634015955,
+        "yaw": 1.3962634015955
+      },
+      "ws": 1
+    },
+    {
+      "beamWidthRad": 1.5707963267949,
+      "ecmK": 0.3,
+      "frequencyRangeHz": [
+        10000000000,
+        20000000000
+      ],
+      "hMaxM": 5500,
+      "hMinM": 10,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 20.0,
+      "rMinKm": 0.2,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.04,
+      "sectorsRad": [
+        [
+          0.087266462599716,
+          -0.087266462599716,
+          -0.087266462599716,
+          0.087266462599716
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.3962634015955,
+        "yaw": 1.3962634015955
+      },
+      "ws": 2
+    },
+    {
+      "barrels": 4,
+      "dependsOn": [
+        [
+          {
+            "selfWs": 1
+          }
+        ],
+        [
+          {
+            "selfWs": 2
+          }
+        ],
+        [
+          {
+            "unit": "HQ-7_STR_SP"
+          }
+        ]
+      ],
+      "ecmK": -1,
+      "externalTrackingAwacs": false,
+      "launchDelayS": 2.5,
+      "launcherType": 4,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "missileChannels": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 4,
+          "ammoName": "HQ-7",
+          "reloadTimeS": 900,
+          "weapon": "HQ-7B"
+        }
+      ],
+      "rMaxKm": 15.0,
+      "rMinKm": 0.7,
+      "reactionTimeS": 6.5,
+      "reflectionLimit": 0,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.26179938779915,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.3962634015955,
+        "yaw": 1.3962634015955
+      },
+      "weapons": [
+        "HQ-7B"
+      ],
+      "ws": 3
+    }
+  ]
+}

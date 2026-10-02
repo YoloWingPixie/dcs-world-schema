@@ -1,0 +1,399 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.06
+  },
+  "attributes": [
+    "ATGM",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "cargo": {
+    "maximalCapacity": 700,
+    "nominalCapacity": 700
+  },
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.09,
+    "sensor": {
+      "heightM": 2.45,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4800
+  },
+  "dimensions": {
+    "lengthM": 7.52,
+    "massKg": 21500,
+    "widthM": 2.53
+  },
+  "displayName": "ZBD-04A",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 12000
+  },
+  "id": "ZBD04A",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 6
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 550,
+    "maxRoadSpeedMs": 22.22,
+    "maxSlopeRad": 0.7,
+    "maxSpeedKmh": 79.992,
+    "maxVertObstacleM": 0.75,
+    "minTurnRadiusM": 2.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "headlights": 31,
+      "locator_rotation": -1,
+      "markerlights": 32,
+      "rollers_rotation": 14,
+      "stoplights": 30,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "zbd04a",
+    "mapClassKey": "P0091000002",
+    "positioning": "BYNORMAL",
+    "shape": "zbd04a",
+    "shapeDestroyed": "zbd04a_dstr"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "1PZ-3",
+    "TKN-3B day",
+    "TKN-3B night"
+  ],
+  "tags": [
+    "Armor",
+    "APC",
+    "IFV"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "2A72",
+      "gunAmmo": [
+        "2A42_30_AP",
+        "2A42_30_HE"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 12,
+      "ln": 1,
+      "name": "2A72",
+      "payloads": [
+        {
+          "ammoCapacity": 340,
+          "gunAmmo": [
+            "2A42_30_HE"
+          ],
+          "portionAmmoCapacity": 340,
+          "reloadTimeS": 1200,
+          "shotDelayS": 0.17647058823529
+        },
+        {
+          "ammoCapacity": 160,
+          "gunAmmo": [
+            "2A42_30_AP"
+          ],
+          "portionAmmoCapacity": 160,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.17647058823529
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.034906585039887,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "PKT 7.62mm",
+      "gunAmmo": [
+        "7_62x54",
+        "7_62x54_NOTRACER"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 2,
+      "name": "7_62_PKT",
+      "payloads": [
+        {
+          "ammoCapacity": 2000,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x54",
+            "7_62x54_NOTRACER"
+          ],
+          "portionAmmoCapacity": 2000,
+          "reloadTimeS": 600,
+          "shotDelayS": 0.08
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.034906585039887,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "gunAmmo": [
+        "UOF_17_100HE"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 6,
+      "ln": 3,
+      "maxShootingSpeed": 9,
+      "payloads": [
+        {
+          "ammoCapacity": 22,
+          "gunAmmo": [
+            "UOF_17_100HE"
+          ],
+          "portionReloadTimeS": 20,
+          "shotDelayS": 6
+        },
+        {
+          "ammoCapacity": 18,
+          "gunAmmo": [
+            "UOF_17_100HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 12
+        }
+      ],
+      "rMinKm": 0.1,
+      "reactionTimeS": 3,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.034906585039887,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "hMaxM": 3000,
+      "launchDelayS": 10,
+      "launcherType": 33,
+      "ln": 4,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 8,
+          "ammoName": "9M117",
+          "reloadTimeS": 120,
+          "shotDelayS": 8,
+          "weapon": "P_9M117"
+        }
+      ],
+      "rMaxKm": 4.0,
+      "rMinKm": 0.1,
+      "reactionTimeS": 10,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.034906585039887,
+          1.0471975511966
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.69813170079773
+      },
+      "weapons": [
+        "P_9M117"
+      ],
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "Commander Periscope Sight",
+      "launcherType": 103,
+      "ln": 1,
+      "name": "CMD_Periscope",
+      "rMaxKm": 0.0,
+      "rMinKm": 0.0,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.13962634015955,
+          0.5235987755983
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.87266462599716,
+        "yaw": 0.87266462599716
+      },
+      "ws": 2
+    }
+  ]
+}

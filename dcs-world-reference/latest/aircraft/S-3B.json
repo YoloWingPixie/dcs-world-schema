@@ -1,0 +1,1187 @@
+{
+  "aero": {
+    "emptyMassKg": 12088,
+    "internalFuelKg": 5962,
+    "maxSpeedKmh": 834.12,
+    "maxTakeoffKg": 23831
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Aux",
+    "Datalink",
+    "Link16",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 30,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          0,
+          0,
+          -2
+        ],
+        "position": [
+          -3.6,
+          -0.48,
+          -1.2
+        ]
+      },
+      {
+        "direction": [
+          0,
+          0,
+          2
+        ],
+        "position": [
+          -3.6,
+          -0.48,
+          1.2
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 30,
+      "increment": 30
+    },
+    "singleChargeTotal": 60
+  },
+  "countryOfOrigin": "USA",
+  "crew": 4,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 225,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 30,
+    "name": "Anti-ship Strike"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.53,
+    "rcsM2": 30
+  },
+  "dimensions": {
+    "heightM": 6.93,
+    "lengthM": 16.26,
+    "wingSpanM": 20.93
+  },
+  "displayName": "S-3B",
+  "flyable": false,
+  "id": "S-3B",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 25
+    }
+  ],
+  "missionOptions": [
+    {
+      "control": "label",
+      "id": "datalink_Label",
+      "label": "DATALINK",
+      "playerOnly": false
+    },
+    {
+      "control": "editbox",
+      "id": "VoiceCallsignLabel",
+      "label": "Voice Callsign Label",
+      "playerOnly": false
+    },
+    {
+      "control": "editbox",
+      "id": "VoiceCallsignNumber",
+      "label": "Voice Callsign Number",
+      "playerOnly": false
+    },
+    {
+      "control": "editbox",
+      "id": "STN_L16",
+      "label": "STN",
+      "playerOnly": false
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.64085638205579,
+      -0.93969262078591,
+      -0.036833608500735,
+      0.86602540378444
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          150
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          148
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          166
+        ],
+        "cell": 17
+      },
+      {
+        "args": [
+          160
+        ],
+        "cell": 18
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          224
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          214
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 31
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 32
+      },
+      {
+        "args": [
+          230
+        ],
+        "cell": 33
+      },
+      {
+        "args": [
+          220
+        ],
+        "cell": 34
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 41
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 86
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 87
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 98
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 143
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 144
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 145
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 146
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 147
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 148
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 149
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 150
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 151
+      }
+    ],
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 9,
+          "value": 0.492
+        },
+        {
+          "arg": 10,
+          "value": 0.477
+        },
+        {
+          "arg": 13,
+          "value": 0.758
+        },
+        {
+          "arg": 14,
+          "value": 0.75
+        },
+        {
+          "arg": 26,
+          "value": 1
+        }
+      ]
+    },
+    "file": "S-3B",
+    "lightsData": {
+      "lights": {
+        "10": {
+          "lights": [
+            {
+              "argument": 212,
+              "exposure": [
+                [
+                  22,
+                  0.5,
+                  1
+                ]
+              ],
+              "movable": true,
+              "typename": "argumentlight"
+            },
+            {
+              "argument": 212,
+              "color": [
+                1,
+                0,
+                0,
+                0.19049409439665
+              ],
+              "connector": "PROBE_LIGHT",
+              "dir_correction": {
+                "azimuth": 0,
+                "elevation": -0.94247779607694
+              },
+              "exposure": [
+                [
+                  22,
+                  0.7,
+                  1
+                ]
+              ],
+              "movable": true,
+              "proto": {
+                "angle_max": 0.7679448708775,
+                "angle_min": 0.614355896702,
+                "color": [
+                  255,
+                  201,
+                  125,
+                  0.2137366596101
+                ],
+                "power_up_t": 0.75,
+                "range": 840
+              },
+              "typename": "Spot"
+            },
+            {
+              "argument": 211,
+              "exposure": [
+                [
+                  42,
+                  0.1,
+                  1
+                ]
+              ],
+              "movable": true,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 208,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0,
+                    "elevation": 0.1221730476396
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "argument": 208,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0,
+                    "elevation": 0.05235987755983
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 4,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "angle_max": 2.7925268031909,
+              "angle_min": 1.5707963267949,
+              "argument": 190,
+              "connector": "BANO_0",
+              "dir_correction": {
+                "azimuth": 0,
+                "elevation": 0
+              },
+              "movable": true,
+              "proto": {
+                "angle_max": 3.1415926535898,
+                "color": [
+                  1,
+                  1,
+                  1,
+                  0.155
+                ],
+                "range": 30
+              },
+              "range": 10,
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 2.7925268031909,
+              "angle_min": 1.5707963267949,
+              "argument": 191,
+              "connector": "BANO_1",
+              "dir_correction": {
+                "azimuth": 0,
+                "elevation": 0.78539816339745
+              },
+              "movable": true,
+              "proto": {
+                "angle_max": 2.6179938779915,
+                "angle_min": 1.5707963267949,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.15
+                ],
+                "range": 40
+              },
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 2.7925268031909,
+              "angle_min": 1.5707963267949,
+              "argument": 192,
+              "connector": "BANO_2",
+              "dir_correction": {
+                "azimuth": 0,
+                "elevation": 0.78539816339745
+              },
+              "movable": true,
+              "proto": {
+                "angle_max": 2.6179938779915,
+                "angle_min": 1.5707963267949,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.15
+                ],
+                "range": 40
+              },
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 2.7925268031909,
+              "angle_min": 1.5707963267949,
+              "argument": 193,
+              "connector": "BANO_3",
+              "dir_correction": {
+                "azimuth": 0,
+                "elevation": 0
+              },
+              "exposure": [
+                [
+                  25,
+                  0.99,
+                  1
+                ]
+              ],
+              "movable": true,
+              "proto": {
+                "angle_max": 2.6179938779915,
+                "angle_min": 1.5707963267949,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.15
+                ],
+                "range": 40
+              },
+              "typename": "Spot"
+            }
+          ],
+          "typename": "collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 201,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 208,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0,
+                    "elevation": 0
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "argument": 208,
+                  "connector": "MAIN_SPOT_PTR",
+                  "dir_correction": {
+                    "azimuth": 0,
+                    "elevation": 0
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "range": 4,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angular_velocity": 4.1887902047864,
+                  "connector": "RED_BEACON",
+                  "cups": 1,
+                  "emitter_angle_z": 0.26179938779915,
+                  "flood_light_argument": 199,
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "rotary_assembly_argument": 200,
+                  "typename": "RotatingBeacon"
+                },
+                {
+                  "angular_velocity": 4.1887902047864,
+                  "connector": "WHITE_BEACON",
+                  "cups": 1,
+                  "emitter_angle_z": 0.034906585039887,
+                  "flood_light_argument": 197,
+                  "phase_shift": 0.2,
+                  "proto": {
+                    "angle_max": 1.3089969389957,
+                    "angle_min": 0,
+                    "angular_velocity": 6.8067840827779,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.45820519420888
+                    ],
+                    "cups": 1,
+                    "range": 64
+                  },
+                  "range": 40,
+                  "rotary_assembly_argument": 198,
+                  "typename": "RotatingBeacon"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "argument": 195,
+              "exposure": [
+                [
+                  91,
+                  0.7,
+                  1
+                ]
+              ],
+              "movable": true,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "argument": 69,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "liveryEntry": "S-3B",
+    "mapClassKey": "P0091000063",
+    "positioning": "BYNORMAL",
+    "shape": "S-3B",
+    "shapeDestroyed": "Fighter-1-crush"
+  },
+  "module": "HeavyMetalCore",
+  "operations": {
+    "eplrs": true,
+    "landRunwayCategories": [
+      "AircraftCarrier With Arresting Gear"
+    ],
+    "takeOffRunwayCategories": [
+      "AircraftCarrier With Catapult"
+    ]
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1984,
+        "to": 2009
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.06,
+    "bankAngleMaxDeg": 45,
+    "casMin": 54,
+    "enginesCount": 2,
+    "hMaxM": 12200,
+    "machMax": 0.682,
+    "nyMax": 2.5,
+    "rangeKm": 3701,
+    "vLandMs": 52.8,
+    "vMaxHMs": 231.7,
+    "vMaxSeaLevelMs": 222.7,
+    "vOptMs": 180,
+    "vTakeOffMs": 60
+  },
+  "radios": [],
+  "refuelling": {
+    "receptaclePosition": [
+      6.25,
+      1.23,
+      0
+    ],
+    "tankerType": 2
+  },
+  "sensors": [
+    "AN/APS-137",
+    "Abstract RWR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{444BA8AE-82A7-4345-842E-76154EFCCA46}"
+        },
+        {
+          "clsid": "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}"
+        },
+        {
+          "clsid": "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}"
+        },
+        {
+          "clsid": "{8B7CADF9-4954-46B3-8CFB-93F2F5B90B03}"
+        },
+        {
+          "clsid": "{A504D93B-4E80-4B4F-A533-0D9B65F2C55F}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}"
+        },
+        {
+          "clsid": "{B83CB620-5BBE-4BEA-910C-EB605A327EF9}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -3.893,
+        "longitudinal": -0.723,
+        "vertical": 0.281
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -0.858,
+        "longitudinal": -0.069,
+        "vertical": -0.05
+      },
+      "station": 2,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -0.5,
+        "longitudinal": -0.069,
+        "vertical": -0.05
+      },
+      "station": 3,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 0.5,
+        "longitudinal": -0.069,
+        "vertical": -0.05
+      },
+      "station": 4,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0.858,
+        "longitudinal": -0.069,
+        "vertical": -0.05
+      },
+      "station": 5,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{444BA8AE-82A7-4345-842E-76154EFCCA46}"
+        },
+        {
+          "clsid": "{60CC734F-0AFA-4E2E-82B8-93B941AB11CF}"
+        },
+        {
+          "clsid": "{69DC8AE7-8F77-427B-B8AA-B19D3F478B66}"
+        },
+        {
+          "clsid": "{8B7CADF9-4954-46B3-8CFB-93F2F5B90B03}"
+        },
+        {
+          "clsid": "{A504D93B-4E80-4B4F-A533-0D9B65F2C55F}"
+        },
+        {
+          "clsid": "{AB8B8299-F1CC-4359-89B5-2172E0CF4A5A}"
+        },
+        {
+          "clsid": "{ADD3FAE1-EBF6-4EF9-8EFC-B36B5DDF1E6B}"
+        },
+        {
+          "clsid": "{AF42E6DF-9A60-46D8-A9A0-1708B241AADB}"
+        },
+        {
+          "clsid": "{B83CB620-5BBE-4BEA-910C-EB605A327EF9}"
+        },
+        {
+          "clsid": "{BCE4E030-38E9-423E-98ED-24BE3DA87C32}"
+        },
+        {
+          "clsid": "{F3EFE0AB-E91A-42D8-9CA2-B63C91ED570A}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 3.893,
+        "longitudinal": -0.723,
+        "vertical": 0.281
+      },
+      "station": 6,
+      "type": 0,
+      "wet": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    },
+    {
+      "id": 33,
+      "name": "Pinpoint Strike"
+    }
+  ]
+}

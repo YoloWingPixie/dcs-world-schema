@@ -23,8 +23,8 @@ globals:
         returns: "boolean"
         params:
           - name: "attribute"
-            type: "string | Attributes"
-            description: "Attribute name to check for. Can be any valid attribute from the Attributes enum."
+            type: "DcsId.Attribute | string"
+            description: "Attribute name to check for (`DcsId.Attribute` lists DCS's)."
             optional: false
       getName:
         description: "Returns this object's name identifier, which may be either its mission editor name or runtime ID depending on context."
@@ -74,5 +74,5 @@ types:
 
   ObjectAttributes:
     kind: record
-    description: "Defines the structure of a table containing attribute flags for an object. Each field is a boolean indicating whether the object has that specific attribute."
+    description: "Defines the structure of a table containing attribute flags for an object. Each field (a `DcsId.Attribute`) is a boolean indicating whether the object has that specific attribute."
     fields: {}

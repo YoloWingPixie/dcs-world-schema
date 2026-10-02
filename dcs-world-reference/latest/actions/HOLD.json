@@ -1,0 +1,171 @@
+{
+  "availableFor": [
+    {
+      "category": "vehicle",
+      "groupTask": "Default"
+    }
+  ],
+  "dcsId": "Hold",
+  "defaultParams": {
+    "templateId": ""
+  },
+  "description": "Stop moving",
+  "displayName": "Hold",
+  "id": "HOLD",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "vehicle"
+    ],
+    "contexts": {
+      "route>ComboTask": 292,
+      "route>ComboTask>ControlledTask": 1065,
+      "triggered": 24,
+      "triggered>ControlledTask": 22
+    },
+    "count": 1403
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 1375,
+      "missionStrings": [
+        {
+          "count": 1374,
+          "value": ""
+        },
+        {
+          "count": 1,
+          "value": "Tank Platoon Line"
+        }
+      ],
+      "name": "templateId",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "Hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "setTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "Hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "pushTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "Hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "comboTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "effectObserved": true,
+      "hasTaskAfter": false,
+      "id": "Hold",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "vehicle",
+      "context": "route",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "hold",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

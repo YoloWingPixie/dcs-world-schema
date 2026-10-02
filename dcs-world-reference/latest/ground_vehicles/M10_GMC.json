@@ -1,0 +1,374 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          2.8
+        ],
+        [
+          30,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          20,
+          0.66
+        ],
+        [
+          20,
+          30,
+          0.83
+        ],
+        [
+          30,
+          90,
+          0.66
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          2
+        ],
+        [
+          20,
+          180,
+          0.83
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.05
+        ]
+      ]
+    },
+    "thickness": 0.03
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.09,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 6000
+  },
+  "dimensions": {
+    "lengthM": 5.97,
+    "massKg": 29600,
+    "widthM": 3.05
+  },
+  "displayName": "SPG M10 GMC TD",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 4000
+  },
+  "id": "M10_GMC",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 10
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 205,
+    "fordingDepthM": 0.91,
+    "maxRoadSpeedMs": 11.11,
+    "maxSlopeRad": 0.5235987755983,
+    "maxSpeedKmh": 39.996,
+    "maxVertObstacleM": 0.9,
+    "minTurnRadiusM": 5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "63": 2.69,
+        "64": 2.69
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "M10",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "M10",
+    "shapeDestroyed": "M10_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1943,
+        "to": 1949
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1943,
+        "to": 1950
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1943,
+        "to": 1950
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1948,
+        "to": 1966
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1943,
+        "to": 1950
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1943,
+        "to": 1950
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Armor",
+    "SPG"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M62_APC"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 24,
+          "gunAmmo": [
+            "M62_APC"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 7
+        },
+        {
+          "ammoCapacity": 12,
+          "gunAmmo": [
+            "M62_APC"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 15
+        }
+      ],
+      "rMaxKm": 6.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          -2.7925268031909,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          -2.7925268031909,
+          2.7925268031909,
+          -0.017453292519943,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M42A1_HE"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 6,
+          "gunAmmo": [
+            "M42A1_HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 7
+        },
+        {
+          "ammoCapacity": 12,
+          "gunAmmo": [
+            "M42A1_HE"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 15
+        }
+      ],
+      "rMaxKm": 14.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          2.7925268031909,
+          -2.7925268031909,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          -2.7925268031909,
+          2.7925268031909,
+          -0.017453292519943,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    }
+  ]
+}

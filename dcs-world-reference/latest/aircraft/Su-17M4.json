@@ -1,0 +1,1200 @@
+{
+  "aero": {
+    "emptyMassKg": 10670,
+    "internalFuelKg": 3770,
+    "maxSpeedKmh": 1860,
+    "maxTakeoffKg": 19430
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Bombers",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 64,
+      "increment": 32
+    },
+    "cmdsEdit": true,
+    "flare": {
+      "chargeSize": 1,
+      "default": 64,
+      "increment": 32
+    },
+    "singleChargeTotal": 128
+  },
+  "countryOfOrigin": "RUS",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 32,
+    "name": "Ground Attack"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.69,
+    "rcsM2": 7
+  },
+  "dimensions": {
+    "heightM": 5.129,
+    "lengthM": 19.26,
+    "wingSpanM": 13.68
+  },
+  "displayName": "Su-17M4",
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "HP30_30_AP"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "HP30_30_AP"
+        ],
+        "rounds": 80,
+        "type": "NR_30"
+      },
+      {
+        "ammo": [
+          "HP30_30_AP"
+        ],
+        "rounds": 80,
+        "type": "NR_30"
+      }
+    ],
+    "rounds": 160,
+    "type": "NR_30"
+  },
+  "id": "Su-17M4",
+  "kind": "fixedwing",
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.49640011097796,
+      -0.81915204428899,
+      0.023436679747723,
+      0.86602540378444
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          53
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          54
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          67
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          68
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          55
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          56
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          61
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          63
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          64
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          57
+        ],
+        "cell": 53
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 51,
+                  "direction": {
+                    "elevation": 0.13962634015955
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    5.46,
+                    -0.75,
+                    0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "direction": {
+                    "elevation": 0.13962634015955
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    5.46,
+                    -0.75,
+                    -0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    5.96,
+                    -0.75,
+                    0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                },
+                {
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    5.96,
+                    -0.75,
+                    -0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "3": {
+          "argument": 49,
+          "typename": "argumentlight"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 51,
+                  "direction": {
+                    "elevation": 0.20943951023932
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    5.46,
+                    -0.75,
+                    0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "direction": {
+                    "elevation": 0.20943951023932
+                  },
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    5.46,
+                    -0.75,
+                    -0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "intensity_max": 8,
+                  "movable": true,
+                  "position": [
+                    5.96,
+                    -0.75,
+                    0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Omni"
+                },
+                {
+                  "exposure": [
+                    [
+                      0,
+                      0.9,
+                      1
+                    ]
+                  ],
+                  "intensity_max": 8,
+                  "movable": true,
+                  "position": [
+                    5.96,
+                    -0.75,
+                    -0.4
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000025",
+    "shape": "SU-17"
+  },
+  "operations": {
+    "bigParkingRamp": false,
+    "laserDesignator": true,
+    "laserRangefinder": true
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 1998
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1988,
+        "to": 2004
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 2002
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1985,
+        "to": 9999
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1982,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1989,
+        "to": 9999
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1983,
+        "to": 1991
+      }
+    },
+    {
+      "country": 78,
+      "countryName": "GDR",
+      "years": {
+        "from": 1984,
+        "to": 1990
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN",
+      "years": {
+        "from": 1984,
+        "to": 2001
+      }
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.06,
+    "bankAngleMaxDeg": 60,
+    "casMin": 75,
+    "enginesCount": 1,
+    "hMaxM": 15200,
+    "machMax": 1.7,
+    "nyMax": 5.9,
+    "rangeKm": 1760,
+    "vLandMs": 79,
+    "vMaxHMs": 510,
+    "vMaxSeaLevelMs": 375,
+    "vOptMs": 174,
+    "vTakeOffMs": 100
+  },
+  "radios": [],
+  "sensors": [
+    "Abstract RWR"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "B-8M1 - 20 S-8OFP2"
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+        },
+        {
+          "clsid": "{292960BB-6518-41AC-BADA-210D65D5073C}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}"
+        },
+        {
+          "clsid": "{3DFB7320-AB0E-11d7-9897-000476191836}"
+        },
+        {
+          "clsid": "{414E383A-59EB-41BC-8566-2B5E0788ED1F}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{5A1AC2B4-CA4B-4D09-A1AF-AC52FBC4B60B}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{6A367BB4-327F-4A04-8D9E-6D86BDC98E7E}"
+        },
+        {
+          "clsid": "{6DADF342-D4BA-4D8A-B081-BA928C4AF86D}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A0648264-4BC0-4EE8-A543-D119F6BA4257}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{E86C5AA5-6D49-4F00-AD2E-79A62D6DDE26}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{F99BEC1A-869D-4AC7-9730-FBA0E3B1F5FC}"
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{Kh-25MP}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        },
+        {
+          "clsid": "{S_25_O}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -2.526,
+        "longitudinal": -1.784,
+        "vertical": -0.43
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{APU-60-1_R_60M}"
+        },
+        {
+          "clsid": "{R-60}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -1.853,
+        "longitudinal": 0.46,
+        "vertical": -0.304
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "B-8M1 - 20 S-8OFP2"
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+        },
+        {
+          "clsid": "{292960BB-6518-41AC-BADA-210D65D5073C}"
+        },
+        {
+          "clsid": "{3468C652-E830-4E73-AFA9-B5F260AB7C3D}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}"
+        },
+        {
+          "clsid": "{3DFB7320-AB0E-11d7-9897-000476191836}"
+        },
+        {
+          "clsid": "{3E35F8C1-052D-11d6-9191-00A0249B6F00}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{5A1AC2B4-CA4B-4D09-A1AF-AC52FBC4B60B}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{6A367BB4-327F-4A04-8D9E-6D86BDC98E7E}"
+        },
+        {
+          "clsid": "{6DADF342-D4BA-4D8A-B081-BA928C4AF86D}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A0648264-4BC0-4EE8-A543-D119F6BA4257}"
+        },
+        {
+          "clsid": "{B4FC81C9-B861-4E87-BBDC-A1158E648EBF}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{E86C5AA5-6D49-4F00-AD2E-79A62D6DDE26}"
+        },
+        {
+          "clsid": "{E92CBFE5-C153-11d8-9897-000476191836}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{F75187EF-1D9E-4DA9-84B4-1A1A14A3973A}"
+        },
+        {
+          "clsid": "{F99BEC1A-869D-4AC7-9730-FBA0E3B1F5FC}"
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}"
+        },
+        {
+          "clsid": "{Kh-25MP}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        },
+        {
+          "clsid": "{S_25_O}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -1.22,
+        "longitudinal": 1.5,
+        "vertical": -0.384
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{414E383A-59EB-41BC-8566-2B5E0788ED1F}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{5A1AC2B4-CA4B-4D09-A1AF-AC52FBC4B60B}"
+        },
+        {
+          "clsid": "{6A367BB4-327F-4A04-8D9E-6D86BDC98E7E}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": -0.417,
+        "longitudinal": 1.18,
+        "vertical": -0.745
+      },
+      "station": 4,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{414E383A-59EB-41BC-8566-2B5E0788ED1F}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{5A1AC2B4-CA4B-4D09-A1AF-AC52FBC4B60B}"
+        },
+        {
+          "clsid": "{6A367BB4-327F-4A04-8D9E-6D86BDC98E7E}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0.417,
+        "longitudinal": 1.18,
+        "vertical": -0.745
+      },
+      "station": 5,
+      "type": 1,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "B-8M1 - 20 S-8OFP2"
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+        },
+        {
+          "clsid": "{292960BB-6518-41AC-BADA-210D65D5073C}"
+        },
+        {
+          "clsid": "{3468C652-E830-4E73-AFA9-B5F260AB7C3D}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}"
+        },
+        {
+          "clsid": "{3DFB7320-AB0E-11d7-9897-000476191836}"
+        },
+        {
+          "clsid": "{3E35F8C1-052D-11d6-9191-00A0249B6F00}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{5A1AC2B4-CA4B-4D09-A1AF-AC52FBC4B60B}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{6A367BB4-327F-4A04-8D9E-6D86BDC98E7E}"
+        },
+        {
+          "clsid": "{6DADF342-D4BA-4D8A-B081-BA928C4AF86D}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A0648264-4BC0-4EE8-A543-D119F6BA4257}"
+        },
+        {
+          "clsid": "{B4FC81C9-B861-4E87-BBDC-A1158E648EBF}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E86C5AA5-6D49-4F00-AD2E-79A62D6DDE26}"
+        },
+        {
+          "clsid": "{E92CBFE5-C153-11d8-9897-000476191836}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{F99BEC1A-869D-4AC7-9730-FBA0E3B1F5FC}"
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{FE382A68-8620-4AC0-BDF5-709BFE3977D7}"
+        },
+        {
+          "clsid": "{Kh-25MP}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        },
+        {
+          "clsid": "{S_25_O}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 1.22,
+        "longitudinal": 1.5,
+        "vertical": -0.384
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{APU-60-1_R_60M}"
+        },
+        {
+          "clsid": "{R-60}"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 1.853,
+        "longitudinal": 0.46,
+        "vertical": -0.304
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "B-8M1 - 20 S-8OFP2"
+        },
+        {
+          "clsid": "{0511E528-EA28-4caf-A212-00D1408DF10A}"
+        },
+        {
+          "clsid": "{292960BB-6518-41AC-BADA-210D65D5073C}"
+        },
+        {
+          "clsid": "{35B698AC-9FEF-4EC4-AD29-484A0085F62B}"
+        },
+        {
+          "clsid": "{37DCC01E-9E02-432F-B61D-10C166CA2798}"
+        },
+        {
+          "clsid": "{3858707D-F5D5-4bbb-BDD8-ABB0530EBC7C}"
+        },
+        {
+          "clsid": "{3DFB7320-AB0E-11d7-9897-000476191836}"
+        },
+        {
+          "clsid": "{414E383A-59EB-41BC-8566-2B5E0788ED1F}"
+        },
+        {
+          "clsid": "{4203753F-8198-4E85-9924-6F8FF679F9FF}"
+        },
+        {
+          "clsid": "{5A1AC2B4-CA4B-4D09-A1AF-AC52FBC4B60B}"
+        },
+        {
+          "clsid": "{637334E4-AB5A-47C0-83A6-51B7F1DF3CD5}"
+        },
+        {
+          "clsid": "{6A367BB4-327F-4A04-8D9E-6D86BDC98E7E}"
+        },
+        {
+          "clsid": "{6DADF342-D4BA-4D8A-B081-BA928C4AF86D}"
+        },
+        {
+          "clsid": "{7AEC222D-C523-425e-B714-719C0D1EB14D}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74881}"
+        },
+        {
+          "clsid": "{96A7F676-F956-404A-AD04-F33FB2C74884}"
+        },
+        {
+          "clsid": "{A0648264-4BC0-4EE8-A543-D119F6BA4257}"
+        },
+        {
+          "clsid": "{BD289E34-DF84-4C5E-9220-4B14C346E79D}"
+        },
+        {
+          "clsid": "{D5435F26-F120-4FA3-9867-34ACE562EF1B}"
+        },
+        {
+          "clsid": "{E659C4BE-2CD8-4472-8C08-3F28ACB61A8A}"
+        },
+        {
+          "clsid": "{E86C5AA5-6D49-4F00-AD2E-79A62D6DDE26}"
+        },
+        {
+          "clsid": "{F72F47E5-C83A-4B85-96ED-D3E46671EE9A}"
+        },
+        {
+          "clsid": "{F99BEC1A-869D-4AC7-9730-FBA0E3B1F5FC}"
+        },
+        {
+          "clsid": "{FB3CE165-BF07-4979-887C-92B87F13276B}"
+        },
+        {
+          "clsid": "{FC56DF80-9B09-44C5-8976-DCFAFF219062}"
+        },
+        {
+          "clsid": "{Kh-25MP}"
+        },
+        {
+          "clsid": "{RBK_250_275_AO_1SCH}"
+        },
+        {
+          "clsid": "{S_25_O}"
+        },
+        {
+          "clsid": "{UB32A_S5KP}"
+        },
+        {
+          "clsid": "{UB32A_S5M}"
+        }
+      ],
+      "order": 8,
+      "position": {
+        "lateral": 2.526,
+        "longitudinal": -1.784,
+        "vertical": -0.43
+      },
+      "station": 8,
+      "type": 0,
+      "wet": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 33,
+      "name": "Pinpoint Strike"
+    },
+    {
+      "id": 29,
+      "name": "SEAD"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

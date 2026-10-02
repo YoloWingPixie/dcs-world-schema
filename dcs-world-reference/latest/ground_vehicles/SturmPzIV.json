@@ -1,0 +1,491 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          33.6,
+          2
+        ],
+        [
+          33.6,
+          180,
+          0.75
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          45,
+          1
+        ],
+        [
+          45,
+          90,
+          0.5
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          2
+        ],
+        [
+          20,
+          180,
+          0.75
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.04
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 2500,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.08,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4500
+  },
+  "dimensions": {
+    "lengthM": 5.92,
+    "massKg": 30050,
+    "widthM": 2.88
+  },
+  "displayName": "SPG Brummbaer AG",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "SturmPzIV",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 15
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 223.71,
+    "fordingDepthM": 0.5,
+    "maxRoadSpeedMs": 10.56,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 38.016,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 1,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "exterior_randomization": 60,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "61": 1.6,
+        "62": 1.6,
+        "63": 2.69,
+        "64": 2.69
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.05
+        },
+        {
+          "arg": 1,
+          "value": 0.255
+        },
+        {
+          "arg": 60,
+          "value": 1
+        }
+      ]
+    },
+    "file": "Brummbar_Late",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "Brummbar_Late",
+    "shapeDestroyed": "Brummbar_Late_p_1"
+  },
+  "operators": [
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1943,
+        "to": 1945
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH",
+      "years": {
+        "from": 1943,
+        "to": 1945
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Armor",
+    "SPG"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "I_Gr_33"
+      ],
+      "hMaxM": 500,
+      "launcherType": 6,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 19,
+          "gunAmmo": [
+            "I_Gr_33"
+          ],
+          "portionReloadTimeS": 120,
+          "shotDelayS": 22
+        },
+        {
+          "ammoCapacity": 19,
+          "gunAmmo": [
+            "I_Gr_33"
+          ],
+          "portionReloadTimeS": 120,
+          "shotDelayS": 33
+        }
+      ],
+      "rMaxKm": 4.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 10,
+      "sectorsRad": [
+        [
+          0.17453292519943,
+          -0.17453292519943,
+          -0.087266462599716,
+          0.5235987755983
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.034906585039887,
+        "yaw": 0.034906585039887
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "7_92x57_Smkl",
+        "7_92x57sS"
+      ],
+      "hMaxM": 600,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "MG34",
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "7.92x57",
+          "gunAmmo": [
+            "7_92x57_Smkl",
+            "7_92x57sS"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.1,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.17453292519943,
+          -0.17453292519943,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 2
+    }
+  ]
+}

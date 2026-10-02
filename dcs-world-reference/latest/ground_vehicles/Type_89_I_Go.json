@@ -1,0 +1,420 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          10,
+          2.9
+        ],
+        [
+          10,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.67
+        ],
+        [
+          150,
+          180,
+          0.2
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.1
+        ],
+        [
+          -45,
+          11,
+          1
+        ],
+        [
+          11,
+          19,
+          2.9
+        ],
+        [
+          19,
+          40,
+          1
+        ],
+        [
+          40,
+          90,
+          0.15
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          10,
+          2.9
+        ],
+        [
+          10,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.67
+        ],
+        [
+          150,
+          180,
+          0.25
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          2.9
+        ],
+        [
+          18,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.016
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 5000,
+    "irEmissionCoeff": 0.095,
+    "sensor": {
+      "heightM": 2.35,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 4.11,
+    "massKg": 7200,
+    "widthM": 2.11
+  },
+  "displayName": "Tk Type 89 I Go",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 5000
+  },
+  "id": "Type_89_I_Go",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 12
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 95.61,
+    "fordingDepthM": 0.9,
+    "maxRoadSpeedMs": 13.89,
+    "maxSlopeRad": 0.5235987755983,
+    "maxSpeedKmh": 50.004,
+    "maxVertObstacleM": 0.7,
+    "minTurnRadiusM": 6.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "61": 2.75,
+        "62": 2.75,
+        "63": 6.6,
+        "64": 6.6
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "Type_89_I_Go",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "Type_89_I_Go",
+    "shapeDestroyed": "Type_89_I_Go_Destroyed"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TPKU-2B",
+    "TPN1"
+  ],
+  "tags": [
+    "Armor",
+    "Tank"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "57mm_Type_90_JAP"
+      ],
+      "hMaxM": 3000,
+      "launcherType": 11,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "gunAmmo": [
+            "57mm_Type_90_JAP"
+          ],
+          "portionAmmoCapacity": 1,
+          "reloadTimeS": 1200,
+          "shotDelayS": 4
+        },
+        {
+          "ammoCapacity": 100,
+          "gunAmmo": [
+            "57mm_Type_90_JAP"
+          ],
+          "portionAmmoCapacity": 1,
+          "reloadTimeS": 1200,
+          "shotDelayS": 4
+        },
+        {
+          "ammoCapacity": 100,
+          "gunAmmo": [
+            "57mm_Type_90_JAP"
+          ],
+          "portionAmmoCapacity": 1,
+          "reloadTimeS": 1200,
+          "shotDelayS": 4
+        },
+        {
+          "ammoCapacity": 100,
+          "gunAmmo": [
+            "57mm_Type_90_JAP"
+          ],
+          "portionAmmoCapacity": 1,
+          "reloadTimeS": 1200,
+          "shotDelayS": 4
+        }
+      ],
+      "rMaxKm": 7.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.43633231299858
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.17453292519943,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "6_5mm_Type_91_JAP"
+      ],
+      "hMaxM": 1560,
+      "launcherType": 9,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 3.36,
+      "rMinKm": 0.0,
+      "reactionTimeS": 5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.61086523819802,
+          -0.61086523819802,
+          -0.43633231299858,
+          0.43633231299858
+        ]
+      ],
+      "ws": 2
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "6_5mm_Type_91_JAP"
+      ],
+      "hMaxM": 1560,
+      "launcherType": 9,
+      "ln": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        },
+        {
+          "ammoCapacity": 260,
+          "gunAmmo": [
+            "6_5mm_Type_91_JAP"
+          ],
+          "reloadTimeS": 10,
+          "shotDelayS": 0.12
+        }
+      ],
+      "rMaxKm": 3.36,
+      "rMinKm": 0.0,
+      "reactionTimeS": 5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.61086523819802,
+          -0.61086523819802,
+          -0.43633231299858,
+          0.43633231299858
+        ]
+      ],
+      "ws": 3
+    }
+  ]
+}

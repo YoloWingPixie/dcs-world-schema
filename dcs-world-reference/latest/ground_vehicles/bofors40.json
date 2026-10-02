@@ -1,0 +1,688 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Rocket Attack Valid AirDefence",
+    "Static AAA",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.01,
+    "sensor": {
+      "heightM": 1.736,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 2000
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "AAA Bofors 40mm",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 10000
+  },
+  "id": "bofors40",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 1.5
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "alarm_state_sequence": {
+        "1": [
+          3,
+          [
+            {
+              "endTime": 20,
+              "startTime": 0
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "2": [
+          11,
+          [
+            {
+              "endTime": 10,
+              "startTime": 0
+            },
+            {
+              "endTime": 20,
+              "leveling": true,
+              "startTime": 10
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "totalDuration": 25
+      },
+      "locator_rotation": -1
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.255
+        },
+        {
+          "arg": 1,
+          "value": 0.255
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "bofors40",
+    "mapClassKey": "P0091000015",
+    "positioning": "BYNORMAL",
+    "shape": "bofors40",
+    "shapeDestroyed": "bofors40_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1937,
+        "to": 1970
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1932,
+        "to": 1970
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1932,
+        "to": 1970
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA",
+      "years": {
+        "from": 1932,
+        "to": 1970
+      }
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1932,
+        "to": 1970
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY",
+      "years": {
+        "from": 1936,
+        "to": 1970
+      }
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 1932,
+        "to": 1970
+      }
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 1993,
+        "to": 1970
+      }
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1938,
+        "to": 1970
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 1937,
+        "to": 1970
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1934,
+        "to": 1970
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA",
+      "years": {
+        "from": 2006,
+        "to": 1970
+      }
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL",
+      "years": {
+        "from": 1938,
+        "to": 1970
+      }
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN",
+      "years": {
+        "from": 1938,
+        "to": 1970
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1938,
+        "to": 1970
+      }
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL",
+      "years": {
+        "from": 1939,
+        "to": 1970
+      }
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA",
+      "years": {
+        "from": 1937,
+        "to": 1970
+      }
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 89,
+      "countryName": "PERU",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND",
+      "years": {
+        "from": 1935,
+        "to": 1970
+      }
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "AAA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Bofors_40mm_HE"
+      ],
+      "hMaxM": 2000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "Bofors 40mm gun",
+      "payloads": [
+        {
+          "ammoCapacity": 200,
+          "ammoDisplayName": "Bofors_40mm_HE",
+          "gunAmmo": [
+            "Bofors_40mm_HE"
+          ],
+          "portionAmmoCapacity": 200,
+          "reloadTimeS": 1200,
+          "shotDelayS": 0.5
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 2,
+      "reflectionLimit": 1.1,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          1.5690509975429
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    }
+  ]
+}

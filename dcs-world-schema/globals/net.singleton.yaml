@@ -3,7 +3,7 @@ globals:
     kind: singleton
     description: "Provides functions for multiplayer networking, including chat, player management, and server administration."
     addedVersion: "2.5.0"
-    environment: [Server] # Most net functions are server-side
+    environment: [Server]
     static:
       send_chat:
         description: "Sends a chat message to players in the multiplayer session."
@@ -224,7 +224,6 @@ globals:
         returns: any
         environment: [Server]
       
-      # Chat message target constants
       CHAT_ALL:
         type: number
         description: "Constant for targeting chat messages to all players."
@@ -234,7 +233,6 @@ globals:
         description: "Constant for targeting chat messages to team members only."
         readonly: true
       
-      # Error codes
       ERR_BAD_CALLSIGN:
         type: number
         description: "Error code indicating an invalid player callsign."
@@ -296,7 +294,6 @@ globals:
         description: "Error code indicating incompatible DCS versions."
         readonly: true
       
-      # Game modes
       GAME_MODE_CONQUEST:
         type: number
         description: "Game mode constant for Conquest missions."
@@ -314,7 +311,6 @@ globals:
         description: "Game mode constant for Team Deathmatch missions."
         readonly: true
       
-      # Player statistics constants
       PS_CAR:
         type: number
         description: "Statistic ID for counting player's ground vehicle kills."
@@ -388,7 +384,6 @@ globals:
         description: "Statistic ID for counting player's naval vessel kills."
         readonly: true
       
-      # Resume mode constants
       RESUME_MANUAL:
         type: number
         description: "Constant for manual mission resumption control."

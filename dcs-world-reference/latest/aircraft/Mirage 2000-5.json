@@ -1,0 +1,635 @@
+{
+  "aero": {
+    "emptyMassKg": 7500,
+    "internalFuelKg": 3160,
+    "maxSpeedKmh": 2340,
+    "maxTakeoffKg": 17000
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Datalink",
+    "Link16",
+    "Multirole fighters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable"
+  ],
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 112,
+      "increment": 0
+    },
+    "cmdsEdit": false,
+    "flare": {
+      "chargeSize": 1,
+      "default": 16,
+      "increment": 0
+    },
+    "singleChargeTotal": 128
+  },
+  "countryOfOrigin": "FRA",
+  "crew": 1,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 150,
+    "irEmissionCoeff": 0.8,
+    "rcsM2": 5
+  },
+  "dimensions": {
+    "heightM": 5.2,
+    "lengthM": 14.36,
+    "wingSpanM": 9.13
+  },
+  "displayName": "Mirage 2000-5",
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "DEFA552_30"
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "DEFA552_30"
+        ],
+        "rounds": 125,
+        "type": "DEFA_554"
+      },
+      {
+        "ammo": [
+          "DEFA552_30"
+        ],
+        "rounds": 125,
+        "type": "DEFA_554"
+      }
+    ],
+    "rounds": 250,
+    "type": "DEFA_554"
+  },
+  "id": "Mirage 2000-5",
+  "kind": "fixedwing",
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.55667039922642,
+      -0.93969262078591,
+      -0.29883623873012,
+      0.34202014332567
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          55
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          56
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          61
+        ],
+        "cell": 44
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": -0.078539816339745,
+                  "angle_max": 0.34906585039887,
+                  "angle_min": 0.27925268031909,
+                  "argument": 51,
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    3.853,
+                    -1.112,
+                    -0.106
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "angle_change_rate": -0.078539816339745,
+                  "angle_max": 0.34906585039887,
+                  "angle_min": 0.27925268031909,
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    3.853,
+                    -1.112,
+                    0.106
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    4.353,
+                    -1.112,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "argument": 49,
+          "typename": "argumentlight"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": -0.23561944901923,
+                  "angle_max": 0.97738438111682,
+                  "angle_min": 0.80285145591739,
+                  "argument": 51,
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    3.853,
+                    -1.112,
+                    -0.106
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "angle_change_rate": -0.23561944901923,
+                  "angle_max": 0.97738438111682,
+                  "angle_min": 0.80285145591739,
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    3.853,
+                    -1.112,
+                    0.106
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "exposure": [
+                    [
+                      0,
+                      0.99,
+                      1
+                    ]
+                  ],
+                  "movable": true,
+                  "position": [
+                    4.353,
+                    -1.112,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000024",
+    "shape": "M2000"
+  },
+  "operations": {
+    "bigParkingRamp": false,
+    "eplrs": true
+  },
+  "operators": [
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 2000,
+        "to": 9999
+      }
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR",
+      "years": {
+        "from": 1997,
+        "to": 9999
+      }
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.07,
+    "bankAngleMaxDeg": 60,
+    "casMin": 52,
+    "enginesCount": 1,
+    "hMaxM": 16460,
+    "machMax": 2.3,
+    "nyMax": 8,
+    "rangeKm": 1852,
+    "vLandMs": 64,
+    "vMaxHMs": 660,
+    "vMaxSeaLevelMs": 403,
+    "vOptMs": 170,
+    "vTakeOffMs": 64
+  },
+  "radios": [],
+  "refuelling": {
+    "receptaclePosition": [
+      5.928,
+      0.885,
+      0.521
+    ],
+    "tankerType": 2
+  },
+  "sensors": [
+    "Abstract RWR",
+    "RDY"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -3.21,
+        "longitudinal": -2.451,
+        "vertical": -0.614
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0DA03783-61E4-40B2-8FAE-6AEE0A5C5AAE}"
+        },
+        {
+          "clsid": "{414DA830-B61A-4F9E-B71B-C2F6832E1D7A}"
+        },
+        {
+          "clsid": "{6D778860-7BB8-4ACB-9E95-BA772C6BBC2C}"
+        },
+        {
+          "clsid": "{FD21B13E-57F3-4C2A-9F78-C522D0B5BCE1}"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -2.34,
+        "longitudinal": -2.384,
+        "vertical": -0.612
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0DA03783-61E4-40B2-8FAE-6AEE0A5C5AAE}"
+        },
+        {
+          "clsid": "{6D778860-7BB8-4ACB-9E95-BA772C6BBC2C}"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -0.802,
+        "longitudinal": 1.048,
+        "vertical": -0.543
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0DA03783-61E4-40B2-8FAE-6AEE0A5C5AAE}"
+        },
+        {
+          "clsid": "{6D778860-7BB8-4ACB-9E95-BA772C6BBC2C}"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": -0.802,
+        "longitudinal": -3.072,
+        "vertical": -0.543
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{414DA830-B61A-4F9E-B71B-C2F6832E1D7A}"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 0,
+        "longitudinal": -0.975,
+        "vertical": -0.81
+      },
+      "station": 5,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0DA03783-61E4-40B2-8FAE-6AEE0A5C5AAE}"
+        },
+        {
+          "clsid": "{6D778860-7BB8-4ACB-9E95-BA772C6BBC2C}"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 0.802,
+        "longitudinal": -3.072,
+        "vertical": -0.543
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0DA03783-61E4-40B2-8FAE-6AEE0A5C5AAE}"
+        },
+        {
+          "clsid": "{6D778860-7BB8-4ACB-9E95-BA772C6BBC2C}"
+        }
+      ],
+      "order": 7,
+      "position": {
+        "lateral": 0.802,
+        "longitudinal": 1.048,
+        "vertical": -0.543
+      },
+      "station": 7,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{0DA03783-61E4-40B2-8FAE-6AEE0A5C5AAE}"
+        },
+        {
+          "clsid": "{414DA830-B61A-4F9E-B71B-C2F6832E1D7A}"
+        },
+        {
+          "clsid": "{6D778860-7BB8-4ACB-9E95-BA772C6BBC2C}"
+        },
+        {
+          "clsid": "{FD21B13E-57F3-4C2A-9F78-C522D0B5BCE1}"
+        }
+      ],
+      "order": 8,
+      "position": {
+        "lateral": 2.34,
+        "longitudinal": -2.384,
+        "vertical": -0.612
+      },
+      "station": 8,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{FC23864E-3B80-48E3-9C03-4DA8B1D7497B}"
+        }
+      ],
+      "order": 9,
+      "position": {
+        "lateral": 3.21,
+        "longitudinal": -2.451,
+        "vertical": -0.614
+      },
+      "station": 9,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 17,
+      "name": "Reconnaissance"
+    }
+  ]
+}

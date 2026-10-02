@@ -1,0 +1,300 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.002
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "C-RAM",
+    "Datalink",
+    "Ground Units",
+    "Ground vehicles",
+    "Mobile AAA",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Rocket Attack Valid AirDefence",
+    "SAM TR",
+    "SAM elements",
+    "SAM related",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 10000,
+    "irEmissionCoeff": 0.1,
+    "sensor": {
+      "heightM": 3.872,
+      "maxAltM": 6000,
+      "maxRangeM": 10000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 2000
+  },
+  "dimensions": {
+    "lengthM": 8.5,
+    "massKg": 15000,
+    "widthM": 2.5
+  },
+  "displayName": "LPWS C-RAM",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 10000,
+    "radarType": 104,
+    "radarTypeName": "wsType_MissGun"
+  },
+  "id": "HEMTT_C-RAM_Phalanx",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3.5
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 5
+    }
+  ],
+  "mobility": {
+    "enginePower": 160,
+    "fordingDepthM": 1.2,
+    "maxRoadSpeedMs": 20.8333,
+    "maxSlopeRad": 0.27,
+    "maxSpeedKmh": 74.99988,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 10.5,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "alarm_state_sequence": {
+        "1": [
+          2,
+          [
+            {
+              "endTime": 20,
+              "startTime": 0
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "totalDuration": 25
+      },
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": -0.137
+        },
+        {
+          "arg": 1,
+          "value": 0.439
+        },
+        {
+          "arg": 2,
+          "value": 1
+        },
+        {
+          "arg": 8,
+          "value": 0.184
+        }
+      ]
+    },
+    "file": "HEMTT_C-RAM_Phalanx",
+    "mapClassKey": "SPAAA_RAD_Truck",
+    "positioning": "BYNORMAL",
+    "shape": "HEMTT_C-RAM_Phalanx",
+    "shapeDestroyed": "HEMTT_C-RAM_Phalanx_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 2016,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "C_RAM_Phalanx"
+  ],
+  "tags": [
+    "Air Defence",
+    "SP AAA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 1.5707963267949,
+      "displayName": "Phalanx",
+      "frequencyRangeHz": [
+        12000000000,
+        18000000000
+      ],
+      "gunAmmo": [
+        "M246_20_HE_gr"
+      ],
+      "hMaxM": 2000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "Phalanx",
+      "payloads": [
+        {
+          "ammoCapacity": 1550,
+          "ammoDisplayName": "20mm AP+HE",
+          "gunAmmo": [
+            "M246_20_HE_gr"
+          ],
+          "reloadTimeS": 300,
+          "shotDelayS": 0.013333333333333
+        }
+      ],
+      "rMaxKm": 2.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.3,
+      "reflectionLimit": 0.01,
+      "sectorsRad": [
+        [
+          2.833716573538,
+          0.31415926535898,
+          -0.17453292519943,
+          1.5707963267949
+        ],
+        [
+          0.31415926535898,
+          -0.31415926535898,
+          -0.076794487087751,
+          1.5707963267949
+        ],
+        [
+          -0.31415926535898,
+          -2.833716573538,
+          -0.17453292519943,
+          1.5707963267949
+        ],
+        [
+          -2.833716573538,
+          2.833716573538,
+          -0.076794487087751,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 2.0245819323134,
+        "yaw": 2.0071286397935
+      },
+      "ws": 1
+    }
+  ]
+}

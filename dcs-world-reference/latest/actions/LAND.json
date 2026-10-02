@@ -1,0 +1,282 @@
+{
+  "_source": {
+    "params[name=point]": "hand-authored"
+  },
+  "availableFor": [
+    {
+      "category": "helicopter",
+      "groupTask": "AFAC"
+    },
+    {
+      "category": "helicopter",
+      "edPublicHidden": true,
+      "groupTask": "Airborne"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Antiship Strike"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "CAS"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Default"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Escort"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Ground Attack"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Nothing"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Reconnaissance"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "SEAD"
+    },
+    {
+      "category": "helicopter",
+      "groupTask": "Transport"
+    }
+  ],
+  "dcsId": "Land",
+  "defaultParams": {
+    "combatLandingFlag": false,
+    "duration": 300,
+    "durationFlag": false
+  },
+  "description": "Land on the ground temporary",
+  "displayName": "Land",
+  "id": "LAND",
+  "kind": "task",
+  "missions": {
+    "categories": [
+      "helicopter"
+    ],
+    "contexts": {
+      "route>ComboTask": 386,
+      "route>ComboTask>ControlledTask": 196,
+      "triggered": 57,
+      "triggered>ControlledTask": 1
+    },
+    "count": 640
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 86,
+      "name": "combatLandingFlag",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 90,
+      "name": "direction",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 90,
+      "name": "directionEnabled",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "missionCount": 640,
+      "name": "duration",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 640,
+      "name": "durationFlag",
+      "seenIn": [
+        "default",
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "boolean"
+      ]
+    },
+    {
+      "name": "point",
+      "seenIn": [],
+      "types": [
+        "table"
+      ]
+    },
+    {
+      "missionCount": 640,
+      "name": "x",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 640,
+      "name": "y",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "Land",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "setTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "land",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "Land",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "pushTask",
+      "effectObserved": false,
+      "hasTaskAfter": false,
+      "id": "land",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "effectObserved": false,
+      "hasTaskAfter": true,
+      "id": "Land",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "comboTask",
+      "effectObserved": true,
+      "hasTaskAfter": false,
+      "id": "land",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "effectObserved": true,
+      "hasTaskAfter": true,
+      "id": "Land",
+      "logLines": 1,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel",
+        "lower",
+        "schema"
+      ],
+      "category": "helicopter",
+      "context": "route",
+      "effectObserved": false,
+      "hasTaskAfter": true,
+      "id": "land",
+      "logLines": 2,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": false
+}

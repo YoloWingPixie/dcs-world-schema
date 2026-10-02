@@ -1,0 +1,726 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1.62
+        ],
+        [
+          30,
+          150,
+          1
+        ],
+        [
+          150,
+          180,
+          0.6
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          -45,
+          0.5
+        ],
+        [
+          -45,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.4
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          20,
+          1.62
+        ],
+        [
+          20,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          25,
+          1
+        ],
+        [
+          25,
+          90,
+          0.2
+        ]
+      ]
+    },
+    "thickness": 0.095
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "Old Tanks",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "airWeaponDistM": 0,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.105,
+    "sensor": {
+      "heightM": 2.5,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 3000
+  },
+  "dimensions": {
+    "lengthM": 7.44,
+    "massKg": 41000,
+    "widthM": 3.25
+  },
+  "displayName": "Tk Churchill VII",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 4000
+  },
+  "id": "Churchill_VII",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 13
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 261,
+    "fordingDepthM": 0.5,
+    "maxRoadSpeedMs": 5.55,
+    "maxSlopeRad": 0.32,
+    "maxSpeedKmh": 19.98,
+    "maxVertObstacleM": 0.4,
+    "minTurnRadiusM": 3.3,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": {
+        "12": 1,
+        "14": 1,
+        "61": 3,
+        "62": 2.8
+      },
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "churchill_vii",
+    "mapClassKey": "P0091000001",
+    "positioning": "BYNORMAL",
+    "shape": "churchill_vii",
+    "shapeDestroyed": "churchill_vii_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1944,
+        "to": 1952
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "TRP-2A day",
+    "TRP-2A night"
+  ],
+  "tags": [
+    "Armor",
+    "Tank"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M61"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 35,
+          "gunAmmo": [
+            "M61"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 7
+        },
+        {
+          "ammoCapacity": 25,
+          "gunAmmo": [
+            "M61"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 12
+        }
+      ],
+      "rMaxKm": 3.0,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          0.69813170079773,
+          -0.69813170079773,
+          -0.15707963267949,
+          0.34906585039887
+        ],
+        [
+          2.7925268031909,
+          2.2689280275926,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          2.2689280275926,
+          0.69813170079773,
+          -0.21816615649929,
+          0.34906585039887
+        ],
+        [
+          -0.69813170079773,
+          -2.2689280275926,
+          -0.21816615649929,
+          0.34906585039887
+        ],
+        [
+          -2.2689280275926,
+          -2.7925268031909,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          -2.7925268031909,
+          2.7925268031909,
+          0.039269908169872,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.41887902047864
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "M46"
+      ],
+      "hMaxM": 1500,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 14,
+          "gunAmmo": [
+            "M46"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 7
+        },
+        {
+          "ammoCapacity": 10,
+          "gunAmmo": [
+            "M46"
+          ],
+          "portionReloadTimeS": 15,
+          "shotDelayS": 12
+        }
+      ],
+      "rMaxKm": 4.0,
+      "rMinKm": 0.3,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          0.69813170079773,
+          -0.69813170079773,
+          -0.15707963267949,
+          0.34906585039887
+        ],
+        [
+          2.7925268031909,
+          2.2689280275926,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          2.2689280275926,
+          0.69813170079773,
+          -0.21816615649929,
+          0.34906585039887
+        ],
+        [
+          -0.69813170079773,
+          -2.2689280275926,
+          -0.21816615649929,
+          0.34906585039887
+        ],
+        [
+          -2.2689280275926,
+          -2.7925268031909,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          -2.7925268031909,
+          2.7925268031909,
+          0.039269908169872,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.41887902047864
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Besa7_92x57",
+        "Besa7_92x57T"
+      ],
+      "hMaxM": 600,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "Besa",
+      "payloads": [
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.1,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.69813170079773,
+          -0.69813170079773,
+          -0.15707963267949,
+          0.34906585039887
+        ],
+        [
+          2.7925268031909,
+          2.2689280275926,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          2.2689280275926,
+          0.69813170079773,
+          -0.21816615649929,
+          0.34906585039887
+        ],
+        [
+          -0.69813170079773,
+          -2.2689280275926,
+          -0.21816615649929,
+          0.34906585039887
+        ],
+        [
+          -2.2689280275926,
+          -2.7925268031909,
+          -0.087266462599716,
+          0.34906585039887
+        ],
+        [
+          -2.7925268031909,
+          2.7925268031909,
+          0.039269908169872,
+          0.34906585039887
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.31415926535898,
+        "yaw": 0.41887902047864
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "gunAmmo": [
+        "Besa7_92x57",
+        "Besa7_92x57T"
+      ],
+      "hMaxM": 600,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "Besa",
+      "payloads": [
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 225,
+          "ammoDisplayName": "Besa 7.92x57",
+          "gunAmmo": [
+            "Besa7_92x57",
+            "Besa7_92x57T"
+          ],
+          "portionAmmoCapacity": 225,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.1,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.41015237421867,
+          -0.41015237421867,
+          -0.13962634015955,
+          0.29670597283904
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 2
+    }
+  ]
+}

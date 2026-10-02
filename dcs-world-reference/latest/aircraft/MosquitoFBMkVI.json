@@ -1,0 +1,4301 @@
+{
+  "aero": {
+    "emptyMassKg": 7489.5,
+    "internalFuelKg": 1483.1,
+    "maxSpeedKmh": 648,
+    "maxTakeoffKg": 11000
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Battle airplanes",
+    "Battleplanes",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes"
+  ],
+  "countryOfOrigin": "UK",
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 124,
+    "maxMHz": 156,
+    "minMHz": 0.2,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 11,
+    "name": "CAP"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.1,
+    "rcsM2": 2.5
+  },
+  "dimensions": {
+    "heightM": 3.81,
+    "lengthM": 12.34,
+    "wingSpanM": 16.3
+  },
+  "displayName": "Mosquito FB Mk. VI",
+  "failures": [
+    {
+      "id": "CTRL_LANDING_FLAPS_LH_HOSE",
+      "label": "Left flap hydraulic hose damaged"
+    },
+    {
+      "id": "CTRL_LANDING_FLAPS_RH_HOSE",
+      "label": "Right flap hydraulic hose damaged"
+    },
+    {
+      "id": "ELEC_PORT_LIGHT_DAMAGED",
+      "label": "Port landing light damaged"
+    },
+    {
+      "id": "ELEC_STBD_LIGHT_DAMAGED",
+      "label": "Starboard landing light damaged"
+    },
+    {
+      "id": "VHF_CRYSTAL",
+      "label": "Radio. Crystal or tube failure"
+    },
+    {
+      "id": "VHF_SHORTED_CTL_BOX",
+      "label": "Radio. Shorted control box"
+    },
+    {
+      "id": "VHF_VT_BURNED_OUT",
+      "label": "Radio. Receiver burned out"
+    },
+    {
+      "id": "VHF_VT207_DEFECTIVE",
+      "label": "Radio. Squelch tube burned out"
+    },
+    {
+      "id": "VHF_SQUELCH_RELAY",
+      "label": "Radio. Squelch relay not working"
+    },
+    {
+      "id": "INST_TACH0_LOOM_SEVERED",
+      "label": "Left tachometer circuit failure"
+    },
+    {
+      "id": "INST_TACH0_POOR_CONNECTION",
+      "label": "Left tachometer poor connection"
+    },
+    {
+      "id": "INST_TACH0_RESISTANCE_MISMATCH",
+      "label": "Left tachometer indicator adjustment fault"
+    },
+    {
+      "id": "INST_TACH1_LOOM_SEVERED",
+      "label": "Right tachometer circuit failure"
+    },
+    {
+      "id": "INST_TACH1_POOR_CONNECTION",
+      "label": "Right tachometer poor connection"
+    },
+    {
+      "id": "INST_TACH1_RESISTANCE_MISMATCH",
+      "label": "Right tachometer indicator adjustment fault"
+    },
+    {
+      "id": "COMPASS_ERRATIC_OPERATION",
+      "label": "Repeater compass wires shorted or open. Erratic operation"
+    },
+    {
+      "id": "UNCR_DN_HOSES_CLOGGED",
+      "label": "Undercarriage extension hose clogged"
+    },
+    {
+      "id": "UNCR_UP_HOSES_CLOGGED",
+      "label": "Undercarriage retraction hose clogged"
+    },
+    {
+      "id": "WEAP_GUN_00_DAMAGED",
+      "label": "Hispano cannon (No. 1) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_00_AMMO_BELT_SEVERED",
+      "label": "Hispano cannon (No. 1) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_01_DAMAGED",
+      "label": "Hispano cannon (No. 2) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_01_AMMO_BELT_SEVERED",
+      "label": "Hispano cannon (No. 2) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_02_DAMAGED",
+      "label": "Hispano cannon (No. 3) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_02_AMMO_BELT_SEVERED",
+      "label": "Hispano cannon (No. 3) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_03_DAMAGED",
+      "label": "Hispano cannon (No. 4) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_03_AMMO_BELT_SEVERED",
+      "label": "Hispano cannon (No. 4) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_04_DAMAGED",
+      "label": "Browning MG (No. 1) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_04_AMMO_BELT_SEVERED",
+      "label": "Browning MG (No. 1) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_05_DAMAGED",
+      "label": "Browning MG (No. 2) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_05_AMMO_BELT_SEVERED",
+      "label": "Browning MG (No. 2) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_06_DAMAGED",
+      "label": "Browning MG (No. 3) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_06_AMMO_BELT_SEVERED",
+      "label": "Browning MG (No. 3) ammo supply damaged"
+    },
+    {
+      "id": "WEAP_GUN_07_DAMAGED",
+      "label": "Browning MG (No. 4) inoperable"
+    },
+    {
+      "id": "WEAP_GUN_07_AMMO_BELT_SEVERED",
+      "label": "Browning MG (No. 4) ammo supply damaged"
+    }
+  ],
+  "flyable": false,
+  "gun": {
+    "ammo": [
+      "British303_B_Mk4z",
+      "British303_B_Mk6z",
+      "British303_Ball_Mk1c",
+      "British303_Ball_Mk6",
+      "British303_Ball_Mk7",
+      "British303_Ball_Mk8",
+      "British303_G_Mk1",
+      "British303_G_Mk2",
+      "British303_G_Mk3",
+      "British303_G_Mk4",
+      "British303_G_Mk5",
+      "British303_G_Mk6z",
+      "British303_O_Mk1",
+      "British303_W_Mk1z",
+      "Hispano_Mk_II_AP/T",
+      "Hispano_Mk_II_MKIIZ_AP",
+      "Hispano_Mk_II_MKI_HE/I",
+      "Hispano_Mk_II_Mk_Z_Ball",
+      "Hispano_Mk_II_SAP/I",
+      "Hispano_Mk_II_Tracer_G"
+    ],
+    "mixes": [
+      {
+        "label": "APIT - AP/De Wilde (Tracer) + 20mm HEI/SAPI/APT"
+      },
+      {
+        "label": "BaIT - Ball/De Wilde (Tracer) + 20mm HEI/SAPI/APT"
+      },
+      {
+        "label": "API - AP/De Wilde + 20mm HEI/SAPI"
+      },
+      {
+        "label": "BaI - Ball/De Wilde + 20mm HEI/SAPI"
+      },
+      {
+        "label": "CM - Combat Mix"
+      },
+      {
+        "label": "HE - Anti-Bomber"
+      },
+      {
+        "label": "AG - Ground Attack"
+      },
+      {
+        "label": "CS - No Tracers"
+      },
+      {
+        "label": "NO - Night Time Tracers"
+      },
+      {
+        "label": "TP - Target Practice"
+      }
+    ],
+    "mounts": [
+      {
+        "ammo": [
+          "Hispano_Mk_II_Mk_Z_Ball",
+          "Hispano_Mk_II_MKI_HE/I",
+          "Hispano_Mk_II_MKIIZ_AP",
+          "Hispano_Mk_II_SAP/I",
+          "Hispano_Mk_II_Tracer_G",
+          "Hispano_Mk_II_AP/T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Tracer_G",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          }
+        ],
+        "rounds": 150,
+        "type": "HispanoMkII"
+      },
+      {
+        "ammo": [
+          "Hispano_Mk_II_Mk_Z_Ball",
+          "Hispano_Mk_II_MKI_HE/I",
+          "Hispano_Mk_II_MKIIZ_AP",
+          "Hispano_Mk_II_SAP/I",
+          "Hispano_Mk_II_Tracer_G",
+          "Hispano_Mk_II_AP/T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Tracer_G",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          }
+        ],
+        "rounds": 150,
+        "type": "HispanoMkII"
+      },
+      {
+        "ammo": [
+          "Hispano_Mk_II_Mk_Z_Ball",
+          "Hispano_Mk_II_MKI_HE/I",
+          "Hispano_Mk_II_MKIIZ_AP",
+          "Hispano_Mk_II_SAP/I",
+          "Hispano_Mk_II_Tracer_G",
+          "Hispano_Mk_II_AP/T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKIIZ_AP"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_MKI_HE/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Tracer_G",
+              "Hispano_Mk_II_MKI_HE/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          }
+        ],
+        "rounds": 150,
+        "type": "HispanoMkII"
+      },
+      {
+        "ammo": [
+          "Hispano_Mk_II_Mk_Z_Ball",
+          "Hispano_Mk_II_MKI_HE/I",
+          "Hispano_Mk_II_MKIIZ_AP",
+          "Hispano_Mk_II_SAP/I",
+          "Hispano_Mk_II_Tracer_G",
+          "Hispano_Mk_II_AP/T"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP",
+              "Hispano_Mk_II_MKIIZ_AP"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_Tracer_G",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_MKI_HE/I",
+              "Hispano_Mk_II_SAP/I",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          },
+          {
+            "ammo": [
+              "Hispano_Mk_II_AP/T",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball",
+              "Hispano_Mk_II_Mk_Z_Ball"
+            ]
+          }
+        ],
+        "rounds": 150,
+        "type": "HispanoMkII"
+      },
+      {
+        "ammo": [
+          "British303_Ball_Mk1c",
+          "British303_Ball_Mk6",
+          "British303_Ball_Mk7",
+          "British303_Ball_Mk8",
+          "British303_G_Mk1",
+          "British303_G_Mk2",
+          "British303_G_Mk3",
+          "British303_G_Mk4",
+          "British303_G_Mk5",
+          "British303_G_Mk6z",
+          "British303_W_Mk1z",
+          "British303_B_Mk4z",
+          "British303_B_Mk6z",
+          "British303_O_Mk1"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_O_Mk1",
+              "British303_Ball_Mk7",
+              "British303_Ball_Mk7",
+              "British303_Ball_Mk7",
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_O_Mk1",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_O_Mk1",
+              "British303_Ball_Mk7",
+              "British303_Ball_Mk7",
+              "British303_Ball_Mk7",
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_O_Mk1",
+              "British303_Ball_Mk1c"
+            ]
+          }
+        ],
+        "rounds": 500,
+        "type": "Browning303MkII"
+      },
+      {
+        "ammo": [
+          "British303_Ball_Mk1c",
+          "British303_Ball_Mk6",
+          "British303_Ball_Mk7",
+          "British303_Ball_Mk8",
+          "British303_G_Mk1",
+          "British303_G_Mk2",
+          "British303_G_Mk3",
+          "British303_G_Mk4",
+          "British303_G_Mk5",
+          "British303_G_Mk6z",
+          "British303_W_Mk1z",
+          "British303_B_Mk4z",
+          "British303_B_Mk6z",
+          "British303_O_Mk1"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z",
+              "British303_G_Mk2",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_G_Mk5",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_G_Mk4"
+            ]
+          }
+        ],
+        "rounds": 500,
+        "type": "Browning303MkII"
+      },
+      {
+        "ammo": [
+          "British303_Ball_Mk1c",
+          "British303_Ball_Mk6",
+          "British303_Ball_Mk7",
+          "British303_Ball_Mk8",
+          "British303_G_Mk1",
+          "British303_G_Mk2",
+          "British303_G_Mk3",
+          "British303_G_Mk4",
+          "British303_G_Mk5",
+          "British303_G_Mk6z",
+          "British303_W_Mk1z",
+          "British303_B_Mk4z",
+          "British303_B_Mk6z",
+          "British303_O_Mk1"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_G_Mk2",
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk5",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_G_Mk4"
+            ]
+          }
+        ],
+        "rounds": 500,
+        "type": "Browning303MkII"
+      },
+      {
+        "ammo": [
+          "British303_Ball_Mk1c",
+          "British303_Ball_Mk6",
+          "British303_Ball_Mk7",
+          "British303_Ball_Mk8",
+          "British303_G_Mk1",
+          "British303_G_Mk2",
+          "British303_G_Mk3",
+          "British303_G_Mk4",
+          "British303_G_Mk5",
+          "British303_G_Mk6z",
+          "British303_W_Mk1z",
+          "British303_B_Mk4z",
+          "British303_B_Mk6z",
+          "British303_O_Mk1"
+        ],
+        "mixes": [
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z",
+              "British303_G_Mk4",
+              "British303_B_Mk6z",
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_B_Mk6z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_O_Mk1",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_O_Mk1",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z",
+              "British303_W_Mk1z",
+              "British303_G_Mk2",
+              "British303_W_Mk1z",
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk7"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_W_Mk1z"
+            ]
+          },
+          {
+            "ammo": [
+              "British303_Ball_Mk1c",
+              "British303_O_Mk1"
+            ]
+          }
+        ],
+        "rounds": 500,
+        "type": "Browning303MkII"
+      }
+    ],
+    "rounds": 2600,
+    "type": "HispanoMkII"
+  },
+  "id": "MosquitoFBMkVI",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 48
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 472,
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "weightWhenOnKg": -90
+    },
+    {
+      "control": "comboList",
+      "default": 1,
+      "id": "Flare_Gun",
+      "label": "Flare Gun Port",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "None"
+        },
+        {
+          "id": 1,
+          "label": "Flare Gun"
+        }
+      ]
+    },
+    {
+      "arg": 203,
+      "control": "comboList",
+      "default": 0.15,
+      "id": "ResinLights",
+      "label": "Resin Lights Colour Filter",
+      "values": [
+        {
+          "id": 0.15,
+          "label": "Red",
+          "value": 0.15
+        },
+        {
+          "id": 0.25,
+          "label": "Orange",
+          "value": 0.25
+        },
+        {
+          "id": 0.35,
+          "label": "Yellow",
+          "value": 0.35
+        },
+        {
+          "id": 0.45,
+          "label": "Green",
+          "value": 0.45
+        },
+        {
+          "id": 0.55,
+          "label": "Sky",
+          "value": 0.55
+        },
+        {
+          "id": 0.65,
+          "label": "Blue",
+          "value": 0.65
+        },
+        {
+          "id": 0.75,
+          "label": "Violet",
+          "value": 0.75
+        },
+        {
+          "id": 0.05,
+          "label": "White",
+          "value": 0.05
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.17364817766693,
+      -0.55667039922642,
+      -0.93969262078591,
+      -0.51342418176678,
+      -0.087155742747658
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          148
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          228
+        ],
+        "cell": 31
+      },
+      {
+        "args": [
+          218
+        ],
+        "cell": 32
+      },
+      {
+        "args": [
+          227
+        ],
+        "cell": 37
+      },
+      {
+        "args": [
+          217
+        ],
+        "cell": 38
+      },
+      {
+        "args": [
+          241
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          239
+        ],
+        "cell": 49
+      },
+      {
+        "args": [
+          237
+        ],
+        "cell": 50
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          248
+        ],
+        "cell": 54
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 58
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 59
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          380
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          381
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 70
+      },
+      {
+        "args": [
+          382
+        ],
+        "cell": 72
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 73
+      },
+      {
+        "args": [
+          383
+        ],
+        "cell": 75
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 76
+      },
+      {
+        "args": [
+          384
+        ],
+        "cell": 78
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 79
+      },
+      {
+        "args": [
+          385
+        ],
+        "cell": 81
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      },
+      {
+        "args": [
+          147
+        ],
+        "cell": 99
+      },
+      {
+        "args": [
+          151
+        ],
+        "cell": 100
+      },
+      {
+        "args": [
+          168,
+          166,
+          169
+        ],
+        "cell": 103
+      },
+      {
+        "args": [
+          162,
+          160,
+          163
+        ],
+        "cell": 104
+      },
+      {
+        "args": [
+          213
+        ],
+        "cell": 111
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 112
+      },
+      {
+        "args": [
+          -1,
+          167,
+          170,
+          171
+        ],
+        "cell": 113
+      },
+      {
+        "args": [
+          58
+        ],
+        "cell": 114
+      },
+      {
+        "args": [
+          59
+        ],
+        "cell": 115
+      },
+      {
+        "args": [
+          60
+        ],
+        "cell": 116
+      },
+      {
+        "args": [
+          61
+        ],
+        "cell": 117
+      },
+      {
+        "args": [
+          223
+        ],
+        "cell": 123
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 124
+      },
+      {
+        "args": [
+          -1,
+          161,
+          164,
+          165
+        ],
+        "cell": 125
+      },
+      {
+        "args": [
+          53
+        ],
+        "cell": 126
+      },
+      {
+        "args": [
+          54
+        ],
+        "cell": 127
+      },
+      {
+        "args": [
+          55
+        ],
+        "cell": 128
+      },
+      {
+        "args": [
+          56
+        ],
+        "cell": 129
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 137
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 138
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 139
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 140
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 141
+      },
+      {
+        "args": [
+          118
+        ],
+        "cell": 142
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 143
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 144
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 145
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 146
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 147
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 148
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 149
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 150
+      },
+      {
+        "args": [
+          -1
+        ],
+        "cell": 151
+      }
+    ],
+    "file": "MosquitoFBMkVI",
+    "lightsData": {
+      "lights": {
+        "12": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 200,
+                  "color": [
+                    0.99,
+                    0.11,
+                    0.11,
+                    0.15
+                  ],
+                  "connector": "Light_200",
+                  "pos_correction": [
+                    0.2,
+                    0,
+                    0
+                  ],
+                  "power_up_t": 0.005,
+                  "range": 8,
+                  "typename": "omnilight"
+                },
+                {
+                  "angle_max": 2.4434609527921,
+                  "angle_min": 0,
+                  "color": [
+                    0.99,
+                    0.11,
+                    0.11,
+                    0.15
+                  ],
+                  "connector": "Light_200",
+                  "power_up_t": 0.005,
+                  "range": 120,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "Collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 201,
+                  "color": [
+                    0,
+                    0.894,
+                    0.6,
+                    0.15
+                  ],
+                  "connector": "Light_201",
+                  "pos_correction": [
+                    0.2,
+                    0,
+                    0
+                  ],
+                  "power_up_t": 0.005,
+                  "range": 8,
+                  "typename": "omnilight"
+                },
+                {
+                  "angle_max": 2.4434609527921,
+                  "angle_min": 0,
+                  "color": [
+                    0,
+                    0.894,
+                    0.6,
+                    0.15
+                  ],
+                  "connector": "Light_201",
+                  "power_up_t": 0.005,
+                  "range": 120,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "Collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 202,
+                  "color": [
+                    0.99,
+                    0.82,
+                    0.07,
+                    0.15
+                  ],
+                  "connector": "Light_202",
+                  "pos_correction": [
+                    0.2,
+                    0,
+                    0
+                  ],
+                  "power_up_t": 0.005,
+                  "range": 8,
+                  "typename": "omnilight"
+                },
+                {
+                  "angle_max": 2.4434609527921,
+                  "angle_min": 0,
+                  "color": [
+                    0.99,
+                    0.82,
+                    0.07,
+                    0.15
+                  ],
+                  "connector": "Light_202",
+                  "power_up_t": 0.005,
+                  "range": 120,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "Collection"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 193,
+                  "color": [
+                    0.99,
+                    0.99,
+                    0.99,
+                    0.15
+                  ],
+                  "connector": "Light_206",
+                  "pos_correction": [
+                    0.35,
+                    0,
+                    0
+                  ],
+                  "power_up_t": 0.005,
+                  "range": 8,
+                  "typename": "omnilight"
+                },
+                {
+                  "angle_max": 2.4434609527921,
+                  "angle_min": 0,
+                  "color": [
+                    0.99,
+                    0.99,
+                    0.99,
+                    0.15
+                  ],
+                  "connector": "Light_206",
+                  "power_up_t": 0.005,
+                  "range": 80,
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "Collection"
+            },
+            {
+              "lights": [
+                {
+                  "angle_max": 2.4434609527921,
+                  "angle_min": 1.3962634015955,
+                  "argument": 205,
+                  "color": [
+                    255,
+                    201,
+                    125,
+                    0.24
+                  ],
+                  "connector": "Light_Bomb Bay",
+                  "power_up_t": 0.5,
+                  "range": 12,
+                  "typename": "Spot"
+                },
+                {
+                  "color": [
+                    255,
+                    201,
+                    125,
+                    0.24
+                  ],
+                  "connector": "Light_Bomb Bay_1",
+                  "power_up_t": 0.5,
+                  "range": 12,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            },
+            {
+              "argument": 297,
+              "typename": "Argument"
+            },
+            {
+              "argument": 298,
+              "typename": "Argument"
+            },
+            {
+              "argument": 299,
+              "typename": "Argument"
+            },
+            {
+              "argument": 300,
+              "typename": "Argument"
+            },
+            {
+              "argument": 301,
+              "typename": "Argument"
+            },
+            {
+              "argument": 303,
+              "typename": "Argument"
+            },
+            {
+              "argument": 304,
+              "typename": "Argument"
+            },
+            {
+              "argument": 305,
+              "typename": "Argument"
+            },
+            {
+              "argument": 307,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.13962634015955,
+                  "angle_max": 0.31415926535898,
+                  "angle_min": 0.19198621771938,
+                  "argument": 208,
+                  "connector": "Light_208",
+                  "movable": true,
+                  "power_up_t": 2.8,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_change_rate": -0.90757121103705,
+                  "angle_max": 2.3736477827123,
+                  "angle_min": 2.0245819323134,
+                  "connector": "Light_208",
+                  "movable": true,
+                  "power_up_t": 2.8,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 24,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "Light_208",
+                  "pos_correction": [
+                    0.2,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            },
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.13962634015955,
+                  "angle_max": 0.31415926535898,
+                  "angle_min": 0.19198621771938,
+                  "argument": 209,
+                  "connector": "Light_209",
+                  "movable": true,
+                  "power_up_t": 2.8,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_change_rate": -0.90757121103705,
+                  "angle_max": 2.3736477827123,
+                  "angle_min": 2.0245819323134,
+                  "connector": "Light_209",
+                  "movable": true,
+                  "power_up_t": 2.8,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 24,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "Light_209",
+                  "pos_correction": [
+                    0.2,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "angle_max": 2.7925268031909,
+              "angle_min": 1.5707963267949,
+              "argument": 190,
+              "connector": "Light_190",
+              "proto": {
+                "angle_max": 2.6179938779915,
+                "angle_min": 1.5707963267949,
+                "color": [
+                  1,
+                  0.35,
+                  0.15,
+                  0.15
+                ],
+                "range": 40
+              },
+              "typename": "Spot"
+            },
+            {
+              "angle_max": 2.7925268031909,
+              "angle_min": 1.5707963267949,
+              "argument": 191,
+              "connector": "Light_191",
+              "proto": {
+                "angle_max": 2.6179938779915,
+                "angle_min": 1.5707963267949,
+                "color": [
+                  0,
+                  0.894,
+                  0.6,
+                  0.15
+                ],
+                "range": 40
+              },
+              "typename": "Spot"
+            },
+            {
+              "lights": [
+                {
+                  "argument": 192,
+                  "connector": "Light_192",
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.155
+                    ],
+                    "range": 30
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "connector": "Light_192",
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.155
+                    ],
+                    "range": 30
+                  },
+                  "range": 8,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "4": {
+          "lights": [
+            {
+              "argument": 196,
+              "typename": "Argument"
+            },
+            {
+              "argument": 197,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": 0.13962634015955,
+                  "angle_max": 0.31415926535898,
+                  "angle_min": 0.19198621771938,
+                  "argument": 208,
+                  "connector": "Light_208",
+                  "movable": true,
+                  "power_up_t": 2.8,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_change_rate": -0.90757121103705,
+                  "angle_max": 2.3736477827123,
+                  "angle_min": 2.0245819323134,
+                  "connector": "Light_208",
+                  "movable": true,
+                  "power_up_t": 2.8,
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 24,
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "Light_208",
+                  "pos_correction": [
+                    0.2,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 6,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "argument": 296,
+              "typename": "Argument"
+            },
+            {
+              "argument": 302,
+              "typename": "Argument"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000025",
+    "positioning": "BYNORMAL",
+    "shape": "MosquitoFBMkVI",
+    "shapeDestroyed": "MosquitoFBMkVI_oblomki"
+  },
+  "module": "World War II AI Units by Eagle Dynamics",
+  "operations": {
+    "dateOfIntroduction": 1942.5
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 1943,
+        "to": 1950
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1943,
+        "to": 1956
+      }
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY",
+      "years": {
+        "from": 1943,
+        "to": 1952
+      }
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1943,
+        "to": 1957
+      }
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 1943,
+        "to": 1954
+      }
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1948,
+        "to": 1963
+      }
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY"
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 1943,
+        "to": 1952
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM"
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA",
+      "years": {
+        "from": 1943,
+        "to": 1963
+      }
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1951,
+        "to": 1962
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA",
+      "years": {
+        "from": 1943,
+        "to": 1945
+      }
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND",
+      "years": {
+        "from": 1943,
+        "to": 1952
+      }
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.302,
+    "bankAngleMaxDeg": 60,
+    "casMin": 56,
+    "enginesCount": 2,
+    "hMaxM": 11500,
+    "machMax": 0.76,
+    "nyMax": 8,
+    "rangeKm": 1015,
+    "vLandMs": 50,
+    "vMaxHMs": 180,
+    "vMaxSeaLevelMs": 208,
+    "vOptMs": 115,
+    "vTakeOffMs": 53
+  },
+  "radios": [],
+  "sensors": [
+    "Merkury LLTV"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk4}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk4}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk5}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk5}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk4_Short}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk4_Short}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk4}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk4}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk5}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk5}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk1}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk1}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk2}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk2}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_500LB_Bomb_Mk1_Short}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_500LB_Bomb_Mk1_Short}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_500LB_Bomb_Mk2}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_500LB_Bomb_Mk2}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{British_SAP_500LB_Bomb_Mk5}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_SAP_500LB_Bomb_Mk5}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSQUITO_100GAL_SLIPPER_TANK}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSQUITO_100GAL_SLIPPER_TANK}"
+              ],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSQUITO_50GAL_SLIPPER_TANK}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSQUITO_50GAL_SLIPPER_TANK}"
+              ],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 100,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 1,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk4}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk4}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk5}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk5}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk4_Short}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk4_Short}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk4}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk4}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk5}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk5}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk1}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk1}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk2}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk2}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_500LB_Bomb_Mk1_Short}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_500LB_Bomb_Mk1_Short}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_500LB_Bomb_Mk2}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_500LB_Bomb_Mk2}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{British_SAP_500LB_Bomb_Mk5}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_SAP_500LB_Bomb_Mk5}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSQUITO_100GAL_SLIPPER_TANK}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSQUITO_100GAL_SLIPPER_TANK}"
+              ],
+              "station": 1
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSQUITO_50GAL_SLIPPER_TANK}",
+          "forbidden": [
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ],
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSQUITO_50GAL_SLIPPER_TANK}"
+              ],
+              "station": 1
+            }
+          ]
+        }
+      ],
+      "order": 400,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 2,
+      "type": 0,
+      "wet": true
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk4_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk4_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk4_Short_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk4_Short_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk1_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk1_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk2_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk2_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_500LB_Bomb_Mk1_Short_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_500LB_Bomb_Mk1_Short_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        },
+        {
+          "clsid": "{British_SAP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_SAP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 4
+            }
+          ]
+        }
+      ],
+      "order": 200,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 3,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk4_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk4_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{British_GP_500LB_Bomb_Mk4_Short_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_GP_500LB_Bomb_Mk4_Short_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk1_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk1_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_250LB_Bomb_Mk2_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_250LB_Bomb_Mk2_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{British_MC_500LB_Bomb_Mk1_Short_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_MC_500LB_Bomb_Mk1_Short_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        },
+        {
+          "clsid": "{British_SAP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{British_SAP_250LB_Bomb_Mk5_on_Handley_Page_Type_B_Cut_Bar}"
+              ],
+              "station": 3
+            }
+          ]
+        }
+      ],
+      "order": 300,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 4,
+      "type": 2,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{MOSSIE_2_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_2_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_2_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_2_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_2_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_2_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 1
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 1
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}"
+              ],
+              "station": 6
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 1
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 50,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "{MOSSIE_2_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_2_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_2_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_2_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_2_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_2_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_RIGHT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_4_British_AP_25LBNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 1
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_RIGHT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBFNo1_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 1
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 2
+            }
+          ]
+        },
+        {
+          "clsid": "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_RIGHT_WING_RAILS}",
+          "required": [
+            {
+              "allowEmpty": false,
+              "clsids": [
+                "{MOSSIE_4_British_HE_60LBSAPNo2_3INCHNo1_ON_LEFT_WING_RAILS}"
+              ],
+              "station": 5
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 1
+            },
+            {
+              "allowEmpty": true,
+              "clsids": [],
+              "station": 2
+            }
+          ]
+        }
+      ],
+      "order": 450,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0,
+        "vertical": 0
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 10,
+      "name": "Intercept"
+    },
+    {
+      "id": 19,
+      "name": "Fighter Sweep"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    },
+    {
+      "id": 34,
+      "name": "Runway Attack"
+    },
+    {
+      "id": 30,
+      "name": "Anti-ship Strike"
+    }
+  ]
+}

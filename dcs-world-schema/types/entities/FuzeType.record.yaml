@@ -1,0 +1,38 @@
+globals: {}
+
+types:
+  Entity.FuzeParameter:
+    kind: record
+    description: "One `SchemeFuzeParameters` value; exactly one of `number`, `numbers` and `flag` is set."
+    fields:
+      mode:
+        type: string
+        description: "Optional fuze mode table the value sits in (`ED`, `SAD`, `TDD`)."
+      name:
+        type: string
+        description: "DCS parameter name (for example `default_delays`)."
+      number:
+        type: number
+        description: "Optional numeric value."
+      numbers:
+        type: number[]
+        description: "Optional list value."
+      flag:
+        type: boolean
+        description: "Optional boolean value."
+    required: [name]
+
+  Entity.FuzeType:
+    kind: record
+    description: "A fuze or fuze scheme of the weapon GUI tables (`FuzeDescriptions`, `SchemeFuzeParameters`)."
+    fields:
+      id:
+        type: string
+        description: "Table key (for example `M905`, `FAB`)."
+      description:
+        type: string
+        description: "Optional `FuzeDescriptions` text."
+      parameters:
+        type: Entity.FuzeParameter[]
+        description: "Optional `SchemeFuzeParameters` values, by mode and name."
+    required: [id]

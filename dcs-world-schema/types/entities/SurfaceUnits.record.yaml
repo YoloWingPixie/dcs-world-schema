@@ -1,0 +1,690 @@
+globals: {}
+
+types:
+  Entity.WeaponRequirement:
+    kind: record
+    description: "One requirement of a `depends_on_unit` alternative, as DCS writes it: `{\"self\", n}` (`selfWs`), `{\"none\"}` (`none`), `{unit}` or `{unit, n}` (`unit`, `ws`)."
+    fields:
+      unit:
+        type: string
+        ref: "Entity.Aircraft | Entity.GroundVehicle | Entity.Personnel | Entity.Ship | Entity.Structure"
+        description: "Optional cross-reference: the unit type required (any unit series)."
+      ws:
+        type: number
+        description: "Optional number DCS gives after `unit`, raw."
+      selfWs:
+        type: number
+        description: "Optional weapon-system index (`WS[n]`) on the same unit."
+      none:
+        type: boolean
+        description: "Optional; true for DCS's `{\"none\"}` requirement."
+    required: []
+
+  Entity.WeaponRequirementSet:
+    kind: array
+    arrayOf: Entity.WeaponRequirement
+    description: "One `depends_on_unit` alternative: requirements that together enable the launcher."
+
+  Entity.AngleSector:
+    kind: array
+    arrayOf: number
+    description: "One traverse sector of `WS[i].angles` exactly as DCS stores it, radians."
+
+  Entity.WeaponPayload:
+    kind: record
+    description: "One payload (`WS[i].LN[j].PL[k]`) of a launcher. Each field is absent when DCS does not define it."
+    fields:
+      weapon:
+        type: string
+        ref: Entity.Weapon
+        description: "Optional cross-reference: the `Entity.Weapon` id of `type_ammunition` (the projectile named in wsType slot 4, or a `weapons.*` resource name); absent when it does not resolve."
+      gunAmmo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Optional cross-reference: `Entity.GunAmmo` ids in `shell_name` (unique, sorted)."
+      ammoName:
+        type: string
+        description: "Optional `name_ammunition`."
+      ammoDisplayName:
+        type: string
+        description: "Optional `shell_display_name`."
+      ammoCapacity:
+        type: number
+        description: "Optional `ammo_capacity`: rounds or missiles in this payload."
+      portionAmmoCapacity:
+        type: number
+        description: "Optional `portionAmmoCapacity`."
+      reloadTimeS:
+        type: number
+        description: "Optional `reload_time`, seconds."
+      portionReloadTimeS:
+        type: number
+        description: "Optional `portion_reload_time`, seconds."
+      shotDelayS:
+        type: number
+        description: "Optional `shot_delay`, seconds."
+    required: []
+
+  Entity.SlewRate:
+    kind: record
+    description: "Turret slew rates of a weapon system, radians per second."
+    fields:
+      yaw:
+        type: number
+        description: "Optional `WS[i].omegaY`."
+      pitch:
+        type: number
+        description: "Optional `WS[i].omegaZ`."
+    required: []
+
+  Entity.WeaponSystem:
+    kind: record
+    description: "One launcher (`WS[i].LN[j]`) of a ground vehicle or ship, whether it fires (has `PL` payloads) or is a tracking channel. Fields come from the unit's effective (template-inherited) launcher data; each is absent when DCS does not define it."
+    fields:
+      ws:
+        type: number
+        description: "1-based weapon-system index `i`."
+      ln:
+        type: number
+        description: "1-based launcher index `j` within `WS[i].LN`."
+      launcherType:
+        type: number
+        description: "Optional `LN.type`, the raw DCS number."
+      name:
+        type: string
+        description: "Optional `LN.name`, else `WS[i].name`."
+      displayName:
+        type: string
+        description: "Optional `LN.display_name`, else `WS[i].display_name`."
+      weapons:
+        type: string[]
+        ref: Entity.Weapon
+        description: "Optional cross-reference: the payloads' `weapon` ids (unique, sorted)."
+      gunAmmo:
+        type: string[]
+        ref: Entity.GunAmmo
+        description: "Optional cross-reference: the payloads' `gunAmmo` ids (unique, sorted)."
+      payloads:
+        type: Entity.WeaponPayload[]
+        description: "Optional payloads, in `PL` order; absent for a launcher without `PL`."
+      rMinKm:
+        type: number
+        description: "Optional minimum engagement range in kilometres (launcher `distanceMin`, else the weapon system's)."
+      rMaxKm:
+        type: number
+        description: "Optional maximum engagement range in kilometres (launcher `distanceMax`, else the weapon system's)."
+      hMinM:
+        type: number
+        description: "Optional minimum target altitude in metres (`min_trg_alt`)."
+      hMaxM:
+        type: number
+        description: "Optional maximum target altitude in metres (`max_trg_alt`)."
+      missileChannels:
+        type: number
+        description: "Optional `max_number_of_missiles_channels` (or DCS's other spelling `max_number_of_missile_channels`; both set and different is an extraction error)."
+      dependsOn:
+        type: Entity.WeaponRequirementSet[]
+        description: "Optional `depends_on_unit`: alternatives, each a list of requirements that together enable the launcher. Absent (and reported at extraction) when DCS writes it in another shape."
+      reactionTimeS:
+        type: number
+        description: "Optional `reactionTime`, seconds."
+      launchDelayS:
+        type: number
+        description: "Optional `launch_delay`, seconds."
+      ecmK:
+        type: number
+        description: "Optional `ECM_K`, raw DCS value."
+      reflectionLimit:
+        type: number
+        description: "Optional `reflection_limit`, raw DCS value."
+      beamWidthRad:
+        type: number
+        description: "Optional `beamWidth`, radians."
+      frequencyRangeHz:
+        type: number[]
+        description: "Optional `frequencyRange` `[min, max]` as DCS gives it; hertz by DCS convention, though a few DCS entries hold values that are not (e.g. `[14.2, 14.8]`)."
+      externalTrackingAwacs:
+        type: boolean
+        description: "Optional `external_tracking_awacs`."
+      maxShootingSpeed:
+        type: number
+        description: "Optional `maxShootingSpeed`, the raw DCS value (unit not stated by DCS)."
+      barrels:
+        type: number
+        description: "Optional number of `BR` barrel entries."
+      sectorsRad:
+        type: Entity.AngleSector[]
+        description: "Optional `WS[i].angles`: the traverse sectors exactly as DCS stores them, radians."
+      slewRateRadS:
+        type: Entity.SlewRate
+        description: "Optional turret slew rates of `WS[i]`."
+    required: [ws, ln]
+
+  Entity.FireControl:
+    kind: record
+    description: "The named (non-indexed) fields of a unit's `WS` table."
+    fields:
+      maxTargetDetectionRangeM:
+        type: number
+        description: "Optional `WS.maxTargetDetectionRange`, metres."
+      radarType:
+        type: Entity.UnitRadarType | number
+        description: "Optional `WS.radar_type`, the raw DCS number (a value outside `Entity.UnitRadarType` is kept as is)."
+      radarTypeName:
+        type: string
+        description: "Optional `Entity.UnitRadarType` constant name of `radarType` (absent when no single constant carries it)."
+      fireOnMove:
+        type: boolean
+        description: "Optional `WS.fire_on_march`."
+      isDetector:
+        type: boolean
+        description: "Optional `WS.isDetector`."
+    required: []
+
+  Entity.SurfaceDimensions:
+    kind: record
+    description: "Hull or chassis size and mass: a ground vehicle's `chassis.length`/`width`/`mass`, a ship's `Length`/`Width`/`Height`/`mass`."
+    fields:
+      lengthM:
+        type: number
+        description: "Optional length, metres."
+      widthM:
+        type: number
+        description: "Optional width, metres."
+      heightM:
+        type: number
+        description: "Optional height, metres (ships only)."
+      massKg:
+        type: number
+        description: "Optional mass, kilograms."
+    required: []
+
+  Entity.VehicleMobility:
+    kind: record
+    description: "Ground vehicle mobility from `MaxSpeed`, `mobile` and `chassis`."
+    fields:
+      mobile:
+        type: boolean
+        description: "Optional `mobile`."
+      maxSpeedKmh:
+        type: number
+        description: "Optional `MaxSpeed`, km/h."
+      maxRoadSpeedMs:
+        type: number
+        description: "Optional `chassis.max_road_velocity`, m/s."
+      maxSlopeRad:
+        type: number
+        description: "Optional `chassis.max_slope`, radians."
+      maxVertObstacleM:
+        type: number
+        description: "Optional `chassis.max_vert_obstacle`, metres."
+      minTurnRadiusM:
+        type: number
+        description: "Optional `chassis.min_turn_radius`, metres."
+      fordingDepthM:
+        type: number
+        description: "Optional `chassis.fordingDepth`, metres."
+      canSwim:
+        type: boolean
+        description: "Optional `chassis.canSwim`."
+      enginePower:
+        type: number
+        description: "Optional `chassis.engine_power`, the raw DCS value (DCS files disagree on its unit)."
+    required: []
+
+  Entity.ShipMobility:
+    kind: record
+    description: "Ship mobility."
+    fields:
+      maxSpeedKmh:
+        type: number
+        description: "Optional `MaxSpeed`, km/h."
+      maxSpeedMs:
+        type: number
+        description: "Optional `max_velocity`, m/s."
+      minTurnRadiusM:
+        type: number
+        description: "Optional `R_min`, minimum turn radius in metres."
+      draftM:
+        type: number
+        description: "Optional `draft` (or DCS's other spelling `Draft`), metres."
+      economyDistance:
+        type: number
+        description: "Optional `economy_distance`, raw (metres by their values: 74080000 = 40000 NM on the Nimitz class)."
+      economyVelocity:
+        type: number
+        description: "Optional `economy_velocity`, raw (m/s by their values)."
+      raceDistance:
+        type: number
+        description: "Optional `race_distance`, raw (as `economyDistance`)."
+      raceVelocity:
+        type: number
+        description: "Optional `race_velocity`, raw (as `economyVelocity`)."
+    required: []
+
+  Entity.ArmourRow:
+    kind: array
+    arrayOf: number
+    description: "One `armour_scheme` row `[fromDeg, toDeg, factor]` as DCS gives it."
+
+  Entity.ArmourScheme:
+    kind: record
+    description: "`armour_scheme`: per hull/turret aspect, rows `[fromDeg, toDeg, factor]` as DCS gives them."
+    fields:
+      hullAzimuth:
+        type: Entity.ArmourRow[]
+        description: "Optional `hull_azimuth`."
+      hullElevation:
+        type: Entity.ArmourRow[]
+        description: "Optional `hull_elevation`."
+      turretAzimuth:
+        type: Entity.ArmourRow[]
+        description: "Optional `turret_azimuth`."
+      turretElevation:
+        type: Entity.ArmourRow[]
+        description: "Optional `turret_elevation`."
+    required: []
+
+  Entity.UnitArmour:
+    kind: record
+    description: "Armour of a ground vehicle or ship."
+    fields:
+      thickness:
+        type: number
+        description: "Optional `chassis.armour_thickness`, the raw DCS value (unit not stated by DCS)."
+      scheme:
+        type: Entity.ArmourScheme
+        description: "Optional `armour_scheme`."
+    required: []
+
+  Entity.SurfaceCrew:
+    kind: record
+    description: "Ground vehicle crew."
+    fields:
+      count:
+        type: number
+        description: "Optional `Crew`."
+      members:
+        type: string[]
+        description: "Optional `crew_members` roles, in DCS order."
+    required: []
+
+  Entity.CarrierOls:
+    kind: record
+    description: "`OLS` optical landing system of a ship."
+    fields:
+      type:
+        type: number
+        description: "`OLS.Type`, the raw DCS number (`GT_t.OLS_TYPE`)."
+      meatBallArg:
+        type: number
+        description: "Optional `MeatBallArg` model argument."
+      cutLightsArg:
+        type: number
+        description: "Optional `CutLightsArg` model argument."
+      datumAndWaveOffLightsArg:
+        type: number
+        description: "Optional `DatumAndWaveOffLightsArg` model argument."
+      glideslopeBasicAngleDeg:
+        type: number
+        description: "Optional `GlideslopeBasicAngle`, degrees."
+      verticalCoverageAngleDeg:
+        type: number
+        description: "Optional `VerticalCoverageAngle`, degrees."
+    required: [type]
+
+  Entity.GlidePath:
+    kind: record
+    description: "The six glide-path values of a `RunWays` entry, named as the DCS carrier files' comment names them; raw DCS values."
+    fields:
+      low:
+        type: number
+        description: "`lowGlidePath`."
+      slightlyLow:
+        type: number
+        description: "`slightlyLowGlidePath`."
+      onLower:
+        type: number
+        description: "`onLowerGlidePath`."
+      onUpper:
+        type: number
+        description: "`onUpperGlidePath`."
+      slightlyHigh:
+        type: number
+        description: "`slightlyHighGlidePath`."
+      high:
+        type: number
+        description: "`highGlidePath`."
+    required: [low, slightlyLow, onLower, onUpper, slightlyHigh, high]
+
+  Entity.CarrierRunway:
+    kind: record
+    description: "One `RunWays[i]` entry of a ship, laid out as the DCS carrier files' comment gives it (`VppStartPoint, azimuth (degree), Length_Vpp, Width_Vpp, alsArgument, <glide path>`); the first entry is the landing strip."
+    fields:
+      start:
+        type: number[]
+        description: "Start point `{x, y, z}` in the ship's model frame, metres."
+      azimuthDeg:
+        type: number
+        description: "Azimuth, degrees."
+      lengthM:
+        type: number
+        description: "Length, metres."
+      widthM:
+        type: number
+        description: "Width, metres."
+      alsArgument:
+        type: number
+        description: "`alsArgument`, raw DCS value."
+      glidePath:
+        type: Entity.GlidePath
+        description: "Glide-path values."
+    required: [start, azimuthDeg, lengthM, widthM, alsArgument, glidePath]
+
+  Entity.UnitFacilities:
+    kind: record
+    description: "Navigation aids, landing facilities and parking a ship (or other surface unit) provides."
+    fields:
+      tacan:
+        type: boolean
+        description: "Optional `TACAN`."
+      icls:
+        type: boolean
+        description: "Optional `ICLS`."
+      lrls:
+        type: boolean
+        description: "Optional `LRLS`."
+      ols:
+        type: Entity.CarrierOls
+        description: "Optional `OLS`."
+      numParking:
+        type: number
+        description: "Optional `numParking`."
+      planeNum:
+        type: number
+        description: "Optional `Plane_Num_`."
+      helicopterNum:
+        type: number
+        description: "Optional `Helicopter_Num_`."
+      runways:
+        type: Entity.CarrierRunway[]
+        description: "Optional `RunWays`, in DCS order."
+      deckLevelM:
+        type: number
+        description: "Optional `DeckLevel`, metres."
+      tacanPosition:
+        type: number[]
+        description: "Optional `TACAN_position` `{x, y, z}` in the ship's model frame, metres."
+      tacanDefaultChannel:
+        type: number
+        description: "Optional `TACAN_def_channel`."
+      iclsLocalizerPosition:
+        type: number[]
+        description: "Optional `ICLS_Localizer_position`: `{x, y, z}` in the model frame, metres, then a fourth value, raw."
+      iclsGlideslopePosition:
+        type: number[]
+        description: "Optional `ICLS_Glideslope_position`: `{x, y, z}` in the model frame, metres, then a fourth value, raw."
+      landingPoint:
+        type: number[]
+        description: "Optional `Landing_Point` `{x, y, z}` in the model frame, metres."
+      arrestingGears:
+        type: Entity.ArrestingGear[]
+        description: "Optional `ArrestingGears`, in DCS order (their count is `ArrestingGearsNumber`, checked)."
+      taxiRoutes:
+        type: Entity.PathRoute[]
+        description: "Optional `TaxiRoutes`, in DCS order (their count is `RoutesNumber`, checked)."
+      helicopterSpawnTerminals:
+        type: Entity.SpawnTerminal[]
+        description: "Optional `HelicopterSpawnTerminal` entries, in DCS order (their count is `TerminalNumber`, checked)."
+    required: []
+
+  Entity.ArrestingGear:
+    kind: record
+    description: "One `ArrestingGears` wire: each end is a model connector or a position."
+    fields:
+      leftConnector:
+        type: string
+        description: "Optional `Left.connector_name`."
+      rightConnector:
+        type: string
+        description: "Optional `Right.connector_name`."
+      leftPosition:
+        type: number[]
+        description: "Optional `Left.pos` `{x, y, z}`, model frame, metres."
+      rightPosition:
+        type: number[]
+        description: "Optional `Right.pos` `{x, y, z}`, model frame, metres."
+    required: []
+
+  Entity.PathPoint:
+    kind: record
+    description: "One `{{x, y, z}, n, ...}` point of a ship route."
+    fields:
+      position:
+        type: number[]
+        description: "`{x, y, z}` in the model frame, metres (a few DCS points add a fourth value, kept raw)."
+      values:
+        type: number[]
+        description: "The numbers after the position, raw."
+    required: [position, values]
+
+  Entity.PathRoute:
+    kind: record
+    description: "One ship route."
+    fields:
+      points:
+        type: Entity.PathPoint[]
+        description: "Points, in DCS order."
+    required: [points]
+
+  Entity.SpawnTerminal:
+    kind: record
+    description: "One `HelicopterSpawnTerminal` entry."
+    fields:
+      terminal:
+        type: number
+        description: "`TerminalIdx`."
+      points:
+        type: Entity.PathPoint[]
+        description: "`Points`, in DCS order."
+    required: [terminal, points]
+
+  Entity.GroundVehicle:
+    kind: record
+    description: "A ground vehicle type. Cross-references to sensors and weapons are string ids."
+    fields:
+      id:
+        type: string
+        description: "Unique ground vehicle type identifier."
+      displayName:
+        type: string
+        description: "Human-readable vehicle name."
+      natoReportingName:
+        type: string
+        description: "Optional NATO reporting name DCS gives the unit: the double-quoted part of an `Air Defence` unit's `displayName` (`SA-11 Buk \"Gadfly\" LN` -> `Gadfly`), whether it names the whole system (`Gadfly`, `Grumble`) or the unit itself (`Flat Face`, `Fan Song`); hand-authored in tools/datamine/overlays.yaml (`_source`) where DCS quotes none, or quotes the system's name on a part NATO names on its own (the S-300PS and Buk radars: `Flap Lid A`, `Fire Dome`). Quotes on other units (nicknames such as `Jimmy`) are not taken."
+      attributes:
+        type: string[]
+        ref: Entity.Attribute
+        description: "Cross-reference: `Entity.Attribute` ids describing this vehicle."
+      tags:
+        type: string[]
+        description: "Optional `tags` (for example `Air Defence`, `SAM SHORAD`), in DCS order."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Optional cross-reference: `Entity.Sensor` ids fitted to this vehicle."
+      weapons:
+        type: string[]
+        description: "Optional cross-reference: `Entity.Weapon` ids carried by this vehicle."
+      model:
+        type: Entity.UnitModel
+        description: "Optional 3D model identification."
+      life:
+        type: Entity.UnitLife[]
+        description: "Optional life values, one per DCS field that sets one (they are on different scales)."
+      dimensions:
+        type: Entity.SurfaceDimensions
+        description: "Optional chassis size and mass."
+      mobility:
+        type: Entity.VehicleMobility
+        description: "Optional mobility."
+      crew:
+        type: Entity.SurfaceCrew
+        description: "Optional crew."
+      missionOptions:
+        type: Entity.MissionOption[]
+        description: "Optional `AddPropVehicle`, DCS order."
+      detection:
+        type: Entity.UnitDetection
+        description: "Optional detection and threat ranges."
+      armour:
+        type: Entity.UnitArmour
+        description: "Optional armour."
+      cargo:
+        type: Entity.UnitCargo
+        description: "Optional cargo and towing."
+      fireControl:
+        type: Entity.FireControl
+        description: "Optional named fields of the unit's `WS` table."
+      facilities:
+        type: Entity.UnitFacilities
+        description: "Optional navigation aids, landing facilities and parking."
+      weaponSystems:
+        type: Entity.WeaponSystem[]
+        description: "Optional launchers (`WS[i].LN[j]`), in DCS `WS` then `LN` order."
+      operators:
+        type: Entity.Operator[]
+        description: "Optional countries that operate this vehicle and their service-year ranges."
+      _source:
+        type: any
+        description: "Provenance map keyed by field path: `natoReportingName` is `hand-authored` when it comes from tools/datamine/overlays.yaml. Absent fields are datamined."
+    required: [id, displayName, attributes]
+
+  Entity.Personnel:
+    kind: record
+    description: "A personnel type: infantry or crew figure (`db.Units.Personnel`)."
+    fields:
+      id:
+        type: string
+        description: "Unique personnel type identifier."
+      displayName:
+        type: string
+        description: "Human-readable name."
+      attributes:
+        type: string[]
+        ref: Entity.Attribute
+        description: "Cross-reference: `Entity.Attribute` ids describing this unit."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Optional cross-reference: `Entity.Sensor` ids fitted to this unit."
+      model:
+        type: Entity.UnitModel
+        description: "Optional 3D model identification."
+      life:
+        type: Entity.UnitLife[]
+        description: "Optional life values, one per DCS field that sets one (they are on different scales)."
+      operators:
+        type: Entity.Operator[]
+        description: "Optional countries that field this unit and their service-year ranges."
+    required: [id, displayName, attributes]
+
+  Entity.Ship:
+    kind: record
+    description: "A ship type. Cross-references to sensors and weapons are string ids."
+    fields:
+      id:
+        type: string
+        description: "Unique ship type identifier."
+      displayName:
+        type: string
+        description: "Human-readable ship name."
+      natoReportingName:
+        type: string
+        description: "Optional NATO reporting name DCS gives the unit: the double-quoted part of an `Air Defence` unit's `displayName` (`SA-11 Buk \"Gadfly\" LN` -> `Gadfly`), whether it names the whole system (`Gadfly`, `Grumble`) or the unit itself (`Flat Face`, `Fan Song`); hand-authored in tools/datamine/overlays.yaml (`_source`) where DCS quotes none, or quotes the system's name on a part NATO names on its own (the S-300PS and Buk radars: `Flap Lid A`, `Fire Dome`). Quotes on other units (nicknames such as `Jimmy`) are not taken."
+      attributes:
+        type: string[]
+        ref: Entity.Attribute
+        description: "Cross-reference: `Entity.Attribute` ids describing this ship."
+      tags:
+        type: string[]
+        description: "Optional `tags` (for example `Carrier`), in DCS order."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Optional cross-reference: `Entity.Sensor` ids fitted to this ship."
+      weapons:
+        type: string[]
+        description: "Optional cross-reference: `Entity.Weapon` ids carried by this ship."
+      model:
+        type: Entity.UnitModel
+        description: "Optional 3D model identification."
+      life:
+        type: Entity.UnitLife[]
+        description: "Optional life values, one per DCS field that sets one (they are on different scales)."
+      dimensions:
+        type: Entity.SurfaceDimensions
+        description: "Optional hull size and mass."
+      mobility:
+        type: Entity.ShipMobility
+        description: "Optional mobility."
+      detection:
+        type: Entity.UnitDetection
+        description: "Optional detection and threat ranges."
+      armour:
+        type: Entity.UnitArmour
+        description: "Optional armour."
+      cargo:
+        type: Entity.UnitCargo
+        description: "Optional cargo and towing."
+      fireControl:
+        type: Entity.FireControl
+        description: "Optional named fields of the unit's `WS` table."
+      facilities:
+        type: Entity.UnitFacilities
+        description: "Optional navigation aids, landing facilities and parking."
+      weaponSystems:
+        type: Entity.WeaponSystem[]
+        description: "Optional launchers (`WS[i].LN[j]`), in DCS `WS` then `LN` order."
+      operators:
+        type: Entity.Operator[]
+        description: "Optional countries that operate this ship and their service-year ranges."
+      _source:
+        type: any
+        description: "Provenance map keyed by field path: `natoReportingName` is `hand-authored` when it comes from tools/datamine/overlays.yaml. Absent fields are datamined."
+    required: [id, displayName, attributes]
+
+  Entity.Structure:
+    kind: record
+    description: "A static structure (buildings, fortifications and other scenery objects), usually without sensors or weapons."
+    fields:
+      id:
+        type: string
+        description: "Unique structure type identifier."
+      displayName:
+        type: string
+        description: "Human-readable structure name."
+      attributes:
+        type: string[]
+        ref: Entity.Attribute
+        description: "Cross-reference: `Entity.Attribute` ids describing this structure."
+      sensors:
+        type: string[]
+        ref: Entity.Sensor
+        description: "Optional cross-reference: `Entity.Sensor` ids fitted to this structure."
+      weapons:
+        type: string[]
+        description: "Optional cross-reference: `Entity.Weapon` ids carried by this structure."
+      model:
+        type: Entity.UnitModel
+        description: "Optional 3D model identification."
+      life:
+        type: Entity.UnitLife[]
+        description: "Optional life values, one per DCS field that sets one (they are on different scales)."
+      facilities:
+        type: Entity.UnitFacilities
+        description: "Optional navigation aids, landing facilities and parking."
+      operators:
+        type: Entity.Operator[]
+        description: "Optional countries that operate this structure and their service-year ranges."
+    required: [id, displayName, attributes]

@@ -1,0 +1,488 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.044
+  },
+  "attributes": [
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "HeavyArmoredUnits",
+    "IFV",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "Modern Tanks",
+    "NonAndLightArmoredUnits",
+    "Tanks",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3,
+    "members": [
+      "commander",
+      "gunner",
+      "loader"
+    ]
+  },
+  "detection": {
+    "airWeaponDistM": 1200,
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 2.6,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 4000
+  },
+  "dimensions": {
+    "lengthM": 7,
+    "massKg": 17237,
+    "widthM": 2.6
+  },
+  "displayName": "SPG Stryker MGS",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 6000
+  },
+  "id": "M1128 Stryker MGS",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    }
+  ],
+  "mobility": {
+    "enginePower": 350,
+    "fordingDepthM": 1.2,
+    "maxRoadSpeedMs": 26.9,
+    "maxSlopeRad": 0.47,
+    "maxSpeedKmh": 96.84,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 7,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "mapClassKey": "P0091000001",
+    "shape": "M1128",
+    "shapeDestroyed": "M1128_P1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "CUPOLA_TRIPLEXES",
+    "MGS sight day",
+    "MGS sight night"
+  ],
+  "tags": [
+    "Armor",
+    "SPG"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "gunAmmo": [
+        "M68_105_AP"
+      ],
+      "hMaxM": 500,
+      "launcherType": 2,
+      "ln": 1,
+      "maxShootingSpeed": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 12,
+          "gunAmmo": [
+            "M68_105_AP"
+          ],
+          "portionReloadTimeS": 20,
+          "shotDelayS": 10
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          2.3212879051525,
+          -0.10471975511966,
+          0.26179938779915
+        ],
+        [
+          2.3212879051525,
+          0.47123889803847,
+          -0.10471975511966,
+          0.31415926535898
+        ],
+        [
+          0.47123889803847,
+          0.31415926535898,
+          -0.069813170079773,
+          0.31415926535898
+        ],
+        [
+          0.31415926535898,
+          0.17453292519943,
+          0,
+          0.31415926535898
+        ],
+        [
+          0.17453292519943,
+          -0.62831853071796,
+          -0.062831853071796,
+          0.31415926535898
+        ],
+        [
+          -0.62831853071796,
+          -3.1415926535898,
+          -0.10471975511966,
+          0.31415926535898
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "gunAmmo": [
+        "HESH_105"
+      ],
+      "hMaxM": 500,
+      "launcherType": 6,
+      "ln": 2,
+      "maxShootingSpeed": 1,
+      "payloads": [
+        {
+          "ammoCapacity": 6,
+          "gunAmmo": [
+            "HESH_105"
+          ],
+          "portionReloadTimeS": 20,
+          "shotDelayS": 10
+        }
+      ],
+      "rMaxKm": 5.0,
+      "rMinKm": 0.02,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          2.3212879051525,
+          -0.10471975511966,
+          0.26179938779915
+        ],
+        [
+          2.3212879051525,
+          0.47123889803847,
+          -0.10471975511966,
+          0.31415926535898
+        ],
+        [
+          0.47123889803847,
+          0.31415926535898,
+          -0.069813170079773,
+          0.31415926535898
+        ],
+        [
+          0.31415926535898,
+          0.17453292519943,
+          0,
+          0.31415926535898
+        ],
+        [
+          0.17453292519943,
+          -0.62831853071796,
+          -0.062831853071796,
+          0.31415926535898
+        ],
+        [
+          -0.62831853071796,
+          -3.1415926535898,
+          -0.10471975511966,
+          0.31415926535898
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "M240",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 3,
+      "name": "M240",
+      "payloads": [
+        {
+          "ammoCapacity": 800,
+          "ammoDisplayName": "7.62mm",
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "portionAmmoCapacity": 800,
+          "reloadTimeS": 480,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          2.3212879051525,
+          -0.10471975511966,
+          0.26179938779915
+        ],
+        [
+          2.3212879051525,
+          0.47123889803847,
+          -0.10471975511966,
+          0.31415926535898
+        ],
+        [
+          0.47123889803847,
+          0.31415926535898,
+          -0.069813170079773,
+          0.31415926535898
+        ],
+        [
+          0.31415926535898,
+          0.17453292519943,
+          0,
+          0.31415926535898
+        ],
+        [
+          0.17453292519943,
+          -0.62831853071796,
+          -0.062831853071796,
+          0.31415926535898
+        ],
+        [
+          -0.62831853071796,
+          -3.1415926535898,
+          -0.10471975511966,
+          0.31415926535898
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.43633231299858,
+        "yaw": 0.69813170079773
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "M2 Browning",
+      "gunAmmo": [
+        "M2_12_7",
+        "M2_12_7_T"
+      ],
+      "hMaxM": 500,
+      "launcherType": 9,
+      "ln": 1,
+      "name": "M2_Browning",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "12.7mm",
+          "gunAmmo": [
+            "M2_12_7",
+            "M2_12_7_T"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 15,
+          "shotDelayS": 0.11538461538462
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.0,
+      "reactionTimeS": 0.5,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          0.34906585039887,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.61086523819802
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 1.0471975511966
+      },
+      "ws": 2
+    }
+  ]
+}

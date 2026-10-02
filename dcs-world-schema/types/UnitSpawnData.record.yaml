@@ -1,0 +1,103 @@
+globals: {}
+
+types:
+  UnitSpawnData:
+    kind: record
+    description: "Defines the structure of a Lua table representing one unit of a group to be spawned (`GroupSpawnData.units`), as missions write it."
+    fields:
+      type:
+        type: DcsId.UnitType | string
+        description: "Unit type name (`DcsId.UnitType`; mods add more)."
+      name:
+        type: string
+        description: "Unit name, unique within the mission."
+      unitId:
+        type: number
+        description: "Optional unique numeric identifier for the unit."
+      x:
+        type: number
+        description: "X coordinate of the unit in the DCS World coordinate system."
+      y:
+        type: number
+        description: "Y coordinate (map Z) of the unit in the DCS World coordinate system."
+      heading:
+        type: number
+        description: "Heading in radians."
+      alt:
+        type: number
+        description: "Altitude in meters (aircraft)."
+      alt_type:
+        type: AI.Task.AltitudeType
+        description: "Altitude reference of `alt` (aircraft)."
+      speed:
+        type: number
+        description: "Speed in meters per second (aircraft)."
+      skill:
+        type: AI.Skill | "Random"
+        description: "Skill level; the Mission Editor's `Random` lets DCS pick one."
+      livery_id:
+        type: string | number
+        description: "Livery folder name of the unit type; some install missions hold `0` instead."
+      onboard_num:
+        type: string
+        description: "Board (tail) number, such as `\"010\"`."
+      callsign:
+        type: number | table
+        description: "Callsign: a table `{callname, flight, unit, name = \"Enfield11\"}` (Western), or a number (Russian)."
+      payload:
+        type: UnitPayload
+        description: "Weapons, fuel and countermeasures (aircraft)."
+      parking:
+        type: number | string
+        description: "Parking stand index at the take-off airfield (aircraft); missions hold it as a number or a string."
+      parking_id:
+        type: string
+        description: "Parking stand name at the take-off airfield (aircraft)."
+      playerCanDrive:
+        type: boolean
+        description: "Whether a player can drive the unit (ground units)."
+      frequency:
+        type: number
+        description: "Radio frequency in hertz (ships)."
+      modulation:
+        type: radio.modulation
+        description: "Radio modulation of `frequency` (ships)."
+      AddPropAircraft:
+        type: table
+        description: "Module-specific aircraft properties, by the names the module's `AddPropAircraft` declares."
+    required: [type, x, y]
+
+  UnitPayload:
+    kind: record
+    description: "Defines the structure of a Lua table representing an aircraft unit's loadout (`UnitSpawnData.payload`)."
+    fields:
+      pylons:
+        type: map<number, UnitPylon>
+        description: "Stores by station number."
+      fuel:
+        type: number | string
+        description: "Internal fuel in kilograms; install missions hold it as a number or a string."
+      flare:
+        type: number
+        description: "Number of flares."
+      chaff:
+        type: number
+        description: "Number of chaff cartridges."
+      gun:
+        type: number
+        description: "Gun ammunition in percent."
+      ammo_type:
+        type: number
+        description: "Gun ammunition mix number, for aircraft with several mixes."
+
+  UnitPylon:
+    kind: record
+    description: "Defines the structure of a Lua table representing the store on one aircraft station."
+    fields:
+      CLSID:
+        type: string
+        description: "Store CLSID (a `stores` record id of the reference data)."
+      settings:
+        type: table
+        description: "Store settings such as fuzes, as the Mission Editor writes them."
+    required: [CLSID]

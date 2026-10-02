@@ -1,0 +1,1359 @@
+{
+  "aero": {
+    "emptyMassKg": 2883,
+    "internalFuelKg": 631,
+    "maxSpeedKmh": 200,
+    "maxTakeoffKg": 4310
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Attack helicopters",
+    "Helicopters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Transport helicopters"
+  ],
+  "cargo": {
+    "maximalCapacity": 1400,
+    "nominalCapacity": 1400
+  },
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 0,
+      "default": 0,
+      "increment": 0
+    },
+    "cmdsEdit": true,
+    "dispensers": [
+      {
+        "direction": [
+          -0.98,
+          -0.174,
+          -0.087
+        ],
+        "position": [
+          -7.7,
+          -0.25,
+          -0.5
+        ]
+      },
+      {
+        "direction": [
+          -0.98,
+          -0.174,
+          0.087
+        ],
+        "position": [
+          -7.7,
+          -0.25,
+          0.5
+        ]
+      }
+    ],
+    "flare": {
+      "chargeSize": 1,
+      "default": 60,
+      "increment": 1
+    },
+    "singleChargeTotal": 60
+  },
+  "countryOfOrigin": "USA",
+  "crew": 4,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 225,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 35,
+    "name": "Transport"
+  },
+  "detection": {
+    "detectionRangeMax": 11,
+    "irEmissionCoeff": 0.2,
+    "rcsM2": 10
+  },
+  "dimensions": {
+    "heightM": 4.41,
+    "lengthM": 17.62,
+    "rotorDiameterM": 14.7
+  },
+  "displayName": "UH-1H",
+  "failures": [
+    {
+      "id": "es_damage_MainGenerator",
+      "label": "GENERATOR MAIN"
+    },
+    {
+      "id": "es_damage_StarterGenerator",
+      "label": "STARTER-GENERATOR"
+    },
+    {
+      "id": "es_damage_MainInverter",
+      "label": "INVERTER MAIN"
+    },
+    {
+      "id": "es_damage_SpareInverter",
+      "label": "INVERTER SPARE"
+    },
+    {
+      "id": "es_damage_Battery",
+      "label": "BATTERY"
+    },
+    {
+      "id": "hydro_main",
+      "label": "HYDRAULIC SYSTEM"
+    },
+    {
+      "id": "hydro_main_irreversible_valve",
+      "label": "HYDRAULIC SYSTEM IRREVERSIBLE VALVE "
+    },
+    {
+      "id": "ELEC_BOOSTER_FUEL_PUMP_1_FAILURE",
+      "label": "LEFT CELL BOOST PUMP"
+    },
+    {
+      "id": "ELEC_BOOSTER_FUEL_PUMP_2_FAILURE",
+      "label": "RIGHT CELL BOOST PUMP"
+    },
+    {
+      "id": "ELEC_BOOSTER_FUEL_PUMP_0_FAILURE",
+      "label": "ENGINE PUMP"
+    },
+    {
+      "id": "fs_damage_transfer_pumps",
+      "label": "TRANSFER PUMPS"
+    },
+    {
+      "id": "fs_damage_swapping_pumps",
+      "label": "SWAPPING PUMPS"
+    },
+    {
+      "id": "fs_forward_LH_leakage",
+      "label": "FORWARD LH LEAKAGE"
+    },
+    {
+      "id": "fs_forward_RH_leakage",
+      "label": "FORWARD RH LEAKAGE"
+    },
+    {
+      "id": "fs_aft_central_leakage",
+      "label": "AFT CENTRAL LEAKAGE"
+    },
+    {
+      "id": "fs_aft_LH_leakage",
+      "label": "AFT LH LEAKAGE"
+    },
+    {
+      "id": "fs_aft_RH_leakage",
+      "label": "AFT RH LEAKAGE"
+    },
+    {
+      "id": "engine_surge_failure",
+      "label": "TURBINE COMPRESSOR STALL"
+    },
+    {
+      "id": "engine_chip",
+      "label": "ENGINE CHIP"
+    },
+    {
+      "id": "engine_driveshaft_failure",
+      "label": "MAIN DRIVESHAFT FAILURE"
+    },
+    {
+      "id": "main_reductor_chip",
+      "label": "MAIN GEARBOX CHIP"
+    },
+    {
+      "id": "engine_droop_failure",
+      "label": "ENGINE DROP COMPENSATOR FAILURE"
+    },
+    {
+      "id": "tail_reductor_chip",
+      "label": "TAIL ROTOR GEARBOX CHIP"
+    },
+    {
+      "id": "UHF_RADIO_FAILURE_TOTAL",
+      "label": "UHF radio failure"
+    },
+    {
+      "id": "VHF_AM_RADIO_FAILURE_TOTAL",
+      "label": "VHF AM radio failure"
+    },
+    {
+      "id": "VHF_FM_RADIO_FAILURE_TOTAL",
+      "label": "VHF FM radio failure"
+    },
+    {
+      "id": "ILS_FAILURE_TOTAL",
+      "label": "ILS: total failure"
+    },
+    {
+      "id": "ILS_FAILURE_ANT_LOCALIZER",
+      "label": "ILS: localizer channel failure"
+    },
+    {
+      "id": "ILS_FAILURE_ANT_GLIDESLOPE",
+      "label": "ILS: glideslope channel failure"
+    },
+    {
+      "id": "ILS_FAILURE_ANT_MARKER",
+      "label": "ILS: marker antenna failure"
+    },
+    {
+      "id": "ARN_82_FAILURE_TOTAL",
+      "label": "Radio nav. set total failure"
+    },
+    {
+      "id": "ARN_83_TOTAL_FAILURE",
+      "label": "ADF total failure"
+    },
+    {
+      "id": "ARN_83_ADF_DAMAGE",
+      "label": "ADF goniometer failure"
+    },
+    {
+      "id": "GMC_TOTAL_FAILURE",
+      "label": "GMC total failure"
+    },
+    {
+      "id": "GMC_GYRO_FAILURE",
+      "label": "GMC directional gyro failure"
+    },
+    {
+      "id": "GMC_MAGN_COMP_FAILURE",
+      "label": "GMC magnetic compass failure"
+    },
+    {
+      "id": "NOSE_AIRSPEED_INDICATOR_FAILURE",
+      "label": "Nose Airspeed Indicator failure"
+    },
+    {
+      "id": "ROOF_AIRSPEED_INDICATOR_FAILURE",
+      "label": "Roof Airspeed Indicator failure"
+    },
+    {
+      "id": "A11_CLOCK_FAILURE",
+      "label": "Clock failure"
+    },
+    {
+      "id": "MD1_GYRO_TOTAL_FAILURE",
+      "label": "Roll Pitch Gyro failure"
+    },
+    {
+      "id": "COPILOT_GYRO_TOTAL_FAILURE",
+      "label": "Copilot Gyro failure"
+    },
+    {
+      "id": "FLEX_S_NO_POWER_SUPPLY",
+      "label": "Flex. Sight. No power"
+    },
+    {
+      "id": "FLEX_S_MAIN_LAMP_DEFECTIVE",
+      "label": "Flex. Sight. Main lamp defective"
+    },
+    {
+      "id": "FLEX_S_BKP_LAMP_DEFECTIVE",
+      "label": "Flex. Sight. Backup lamp defective"
+    },
+    {
+      "id": "FLEX_S_NO_GUN_SIGN",
+      "label": "Flex. Sight. No signal to guns"
+    },
+    {
+      "id": "PILOT_KILLED_FAILURE",
+      "label": "First Pilot Killed"
+    },
+    {
+      "id": "COPILOT_KILLED_FAILURE",
+      "label": "Second Pilot Killed"
+    },
+    {
+      "id": "RIGHT_GUNNER_KILLED_FAILURE",
+      "label": "Right Gunner Killed"
+    },
+    {
+      "id": "LEFT_GUNNER_KILLED_FAILURE",
+      "label": "Left Gunner Killed"
+    },
+    {
+      "id": "RADAR_ALT_TOTAL_FAILURE",
+      "label": "Radar Altimeter failure"
+    }
+  ],
+  "flyable": false,
+  "id": "UH-1H",
+  "kind": "rotary",
+  "missionOptions": [
+    {
+      "arg": 1001,
+      "control": "checkbox",
+      "default": true,
+      "id": "ExhaustScreen",
+      "label": "Exhaust IR suppressors",
+      "weightKg": 20
+    },
+    {
+      "control": "slider",
+      "default": 90,
+      "dimension": "%",
+      "id": "GunnersAISkill",
+      "label": "Gunners AI Skill",
+      "max": 100,
+      "min": 10
+    },
+    {
+      "control": "slider",
+      "default": 90,
+      "dimension": "%",
+      "id": "EngineResource",
+      "label": "Engine Resource",
+      "max": 100,
+      "min": 0,
+      "playerOnly": true
+    },
+    {
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "playerOnly": true
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Copilot"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.76604444311898,
+      -0.81603492345171,
+      -0.86602540378444,
+      -0.86602540378444,
+      -0.86602540378444
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          142
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          146
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          454
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          453
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          298
+        ],
+        "cell": 6
+      },
+      {
+        "args": [
+          265
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          169
+        ],
+        "cell": 13
+      },
+      {
+        "args": [
+          163
+        ],
+        "cell": 14
+      },
+      {
+        "args": [
+          258
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          256
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          257
+        ],
+        "cell": 19
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 20
+      },
+      {
+        "args": [
+          899
+        ],
+        "cell": 21
+      },
+      {
+        "args": [
+          898
+        ],
+        "cell": 22
+      },
+      {
+        "args": [
+          465
+        ],
+        "cell": 23
+      },
+      {
+        "args": [
+          466
+        ],
+        "cell": 24
+      },
+      {
+        "args": [
+          459
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          460
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          455
+        ],
+        "cell": 27
+      },
+      {
+        "args": [
+          456
+        ],
+        "cell": 28
+      },
+      {
+        "args": [
+          457
+        ],
+        "cell": 29
+      },
+      {
+        "args": [
+          458
+        ],
+        "cell": 30
+      },
+      {
+        "args": [
+          461
+        ],
+        "cell": 31
+      },
+      {
+        "args": [
+          462
+        ],
+        "cell": 32
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          159,
+          244
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          530
+        ],
+        "cell": 63
+      },
+      {
+        "args": [
+          429
+        ],
+        "cell": 64
+      },
+      {
+        "args": [
+          430
+        ],
+        "cell": 65
+      },
+      {
+        "args": [
+          431
+        ],
+        "cell": 66
+      },
+      {
+        "args": [
+          432
+        ],
+        "cell": 67
+      },
+      {
+        "args": [
+          433
+        ],
+        "cell": 68
+      },
+      {
+        "args": [
+          434
+        ],
+        "cell": 69
+      },
+      {
+        "args": [
+          435
+        ],
+        "cell": 71
+      },
+      {
+        "args": [
+          436
+        ],
+        "cell": 74
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "11": {
+          "lights": [
+            {
+              "argument": 209,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "2": {
+          "lights": [
+            {
+              "argument": 208,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_max": 2.0943951023932,
+                  "angle_min": 1.5707963267949,
+                  "argument": 190,
+                  "connector": "BANO_1",
+                  "controller": "Strobe",
+                  "dir_correction": {
+                    "azimuth": -0.78539816339745
+                  },
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      0.2,
+                      0.12
+                    ],
+                    "range": 22.2
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 2.0943951023932,
+                  "angle_min": 1.5707963267949,
+                  "connector": "RESERV_BANO_1",
+                  "controller": "Strobe",
+                  "dir_correction": {
+                    "azimuth": -0.78539816339745
+                  },
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      0.2,
+                      0.12
+                    ],
+                    "range": 22.2
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 2.0943951023932,
+                  "angle_min": 1.5707963267949,
+                  "argument": 191,
+                  "connector": "BANO_2",
+                  "controller": "Strobe",
+                  "dir_correction": {
+                    "azimuth": 0.78539816339745
+                  },
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      0,
+                      0.894,
+                      0.6,
+                      0.12
+                    ],
+                    "range": 22.2
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 2.0943951023932,
+                  "angle_min": 1.5707963267949,
+                  "connector": "RESERV_BANO_2",
+                  "controller": "Strobe",
+                  "dir_correction": {
+                    "azimuth": 0.78539816339745
+                  },
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      0,
+                      0.894,
+                      0.6,
+                      0.12
+                    ],
+                    "range": 22.2
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "argument": 192,
+                  "connector": "BANO_0",
+                  "controller": "Strobe",
+                  "dir_correction": {
+                    "azimuth": 3.1415926535898
+                  },
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.155
+                    ],
+                    "range": 30
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_BANO_0",
+                  "controller": "Strobe",
+                  "dir_correction": {
+                    "azimuth": 3.1415926535898
+                  },
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.155
+                    ],
+                    "range": 30
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_BANO_0",
+                  "controller": "Strobe",
+                  "flash_time": 0.5,
+                  "mode": 1,
+                  "period": 1,
+                  "pos_correction": [
+                    -0.1,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.155
+                    ],
+                    "range": 30
+                  },
+                  "range": 4,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_max": 0.78539816339745,
+                  "angular_velocity": 3.8397243543875,
+                  "argument": 193,
+                  "connector": "RED_BEACON",
+                  "cups": 1,
+                  "emitter_shift_x": -0.1,
+                  "emitter_shift_y": -0.04,
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "typename": "RotatingBeacon"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "8": {
+          "lights": [
+            {
+              "argument": 446,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        },
+        "9": {
+          "lights": [
+            {
+              "argument": 69,
+              "typename": "argumentlight"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000021",
+    "shape": "AB-212"
+  },
+  "operations": {
+    "bigParkingRamp": false,
+    "landRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ],
+    "takeOffRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1967,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA",
+      "years": {
+        "from": 1968,
+        "to": 9999
+      }
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1967,
+        "to": 2002
+      }
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 1999,
+        "to": 9999
+      }
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA"
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 1968,
+        "to": 2007
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 1975,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN",
+      "years": {
+        "from": 1972,
+        "to": 9999
+      }
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN",
+      "years": {
+        "from": 1967,
+        "to": 2001
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 2011,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1968,
+        "to": 9999
+      }
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA",
+      "years": {
+        "from": 1971,
+        "to": 9999
+      }
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND",
+      "years": {
+        "from": 1968,
+        "to": 9999
+      }
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS",
+      "years": {
+        "from": 1975,
+        "to": 9999
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 1971,
+        "to": 9999
+      }
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL",
+      "years": {
+        "from": 1970,
+        "to": 9999
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA",
+      "years": {
+        "from": 1969,
+        "to": 9999
+      }
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA",
+      "years": {
+        "from": 1975,
+        "to": 9999
+      }
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA",
+      "years": {
+        "from": 1972,
+        "to": 9999
+      }
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR",
+      "years": {
+        "from": 1978,
+        "to": 9999
+      }
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND",
+      "years": {
+        "from": 1970,
+        "to": 2015
+      }
+    }
+  ],
+  "performance": {
+    "enginesCount": 1,
+    "nyMax": 1.7,
+    "rangeKm": 510
+  },
+  "radios": [],
+  "sensors": [],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "M134_L"
+        }
+      ],
+      "order": 1,
+      "position": {
+        "lateral": -2,
+        "longitudinal": 0,
+        "vertical": -0.84
+      },
+      "station": 1,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M261_MK151"
+        },
+        {
+          "clsid": "M261_MK156"
+        },
+        {
+          "clsid": "XM158_M151"
+        },
+        {
+          "clsid": "XM158_M156"
+        },
+        {
+          "clsid": "XM158_M257"
+        },
+        {
+          "clsid": "XM158_M274"
+        },
+        {
+          "clsid": "XM158_MK1"
+        },
+        {
+          "clsid": "XM158_MK5"
+        }
+      ],
+      "order": 2,
+      "position": {
+        "lateral": -1.5,
+        "longitudinal": 0.605,
+        "vertical": -0.979
+      },
+      "station": 2,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M134_SIDE_L"
+        },
+        {
+          "clsid": "M60_SIDE_L"
+        }
+      ],
+      "order": 3,
+      "position": {
+        "lateral": -1.5,
+        "longitudinal": 0.605,
+        "vertical": -0.979
+      },
+      "station": 3,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M134_SIDE_R"
+        },
+        {
+          "clsid": "M60_SIDE_R"
+        }
+      ],
+      "order": 4,
+      "position": {
+        "lateral": 1.5,
+        "longitudinal": 0.605,
+        "vertical": -0.979
+      },
+      "station": 4,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M261_MK151"
+        },
+        {
+          "clsid": "M261_MK156"
+        },
+        {
+          "clsid": "XM158_M151"
+        },
+        {
+          "clsid": "XM158_M156"
+        },
+        {
+          "clsid": "XM158_M257"
+        },
+        {
+          "clsid": "XM158_M274"
+        },
+        {
+          "clsid": "XM158_MK1"
+        },
+        {
+          "clsid": "XM158_MK5"
+        }
+      ],
+      "order": 5,
+      "position": {
+        "lateral": 1.5,
+        "longitudinal": 0.605,
+        "vertical": -0.979
+      },
+      "station": 5,
+      "type": 0,
+      "wet": false
+    },
+    {
+      "accepts": [
+        {
+          "clsid": "M134_R"
+        }
+      ],
+      "order": 6,
+      "position": {
+        "lateral": 2,
+        "longitudinal": 0,
+        "vertical": -0.84
+      },
+      "station": 6,
+      "type": 0,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 31,
+      "name": "CAS"
+    },
+    {
+      "id": 32,
+      "name": "Ground Attack"
+    },
+    {
+      "id": 35,
+      "name": "Transport"
+    }
+  ]
+}

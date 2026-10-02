@@ -183,6 +183,18 @@ globals:
       service:
         type: coalition.service
         description: "Provides access to the service type enumerator for communications services."
+      NEUTRAL:
+        type: number
+        description: "Neutral coalition, value 0. Same value as `coalition.side.NEUTRAL`."
+        readonly: true
+      RED:
+        type: number
+        description: "Red coalition, value 1. Same value as `coalition.side.RED`."
+        readonly: true
+      BLUE:
+        type: number
+        description: "Blue coalition, value 2. Same value as `coalition.side.BLUE`."
+        readonly: true
 types:
   coalition.side:
     kind: enum

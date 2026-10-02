@@ -1,0 +1,425 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "AA_missile",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Datalink",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM LL",
+    "SAM elements",
+    "SAM related",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 0
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.05,
+    "sensor": {
+      "heightM": 2.707,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 45000
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "SAM Hawk LN M192",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 50000
+  },
+  "id": "Hawk ln",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "locator_rotation": -1
+    },
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.255
+        },
+        {
+          "arg": 1,
+          "value": 0.225
+        },
+        {
+          "arg": 4,
+          "value": 1
+        },
+        {
+          "arg": 5,
+          "value": 1
+        },
+        {
+          "arg": 6,
+          "value": 1
+        }
+      ],
+      "children": [
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_HAWK_1_1",
+          "model": "hawk-r"
+        },
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_HAWK_1_2",
+          "model": "hawk-r"
+        },
+        {
+          "args": [
+            {
+              "arg": 1,
+              "value": 1
+            },
+            {
+              "arg": 2,
+              "value": 1
+            }
+          ],
+          "connector": "POINT_HAWK_1_3",
+          "model": "hawk-r"
+        }
+      ]
+    },
+    "mapClassKey": "P0091000082",
+    "shape": "hawk-pu",
+    "shapeDestroyed": "hawk-pu_p_1"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 2022,
+        "to": 9999
+      }
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1979,
+        "to": 1994
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 2005,
+        "to": 9999
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 1979,
+        "to": 2012
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 1979,
+        "to": 2005
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY",
+      "years": {
+        "from": 1987,
+        "to": 1998
+      }
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN",
+      "years": {
+        "from": 1980,
+        "to": 9999
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN",
+      "years": {
+        "from": 1997,
+        "to": 9999
+      }
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "Launcher"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 3,
+      "dependsOn": [
+        [
+          {
+            "unit": "Hawk tr",
+            "ws": 1
+          }
+        ]
+      ],
+      "ecmK": -1,
+      "launchDelayS": 5,
+      "launcherType": 4,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "payloads": [
+        {
+          "ammoCapacity": 3,
+          "ammoName": "MIM_23",
+          "reloadTimeS": 420,
+          "shotDelayS": 0.1,
+          "weapon": "HAWK_RAKETA"
+        }
+      ],
+      "rMaxKm": 45.0,
+      "rMinKm": 1.5,
+      "reactionTimeS": 2,
+      "reflectionLimit": 0.1,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.069813170079773,
+          1.221730476396
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.174533,
+        "yaw": 0.523599
+      },
+      "weapons": [
+        "HAWK_RAKETA"
+      ],
+      "ws": 1
+    }
+  ]
+}

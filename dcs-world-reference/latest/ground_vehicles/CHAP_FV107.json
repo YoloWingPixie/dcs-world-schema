@@ -1,0 +1,1022 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.02
+  },
+  "attributes": [
+    "APC",
+    "All",
+    "AntiAir Armed Vehicles",
+    "Armed ground units",
+    "Armed vehicles",
+    "Armored vehicles",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Infantry carriers",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3,
+    "members": [
+      "commander",
+      "gunner"
+    ]
+  },
+  "detection": {
+    "airWeaponDistM": 2500,
+    "detectionRangeM": 6000,
+    "irEmissionCoeff": 0.06,
+    "sensor": {
+      "heightM": 2.3,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 2500
+  },
+  "dimensions": {
+    "lengthM": 4.91,
+    "massKg": 8100,
+    "widthM": 2.24
+  },
+  "displayName": "Scout FV107 Scimitar [CH]",
+  "fireControl": {
+    "fireOnMove": true,
+    "maxTargetDetectionRangeM": 6000
+  },
+  "id": "CHAP_FV107",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 8
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "canSwim": true,
+    "enginePower": 190,
+    "fordingDepthM": 1,
+    "maxRoadSpeedMs": 22.22,
+    "maxSlopeRad": 0.58,
+    "maxSpeedKmh": 79.992,
+    "maxVertObstacleM": 0.5,
+    "minTurnRadiusM": 8,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "rollers_rotation": 14,
+      "tracks_rotation": 15,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ]
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "CHAP_FV107",
+    "mapClassKey": "P0091000002",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_FV107",
+    "shapeDestroyed": "CHAP_FV107_dest"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "Raven day",
+    "Raven night"
+  ],
+  "tags": [
+    "Armor",
+    "Scout/Recon"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 1,
+      "beamWidthRad": 0.017453292519943,
+      "displayName": "L21A1 RARDEN",
+      "gunAmmo": [
+        "L14A2_30_APDS",
+        "L21A1_30_HE"
+      ],
+      "hMaxM": 1000,
+      "launcherType": 12,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "name": "L21A1_Rarden",
+      "payloads": [
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L21A1_30_HE"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        },
+        {
+          "ammoCapacity": 3,
+          "gunAmmo": [
+            "L14A2_30_APDS"
+          ],
+          "portionAmmoCapacity": 3,
+          "reloadTimeS": 5,
+          "shotDelayS": 0.66
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.01,
+      "reactionTimeS": 1.8,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.61086523819802
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.78539816339745,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    },
+    {
+      "barrels": 1,
+      "displayName": "L37A1 7.62 mm",
+      "gunAmmo": [
+        "7_62x51",
+        "7_62x51tr"
+      ],
+      "hMaxM": 1200,
+      "launcherType": 9,
+      "ln": 2,
+      "name": "L37A1 7.62 mm",
+      "payloads": [
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        },
+        {
+          "ammoCapacity": 250,
+          "gunAmmo": [
+            "7_62x51",
+            "7_62x51tr"
+          ],
+          "reloadTimeS": 15,
+          "shotDelayS": 0.070588235294118
+        }
+      ],
+      "rMaxKm": 1.2,
+      "rMinKm": 0.001,
+      "reactionTimeS": 0.5,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.61086523819802
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.78539816339745,
+        "yaw": 1.0471975511966
+      },
+      "ws": 1
+    }
+  ]
+}

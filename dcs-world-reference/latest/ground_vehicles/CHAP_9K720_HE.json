@@ -1,0 +1,286 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          30,
+          1
+        ],
+        [
+          30,
+          150,
+          0.6
+        ],
+        [
+          150,
+          180,
+          0.5
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          30,
+          1
+        ],
+        [
+          30,
+          90,
+          0.6
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          18,
+          1
+        ],
+        [
+          18,
+          90,
+          0.5
+        ]
+      ]
+    },
+    "thickness": 0.005
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "Datalink",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "SS_missile",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 3
+  },
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.085,
+    "sensor": {
+      "heightM": 4.2,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 400000,
+    "threatRangeMinM": 75000
+  },
+  "dimensions": {
+    "lengthM": 13.1,
+    "massKg": 42000,
+    "widthM": 3.1
+  },
+  "displayName": "SRBM 9K720 Iskander HE [CH]",
+  "fireControl": {
+    "fireOnMove": false,
+    "maxTargetDetectionRangeM": 400000
+  },
+  "id": "CHAP_9K720_HE",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 3
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 500,
+    "fordingDepthM": 1.4,
+    "maxRoadSpeedMs": 19.44,
+    "maxSlopeRad": 0.52,
+    "maxSpeedKmh": 69.984,
+    "maxVertObstacleM": 0.6,
+    "minTurnRadiusM": 14,
+    "mobile": true
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "alarm_state_sequence": {
+        "1": [
+          2,
+          [
+            {
+              "endTime": 20,
+              "startTime": 0
+            },
+            {
+              "endTime": 50,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "2": [
+          3,
+          [
+            {
+              "endTime": 25,
+              "endVal": 0,
+              "startTime": 0,
+              "startVal": 0
+            },
+            {
+              "endTime": 45,
+              "endVal": 1,
+              "startTime": 25,
+              "startVal": 0
+            },
+            {
+              "endTime": 50,
+              "endVal": 1,
+              "startTime": 45,
+              "startVal": 1
+            }
+          ]
+        ],
+        "3": [
+          11,
+          [
+            {
+              "endTime": 10,
+              "startTime": 0
+            },
+            {
+              "endTime": 20,
+              "leveling": true,
+              "startTime": 10
+            },
+            {
+              "endTime": 50,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "totalDuration": 50
+      },
+      "body_swing_pitch": 20,
+      "body_swing_roll": 22,
+      "body_swing_vertical": 21,
+      "locator_rotation": -1,
+      "transportaionStateArgsAndVals": [
+        [
+          3,
+          -1,
+          0
+        ],
+        [
+          50,
+          1,
+          0
+        ]
+      ],
+      "wheels_rotation": 8,
+      "wheels_turn_angle": 9
+    },
+    "canopyGeometry": {
+      "azimuth": [
+        -180,
+        180
+      ],
+      "elevation": [
+        -10,
+        70
+      ]
+    },
+    "className": "lLandVehicle",
+    "file": "CHAP_9K720",
+    "mapClassKey": "P0091000208",
+    "positioning": "BYNORMAL",
+    "shape": "CHAP_9K720",
+    "shapeDestroyed": "CHAP_9K720_dest"
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "MissilesSS",
+    "SSM"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 2,
+      "externalTrackingAwacs": true,
+      "launchDelayS": 10,
+      "launcherType": 8,
+      "ln": 1,
+      "maxShootingSpeed": 0,
+      "missileChannels": 2,
+      "payloads": [
+        {
+          "ammoCapacity": 2,
+          "reloadTimeS": 600,
+          "shotDelayS": 5,
+          "weapon": "9M723_HE"
+        }
+      ],
+      "rMaxKm": 400.0,
+      "rMinKm": 75.0,
+      "reactionTimeS": 2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "weapons": [
+        "9M723_HE"
+      ],
+      "ws": 1
+    }
+  ]
+}

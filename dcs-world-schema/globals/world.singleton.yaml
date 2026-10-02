@@ -44,7 +44,7 @@ globals:
             type: Object.Category | ObjectCategoryArray
             description: "The category or categories of objects to search for."
           - name: searchVolume
-            type: table # Volume definition (SEGMENT, BOX, SPHERE, PYRAMID)
+            type: table
             description: "A table defining the search volume."
           - name: Handler
             type: function
@@ -65,24 +65,33 @@ globals:
         description: "Removes debris within a specified volume, returning the number of items cleared."
         params:
           - name: searchVolume
-            type: table # Volume definition (SEGMENT, BOX, SPHERE, PYRAMID)
+            type: table
             description: "A table defining the volume from which to remove junk."
         returns: number
         addedVersion: "2.8.4"
       getPersistenceData:
-        description: "Returns mission persistence data used for saving mission state."
-        params: []
-        returns: table
+        description: "Returns the persisted value stored under `name`. Signature documented in `Scripts/World/PersistenceHandlers.lua` as `world.getPersistenceData(name) -> value`. Not found on `world` in DCS 2.9.29.27468 (mission start, dedicated server)."
+        params:
+          - name: name
+            type: string
+            description: "Name the value was stored under by a persistence handler."
+        returns: any
       runPersistenceHandlers:
-        description: "Executes all registered persistence handler functions."
-        params: []
+        description: "Calls every handler in `world.persistenceHandlers` and passes each handler's name and return value to `storageFunc`. Defined in `Scripts/World/PersistenceHandlers.lua`."
+        params:
+          - name: storageFunc
+            type: function
+            description: "Called as `storageFunc(name, value)` for each registered handler."
         returns: nil
       setPersistenceHandler:
-        description: "Registers a handler function for mission persistence operations."
+        description: "Registers `handler` in `world.persistenceHandlers` under `name`; its return value is stored when persistence handlers run. Raises an error if `name` contains characters other than letters, digits, underscore, space or hyphen. Defined in `Scripts/World/PersistenceHandlers.lua`."
         params:
+          - name: name
+            type: string
+            description: "Persistence name, matching `[a-zA-Z0-9_ -]+`."
           - name: handler
             type: function
-            description: "The persistence handler function."
+            description: "Function called with no arguments that returns the value to persist."
         returns: nil
     properties:
       weather:
@@ -142,7 +151,7 @@ globals:
         readonly: true
       persistenceHandlers:
         type: table
-        description: "Table of all registered persistence handler functions."
+        description: "Table of registered persistence handler functions keyed by persistence name, filled by `world.setPersistenceHandler`. Defined in `Scripts/World/PersistenceHandlers.lua`."
         readonly: true
 types:
   world.BirthPlace:
@@ -152,11 +161,11 @@ types:
       wsBirthPlace_Air: 1
       wsBirthPlace_RunWay: 4
       wsBirthPlace_Park: 5
-      wsBirthPlace_Heliport_Hot: 9
-      wsBirthPlace_Heliport_Cold: 10
+      wsBirthPlace_Heliport_Hot: 10
+      wsBirthPlace_Heliport_Cold: 11
       wsBirthPlace_Ship: 3
-      wsBirthPlace_Ship_Hot: 12
-      wsBirthPlace_Ship_Cold: 11
+      wsBirthPlace_Ship_Hot: 13
+      wsBirthPlace_Ship_Cold: 12
 
   world.VolumeType:
     kind: enum
@@ -233,4 +242,5 @@ types:
       S_EVENT_SIMULATION_UNFREEZE: 58
       S_EVENT_HUMAN_AIRCRAFT_REPAIR_START: 59
       S_EVENT_HUMAN_AIRCRAFT_REPAIR_FINISH: 60
-      S_EVENT_MAX: 61
+      S_EVENT_GROUP_CHANGE_OPTION: 61
+      S_EVENT_MAX: 62

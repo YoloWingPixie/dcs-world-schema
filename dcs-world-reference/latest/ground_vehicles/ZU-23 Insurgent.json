@@ -1,0 +1,221 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Rocket Attack Valid AirDefence",
+    "Static AAA",
+    "Vehicles"
+  ],
+  "crew": {
+    "count": 2
+  },
+  "detection": {
+    "detectionRangeM": 5000,
+    "irEmissionCoeff": 0.006,
+    "sensor": {
+      "heightM": 1.736,
+      "laser": false,
+      "maxAltM": 5000,
+      "maxRangeM": 5000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 2500
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "AAA ZU-23 Insurgent Emplacement",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 7500
+  },
+  "id": "ZU-23 Insurgent",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 1.2
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": 3,
+      "locator_rotation": -1
+    },
+    "mapClassKey": "P0091000015",
+    "shape": "ZU-23_S_CHECH",
+    "shapeDestroyed": "ZU-23_S_P1"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1960,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "AAA"
+  ],
+  "weaponSystems": [
+    {
+      "barrels": 2,
+      "displayName": "2A14x2",
+      "gunAmmo": [
+        "2A7_23_AP",
+        "2A7_23_HE"
+      ],
+      "hMaxM": 2000,
+      "launcherType": 3,
+      "ln": 1,
+      "name": "2A14_2",
+      "payloads": [
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "23mm AP+HE",
+          "gunAmmo": [
+            "2A7_23_AP",
+            "2A7_23_HE"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.066666666666667
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "23mm AP+HE",
+          "gunAmmo": [
+            "2A7_23_AP",
+            "2A7_23_HE"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.066666666666667
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "23mm AP+HE",
+          "gunAmmo": [
+            "2A7_23_AP",
+            "2A7_23_HE"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.066666666666667
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "23mm AP+HE",
+          "gunAmmo": [
+            "2A7_23_AP",
+            "2A7_23_HE"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.066666666666667
+        },
+        {
+          "ammoCapacity": 100,
+          "ammoDisplayName": "23mm AP+HE",
+          "gunAmmo": [
+            "2A7_23_AP",
+            "2A7_23_HE"
+          ],
+          "portionAmmoCapacity": 100,
+          "reloadTimeS": 10,
+          "shotDelayS": 0.066666666666667
+        }
+      ],
+      "rMaxKm": 2.5,
+      "rMinKm": 0.0,
+      "reactionTimeS": 3,
+      "reflectionLimit": 0.2,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.1,
+          1.48173
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1.0471975511966,
+        "yaw": 0.87266462599716
+      },
+      "ws": 1
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+globals: {}
+
+types:
+  Entity.FormationPosition:
+    kind: record
+    description: "A wingman offset in metres from the leader: x forward, y up, z right."
+    fields:
+      name:
+        type: string
+        description: "Optional position name (big formations: `Right`, `Left`, `Back`)."
+      x:
+        type: number
+        description: "Forward offset."
+      y:
+        type: number
+        description: "Vertical offset."
+      z:
+        type: number
+        description: "Lateral offset."
+    required: [x, y, z]
+
+  Entity.FormationVariant:
+    kind: record
+    description: "One set of formation positions."
+    fields:
+      name:
+        type: string
+        description: "Optional variant name (for example `Close (58 m x 48 m)`)."
+      positions:
+        type: Entity.FormationPosition[]
+        description: "Positions in DCS order."
+    required: [positions]
+
+  Entity.Formation:
+    kind: record
+    description: "A `db.Formations` formation."
+    fields:
+      id:
+        type: string
+        description: "`db.FormationID` constant name (for example `FINGER_FOUR`)."
+      worldId:
+        type: number
+        description: "Formation id (`WorldID`, the `db.FormationID` value)."
+      name:
+        type: string
+        description: "Display name (`Name`)."
+      group:
+        type: string
+        description: "`db.Formations` table: `plane`, `helicopter` or `big_formations`."
+      clsid:
+        type: string
+        description: "Optional `CLSID`."
+      defaultVariantIndex:
+        type: number
+        description: "Optional DCS `defaultVariantIndex` (1-based into `variants`)."
+      zInverse:
+        type: boolean
+        description: "Optional DCS `zInverse`."
+      variants:
+        type: Entity.FormationVariant[]
+        description: "DCS `variants`; else the single `positions` list; big formations: each named position set."
+    required: [id, worldId, name, group, variants]

@@ -1,0 +1,577 @@
+{
+  "aero": {
+    "emptyMassKg": 5920,
+    "internalFuelKg": 2616,
+    "maxSpeedKmh": 290,
+    "maxTakeoffKg": 13000
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "Helicopters",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Transport helicopters"
+  ],
+  "cargo": {
+    "maximalCapacity": 300,
+    "nominalCapacity": 300
+  },
+  "countryOfOrigin": "RUS",
+  "crew": 3,
+  "defaultRadio": {
+    "frequencyMHz": 127.5,
+    "maxMHz": 400,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 35,
+    "name": "Transport"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.5,
+    "rcsM2": 15
+  },
+  "dimensions": {
+    "heightM": 5.2,
+    "lengthM": 15.92,
+    "rotorDiameterM": 15.9
+  },
+  "displayName": "Ka-27",
+  "flyable": false,
+  "id": "Ka-27",
+  "kind": "rotary",
+  "model": {
+    "canopyGeometry": [
+      -0.93969262078591,
+      -0.95280922353749,
+      -0.96592582628907,
+      -0.049950211252315,
+      0.86602540378444
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          296
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          297
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 9
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 10
+      },
+      {
+        "args": [
+          167
+        ],
+        "cell": 11
+      },
+      {
+        "args": [
+          161
+        ],
+        "cell": 12
+      },
+      {
+        "args": [
+          235
+        ],
+        "cell": 45
+      },
+      {
+        "args": [
+          233
+        ],
+        "cell": 46
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          156
+        ],
+        "cell": 58
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 46,
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.20943951023932,
+                    "angle_max": 0.83775804095728,
+                    "angle_min": 0,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.15545341380124
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 360
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0.25,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "range": 8,
+                  "typename": "omnilight"
+                },
+                {
+                  "argument": 45,
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": 0.34906585039887
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "RESERV_SPOT_PTR",
+                  "dir_correction": {
+                    "elevation": 0.34906585039887
+                  },
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.20943951023932,
+                    "angle_max": 0.83775804095728,
+                    "angle_min": 0,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.15545341380124
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 360
+                  },
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "3": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 2.9670597283904,
+                  "argument": 190,
+                  "connector": "BANO_1",
+                  "dir_correction": {
+                    "elevation": -1.221730476396
+                  },
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      0.35,
+                      0.15,
+                      0.12
+                    ],
+                    "range": 22.2
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "angle_max": 3.1415926535898,
+                  "angle_min": 2.9670597283904,
+                  "argument": 191,
+                  "connector": "BANO_2",
+                  "dir_correction": {
+                    "elevation": 1.221730476396
+                  },
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      0,
+                      0.894,
+                      0.6,
+                      0.12
+                    ],
+                    "range": 22.2
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "argument": 192,
+                  "connector": "BANO_0",
+                  "dir_correction": {
+                    "azimuth": 3.1415926535898
+                  },
+                  "proto": {
+                    "angle_max": 3.1415926535898,
+                    "color": [
+                      1,
+                      1,
+                      1,
+                      0.155
+                    ],
+                    "range": 30
+                  },
+                  "typename": "spotlight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 46,
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "proto": {
+                    "angle_change_rate": 0.20943951023932,
+                    "angle_max": 0.83775804095728,
+                    "angle_min": 0,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.15545341380124
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 360
+                  },
+                  "typename": "spotlight"
+                },
+                {
+                  "connector": "MAIN_SPOT_PTR",
+                  "movable": true,
+                  "pos_correction": [
+                    0.25,
+                    0,
+                    0
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.10471975511966,
+                    "angle_max": 0.22689280275926,
+                    "angle_min": 0.19198621771938,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.28690682760248
+                    ],
+                    "cool_down_t": 1.12,
+                    "power_up_t": 1.12,
+                    "range": 3600
+                  },
+                  "range": 8,
+                  "typename": "omnilight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        },
+        "7": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "argument": 193,
+                  "connector": "RED_BEACON",
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "typename": "strobelight"
+                },
+                {
+                  "angular_velocity": 6.457718232379,
+                  "argument": 194,
+                  "connector": "RED_BEACON_2",
+                  "emitter_shift_x": -0.2,
+                  "proto": {
+                    "angle_max": 0.78539816339745,
+                    "angle_min": 0.61086523819802,
+                    "angular_velocity": 6.2831853071796,
+                    "color": [
+                      1,
+                      0,
+                      0,
+                      0.19049409439665
+                    ],
+                    "cups": 2,
+                    "range": 40
+                  },
+                  "typename": "strobelight"
+                }
+              ],
+              "typename": "collection"
+            }
+          ],
+          "typename": "collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000062",
+    "shape": "KA-27"
+  },
+  "operations": {
+    "bigParkingRamp": false,
+    "landRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ],
+    "takeOffRunwayCategories": [
+      "AircraftCarrier",
+      "HelicopterCarrier"
+    ]
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1998,
+        "to": 9999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 1985,
+        "to": 9999
+      }
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA",
+      "years": {
+        "from": 1995,
+        "to": 9999
+      }
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN",
+      "years": {
+        "from": 1998,
+        "to": 9999
+      }
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 2012,
+        "to": 9999
+      }
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA",
+      "years": {
+        "from": 1987,
+        "to": 1991
+      }
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1981,
+        "to": 1991
+      }
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA",
+      "years": {
+        "from": 1996,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "performance": {
+    "enginesCount": 2,
+    "nyMax": 3.5,
+    "rangeKm": 800
+  },
+  "radios": [],
+  "sensors": [],
+  "stations": [],
+  "tasks": [
+    {
+      "id": 35,
+      "name": "Transport"
+    }
+  ]
+}

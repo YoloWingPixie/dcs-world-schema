@@ -1,12 +1,29 @@
 #!/usr/bin/env python3
 import argparse
 import json
-import os
-import sys
 import re
-from typing import Any, Dict, List, Optional, Set
+import sys
+from pathlib import Path
+from typing import Any
 
-# TypeScript primitive type mapping
+from tools.datamine.common import load_json
+from tools.spec_types import (
+    STRING,
+    Array,
+    Literal,
+    Map,
+    Primitive,
+    Ref,
+    TypeNode,
+    Union,
+    api_spec,
+    is_type_only,
+    members,
+    parse_type,
+    runtime_roots,
+    strip_null,
+)
+
 TYPE_MAPPING = {
     "number": "number",
     "string": "string",
@@ -19,23 +36,12 @@ TYPE_MAPPING = {
 }
 
 # Track processed types to avoid duplicates
-processed_types: Set[str] = set()
-forward_declarations: Set[str] = set()
-namespace_declarations: Dict[str, List[str]] = {}
-
-
-def load_schema(path: str) -> Dict[str, Any]:
-    """Load the schema from a JSON file"""
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def sanitize_ts_name(name: str) -> str:
-    """Make a name safe for TypeScript"""
-    # Replace dots with underscores for non-namespace names
-    if "." not in name:
-        return name.replace(".", "_")
-    return name
+processed_types: set[str] = set()
+forward_declarations: set[str] = set()
+namespace_declarations: dict[str, list[str]] = {}
+# The DCS globals of the spec being exported: an enum under any other root is
+# only a type, a union of its values (``spec_types.is_type_only``)
+ts_runtime_roots: set[str] = set()
 
 
 def sanitize_property_name(name: str) -> str:
@@ -50,18 +56,16 @@ def sanitize_property_name(name: str) -> str:
         or name
         in ["class", "function", "var", "let", "const", "enum", "interface", "type"]
     ):
-        # Escape quotes in the name
         escaped_name = name.replace('"', '\\"')
         return f'"{escaped_name}"'
     return name
 
 
-def process_description(desc: Optional[str]) -> str:
+def process_description(desc: str | None) -> str:
     """Format description as JSDoc comment"""
     if not desc:
         return ""
 
-    # Clean up the description
     desc = desc.strip()
     if not desc:
         return ""
@@ -77,52 +81,62 @@ def process_description(desc: Optional[str]) -> str:
     return result
 
 
+# ``string`` beside a ref or literal: plain ``string`` would absorb the
+# literals editors offer; ``string & {}`` keeps them.
+OPEN_STRING = "(string & {})"
+
+
 def map_type(type_str: str) -> str:
     """Map DCS schema type to TypeScript type"""
     if not type_str:
         return "any"
+    return render_type(parse_type(type_str))
 
-    # Handle union types
-    if "|" in type_str:
-        types = [map_type(t.strip()) for t in type_str.split("|")]
-        return " | ".join(types)
 
-    # Handle array types
-    if type_str.endswith("[]"):
-        base_type = type_str[:-2].strip()
-        return f"Array<{map_type(base_type)}>"
+def render_type(node: TypeNode) -> str:
+    """The TypeScript type of a typeRef node."""
+    if isinstance(node, Union):
+        open_string = any(isinstance(m, Ref | Literal) for m in node.members)
+        return " | ".join(
+            OPEN_STRING if open_string and m == STRING else render_type(m)
+            for m in node.members
+        )
+    if isinstance(node, Array):
+        return f"Array<{render_type(node.item)}>"
+    if isinstance(node, Map):
+        return f"Record<{_key_type(node.key)}, {render_type(node.value)}>"
+    if isinstance(node, Literal):
+        return f'"{node.value}"'
+    if isinstance(node, Primitive):
+        return TYPE_MAPPING[node.name]
+    return _ref_type(node.name)
 
-    # Handle map types
-    if type_str.startswith("map<") and type_str.endswith(">"):
-        # Extract key and value types
-        inner = type_str[4:-1].strip()
-        # Simplification: assuming maps are always string keys in TypeScript
-        return f"Record<string, {map_type(inner)}>"
 
+def _key_type(key: TypeNode) -> str:
+    """A record key type: ``string`` or ``number``, anything else ``string``."""
+    if isinstance(key, Primitive) and key.name in ("string", "number"):
+        return TYPE_MAPPING[key.name]
+    return "string"
+
+
+def _ref_type(type_str: str) -> str:
     # Special case for Object/unknown references
     if type_str == "Object":
         return "DCSObject"
-    elif type_str == "Object.Category":
+    if type_str == "Object.Category":
         return "DCSObject.Category"
-    elif type_str == "object":
+    if type_str == "object":
         return "Record<string, any>"
-    elif type_str == "unknown":
+    if type_str == "unknown":
         return "any"
 
-    # Handle primitive types
-    if type_str in TYPE_MAPPING:
-        return TYPE_MAPPING[type_str]
-
-    # Reference to another type - handle special cases
     if "." in type_str:
-        # It's a namespaced type
         if type_str.startswith("Object."):
             # Replace Object with DCSObject
             fixed_type = type_str.replace("Object.", "DCSObject.")
             forward_declarations.add(fixed_type)
             return fixed_type
-        else:
-            forward_declarations.add(type_str)
+        forward_declarations.add(type_str)
 
         # Special case for Unit and StaticObject
         if type_str in ["Unit.Class", "StaticObject.Class"]:
@@ -131,23 +145,74 @@ def map_type(type_str: str) -> str:
 
         return type_str  # Keep the namespaced reference
 
-    # Special handling for known type conflicts
-    if type_str == "unknown":
-        return "UnknownType"  # Rename to avoid conflict
-
-    # Custom type
     return type_str  # Keep the original type name
 
 
-def process_parameter(param: Dict[str, Any]) -> str:
+def record_field_type(type_str: str) -> tuple[str, bool]:
+    """TS type of a record field's typeRef and whether it admits ``nil``.
+
+    ``nil``/``void`` members are dropped (the field is rendered optional
+    instead); function types are parenthesised inside unions.
+    """
+    return _field_type(parse_type(type_str or "any"))
+
+
+def _field_type(node: TypeNode) -> tuple[str, bool]:
+    non_null, nullable = strip_null(node)
+    parts = members(non_null) if non_null is not None else ()
+    open_string = any(isinstance(p, Ref | Literal) for p in parts)
+    rendered: list[str] = []
+    for part in parts:
+        if open_string and part == STRING:
+            ts = OPEN_STRING
+        elif isinstance(part, Map):
+            value_ts, value_nullable = _field_type(part.value)
+            if value_nullable:
+                value_ts = f"{value_ts} | undefined"
+            ts = f"Record<{_key_type(part.key)}, {value_ts}>"
+        else:
+            ts = render_type(part)
+        if len(parts) > 1 and "=>" in ts:
+            ts = f"({ts})"
+        if ts not in rendered:
+            rendered.append(ts)
+    if not rendered:
+        return "undefined", True
+    return " | ".join(rendered), nullable
+
+
+def jsdoc_line(desc: str) -> str:
+    """A one-line JSDoc comment (``*/`` escaped, newlines folded)."""
+    text = " ".join(desc.split()).replace("*/", "*\\/")
+    return f"/** {text} */"
+
+
+def process_record_fields(type_def: dict[str, Any], indent: str) -> str:
+    """Interface members for a ``kind: record`` type's ``fields``.
+
+    A field is optional (``?``) unless listed in ``required``; a field whose
+    typeRef includes ``nil`` is optional too.
+    """
+    required = set(type_def.get("required") or [])
+    out = ""
+    for field_name, field_def in type_def.get("fields", {}).items():
+        ts_type, nullable = record_field_type(field_def.get("type", "any"))
+        optional = nullable or field_name not in required
+        desc = field_def.get("description", "")
+        if desc:
+            out += f"{indent}{jsdoc_line(desc)}\n"
+        mark = "?" if optional else ""
+        out += f"{indent}{sanitize_property_name(field_name)}{mark}: {ts_type};\n"
+    return out
+
+
+def process_parameter(param: dict[str, Any]) -> str:
     """Process a function parameter into TypeScript"""
     name = param.get("name", "param")
     type_str = param.get("type", "any")
     optional = param.get("optional", False)
 
-    # Handle parameter names with spaces or special characters
     if not name.isidentifier() or re.search(r"[^\w$]", name) or name[0].isdigit():
-        # Sanitize parameter name
         clean_name = name.replace(" ", "_").replace("-", "_").replace("/", "_")
         if not clean_name.isidentifier() or clean_name[0].isdigit():
             clean_name = "p_" + clean_name
@@ -161,10 +226,54 @@ def process_parameter(param: Dict[str, Any]) -> str:
     return param_line
 
 
-def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
+def _literal_enum(name: str, desc: str, values: dict[str, Any]) -> str:
+    """An enum with boolean values (a TS enum holds only numbers and strings):
+    a union of the values and a same-named constant of them by key."""
+    namespace, enum_name = get_namespace_parts(name)
+    lead = "" if namespace else "declare "
+    union = " | ".join(json.dumps(v) for v in dict.fromkeys(values.values()))
+    definition = process_description(desc)
+    definition += f"{lead}type {enum_name} = {union};\n"
+    definition += f"{lead}const {enum_name}: {{\n"
+    for key, value in values.items():
+        definition += (
+            f"    readonly {sanitize_property_name(str(key))}: {json.dumps(value)};\n"
+        )
+    definition += "};"
+    if namespace:
+        namespace_declarations.setdefault(namespace, []).append(definition)
+        return ""
+    return definition
+
+
+def _type_only_enum(name: str, desc: str, values: Any) -> str:
+    """An enum no DCS table holds: a union of its values, each named in a
+    comment unless its name is the value; no runtime value."""
+    namespace, enum_name = get_namespace_parts(name)
+    if isinstance(values, dict):
+        pairs = [(str(k), v) for k, v in values.items()]
+    else:
+        pairs = [(str(v), v) for v in values or []]
+    definition = process_description(desc)
+    definition += f"{'' if namespace else 'declare '}type {enum_name} ="
+    if not pairs:
+        definition += " never;"
+    for i, (key, value) in enumerate(pairs):
+        last = ";" if i == len(pairs) - 1 else ""
+        name_note = "" if key == str(value) else f" // {key}"
+        definition += f"\n    | {json.dumps(value)}{last}{name_note}"
+    if namespace:
+        namespace_declarations.setdefault(namespace, []).append(definition)
+        return ""
+    return definition
+
+
+def process_enum(name: str, enum_def: dict[str, Any]) -> str:
     """Process an enum into TypeScript definition"""
     values = enum_def.get("values", [])
     desc = enum_def.get("description", "")
+    if is_type_only(name, ts_runtime_roots):
+        return _type_only_enum(name, desc, values)
 
     # Special handling for country.name enum that has numeric keys
     namespace, enum_name = get_namespace_parts(name)
@@ -182,29 +291,25 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
         definition += "\n};"
         return definition
 
-    # Build enum definition
+    if isinstance(values, dict) and any(isinstance(v, bool) for v in values.values()):
+        return _literal_enum(name, desc, values)
+
     enum_lines = []
 
-    # Handle different formats of enum values
     if isinstance(values, list):
-        # List format
         for val in values:
             if isinstance(val, str):
-                # Sanitize enum value name if needed
                 safe_key = sanitize_property_name(val)
                 # String enum values
                 enum_lines.append(f'    {safe_key} = "{val}"')
     elif isinstance(values, dict):
-        # Object format (key-value pairs)
         for key, value in values.items():
             # For numeric keys, prepend with a letter to make it valid
             if str(key).isdigit():
                 safe_key = f"KEY_{key}"
             else:
-                # Sanitize enum key name if needed
                 safe_key = sanitize_property_name(str(key))
 
-            # Format value based on its type
             if isinstance(value, str):
                 formatted_value = f'"{value}"'
             elif isinstance(value, (int, float)):
@@ -214,36 +319,30 @@ def process_enum(name: str, enum_def: Dict[str, Any]) -> str:
 
             enum_lines.append(f"    {safe_key} = {formatted_value}")
     elif isinstance(values, str):
-        # Single string value
-        # Sanitize enum value name if needed
         safe_key = sanitize_property_name(values)
         enum_lines.append(f'    {safe_key} = "{values}"')
 
-    # Get sanitized name for the enum
     safe_type_name = name.split(".")[-1] if "." in name else name
 
-    # Create namespace part if needed
     namespace = name[: name.rfind(".")] if "." in name else ""
 
-    # Enum declaration
-    enum_def = process_description(desc)
+    enum_ts = process_description(desc)
     if namespace:
-        enum_def += f"enum {safe_type_name} {{\n"
+        enum_ts += f"enum {safe_type_name} {{\n"
     else:
-        enum_def += f"declare enum {safe_type_name} {{\n"
+        enum_ts += f"declare enum {safe_type_name} {{\n"
 
-    enum_def += ",\n".join(enum_lines)
-    enum_def += "\n}"
+    enum_ts += ",\n".join(enum_lines)
+    enum_ts += "\n}"
 
-    # If it's a namespaced enum, add it to the namespace
     if namespace:
-        namespace_declarations.setdefault(namespace, []).append(enum_def)
+        namespace_declarations.setdefault(namespace, []).append(enum_ts)
         return ""
 
-    return enum_def
+    return enum_ts
 
 
-def get_namespace_parts(full_name: str) -> tuple:
+def get_namespace_parts(full_name: str) -> tuple[str, str]:
     """Split a namespace.Type name into parts"""
     if "." not in full_name:
         return "", full_name
@@ -254,40 +353,42 @@ def get_namespace_parts(full_name: str) -> tuple:
     return namespace, type_name
 
 
-def process_type(name: str, type_def: Dict[str, Any]) -> str:
+def process_type(name: str, type_def: dict[str, Any]) -> str:
     """Process a type into TypeScript definition"""
     if name in processed_types:
         return ""
 
     processed_types.add(name)
 
-    # Handle namespace
     namespace, type_name = get_namespace_parts(name)
 
     # Special handling for reserved names
     if type_name == "unknown":
         type_name = "UnknownType"  # Rename to avoid conflict
 
-    # Different handling based on type
     kind = type_def.get("kind", "")
 
     if kind == "enum":
-        definition = process_enum(name, type_def)
+        return process_enum(name, type_def)
+
+    if kind == "union":
+        members = [_union_member(map_type(t)) for t in type_def.get("anyOf") or []]
+        definition = process_description(type_def.get("description", ""))
+        definition += f"type {type_name} = {' | '.join(members) or 'any'};"
+        if namespace:
+            namespace_declarations.setdefault(namespace, []).append(definition)
+            return ""
         return definition
 
-    # For regular types, determine if it should be a class or interface
     properties = {}
     methods = {}
 
-    # Properties section
     if "properties" in type_def:
         properties.update(type_def["properties"])
 
-    # Static section
     if "static" in type_def:
         properties.update(type_def["static"])
 
-    # Instance section
     if "instance" in type_def:
         methods.update(type_def["instance"])
 
@@ -295,52 +396,41 @@ def process_type(name: str, type_def: Dict[str, Any]) -> str:
     inherits = type_def.get("inherits", "")
     extends_clause = f" extends {map_type(inherits)}" if inherits else ""
 
-    # Start with description
     definition = process_description(type_def.get("description", ""))
 
     # If in namespace and has instance methods, treat it as a class
     if namespace and methods:
-        # Use class
         definition += f"class {type_name}{extends_clause} {{\n"
 
-        # Add properties
         for prop_name, prop_def in properties.items():
             prop_type = prop_def.get("type", "any")
             prop_desc = prop_def.get("description", "")
 
-            # Handle list of types
             if isinstance(prop_type, list):
-                # Join multiple types with a union operator
                 type_strings = [map_type(t) for t in prop_type if isinstance(t, str)]
                 ts_type = " | ".join(type_strings) if type_strings else "any"
             else:
                 ts_type = map_type(prop_type)
 
-            # Add property with JSDoc
             if prop_desc:
                 definition += f"    /** {prop_desc} */\n"
             definition += f"    {sanitize_property_name(prop_name)}: {ts_type};\n"
 
-        # Add methods
         for method_name, method_def in methods.items():
-            # Process parameters
             params = method_def.get("params", [])
             returns = method_def.get("returns", "void")
             desc = method_def.get("description", "")
 
-            # Build parameter list
             param_list = []
             for param in params:
                 param_list.append(process_parameter(param))
 
-            # Convert return type
             if isinstance(returns, list):
                 return_types = [map_type(rt) for rt in returns if isinstance(rt, str)]
                 return_type = " | ".join(return_types) if return_types else "any"
             else:
                 return_type = map_type(returns)
 
-            # Add method with JSDoc
             if desc:
                 definition += f"    /** {desc} */\n"
             definition += f"    {sanitize_property_name(method_name)}({', '.join(param_list)}): {return_type};\n"
@@ -353,31 +443,29 @@ def process_type(name: str, type_def: Dict[str, Any]) -> str:
         else:
             definition += f"declare interface {type_name}{extends_clause} {{\n"
 
-        # Add properties
         for prop_name, prop_def in properties.items():
             prop_type = prop_def.get("type", "any")
             prop_desc = prop_def.get("description", "")
 
-            # Handle list of types
             if isinstance(prop_type, list):
-                # Join multiple types with a union operator
                 type_strings = [map_type(t) for t in prop_type if isinstance(t, str)]
                 ts_type = " | ".join(type_strings) if type_strings else "any"
             else:
                 ts_type = map_type(prop_type)
 
-            # Add property with JSDoc
             if prop_desc:
                 definition += f"    /** {prop_desc} */\n"
             definition += f"    {sanitize_property_name(prop_name)}: {ts_type};\n"
 
-        # If there are no properties and no methods, add a comment
-        if not properties and not methods:
+        record_fields = kind == "record" and bool(type_def.get("fields"))
+        if record_fields:
+            definition += process_record_fields(type_def, "    ")
+
+        if not properties and not methods and not record_fields:
             definition += "    // No properties or methods defined\n"
 
         definition += "}"
 
-    # Store in namespace if needed
     if namespace:
         namespace_declarations.setdefault(namespace, []).append(definition)
         return ""  # Will be added through namespace later
@@ -385,22 +473,43 @@ def process_type(name: str, type_def: Dict[str, Any]) -> str:
     return definition
 
 
-def process_global(name: str, global_def: Dict[str, Any]) -> str:
+def returns_type(returns: Any) -> str:
+    """The TypeScript type of a methodDef's returns (several: their union)."""
+    if isinstance(returns, list):
+        types = [_union_member(map_type(rt)) for rt in returns if isinstance(rt, str)]
+        return " | ".join(types) if types else "any"
+    return map_type(returns)
+
+
+def _union_member(ts_type: str) -> str:
+    """A type as a union member: a function type in parentheses."""
+    return f"({ts_type})" if "=>" in ts_type else ts_type
+
+
+def static_method_type(method_def: dict[str, Any]) -> str:
+    """A static methodDef as a function type; a parameter after an optional
+    one is optional too (TypeScript has no required one after it)."""
+    params, optional = [], False
+    for p in method_def.get("params") or []:
+        optional = optional or bool(p.get("optional"))
+        name = re.sub(r"\W", "_", str(p.get("name") or "param"))
+        params.append(process_parameter({**p, "name": name, "optional": optional}))
+    ret = returns_type(method_def["returns"])
+    return f"({', '.join(params)}) => {ret}"
+
+
+def process_global(name: str, global_def: dict[str, Any]) -> str:
     """Process a global namespace into TypeScript definition"""
-    # Handle properties and methods
     properties = global_def.get("properties", {})
     static_items = global_def.get("static", {})
     instance_methods = global_def.get("instance", {})
 
-    # Combine static properties with regular properties
     all_properties = {**properties, **static_items}
 
-    # Check if there's anything to include
     has_content = (
         bool(all_properties) or bool(instance_methods) or name in namespace_declarations
     )
 
-    # Build namespace
     declaration = process_description(global_def.get("description", ""))
 
     if has_content:
@@ -411,14 +520,14 @@ def process_global(name: str, global_def: Dict[str, Any]) -> str:
             declaration += "    /** Main class for this namespace */\n"
             declaration += f"    class {name} {{\n"
 
-            # Add properties
             for prop_name, prop_def in all_properties.items():
                 prop_type = prop_def.get("type", "any")
                 prop_desc = prop_def.get("description", "")
 
-                # Handle list of types
-                if isinstance(prop_type, list):
-                    # Join multiple types with a union operator
+                if "type" not in prop_def and "returns" in prop_def:
+                    # A static method: a function-typed property.
+                    ts_type = static_method_type(prop_def)
+                elif isinstance(prop_type, list):
                     type_strings = [
                         map_type(t) for t in prop_type if isinstance(t, str)
                     ]
@@ -426,26 +535,21 @@ def process_global(name: str, global_def: Dict[str, Any]) -> str:
                 else:
                     ts_type = map_type(prop_type)
 
-                # Add property with JSDoc
                 if prop_desc:
                     declaration += f"        /** {prop_desc} */\n"
                 declaration += (
                     f"        {sanitize_property_name(prop_name)}: {ts_type};\n"
                 )
 
-            # Add methods
             for method_name, method_def in instance_methods.items():
-                # Process parameters
                 params = method_def.get("params", [])
                 returns = method_def.get("returns", "void")
                 desc = method_def.get("description", "")
 
-                # Build parameter list
                 param_list = []
                 for param in params:
                     param_list.append(process_parameter(param))
 
-                # Convert return type
                 if isinstance(returns, list):
                     return_types = [
                         map_type(rt) for rt in returns if isinstance(rt, str)
@@ -454,14 +558,12 @@ def process_global(name: str, global_def: Dict[str, Any]) -> str:
                 else:
                     return_type = map_type(returns)
 
-                # Add method with JSDoc
                 if desc:
                     declaration += f"        /** {desc} */\n"
                 declaration += f"        {sanitize_property_name(method_name)}({', '.join(param_list)}): {return_type};\n"
 
             declaration += "    }\n\n"
 
-        # Add collected namespace types
         if name in namespace_declarations:
             for type_def in namespace_declarations[name]:
                 declaration += "    " + type_def.replace("\n", "\n    ") + "\n\n"
@@ -492,10 +594,10 @@ def generate_forward_declarations() -> str:
     return "\n".join(declarations)
 
 
-def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
+def export_to_typescript(schema: dict[str, Any], output_path: str) -> None:
     """Export schema to TypeScript definitions"""
-    output_dir = os.path.dirname(output_path)
-    os.makedirs(output_dir, exist_ok=True)
+    schema = api_spec(schema)
+    Path(output_path).parent.mkdir(parents=True, exist_ok=True)
 
     output = [
         "// DCS World TypeScript Definitions",
@@ -504,7 +606,6 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
         "",
     ]
 
-    # Process types
     processed_types.clear()
     namespace_declarations.clear()
     forward_declarations.clear()
@@ -512,20 +613,18 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
     # Set of namespaces that need interface versions because they're used as types
     namespace_interfaces = set()
 
-    # Handle namespace conflict resolution - rename Object to DCSObject
+    # Rename the Object namespace to DCSObject
     if "globals" in schema and "Object" in schema["globals"]:
         schema["globals"]["DCSObject"] = schema["globals"].pop("Object")
 
         # Update all references from Object to DCSObject in the schema
         if "types" in schema:
-            for type_name, type_def in schema["types"].items():
-                # Update inherits
+            for type_def in schema["types"].values():
                 if type_def.get("inherits") == "Object":
                     type_def["inherits"] = "DCSObject"
 
-                # Update properties
                 if "properties" in type_def:
-                    for prop_name, prop_def in type_def["properties"].items():
+                    for prop_def in type_def["properties"].values():
                         if (
                             isinstance(prop_def.get("type"), str)
                             and prop_def.get("type") == "Object"
@@ -537,10 +636,8 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                         ):
                             prop_def["type"] = "DCSObject.Category"
 
-                # Update method parameters and returns
                 if "instance" in type_def:
-                    for method_name, method_def in type_def["instance"].items():
-                        # Update parameters
+                    for method_def in type_def["instance"].values():
                         for param in method_def.get("params", []):
                             if (
                                 isinstance(param.get("type"), str)
@@ -553,7 +650,6 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                             ):
                                 param["type"] = "DCSObject.Category"
 
-                        # Update returns
                         if isinstance(method_def.get("returns"), str):
                             if method_def.get("returns") == "Object":
                                 method_def["returns"] = "DCSObject"
@@ -566,11 +662,13 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                                 elif ret == "Object.Category":
                                     method_def["returns"][i] = "DCSObject.Category"
 
+    ts_runtime_roots.clear()
+    ts_runtime_roots.update(runtime_roots(schema))
+
     # First pass: collect namespaced types
     if "types" in schema:
         for type_name, type_def in schema["types"].items():
             if "." in type_name:
-                # Handle Object namespace conflict
                 if type_name.startswith("Object."):
                     new_type_name = type_name.replace("Object.", "DCSObject.")
                     process_type(new_type_name, type_def)
@@ -580,19 +678,17 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
     # Identify which namespaces need interface versions
     if "globals" in schema:
         # Any namespace used as a return type or parameter type needs an interface
-        for global_name, global_def in schema["globals"].items():
+        for global_name in schema["globals"]:
             namespace_interfaces.add(global_name)  # All namespaces need interfaces
 
     # Process globals first to collect more namespace types
     if "globals" in schema:
-        for global_name, global_def in schema["globals"].items():
-            # Check properties and methods for references
+        for global_def in schema["globals"].values():
             properties = global_def.get("properties", {})
             static_items = global_def.get("static", {})
             instance_items = global_def.get("instance", {})
 
-            # Check property types
-            for prop_name, prop_def in {**properties, **static_items}.items():
+            for prop_def in {**properties, **static_items}.values():
                 type_str = prop_def.get("type", "any")
                 if isinstance(type_str, str):
                     map_type(type_str)  # This adds to forward_declarations
@@ -601,14 +697,11 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                         if isinstance(t, str):
                             map_type(t)  # This adds to forward_declarations
 
-            # Check method parameters and returns
-            for method_name, method_def in instance_items.items():
-                # Check parameters
+            for method_def in instance_items.values():
                 for param in method_def.get("params", []):
                     param_type = param.get("type", "any")
                     map_type(param_type)  # This adds to forward_declarations
 
-                # Check returns
                 returns = method_def.get("returns", "void")
                 if isinstance(returns, str):
                     map_type(returns)  # This adds to forward_declarations
@@ -617,14 +710,12 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                         if isinstance(rt, str):
                             map_type(rt)  # This adds to forward_declarations
 
-    # Generate interface definitions for namespaces
     namespace_interface_declarations = []
     for namespace in sorted(namespace_interfaces):
         namespace_interface_declarations.append(
             f"declare interface {namespace} {{ /* Interface for namespace {namespace} */ }}"
         )
 
-    # Process non-namespaced types
     if "types" in schema:
         output.append("// Type Definitions")
         for type_name, type_def in sorted(schema["types"].items()):
@@ -637,7 +728,6 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                 output.append(type_declaration)
                 output.append("")
 
-    # Add interface definitions for namespaces
     if namespace_interface_declarations:
         output.append("// Namespace Interface Definitions")
         output.extend(namespace_interface_declarations)
@@ -650,7 +740,6 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
         output.append(forward_decls)
         output.append("")
 
-    # Process globals
     if "globals" in schema:
         output.append("// Global Namespaces")
         for global_name, global_def in sorted(schema["globals"].items()):
@@ -659,7 +748,6 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
                 output.append(global_declaration)
                 output.append("")
 
-    # Process remaining namespace types
     remaining_namespaces = [
         ns for ns in namespace_declarations if ns not in schema.get("globals", {})
     ]
@@ -668,18 +756,17 @@ def export_to_typescript(schema: Dict[str, Any], output_path: str) -> None:
         for namespace in sorted(remaining_namespaces):
             output.append(f"declare namespace {namespace} {{")
             for type_def in namespace_declarations[namespace]:
-                output.append(f"    {type_def.replace('    ', '        ')}")
+                output.append("    " + type_def.replace("\n", "\n    "))
             output.append("}")
             output.append("")
 
-    # Write to file
-    with open(output_path, "w", encoding="utf-8") as f:
+    with Path(output_path).open("w", encoding="utf-8") as f:
         f.write("\n".join(output))
 
     print(f"TypeScript definitions exported to {output_path}")
 
 
-def main():
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Export DCS schema to TypeScript definitions"
     )
@@ -694,7 +781,7 @@ def main():
     args = parser.parse_args()
 
     try:
-        schema = load_schema(args.schema)
+        schema = load_json(Path(args.schema))
         export_to_typescript(schema, args.output)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)

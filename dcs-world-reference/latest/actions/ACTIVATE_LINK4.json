@@ -1,0 +1,262 @@
+{
+  "availableFor": [
+    {
+      "category": "ship",
+      "groupTask": "Default"
+    }
+  ],
+  "capability": {
+    "attributes": [
+      "Aircraft Carriers",
+      "Link4"
+    ],
+    "messages": [
+      "has no Link 4"
+    ]
+  },
+  "dcsId": "ActivateLink4",
+  "defaultParams": {},
+  "description": "Activate Link 4 onboard of the group lead unit. Only one Link 4 is available.",
+  "displayName": "Activate Link 4",
+  "id": "ACTIVATE_LINK4",
+  "kind": "command",
+  "missions": {
+    "categories": [
+      "ship"
+    ],
+    "contexts": {
+      "route>ComboTask>WrappedAction": 148
+    },
+    "count": 148
+  },
+  "modules": [
+    "me_action_db"
+  ],
+  "params": [
+    {
+      "missionCount": 148,
+      "name": "frequency",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    },
+    {
+      "missionCount": 51,
+      "missionStrings": [
+        {
+          "count": 19,
+          "value": "TR"
+        },
+        {
+          "count": 8,
+          "value": "JCS"
+        },
+        {
+          "count": 7,
+          "value": "VF"
+        },
+        {
+          "count": 5,
+          "value": "ALN"
+        },
+        {
+          "count": 5,
+          "value": "USS Valley Forge"
+        },
+        {
+          "count": 2,
+          "value": "GW"
+        },
+        {
+          "count": 2,
+          "value": "L4"
+        },
+        {
+          "count": 1,
+          "value": "L4 VF"
+        },
+        {
+          "count": 1,
+          "value": "Link4"
+        },
+        {
+          "count": 1,
+          "value": "VFL4"
+        }
+      ],
+      "name": "name",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "string"
+      ]
+    },
+    {
+      "missionCount": 148,
+      "name": "unitId",
+      "seenIn": [
+        "panel",
+        "missions"
+      ],
+      "types": [
+        "number"
+      ]
+    }
+  ],
+  "probe": [
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "ActivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "setCommand",
+      "hasTaskAfter": false,
+      "id": "activatelink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "ActivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": false,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "wrappedAction",
+      "hasTaskAfter": false,
+      "id": "activatelink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "ActivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "comboTask",
+      "hasTaskAfter": false,
+      "id": "activatelink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "dcs",
+        "schema"
+      ],
+      "category": "ship",
+      "context": "route",
+      "hasTaskAfter": true,
+      "id": "ActivateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lowerCamel"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "activateLink4",
+      "logLines": 0,
+      "status": "done"
+    },
+    {
+      "accepted": true,
+      "casings": [
+        "lower"
+      ],
+      "category": "ship",
+      "context": "route",
+      "id": "activatelink4",
+      "logLines": 0,
+      "status": "done"
+    }
+  ],
+  "probedOn": "2.9.29.27468",
+  "wrapped": true
+}

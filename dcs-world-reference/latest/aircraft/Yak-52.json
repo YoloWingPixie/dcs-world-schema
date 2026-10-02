@@ -1,0 +1,856 @@
+{
+  "aero": {
+    "emptyMassKg": 1229,
+    "internalFuelKg": 87.84,
+    "maxSpeedKmh": 270,
+    "maxTakeoffKg": 1315
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "UAVs"
+  ],
+  "countryOfOrigin": "RUS",
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 132,
+    "maxMHz": 136.975,
+    "minMHz": 118,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 16,
+    "name": "AFAC"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 0.1,
+    "rcsM2": 2.5
+  },
+  "dimensions": {
+    "heightM": 2.7,
+    "lengthM": 7.745,
+    "wingSpanM": 9.3
+  },
+  "displayName": "Yak-52",
+  "failures": [
+    {
+      "id": "CTRL_AILERON_ROD_DESTROYED",
+      "label": "Aileron control failure"
+    },
+    {
+      "id": "CTRL_AILERON_ROD_MAJOR_DAMAGE",
+      "label": "Aileron control crippled"
+    },
+    {
+      "id": "CTRL_AILERON_ROD_MINOR_DAMAGE",
+      "label": "Aileron control damaged"
+    },
+    {
+      "id": "CTRL_ELEVATOR_ROD_DESTROYED",
+      "label": "Elevator control failure"
+    },
+    {
+      "id": "CTRL_ELEVATOR_ROD_MAJOR_DAMAGE",
+      "label": "Elevator control crippled"
+    },
+    {
+      "id": "CTRL_ELEVATOR_ROD_MINOR_DAMAGE",
+      "label": "Elevator control damaged"
+    },
+    {
+      "id": "CTRL_ELEVATOR_TRIM_FAILURE",
+      "label": "Trim drive failure"
+    },
+    {
+      "id": "CTRL_RUDDER_ROD_DESTROYED",
+      "label": "Rudder control failure"
+    },
+    {
+      "id": "CTRL_RUDDER_ROD_MAJOR_DAMAGE",
+      "label": "Rudder control crippled"
+    },
+    {
+      "id": "CTRL_RUDDER_ROD_MINOR_DAMAGE",
+      "label": "Rudder control damaged"
+    },
+    {
+      "id": "ELEC_BATTERY_OVERHEAT",
+      "label": "Battery overheated"
+    },
+    {
+      "id": "ELEC_BATTERY_DESTROYED",
+      "label": "Battery failure"
+    },
+    {
+      "id": "ELEC_GENERATOR_FAILURE",
+      "label": "Generator failure"
+    },
+    {
+      "id": "ELEC_GENERATOR_REGULATOR_MALFUNCTION",
+      "label": "Regulator malfunction"
+    },
+    {
+      "id": "PNEM_COMPRESSOR_FAILURE",
+      "label": "Pneumatic air compressor failure"
+    },
+    {
+      "id": "PNEM_PRIMARY_CONTAINER_PERFORATED",
+      "label": "Primary air cylinder perforated"
+    },
+    {
+      "id": "PNEM_SECONDARY_CONTAINER_PERFORATED",
+      "label": "Secondary air cylinder perforated"
+    },
+    {
+      "id": "ENG0_JAMMED",
+      "label": "Engine destroyed"
+    },
+    {
+      "id": "ENG0_MAGNETO0",
+      "label": "Magneto No. 1 failure"
+    },
+    {
+      "id": "ENG0_MAGNETO1",
+      "label": "Magneto No. 2 failure"
+    },
+    {
+      "id": "ENG0_GOVERNOR_MALFUNCTION",
+      "label": "Propeller governor malfunction"
+    },
+    {
+      "id": "ENG0_GOVERNOR_FAILURE",
+      "label": "Propeller governor failure"
+    },
+    {
+      "id": "ENG0_GOVERNOR_REGULATOR_MALFUNCTION",
+      "label": "Propeller governor regulator failure"
+    }
+  ],
+  "flyable": false,
+  "id": "Yak-52",
+  "kind": "fixedwing",
+  "life": [
+    {
+      "source": "shape_table_data[1].life",
+      "value": 18
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 472,
+      "control": "checkbox",
+      "default": false,
+      "id": "SoloFlight",
+      "label": "Solo Flight",
+      "weightWhenOnKg": -80
+    },
+    {
+      "arg": 1000,
+      "control": "comboList",
+      "default": 0,
+      "id": "PropellorType",
+      "label": "Propeller Type",
+      "values": [
+        {
+          "id": 0,
+          "label": "2-Blade V530TA-D35",
+          "value": 0
+        },
+        {
+          "id": 1,
+          "label": "3-Blade MTV-9",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "control": "comboList",
+      "default": 0,
+      "id": "NetCrewControlPriority",
+      "label": "Aircraft Control Priority",
+      "playerOnly": true,
+      "values": [
+        {
+          "id": 0,
+          "label": "Pilot"
+        },
+        {
+          "id": 1,
+          "label": "Instructor"
+        },
+        {
+          "id": -1,
+          "label": "Ask Always"
+        },
+        {
+          "id": -2,
+          "label": "Equally Responsible"
+        }
+      ]
+    }
+  ],
+  "model": {
+    "canopyGeometry": [
+      -0.087155742747658,
+      -0.45315389351832,
+      -0.81915204428899,
+      -0.23856595048166,
+      0.34202014332567
+    ],
+    "className": "lLandPlane",
+    "damageArgs": [
+      {
+        "args": [
+          150
+        ],
+        "cell": 1
+      },
+      {
+        "args": [
+          149
+        ],
+        "cell": 2
+      },
+      {
+        "args": [
+          189
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          154
+        ],
+        "cell": 4
+      },
+      {
+        "args": [
+          153
+        ],
+        "cell": 5
+      },
+      {
+        "args": [
+          253
+        ],
+        "cell": 8
+      },
+      {
+        "args": [
+          259
+        ],
+        "cell": 15
+      },
+      {
+        "args": [
+          255
+        ],
+        "cell": 16
+      },
+      {
+        "args": [
+          226
+        ],
+        "cell": 25
+      },
+      {
+        "args": [
+          216
+        ],
+        "cell": 26
+      },
+      {
+        "args": [
+          225
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          215
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          242
+        ],
+        "cell": 39
+      },
+      {
+        "args": [
+          243
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          236
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          234
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          240
+        ],
+        "cell": 51
+      },
+      {
+        "args": [
+          238
+        ],
+        "cell": 52
+      },
+      {
+        "args": [
+          247
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          159
+        ],
+        "cell": 55
+      },
+      {
+        "args": [
+          158
+        ],
+        "cell": 56
+      },
+      {
+        "args": [
+          157
+        ],
+        "cell": 57
+      },
+      {
+        "args": [
+          152
+        ],
+        "cell": 82
+      },
+      {
+        "args": [
+          136
+        ],
+        "cell": 83
+      },
+      {
+        "args": [
+          134
+        ],
+        "cell": 84
+      },
+      {
+        "args": [
+          135
+        ],
+        "cell": 85
+      }
+    ],
+    "file": "Yak-52",
+    "lightsData": {
+      "lights": {},
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000026",
+    "positioning": "BYNORMAL",
+    "shape": "Yak-52",
+    "shapeDestroyed": "Bf-109K-4_oblomki"
+  },
+  "module": "Yak-52 AI by Eagle Dynamics",
+  "operations": {
+    "dateOfIntroduction": 1979
+  },
+  "operators": [
+    {
+      "country": 0,
+      "countryName": "RUSSIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY"
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK"
+    },
+    {
+      "country": 15,
+      "countryName": "ISRAEL"
+    },
+    {
+      "country": 16,
+      "countryName": "GEORGIA",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 17,
+      "countryName": "INSURGENTS"
+    },
+    {
+      "country": 18,
+      "countryName": "ABKHAZIA",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 19,
+      "countryName": "SOUTH_OSETIA"
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 22,
+      "countryName": "SWITZERLAND"
+    },
+    {
+      "country": 23,
+      "countryName": "AUSTRIA"
+    },
+    {
+      "country": 24,
+      "countryName": "BELARUS",
+      "years": {
+        "from": 1991,
+        "to": 9999
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 1990,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA"
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA"
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT"
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND"
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE"
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 1994,
+        "to": 9999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA"
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN"
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ"
+    },
+    {
+      "country": 36,
+      "countryName": "JAPAN"
+    },
+    {
+      "country": 37,
+      "countryName": "KAZAKHSTAN"
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA"
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 1979,
+        "to": 9999
+      }
+    },
+    {
+      "country": 42,
+      "countryName": "SAUDI_ARABIA"
+    },
+    {
+      "country": 43,
+      "countryName": "SERBIA"
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA"
+    },
+    {
+      "country": 45,
+      "countryName": "SOUTH_KOREA"
+    },
+    {
+      "country": 46,
+      "countryName": "SWEDEN"
+    },
+    {
+      "country": 47,
+      "countryName": "SYRIA"
+    },
+    {
+      "country": 48,
+      "countryName": "YEMEN"
+    },
+    {
+      "country": 49,
+      "countryName": "VIETNAM",
+      "years": {
+        "from": 1997,
+        "to": 9999
+      }
+    },
+    {
+      "country": 50,
+      "countryName": "VENEZUELA"
+    },
+    {
+      "country": 51,
+      "countryName": "TUNISIA"
+    },
+    {
+      "country": 52,
+      "countryName": "THAILAND"
+    },
+    {
+      "country": 53,
+      "countryName": "SUDAN"
+    },
+    {
+      "country": 54,
+      "countryName": "PHILIPPINES"
+    },
+    {
+      "country": 55,
+      "countryName": "MOROCCO"
+    },
+    {
+      "country": 56,
+      "countryName": "MEXICO"
+    },
+    {
+      "country": 57,
+      "countryName": "MALAYSIA"
+    },
+    {
+      "country": 58,
+      "countryName": "LIBYA"
+    },
+    {
+      "country": 59,
+      "countryName": "JORDAN"
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA"
+    },
+    {
+      "country": 61,
+      "countryName": "HONDURAS"
+    },
+    {
+      "country": 62,
+      "countryName": "ETHIOPIA"
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE"
+    },
+    {
+      "country": 64,
+      "countryName": "BRAZIL"
+    },
+    {
+      "country": 65,
+      "countryName": "BAHRAIN"
+    },
+    {
+      "country": 66,
+      "countryName": "THIRDREICH"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR",
+      "years": {
+        "from": 1979,
+        "to": 1991
+      }
+    },
+    {
+      "country": 69,
+      "countryName": "ITALIAN_SOCIAL_REPUBLIC"
+    },
+    {
+      "country": 70,
+      "countryName": "ALGERIA"
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT"
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR"
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN"
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES"
+    },
+    {
+      "country": 75,
+      "countryName": "SOUTH_AFRICA"
+    },
+    {
+      "country": 76,
+      "countryName": "CUBA"
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL"
+    },
+    {
+      "country": 78,
+      "countryName": "GDR"
+    },
+    {
+      "country": 79,
+      "countryName": "LEBANON"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 83,
+      "countryName": "ARGENTINA"
+    },
+    {
+      "country": 84,
+      "countryName": "CYPRUS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA"
+    },
+    {
+      "country": 86,
+      "countryName": "BOLIVIA"
+    },
+    {
+      "country": 87,
+      "countryName": "GHANA"
+    },
+    {
+      "country": 88,
+      "countryName": "NIGERIA"
+    },
+    {
+      "country": 89,
+      "countryName": "PERU"
+    },
+    {
+      "country": 90,
+      "countryName": "ECUADOR"
+    },
+    {
+      "country": 91,
+      "countryName": "AFGHANISTAN"
+    },
+    {
+      "country": 92,
+      "countryName": "NEW ZEALAND"
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.009042,
+    "bankAngleMaxDeg": 60,
+    "casMin": 180,
+    "enginesCount": 1,
+    "hMaxM": 4000,
+    "machMax": 0.3524,
+    "nyMax": 7,
+    "rangeKm": 465,
+    "vLandMs": 33.333333333333,
+    "vMaxHMs": 75,
+    "vMaxSeaLevelMs": 75,
+    "vOptMs": 52.777777777778,
+    "vTakeOffMs": 33.333333333333
+  },
+  "radios": [],
+  "sensors": [
+    "Merkury LLTV"
+  ],
+  "stations": [
+    {
+      "accepts": [
+        {
+          "clsid": "{INV-SMOKE-BLUE}"
+        },
+        {
+          "clsid": "{INV-SMOKE-GREEN}"
+        },
+        {
+          "clsid": "{INV-SMOKE-ORANGE}"
+        },
+        {
+          "clsid": "{INV-SMOKE-RED}"
+        },
+        {
+          "clsid": "{INV-SMOKE-WHITE}"
+        },
+        {
+          "clsid": "{INV-SMOKE-YELLOW}"
+        }
+      ],
+      "displayName": "SMK",
+      "order": 1,
+      "position": {
+        "lateral": 0,
+        "longitudinal": 0.9,
+        "vertical": -0.5525
+      },
+      "station": 1,
+      "type": 2,
+      "wet": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": 11,
+      "name": "CAP"
+    },
+    {
+      "id": 18,
+      "name": "Escort"
+    },
+    {
+      "id": 16,
+      "name": "AFAC"
+    }
+  ]
+}

@@ -25,7 +25,10 @@ definitions:
     description: >
       A reference to a type. Can be a primitive (e.g., 'number', 'string', 'boolean', 'table', 'function', 'any'),
       a defined type from the 'types' section (e.g., 'Vec3'), a global class/singleton name (e.g., 'Unit'),
-      or a union type (e.g., 'Unit | nil', 'number | string').
+      a string literal in double quotes (e.g., '"Orbit"': exactly that string, case included),
+      or a union type (e.g., 'Unit | nil', 'number | string', '"on" | "off"').
+    # A literal is quoted and holds no quote, backslash or '|'.
+    pattern: '^([^"]|"[^"\\|]*")*$'
 
   paramDef:
     type: object
@@ -89,6 +92,12 @@ definitions:
     properties:
       type:        { $ref: "#/definitions/typeRef" }
       description: { type: string }
+      ref:
+        $ref: "#/definitions/typeRef"
+        description: >
+          Cross-reference: each string value of the field (every element of an array) is the id of a
+          record of this entity type, or of any member of a union ('Entity.Ship | Entity.Structure').
+          Checked by `task validate-data`.
       readonly:
         type: boolean
         default: false

@@ -1,0 +1,99 @@
+globals: {}
+
+types:
+  Entity.RadioBand:
+    kind: enum
+    description: "Primary frequency band of a radio entity."
+    values:
+      UHF: "UHF"
+      VHF: "VHF"
+      HF: "HF"
+      VUHF: "V/UHF"
+      FM: "FM"
+
+  Entity.RadioSegment:
+    kind: record
+    description: "One DCS `range` segment of a radio: a tunable frequency range and the modulation the mission editor gives it."
+    fields:
+      minMHz:
+        type: number
+        description: "Lowest tunable frequency in megahertz."
+      maxMHz:
+        type: number
+        description: "Highest tunable frequency in megahertz."
+      modulation:
+        type: Entity.RadioModulation
+        description: "The segment's DCS `modulation`; else the `modulation` label (AM, FM) of the radio's preset channels inside it; else MODULATION_AM, the mission editor's fallback (MissionEditor/modules/me_panelRadio.lua `updateModulation`). MODULATION_AM_AND_FM means either."
+      modulationName:
+        type: string
+        description: "DCS constant name of `modulation` (for example `MODULATION_AM`)."
+      defaultModulation:
+        type: Entity.RadioModulation
+        description: "Optional DCS `modulationDef`: the modulation the mission editor selects on entering the segment."
+      defaultModulationName:
+        type: string
+        description: "Optional DCS constant name of `defaultModulation`."
+    required: [minMHz, maxMHz, modulation, modulationName]
+
+  Entity.DefaultRadio:
+    kind: record
+    description: "An aircraft's DCS `HumanRadio`."
+    fields:
+      frequencyMHz:
+        type: number
+        description: "Default frequency in megahertz (`frequency`)."
+      modulation:
+        type: Entity.RadioModulation
+        description: "Default `modulation`."
+      modulationName:
+        type: string
+        description: "DCS constant name of `modulation`."
+      minMHz:
+        type: number
+        description: "Optional lowest frequency in megahertz (`minFrequency`)."
+      maxMHz:
+        type: number
+        description: "Optional highest frequency in megahertz (`maxFrequency`)."
+      editable:
+        type: boolean
+        description: "Optional `editable`: the mission editor lets the frequency be changed."
+    required: [frequencyMHz, modulation, modulationName]
+
+  Entity.Radio:
+    kind: record
+    description: "An aircraft or unit communications radio."
+    fields:
+      id:
+        type: string
+        description: "Unique radio identifier: `<aircraft>__radio<index>`, the DCS `panelRadio` index from 0."
+      name:
+        type: string
+        description: "Optional DCS `panelRadio` name (for example `UHF AM: ARC-164`); absent for a `HumanRadio`-only aircraft."
+      band:
+        type: Entity.RadioBand
+        description: "Primary frequency band of the radio: the one its DCS `name` names (UHF and VHF together are V/UHF); else from its tunable range by hand-authored band edges (`_source.band: hand-authored`)."
+      range:
+        type: Entity.FreqRange
+        description: "Overall tunable frequency range in megahertz, lowest to highest `segments` bound."
+      segments:
+        type: Entity.RadioSegment[]
+        description: "The DCS `range` segments, in DCS order; frequencies between them are not tunable."
+      stepKHz:
+        type: number
+        description: "Optional tuning step in kilohertz (hand-authored; VHF/UHF only)."
+      presets:
+        type: number
+        description: "Number of preset channels."
+      guard:
+        type: boolean
+        description: "True if a tunable segment covers the band's emergency frequency (121.5 or 243 MHz); hand-authored."
+      modulation:
+        type: Entity.RadioModulation[]
+        description: "Distinct `segments` modulations, ascending."
+      modulationName:
+        type: string[]
+        description: "DCS constant names of `modulation`, index for index (for example `MODULATION_AM`)."
+      _source:
+        type: any
+        description: "Provenance map keyed by field: `hand-authored` (tools/datamine/overlays.yaml) for `guard`, `stepKHz` and a `band` the radio's name does not name. Absent fields are datamined."
+    required: [id, band, range, segments, presets, guard, modulation, modulationName]

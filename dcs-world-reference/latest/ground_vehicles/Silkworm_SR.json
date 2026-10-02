@@ -1,0 +1,478 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "All",
+    "Armed ground units",
+    "Armed vehicles",
+    "Artillery",
+    "DetectionByAWACS",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "Indirect fire",
+    "LightArmoredUnits",
+    "NonAndLightArmoredUnits",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 200000,
+    "irEmissionCoeff": 0.05,
+    "sensor": {
+      "heightM": 4,
+      "maxAltM": 500,
+      "maxRangeM": 200000,
+      "minRangeM": 1500
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "AShM Silkworm SR",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 200000,
+    "radarType": 103,
+    "radarTypeName": "wsType_Radar_MissGun"
+  },
+  "id": "Silkworm_SR",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 4
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "alarm_state_sequence": {
+        "1": [
+          3,
+          [
+            {
+              "endTime": 20,
+              "startTime": 0
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "2": [
+          11,
+          [
+            {
+              "endTime": 10,
+              "startTime": 0
+            },
+            {
+              "endTime": 20,
+              "leveling": true,
+              "startTime": 10
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "totalDuration": 25
+      },
+      "locator_rotation": 0
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 0,
+          "value": 0.255
+        },
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "mys-m1",
+    "mapClassKey": "P0091000083",
+    "positioning": "BYNORMAL",
+    "shape": "mys-m1",
+    "shapeDestroyed": "mys-m1_p_1"
+  },
+  "operators": [
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 27,
+      "countryName": "CHINA",
+      "years": {
+        "from": 1983,
+        "to": 9999
+      }
+    },
+    {
+      "country": 29,
+      "countryName": "EGYPT",
+      "years": {
+        "from": 1984,
+        "to": 9999
+      }
+    },
+    {
+      "country": 34,
+      "countryName": "IRAN",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 35,
+      "countryName": "IRAQ",
+      "years": {
+        "from": 1987,
+        "to": 9999
+      }
+    },
+    {
+      "country": 38,
+      "countryName": "NORTH_KOREA",
+      "years": {
+        "from": 1986,
+        "to": 9999
+      }
+    },
+    {
+      "country": 39,
+      "countryName": "PAKISTAN",
+      "years": {
+        "from": 1981,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "Mys-M1_SR"
+  ],
+  "tags": [
+    "MissilesSS",
+    "RadarSSM"
+  ],
+  "weaponSystems": [
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 1
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 2
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 3
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 4
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 5
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 6
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 7
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 8
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 9
+    },
+    {
+      "ecmK": 0.5,
+      "externalTrackingAwacs": true,
+      "hMaxM": 500,
+      "hMinM": -1,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 200.0,
+      "rMinKm": 0.5,
+      "reactionTimeS": 10,
+      "reflectionLimit": 0.18,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -0.17453292519943,
+          0.17453292519943
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 10
+    }
+  ]
+}

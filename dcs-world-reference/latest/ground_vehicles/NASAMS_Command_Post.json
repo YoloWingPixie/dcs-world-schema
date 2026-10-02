@@ -1,0 +1,560 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "Air Defence",
+    "All",
+    "Ground Units",
+    "Ground Units Non Airdefence",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "SAM CC",
+    "SAM elements",
+    "SAM related",
+    "Trucks",
+    "Unarmed vehicles",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 0,
+    "irEmissionCoeff": 0.05,
+    "sensor": {
+      "heightM": 2.7,
+      "maxAltM": 17000,
+      "maxRangeM": 50000,
+      "minRangeM": 3000
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "SAM NASAMS C2",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 60000
+  },
+  "id": "NASAMS_Command_Post",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 2
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "alarm_state_sequence": {
+        "1": [
+          3,
+          [
+            {
+              "endTime": 20,
+              "startTime": 0
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "2": [
+          11,
+          [
+            {
+              "endTime": 10,
+              "startTime": 0
+            },
+            {
+              "endTime": 20,
+              "leveling": true,
+              "startTime": 10
+            },
+            {
+              "endTime": 25,
+              "endVal": 1,
+              "startTime": 20,
+              "startVal": 1
+            }
+          ]
+        ],
+        "totalDuration": 25
+      },
+      "locator_rotation": -1
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 3,
+          "value": 1
+        }
+      ]
+    },
+    "file": "NASAMS_Command_Post",
+    "mapClassKey": "P0091000046",
+    "positioning": "BYNORMAL",
+    "shape": "NASAMS_Command_Post",
+    "shapeDestroyed": "NASAMS_Command_Post_p_1"
+  },
+  "operators": [
+    {
+      "country": 1,
+      "countryName": "UKRAINE",
+      "years": {
+        "from": 2022,
+        "to": 9999
+      }
+    },
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 2004,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 2002,
+        "to": 9999
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY",
+      "years": {
+        "from": 1996,
+        "to": 9999
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 2013,
+        "to": 9999
+      }
+    },
+    {
+      "country": 60,
+      "countryName": "INDONESIA",
+      "years": {
+        "from": 2020,
+        "to": 9999
+      }
+    },
+    {
+      "country": 63,
+      "countryName": "CHILE",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 73,
+      "countryName": "OMAN",
+      "years": {
+        "from": 2016,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "tags": [
+    "Air Defence",
+    "Command & Control"
+  ],
+  "weaponSystems": [
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 1
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 2
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 3
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 4
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 5
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 6
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 7
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 8
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 9
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "unit": "NASAMS_Radar_MPQ64F1"
+          }
+        ]
+      ],
+      "ecmK": 0.4,
+      "hMaxM": 17000,
+      "hMinM": 25,
+      "launcherType": 102,
+      "ln": 1,
+      "missileChannels": 1,
+      "rMaxKm": 50.0,
+      "rMinKm": 3.0,
+      "reactionTimeS": 0.1,
+      "reflectionLimit": 0.05,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          -1.5707963267949,
+          1.5707963267949
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 3,
+        "yaw": 3
+      },
+      "ws": 10
+    }
+  ]
+}

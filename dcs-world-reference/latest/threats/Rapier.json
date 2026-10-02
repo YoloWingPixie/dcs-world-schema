@@ -1,0 +1,79 @@
+{
+  "components": [
+    {
+      "alic": [
+        "124"
+      ],
+      "requires": [
+        [
+          [
+            "rapier_fsa_launcher",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM TR"
+      ],
+      "rwrSymbol": "RP",
+      "unit": "rapier_fsa_blindfire_radar"
+    },
+    {
+      "alic": [
+        "125"
+      ],
+      "envelope": {
+        "hMaxM": 3000,
+        "hMinM": 50,
+        "rMaxKm": 6.8,
+        "rMinKm": 0.4
+      },
+      "requires": [
+        [
+          [
+            "rapier_fsa_blindfire_radar",
+            1
+          ]
+        ],
+        [
+          [
+            "rapier_fsa_optical_tracker_unit",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM SR",
+        "SAM TR",
+        "SAM LL"
+      ],
+      "rwrSymbol": "RT",
+      "unit": "rapier_fsa_launcher",
+      "weapons": [
+        "Rapier"
+      ]
+    },
+    {
+      "requires": [
+        [
+          [
+            "rapier_fsa_launcher",
+            1
+          ]
+        ]
+      ],
+      "roles": [
+        "SAM SR"
+      ],
+      "unit": "rapier_fsa_optical_tracker_unit"
+    }
+  ],
+  "id": "Rapier",
+  "kind": "sam",
+  "natoDesignation": "Rapier",
+  "sensors": [
+    "Roland Radar",
+    "Tor 9A331",
+    "generic SAM search visir"
+  ]
+}

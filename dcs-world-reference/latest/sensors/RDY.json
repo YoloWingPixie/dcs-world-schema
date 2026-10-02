@@ -1,0 +1,41 @@
+{
+  "airSearch": {
+    "centeredScanVolume": {
+      "azimuthSectorDeg": 30,
+      "elevationSectorDeg": 30
+    },
+    "detectionDistance": {
+      "lowerHeadOnM": 80000,
+      "lowerTailOnM": 53000,
+      "upperHeadOnM": 80000,
+      "upperTailOnM": 80000
+    },
+    "lockOnDistanceCoeff": 0.85,
+    "twsMaxTargets": 4
+  },
+  "category": 1,
+  "categoryName": "SENSOR_RADAR",
+  "detectionRangeField": "max_measuring_distance",
+  "detectionRangeKm": 200.0,
+  "id": "RDY",
+  "kind": "radar",
+  "scanVolume": {
+    "azimuthDeg": [
+      -60,
+      60
+    ],
+    "elevationDeg": [
+      -30,
+      30
+    ]
+  },
+  "surfaceSearch": {
+    "gmtiDetectionDistanceM": 185000,
+    "hrmDetectionDistanceM": 22000,
+    "rbmDetectionDistanceM": 15000,
+    "rcs": 100,
+    "vehiclesDetection": true
+  },
+  "type": 2,
+  "typeName": "RADAR_MULTIROLE"
+}

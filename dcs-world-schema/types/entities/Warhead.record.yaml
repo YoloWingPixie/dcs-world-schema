@@ -1,0 +1,26 @@
+globals: {}
+
+types:
+  Entity.Warhead:
+    kind: record
+    description: "The warhead of a weapon."
+    fields:
+      id:
+        type: string
+        description: "Unique warhead identifier; `<weapon>.cluster`/`<weapon>.cluster2` for a cluster's submunition warheads."
+      type:
+        type: string
+        description: "Optional warhead mechanism: `shaped-charge` (`cumulative_factor` > 0), `AP` (`piercing_mass` > 0 with explosive filler under half the mass) or `HE` (other explosive filler). Absent when the record has no charge to classify."
+      massKg:
+        type: number
+        description: "Total warhead mass in kilograms."
+      explosiveMassKg:
+        type: number
+        description: "Optional mass of high-explosive filler in kilograms."
+      fragmentation:
+        type: boolean
+        description: "Optional; true when the warhead carries explosive filler (`expl_mass` > 0). Not a DCS fragmentation-model flag."
+      hardTargetPenetrator:
+        type: boolean
+        description: "Optional DCS `is_htp`: hard-target penetrator warhead. Absent when DCS does not set it."
+    required: [id, massKg]

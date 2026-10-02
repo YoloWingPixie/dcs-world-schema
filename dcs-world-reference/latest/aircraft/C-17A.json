@@ -1,0 +1,642 @@
+{
+  "aero": {
+    "emptyMassKg": 125645,
+    "internalFuelKg": 132405,
+    "maxSpeedKmh": 850,
+    "maxTakeoffKg": 265350
+  },
+  "attributes": [
+    "Air",
+    "All",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Planes",
+    "Refuelable",
+    "Transports"
+  ],
+  "cargo": {
+    "maximalCapacity": 77500,
+    "nominalCapacity": 56245
+  },
+  "countermeasures": {
+    "chaff": {
+      "chargeSize": 1,
+      "default": 120,
+      "increment": 30
+    },
+    "cmdsEdit": true,
+    "flare": {
+      "chargeSize": 2,
+      "default": 60,
+      "increment": 15
+    },
+    "singleChargeTotal": 240
+  },
+  "countryOfOrigin": "USA",
+  "crew": 2,
+  "defaultRadio": {
+    "editable": true,
+    "frequencyMHz": 251,
+    "maxMHz": 399.975,
+    "minMHz": 100,
+    "modulation": 0,
+    "modulationName": "MODULATION_AM"
+  },
+  "defaultTask": {
+    "id": 35,
+    "name": "Transport"
+  },
+  "detection": {
+    "detectionRangeMax": 0,
+    "irEmissionCoeff": 3,
+    "rcsM2": 80
+  },
+  "dimensions": {
+    "heightM": 16.79,
+    "lengthM": 53.04,
+    "wingSpanM": 51.76
+  },
+  "displayName": "C-17A",
+  "flyable": false,
+  "id": "C-17A",
+  "kind": "fixedwing",
+  "model": {
+    "canopyGeometry": [
+      -0.34202014332567,
+      -0.4924038765061,
+      -0.64278760968654,
+      0.11161889704895,
+      0.86602540378444
+    ],
+    "damageArgs": [
+      {
+        "args": [
+          82
+        ],
+        "cell": 0
+      },
+      {
+        "args": [
+          65
+        ],
+        "cell": 3
+      },
+      {
+        "args": [
+          67
+        ],
+        "cell": 35
+      },
+      {
+        "args": [
+          68
+        ],
+        "cell": 36
+      },
+      {
+        "args": [
+          61
+        ],
+        "cell": 43
+      },
+      {
+        "args": [
+          63
+        ],
+        "cell": 47
+      },
+      {
+        "args": [
+          64
+        ],
+        "cell": 48
+      },
+      {
+        "args": [
+          57
+        ],
+        "cell": 53
+      },
+      {
+        "args": [
+          81
+        ],
+        "cell": 55
+      }
+    ],
+    "lightsData": {
+      "lights": {
+        "2": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": -0.078539816339745,
+                  "angle_max": 0.34906585039887,
+                  "angle_min": 0.27925268031909,
+                  "argument": 51,
+                  "direction": {
+                    "azimuth": 0.17453292519943,
+                    "elevation": 0.13962634015955
+                  },
+                  "position": [
+                    7.972,
+                    -0.221,
+                    3.316
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "angle_change_rate": 0.078539816339745,
+                  "angle_max": 0.34906585039887,
+                  "angle_min": 0.27925268031909,
+                  "direction": {
+                    "azimuth": -0.17453292519943,
+                    "elevation": 0.13962634015955
+                  },
+                  "position": [
+                    7.972,
+                    -0.221,
+                    -3.316
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "position": [
+                    8.222,
+                    -0.221,
+                    3.316
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 4,
+                  "typename": "Omni"
+                },
+                {
+                  "position": [
+                    8.222,
+                    -0.221,
+                    -3.316
+                  ],
+                  "proto": {
+                    "angle_change_rate": 0.039269908169872,
+                    "angle_max": 0.15707963267949,
+                    "angle_min": 0.087266462599716,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.31793876913398
+                    ],
+                    "power_up_t": 1.75,
+                    "range": 4800
+                  },
+                  "range": 4,
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        },
+        "3": {
+          "argument": 49,
+          "typename": "argumentlight"
+        },
+        "6": {
+          "lights": [
+            {
+              "lights": [
+                {
+                  "angle_change_rate": -0.23561944901923,
+                  "angle_max": 0.97738438111682,
+                  "angle_min": 0.90757121103705,
+                  "argument": 51,
+                  "direction": {
+                    "azimuth": 0.17453292519943,
+                    "elevation": 0.13962634015955
+                  },
+                  "position": [
+                    7.972,
+                    -0.221,
+                    3.316
+                  ],
+                  "power_up_t": 0.9,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "angle_change_rate": -0.23561944901923,
+                  "angle_max": 0.97738438111682,
+                  "angle_min": 0.90757121103705,
+                  "direction": {
+                    "azimuth": -0.17453292519943,
+                    "elevation": 0.13962634015955
+                  },
+                  "position": [
+                    7.972,
+                    -0.221,
+                    -3.316
+                  ],
+                  "power_up_t": 0.9,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Spot"
+                },
+                {
+                  "intensity_max": 4,
+                  "position": [
+                    8.222,
+                    -0.221,
+                    3.316
+                  ],
+                  "power_up_t": 1.4,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Omni"
+                },
+                {
+                  "intensity_max": 4,
+                  "position": [
+                    8.222,
+                    -0.221,
+                    -3.316
+                  ],
+                  "power_up_t": 1.4,
+                  "proto": {
+                    "angle_change_rate": -0.11780972450962,
+                    "angle_max": 0.47123889803847,
+                    "angle_min": 0.37699111843078,
+                    "color": [
+                      255,
+                      201,
+                      125,
+                      0.18499689437998
+                    ],
+                    "power_up_t": 0.9,
+                    "range": 300
+                  },
+                  "typename": "Omni"
+                }
+              ],
+              "typename": "Collection"
+            }
+          ],
+          "typename": "Collection"
+        }
+      },
+      "typename": "collection"
+    },
+    "mapClassKey": "P0091000029",
+    "shape": "C-17A"
+  },
+  "operations": {
+    "bigParkingRamp": true
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA",
+      "years": {
+        "from": 1993,
+        "to": 9999
+      }
+    },
+    {
+      "country": 3,
+      "countryName": "TURKEY",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 4,
+      "countryName": "UK",
+      "years": {
+        "from": 2001,
+        "to": 9999
+      }
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 6,
+      "countryName": "GERMANY",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA",
+      "years": {
+        "from": 2007,
+        "to": 9999
+      }
+    },
+    {
+      "country": 9,
+      "countryName": "SPAIN",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 12,
+      "countryName": "NORWAY",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 13,
+      "countryName": "DENMARK",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 20,
+      "countryName": "ITALY",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA",
+      "years": {
+        "from": 2006,
+        "to": 9999
+      }
+    },
+    {
+      "country": 25,
+      "countryName": "BULGARIA",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 28,
+      "countryName": "CROATIA",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 30,
+      "countryName": "FINLAND",
+      "years": {
+        "from": 2023,
+        "to": 9999
+      }
+    },
+    {
+      "country": 31,
+      "countryName": "GREECE",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 32,
+      "countryName": "HUNGARY",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 33,
+      "countryName": "INDIA",
+      "years": {
+        "from": 2013,
+        "to": 9999
+      }
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 41,
+      "countryName": "ROMANIA",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 44,
+      "countryName": "SLOVAKIA",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 71,
+      "countryName": "KUWAIT",
+      "years": {
+        "from": 2014,
+        "to": 9999
+      }
+    },
+    {
+      "country": 72,
+      "countryName": "QATAR",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 74,
+      "countryName": "UNITED_ARAB_EMIRATES",
+      "years": {
+        "from": 2011,
+        "to": 9999
+      }
+    },
+    {
+      "country": 77,
+      "countryName": "PORTUGAL",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    },
+    {
+      "country": 85,
+      "countryName": "SLOVENIA",
+      "years": {
+        "from": 2009,
+        "to": 9999
+      }
+    }
+  ],
+  "performance": {
+    "averageFuelConsumptionKgS": 0.2,
+    "bankAngleMaxDeg": 45,
+    "casMin": 54,
+    "enginesCount": 4,
+    "hMaxM": 13715,
+    "machMax": 0.825,
+    "nyMax": 2.5,
+    "rangeKm": 12993,
+    "vLandMs": 60,
+    "vMaxHMs": 180,
+    "vMaxSeaLevelMs": 194,
+    "vOptMs": 147.2,
+    "vTakeOffMs": 60
+  },
+  "radios": [],
+  "refuelling": {
+    "receptaclePosition": [
+      11.737,
+      4.251,
+      0
+    ],
+    "tankerType": 1
+  },
+  "sensors": [],
+  "stations": [],
+  "tasks": [
+    {
+      "id": 35,
+      "name": "Transport"
+    }
+  ]
+}

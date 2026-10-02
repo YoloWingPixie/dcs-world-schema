@@ -1,0 +1,280 @@
+{
+  "armour": {
+    "scheme": {
+      "hullAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "hullElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ],
+      "turretAzimuth": [
+        [
+          0,
+          180,
+          1
+        ]
+      ],
+      "turretElevation": [
+        [
+          -90,
+          90,
+          1
+        ]
+      ]
+    },
+    "thickness": 0.001
+  },
+  "attributes": [
+    "AAA",
+    "AA_flak",
+    "Air Defence",
+    "All",
+    "Armed Air Defence",
+    "Ground Units",
+    "Ground vehicles",
+    "NonAndLightArmoredUnits",
+    "NonArmoredUnits",
+    "Rocket Attack Valid AirDefence",
+    "Static AAA",
+    "Vehicles"
+  ],
+  "detection": {
+    "detectionRangeM": 30000,
+    "irEmissionCoeff": 0.03,
+    "sensor": {
+      "heightM": 2,
+      "laser": false,
+      "maxAltM": 18000,
+      "maxRangeM": 30000,
+      "minAltM": 0,
+      "minRangeM": 0
+    },
+    "threatRangeM": 0
+  },
+  "dimensions": {
+    "lengthM": 5,
+    "massKg": 5000,
+    "widthM": 5
+  },
+  "displayName": "Allies Rangefinder (DRT)",
+  "fireControl": {
+    "maxTargetDetectionRangeM": 30000
+  },
+  "id": "Allies_Director",
+  "life": [
+    {
+      "source": "chassis.life",
+      "value": 1.5
+    },
+    {
+      "source": "shape_table_data[1].life",
+      "value": 6
+    }
+  ],
+  "missionOptions": [
+    {
+      "arg": 60,
+      "control": "comboList",
+      "default": 2,
+      "id": "Tent",
+      "label": "Tent",
+      "values": [
+        {
+          "id": 1,
+          "label": "Fully Covered",
+          "value": 0
+        },
+        {
+          "id": 2,
+          "label": "Only Body",
+          "value": 0.1
+        },
+        {
+          "id": 3,
+          "label": "Removed",
+          "value": 0.2
+        }
+      ]
+    }
+  ],
+  "mobility": {
+    "enginePower": 0,
+    "maxRoadSpeedMs": 0,
+    "maxSlopeRad": 0,
+    "maxSpeedKmh": 0,
+    "maxVertObstacleM": 0,
+    "minTurnRadiusM": 0,
+    "mobile": false
+  },
+  "model": {
+    "animationArguments": {
+      "alarm_state": -1,
+      "locator_rotation": -1
+    },
+    "className": "lLandVehicle",
+    "encyclopediaAnimation": {
+      "args": [
+        {
+          "arg": 9,
+          "value": 1
+        },
+        {
+          "arg": 60,
+          "value": 0.1
+        }
+      ]
+    },
+    "file": "Bedford_MWD",
+    "mapClassKey": "P0091000015",
+    "positioning": "BYNORMAL",
+    "shape": "Bedford_MWD",
+    "shapeDestroyed": "Bedford_MWD_p_1"
+  },
+  "operators": [
+    {
+      "country": 2,
+      "countryName": "USA"
+    },
+    {
+      "country": 4,
+      "countryName": "UK"
+    },
+    {
+      "country": 5,
+      "countryName": "FRANCE"
+    },
+    {
+      "country": 7,
+      "countryName": "AGGRESSORS"
+    },
+    {
+      "country": 8,
+      "countryName": "CANADA"
+    },
+    {
+      "country": 10,
+      "countryName": "THE_NETHERLANDS"
+    },
+    {
+      "country": 11,
+      "countryName": "BELGIUM"
+    },
+    {
+      "country": 21,
+      "countryName": "AUSTRALIA"
+    },
+    {
+      "country": 26,
+      "countryName": "CHEZH_REPUBLIC"
+    },
+    {
+      "country": 40,
+      "countryName": "POLAND"
+    },
+    {
+      "country": 67,
+      "countryName": "YUGOSLAVIA"
+    },
+    {
+      "country": 68,
+      "countryName": "USSR"
+    },
+    {
+      "country": 80,
+      "countryName": "CJTF_BLUE"
+    },
+    {
+      "country": 81,
+      "countryName": "CJTF_RED"
+    },
+    {
+      "country": 82,
+      "countryName": "UN_PEACEKEEPERS"
+    }
+  ],
+  "sensors": [
+    "long-range air defence optics"
+  ],
+  "tags": [
+    "Air Defence",
+    "AAA",
+    "Optical Tracker"
+  ],
+  "weaponSystems": [
+    {
+      "hMaxM": 18000,
+      "hMinM": 50,
+      "launcherType": 103,
+      "ln": 1,
+      "rMaxKm": 30.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 4,
+      "reflectionLimit": 0.01,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          1.5620696805349
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 0.34906585039887,
+        "yaw": 0.34906585039887
+      },
+      "ws": 1
+    },
+    {
+      "dependsOn": [
+        [
+          {
+            "selfWs": 1
+          }
+        ]
+      ],
+      "gunAmmo": [
+        "QF94_AA_HE"
+      ],
+      "hMaxM": 9000,
+      "launcherType": 11,
+      "ln": 1,
+      "name": "QF 3.7inch AA gun",
+      "payloads": [
+        {
+          "ammoCapacity": 80,
+          "ammoDisplayName": "QF 3,7\" HE",
+          "gunAmmo": [
+            "QF94_AA_HE"
+          ],
+          "reloadTimeS": 1200,
+          "shotDelayS": 6
+        }
+      ],
+      "rMaxKm": 9.0,
+      "rMinKm": 0.0,
+      "reactionTimeS": 15,
+      "reflectionLimit": 0.22,
+      "sectorsRad": [
+        [
+          3.1415926535898,
+          -3.1415926535898,
+          0,
+          1.5620696805349
+        ]
+      ],
+      "slewRateRadS": {
+        "pitch": 1,
+        "yaw": 1
+      },
+      "ws": 2
+    }
+  ]
+}

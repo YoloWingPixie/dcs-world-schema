@@ -1,0 +1,62 @@
+globals: {}
+
+types:
+  Entity.NavaidType:
+    kind: enum
+    description: "Navaid grouping. `ILS`: an ILS localizer and glidepath of one airbase on the same frequency. `PRMG`: a Soviet PRMG localizer and glidepath of one airbase on the same channel."
+    values:
+      ILS: "ILS"
+      PRMG: "PRMG"
+
+  Entity.NavaidGrouping:
+    kind: enum
+    description: "How a navaid's equipment was paired. `frequency`/`channel`: the airbase has exactly one localizer and one glidepath on it (exact). `direction`: several on one frequency/channel (both runway ends), each localizer paired with the glidepath of closest DCS `direction`, mutual one-to-one and within 10 degrees (tolerance-based)."
+    values:
+      FREQUENCY: "frequency"
+      CHANNEL: "channel"
+      DIRECTION: "direction"
+
+  Entity.Navaid:
+    kind: record
+    description: "A navaid grouping `Entity.Beacon` equipment: a localizer and glidepath of one airbase sharing a frequency (ILS) or channel (PRMG), paired as `grouping` says. Other equipment is standalone; marker/locator homers are not grouped (DCS gives no link)."
+    fields:
+      id:
+        type: string
+        description: "`<theatre>.<type>.<localizer beaconId>`."
+      theatre:
+        type: string
+        ref: Entity.Theatre
+        description: "`Entity.Theatre` id."
+      airbase:
+        type: string
+        ref: Entity.Airbase
+        description: "`Entity.Airbase` id."
+      type:
+        type: Entity.NavaidType
+        description: "Navaid type."
+      equipment:
+        type: string[]
+        ref: Entity.Beacon
+        description: "`Entity.Beacon` ids: localizer, then glidepath."
+      grouping:
+        type: Entity.NavaidGrouping
+        description: "Pairing basis."
+      directionDeltaDeg:
+        type: number
+        description: "Difference between the localizer's and glidepath's DCS `direction`, degrees (0-180)."
+      callsign:
+        type: string
+        description: "Optional localizer identifier."
+      frequencyHz:
+        type: number
+        description: "Optional shared DCS frequency, hertz (ILS)."
+      channel:
+        type: number
+        description: "Optional shared DCS channel (PRMG)."
+      runwayDirection:
+        type: string
+        description: "Optional designator of the `Entity.RunwayDirection` it serves (runtime pass): the direction whose map-grid bearing (threshold to far end in map x/z; DCS localizer `direction` is in the same grid) is within 10 degrees of the localizer `direction` + 180; among parallel runways, the one whose far end is nearest the localizer."
+      runwayBearingDeltaDeg:
+        type: number
+        description: "Optional difference between that grid bearing and the localizer `direction` + 180, degrees."
+    required: [id, theatre, airbase, type, equipment, grouping, directionDeltaDeg]

@@ -1,0 +1,191 @@
+globals: {}
+
+types:
+  Entity.SensorKind:
+    kind: enum
+    description: "Class of a sensor entity, from the constant names of its `category` and, for optics, its `type`. `unknown` when those fields are absent or unrecognised."
+    values:
+      TV: "tv"
+      LLTV: "lltv"
+      IR: "ir"
+      RADAR: "radar"
+      IRST: "irst"
+      RWR: "rwr"
+      UNKNOWN: "unknown"
+
+  Entity.Sensor:
+    kind: record
+    description: "A sensor: optic, radar, IRST or RWR."
+    fields:
+      id:
+        type: string
+        description: "Unique sensor identifier."
+      kind:
+        type: Entity.SensorKind
+        description: "Class of the sensor."
+      category:
+        type: Entity.SensorCategory
+        description: "Optional sensor `category`."
+      categoryName:
+        type: string
+        description: "Optional DCS constant name of `category` (for example `SENSOR_OPTICAL`)."
+      type:
+        type: Entity.OpticSensorType | Entity.RadarType
+        description: "Optional sensor `type`: an `Entity.OpticSensorType` for optical sensors, an `Entity.RadarType` for radars."
+      typeName:
+        type: string
+        description: "Optional DCS constant name of `type` (for example `OPTIC_SENSOR_IR`)."
+      band:
+        type: string
+        description: "Optional operating band designation."
+      detectionRangeKm:
+        type: number
+        description: "Optional nominal detection range in kilometres: `max_measuring_distance`, else (IRST) the largest `irstDetectionDistance`; absent for sensors with neither (optics, RWRs)."
+      detectionRangeField:
+        type: string
+        description: "Optional DCS field `detectionRangeKm` was read from: `max_measuring_distance` or `detection_distance_for_tail_on_Su_27`."
+      trackWhileScan:
+        type: boolean
+        description: "Optional; true if the sensor can track while scanning."
+      attributes:
+        type: string[]
+        description: "Optional cross-reference: `Entity.Attribute` ids describing this sensor."
+      scanVolume:
+        type: Entity.SensorVolume
+        description: "Optional `scan_volume`."
+      trackVolume:
+        type: Entity.SensorVolume
+        description: "Optional `track_volume`."
+      centeredScanVolume:
+        type: Entity.CenteredScanVolume
+        description: "Optional `centered_scan_volume`."
+      detectionDistance:
+        type: Entity.RadarDetectionDistance
+        description: "Optional `detection_distance`."
+      rcs:
+        type: number
+        description: "Optional `RCS`: the reference target of `detectionDistance`, raw."
+      lockOnDistanceCoeff:
+        type: number
+        description: "Optional `lock_on_distance_coeff`, raw."
+      twsMaxTargets:
+        type: number
+        description: "Optional `TWS_max_targets`."
+      multipleTargetsTracking:
+        type: boolean
+        description: "Optional `multiple_targets_tracking`."
+      airSearch:
+        type: Entity.RadarSearchMode
+        description: "Optional `air_search` block."
+      surfaceSearch:
+        type: Entity.SurfaceSearchMode
+        description: "Optional `surface_search` block."
+      irstDetectionDistance:
+        type: Entity.IrstDetectionDistance
+        description: "Optional `detection_distance_for_tail_on_Su_27`."
+      pods:
+        type: string[]
+        description: "Optional `DisplayName`s of the `db.Pods` entries that carry this sensor (their `Name` is redacted in dumps)."
+    required: [id, kind]
+
+  Entity.SensorVolume:
+    kind: record
+    description: "A `{azimuth, elevation}` volume of a sensor: `[min, max]` each, degrees."
+    fields:
+      azimuthDeg:
+        type: number[]
+        description: "Optional `azimuth`."
+      elevationDeg:
+        type: number[]
+        description: "Optional `elevation`."
+    required: []
+
+  Entity.CenteredScanVolume:
+    kind: record
+    description: "`centered_scan_volume`, degrees."
+    fields:
+      azimuthSectorDeg:
+        type: number
+        description: "Optional `azimuth_sector`."
+      elevationSectorDeg:
+        type: number
+        description: "Optional `elevation_sector`."
+    required: []
+
+  Entity.RadarDetectionDistance:
+    kind: record
+    description: "`detection_distance[hemisphere][aspect]` of a radar, metres; the keys are HEMISPHERE_UPPER/LOWER and ASPECT_HEAD_ON/TAIL_ON as the install's sensor scripts define them (tools/datamine/extract_sensors.py SENSOR_KEY_FILES)."
+    fields:
+      upperHeadOnM:
+        type: number
+        description: "Upper hemisphere, head-on."
+      upperTailOnM:
+        type: number
+        description: "Upper hemisphere, tail-on."
+      lowerHeadOnM:
+        type: number
+        description: "Lower hemisphere, head-on."
+      lowerTailOnM:
+        type: number
+        description: "Lower hemisphere, tail-on."
+    required: [upperHeadOnM, upperTailOnM, lowerHeadOnM, lowerTailOnM]
+
+  Entity.RadarSearchMode:
+    kind: record
+    description: "A radar's `air_search` block."
+    fields:
+      detectionDistance:
+        type: Entity.RadarDetectionDistance
+        description: "Optional `detection_distance`."
+      rcs:
+        type: number
+        description: "Optional `RCS`, raw."
+      lockOnDistanceCoeff:
+        type: number
+        description: "Optional `lock_on_distance_coeff`, raw."
+      twsMaxTargets:
+        type: number
+        description: "Optional `TWS_max_targets`."
+      multipleTargetsTracking:
+        type: boolean
+        description: "Optional `multiple_targets_tracking`."
+      centeredScanVolume:
+        type: Entity.CenteredScanVolume
+        description: "Optional `centered_scan_volume`."
+    required: []
+
+  Entity.SurfaceSearchMode:
+    kind: record
+    description: "A radar's `surface_search` block."
+    fields:
+      rcs:
+        type: number
+        description: "Optional `RCS`, raw."
+      vehiclesDetection:
+        type: boolean
+        description: "Optional `vehicles_detection`."
+      rbmDetectionDistanceM:
+        type: number
+        description: "Optional `RBM_detection_distance`, metres."
+      gmtiDetectionDistanceM:
+        type: number
+        description: "Optional `GMTI_detection_distance`, metres."
+      hrmDetectionDistanceM:
+        type: number
+        description: "Optional `HRM_detection_distance`, metres."
+    required: []
+
+  Entity.IrstDetectionDistance:
+    kind: record
+    description: "`detection_distance_for_tail_on_Su_27[engine mode]` of an IRST, metres; the keys are the ENGINE_MODE_* constants the install's sensor scripts define."
+    fields:
+      afterburnerM:
+        type: number
+        description: "`ENGINE_MODE_FORSAGE`."
+      maximalM:
+        type: number
+        description: "`ENGINE_MODE_MAXIMAL`."
+      minimalM:
+        type: number
+        description: "`ENGINE_MODE_MINIMAL`."
+    required: [afterburnerM, maximalM, minimalM]
