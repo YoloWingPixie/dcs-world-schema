@@ -4,7 +4,7 @@
 -- Usage: lua5.1 test_shared_record.lua <tests/lua dir> <writedir/ with the hook in Scripts/Hooks>
 local here = assert(arg[1], 'usage: test_shared_record.lua <tests-lua-dir> <writedir/>')
 WRITEDIR = assert(arg[2], 'usage: test_shared_record.lua <tests-lua-dir> <writedir/>')
-dofile(here .. '/stub_env.lua')
+local stub = dofile(here .. '/stub_env.lua')
 
 __DCS_VERSION__ = '9.9.9.1'
 local pylon = { name = 'LAU-129', Shape = 'lau-129' }
@@ -37,15 +37,23 @@ local function read(p)
 end
 
 local text = read('db/Units/Planes/Plane/F-16C_50.lua')
-assert(not text:find('= nil', 1, true) and not text:find(' nil,', 1, true), 'nil in record:\n' .. text)
+assert(not text:find('nil', 1, true), 'nil in record:\n' .. text)
+-- Format 4: the numeric record key is kept; the record holds a cycle, so it is
+-- anchor 1 and `self` refers back to it; tables shared by siblings are
+-- written once as anchors and referenced after.
+assert(text:find('^_G%["db"%]%["Units"%]%["Planes"%]%["Plane"%]%[1%] = __dcs{kind="anchor", id=1, value={'),
+  'record anchor:\n' .. text)
+assert(text:find('self = __dcs{kind="ref", id=1}', 1, true), 'cycle ref:\n' .. text)
+assert(text:find('DefaultTask = __dcs{kind="anchor", id=', 1, true), 'shared Tasks anchor:\n' .. text)
 _G.db = { Units = { Planes = { Plane = {} } } }
+stub.dcs_reset()
 assert(loadstring(text))()
-local u = _G.db.Units.Planes.Plane['#Index']
+local u = _G.db.Units.Planes.Plane[1]
 assert(#u.Pylons[1].Launchers == 2 and #u.Pylons[2].Launchers == 2, 'launcher counts')
 assert(u.Pylons[2].Launchers[1].CLSID == '{AIM-9M}' and u.Pylons[2].Launchers[2].CLSID == '{MK-82}',
   'mirrored pylon launchers written in full')
 assert(#u.Tasks == 2 and u.Tasks[2].WorldID == 35 and u.DefaultTask.WorldID == 35, 'shared Tasks')
-assert(u.self == nil, 'cycle not dropped')
+assert(u.self == nil, 'cycle back-reference resolved in the default view')
 
 local lt = read('launcher/{X}.lua')
 local refs = {}

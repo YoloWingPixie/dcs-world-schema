@@ -41,3 +41,11 @@ DCS = { getRealTime = os.clock }
 -- The Mission Editor module a dedicated server's GUI script has loaded (the
 -- hook dumps it as U); a test replaces or clears it.
 _G.me_utilities = { speedUnits = { imperial = { name = 'kts', coeff = 1.9459459459459 } } }
+
+-- Dump format 4 markers read as the extractors see them (dcs_markers.lua).
+-- Anchor ids are per file: call the returned dcs_reset() before loading a
+-- dump file that may hold a cycle.
+local dir = debug.getinfo(1, 'S').source:match('^@(.*[/\\])') or './'
+local dcs, dcsReset = dofile(dir .. 'dcs_markers.lua').default()
+_G.__dcs = dcs
+return { dcs_reset = dcsReset }

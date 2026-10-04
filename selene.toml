@@ -3,7 +3,9 @@
 std = "dcs"
 # The LuaLS fixtures (`task test:luals`) are mission scripts with deliberate
 # type errors and `$` cursor marks, not hook code.
-exclude = ["tools/luals/*"]
+# tools/datamine/tests/fixtures holds dump output (data, not code; its
+# markers call the reader-provided `__dcs`).
+exclude = ["tools/luals/*", "tools/datamine/tests/fixtures/*"]
 
 [lints]
 # Compact one-line guards, loops and accessors are the house style and no

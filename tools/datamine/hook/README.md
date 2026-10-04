@@ -17,5 +17,23 @@ profile, one DCS run per pass.
 | `actions-probe-followup-lib.lua` | Follow-up additions appended to `actions-probe-lib.lua` (`--actions-probe-followup`): spawned step groups, shot and hit counts |
 
 Each file's header specifies its output format; the extractors and `refresh.py` depend on it.
+
+The `_G` dump is format 4 (`DUMP_FORMAT` in `dump-globals.lua`, also written to
+`_G/__DUMP_FORMAT__.lua`). It keeps what format 3 dropped:
+
+- Exact numbers (shortest decimal that reads back as the same double; format 3 used `%.14g`).
+- `__dcs{kind=...}` markers instead of `nil` for functions, userdata, threads, NaN, ±inf
+  and `-0`; tables shared within a file are written once (`anchor`) and referenced after
+  (`ref`), cycles included; limits write `truncated` markers; the patch-volatile wsType
+  level-4 ids are `redacted` markers. A loader must define `__dcs`.
+- Numeric record keys (`_G["db"]["Units"]["Cars"]["Car"][12]`), except keys that are
+  the record's own level-4 id, still `"#Index"`.
+- More object tables (`SchemeFMParameters`, `resource_by_unique_name` as a path index,
+  cluster `*_DATA`, damage cells, ...) and `_G/__inheritance__.lua` (GT_t proxy linkage).
+
+`serialize.lua` writes format 4 only with `lossless = true`; `terrain-dump.lua` and
+`../me-action-db.lua` keep the format-3 rules. `../tests/fixtures/dump_format4/` is a small
+hook-written format-4 tree for reader tests (`test_hook.py` keeps it in sync;
+`DCS_UPDATE_FIXTURES=1` rewrites it).
 `../me-action-db.lua` is not a hook: `extract_actions.py` runs it under `lua5.1` on the install's
 Mission Editor modules at extract time.
