@@ -37,6 +37,7 @@ CAMEL_CASE = re.compile(r"_source|[a-z][a-zA-Z0-9]*")
 # Name suffix -> how a description states the unit; longest suffix first.
 UNIT_SUFFIXES: dict[str, str] = {
     "KgS": r"kg/s",
+    "RadS": r"rad/s|radians per second",
     "Kmh": r"km/h|kilometres per hour",
     "Deg": r"degrees",
     "Rad": r"radians",

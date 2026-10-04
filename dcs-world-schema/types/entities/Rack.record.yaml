@@ -20,4 +20,7 @@ types:
       attributes:
         type: string[]
         description: "Optional cross-reference: `Entity.Attribute` ids describing this rack."
+      sourcePaths:
+        type: string[]
+        description: "Optional dump paths of the `_G` dump files (`_G/...`) that define this rack, joined by `Pylons` `ShapeName`; sorted."
     required: [id, ejectors]

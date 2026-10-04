@@ -853,7 +853,7 @@ def test_unit_gun_ammo_and_sensors_from_dump(tmp_path: Path) -> None:
     assert raw.gun_ammo == {"23mm_HE", "23mm_AP"}
     assert build_gun_ammo(raw, reader, tmp_path) == {
         "23mm_AP": {"id": "23mm_AP"},
-        "23mm_HE": {"id": "23mm_HE", "massKg": 0.19, "type": "shell", "displayName": "23mm HE"},
+        "23mm_HE": {"id": "23mm_HE", "massKg": 0.19, "projectileMassKg": 0.1, "type": "shell", "displayName": "23mm HE"},
     }  # fmt: skip
     assert _sensor_names(raw.category("Cars")["ZSU"]) == ["RPK-2", "TV"]
     write(tmp_path / "db/Units/Planes/Plane/X.lua", '_G["x"] = { Name = "X" }')

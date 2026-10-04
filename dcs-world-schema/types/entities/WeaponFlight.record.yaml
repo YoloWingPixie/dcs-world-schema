@@ -1,0 +1,282 @@
+globals: {}
+
+types:
+  Entity.WeaponFlight:
+    kind: record
+    description: "A weapon's flight configuration as DCS configures it (its configured inputs, not computed performance): aerodynamics, motor stages, autopilot, seeker, gimbal, proximity fuze and launch tables. Read from the `client` block of the weapon's `weapons_table` record (with that record's own plain keys), else from its flat `_G/rockets`, `_G/bombs` or `_G/torpedoes` record. Keys without a field here are only in the `_G` dump."
+    fields:
+      weapon:
+        type: string
+        ref: Entity.Weapon
+        description: "Cross-reference: the `Entity.Weapon` id."
+      sourcePaths:
+        type: string[]
+        description: "Dump path of the `_G` dump file read (`_G/weapons_table/weapons/missiles/AIM_120C`)."
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block the plain values are read from: `<dump path>#<pointer>` (`#/client`, or `#` for the file's top level)."
+      batteryLifeS:
+        type: number
+        description: "Optional battery life in seconds (`Life_Time`)."
+      killDistanceM:
+        type: number
+        description: "Optional proximity detonation distance in metres (`KillDistance`)."
+      rangeMaxM:
+        type: number
+        description: "Optional maximum range at high altitude in metres, used by the AI (`Range_max`)."
+      machMax:
+        type: number
+        description: "Optional maximum Mach number (`Mach_max`)."
+      pnCoefficients:
+        type: Entity.WeaponPnCoefficient[]
+        description: "Optional proportional navigation gain by distance to target (`PN_coeffs`)."
+      launchTables:
+        type: Entity.WeaponLaunchTable[]
+        description: "Optional launch range tables (`LaunchDistData`, `MinLaunchDistData`...), sorted by key; tables of another layout are not typed."
+      aerodynamics:
+        type: Entity.WeaponAerodynamics
+        description: "Optional flight model (`fm`)."
+      motorStages:
+        type: Entity.WeaponMotorStage[]
+        description: "Optional motor stages (`boost`, `march`, `march2`, `engine`...), sorted by block key."
+      autopilot:
+        type: Entity.WeaponAutopilot
+        description: "Optional autopilot (`autopilot`, else `ap`)."
+      seeker:
+        type: Entity.WeaponSeeker
+        description: "Optional seeker (`seeker`, else `sensor`)."
+      gimbal:
+        type: Entity.WeaponGimbal
+        description: "Optional seeker gimbal (`gimbal`)."
+      proximityFuze:
+        type: Entity.WeaponProximityFuze
+        description: "Optional proximity fuze (`proximity_fuze`)."
+    required: [weapon, sourcePaths, sourcePath]
+
+  Entity.WeaponPnCoefficient:
+    kind: record
+    description: "One entry of `PN_coeffs` (`{n, d1, pn1, ..., dn, pnn}`)."
+    fields:
+      distanceM:
+        type: number
+        description: "Distance to target in metres below which `gain` applies."
+      gain:
+        type: number
+        description: "Proportional navigation gain."
+    required: [distanceM, gain]
+
+  Entity.WeaponLaunchTable:
+    kind: record
+    description: "A launch range table laid out as `{rows, cols, column headers, then per row its header and cells}`."
+    fields:
+      key:
+        type: string
+        description: "The DCS key (`LaunchDistData`, `MinLaunchDistData`, `AspectDistData`, `RmaxData`...)."
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the table."
+      columnHeaders:
+        type: number[]
+        description: "Column headers, in DCS order."
+      rows:
+        type: Entity.WeaponLaunchTableRow[]
+        description: "Rows, in DCS order."
+    required: [key, sourcePath, columnHeaders, rows]
+
+  Entity.WeaponLaunchTableRow:
+    kind: record
+    description: "One row of a launch table."
+    fields:
+      header:
+        type: number
+        description: "Row header; unit not stated."
+      cells:
+        type: number[]
+        description: "One cell per column header; unit not stated."
+    required: [header, cells]
+
+  Entity.WeaponAerodynamics:
+    kind: record
+    description: "A weapon's flight model (`fm`). Coefficient tables are sampled by Mach number from Mach 0 in steps of `machStep`."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the `fm` block."
+      massKg:
+        type: number
+        description: "Optional launch mass in kilograms (`mass`)."
+      caliberM:
+        type: number
+        description: "Optional body diameter in metres (`caliber`)."
+      lengthM:
+        type: number
+        description: "Optional reference length in metres (`L`)."
+      referenceArea:
+        type: number
+        description: "Optional reference area of the coefficients (`S`); unit not stated."
+      machStep:
+        type: number
+        description: "Optional Mach step between table samples (`table_scale`)."
+      cx0:
+        type: number[]
+        description: "Optional zero-lift drag coefficient per Mach sample (`Cx0`)."
+      cxB:
+        type: number[]
+        description: "Optional base drag coefficient per Mach sample (`CxB`)."
+      k1:
+        type: number[]
+        description: "Optional induced drag polar coefficient K1 per Mach sample (`K1`)."
+      k2:
+        type: number[]
+        description: "Optional induced drag polar coefficient K2 per Mach sample (`K2`)."
+      cya:
+        type: number[]
+        description: "Optional lift coefficient slope in the pitch plane per Mach sample (`Cya`)."
+      cza:
+        type: number[]
+        description: "Optional side-force coefficient slope in the yaw plane per Mach sample (`Cza`)."
+      mya:
+        type: number[]
+        description: "Optional yaw moment coefficient slope per Mach sample (`Mya`)."
+      mza:
+        type: number[]
+        description: "Optional pitch moment coefficient slope per Mach sample (`Mza`)."
+      myw:
+        type: number[]
+        description: "Optional yaw damping coefficient per Mach sample (`Myw`)."
+      mzw:
+        type: number[]
+        description: "Optional pitch damping coefficient per Mach sample (`Mzw`)."
+      a1Trim:
+        type: number[]
+        description: "Optional balancing angle of attack per Mach sample, pitch plane (`A1trim`); unit not stated."
+      a2Trim:
+        type: number[]
+        description: "Optional balancing angle of attack per Mach sample, yaw plane (`A2trim`); unit not stated."
+      cxCoeff:
+        type: number[]
+        description: "Optional drag coefficients of a bomb or rocket (`cx_coeff`)."
+      ix:
+        type: number
+        description: "Optional roll moment of inertia (`Ix`); unit not stated."
+      iy:
+        type: number
+        description: "Optional yaw moment of inertia (`Iy`); unit not stated."
+      iz:
+        type: number
+        description: "Optional pitch moment of inertia (`Iz`); unit not stated."
+      finDeflectionMaxRad:
+        type: number
+        description: "Optional maximum fin deflection in radians (`delta_max`)."
+      maxAoaRad:
+        type: number
+        description: "Optional maximum angle of attack in radians (`maxAoa`)."
+    required: [sourcePath]
+
+  Entity.WeaponMotorStage:
+    kind: record
+    description: "One motor stage (or a torpedo engine)."
+    fields:
+      stage:
+        type: string
+        description: "The DCS block key (`boost`, `march`, `engine`...)."
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block."
+      impulseS:
+        type: number
+        description: "Optional specific impulse in seconds (`impulse`)."
+      fuelMassKg:
+        type: number
+        description: "Optional propellant mass in kilograms (`fuel_mass`)."
+      workTimeS:
+        type: number
+        description: "Optional burn time in seconds (`work_time`)."
+      boostFactor:
+        type: number
+        description: "Optional booster to cruise thrust ratio (`boost_factor`)."
+      thrust:
+        type: number
+        description: "Optional thrust of a torpedo engine (`thrust`, else `default_thrust`); unit not stated."
+      startTime:
+        type: number
+        description: "Optional start time after launch (the controller's `<stage>_start`); unit not stated."
+    required: [stage, sourcePath]
+
+  Entity.WeaponAutopilot:
+    kind: record
+    description: "A weapon's autopilot."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block."
+      navigationGain:
+        type: number
+        description: "Optional proportional navigation gain (`Knav`)."
+      gLoadLimit:
+        type: number
+        description: "Optional maximum load factor in g (`gload_limit`)."
+      finsLimitRad:
+        type: number
+        description: "Optional fin deflection limit in radians (`fins_limit`)."
+      operatingTime:
+        type: number
+        description: "Optional operating time (`op_time`); unit not stated."
+    required: [sourcePath]
+
+  Entity.WeaponSeeker:
+    kind: record
+    description: "A weapon's seeker."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block."
+      fovRad:
+        type: number
+        description: "Optional field of view in radians (`FOV`)."
+      nearDistance:
+        type: number
+        description: "Optional minimum detection distance (`sens_near_dist`); unit not stated."
+      farDistance:
+        type: number
+        description: "Optional maximum detection distance (`sens_far_dist`); unit not stated."
+      operatingTime:
+        type: number
+        description: "Optional operating time (`op_time`); unit not stated."
+    required: [sourcePath]
+
+  Entity.WeaponGimbal:
+    kind: record
+    description: "A seeker's gimbal."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block."
+      yawMaxRad:
+        type: number
+        description: "Optional yaw limit in radians (`yaw_max`)."
+      pitchMaxRad:
+        type: number
+        description: "Optional pitch limit in radians (`pitch_max`)."
+      trackingRateMax:
+        type: number
+        description: "Optional maximum tracking rate (`max_tracking_rate`); unit not stated."
+      operatingTime:
+        type: number
+        description: "Optional operating time (`op_time`); unit not stated."
+    required: [sourcePath]
+
+  Entity.WeaponProximityFuze:
+    kind: record
+    description: "A weapon's proximity fuze."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block."
+      radius:
+        type: number
+        description: "Optional trigger radius (`radius`); unit not stated."
+      armDelay:
+        type: number
+        description: "Optional arming delay (`arm_delay`); unit not stated."
+    required: [sourcePath]

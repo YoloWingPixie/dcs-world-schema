@@ -23,4 +23,7 @@ types:
       hardTargetPenetrator:
         type: boolean
         description: "Optional DCS `is_htp`: hard-target penetrator warhead. Absent when DCS does not set it."
+      sourcePaths:
+        type: string[]
+        description: "Optional dump paths of the `_G` dump files (`_G/...`) that define this warhead, joined by the `_G/warheads` records its weapon's sources refer to, and the weapon sources holding it inline; sorted."
     required: [id, massKg]

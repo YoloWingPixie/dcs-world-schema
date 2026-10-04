@@ -24,7 +24,8 @@ from functools import partial
 from pathlib import Path
 from typing import Any
 
-from .common import HAND_AUTHORED, assign_defined, fail, walk_lua
+from . import weapon_flight
+from .common import HAND_AUTHORED, assign_defined, fail, walk_lua, warn
 from .dcs_constants import Constants
 from .lua_reader import (
     LuaReader,
@@ -99,12 +100,14 @@ class Projectile:
 @dataclass(frozen=True)
 class SameName:
     """A projectile record among those sharing its name: its source dir, the
-    record and its DCS identity (``_unique_resource_name``, ``ws_type``)."""
+    record, its DCS identity (``_unique_resource_name``, ``ws_type``) and its
+    dump path (``_G/...`` without ``.lua``; empty when unknown)."""
 
     source_dir: str
     raw: dict[str, Any]
     resource: str | None
     ws_type: tuple[Any, ...] | None
+    path: str = ""
 
     def same_object(self, other: SameName) -> bool:
         """Whether both records define one DCS object: equal resource names
@@ -134,6 +137,10 @@ class ProjectileIndex:
     same_name: dict[str, list[SameName]] = field(default_factory=dict)
     no_mass: list[str] = field(default_factory=list)
     no_name: list[str] = field(default_factory=list)
+    # "<name>: <first record> vs <record>" for a later same-name record that
+    # does not define the first one's DCS object (SameName.same_object); the
+    # name stays the first record's (PROJECTILE_DIRS precedence), reported.
+    ambiguous: list[str] = field(default_factory=list)
 
 
 def _mass(raw: dict[str, Any]) -> float | int | None:
@@ -148,6 +155,15 @@ def _shapes(raw: dict[str, Any]) -> list[str]:
     return [
         v for k in ("model", "shape_name", "ShapeName") if (v := as_string(raw.get(k)))
     ]
+
+
+def _dump_path(g_dir: Path, file: Path) -> str:
+    """``_G/<path>`` of a dump file without ``.lua`` (its dump path, ``dump_paths``)."""
+    try:
+        rel = Path(file).relative_to(g_dir)
+    except ValueError:
+        return ""
+    return "/".join(("_G", *rel.with_suffix("").parts))
 
 
 def collect_projectiles(reader: LuaReader, g_dir: Path) -> ProjectileIndex:
@@ -176,10 +192,16 @@ def collect_projectiles(reader: LuaReader, g_dir: Path) -> ProjectileIndex:
                 index.by_resource.setdefault(res, name)
             if source_dir == "bombs":
                 index.bombs.append(proj)
-            index.same_name.setdefault(name, []).append(
-                SameName(source_dir, raw, res, _ws_identity(raw))
+            record = SameName(
+                source_dir, raw, res, _ws_identity(raw), _dump_path(g_dir, file)
             )
+            index.same_name.setdefault(name, []).append(record)
             if name in index.by_name:
+                first = index.same_name[name][0]
+                if not first.same_object(record):
+                    index.ambiguous.append(
+                        f"{name}: {first.path or first.source_dir} vs {record.path or source_dir}"
+                    )
                 continue
             index.by_name[name] = proj
             if proj.mass_kg is None:
@@ -487,6 +509,12 @@ def build_weapons_and_warheads(
         fail(
             f"projectiles without mass: {index.no_mass}; without name: {index.no_name}"
         )
+    for line in index.ambiguous:
+        warn(
+            f"same-name projectile record of another DCS object (not a flight source): {line}"
+        )
+    for line in client_server_differences(index):
+        warn(line)
     weapons: dict[str, dict[str, Any]] = {}
     warheads: dict[str, dict[str, Any]] = {}
     for name, proj in sorted(index.by_name.items()):
@@ -515,6 +543,69 @@ def build_weapons_and_warheads(
             warheads[name] = warhead
         weapons[name] = record
     return weapons, warheads
+
+
+def build_weapon_flight(index: ProjectileIndex) -> dict[str, dict[str, Any]]:
+    """The ``weapon_flight`` series: ``Entity.WeaponFlight`` by weapon id."""
+    out = {
+        name: record
+        for name in sorted(index.by_name)
+        if (record := weapon_flight.flight(name, flight_sources(index.same_name[name])))
+        is not None
+    }
+    print(f"Weapon flight records: {len(out)}; blocks: {weapon_flight.counts(out)}")
+    return out
+
+
+def flight_sources(records: list[SameName]) -> list[weapon_flight.Source]:
+    """The flight sources of a weapon: its own record and the later same-name
+    records defining the same DCS object."""
+    own = records[0]
+    return [
+        weapon_flight.Source(r.path, r.source_dir.startswith("weapons_table/"), r.raw)
+        for r in records
+        if r is own or own.same_object(r)
+    ]
+
+
+# Keys the ``server`` block may differ from ``client`` in without affecting the
+# public fields: the warheads' ``fantom`` flag and the launcher's ``server`` flag.
+_SERVER_ONLY = {
+    ("warhead", "fantom"),
+    ("warhead_air", "fantom"),
+    ("warhead_water", "fantom"),
+    ("launcher", "server"),
+}
+
+
+def client_server_differences(index: ProjectileIndex) -> list[str]:
+    """One line per ``weapons_table`` record whose ``server`` block differs
+    from its ``client`` block beyond ``_SERVER_ONLY`` (the public fields read
+    ``client``, as does ``weapon_flight``)."""
+    out = []
+    for name, records in sorted(index.same_name.items()):
+        for r in records:
+            client, server = r.raw.get("client"), r.raw.get("server")
+            if not isinstance(client, dict) or not isinstance(server, dict):
+                continue
+            keys = sorted(
+                k
+                for k in set(client) | set(server)
+                if _strip_server_only(k, client.get(k))
+                != _strip_server_only(k, server.get(k))
+            )
+            if keys:
+                out.append(
+                    f"weapon {name} ({r.path or r.source_dir}): server block differs from client in "
+                    f"{keys}; public fields and weapon_flight read client"
+                )
+    return out
+
+
+def _strip_server_only(key: str, value: Any) -> Any:
+    if not isinstance(value, dict):
+        return value
+    return {k: v for k, v in value.items() if (key, k) not in _SERVER_ONLY}
 
 
 # ``_source`` value of a weapon ``warhead`` taken from its cluster block.

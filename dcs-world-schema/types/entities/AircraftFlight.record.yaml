@@ -1,0 +1,255 @@
+globals: {}
+
+types:
+  Entity.AircraftFlight:
+    kind: record
+    description: "An aircraft's AI / simple flight model as DCS configures it (its configured inputs, not computed performance): `SFM_Data` and the rotorcraft keys of its `db.Units.Planes`/`db.Units.Helicopters` record. Not the player flight model: EFM/PFM modules keep theirs in DLLs. Keys without a field here are only in the `_G` dump."
+    fields:
+      aircraft:
+        type: string
+        ref: Entity.Aircraft
+        description: "Cross-reference: the `Entity.Aircraft` id."
+      sourcePaths:
+        type: string[]
+        description: "Dump path of the `_G` dump file read (`_G/db/Units/Planes/Plane/F-16C_50`)."
+      emptyMassKg:
+        type: number
+        description: "Optional `M_empty`, empty mass of the flight model, kg (the Mission Editor's `EmptyWeight` is `Entity.Aircraft.aero`)."
+      nominalMassKg:
+        type: number
+        description: "Optional `M_nominal`, nominal mass of the flight model, kg."
+      maxMassKg:
+        type: number
+        description: "Optional `M_max`, maximum mass of the flight model, kg."
+      maxFuelMassKg:
+        type: number
+        description: "Optional `M_fuel_max`, maximum internal fuel mass of the flight model, kg."
+      aerodynamics:
+        type: Entity.AircraftSfmAerodynamics
+        description: "Optional `SFM_Data.aerodynamics`."
+      engine:
+        type: Entity.AircraftSfmEngine
+        description: "Optional `SFM_Data.engine`."
+      helicopter:
+        type: Entity.HelicopterFlightModel
+        description: "Optional rotorcraft keys of the unit record."
+    required: [aircraft, sourcePaths]
+
+  Entity.AircraftSfmAerodynamics:
+    kind: record
+    description: "`SFM_Data.aerodynamics`: aerodynamic coefficients of the simple flight model."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block: `<dump path>#/SFM_Data/aerodynamics`."
+      cy0:
+        type: number
+        description: "Optional `Cy0`, lift coefficient at zero angle of attack."
+      czbe:
+        type: number
+        description: "Optional `Czbe`, side force coefficient (affects yaw)."
+      mzalfa:
+        type: number
+        description: "Optional `Mzalfa`, pitch agility coefficient."
+      mzalfadt:
+        type: number
+        description: "Optional `Mzalfadt`, pitch agility coefficient (rate term)."
+      kjx:
+        type: number
+        description: "Optional `kjx`, inertia parameter about X."
+      kjz:
+        type: number
+        description: "Optional `kjz`, inertia parameter about Z."
+      cxGear:
+        type: number
+        description: "Optional `cx_gear`, drag coefficient increment of the extended gear."
+      cxFlap:
+        type: number
+        description: "Optional `cx_flap`, drag coefficient increment of full flaps."
+      cyFlap:
+        type: number
+        description: "Optional `cy_flap`, lift coefficient increment of flaps."
+      cxBrake:
+        type: number
+        description: "Optional `cx_brk`, drag coefficient increment of the airbrake."
+      table:
+        type: Entity.AircraftSfmAeroRow[]
+        description: "Optional `table_data` rows, DCS order (exact values); absent when its rows are not all 8 numbers."
+    required: [sourcePath]
+
+  Entity.AircraftSfmAeroRow:
+    kind: record
+    description: "One `SFM_Data.aerodynamics.table_data` row: the coefficients at one Mach number (columns as the install scripts' legend names them)."
+    fields:
+      mach:
+        type: number
+        description: "`M`, Mach number."
+      cx0:
+        type: number
+        description: "`Cx0`, profile drag coefficient."
+      cya:
+        type: number
+        description: "`Cya`, normal force coefficient per degree of angle of attack."
+      b:
+        type: number
+        description: "`B`, quadratic drag polar coefficient."
+      b4:
+        type: number
+        description: "`B4`, fourth-power drag polar coefficient."
+      rollRateMaxRadS:
+        type: number
+        description: "`Omxmax`, maximum roll rate, rad/s."
+      aoaMax:
+        type: number
+        description: "`Aldop`, maximum angle of attack before departure; unit not stated."
+      cyMax:
+        type: number
+        description: "`Cymax`, maximum lift coefficient."
+    required: [mach, cx0, cya, b, b4, rollRateMaxRadS, aoaMax, cyMax]
+
+  Entity.AircraftSfmEngine:
+    kind: record
+    description: "`SFM_Data.engine`: the engine of the simple flight model."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block: `<dump path>#/SFM_Data/engine`."
+      type:
+        type: string
+        description: "Optional `type`, engine kind name (for example `TurboJet`)."
+      engineKind:
+        type: number
+        description: "Optional `typeng`, engine kind code (the install scripts: 0 high-bypass, 1 jet ... 5 turboshaft)."
+      idleRpm:
+        type: number
+        description: "Optional `Nmg`, RPM at idle; unit not stated."
+      throttleMin:
+        type: number
+        description: "Optional `MinRUD`, throttle state at minimum."
+      throttleMax:
+        type: number
+        description: "Optional `MaxRUD`, throttle state at maximum."
+      throttleMilitary:
+        type: number
+        description: "Optional `MaksRUD`, throttle state at military power."
+      throttleAfterburner:
+        type: number
+        description: "Optional `ForsRUD`, throttle state at afterburner."
+      altitudeMaxKm:
+        type: number
+        description: "Optional `hMaxEng`, maximum altitude for safe engine operation, kilometres."
+      cxEngine:
+        type: number
+        description: "Optional `dcx_eng`, engine drag coefficient."
+      fuelConsumptionMilitary:
+        type: number
+        description: "Optional `cemax`, specific fuel consumption at military power the AI uses to estimate flight time; unit not stated."
+      fuelConsumptionAfterburner:
+        type: number
+        description: "Optional `cefor`, the same at afterburner; unit not stated."
+      thrustAltitudeCoeffMilitary:
+        type: number
+        description: "Optional `dpdh_m`, altitude coefficient of military thrust."
+      thrustAltitudeCoeffAfterburner:
+        type: number
+        description: "Optional `dpdh_f`, altitude coefficient of afterburner thrust."
+      table:
+        type: Entity.AircraftSfmEngineRow[]
+        description: "Optional `table_data` rows, DCS order (exact values); absent when its rows are not all 2 or all 3 numbers."
+    required: [sourcePath]
+
+  Entity.AircraftSfmEngineRow:
+    kind: record
+    description: "One `SFM_Data.engine.table_data` row: the thrust at one Mach number."
+    fields:
+      mach:
+        type: number
+        description: "`M`, Mach number."
+      thrustMilitary:
+        type: number
+        description: "`Pmax`, thrust at military power; unit not stated."
+      thrustAfterburner:
+        type: number
+        description: "Optional `Pfor`, thrust with afterburner; unit not stated."
+    required: [mach, thrustMilitary]
+
+  Entity.HelicopterFlightModel:
+    kind: record
+    description: "Rotorcraft keys of a unit record's top level and its `engine_data` block."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the unit record's top level: `<dump path>#`."
+      rotorHeight:
+        type: number
+        description: "Optional `rotor_height`, height of the main rotor; unit not stated."
+      rotorPosition:
+        type: number[]
+        description: "Optional `rotor_pos`, main rotor position `{x, y, z}` in the model frame."
+      rotorRpm:
+        type: number
+        description: "Optional `rotor_RPM`, main rotor RPM."
+      rotorMomentOfInertia:
+        type: number
+        description: "Optional `rotor_MOI`, main rotor moment of inertia; unit not stated."
+      bladeArea:
+        type: number
+        description: "Optional `blade_area`, rotor blade area; unit not stated."
+      fuselageArea:
+        type: number
+        description: "Optional `fuselage_area`, fuselage reference area; unit not stated."
+      tailFinArea:
+        type: number
+        description: "Optional `tail_fin_area`, tail fin area; unit not stated."
+      tailStabilizerArea:
+        type: number
+        description: "Optional `tail_stab_area`, horizontal stabilizer area; unit not stated."
+      tailRotorRpm:
+        type: number
+        description: "Optional `tail_rotor_RPM`, tail rotor RPM."
+      thrustCorrection:
+        type: number
+        description: "Optional `thrust_correction`, rotor thrust correction factor."
+      speedMaxKmh:
+        type: number
+        description: "Optional `V_max`, maximum speed, km/h."
+      cruiseSpeedMaxKmh:
+        type: number
+        description: "Optional `V_max_cruise`, maximum cruise speed, km/h."
+      engine:
+        type: Entity.HelicopterEngineData
+        description: "Optional `engine_data` block."
+    required: [sourcePath]
+
+  Entity.HelicopterEngineData:
+    kind: record
+    description: "`engine_data` of a helicopter record: its engines' power model."
+    fields:
+      sourcePath:
+        type: string
+        description: "Dump path and pointer of the block: `<dump path>#/engine_data`."
+      powerMax:
+        type: number
+        description: "Optional `power_max`, maximum power per engine; unit not stated."
+      powerTakeOff:
+        type: number
+        description: "Optional `power_take_off`, take-off power per engine; unit not stated."
+      powerWep:
+        type: number
+        description: "Optional `power_WEP`, war emergency power per engine; unit not stated."
+      powerRpmMin:
+        type: number
+        description: "Optional `power_RPM_min`, minimum engine RPM for power; unit not stated."
+      powerRpmCoeffs:
+        type: number[]
+        description: "Optional `power_RPM_k`, power-by-RPM coefficients, DCS order."
+      powerAltitudeCoeffs:
+        type: number[][]
+        description: "Optional `power_TH_k`, power-by-altitude coefficient rows, DCS order."
+      fuelConsumptionCoeffs:
+        type: number[]
+        description: "Optional `SFC_k`, specific fuel consumption coefficients, DCS order."
+      idleRpmReady:
+        type: number
+        description: "Optional `Nmg_Ready`, gas generator RPM at ready idle; unit not stated."
+    required: [sourcePath]
