@@ -1194,9 +1194,7 @@ PRIORITY_VALUES = (
 )
 SERIES = ("weapon_flight", "aircraft_flight")
 # Record fields that are not typed DCS values.
-_STRUCTURAL = frozenset(
-    {"sourcePath", "sourcePaths", "weapon", "aircraft", "stage", "key"}
-)
+_STRUCTURAL = frozenset({"sourcePath", "sourcePaths", "weapon", "aircraft", "stage"})
 _DROP: Any = object()  # a value the default reading leaves out
 
 
@@ -1437,7 +1435,7 @@ class _Checker:
         sp = rec["sourcePath"]
         path, keys = split_source_path(sp)
         sources = [sp, f"{path}#"] if keys else [sp]
-        skip = {*weapon_flight.BLOCKS, "pnCoefficients", "launchTables"}
+        skip = {*weapon_flight.BLOCKS, "pnCoefficients", "launchEnvelopes"}
         covered = self.block("top", rec, weapon_flight.TOP, sources, False, skip)
         if covered is None:
             return
@@ -1451,20 +1449,23 @@ class _Checker:
                 pn = rec["pnCoefficients"]
                 flat = [len(pn), *(x for e in pn for x in (e["distanceM"], e["gain"]))]
                 self.same(found[0], flat, found[1])
-        for t in rec.get("launchTables", []):
-            covered.add(t["key"])
-            try:
-                node = self.dumps.resolve(t["sourcePath"])
-                anchors = _anchors(
-                    self.dumps.file(split_source_path(t["sourcePath"])[0])
-                )
-            except (KeyError, ValueError) as e:
-                self.fail(t["sourcePath"], "unresolved", str(e))
-                continue
-            flat = [len(t["rows"]), len(t["columnHeaders"]), *t["columnHeaders"]]
-            for row in t["rows"]:
-                flat += [row["header"], *row["cells"]]
-            self.same(t["sourcePath"], flat, plain(node, self.dumps, anchors))
+        for env in rec.get("launchEnvelopes", []):
+            alts, speeds = env["altitudesM"], env["speedsMs"]
+            for key, grid in weapon_flight.LAUNCH_TABLES:
+                if grid not in env:
+                    continue
+                covered.add(key)
+                at = env["sourcePath"] + pointer(key)
+                try:
+                    node = self.dumps.resolve(at)
+                    anchors = _anchors(self.dumps.file(split_source_path(at)[0]))
+                except (KeyError, ValueError) as e:
+                    self.fail(at, "unresolved", str(e))
+                    continue
+                flat = [len(alts), len(speeds), *speeds]
+                for alt, row in zip(alts, env[grid], strict=True):
+                    flat += [alt, *row]
+                self.same(at, flat, plain(node, self.dumps, anchors))
         typed_blocks: set[str] = set()
         variant, anchors = tables[0][1], tables[0][2]
         for name in weapon_flight.BLOCKS:

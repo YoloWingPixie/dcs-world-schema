@@ -3,7 +3,7 @@ globals: {}
 types:
   Entity.WeaponFlight:
     kind: record
-    description: "A weapon's flight configuration as DCS configures it (its configured inputs, not computed performance): aerodynamics, motor stages, autopilot, seeker, gimbal, proximity fuze and launch tables. Read from the `client` block of the weapon's `weapons_table` record (with that record's own plain keys), else from its flat `_G/rockets`, `_G/bombs` or `_G/torpedoes` record. Keys without a field here are only in the `_G` dump."
+    description: "A weapon's flight configuration as DCS configures it (its configured inputs, not computed performance): aerodynamics, motor stages, autopilot, seeker, gimbal, proximity fuze and launch envelopes. Read from the `client` block of the weapon's `weapons_table` record (with that record's own plain keys), else from its flat `_G/rockets`, `_G/bombs` or `_G/torpedoes` record. Keys without a field here are only in the `_G` dump."
     fields:
       weapon:
         type: string
@@ -30,9 +30,9 @@ types:
       pnCoefficients:
         type: Entity.WeaponPnCoefficient[]
         description: "Optional proportional navigation gain by distance to target (`PN_coeffs`)."
-      launchTables:
-        type: Entity.WeaponLaunchTable[]
-        description: "Optional launch range tables (`LaunchDistData`, `MinLaunchDistData`...), sorted by key; tables of another layout are not typed."
+      launchEnvelopes:
+        type: Entity.WeaponLaunchEnvelope[]
+        description: "Optional launch envelopes from `LaunchDistData`, `MinLaunchDistData` and `AspectDistData`: one per distinct pair of altitude and speed axes, in that key order. Tables of another layout are not typed."
       aerodynamics:
         type: Entity.WeaponAerodynamics
         description: "Optional flight model (`fm`)."
@@ -65,35 +65,29 @@ types:
         description: "Proportional navigation gain."
     required: [distanceM, gain]
 
-  Entity.WeaponLaunchTable:
+  Entity.WeaponLaunchEnvelope:
     kind: record
-    description: "A launch range table laid out as `{rows, cols, column headers, then per row its header and cells}`."
+    description: "Launch tables of a weapon that share the same axes. Each DCS table is laid out `{rows, cols, column headers, then per row its header and cells}`; rows are launch altitude, columns launch true airspeed. Values and order are as DCS gives them."
     fields:
-      key:
-        type: string
-        description: "The DCS key (`LaunchDistData`, `MinLaunchDistData`, `AspectDistData`, `RmaxData`...)."
       sourcePath:
         type: string
-        description: "Dump path and pointer of the table."
-      columnHeaders:
+        description: "Dump path and pointer of the block holding the tables; each table is at `<sourcePath>/<DCS key>`."
+      altitudesM:
         type: number[]
-        description: "Column headers, in DCS order."
-      rows:
-        type: Entity.WeaponLaunchTableRow[]
-        description: "Rows, in DCS order."
-    required: [key, sourcePath, columnHeaders, rows]
-
-  Entity.WeaponLaunchTableRow:
-    kind: record
-    description: "One row of a launch table."
-    fields:
-      header:
-        type: number
-        description: "Row header; unit not stated."
-      cells:
+        description: "Launch altitude in metres of each row (the row headers)."
+      speedsMs:
         type: number[]
-        description: "One cell per column header; unit not stated."
-    required: [header, cells]
+        description: "Launch true airspeed in m/s of each column (the column headers)."
+      maxRangeM:
+        type: number[][]
+        description: "Optional maximum launch range in metres, indexed [altitude][speed] (`LaunchDistData`)."
+      minRangeM:
+        type: number[][]
+        description: "Optional minimum launch range in metres, indexed [altitude][speed] (`MinLaunchDistData`)."
+      aspectDeg:
+        type: number[][]
+        description: "Optional aspect angle in degrees, indexed [altitude][speed] (`AspectDistData`)."
+    required: [sourcePath, altitudesM, speedsMs]
 
   Entity.WeaponAerodynamics:
     kind: record

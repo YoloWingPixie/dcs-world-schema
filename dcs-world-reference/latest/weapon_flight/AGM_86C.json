@@ -15,102 +15,73 @@
   },
   "batteryLifeS": 10000,
   "killDistanceM": 0,
-  "launchTables": [
+  "launchEnvelopes": [
     {
-      "columnHeaders": [
+      "altitudesM": [
+        500,
+        2000,
+        7000,
+        13000
+      ],
+      "maxRangeM": [
+        [
+          0,
+          0,
+          1170000,
+          1200000
+        ],
+        [
+          1185000,
+          1185000,
+          1190000,
+          1230000
+        ],
+        [
+          1220000,
+          1235000,
+          1240000,
+          1245000
+        ],
+        [
+          1250000,
+          1250000,
+          1260000,
+          1260000
+        ]
+      ],
+      "minRangeM": [
+        [
+          0,
+          0,
+          18500,
+          20000
+        ],
+        [
+          21000,
+          24000,
+          26000,
+          63000
+        ],
+        [
+          48000,
+          55000,
+          56000,
+          63000
+        ],
+        [
+          84000,
+          88000,
+          95000,
+          100000
+        ]
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client",
+      "speedsMs": [
         100,
         125,
         175,
         250
-      ],
-      "key": "LaunchDistData",
-      "rows": [
-        {
-          "cells": [
-            0,
-            0,
-            1170000,
-            1200000
-          ],
-          "header": 500
-        },
-        {
-          "cells": [
-            1185000,
-            1185000,
-            1190000,
-            1230000
-          ],
-          "header": 2000
-        },
-        {
-          "cells": [
-            1220000,
-            1235000,
-            1240000,
-            1245000
-          ],
-          "header": 7000
-        },
-        {
-          "cells": [
-            1250000,
-            1250000,
-            1260000,
-            1260000
-          ],
-          "header": 13000
-        }
-      ],
-      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/LaunchDistData"
-    },
-    {
-      "columnHeaders": [
-        100,
-        125,
-        175,
-        250
-      ],
-      "key": "MinLaunchDistData",
-      "rows": [
-        {
-          "cells": [
-            0,
-            0,
-            18500,
-            20000
-          ],
-          "header": 500
-        },
-        {
-          "cells": [
-            21000,
-            24000,
-            26000,
-            63000
-          ],
-          "header": 2000
-        },
-        {
-          "cells": [
-            48000,
-            55000,
-            56000,
-            63000
-          ],
-          "header": 7000
-        },
-        {
-          "cells": [
-            84000,
-            88000,
-            95000,
-            100000
-          ],
-          "header": 13000
-        }
-      ],
-      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/MinLaunchDistData"
+      ]
     }
   ],
   "machMax": 0.9,
