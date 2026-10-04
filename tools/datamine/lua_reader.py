@@ -10,11 +10,22 @@ values. Shared records the dumper wrote as path strings
 (``warhead = "_G/warheads/AN_M65.lua"``) are replaced by the referenced record
 (unless the reader is made with ``link_refs=False``); the referenced files of a
 batch are read together.
+
+Dump formats 3 and 4 are read. Format 4 replaces values it cannot write with
+``__dcs{kind=...}`` markers (``hook/serialize.lua``). The default reading keeps
+the extractors' view of format 3: anchors and same-file refs are resolved (a
+cycle back-reference is absent), ``redacted`` becomes ``"Redacted"``,
+``number`` markers become numbers (NaN absent) and every other marker is
+absent. ``LuaReader.read_source`` is the lossless reading (``dump_paths``
+resolves ``sourcePath`` pointers with it): a typed tree (``LuaTable``, ``Marker``,
+``SourceRef``) keeping key types, empty tables, markers, anchors, refs and
+cross-file refs as they are written.
 """
 
 from __future__ import annotations
 
 import functools
+import math
 import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
@@ -23,9 +34,11 @@ from typing import Any
 
 from lupa import LuaRuntime
 
-from .common import fail, pmap, read_text
+from .common import fail, pmap, read_dump_format, read_text
 
 _REF = re.compile(r"^_G/.+\.lua$")
+# The dump formats (``__DUMP_FORMAT__.lua``) this reader reads.
+READ_FORMATS = (3, 4)
 
 INSTRUCTION_LIMIT = 50_000_000
 MEMORY_LIMIT = 1 << 30
@@ -36,7 +49,8 @@ MEMORY_LIMIT = 1 << 30
 # fresh nested tables), plus the state table holding that value and the count.
 _LUA = """
 local load, pcall, sethook, tostring, error = load, pcall, debug.sethook, tostring, error
-local setmetatable, rawset = setmetatable, rawset
+local setmetatable, rawset, type, insert = setmetatable, rawset, type, table.insert
+local MARK = "\\0__dcs"
 local function exec(text, name, env, limit)
     local fn, err = load(text, name, "t", env)
     if not fn then return false, err end
@@ -47,19 +61,40 @@ local function exec(text, name, env, limit)
     return true, env
 end
 local function capture()
-    local state = {count = 0}
+    local state = {count = 0, anchors = {}}
+    local parents = {}
     local mt = {}
     mt.__index = function(t, k)
         local v = setmetatable({}, mt)
         rawset(t, k, v)
+        parents[v] = {t, k}
         return v
     end
     mt.__newindex = function(t, k, v)
         rawset(t, k, v)
         state.count = state.count + 1
-        if state.count == 1 then state.value = v end
+        if state.count == 1 then
+            state.value = v
+            local path, node = {k}, t
+            while parents[node] do
+                insert(path, 1, parents[node][2])
+                node = parents[node][1]
+            end
+            state.path = path
+        end
     end
-    return {_G = setmetatable({}, mt)}, state
+    local function mark(t)
+        if type(t) ~= "table" then error("__dcs expects a table", 2) end
+        rawset(t, MARK, true)
+        if t.kind == "anchor" and t.id ~= nil then
+            if state.anchors[t.id] ~= nil then
+                error("duplicate anchor id " .. tostring(t.id), 2)
+            end
+            state.anchors[t.id] = t.value
+        end
+        return t
+    end
+    return {_G = setmetatable({}, mt), __dcs = mark}, state
 end
 return exec, capture
 """
@@ -105,6 +140,9 @@ class _Ref(str):
 
 
 _MISSING = object()
+# A value the default reading leaves out (a marker of an unwritable value, a
+# cycle back-reference): its key is absent, as format 3 wrote it ``nil``.
+_ABSENT = object()
 
 
 @dataclass
@@ -113,11 +151,176 @@ class ReadStats:
     unresolved_refs: list[tuple[str, str]] = field(default_factory=list)
 
 
-def _to_py(value: Any, table: type[Any], refs: set[str] | None) -> Any:
+# A Lua table key in the lossless tree.
+LuaKey = Any  # bool | int | float | str, or a Marker (an unwritable key)
+
+
+@dataclass(frozen=True)
+class LuaTable:
+    """A Lua table in the lossless tree: its entries with their key types
+    (``1``, ``1.5``, ``True`` and ``"1"`` are different keys), sorted booleans
+    first (false, true), then numbers ascending, then strings."""
+
+    entries: tuple[tuple[LuaKey, Any], ...] = ()
+
+    def get(self, key: LuaKey, default: Any = None) -> Any:
+        """The value under ``key`` (compared with its type: ``1`` is not
+        ``True``, not ``"1"``)."""
+        for k, v in self.entries:
+            if type(k) is type(key) and k == key:
+                return v
+        return default
+
+    def sequence(self) -> list[Any] | None:
+        """The values when the keys are exactly the integers ``1..n`` (n >= 1),
+        else None."""
+        n = len(self.entries)
+        if n == 0:
+            return None
+        for i, (k, _) in enumerate(self.entries, 1):
+            if type(k) is not int or k != i:
+                return None
+        return [v for _, v in self.entries]
+
+
+@dataclass(frozen=True)
+class Marker:
+    """A format 4 ``__dcs{kind=...}`` marker; ``fields`` holds its other
+    entries (``lua_type`` is named ``luaType``; an anchor's ``value`` is a
+    lossless tree)."""
+
+    kind: str
+    fields: LuaTable = LuaTable()
+
+
+@dataclass(frozen=True)
+class SourceRef:
+    """A cross-file ref (``"_G/warheads/X.lua"`` in the dump), as the
+    ``sourcePath`` of its target (``_G/warheads/X``); not inlined."""
+
+    path: str
+
+
+@dataclass(frozen=True)
+class SourceFile:
+    """One dump file read losslessly: the keys below ``_G`` it assigns
+    (``("rockets", "#Index")``) and the assigned value."""
+
+    key_path: tuple[LuaKey, ...]
+    value: Any
+
+
+# The key ``__dcs`` sets on a marker table (no dump writes a NUL in a key).
+MARK_KEY = "\x00__dcs"
+
+
+def key_order(key: Any) -> tuple[int, Any]:
+    """Sort order of lossless table keys: booleans, numbers, strings, then
+    marker keys (a format 4 key the dump could not write as a literal)."""
+    if isinstance(key, bool):
+        return (0, key)
+    if isinstance(key, (int, float)):
+        return (1, key)
+    if isinstance(key, str):
+        return (2, key)
+    return (3, repr(key))
+
+
+# A bare ``-0`` number token. Lua 5.3+ reads it as the integer 0, Lua 5.1 (DCS)
+# as the double -0; the reader rewrites it ``-0.0`` outside strings first.
+_NEG_ZERO_HINT = re.compile(r"(?<![\w.])-0(?![\w.])")
+_NEG_ZERO = re.compile(
+    r"(\"(?:[^\"\\\n]|\\.)*\"|'(?:[^'\\\n]|\\.)*')|(?<![\w.])-0(?![\w.])", re.S
+)
+# A format 3 entry written ``key = nil``: a function, userdata, thread, NaN or
+# cycle back-reference the hook could not write (``serialize.lua``).
+_FORMAT3_NIL = re.compile(
+    r"^(\t+(?:[A-Za-z_][A-Za-z0-9_]*|\[[^\n]*?\]) = )nil(,?)$", re.M
+)
+FORMAT3_NIL_MARKER = (
+    '__dcs{kind="unsupported", lua_type="unknown", reason="format3-nil"}'
+)
+
+
+def _fix_negative_zero(text: str) -> str:
+    if not _NEG_ZERO_HINT.search(text):
+        return text
+    return _NEG_ZERO.sub(lambda m: m[1] or "-0.0", text)
+
+
+class _Markers:
+    """Per-file state of the default reading of a file with markers: its
+    anchors (id -> Lua value) and the anchor ids being converted."""
+
+    def __init__(self, anchors: Any, table: type[Any]) -> None:
+        self.anchors = anchors
+        self.table = table
+        self.active: set[Any] = set()
+        self.errors: list[str] = []
+
+    def convert(self, items: list[tuple[Any, Any]], refs: set[str] | None) -> Any:
+        fields = {k: v for k, v in items if k != MARK_KEY}
+        kind = fields.get("kind")
+        if kind == "anchor":
+            return self._within(fields.get("id"), fields.get("value"), refs)
+        if kind == "ref":
+            ident = fields.get("id")
+            if ident in self.active:
+                return _ABSENT  # a cycle back-reference, absent as in format 3
+            target = self.anchors[ident] if ident is not None else None
+            if target is None:
+                self.errors.append(f"ref to unknown anchor {ident!r}")
+                return _ABSENT
+            return self._within(ident, target, refs)
+        if kind == "redacted":
+            return "Redacted"
+        if kind == "number":
+            value = fields.get("value")
+            if value in ("inf", "-inf"):
+                return float(value)
+            if value == "-0":
+                return 0
+            return _ABSENT
+        return _ABSENT
+
+    def _within(self, ident: Any, value: Any, refs: set[str] | None) -> Any:
+        self.active.add(ident)
+        try:
+            out = _to_py(value, self.table, refs, self)
+        finally:
+            self.active.discard(ident)
+        return out
+
+
+def _to_py(
+    value: Any,
+    table: type[Any],
+    refs: set[str] | None,
+    markers: _Markers | None = None,
+) -> Any:
     """``value`` as plain Python values; path-string refs become ``_Ref`` and
-    are added to ``refs`` unless it is None."""
+    are added to ``refs`` unless it is None. ``markers``: the file has
+    ``__dcs`` markers, read as the default reading does (module docstring)."""
     if isinstance(value, table):
         items = list(value.items())
+        if markers is not None:
+            if any(k == MARK_KEY for k, _ in items):
+                return markers.convert(items, refs)
+            items = [
+                (k, c)
+                for k, v in items
+                if (c := _to_py(v, table, refs, markers)) is not _ABSENT
+            ]
+            # A marker key (``[__dcs{kind="number", value="inf"}]``): its
+            # number, else the entry is absent.
+            items = [
+                (_to_py(k, table, None, markers) if isinstance(k, table) else k, v)
+                for k, v in items
+            ]
+            items = [(k, v) for k, v in items if isinstance(k, (bool, int, float, str))]
+            if items and _is_consecutive_array([k for k, _ in items]):
+                return [v for _, v in sorted(items, key=lambda kv: kv[0])]
+            return {key_str(k): v for k, v in items}
         if items and _is_consecutive_array([k for k, _ in items]):
             return [
                 _to_py(v, table, refs) for _, v in sorted(items, key=lambda kv: kv[0])
@@ -137,21 +340,65 @@ def lua_to_py(value: Any) -> Any:
     return _to_py(value, _lua().table_type, None)
 
 
+def _marker_field(name: Any) -> Any:
+    return "luaType" if name == "lua_type" else name
+
+
+def _to_source(value: Any, table: type[Any]) -> Any:
+    """``value`` as the lossless tree (``LuaTable``, ``Marker``,
+    ``SourceRef``, scalars)."""
+    if isinstance(value, table):
+        entries: list[tuple[LuaKey, Any]] = []
+        marked = False
+        for k, v in value.items():
+            if k == MARK_KEY:
+                marked = True
+                continue
+            key = _to_source(k, table) if isinstance(k, table) else k
+            entries.append((key, _to_source(v, table)))
+        entries.sort(key=lambda kv: key_order(kv[0]))
+        if not marked:
+            return LuaTable(tuple(entries))
+        kind = next((v for k, v in entries if k == "kind" and type(k) is str), None)
+        if not isinstance(kind, str):
+            raise ValueError(f"__dcs marker without a string kind: {entries!r}")
+        fields = sorted(
+            ((_marker_field(k), v) for k, v in entries if k != "kind"),
+            key=lambda kv: key_order(kv[0]),
+        )
+        if kind == "number" and len(fields) == 1 and fields[0][0] == "value":
+            special = {"nan": math.nan, "inf": math.inf, "-inf": -math.inf}
+            if fields[0][1] in special:
+                return special[fields[0][1]]
+            if fields[0][1] == "-0":
+                return -0.0
+        return Marker(kind, LuaTable(tuple(fields)))
+    if isinstance(value, str) and _REF.match(value):
+        return SourceRef(value.removesuffix(".lua"))
+    return value
+
+
 class LuaReader:
     """Reads ``_G`` dump files into plain Python values. With ``link_refs``
     off, path-string refs stay strings and their targets are not read.
     ``texts``: file texts by path, shared by readers of one dump so a file
-    is read from disk once."""
+    is read from disk once. ``dump_format``: the dump's format (default: its
+    ``__DUMP_FORMAT__.lua`` when ``g_dir`` is given); format 3 ``key = nil``
+    entries are kept by ``read_source`` as ``unsupported`` markers."""
 
     def __init__(
         self,
         g_dir: Path | None = None,
         link_refs: bool = True,
         texts: dict[Path, str] | None = None,
+        dump_format: int | None = None,
     ) -> None:
         self.g_dir = g_dir
         self.link_refs = link_refs
         self.texts = texts
+        if dump_format is None and g_dir is not None:
+            dump_format = read_dump_format(g_dir)
+        self.dump_format = dump_format
         self.stats = ReadStats()
         self._targets: dict[str, Any] = {}  # ref -> (value, has refs) or _MISSING
         self._table = lua_table_type()
@@ -172,6 +419,30 @@ class LuaReader:
             for p, t in zip(paths, pmap(self._text, paths), strict=True)
         ]
         return self._finish(parsed)
+
+    def read_source(self, path: Path, text: str | None = None) -> SourceFile | None:
+        """One file read losslessly (module docstring); cross-file refs stay
+        ``SourceRef``s. None when it fails (recorded in ``stats``)."""
+        name = str(path)
+        if text is None:
+            text = self._text(path)
+        if self.dump_format is None or self.dump_format < 4:
+            text = _FORMAT3_NIL.sub(rf"\1{FORMAT3_NIL_MARKER}\2", text)
+        ok, value, count, key_path, _ = self._run(text, name)
+        if not ok:
+            self.stats.failures.append((name, str(value)))
+            return None
+        if count != 1:
+            self.stats.failures.append(
+                (name, f"expected one _G assignment, found {count}")
+            )
+            return None
+        try:
+            tree = _to_source(value, self._table)
+        except ValueError as e:
+            self.stats.failures.append((name, str(e)))
+            return None
+        return SourceFile(tuple(key_path), tree)
 
     def _text(self, path: Path) -> str:
         if self.texts is None:
@@ -201,7 +472,7 @@ class LuaReader:
     def _parse(self, path: Path, text: str) -> tuple[Any | None, bool]:
         """(value assigned by one dump file or None, whether it holds refs)."""
         name = str(path)
-        ok, value, count = self._run(text, name)
+        ok, value, count, _, anchors = self._run(text, name)
         if not ok:
             self.stats.failures.append((name, str(value)))
             return None, False
@@ -211,16 +482,34 @@ class LuaReader:
             )
             return None, False
         refs: set[str] | None = set() if self.link_refs else None
-        py = _to_py(value, self._table, refs)
+        markers = None
+        if "__dcs" in text:
+            markers = _Markers(anchors, self._table)
+        py = _to_py(value, self._table, refs, markers)
+        if markers is not None and markers.errors:
+            self.stats.failures.append((name, "; ".join(markers.errors)))
+            return None, False
+        if py is _ABSENT:
+            py = None
         if refs:
             self._pending |= refs
         return py, bool(refs)
 
     @staticmethod
-    def _run(text: str, name: str) -> tuple[bool, Any, int]:
+    def _run(text: str, name: str) -> tuple[bool, Any, int, list[Any], Any]:
+        """(ok, value or error, assignments, assigned keys below ``_G``,
+        anchors by id)."""
         env, state = _lua().capture()
-        ok, err = sandbox_exec(text, name, env)
-        return ok, (state["value"] if ok else err), state["count"]
+        ok, err = sandbox_exec(_fix_negative_zero(text), name, env)
+        path = state["path"]
+        keys = [path[i] for i in range(1, len(path) + 1)] if ok and path else []
+        return (
+            ok,
+            (state["value"] if ok else err),
+            state["count"],
+            keys,
+            state["anchors"],
+        )
 
     def _load_targets(self) -> None:
         """Read every pending ref target (and the refs those hold) in batches."""
@@ -267,7 +556,12 @@ def _is_consecutive_array(keys: list[Any]) -> bool:
     n = len(keys)
     seen: set[int] = set()
     for k in keys:
-        if isinstance(k, bool) or not isinstance(k, (int, float)) or k != int(k):
+        if (
+            isinstance(k, bool)
+            or not isinstance(k, (int, float))
+            or not math.isfinite(k)
+            or k != int(k)
+        ):
             return False
         if not 1 <= k <= n:
             return False

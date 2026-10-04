@@ -1,6 +1,7 @@
 """Run the Lua tests for the DCS dump hook under Lua 5.1 or LuaJIT (the
 runtimes DCS uses). Skipped when neither is installed."""
 
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -13,6 +14,9 @@ from tools.datamine.lua_reader import LuaReader
 from tools.datamine.rwr import load_wstype_ids
 
 TESTS_LUA = Path(__file__).parent / "lua"
+# A small dump format 4 tree written by the hook (test_dump_format4.lua), for
+# reader tests. DCS_UPDATE_FIXTURES=1 rewrites it from the hook's output.
+FORMAT4_FIXTURE = Path(__file__).parent / "fixtures" / "dump_format4"
 HOOK_DIR = Path(__file__).parents[1] / "hook"
 LUA = shutil.which("lua5.1") or shutil.which("luajit")
 
@@ -30,6 +34,12 @@ def _run(*args: str) -> str:
 def test_serialize() -> None:
     assert "SERIALIZE TESTS PASSED" in _run(
         str(TESTS_LUA / "test_serialize.lua"), str(HOOK_DIR)
+    )
+
+
+def test_serialize_lossless() -> None:
+    assert "SERIALIZE LOSSLESS TESTS PASSED" in _run(
+        str(TESTS_LUA / "test_serialize_lossless.lua"), str(HOOK_DIR), str(TESTS_LUA)
     )
 
 
@@ -101,7 +111,7 @@ def test_shared_tables_written_in_full(tmp_path: Path) -> None:
         str(TESTS_LUA / "test_shared_record.lua"), str(TESTS_LUA), f"{tmp_path}/"
     )
     assert "SHARED RECORD TEST PASSED" in out
-    assert "Cycle dropped: _G/db/Units/Planes/Plane/F-16C_50.lua [self]" in out
+    assert "Cycle written as ref: _G/db/Units/Planes/Plane/F-16C_50.lua [self]" in out
 
 
 def test_whole_tables_and_format_marker(tmp_path: Path) -> None:
@@ -112,6 +122,38 @@ def test_whole_tables_and_format_marker(tmp_path: Path) -> None:
     assert "Skipping absent table _G.IndividualFuzeGUISettings" in out
     g_dir = tmp_path / "DCS.Lua.Exporter" / "_G"
     assert read_dump_format(g_dir) == DUMP_FORMAT
+
+
+def _tree(root: Path) -> dict[str, bytes]:
+    return {
+        p.relative_to(root).as_posix(): p.read_bytes()
+        for p in sorted(root.rglob("*"))
+        if p.is_file()
+    }
+
+
+def test_dump_format4(tmp_path: Path) -> None:
+    _install_hook(tmp_path)
+    out = _run(str(TESTS_LUA / "test_dump_format4.lua"), str(TESTS_LUA), f"{tmp_path}/")
+    assert "DUMP FORMAT 4 TEST PASSED" in out
+    assert (
+        "Cycle written as ref: _G/weapons_table/weapons/missiles/TEST_AAM.lua"
+        " [controller/owner]"
+    ) in out
+    assert "Matched whole tables: 2 (TEST_CLUSTER_DATA, Test_cells_properties)" in out
+    assert (
+        'Record keys withheld as "#Index" (level-4 ids): 1; keys not writable: 0;'
+        " truncated tables: 0"
+    ) in out
+    g_dir = tmp_path / "DCS.Lua.Exporter" / "_G"
+    assert read_dump_format(g_dir) == DUMP_FORMAT == 4
+    fixture = FORMAT4_FIXTURE / "_G"
+    if os.environ.get("DCS_UPDATE_FIXTURES") == "1":
+        shutil.rmtree(fixture, ignore_errors=True)
+        shutil.copytree(g_dir, fixture)
+    assert _tree(g_dir) == _tree(fixture), (
+        "fixtures/dump_format4 is stale; rerun with DCS_UPDATE_FIXTURES=1"
+    )
 
 
 def test_constants_written(tmp_path: Path) -> None:

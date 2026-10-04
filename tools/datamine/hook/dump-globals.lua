@@ -8,17 +8,28 @@
   one loadable Lua file per record. refresh.py copies that snapshot to
   .datamine/_G, which `tools/datamine/extract.py` reads.
 
-  On-disk format (the extractors depend on it):
+  On-disk format (dump format 4; the extractors depend on it):
 
-  The tree mirrors `_G`: the record at _G.db.Units.Planes.Plane["A-10C"] is
+  The tree mirrors `_G`: the record at _G.db.Units.Planes.Plane[12] is
   written to _G/db/Units/Planes/Plane/A-10C.lua. Each file is one assignment,
   tab-indented, LF line endings, no trailing newline:
 
-      _G["db"]["Units"]["Planes"]["Plane"]["#Index"] = {
+      _G["db"]["Units"]["Planes"]["Plane"][12] = {
       	...
       }
 
-  A numeric record key is written as the literal key "#Index". The filename
+  Values are written by serialize.lua's lossless mode (see its header): exact
+  numbers, and `__dcs{kind=...}` markers for functions, userdata, NaN/inf/-0,
+  shared tables (anchor/ref), cycles (ref) and truncation, so a loader must
+  define `__dcs` (tools/datamine/lua_reader.py does).
+
+  A numeric record key is written as that number (format 3 wrote "#Index").
+  Exception: a key that is the record's own level-4 wsType id (`rockets`,
+  `bombs`, ... are keyed by it: key == numeric `Name` or ws_type[4]) is
+  patch-volatile and is still written "#Index"; the id is in
+  __wstype_ids__.lua. Array indices (db.Units.*, db.Countries) are kept;
+  they follow DCS's load order, so they can move when modules change. The
+  path above the record keeps its keys as strings. The filename
   comes from the record's marker field (`name`, `CLSID`, ...) when it is a
   non-empty string, else the table key; characters illegal in Windows filenames
   are stripped. File paths are compared case-insensitively, as on Windows:
@@ -31,11 +42,13 @@
   A nested table that is itself a top-level record dumped to its own file (a
   bomb's shared warhead, a launcher's pylon) is written as a path string, e.g.
   warhead = "_G/warheads/AN_M65.lua", instead of being inlined. Any other
-  table DCS reuses in several places (mirrored pylon Launchers, Tasks entries,
-  depends_on_unit) is written in full at each place; only a back-reference to
-  an enclosing table (a true cycle) is written as `nil`, and each one is
-  logged. A record that would expand past serialize.lua's table cap fails the
-  dump instead of being truncated.
+  table DCS reuses within one record (mirrored pylon Launchers, Tasks
+  entries, depends_on_unit) is written once as __dcs{kind="anchor", id=N,
+  value={...}} and as __dcs{kind="ref", id=N} at each later place; a
+  back-reference to an enclosing table (a cycle) is a ref too and is logged
+  ("Cycle written as ref"). Keys that are tables or functions cannot be
+  written and are logged ("Key not writable"); tables past serialize.lua's
+  limits become truncated markers and are logged ("Truncated").
 
   Proxy tables are written with their effective fields. Unit launchers built
   from a GT_t template (DCS `set_recursive_metatable`) hold nested tables as
@@ -48,16 +61,21 @@
   (raw ids: __wstype_ids__.lua below). Slot 4 of every `ws_type`,
   `wsTypeOfWeapon` and `type_ammunition` tuple is the `name` of the projectile
   record (rockets, bombs, torpedoes, weapons_table) whose own ws_type equals
-  the full 4-tuple, or "Redacted" when several names carry it. When none
+  the full 4-tuple, or REDACTED (below) when several names carry it. When none
   does, (l1, l2, l4) is matched instead and used only if exactly one name
   carries it: DCS level 3 sometimes disagrees (2S6 launcher {4,4,11,n} vs
   the 9M311's own {4,4,34,n}). Level-4 id 0 is a placeholder and never takes
   part in the fallback. The tuple is always written whole
-  ({ l1, l2, l3, <name or "Redacted"> }), also for proxies and tables that
+  ({ l1, l2, l3, <name or REDACTED> }), also for proxies and tables that
   recur in the record, so a launcher's `type_ammunition` is the fired
   missile's name; a string `type_ammunition` ("weapons.missiles.X") is
   written as is. Slot 4 of `adapter_type`, slot 4 (else 3) of `attribute`,
-  `index`, and numeric `Name` values are always "Redacted".
+  a bare-number ws_type, numeric `Name` values (the record's own level-4 id)
+  and numeric shape_table_data[i].index (DCS sets it to the same id) are
+  always REDACTED. REDACTED is the marker
+      __dcs{kind="redacted", reason="patch-volatile", lua_type="number"}
+  (format 3 wrote the string "Redacted"; lua_reader.py's default reading
+  still returns "Redacted"). Other keys named `index` are written as is.
 
   _G/__wstype_ids__.lua holds the raw numeric ids the record files redact, so
   DCS tables keyed by wsType tuples (RWR symbols, HARM codes) can be joined
@@ -79,11 +97,30 @@
   WRITE_WHOLE tables (db.Callnames, db.FormationID, db.Units.Skills, the fuze
   GUI tables, ...) are written whole, one file each at their _G path
   (_G/db/Callnames.lua, _G/FuzeDescriptions.lua); an absent one is logged.
+  Format 4 adds the object configuration tables SchemeFMParameters,
+  SchemeEngineParameters, resource_by_unique_name, gun_mount_templates,
+  guns_by_wstype, jato_conts, Weapon_containers, damage_cells,
+  planes_dmg_parts and planes_dmg_properties, plus every top-level table
+  matched by WRITE_WHOLE_MATCHING (cluster/warhead `*_DATA` scheme tables,
+  `*_cells_properties`; the matched names are logged). In these
+  (REF_RECORDS) a nested table that is a record of this dump is written as
+  its file's path string, so resource_by_unique_name is an index:
+      { AIM_120C = "_G/weapons_table/weapons/missiles/AIM_120C.lua", ... }
+  Entries that are no record are written in full.
 
-  _G/U/ (format 3) holds the Mission Editor's unit-conversion tables, one file
+  _G/__inheritance__.lua records what flattening proxy tables hides (the
+  GT_t template linkage):
+      { [record file] = { { path = { "WS", 1, "LN", 1 },   -- key trail in the record
+                            own = { <raw keys, sorted> },  -- the rest was inherited
+                            chain = { <__index tables> } }, ... } }
+  sorted by path. A chain entry is the table's key list from _G when it lies
+  under db.Units.GT_t ({ "db", "Units", "GT_t", "LN_t", "x" }), else
+  "unknown". Which hop of a multi-hop chain supplied a key is not recorded.
+
+  _G/U/ (since format 3) holds the Mission Editor's unit-conversion tables, one file
   per `name` record: _G/U/speedUnits/kts.lua is
   _G["U"]["speedUnits"]["imperial"] = { coeff = ..., name = "kts" }, and
-  _G/U/months/<Month>.lua the month records ({ days, name }, "#Index" keys).
+  _G/U/months/<Month>.lua the month records ({ days, name }, keys 1-12).
   The full Mission Editor sets the global U = require('me_utilities'); a
   dedicated server (`--server`) never sets U, but its GUI script
   (MissionEditor/dedicatedServerGUI.lua) has already loaded me_utilities
@@ -95,7 +132,8 @@
   _G/__DCS_VERSION__.lua holds the raw DCS version string
   (no Lua wrapper). Every launch clears _G/ and dumps again; the version
   marker is written last, and only if every record, __constants__.lua,
-  __wstype_ids__.lua and __DUMP_FORMAT__.lua were written.
+  __wstype_ids__.lua, __inheritance__.lua and __DUMP_FORMAT__.lua were
+  written.
 ------------------------------------------------------------------------------]]
 
 local LOG_NAME = 'DCS.Lua.Exporter'
@@ -106,14 +144,16 @@ local VERSION_FILE = '__DCS_VERSION__.lua'
 local FORMAT_FILE = '__DUMP_FORMAT__.lua'
 -- Bumped when the dump gains files the extractors require; common.py reads
 -- DUMP_FORMAT and WRITE_WHOLE from this file.
-local DUMP_FORMAT = 3
+local DUMP_FORMAT = 4
 
 -- Depth below _G to which the pre-scan records tables, so shared records
 -- (warheads, pylons, ...) become path references. 2 == _G.<top>.<record>.
 local SCAN_DEPTH = 2
 
--- Replaces volatile numeric type-ids that churn every patch.
-local REDACTED = 'Redacted'
+-- Replaces volatile numeric type-ids that churn every patch: the marker
+-- __dcs{kind="redacted", reason="patch-volatile", lua_type="number"}. Made
+-- by serialize.marker once serialize.lua is loaded (run()).
+local REDACTED
 
 -- Tables whose `name` records are projectiles; their ws_type ids resolve slot 4
 -- of ws_type / wsTypeOfWeapon tuples to a projectile name.
@@ -164,6 +204,41 @@ local WRITE_WHOLE = {
   'SchemeFuzeParameters',
   'GUIWeaponSettingsData',
   'prbCoeff',
+  -- Object configuration added in format 4 (REF_RECORDS below).
+  'SchemeFMParameters',
+  'SchemeEngineParameters',
+  'resource_by_unique_name',
+  'gun_mount_templates',
+  'guns_by_wstype',
+  'jato_conts',
+  'Weapon_containers',
+  'damage_cells',
+  'planes_dmg_parts',
+  'planes_dmg_properties',
+}
+
+-- Top-level _G tables dumped whole like WRITE_WHOLE, chosen by name: the
+-- cluster and warhead scheme tables (HEAT_DATA, BLU97B_DATA,
+-- CBU97_CLUSTER_SCHEME_DATA, ...) and the per-airframe damage cell tables
+-- (Su_27_cells_properties, ...). `accept` filters out unrelated globals that
+-- share the suffix.
+local WRITE_WHOLE_MATCHING = {
+  { pattern = '_DATA$', accept = function(name, t)
+      return name:find('SCHEME', 1, true) ~= nil or t.scheme ~= nil or t.type_name ~= nil
+    end },
+  { pattern = '_cells_properties$' },
+}
+
+-- Whole tables whose entries are often records dumped elsewhere (a
+-- resource_by_unique_name entry is the weapons_table record): a nested table
+-- that is any record of this dump is written as that record's path string
+-- ("_G/weapons_table/weapons/missiles/AIM_120C.lua") instead of again in
+-- full. Applies to the format-4 WRITE_WHOLE additions and the matched tables.
+local REF_RECORDS = {
+  SchemeFMParameters = true, SchemeEngineParameters = true,
+  resource_by_unique_name = true, gun_mount_templates = true,
+  guns_by_wstype = true, jato_conts = true, Weapon_containers = true,
+  damage_cells = true, planes_dmg_parts = true, planes_dmg_properties = true,
 }
 
 -- Tables dumped one level deep (each direct child is a file): the GT_t
@@ -249,11 +324,16 @@ local function pathDepth(pathKey)
   return n
 end
 
--- { "_G", "warheads" } + "9M120" -> _G["warheads"]["9M120"]
+-- { "_G", "warheads" } + "9M120" -> _G["warheads"]["9M120"]; a number key
+-- is written as a number: { "_G", "rockets" } + 12 -> _G["rockets"][12].
 local function toLuaIndex(list, key)
   local parts = { '_G' }
   for i = 2, #list do parts[#parts + 1] = string.format('[%q]', list[i]) end
-  parts[#parts + 1] = string.format('[%q]', key)
+  if type(key) == 'number' then
+    parts[#parts + 1] = '[' .. assert(serialize.exactNumber(key)) .. ']'
+  else
+    parts[#parts + 1] = string.format('[%q]', key)
+  end
   return table.concat(parts)
 end
 
@@ -538,7 +618,7 @@ end
 -- __index, so a pairs() copy would keep only slot 4.
 local function translateTuple(value, path)
   local out = redactTuple(value)
-  if type(out) ~= 'table' or rawequal(out, value) then return out end
+  if type(out) ~= 'table' or out == REDACTED or rawequal(out, value) then return out end
   for i = 1, 3 do out[i] = value[i] end
   local name = weaponNameOf[tupleKey(value) or '']
   if name then
@@ -574,7 +654,16 @@ local function redactAttribute(value)
   return copy
 end
 
+-- Record table -> dump path of its file ("_G/rockets/S-5.lua"; the lowest
+-- when one table is several records). Set by planRecords.
+local recordFileOf = {}
+-- Whether the record being serialized is a REF_RECORDS table; read by `process`.
+local currentRefRecords = false
+
 -- serialize `process` callback: redactions, then shared tables -> path refs.
+-- Only patch-volatile ids are redacted: level-4 wsType ids (tuple slot 4,
+-- numeric `Name`, bare-number ws_type) and shape_table_data[i].index, which
+-- DCS sets to the same level-4 id. Any other `index` is written as is.
 local function process(item, path)
   local key = path[#path]
   if key == 'ws_type' or key == 'wsTypeOfWeapon' or key == 'type_ammunition' then
@@ -587,13 +676,16 @@ local function process(item, path)
   elseif key == 'attribute' then
     if currentIds and #path == 1 then addIds(currentIds.map, currentIds.id, item) end
     return redactAttribute(item)
-  elseif key == 'index' then
+  elseif key == 'index' and type(item) == 'number' and path[#path - 2] == 'shape_table_data' then
     return REDACTED
   elseif key == 'Name' and type(item) == 'number' then
     return REDACTED
   end
 
   if type(item) ~= 'table' then return item end
+  if currentRefRecords and #path > 0 and recordFileOf[item] then
+    return recordFileOf[item]
+  end
   local canonical = canonOf[item]
   if canonical == nil then return item end
 
@@ -607,11 +699,101 @@ local function process(item, path)
 end
 
 local function onCycle(path)
-  logInfo('Cycle dropped: ' .. tostring(currentRecord) .. ' [' .. pathString(path) .. ']')
+  logInfo('Cycle written as ref: ' .. tostring(currentRecord) .. ' [' .. pathString(path) .. ']')
 end
 
-local SERIALIZE_OPTS = { indent = '\t', newline = '\n', process = process, onCycle = onCycle }
-local SERIALIZE_PLAIN = { indent = '\t', newline = '\n' }
+local dropped, truncatedCount = 0, 0
+
+local function onDrop(path, keyType)
+  dropped = dropped + 1
+  logInfo('Key not writable (' .. keyType .. ' key): ' .. tostring(currentRecord)
+    .. ' [' .. pathString(path) .. ']')
+end
+
+local function onTruncate(path, reason)
+  truncatedCount = truncatedCount + 1
+  logInfo('Truncated (' .. reason .. '): ' .. tostring(currentRecord) .. ' [' .. pathString(path) .. ']')
+end
+
+------------------------------------------------------------------------------
+-- Proxy inheritance (_G/__inheritance__.lua)
+------------------------------------------------------------------------------
+
+-- Table -> its key list from _G ({ "db", "Units", "GT_t", "LN_t", "x", "PL", 1 }),
+-- for every table under db.Units.GT_t (shallowest, then first by key order).
+local templateLoc = {}
+-- Record file -> list of { path, own, chain } of the proxies it flattens.
+local inheritance = {}
+local proxyCount = 0
+
+-- Keys ordered as serialize.lua orders them: numbers, booleans, strings.
+local KEY_RANK = { number = 1, boolean = 2, string = 3 }
+local function keyBefore(a, b)
+  local ta, tb = type(a), type(b)
+  if ta ~= tb then return (KEY_RANK[ta] or 4) < (KEY_RANK[tb] or 4) end
+  if ta == 'boolean' then return (not a) and b end
+  if ta == 'number' or ta == 'string' then return a < b end
+  return false
+end
+
+local function pathBefore(a, b)
+  for i = 1, math.min(#a, #b) do
+    if a[i] ~= b[i] then return keyBefore(a[i], b[i]) end
+  end
+  return #a < #b
+end
+
+local function indexTemplates()
+  local root = _G.db and _G.db.Units and _G.db.Units.GT_t
+  if type(root) ~= 'table' then return end
+  local queue, head = { { root, { 'db', 'Units', 'GT_t' } } }, 1
+  templateLoc[root] = queue[1][2]
+  while queue[head] do
+    local node, loc = queue[head][1], queue[head][2]
+    head = head + 1
+    local keys = {}
+    for k, v in pairs(node) do
+      if type(v) == 'table' and KEY_RANK[type(k)] and templateLoc[v] == nil then keys[#keys + 1] = k end
+    end
+    table.sort(keys, keyBefore)
+    for _, k in ipairs(keys) do
+      local v = node[k]
+      if templateLoc[v] == nil then
+        local child = {}
+        for i = 1, #loc do child[i] = loc[i] end
+        child[#child + 1] = k
+        templateLoc[v] = child
+        queue[#queue + 1] = { v, child }
+      end
+    end
+  end
+end
+
+-- serialize onProxy: remember the proxy's own (raw) keys and its __index
+-- chain; every other key of its written table was inherited.
+local function onProxy(path, proxy, chain)
+  if currentRecord == nil then return end
+  local own = {}
+  for k in pairs(proxy) do
+    if KEY_RANK[type(k)] then own[#own + 1] = k end
+  end
+  table.sort(own, keyBefore)
+  local at = {}
+  for i = 1, #path do at[i] = path[i] end
+  local links = {}
+  for i, idx in ipairs(chain) do links[i] = templateLoc[idx] or 'unknown' end
+  local list = inheritance[currentRecord]
+  if not list then list = {}; inheritance[currentRecord] = list end
+  list[#list + 1] = { path = at, own = own, chain = links }
+  proxyCount = proxyCount + 1
+end
+
+local SERIALIZE_OPTS = {
+  indent = '\t', newline = '\n', lossless = true, process = process,
+  onCycle = onCycle, onDrop = onDrop, onTruncate = onTruncate, onProxy = onProxy,
+}
+local SERIALIZE_PLAIN = { indent = '\t', newline = '\n', lossless = true,
+  onDrop = onDrop, onTruncate = onTruncate }
 
 ------------------------------------------------------------------------------
 -- Dump walkers
@@ -668,15 +850,37 @@ local function planFiles(plan)
   for _, r in ipairs(plan) do fileOf[r.pathKey] = r.file end
 end
 
+-- Whether numeric record key `key` is the record's own level-4 wsType id
+-- (rockets, bombs, torpedoes and pods are keyed by it): such a key is
+-- patch-volatile like the redacted ids, and is written as "#Index".
+local function volatileKey(key, record)
+  if record.Name == key then return true end
+  local ws = rawget(record, 'ws_type')
+  return type(ws) == 'table' and ws[4] == key
+end
+
+local volatileKeys = 0
+
 -- Serialize one record, then write it. `list` is the parent path
--- ({ "_G", "warheads" }), `key` the record's key in it.
-local function writeRecord(list, key, record)
+-- ({ "_G", "warheads" }), `key` the record's key in it. `refRecords`: write
+-- nested records as path strings (REF_RECORDS).
+local function writeRecord(list, key, record, _, refRecords)
   local pathKey = table.concat(list, SEP) .. SEP .. tostring(key)
   if written[pathKey] then return end
   written[pathKey] = true
   local filename = fileOf[pathKey]
 
-  local target = toLuaIndex(list, type(key) == 'number' and '#Index' or tostring(key))
+  local targetKey = tostring(key)
+  if type(key) == 'number' then
+    if key ~= key or key == math.huge or key == -math.huge or volatileKey(key, record) then
+      targetKey = '#Index'
+      volatileKeys = volatileKeys + 1
+    else
+      targetKey = key
+    end
+  end
+  local target = toLuaIndex(list, targetKey)
+  currentRefRecords = refRecords == true
   currentPath = pathKey
   currentRecord = table.concat(list, '/') .. '/' .. tostring(filename)
   if list[2] == 'db' and list[3] == 'Units' and list[4] ~= 'GT_t'
@@ -686,6 +890,7 @@ local function writeRecord(list, key, record)
     currentIds = { map = 'stores', id = record.CLSID }
   end
   local ok, body = pcall(serialize, record, SERIALIZE_OPTS)
+  currentRefRecords = false
   currentPath = nil
   currentRecord = nil
   currentIds = nil
@@ -787,24 +992,48 @@ local function walkRecords(visit, logged)
     local node = resolve(list)
     node = type(node) == 'table' and node[key] or nil
     if type(node) == 'table' then
-      visit(list, key, node, key .. '.lua')
+      visit(list, key, node, key .. '.lua', #list == 1 and REF_RECORDS[key] == true)
     elseif logged then
       logInfo('Skipping absent table _G.' .. dotted)
     end
+  end
+
+  local matched = {}
+  for key, value in pairs(_G) do
+    if type(key) == 'string' and type(value) == 'table' and not IGNORE_KEYS[key] then
+      for _, rule in ipairs(WRITE_WHOLE_MATCHING) do
+        if key:find(rule.pattern) and (rule.accept == nil or rule.accept(key, value)) then
+          matched[#matched + 1] = key
+          break
+        end
+      end
+    end
+  end
+  table.sort(matched)
+  for _, key in ipairs(matched) do
+    visit({ '_G' }, key, _G[key], key .. '.lua', true)
+  end
+  if logged then
+    logInfo('Matched whole tables: ' .. #matched .. ' (' .. table.concat(matched, ', ') .. ')')
   end
 end
 
 -- The records walkRecords visits, with their file names.
 local function planRecords()
   local plan, planned = {}, {}
-  walkRecords(function(list, key, _, filename)
+  walkRecords(function(list, key, record, filename)
     local pathKey = table.concat(list, SEP) .. SEP .. tostring(key)
     if planned[pathKey] then return end
     planned[pathKey] = true
     plan[#plan + 1] = { dir = sanitisePath(table.concat(list, '/')), key = key,
-      pathKey = pathKey, file = sanitiseFilename(filename) }
+      pathKey = pathKey, file = sanitiseFilename(filename), record = record }
   end, false)
   planFiles(plan)
+  for _, r in ipairs(plan) do
+    local file = r.dir .. '/' .. r.file
+    local prev = recordFileOf[r.record]
+    if prev == nil or file < prev then recordFileOf[r.record] = file end
+  end
 end
 
 ------------------------------------------------------------------------------
@@ -953,6 +1182,21 @@ local function exportWsTypeIds()
   logInfo('Captured raw wsType ids of ' .. count .. ' records.')
 end
 
+-- _G/__inheritance__.lua: { [record file] = { { path, own, chain }, ... } },
+-- entries sorted by path (see the header).
+local function exportInheritance()
+  local out = {}
+  for file, list in pairs(inheritance) do
+    table.sort(list, function(a, b) return pathBefore(a.path, b.path) end)
+    out[file] = list
+  end
+  if not writeRaw('_G["__inheritance__"] = ' .. serialize(out, SERIALIZE_PLAIN),
+      '_G', '__inheritance__.lua') then
+    error('could not write __inheritance__.lua')
+  end
+  logInfo('Captured inheritance of ' .. proxyCount .. ' proxy tables.')
+end
+
 ------------------------------------------------------------------------------
 -- Main
 ------------------------------------------------------------------------------
@@ -962,10 +1206,21 @@ local function exportAll()
   logInfo('Pre-scan recorded ' .. seenCount .. ' tables')
   timed('wsType map', buildWeaponNames)
   timed('File names', planRecords)
+  timed('GT_t index', indexTemplates)
   walkRecords(writeRecord, true)
   logInfo('wsType slot 4: ' .. slot4.exact .. ' exact, ' .. slot4.fallback
     .. ' fallback (l1,l2,l4), ' .. slot4.unmapped .. ' unmapped, '
     .. slot4.ambiguous .. ' ambiguous')
+  logInfo('Record keys withheld as "#Index" (level-4 ids): ' .. volatileKeys
+    .. '; keys not writable: ' .. dropped .. '; truncated tables: ' .. truncatedCount)
+
+  timed('Inheritance', function()
+    local ok, err = pcall(exportInheritance)
+    if not ok then
+      logError('Inheritance capture failed: ' .. tostring(err))
+      failures = failures + 1
+    end
+  end)
 
   timed('Constants', function()
     local ok, err = pcall(exportConstants)
@@ -993,6 +1248,7 @@ end
 
 local function run()
   serialize = require 'serialize'
+  REDACTED = serialize.marker({ kind = 'redacted', reason = 'patch-volatile', lua_type = 'number' })
   logInfo('Dumping _G for DCS ' .. tostring(dcsVersion()))
   timed('Clear previous dump', clearPreviousDump)
 

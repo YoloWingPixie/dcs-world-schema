@@ -56,7 +56,7 @@ assert(io.open(G .. 'db/Units/Planes/Plane/A-10C.lua'), 'unit record')
 assert(not io.open(G .. 'db/Units/Skills/Average.lua'), 'Skills entries dumped as records')
 
 local f = assert(io.open(G .. '__DUMP_FORMAT__.lua'), 'format marker not written')
-assert(f:read('*a') == '3', 'format marker')
+assert(f:read('*a') == '4', 'format marker')
 f:close()
 assert(io.open(G .. '__DCS_VERSION__.lua'), 'version marker not written')
 print('WHOLE TABLES TEST PASSED')

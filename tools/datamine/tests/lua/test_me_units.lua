@@ -56,8 +56,9 @@ assert(text:find('^_G%["U"%]%["speedUnitsAlt"%]%["metric"%] = '), 'record path: 
 assert(u.speedUnitsAlt.metric.name == 'm/s' and u.speedUnitsAlt.metric.coeff == 1, 'm/s record')
 assert(load('U/speedUnitsAlt/fps.lua').speedUnitsAlt.imperial.coeff == 3.28, 'fps record')
 u, text = load('U/months/February.lua')
-assert(text:find('^_G%["U"%]%["months"%]%["#Index"%] = '), 'month key: ' .. text)
-assert(u.months['#Index'].days == 28, 'month record')
+-- Format 4 keeps the numeric record key (format 3 wrote "#Index").
+assert(text:find('^_G%["U"%]%["months"%]%[2%] = '), 'month key: ' .. text)
+assert(u.months[2].days == 28, 'month record')
 -- Both time units are named "s": the second by key gets a suffix.
 assert(load('U/timeUnits/s.lua').timeUnits.imperial.name == 's', 'first s')
 assert(load('U/timeUnits/s~2.lua').timeUnits.metric.name == 's', 'second s')
