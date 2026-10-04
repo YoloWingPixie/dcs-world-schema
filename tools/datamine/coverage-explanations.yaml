@@ -1,0 +1,246 @@
+# Expected differences between our object dump and Quaggles'
+# dcs-lua-datamine (https://github.com/Quaggles/dcs-lua-datamine, pinned in
+# tools/datamine/coverage.py QUAGGLES_REF; used as a local comparison input
+# only, never vendored: it has no licence).
+#
+# `python -m tools.datamine.coverage diff` matches every difference (missing,
+# added, changed, unresolved) against these rules, first match wins. A target
+# path our side lacks that no rule matches is unexplained and fails the check.
+#
+# Rule fields:
+#   id, title, reasoning     required; reasoning says why the difference is
+#                            expected and what (if anything) is lost
+#   classes                  missing | added | changed | unresolved
+#   compare                  target kinds it applies to (quaggles | dump);
+#                            default both
+#   file, path               regex searched in the file (dump path below _G,
+#                            no .lua) and the in-file key path (.a.b[1])
+#   collision                the file pair was matched case-insensitively or
+#                            its name collides on a case-insensitive FS
+#   rounded14g               the target number is the subject's %.14g
+#   caseOnly                 both values are strings equal ignoring case
+#   subject, target          matchers, all must hold: value, marker (kind or
+#                            list), detail (regex on a marker's detail), empty,
+#                            children (the side has paths below), emptyAncestor
+#                            (a prefix of the path is {} on that side), absent,
+#                            present, number, string, regex, negativeZero
+version: 1
+rules:
+  - id: case-collision
+    title: Case-insensitive file name collisions
+    compare: [quaggles]
+    classes: [missing, added, changed, unresolved]
+    collision: true
+    reasoning: >-
+      Quaggles' exporter writes one file per record on Windows, so records
+      whose names differ only in case (Pylons B-20/b-20, 9M114-PILON, C-25PU,
+      APU-68, APU-73, KMGU-2, LAU-105, LAU-117, F4-PILON; rockets YJ-83 of CAP
+      and of TechWeaponPack; torpedoes YU-6; bombs Durandal; Cargo L118;
+      Fortification container_20ft/40ft) overwrite each other and the git
+      tree keeps whichever was written last. Our hook writes every one
+      (`name~2.lua` for the later ones). The coverage command pairs the files
+      of one case-insensitive name by least difference; what still differs
+      within such a pair, and our extra twins, are this rule's. Nothing of
+      ours is lost: every record of the group is in our tree.
+
+  - id: quaggles-unresolved-case-refs
+    title: Quaggles refs to a case-collided file
+    compare: [quaggles]
+    classes: [unresolved]
+    target: {marker: unresolved-ref}
+    reasoning: >-
+      Quaggles' launcher records refer to `_G/Pylons/B-20.lua`, `9M114-PILON`,
+      `C-25PU`, `F4-PILON`, `apu-73`, `kmgu-2`, but the git tree holds that
+      record under the other case (see case-collision), so on a
+      case-sensitive comparison the ref has no target. The coverage command
+      resolves refs by exact name on every file system, so the result does
+      not depend on the checkout's file system. Our dump resolves these refs
+      (its twins are distinct files).
+
+  - id: case-collision-ref-content
+    title: Inlined refs to a case-collided record
+    compare: [quaggles]
+    classes: [changed]
+    file: ^launcher/
+    path: ^\.Elements\[\d+\]\.(name|ShapeName|_unique_resource_name)$
+    caseOnly: true
+    reasoning: >-
+      A launcher's Elements[] ref (`_G/Pylons/LAU-105.lua`, `LAU-117`) is
+      inlined from the referenced file. Of the case-colliding pair LAU-105 /
+      lau-105, Quaggles' tree holds the upper-case record and ours resolves
+      the ref to the lower-case one the hook named it after, so the inlined
+      name, ShapeName and _unique_resource_name differ in case only. Both
+      records are in our tree (case-collision).
+
+  - id: quaggles-redacted
+    title: Quaggles writes "Redacted" where we keep the value
+    compare: [quaggles]
+    classes: [changed, unresolved]
+    target: {value: Redacted}
+    reasoning: >-
+      Quaggles' exporter (enableRedacted) replaces wsType level 4 of ws_type,
+      wsTypeOfWeapon and type_ammunition, adapter_type slot 4, attribute slot
+      4 (else 3), every `index` and a numeric `Name` with the string
+      "Redacted" because those ids churn between DCS patches. Our hook writes
+      the projectile name for wsType level 4 (format 3) and keeps the raw
+      tuples in __wstype_ids__.lua; where it redacts too (index, numeric Name)
+      both sides are equal. Our value is the more informative one.
+
+  - id: our-redaction
+    title: We redact a patch-volatile id Quaggles keeps
+    compare: [quaggles]
+    classes: [changed, unresolved]
+    subject: {marker: redacted}
+    reasoning: >-
+      Format 4 writes `redacted` markers (reason patch-volatile) for wsType
+      level 4 ids and the like, where Quaggles may hold a value. The raw ids
+      are in our __wstype_ids__.lua side file; nothing else is lost.
+
+  - id: function-values
+    title: Function values (Quaggles <function N>, our format-3 nil)
+    compare: [quaggles]
+    classes: [unresolved]
+    target: {marker: function}
+    subject: {marker: [unsupported, function]}
+    reasoning: >-
+      DCS getter callbacks (Guns[].supply.get_mass, launcher
+      gun_mounts[].supply.get_mass, aircraft_gunpods mounts[].supply.get_mass,
+      AddPropAircraft[].getDefault/onChange/onFocus) are Lua functions: no
+      dump can hold their value. Quaggles writes inspect's `<function N>`;
+      dump format 3 wrote `key = nil`, which the lossless reader keeps as an
+      `unsupported` marker (reason format3-nil, Lua type unknown); format 4
+      writes `__dcs{kind="function"}`, equal to Quaggles' marker. The key's
+      existence survives in both.
+
+  - id: format3-dropped-cycle
+    title: Self-referencing _replace_origin_ entries (format 3 dropped cycles)
+    compare: [quaggles]
+    classes: [missing, unresolved]
+    target: {marker: cycle}
+    reasoning: >-
+      The WWII PTO (Magnitude 3) unit declarations set
+      `_replace_origin_[<origin>] = <the unit table itself>`. Quaggles writes
+      inspect's `<table N>` back-reference (a cycle here); dump format 3
+      dropped cycle back-references (serialize.lua writes them as nil, and
+      under a string key of a proxy table the entry vanished, leaving `{}`).
+      Format 4 writes a `ref` marker to the anchor, so a format-4 dump has the
+      path. Only the self-reference is lost, never data.
+
+  - id: quaggles-proxy-empty
+    title: Quaggles' empty {} for metatable (proxy) tables we flatten
+    compare: [quaggles]
+    classes: [missing]
+    target: {empty: true}
+    subject: {children: true}
+    reasoning: >-
+      Ground units, ships and the GT_t templates build their tables with
+      set_recursive_metatable: the scalars live behind `__index`. Quaggles'
+      inspect walks raw keys only, so those tables (WS[].LN[].PL[].shell_name,
+      BR[].pos, snd.*, armour_scheme.*, chassis, CanopyGeometry,
+      animation_arguments, visual, sensor, morale, wheelPosts ...) are written
+      `{}`; our serializer writes the effective fields (raw keys, then the
+      __index chain), so our side has the content below that path. The `{}`
+      leaf is "missing" only because ours is not empty.
+
+  - id: quaggles-proxy-empty-added
+    title: Our content below a table Quaggles wrote as {}
+    compare: [quaggles]
+    classes: [added]
+    target: {emptyAncestor: true}
+    reasoning: >-
+      The other side of quaggles-proxy-empty: the inherited fields we write
+      below a table Quaggles left empty.
+
+  - id: flyable-only
+    title: Fields DCS sets only on player-flyable aircraft
+    compare: [quaggles]
+    classes: [missing, changed, unresolved]
+    file: ^db/Units/(Planes|Helicopters)/
+    path: ^\.(HumanFM|SnapViews|ViewSettings|HumanCockpitPlugins|HumanCockpitPath|HumanCommPanelPath|HumanCockpit|_file_flyable|_origin_flyable|ManualPath|_MAC_compatible|Waypoint_Panel)(\.|\[|$)
+    reasoning: >-
+      make_flyable() and the module entry.lua of a player-flyable module add
+      HumanFM, SnapViews, ViewSettings, HumanCockpitPlugins (NS430),
+      HumanCockpit(Path), HumanCommPanelPath, ManualPath, _file_flyable,
+      _origin_flyable and _MAC_compatible to the unit declaration. Quaggles'
+      run had 35 flyable planes and 7 helicopters; our datamine profile
+      registers only the Su-25T and TF-51D as flyable, so these fields are
+      absent (and HumanCockpit is false) on our side. Cause unresolved: module
+      ownership/authorisation in the isolated profile or dcs-headless'
+      dedicated-server launch (--server) skipping payware flyable plugins.
+      Not object configuration the solver needs, but a real capture gap of
+      the datamine run, not of the pipeline.
+
+  - id: waypoint-custom-panel
+    title: Waypoint_Custom_Panel set by the GUI on every unit
+    compare: [quaggles]
+    classes: [missing, changed]
+    file: ^db/Units/
+    path: ^\.Waypoint_Custom_Panel$
+    reasoning: >-
+      Waypoint_Custom_Panel = true is set on every unit declaration in
+      Quaggles' GUI-launch run but only on some in ours: the Mission Editor
+      sets it when its waypoint panel code runs, which a dedicated-server
+      launch does not do. GUI state, not object configuration.
+
+  - id: f5e-2024-replace-origin
+    title: F-5E 2024 module replacing the F-5E-3 declaration
+    compare: [quaggles]
+    classes: [missing, added, changed, unresolved]
+    file: ^db/Units/Planes/Plane/F-5E-3$
+    path: ^\._replace_origin_
+    reasoning: >-
+      Quaggles' install has the "F-5E 2024" module, whose declaration replaces
+      the "F-5E/E-3 by Belsimtek" one; DCS keeps the replaced declaration
+      under `_replace_origin_["F-5E/E-3 by Belsimtek"]` (3,236 paths). Our
+      install registers the Belsimtek F-5E-3 itself, so there is no
+      replacement table. A module-installation difference.
+
+  - id: module-install
+    title: Module build / installation differences (F-5E-3, F-4E, MiG-21bis)
+    compare: [quaggles]
+    classes: [missing, added, changed]
+    file: ^db/Units/Planes/Plane/(F-5E-3|F-4E-45MC|QF-4E|MiG-21Bis|F4U-1D|F4U-1D_CW)$
+    path: ^\.(Damage|DamageParts|mechanimations|lights_data|engines_nozzles|Pylons|Guns|crew_members|effects_presets|nose_gear_\w+|main_gear_\w+|shape_table_data|Shape|_origin|_file|brakeshute_name|livery_entry|AddPropAircraft)(\.|\[|$)
+    reasoning: >-
+      Values that come from a module's own scripts differ when the two runs
+      load another build or registration of that module: F-5E-3 (the 2024
+      module in Quaggles' run, Belsimtek in ours: damage cells, gear
+      geometry, lights, nozzles, crew, pylon 8, gun effects), F-4E-45MC and
+      QF-4E (Damage[] cell indices and args), MiG-21Bis and F4U-1D (gun and
+      AddPropAircraft details). Both dumps are DCS 2.9.30.28536; the
+      difference is the installed module set, not the pipeline.
+
+  - id: mig21bis-path-case
+    title: MiG-21bis folder name case in script paths
+    compare: [quaggles]
+    classes: [changed]
+    path: \._file$|\._origin$
+    subject: {regex: MiG-21bis}
+    target: {regex: MiG-21BIS}
+    reasoning: >-
+      `_file` records the script path DCS loaded the declaration from. The
+      CoreMods folder is `MiG-21BIS` in Quaggles' install and `MiG-21bis` in
+      ours (Windows paths are case-insensitive, the string keeps the case the
+      loader used). Same file, different spelling.
+
+  - id: negative-zero
+    title: -0 written as 0 by dump format 3
+    compare: [quaggles]
+    classes: [changed]
+    target: {negativeZero: true}
+    subject: {value: 0}
+    reasoning: >-
+      Format 3's formatNumber wrote x == 0 as `0`, losing the sign of zero;
+      Quaggles writes tostring(-0) = `-0` (launcher Elements[].Rotation and
+      a few others). Format 4 writes `__dcs{kind="number", value="-0"}`.
+
+  - id: precision-14g
+    title: Quaggles numbers rounded to 14 significant digits
+    compare: [quaggles]
+    classes: [changed]
+    rounded14g: true
+    reasoning: >-
+      Quaggles' numbers are Lua 5.1 tostring() output, `%.14g`. Format 4
+      writes the shortest decimal that reads back as DCS's double, so a value
+      DCS computes in Lua (math.rad(20) = 0.3490658503988659) differs from
+      Quaggles' 0.34906585039887 in the last digits. Ours is exact.
