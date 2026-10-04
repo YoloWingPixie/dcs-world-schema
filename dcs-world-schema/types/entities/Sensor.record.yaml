@@ -57,8 +57,14 @@ types:
         type: Entity.SensorVolume
         description: "Optional `track_volume`."
       centeredScanVolume:
-        type: Entity.CenteredScanVolume
+        type: Entity.SensorSector
         description: "Optional `centered_scan_volume`."
+      viewVolumeMax:
+        type: Entity.SensorSector
+        description: "Optional `view_volume_max`: the widest field of view of an optic."
+      velocityLimits:
+        type: Entity.SensorVelocityLimits
+        description: "Optional `velocity_limits`."
       detectionDistance:
         type: Entity.RadarDetectionDistance
         description: "Optional `detection_distance`."
@@ -83,9 +89,60 @@ types:
       irstDetectionDistance:
         type: Entity.IrstDetectionDistance
         description: "Optional `detection_distance_for_tail_on_Su_27`."
+      scanPeriodS:
+        type: number
+        description: "Optional `scan_period`: time of one scan of `scanVolume`, seconds."
+      vehiclesDetection:
+        type: boolean
+        description: "Optional `vehicles_detection`: whether the radar's ground search detects vehicles."
+      rbmDetectionDistanceM:
+        type: number
+        description: "Optional `RBM_detection_distance`: real-beam ground-mapping range, metres."
+      gmtiDetectionDistanceM:
+        type: number
+        description: "Optional `GMTI_detection_distance`: ground moving-target indication range, metres."
+      hrmDetectionDistanceM:
+        type: number
+        description: "Optional `HRM_detection_distance`: high-resolution ground-mapping range, metres."
+      airborneRadar:
+        type: boolean
+        description: "Optional `airborne_radar`: whether DCS treats the radar as airborne (false on ship radars)."
+      magnifications:
+        type: number[]
+        description: "Optional `magnifications`: the optic's zoom levels, as magnification factors."
+      resolution:
+        type: number
+        description: "Optional `resolution` of an optic (the install's `OPTIC_RESOLUTION` values), raw, unit not stated."
+      lightnessLimit:
+        type: number
+        description: "Optional `lightness_limit`: the lowest ambient light the optic works in, raw, unit not stated."
+      laserRanger:
+        type: boolean
+        description: "Optional `laserRanger`: whether the sensor has a laser rangefinder."
+      laserDesignator:
+        type: boolean
+        description: "Optional `laserDesignator`: whether the sensor can designate with a laser."
+      linkedAxis:
+        type: number
+        description: "Optional `linkedAxis`: which axes follow the parent weapon system's direction (`LINKED_TO_NONE` 0, `LINKED_TO_AZIMUTH` 1, `LINKED_TO_BOTH` 2)."
+      backgroundFactor:
+        type: number
+        description: "Optional `background_factor`: multiplier of an IRST's detection distance against a non-sky background, raw."
+      headOnDistanceCoeff:
+        type: number
+        description: "Optional `head_on_distance_coeff`: an IRST's head-on detection distance as a fraction of its tail-on `irstDetectionDistance`, raw."
+      detectionDistToRadarDetectionDistMaxRatio:
+        type: number
+        description: "Optional `detection_dist_to_radar_detection_dist_max_ratio`: an RWR's detection distance as a fraction of the emitting radar's maximum detection distance, raw."
+      lockOnDetection:
+        type: boolean
+        description: "Optional `lock_on_detection`: whether an RWR detects radar lock-on."
       pods:
         type: string[]
         description: "Optional `DisplayName`s of the `db.Pods` entries that carry this sensor (their `Name` is redacted in dumps)."
+      sourcePaths:
+        type: string[]
+        description: "Optional `_G` dump paths of the `db.Sensors` records that define this sensor (`_G/db/Sensors/Sensor/<file>`), joined by `Name`; sorted."
     required: [id, kind]
 
   Entity.SensorVolume:
@@ -100,9 +157,9 @@ types:
         description: "Optional `elevation`."
     required: []
 
-  Entity.CenteredScanVolume:
+  Entity.SensorSector:
     kind: record
-    description: "`centered_scan_volume`, degrees."
+    description: "A sector block of a sensor (`centered_scan_volume`, `view_volume_max`): full widths, degrees."
     fields:
       azimuthSectorDeg:
         type: number
@@ -150,8 +207,23 @@ types:
         type: boolean
         description: "Optional `multiple_targets_tracking`."
       centeredScanVolume:
-        type: Entity.CenteredScanVolume
+        type: Entity.SensorSector
         description: "Optional `centered_scan_volume`."
+      velocityLimits:
+        type: Entity.SensorVelocityLimits
+        description: "Optional `velocity_limits`."
+    required: []
+
+  Entity.SensorVelocityLimits:
+    kind: record
+    description: "A radar's `velocity_limits` block: the slowest targets it detects."
+    fields:
+      radialVelocityMinMs:
+        type: number
+        description: "Optional `radial_velocity_min`: minimum target velocity along the line of sight, m/s."
+      relativeRadialVelocityMinMs:
+        type: number
+        description: "Optional `relative_radial_velocity_min`: minimum closing velocity between radar and target, m/s."
     required: []
 
   Entity.SurfaceSearchMode:

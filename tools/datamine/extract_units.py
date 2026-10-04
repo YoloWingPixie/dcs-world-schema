@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from . import aircraft_config, surface_config
 from . import unit_properties as props
 from .common import (
     HAND_AUTHORED,
@@ -34,6 +35,7 @@ from .lua_reader import (
     strings_of,
 )
 from .overlays import Overlays, unused_keys
+from .shell_config import shell_fields
 
 _SHELLS_SUBPATH = ("weapons_table", "weapons", "shells")
 
@@ -68,6 +70,11 @@ class RawUnits:
     gun_ammo: set[str] = field(default_factory=set)
     # unit type -> why its guns' supply.mixes do not resolve
     gun_problems: dict[str, list[str]] = field(default_factory=dict)
+    # unit type -> its record's source path (``_G/db/Units/...`` without .lua)
+    paths: dict[str, str] = field(default_factory=dict)
+    # unit type -> every source path defining it, when several records of one
+    # series share the type (the first, in walk order, is kept)
+    duplicates: dict[str, list[str]] = field(default_factory=dict)
 
     def category(self, *names: str) -> dict[str, dict[str, Any]]:
         out: dict[str, dict[str, Any]] = {}
@@ -111,28 +118,51 @@ def _attributes(rec: dict[str, Any]) -> list[str]:
     return sorted(a for a in strings_of(rec.get("attribute")) if not _MARKUP.search(a))
 
 
+def _series_groups() -> list[list[str]]:
+    """The db/Units category dirs whose units share one series (one id space)."""
+    return [list(AIRCRAFT_DIRS), *SURFACE_DIRS.values()]
+
+
 def load_units(reader: LuaReader, g_dir: Path) -> RawUnits:
+    """Every unit record under ``db/Units``, by category dir and ``type``.
+    Several records of one series with the same ``type`` are not overwritten
+    silently: the first (walk order) is kept and the type is reported in
+    ``duplicates`` (identical records as a note, differing ones as ambiguous)."""
     raw = RawUnits()
-    dirs = [*AIRCRAFT_DIRS, *(d for ds in SURFACE_DIRS.values() for d in ds)]
-    for dbcat in dirs:
-        bucket: dict[str, dict[str, Any]] = {}
-        for file, rec in reader.read_many(walk_lua(g_dir / "db" / "Units" / dbcat)):
-            if not isinstance(rec, dict):
-                continue
-            uid = as_string(rec.get("type"))
-            if not uid:
-                fail(f"unit without type: {file}")
-            bucket[uid] = rec
-            raw.attributes.update(_attributes(rec))
-            _collect_shell_names(rec.get("WS"), raw.gun_ammo)
-            problems: list[str] = []
-            gun = _gun(rec, problems)
-            if problems:
-                raw.gun_problems[uid] = problems
-            if gun is not None:
-                raw.guns[uid] = gun
-                raw.gun_ammo.update(gun["ammo"])
-        raw.by_category[dbcat] = bucket
+    for group in _series_groups():
+        seen: dict[str, tuple[str, dict[str, Any]]] = {}
+        for dbcat in group:
+            bucket: dict[str, dict[str, Any]] = {}
+            files = walk_lua(g_dir / "db" / "Units" / dbcat)
+            for file, rec in reader.read_many(files):
+                if not isinstance(rec, dict):
+                    continue
+                uid = as_string(rec.get("type"))
+                if not uid:
+                    fail(f"unit without type: {file}")
+                path = "_G/" + file.relative_to(g_dir).with_suffix("").as_posix()
+                if uid in seen:
+                    first_path, first = seen[uid]
+                    raw.duplicates.setdefault(uid, [first_path]).append(path)
+                    same = "identical" if first == rec else "AMBIGUOUS (differing)"
+                    warn(
+                        f"duplicate unit type {uid!r}: {path} {same} to "
+                        f"{first_path}; keeping {first_path}"
+                    )
+                    continue
+                seen[uid] = (path, rec)
+                bucket[uid] = rec
+                raw.paths[uid] = path
+                raw.attributes.update(_attributes(rec))
+                _collect_shell_names(rec.get("WS"), raw.gun_ammo)
+                problems: list[str] = []
+                gun = _gun(rec, problems)
+                if problems:
+                    raw.gun_problems[uid] = problems
+                if gun is not None:
+                    raw.guns[uid] = gun
+                    raw.gun_ammo.update(gun["ammo"])
+            raw.by_category[dbcat] = bucket
     return raw
 
 
@@ -450,6 +480,7 @@ def build_aircraft(
                     "countryOfOrigin": props.country_of_origin(rec, atype),
                 },
             )
+            aircraft_config.merge(record, rec)
             out[atype] = record
     return out
 
@@ -635,7 +666,7 @@ def weapon_systems(
             out.append(entry)
     if bad and problems is not None:
         problems.append(
-            f"{uid}: unreadable launcher field(s) left out: {'; '.join(bad)}"
+            f"{uid}: launcher field(s) of unreadable shape not typed (only in the _G dump): {'; '.join(bad)}"
         )
     return out
 
@@ -721,6 +752,7 @@ def build_surface(
                 }
             if series != "personnel":
                 blocks["facilities"] = props.facilities(rec, uid)
+            surface_config.extend(blocks, rec, series)
             assign_defined(record, blocks)
             records[uid] = record
         result[series] = records
@@ -817,8 +849,9 @@ def build_gun_ammo(
     raw: RawUnits, reader: LuaReader, g_dir: Path
 ) -> dict[str, dict[str, Any]]:
     """One ``Entity.GunAmmo`` per collected shell id, with massKg (``round_mass``,
-    else ``mass``), type (``type_name``) and displayName (``display_name``) from
-    ``weapons_table/weapons/shells/<name>.lua`` where that file has them."""
+    else ``mass``), type (``type_name``), displayName (``display_name``) and the
+    ``shell_fields`` of ``weapons_table/weapons/shells/<name>.lua`` where that
+    file has them."""
     names = sorted(raw.gun_ammo)
     files = [
         f for f in list_lua(g_dir.joinpath(*_SHELLS_SUBPATH)) if f.stem in raw.gun_ammo
@@ -836,6 +869,7 @@ def build_gun_ammo(
                 "massKg": first_number(shell.get("round_mass"), shell.get("mass")),
                 "type": as_string(shell.get("type_name")),
                 "displayName": as_string(shell.get("display_name")),
+                **shell_fields(shell),
             },
         )
         out[name] = record
