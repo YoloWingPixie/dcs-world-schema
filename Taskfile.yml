@@ -285,6 +285,17 @@ tasks:
     cmds:
       - "uv run python -m tools.datamine.extract {{.CLI_ARGS}}"
 
+  "datamine:coverage":
+    desc: >-
+      Coverage of DCS object configuration in Lua _G dumps: diff a dump against a
+      previous dump or Quaggles' datamine (cloned into .datamine/quaggles), or check
+      the typed weapon_flight/aircraft_flight values against the dump.
+      Usage: task datamine:coverage -- diff SUBJECT [TARGET | --quaggles DIR | --quaggles-ref REF]
+      [--json FILE] [--markdown FILE] [--details FILE] [--advisory];
+      task datamine:coverage -- typed [DATA_DIR] [--g-dir DIR] [--json FILE] [--markdown FILE] [--advisory]
+    cmds:
+      - "uv run python -m tools.datamine.coverage {{.CLI_ARGS}}"
+
   "datamine:dcs-database-types":
     desc: >-
       Regenerate dcs-world-schema/types/dcs-database/ from a _G dump (default .datamine/_G).
