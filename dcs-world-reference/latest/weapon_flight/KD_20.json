@@ -15,102 +15,73 @@
   },
   "batteryLifeS": 10000,
   "killDistanceM": 0,
-  "launchTables": [
+  "launchEnvelopes": [
     {
-      "columnHeaders": [
+      "altitudesM": [
+        500,
+        2000,
+        7000,
+        12500
+      ],
+      "maxRangeM": [
+        [
+          0,
+          0,
+          2500000,
+          2520000
+        ],
+        [
+          2500000,
+          2500000,
+          2510000,
+          2540000
+        ],
+        [
+          2540000,
+          2550000,
+          2550000,
+          2560000
+        ],
+        [
+          2570000,
+          2570000,
+          2580000,
+          2590000
+        ]
+      ],
+      "minRangeM": [
+        [
+          0,
+          0,
+          20000,
+          21000
+        ],
+        [
+          24000,
+          25000,
+          26000,
+          27000
+        ],
+        [
+          15000,
+          15000,
+          16000,
+          17000
+        ],
+        [
+          16000,
+          18000,
+          19000,
+          20000
+        ]
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client",
+      "speedsMs": [
         100,
         125,
         175,
         250
-      ],
-      "key": "LaunchDistData",
-      "rows": [
-        {
-          "cells": [
-            0,
-            0,
-            2500000,
-            2520000
-          ],
-          "header": 500
-        },
-        {
-          "cells": [
-            2500000,
-            2500000,
-            2510000,
-            2540000
-          ],
-          "header": 2000
-        },
-        {
-          "cells": [
-            2540000,
-            2550000,
-            2550000,
-            2560000
-          ],
-          "header": 7000
-        },
-        {
-          "cells": [
-            2570000,
-            2570000,
-            2580000,
-            2590000
-          ],
-          "header": 12500
-        }
-      ],
-      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/LaunchDistData"
-    },
-    {
-      "columnHeaders": [
-        100,
-        125,
-        175,
-        250
-      ],
-      "key": "MinLaunchDistData",
-      "rows": [
-        {
-          "cells": [
-            0,
-            0,
-            20000,
-            21000
-          ],
-          "header": 500
-        },
-        {
-          "cells": [
-            24000,
-            25000,
-            26000,
-            27000
-          ],
-          "header": 2000
-        },
-        {
-          "cells": [
-            15000,
-            15000,
-            16000,
-            17000
-          ],
-          "header": 7000
-        },
-        {
-          "cells": [
-            16000,
-            18000,
-            19000,
-            20000
-          ],
-          "header": 12500
-        }
-      ],
-      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/MinLaunchDistData"
+      ]
     }
   ],
   "machMax": 0.9,

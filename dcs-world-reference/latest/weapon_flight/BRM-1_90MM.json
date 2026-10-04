@@ -22,57 +22,48 @@
   },
   "batteryLifeS": 90,
   "killDistanceM": 0,
-  "launchTables": [
+  "launchEnvelopes": [
     {
-      "columnHeaders": [
+      "altitudesM": [
+        1000,
+        2000,
+        3000,
+        4000,
+        5000
+      ],
+      "maxRangeM": [
+        [
+          9000,
+          9500,
+          10000
+        ],
+        [
+          9500,
+          10000,
+          10500
+        ],
+        [
+          10000,
+          10500,
+          11000
+        ],
+        [
+          10500,
+          11000,
+          11500
+        ],
+        [
+          11000,
+          11500,
+          12000
+        ]
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/BRM-1_90MM#/client",
+      "speedsMs": [
         100,
         200,
         300
-      ],
-      "key": "LaunchDistData",
-      "rows": [
-        {
-          "cells": [
-            9000,
-            9500,
-            10000
-          ],
-          "header": 1000
-        },
-        {
-          "cells": [
-            9500,
-            10000,
-            10500
-          ],
-          "header": 2000
-        },
-        {
-          "cells": [
-            10000,
-            10500,
-            11000
-          ],
-          "header": 3000
-        },
-        {
-          "cells": [
-            10500,
-            11000,
-            11500
-          ],
-          "header": 4000
-        },
-        {
-          "cells": [
-            11000,
-            11500,
-            12000
-          ],
-          "header": 5000
-        }
-      ],
-      "sourcePath": "_G/weapons_table/weapons/missiles/BRM-1_90MM#/client/LaunchDistData"
+      ]
     }
   ],
   "machMax": 3,

@@ -306,6 +306,8 @@ def _weapon_data(
         "\tclient = {\n"
         "\t\tLife_Time = 60, ModelData = { 1, 2, 3 },\n"
         "\t\tPN_coeffs = { 2, 5000, 1, 10000, 0.5 },\n"
+        "\t\tLaunchDistData = { 2, 2, 100, 165, 50, 8400, 11000, 2000, 14000, 15500 },\n"
+        "\t\tMinLaunchDistData = { 2, 2, 100, 165, 50, 2000, 2300, 2000, 1000, 1200 },\n"
         "\t\tfm = {\n\t\t\tCx0 = { 0.4, 0.5 },\n\t\t\tgetter = nil,\n\t\t\tmystery = 3\n\t\t},\n"
         "\t\tboost = { impulse = 200, fuel_mass = 10, work_time = 2 },\n"
         "\t\tcontroller = { boost_start = 0.5 },\n"
@@ -327,8 +329,8 @@ def test_typed_weapon_complete(tmp_path: Path) -> None:
     assert rep.failures == [], [f.json() for f in rep.failures]
     assert rep.records == {"weapon_flight": 1}
     # Life_Time, KillDistance (record top), PN_coeffs, Cx0, 3 stage values,
-    # startTime.
-    assert rep.values == {"weapon_flight": 8}
+    # startTime, LaunchDistData, MinLaunchDistData.
+    assert rep.values == {"weapon_flight": 10}
     assert rep.typed["weapon_flight aerodynamics/Cx0"] == 1
     assert rep.typed["weapon_flight top/KillDistance"] == 1
     assert rep.typed["weapon_flight top/PN_coeffs"] == 1
@@ -349,6 +351,10 @@ def _wrong_value(flight: dict[str, Any]) -> None:
     flight["aerodynamics"]["cx0"] = [9, 9]
 
 
+def _wrong_envelope(flight: dict[str, Any]) -> None:
+    flight["launchEnvelopes"][0]["minRangeM"][1][0] = 9
+
+
 def _bad_path(flight: dict[str, Any]) -> None:
     flight["motorStages"][0]["sourcePath"] = f"{M1}#/client/gone"
 
@@ -363,6 +369,16 @@ def test_typed_value_differing_from_dump_fails(tmp_path: Path) -> None:
         ("differs", f"{M1}#/client/fm/Cx0")
     ]
     assert rep.failed()
+
+
+def test_typed_launch_envelope_checked_per_table(tmp_path: Path) -> None:
+    rep = run_typed(*_weapon_data(tmp_path))
+    assert rep.typed["weapon_flight top/LaunchDistData"] == 1
+    assert rep.failures == []
+    rep = run_typed(*_weapon_data(tmp_path, _wrong_envelope))
+    assert [(f.kind, f.source_path) for f in rep.failures] == [
+        ("differs", f"{M1}#/client/MinLaunchDistData")
+    ]
 
 
 def test_typed_unresolved_and_unmapped_fail(tmp_path: Path) -> None:

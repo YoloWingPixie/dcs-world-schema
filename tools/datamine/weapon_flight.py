@@ -92,8 +92,13 @@ TOP: tuple[F, ...] = (
     F("Range_max", "rangeMaxM", unit="m"),
     F("Mach_max", "machMax"),
 )
-LAUNCH_TABLE = re.compile(
-    r"^(?:Min)?LaunchDistData\d*$|^AspectDistData$|^(?:Rmax|Rmin|Loft)Data\d*$"
+# Launch envelope tables (DCS key, envelope field), in envelope field order.
+# Rows are launch altitude (m), columns launch TAS (m/s): the AJS37 entry's
+# Weapons.lua labels them `Alt` and `TAS`.
+LAUNCH_TABLES = (
+    ("LaunchDistData", "maxRangeM"),
+    ("MinLaunchDistData", "minRangeM"),
+    ("AspectDistData", "aspectDeg"),
 )
 # The typed record fields holding a block, in schema order.
 BLOCKS = (
@@ -134,9 +139,10 @@ def _block(view: dict[str, Any], name: str, specs: tuple[F, ...], path: str) -> 
     return {"sourcePath": path + pointer(name), **typed} if typed else None
 
 
-def _launch_table(key: str, value: Any, path: str) -> dict[str, Any] | None:
-    """``Entity.WeaponLaunchTable`` of a ``{rows, cols, cols column headers,
-    then per row its header and cols cells}`` list; None for another layout."""
+def _launch_table(value: Any) -> tuple[list[Any], list[Any], list[list[Any]]] | None:
+    """(row headers, column headers, cells by row) of a ``{rows, cols, cols
+    column headers, then per row its header and cols cells}`` list; None for
+    another layout."""
     if not isinstance(value, list) or len(value) < 2:
         return None
     v: list[Any] = value
@@ -151,18 +157,33 @@ def _launch_table(key: str, value: Any, path: str) -> dict[str, Any] | None:
     ):
         return None
     r, c = int(rows), int(cols)
-    return {
-        "key": key,
-        "sourcePath": path,
-        "columnHeaders": v[2 : 2 + c],
-        "rows": [
-            {
-                "header": v[2 + c + i * (c + 1)],
-                "cells": v[3 + c + i * (c + 1) : 2 + c + (i + 1) * (c + 1)],
-            }
-            for i in range(r)
-        ],
-    }
+    body = [v[2 + c + i * (c + 1) : 2 + c + (i + 1) * (c + 1)] for i in range(r)]
+    return [row[0] for row in body], v[2 : 2 + c], [row[1:] for row in body]
+
+
+def _launch_envelopes(view: dict[str, Any], path: str) -> list[dict[str, Any]]:
+    """``Entity.WeaponLaunchEnvelope`` list: the tables of ``LAUNCH_TABLES``
+    that decode, one envelope per distinct (altitudes, speeds) axes pair, in
+    ``LAUNCH_TABLES`` order of each pair's first table."""
+    out: list[dict[str, Any]] = []
+    for key, field in LAUNCH_TABLES:
+        table = _launch_table(view.get(key))
+        if table is None:
+            continue
+        altitudes, speeds, cells = table
+        env = next(
+            (
+                e
+                for e in out
+                if e["altitudesM"] == altitudes and e["speedsMs"] == speeds
+            ),
+            None,
+        )
+        if env is None:
+            env = {"sourcePath": path, "altitudesM": altitudes, "speedsMs": speeds}
+            out.append(env)
+        env[field] = cells
+    return out
 
 
 def _pn_entries(value: Any) -> list[dict[str, Any]] | None:
@@ -228,13 +249,8 @@ def flight(weapon: str, sources: list[Source]) -> dict[str, Any] | None:
     out: dict[str, Any] = typed_block(view, TOP)
     if (pn := _pn_entries(view.get("PN_coeffs"))) is not None:
         out["pnCoefficients"] = pn
-    tables = [
-        t
-        for k in sorted(k for k in view if isinstance(k, str) and LAUNCH_TABLE.match(k))
-        if (t := _launch_table(k, view[k], path + pointer(k))) is not None
-    ]
-    if tables:
-        out["launchTables"] = tables
+    if envelopes := _launch_envelopes(view, path):
+        out["launchEnvelopes"] = envelopes
     blocks: dict[str, Any] = {
         "aerodynamics": _block(view, "fm", AERODYNAMICS, path),
         "motorStages": _stages(view, path) or None,
