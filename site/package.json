@@ -12,7 +12,7 @@
     "build:api": "tsx scripts/build-api-overlays.ts",
     "predev": "tsx scripts/copy-sqlite-assets.ts && tsx scripts/build-overlays.ts && tsx scripts/build-api-overlays.ts",
     "dev": "next dev --port 3210",
-    "prebuild": "tsx scripts/copy-sqlite-assets.ts && tsx scripts/build-overlays.ts && tsx scripts/build-api-overlays.ts",
+    "prebuild": "node -e \"require('fs').rmSync('out',{recursive:true,force:true})\" && tsx scripts/copy-sqlite-assets.ts && tsx scripts/build-overlays.ts && tsx scripts/build-api-overlays.ts",
     "build": "next build",
     "serve": "node scripts/serve-out.mjs",
     "lint": "biome check .",
