@@ -23,6 +23,15 @@ types:
       dragIndex:
         type: number
         description: "Aerodynamic drag index contribution when the entity is carried externally."
+      fuelPerTankKg:
+        type: number[]
+        description: "Internal fuel per tank in kilograms, DCS order (aircraft `M_fuel_per_tank`)."
+      ammoMass:
+        type: number
+        description: "Mass of the gun ammunition (aircraft `AmmoWeight`); unit not stated."
+      defaultFuelFraction:
+        type: number
+        description: "Default fuel load as a fraction of full (aircraft `defFuelRatio`)."
     required: []
 
   Entity.Position:
@@ -221,6 +230,9 @@ types:
       laser:
         type: boolean
         description: "Optional `laser`."
+      beamWidthRad:
+        type: number
+        description: "Optional `beamWidth` (surface units), radians."
     required: []
 
   Entity.UnitDetection:
@@ -251,9 +263,27 @@ types:
       rcsM2:
         type: number
         description: "Optional `RCS`, square metres (per the DCS unit files' own comment)."
+      irEmissionCoeffAfterburner:
+        type: number
+        description: "Optional `IR_emission_coeff_ab` (aircraft), `IR_emission_coeff` with afterburner."
       sensor:
         type: Entity.SensorEnvelope
         description: "Optional `sensor` block."
+      radar1Period:
+        type: number
+        description: "Optional `radar1_period` (ships), rotation period of the first radar, unit not stated."
+      radar2Period:
+        type: number
+        description: "Optional `radar2_period` (ships), rotation period of the second radar, unit not stated."
+      radar3Period:
+        type: number
+        description: "Optional `radar3_period` (ships), rotation period of the third radar, unit not stated."
+      sensorMountWs:
+        type: number
+        description: "Optional `Sensors.Mount_WS_ID` (surface units), the index of the weapon system that rotates the sensors."
+      noVisualDetectorInAlarmedState:
+        type: boolean
+        description: "Optional `Sensors.noVisualDetectorInAlarmedState` (surface units), whether visual detection is off when the unit is alarmed."
     required: []
 
   Entity.Transportable:

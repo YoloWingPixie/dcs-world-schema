@@ -23,7 +23,58 @@ types:
       modulesPresent:
         type: string[]
         description: "Names of the DCS plugins (`_origin`) that registered at least one extracted unit, projectile, or launcher record."
+      dumpJoins:
+        type: Entity.DumpJoins
+        description: "Optional outcome of joining records to the `_G` dump files that define them (`sourcePaths`)."
     required: [dcsVersion, extractedAt, extractor, source, constants, modulesPresent]
+
+  Entity.DumpJoins:
+    kind: record
+    description: "How the records of each joined entity type were joined to their `_G` dump files, by exact DCS id."
+    fields:
+      counts:
+        type: Entity.DumpJoinCount[]
+        description: "Join outcome counts per entity type."
+      ambiguous:
+        type: Entity.DumpJoinIssue[]
+        description: "Records with several candidate dump files, none joined (or a same-name file not joined)."
+      unresolved:
+        type: Entity.DumpJoinIssue[]
+        description: "Records no dump file was joined to."
+    required: [counts, ambiguous, unresolved]
+
+  Entity.DumpJoinCount:
+    kind: record
+    description: "Join outcome counts of one entity type."
+    fields:
+      entityType:
+        type: string
+        description: "The entity type (for example `Entity.Weapon`)."
+      resolved:
+        type: number
+        description: "Records joined to their dump files."
+      ambiguous:
+        type: number
+        description: "Records with an ambiguous join."
+      unresolved:
+        type: number
+        description: "Records with no dump file."
+    required: [entityType, resolved, ambiguous, unresolved]
+
+  Entity.DumpJoinIssue:
+    kind: record
+    description: "One record whose join to the dump is ambiguous or unresolved."
+    fields:
+      entity:
+        type: string
+        description: "`<entity type>:<id>` of the record."
+      reason:
+        type: string
+        description: "Why the join failed."
+      candidates:
+        type: string[]
+        description: "Optional dump paths of the candidate files."
+    required: [entity, reason]
 
   Entity.ConstantFamily:
     kind: record

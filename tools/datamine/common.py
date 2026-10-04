@@ -84,6 +84,8 @@ SERIES: dict[str, Series] = {
         Series("datalink", "Entity.Datalink", "id"),
         Series("weapons", "Entity.Weapon", "id"),
         Series("warheads", "Entity.Warhead", "id"),
+        Series("weapon_flight", "Entity.WeaponFlight", "weapon"),
+        Series("aircraft_flight", "Entity.AircraftFlight", "aircraft"),
         Series("stores", "Entity.Store", "clsid"),
         Series("racks", "Entity.Rack", "id"),
         Series("gun_ammo", "Entity.GunAmmo", "id"),

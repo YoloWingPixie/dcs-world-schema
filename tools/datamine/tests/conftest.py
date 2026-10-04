@@ -30,3 +30,14 @@ def write(path: Path, text: str) -> Path:
 def hold(data_root: Path, version: str) -> None:
     """Make ``<data_root>/latest`` DCS ``version``'s (its manifest)."""
     write(data_root / LATEST / MANIFEST, json.dumps({"dcsVersion": version}))
+
+
+def unresolved_paths(record: Any, g_dir: Path, dump_format: int = 3) -> list[str]:
+    """``dump_paths.check`` of one entity ``record`` against the dump in
+    ``g_dir``: every ``sourcePaths`` entry or ``sourcePath`` that does not
+    resolve."""
+    from tools.datamine.dump_paths import DumpPaths, check
+    from tools.datamine.lua_reader import LuaReader
+
+    reader = LuaReader(g_dir, link_refs=False, dump_format=dump_format)
+    return check(DumpPaths(g_dir, reader), {"record": {"x": record}})

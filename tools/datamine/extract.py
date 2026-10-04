@@ -39,11 +39,14 @@ from typing import Any
 from . import (
     action_types,
     actions_probe,
+    aircraft_flight,
     api_dump,
     api_probe,
     api_schema,
     dcs_constants,
     dcs_database_types,
+    dump_joins,
+    dump_paths,
     extract_actions,
     extract_countries,
     extract_datalink,
@@ -84,7 +87,7 @@ from .common import (
     write_text_if_changed,
 )
 from .dcs_constants import Constants
-from .lua_reader import LuaReader, as_string
+from .lua_reader import READ_FORMATS, LuaReader, as_string
 
 EXTRACTOR = "dcs-world-schema/tools/datamine@0.1.0"
 
@@ -131,9 +134,10 @@ def extract(
     version = read_version(g_dir)
     if version is None:
         fail(f"no {VERSION_MARKER} in {g_dir}")
-    if (fmt := read_dump_format(g_dir)) != DUMP_FORMAT:
+    if (fmt := read_dump_format(g_dir)) not in READ_FORMATS:
         fail(
-            f"{g_dir} is dump format {fmt}, the extractors read {DUMP_FORMAT}; "
+            f"{g_dir} is dump format {fmt}, the extractors read "
+            f"{', '.join(map(str, READ_FORMATS))} (the hook writes {DUMP_FORMAT}); "
             "re-dump with task datamine"
         )
     install_ver = install_version(install_dir)
@@ -144,7 +148,10 @@ def extract(
         )
     facts = overlays.load(version)
     texts: dict[Path, str] = {}
-    reader = LuaReader(g_dir, texts=texts)
+    assert fmt is not None
+    reader = LuaReader(g_dir, texts=texts, dump_format=fmt)
+    dump = dump_paths.DumpPaths(g_dir, LuaReader(g_dir, texts=texts, dump_format=fmt))
+    sources = dump_joins.build_sources(dump)
 
     formations = extract_db_tables.read_formations(reader, g_dir)
     raw_countries = extract_countries.load_countries(reader, g_dir)
@@ -270,6 +277,8 @@ def extract(
         "datalink": datalinks,
         "weapons": weapons,
         "warheads": warheads,
+        "weapon_flight": extract_stores.build_weapon_flight(index),
+        "aircraft_flight": aircraft_flight.build(planes_helos, raw.paths),
         "stores": stores,
         "racks": racks,
         "gun_ammo": extract_units.build_gun_ammo(raw, reader, g_dir),
@@ -305,10 +314,14 @@ def extract(
     series.update(action_series)
     overlays.apply(facts, series)
     extract_units.index_attribute_units(series)
+    dump_joins.link_entities(sources, series)
+    unresolved_paths = dump_paths.check(dump, series)
 
     stats = reader.stats
     for c in constants.manifest():
         print(f"DCS constants {c['family']}: {c['count']}")
+    for line in dump_joins.report(sources):
+        print(line)
     for line in fit_report:
         print(f"Projection {line}")
     for line in runtime_report:
@@ -337,6 +350,9 @@ def extract(
         f"db.Pods no store takes: {store_stats.unused_pods}"
     )
     problems += [
+        *sources.warnings(),
+        *(f"dump path does not resolve: {p}" for p in unresolved_paths),
+        *(f"dump file not read for the joins: {p}" for p in sources.failures),
         *(f"parse failure: {p}: {e}" for p, e in stats.failures),
         *(f"unresolved ref in {p}: {r}" for p, r in stats.unresolved_refs),
         *(f"store kind unknown: {c}" for c in store_stats.unknown_kind),
@@ -360,9 +376,10 @@ def extract(
         )
     for line in problems:
         warn(line)
-    if stats.failures or stats.unresolved_refs:
+    if stats.failures or stats.unresolved_refs or unresolved_paths:
         fail(
-            f"{len(stats.failures)} parse failure(s), {len(stats.unresolved_refs)} unresolved ref(s)"
+            f"{len(stats.failures)} parse failure(s), {len(stats.unresolved_refs)} "
+            f"unresolved ref(s), {len(unresolved_paths)} sourcePath(s) not in the dump"
         )
 
     mtime = (g_dir / VERSION_MARKER).stat().st_mtime
@@ -375,6 +392,7 @@ def extract(
         "extractor": EXTRACTOR,
         "source": "_G self-dump",
         "constants": constants.manifest(),
+        "dumpJoins": sources.manifest(),
         "modulesPresent": _origins(
             (rec for bucket in raw.by_category.values() for rec in bucket.values()),
             (proj.raw for proj in index.by_name.values()),

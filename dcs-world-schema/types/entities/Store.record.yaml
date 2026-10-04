@@ -94,6 +94,9 @@ types:
       required:
         type: string[]
         description: "Optional launcher `Required`: `Entity.Store` CLSIDs (each one asserted at extraction) DCS lists as needed elsewhere on the aircraft (e.g. a datalink pod), sorted. The mission editor does not enforce it."
+      sourcePaths:
+        type: string[]
+        description: "Optional dump paths of the `_G` dump files (`_G/...`) that define this store, joined by `launcher` `CLSID`; sorted."
     required: [clsid, displayName, kind, delivers, aero, fuzes]
 
   Entity.StoreGun:
