@@ -241,9 +241,9 @@ def ship_mobility(raw: dict[str, Any], uid: str) -> dict[str, Any] | None:
                     "maxSpeedMs": "max_velocity",
                     "minTurnRadiusM": "R_min",
                     "economyDistance": "economy_distance",
-                    "economyVelocity": "economy_velocity",
+                    "economyVelocityMs": "economy_velocity",
                     "raceDistance": "race_distance",
-                    "raceVelocity": "race_velocity",
+                    "raceVelocityMs": "race_velocity",
                 },
             ),
             "draftM": as_number(_merged(raw, ("draft", "Draft"), uid)),
@@ -685,7 +685,9 @@ def countermeasures(raw: dict[str, Any], uid: str) -> dict[str, Any] | None:
             continue
         dispensers.append({"position": pos, "direction": direction})
     if bad:
-        warn(f"{uid}: chaff_flare_dispenser entries without dir/pos left out: {bad}")
+        warn(
+            f"{uid}: chaff_flare_dispenser entries without dir/pos not typed (only in the _G dump): {bad}"
+        )
     return _block(
         {
             "cmdsEdit": _bool(passive, "CMDS_Edit", uid),

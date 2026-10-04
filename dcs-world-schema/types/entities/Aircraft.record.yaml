@@ -87,6 +87,15 @@ types:
       heightM:
         type: number
         description: "Optional `height`."
+      wingAreaM2:
+        type: number
+        description: "Optional `wing_area`, square metres."
+      mainGearPosition:
+        type: number[]
+        description: "Optional `main_gear_pos`, main gear position `{x, y, z}` in the model frame."
+      noseGearPosition:
+        type: number[]
+        description: "Optional `nose_gear_pos`, nose gear position `{x, y, z}` in the model frame."
     required: []
 
   Entity.AircraftTask:
@@ -342,7 +351,32 @@ types:
       dispenserSystems:
         type: string[]
         description: "Optional `Countermeasures.DISPENSER` system names."
+      chaffDefault:
+        type: number
+        description: "Optional top-level `ChaffDefault`, default chaff load (some records give it besides or instead of `passivCounterm`)."
+      chaffChargeSize:
+        type: number
+        description: "Optional top-level `ChaffChargeSize`, size of one chaff charge; unit not stated."
+      flareDefault:
+        type: number
+        description: "Optional top-level `FlareDefault`, default flare load."
+      flareChargeSize:
+        type: number
+        description: "Optional top-level `FlareChargeSize`, size of one flare charge; unit not stated."
     required: []
+
+  Entity.AircraftSensorRole:
+    kind: record
+    description: "One sensor name of an aircraft's `Sensors` block."
+    fields:
+      role:
+        type: string
+        description: "The `Sensors` key (for example `RADAR`, `IRST`, `RWR`, `OPTIC`)."
+      sensor:
+        type: string
+        ref: Entity.Sensor
+        description: "Optional cross-reference: the `Entity.Sensor` id DCS names; absent for a redacted sensor."
+    required: [role]
 
   Entity.Aircraft:
     kind: record
@@ -380,6 +414,9 @@ types:
         type: string[]
         ref: Entity.Sensor
         description: "Cross-reference: `Entity.Sensor` ids fitted to this aircraft."
+      sensorRoles:
+        type: Entity.AircraftSensorRole[]
+        description: "Optional `Sensors` block: one entry per sensor name, sorted by role (a role's list in DCS order)."
       radios:
         type: string[]
         ref: Entity.Radio
@@ -439,4 +476,10 @@ types:
       operators:
         type: Entity.Operator[]
         description: "Countries that operate this aircraft and their service-year ranges."
+      sourcePaths:
+        type: string[]
+        description: "Optional dump paths of the `_G` dump files that define this aircraft (`_G/db/Units/Planes/Plane/F-16C_50`), joined by `db.Units` `type`; sorted."
+      connectDatalinks:
+        type: string[]
+        description: "Optional `connectDatalinks`, names of the datalink networks the unit connects to, DCS order."
     required: [id, displayName, kind, flyable, attributes, aero, sensors, radios, stations, operators]

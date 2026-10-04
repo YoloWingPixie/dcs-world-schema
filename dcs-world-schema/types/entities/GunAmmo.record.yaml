@@ -13,11 +13,104 @@ types:
         description: "Optional human-readable ammunition name (the shell's `display_name`)."
       massKg:
         type: number
-        description: "Optional mass per round in kilograms."
+        description: "Optional mass per round in kilograms: `round_mass`, else the projectile `mass`."
       type:
         type: string
-        description: "Optional ammunition type (for example HE, AP, API)."
+        description: "Optional `type_name` of the shell."
       attributes:
         type: string[]
         description: "Optional cross-reference: `Entity.Attribute` ids describing this ammunition."
+      sourcePaths:
+        type: string[]
+        description: "Optional `_G` dump paths of the shell records that define this ammunition (`_G/weapons_table/weapons/shells/<name>`), joined by `name`; sorted."
+      v0Ms:
+        type: number
+        description: "Optional `v0`: muzzle velocity, m/s."
+      dv0:
+        type: number
+        description: "Optional `Dv0`: median relative muzzle-velocity spread (half of the shots within `v0 * (1 ± Dv0)`), raw."
+      da0:
+        type: number
+        description: "Optional `Da0`: median angular dispersion of the shot, raw, unit not stated."
+      cx:
+        type: number[]
+        description: "Optional `cx`: the parameters of the shell's drag-coefficient curve over Mach, in DCS order, raw."
+      lifeTime:
+        type: number
+        description: "Optional `life_time`: how long the shell flies before it self-destructs, raw, unit not stated."
+      silentSelfDestruction:
+        type: boolean
+        description: "Optional `silent_self_destruction`: whether the shell vanishes without exploding at the end of `lifeTime`."
+      caliberMm:
+        type: number
+        description: "Optional `caliber`: shell diameter, millimetres."
+      apCapCaliber:
+        type: number
+        description: "Optional `AP_cap_caliber`: penetrator diameter of a sub-calibre shell, raw, unit not stated."
+      subcalibre:
+        type: boolean
+        description: "Optional `subcalibre`: whether the shell is a sub-calibre (discarding-sabot) round."
+      cartridgeMass:
+        type: number
+        description: "Optional `cartridge_mass`: mass of the empty case and link kept per fired round, raw, unit not stated."
+      projectile:
+        type: string
+        description: "Optional `projectile`: the projectile class (for example `AP`, `HE`, `Ball`)."
+      projectileMassKg:
+        type: number
+        description: "Optional `mass`: projectile mass, kg."
+      explosiveKg:
+        type: number
+        description: "Optional `explosive`: explosive mass, kg."
+      piercingMass:
+        type: number
+        description: "Optional `piercing_mass`: mass of the shell's armour-piercing part, raw, unit not stated."
+      cumulativeMass:
+        type: number
+        description: "Optional `cumulative_mass`: mass of the shell's shaped (cumulative) charge, raw, unit not stated."
+      payload:
+        type: number
+        description: "Optional `payload`: mass of the filler of `payloadMaterial`, raw, unit not stated."
+      payloadEffect:
+        type: string
+        description: "Optional `payloadEffect`: the filler's effect (for example `Thermal`, `Concussion`)."
+      payloadMaterial:
+        type: string
+        description: "Optional `payloadMaterial`: the filler material (for example `Thermite`, `PETN`)."
+      smokeTailLifeTime:
+        type: number
+        description: "Optional `smoke_tail_life_time`: how long the shell's smoke trail lasts, raw, unit not stated."
+      reboundConcrete:
+        type: Entity.ShellRebound
+        description: "Optional `rebound_concrete`: ricochet off concrete."
+      reboundGround:
+        type: Entity.ShellRebound
+        description: "Optional `rebound_ground`: ricochet off ground."
+      reboundObject:
+        type: Entity.ShellRebound
+        description: "Optional `rebound_object`: ricochet off objects."
+      reboundWater:
+        type: Entity.ShellRebound
+        description: "Optional `rebound_water`: ricochet off water."
     required: [id]
+
+  Entity.ShellRebound:
+    kind: record
+    description: "A shell's `rebound_*` block: how it ricochets off one kind of surface."
+    fields:
+      angle0:
+        type: number
+        description: "Optional `angle0`: impact angle at which the ricochet chance is 0 %, raw, unit not stated."
+      angle100:
+        type: number
+        description: "Optional `angle100`: impact angle at which the ricochet chance is 100 %, raw, unit not stated."
+      cxFactor:
+        type: number
+        description: "Optional `cx_factor`: drag multiplier after a ricochet, raw."
+      deviationAngle:
+        type: number
+        description: "Optional `deviation_angle`: maximum deviation of the ricochet direction, raw, unit not stated."
+      velocityLossFactor:
+        type: number
+        description: "Optional `velocity_loss_factor`: fraction of velocity lost in a ricochet, raw."
+    required: []

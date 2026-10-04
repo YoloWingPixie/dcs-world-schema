@@ -282,7 +282,7 @@ def test_unreadable_launcher_fields_are_reported() -> None:
     systems = weapon_systems(rec, WEAPONS, BY_RESOURCE, problems)
     assert systems == [{"ws": 1, "ln": 1}, {"ws": 2, "ln": 1}]
     assert problems == [
-        "X: unreadable launcher field(s) left out: WS[1].LN[1].depends_on_unit 3; "
+        "X: launcher field(s) of unreadable shape not typed (only in the _G dump): WS[1].LN[1].depends_on_unit 3; "
         "WS[1].LN[1].frequencyRange [1]; "
         "WS[2].LN[1].depends_on_unit [[[['self', 2]]]]"
     ]

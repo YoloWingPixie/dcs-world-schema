@@ -5,7 +5,11 @@ radars) are kept as DCS numbers with their constant names; ``kind`` is read
 from those names. The detection range is ``max_measuring_distance`` (metres),
 else for an IRST the largest of its ``detection_distance_for_tail_on_Su_27``.
 The keys of the ``detection_distance`` tables are DCS constants the install's
-sensor scripts define as locals (``sensor_keys``)."""
+sensor scripts define as locals (``sensor_keys``).
+
+The other configured keys (``SENSOR``, ``SECTOR``, ``VELOCITY_LIMITS``) are
+copied exactly (no rounding or conversion) with ``typed_fields``; keys
+without a typed field are only in the ``_G`` dump."""
 
 from __future__ import annotations
 
@@ -24,6 +28,7 @@ from .lua_reader import (
     km,
     number_tuple,
 )
+from .typed_fields import F, typed_block
 
 _KIND = {
     "OPTIC_SENSOR_TV": "tv",
@@ -54,6 +59,38 @@ _ENGINE_MODES = {
     "ENGINE_MODE_MAXIMAL": "maximalM",
     "ENGINE_MODE_MINIMAL": "minimalM",
 }
+# Configured keys of the record itself, copied exactly.
+SENSOR: tuple[F, ...] = (
+    F("scan_period", "scanPeriodS", unit="s"),
+    F("vehicles_detection", "vehiclesDetection", "boolean"),
+    F("RBM_detection_distance", "rbmDetectionDistanceM", unit="m"),
+    F("GMTI_detection_distance", "gmtiDetectionDistanceM", unit="m"),
+    F("HRM_detection_distance", "hrmDetectionDistanceM", unit="m"),
+    F("airborne_radar", "airborneRadar", "boolean"),
+    F("magnifications", "magnifications", "numbers"),
+    F("resolution", "resolution"),
+    F("lightness_limit", "lightnessLimit"),
+    F("laserRanger", "laserRanger", "boolean"),
+    F("laserDesignator", "laserDesignator", "boolean"),
+    F("linkedAxis", "linkedAxis"),
+    F("background_factor", "backgroundFactor"),
+    F("head_on_distance_coeff", "headOnDistanceCoeff"),
+    F(
+        "detection_dist_to_radar_detection_dist_max_ratio",
+        "detectionDistToRadarDetectionDistMaxRatio",
+    ),
+    F("lock_on_detection", "lockOnDetection", "boolean"),
+)
+# ``centered_scan_volume`` and ``view_volume_max`` (``Entity.SensorSector``).
+SECTOR: tuple[F, ...] = (
+    F("azimuth_sector", "azimuthSectorDeg", unit="deg"),
+    F("elevation_sector", "elevationSectorDeg", unit="deg"),
+)
+# ``velocity_limits`` of the record or its ``air_search``.
+VELOCITY_LIMITS: tuple[F, ...] = (
+    F("radial_velocity_min", "radialVelocityMinMs", unit="m/s"),
+    F("relative_radial_velocity_min", "relativeRadialVelocityMinMs", unit="m/s"),
+)
 _LOCAL = re.compile(r"^\s*local\s+([A-Z_]+)\s*=\s*(\d+)\s*$", re.MULTILINE)
 
 
@@ -130,6 +167,11 @@ def _volume(value: Any) -> dict[str, Any] | None:
     )
 
 
+def _typed(value: Any, specs: tuple[F, ...]) -> dict[str, Any] | None:
+    """The typed fields of the dict block ``value``, or None if it has none."""
+    return (typed_block(value, specs) or None) if isinstance(value, dict) else None
+
+
 def _block(fields: dict[str, Any]) -> dict[str, Any] | None:
     out: dict[str, Any] = {}
     assign_defined(out, fields)
@@ -138,7 +180,6 @@ def _block(fields: dict[str, Any]) -> dict[str, Any] | None:
 
 def _search(name: str, block: dict[str, Any], keys: dict[str, int]) -> dict[str, Any]:
     """Fields shared by a radar and its ``air_search`` block."""
-    centred = as_dict(block.get("centered_scan_volume"))
     return {
         "detectionDistance": _detection_distance(
             name, block.get("detection_distance"), keys
@@ -150,12 +191,8 @@ def _search(name: str, block: dict[str, Any], keys: dict[str, int]) -> dict[str,
             block.get("multiple_targets_tracking"),
             f"sensor {name}: multiple_targets_tracking",
         ),
-        "centeredScanVolume": _block(
-            {
-                "azimuthSectorDeg": as_number(centred.get("azimuth_sector")),
-                "elevationSectorDeg": as_number(centred.get("elevation_sector")),
-            }
-        ),
+        "centeredScanVolume": _typed(block.get("centered_scan_volume"), SECTOR),
+        "velocityLimits": _typed(block.get("velocity_limits"), VELOCITY_LIMITS),
     }
 
 
@@ -240,6 +277,8 @@ def build_sensors(
                 "airSearch": _block(_search(name, air, keys)) if air else None,
                 "surfaceSearch": _surface_search(name, raw.get("surface_search")),
                 "irstDetectionDistance": irst,
+                "viewVolumeMax": _typed(raw.get("view_volume_max"), SECTOR),
+                **typed_block(raw, SENSOR),
                 "pods": pods.get(name),
             },
         )
