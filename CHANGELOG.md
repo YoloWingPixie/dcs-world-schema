@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-10-04
+
 ### Added
 - `weapon_flight` series: each weapon's flight model (`Cx0`, `CxB`, `K1`, `K2`, `Cya`, trim tables...), motor stages, autopilot, seeker, gimbal, proximity fuze, `PN_coeffs` and launch range tables.
 - `aircraft_flight` series: each aircraft's AI flight model (`SFM_Data` aerodynamics and engine tables, helicopter rotor and engine keys).
