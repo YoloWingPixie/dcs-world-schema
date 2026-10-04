@@ -1,0 +1,573 @@
+/* Generic record pages (components/record/*), overlays, units toggle, skeletons. */
+
+.record-body {
+  min-width: 0;
+}
+
+.section-tag {
+  margin-left: 10px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-3);
+  vertical-align: middle;
+}
+
+.subgroup {
+  margin-top: 22px;
+}
+
+.subgroup.depth-1,
+.subgroup.depth-2 {
+  margin-top: 16px;
+  padding-left: 14px;
+  border-left: 2px solid var(--line);
+}
+
+.subgroup-title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink);
+  margin: 0 0 6px;
+  letter-spacing: 0.01em;
+}
+
+h4.subgroup-title {
+  font-size: 16.5px;
+  color: var(--ink-2);
+}
+
+/* Field tooltip additions */
+.tip-stored {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  opacity: 0.8;
+}
+
+.tip-note {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgb(127 127 127 / 0.35);
+}
+
+.tip-note .md-overlay {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.note-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--focus);
+  display: inline-block;
+  align-self: center;
+}
+
+/* Links between records */
+.ref-link {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  font-size: 15.5px;
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-wash);
+}
+
+.ref-link:hover {
+  border-bottom-color: var(--accent);
+}
+
+.field-value .ref-link {
+  font-size: 15.5px;
+}
+
+.ref-missing {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.link-list,
+.tag-list {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+}
+
+.link-list li {
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-s);
+  background: var(--surface);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.tag-list li {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surface-3);
+  font-family: var(--font-ui);
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+
+code.json {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+
+pre.json-block {
+  margin: 6px 0 0;
+  max-height: 320px;
+  overflow: auto;
+  padding: 10px;
+  border-radius: var(--radius-s);
+  background: var(--surface-2);
+  font-size: 12px;
+}
+
+/* Arrays of records */
+.data-table td,
+.data-table th {
+  font-size: 14px;
+}
+
+.data-table td.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table td[data-field] {
+  cursor: context-menu;
+}
+
+.data-table td[data-field]:hover,
+.data-table td[data-field]:focus-visible,
+.data-table td[data-menu-open="true"] {
+  background: var(--accent-wash);
+}
+
+.record-cards {
+  display: grid;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.record-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  padding: 10px 14px 12px;
+}
+
+.record-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 22px;
+  margin: 0 0 6px;
+}
+
+.record-card-head div {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.record-card-head dt {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.record-card-head dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+.record-card-field {
+  margin-top: 6px;
+}
+
+.record-card-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+
+/* Segmented buttons (chart column, envelope table, altitude picks) */
+.seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.seg-btn {
+  font: 500 14px var(--font-ui);
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.seg-btn:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+}
+
+.seg-btn[aria-pressed="true"] {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.axis-chart {
+  margin: 10px 0;
+}
+
+.axis-chart-head,
+.envelope-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.axis-chart-compare {
+  margin-left: auto;
+  display: inline-flex;
+  border-radius: 6px;
+}
+
+.axis-chart-compare .field-actions {
+  opacity: 1;
+}
+
+.envelopes {
+  display: grid;
+  gap: 18px;
+}
+
+.envelope {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  padding: 12px 14px;
+}
+
+.envelope h4 {
+  margin: 0;
+  font: 600 17px var(--font-ui);
+}
+
+.envelope-body {
+  display: grid;
+  gap: 12px;
+}
+
+.chart-caption {
+  margin: 0 0 6px;
+  font-family: var(--font-ui);
+  color: var(--ink-3);
+}
+
+.seg-wrap {
+  margin-bottom: 6px;
+}
+
+/* Referenced by */
+.refby {
+  display: grid;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.refby-path {
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.refby-path code {
+  font-size: 12.5px;
+}
+
+/* Hand-written overlays */
+.md-overlay {
+  position: relative;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--focus);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  padding: 12px 16px 10px;
+}
+
+.md-overlay-label {
+  display: inline-block;
+  margin-bottom: 4px;
+  font: 600 12px var(--font-ui);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.md-body > :first-child {
+  margin-top: 0;
+}
+
+.md-body > :last-child {
+  margin-bottom: 0;
+}
+
+.md-body p,
+.md-body ul,
+.md-body ol {
+  margin: 0 0 8px;
+}
+
+.md-body code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+.overlay-note {
+  margin: 0 0 24px;
+}
+
+.see-also {
+  margin: 8px 0 0;
+  font-family: var(--font-ui);
+  color: var(--ink-3);
+}
+
+/* Units toggle: CSS reads <html data-units> so the state is right before hydration. */
+.units-toggle {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px;
+  background: var(--surface);
+}
+
+.units-opt {
+  font: 600 13px var(--font-ui);
+  letter-spacing: 0.02em;
+  padding: 4px 9px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+  min-width: 58px;
+}
+
+.units-opt:hover {
+  color: var(--ink);
+}
+
+:root:not([data-units="imperial"]) .units-metric,
+:root[data-units="imperial"] .units-imperial {
+  background: var(--accent-wash);
+  color: var(--accent-strong);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+@media (max-width: 760px) {
+  .units-opt {
+    min-width: 0;
+    padding: 4px 7px;
+  }
+  .units-metric::after {
+    content: "";
+  }
+}
+
+@media (max-width: 520px) {
+  .units-opt {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+}
+
+/* Loading skeletons */
+.sk {
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-3) 0%,
+    var(--surface-2) 50%,
+    var(--surface-3) 100%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer 1.2s ease-in-out infinite;
+}
+
+.sk-title {
+  height: 38px;
+  width: min(420px, 70%);
+  margin-bottom: 12px;
+}
+
+.sk-line {
+  height: 14px;
+  width: 60%;
+  margin: 6px 0;
+}
+
+.sk-chips {
+  height: 24px;
+  width: min(320px, 50%);
+  margin: 12px 0 18px;
+}
+
+.sk-heading {
+  height: 26px;
+  width: 220px;
+  margin-bottom: 14px;
+}
+
+.sk-row {
+  height: 20px;
+  margin: 14px 0;
+}
+
+@keyframes sk-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk {
+    animation: none;
+  }
+}
+
+.toc a.toc-sub {
+  padding-left: 22px;
+  font-size: 0.94em;
+}
+
+.list-more {
+  border: 0 !important;
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+/* Phone header: sections in a menu, units as one button. */
+.units-compact,
+.nav-menu {
+  display: none;
+}
+
+.units-compact {
+  font: 600 12.5px var(--font-mono);
+  height: 38px;
+  padding: 0 9px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+:root[data-units="imperial"] .units-compact-metric,
+:root:not([data-units="imperial"]) .units-compact-imperial {
+  display: none;
+}
+
+.nav-menu {
+  position: relative;
+}
+
+.nav-menu summary {
+  list-style: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 18px;
+  color: var(--ink-2);
+}
+
+.nav-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.nav-menu-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 50;
+  min-width: 180px;
+  display: grid;
+  padding: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.nav-menu-list a {
+  padding: 8px 10px;
+  border-radius: 6px;
+  font: 600 16px var(--font-ui);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.nav-menu-list a[aria-current="page"] {
+  background: var(--accent-wash);
+  color: var(--accent-strong);
+}
+
+@media (max-width: 640px) {
+  .site-header .site-nav,
+  .units-toggle {
+    display: none;
+  }
+  .nav-menu,
+  .units-compact {
+    display: block;
+  }
+}
+
+.inline-rows {
+  margin: 4px 0 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.inline-rows .link-list {
+  margin: 0;
+}

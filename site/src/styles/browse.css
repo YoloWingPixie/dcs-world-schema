@@ -1,0 +1,171 @@
+/* Generic per-series browse view (components/browse-view.tsx). */
+
+.browse-nofacets {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.browse-intro {
+  margin-top: 12px;
+  max-width: 72ch;
+}
+
+.browse-tools {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.browse-tools .combo {
+  flex: 1;
+  min-width: 0;
+}
+
+.facet-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.facet-more {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  padding: 2px 6px;
+}
+
+/* Column picker */
+.col-picker {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.col-picker > summary {
+  list-style: none;
+  height: 100%;
+}
+
+.col-picker > summary::-webkit-details-marker {
+  display: none;
+}
+
+.col-picker-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 30;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(420px, 60vh);
+  overflow: auto;
+  padding: 8px;
+  display: grid;
+  gap: 2px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow);
+}
+
+.col-picker-label {
+  display: grid;
+  min-width: 0;
+}
+
+.col-picker-path {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+
+/* Virtualized table: fixed row height, sticky header inside the scroll box. */
+.vtable {
+  max-height: 70vh;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.vtable:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.vtable .table th {
+  z-index: 2;
+}
+
+.vtable .vrow td {
+  height: 44px;
+  padding-top: 0;
+  padding-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 280px;
+}
+
+.vtable .vrow .name-cell {
+  max-width: 360px;
+  line-height: 1.15;
+}
+
+.vtable .vrow .name-cell a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vrow .name-cell .sub {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vspacer td {
+  padding: 0;
+  border: 0;
+}
+
+.vtable .vspacer:hover td {
+  background: transparent;
+}
+
+.sk-bar {
+  display: block;
+  height: 12px;
+  width: 60%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--surface-3), var(--surface-2), var(--surface-3));
+  background-size: 200% 100%;
+  animation: browse-shimmer 1.2s linear infinite;
+}
+
+@keyframes browse-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-bar {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .vtable .col-opt {
+    display: none;
+  }
+  .vtable .vrow .name-cell {
+    max-width: 62vw;
+  }
+  .browse-tools {
+    flex-wrap: wrap;
+  }
+}
+
+fieldset.col-picker-menu {
+  margin: 0;
+  min-width: 0;
+}
