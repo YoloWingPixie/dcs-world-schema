@@ -1,5 +1,7 @@
 {
   "aero": {
+    "ammoMass": 178.08,
+    "defaultFuelFraction": 1,
     "emptyMassKg": 4831,
     "internalFuelKg": 1996,
     "maxSpeedKmh": 1742.4,
@@ -45,11 +47,23 @@
   "detection": {
     "detectionRangeMax": 60,
     "irEmissionCoeff": 0.4,
+    "irEmissionCoeffAfterburner": 2,
     "rcsM2": 3
   },
   "dimensions": {
     "heightM": 4.06,
     "lengthM": 14.68,
+    "mainGearPosition": [
+      -0.758,
+      -1.712,
+      1.873
+    ],
+    "noseGearPosition": [
+      4.465,
+      -1.92,
+      0
+    ],
+    "wingAreaM2": 17.3,
     "wingSpanM": 8.53
   },
   "displayName": "F-5E",
@@ -172,11 +186,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.64085638205579,
-      -0.93969262078591,
-      -0.036833608500735,
-      0.86602540378444
+      -0.3420201433256687,
+      -0.6408563820557885,
+      -0.9396926207859083,
+      -0.03683360850073486,
+      0.8660254037844386
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -488,36 +502,36 @@
                   "typename": "argumentlight"
                 },
                 {
-                  "angle_change_rate": 0.19198621771938,
-                  "angle_max": 1.6406094968747,
+                  "angle_change_rate": 0.19198621771937624,
+                  "angle_max": 1.6406094968746698,
                   "angle_min": 0,
                   "connector": "MAIN_SPOT_PTR_L",
                   "power_up_t": 1,
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": 0.19198621771938,
-                  "angle_max": 1.6406094968747,
+                  "angle_change_rate": 0.19198621771937624,
+                  "angle_max": 1.6406094968746698,
                   "angle_min": 0,
                   "connector": "MAIN_SPOT_PTR_R",
                   "power_up_t": 1,
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
@@ -534,8 +548,8 @@
             {
               "lights": [
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 208,
                   "color": [
                     255,
@@ -585,8 +599,8 @@
             {
               "lights": [
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 209,
                   "color": [
                     255,
@@ -645,13 +659,13 @@
                   "typename": "argumentlight"
                 },
                 {
-                  "angle_max": 2.0943951023932,
+                  "angle_max": 2.0943951023931953,
                   "connector": "BANO_015",
                   "dir_correction": {
-                    "elevation": -1.5707963267949
+                    "elevation": -1.5707963267948966
                   },
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       0.35,
@@ -663,13 +677,13 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_max": 2.0943951023932,
+                  "angle_max": 2.0943951023931953,
                   "connector": "BANO_018",
                   "dir_correction": {
-                    "elevation": -1.5707963267949
+                    "elevation": -1.5707963267948966
                   },
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       0,
                       0.894,
@@ -709,7 +723,7 @@
                   ],
                   "power_up_t": 0.33,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -722,20 +736,20 @@
                   "typename": "Omni"
                 },
                 {
-                  "angle_max": 2.6179938779915,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.6179938779914944,
+                  "angle_min": 1.5707963267948966,
                   "connector": "BANO_4",
                   "controller": "Strobe",
                   "cool_down_t": 0.222,
                   "dir_correction": {
-                    "elevation": -2.3561944901923
+                    "elevation": -2.356194490192345
                   },
                   "flash_time": 0.522,
                   "mode": 0,
                   "period": 0.744,
                   "power_up_t": 0.33,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -760,7 +774,7 @@
                   ],
                   "power_up_t": 0.33,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -773,20 +787,20 @@
                   "typename": "Omni"
                 },
                 {
-                  "angle_max": 2.6179938779915,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.6179938779914944,
+                  "angle_min": 1.5707963267948966,
                   "connector": "BANO_020",
                   "controller": "Strobe",
                   "cool_down_t": 0.222,
                   "dir_correction": {
-                    "elevation": 2.3561944901923
+                    "elevation": 2.356194490192345
                   },
                   "flash_time": 0.522,
                   "mode": 0,
                   "period": 0.744,
                   "power_up_t": 0.33,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -813,20 +827,20 @@
                   "typename": "argumentlight"
                 },
                 {
-                  "angle_max": 2.6179938779915,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.6179938779914944,
+                  "angle_min": 1.5707963267948966,
                   "connector": "BANO_016",
                   "controller": "Strobe",
                   "cool_down_t": 0.228,
                   "dir_correction": {
-                    "elevation": -1.0471975511966
+                    "elevation": -1.0471975511965976
                   },
                   "flash_time": 0.52,
                   "mode": 0,
                   "period": 0.744,
                   "power_up_t": 0.33,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       0.35,
@@ -838,20 +852,20 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_max": 2.6179938779915,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.6179938779914944,
+                  "angle_min": 1.5707963267948966,
                   "connector": "BANO_019",
                   "controller": "Strobe",
                   "cool_down_t": 0.228,
                   "dir_correction": {
-                    "elevation": -1.0471975511966
+                    "elevation": -1.0471975511965976
                   },
                   "flash_time": 0.52,
                   "mode": 0,
                   "period": 0.744,
                   "power_up_t": 0.33,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       0,
                       0.894,
@@ -883,11 +897,11 @@
                 {
                   "connector": "BANO_2",
                   "dir_correction": {
-                    "elevation": -2.3561944901923
+                    "elevation": -2.356194490192345
                   },
                   "proto": {
-                    "angle_max": 2.6179938779915,
-                    "angle_min": 1.5707963267949,
+                    "angle_max": 2.6179938779914944,
+                    "angle_min": 1.5707963267948966,
                     "color": [
                       1,
                       0.35,
@@ -901,11 +915,11 @@
                 {
                   "connector": "BANO_013",
                   "dir_correction": {
-                    "elevation": -2.3561944901923
+                    "elevation": -2.356194490192345
                   },
                   "proto": {
-                    "angle_max": 2.6179938779915,
-                    "angle_min": 1.5707963267949,
+                    "angle_max": 2.6179938779914944,
+                    "angle_min": 1.5707963267948966,
                     "color": [
                       0,
                       0.894,
@@ -927,8 +941,8 @@
             {
               "lights": [
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 208,
                   "color": [
                     255,
@@ -978,8 +992,8 @@
             {
               "lights": [
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 209,
                   "color": [
                     255,
@@ -1032,8 +1046,8 @@
         "7": {
           "lights": [
             {
-              "angle_max": 0.78539816339745,
-              "angular_velocity": 6.6322511575785,
+              "angle_max": 0.7853981633974483,
+              "angular_velocity": 6.632251157578453,
               "argument": 192,
               "argument_threshold": 0.47,
               "cups": 1,
@@ -1043,7 +1057,7 @@
                 0
               ],
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -1543,8 +1557,17 @@
     "vTakeOffMs": 65
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APQ-153"
+    }
+  ],
   "sensors": [
     "AN/APQ-153"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-5E"
   ],
   "stations": [
     {

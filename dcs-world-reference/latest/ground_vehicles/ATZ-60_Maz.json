@@ -87,14 +87,31 @@
     }
   ],
   "mobility": {
+    "engineMaxPowerRpm": 1600,
+    "engineMaxRpm": 2200,
+    "engineMinRpm": 600,
     "enginePower": 386,
     "fordingDepthM": 1.5,
+    "gearRatios": [
+      -1.6,
+      -3.08,
+      0,
+      6.02,
+      3.384,
+      1.88,
+      1
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.1,
+    "maxAcceleration": 1,
     "maxRoadSpeedMs": 18,
     "maxSlopeRad": 0.5,
     "maxSpeedKmh": 64.8,
     "maxVertObstacleM": 0.3,
     "minTurnRadiusM": 15,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.74,
+    "traceWidth": 0.555
   },
   "model": {
     "animationArguments": {
@@ -249,6 +266,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/ATZ-60_Maz"
+  ],
   "tags": [
     "Unarmed",
     "Support & Logistics"
@@ -259,17 +279,18 @@
       "ln": 1,
       "rMaxKm": 0.0,
       "rMinKm": 0.0,
+      "referenceAngleYRad": 3.141592653589793,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.13962634015955,
-          0.5235987755983
+          3.141592653589793,
+          -3.141592653589793,
+          -0.13962634015954636,
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
-        "pitch": 1.7453292519943,
-        "yaw": 1.7453292519943
+        "pitch": 1.7453292519943295,
+        "yaw": 1.7453292519943295
       },
       "ws": 1
     }

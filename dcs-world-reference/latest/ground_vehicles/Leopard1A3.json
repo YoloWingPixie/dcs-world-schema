@@ -121,6 +121,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 2500
   },
   "dimensions": {
@@ -130,7 +131,17 @@
   },
   "displayName": "MBT Leopard 1A3",
   "fireControl": {
-    "maxTargetDetectionRangeM": 6000
+    "maxTargetDetectionRangeM": 6000,
+    "smoke": [
+      "SMOKE_04",
+      "SMOKE_05",
+      "SMOKE_03",
+      "SMOKE_06",
+      "SMOKE_02",
+      "SMOKE_07",
+      "SMOKE_01",
+      "SMOKE_08"
+    ]
   },
   "id": "Leopard1A3",
   "life": [
@@ -142,12 +153,26 @@
   "mobility": {
     "enginePower": 830,
     "fordingDepthM": 1.2,
+    "gearRatios": [
+      -9.4,
+      -18.1,
+      0,
+      19.5,
+      8,
+      5.5,
+      3.6
+    ],
+    "gearType": 2,
+    "mainGearRatio": 3,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 18.0556,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 65.00016,
     "maxVertObstacleM": 1.15,
     "minTurnRadiusM": 2.694,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.35,
+    "traceWidth": 0.49
   },
   "model": {
     "animationArguments": {
@@ -291,6 +316,9 @@
     "TRP-2A day",
     "TRP-2A night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Leopard1A3"
+  ],
   "tags": [
     "Armor",
     "MBT"
@@ -298,17 +326,20 @@
   "weaponSystems": [
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
+      "combatRange": 1100,
       "gunAmmo": [
         "M68_105_AP"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 2,
       "ln": 1,
       "maxShootingSpeed": 1,
       "payloads": [
         {
           "ammoCapacity": 8,
+          "automaticLoader": false,
           "gunAmmo": [
             "M68_105_AP"
           ],
@@ -317,6 +348,7 @@
         },
         {
           "ammoCapacity": 24,
+          "automaticLoader": false,
           "gunAmmo": [
             "M68_105_AP"
           ],
@@ -329,37 +361,49 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          2.4434609527921,
-          -2.4434609527921,
-          -0.15707963267949,
-          0.33161255787892
+          2.443460952792061,
+          -2.443460952792061,
+          -0.15707963267948966,
+          0.33161255787892263
         ],
         [
-          -2.4434609527921,
-          2.4434609527921,
+          -2.443460952792061,
+          2.443460952792061,
           0,
-          0.33161255787892
+          0.33161255787892263
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.069813170079773,
-        "yaw": 0.41887902047864
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.06981317007977318,
+        "yaw": 0.4188790204786391
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
+      "combatRange": 700,
       "gunAmmo": [
         "HESH_105"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 6,
       "ln": 2,
       "maxShootingSpeed": 1,
       "payloads": [
         {
           "ammoCapacity": 4,
+          "automaticLoader": false,
           "gunAmmo": [
             "HESH_105"
           ],
@@ -368,6 +412,7 @@
         },
         {
           "ammoCapacity": 14,
+          "automaticLoader": false,
           "gunAmmo": [
             "HESH_105"
           ],
@@ -380,33 +425,43 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          2.4434609527921,
-          -2.4434609527921,
-          -0.15707963267949,
-          0.33161255787892
+          2.443460952792061,
+          -2.443460952792061,
+          -0.15707963267948966,
+          0.33161255787892263
         ],
         [
-          -2.4434609527921,
-          2.4434609527921,
+          -2.443460952792061,
+          2.443460952792061,
           0,
-          0.33161255787892
+          0.33161255787892263
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.069813170079773,
-        "yaw": 0.41887902047864
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.06981317007977318,
+        "yaw": 0.4188790204786391
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "MG3",
       "gunAmmo": [
         "7_62x51",
         "7_62x51tr"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 3,
       "name": "MG3",
@@ -420,31 +475,42 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 20,
-          "shotDelayS": 0.06
+          "shotDelayS": 0.06,
+          "switchOnDelay": 20
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          2.4434609527921,
-          -2.4434609527921,
-          -0.15707963267949,
-          0.33161255787892
+          2.443460952792061,
+          -2.443460952792061,
+          -0.15707963267948966,
+          0.33161255787892263
         ],
         [
-          -2.4434609527921,
-          2.4434609527921,
+          -2.443460952792061,
+          2.443460952792061,
           0,
-          0.33161255787892
+          0.33161255787892263
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.069813170079773,
-        "yaw": 0.41887902047864
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.06981317007977318,
+        "yaw": 0.4188790204786391
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

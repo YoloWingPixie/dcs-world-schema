@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 65.6,
     "emptyMassKg": 10670,
     "internalFuelKg": 3770,
     "maxSpeedKmh": 1860,
@@ -45,11 +46,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.69,
+    "irEmissionCoeffAfterburner": 3,
     "rcsM2": 7
   },
   "dimensions": {
     "heightM": 5.129,
     "lengthM": 19.26,
+    "mainGearPosition": [
+      -1.691,
+      -1.637,
+      1.939
+    ],
+    "noseGearPosition": [
+      3.875,
+      -1.81,
+      0
+    ],
+    "wingAreaM2": 38.5,
     "wingSpanM": 13.68
   },
   "displayName": "Su-17M4",
@@ -81,11 +94,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      0.023436679747723,
-      0.86602540378444
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      0.0234366797477234,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -170,7 +183,7 @@
                 {
                   "argument": 51,
                   "direction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "exposure": [
                     [
@@ -186,14 +199,14 @@
                     0.4
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -202,7 +215,7 @@
                 },
                 {
                   "direction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "exposure": [
                     [
@@ -218,14 +231,14 @@
                     -0.4
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -247,14 +260,14 @@
                     0.4
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -277,14 +290,14 @@
                     -0.4
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -309,7 +322,7 @@
                 {
                   "argument": 51,
                   "direction": {
-                    "elevation": 0.20943951023932
+                    "elevation": 0.20943951023931956
                   },
                   "exposure": [
                     [
@@ -325,14 +338,14 @@
                     0.4
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -341,7 +354,7 @@
                 },
                 {
                   "direction": {
-                    "elevation": 0.20943951023932
+                    "elevation": 0.20943951023931956
                   },
                   "exposure": [
                     [
@@ -357,14 +370,14 @@
                     -0.4
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -387,14 +400,14 @@
                     0.4
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -417,14 +430,14 @@
                     -0.4
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -566,8 +579,17 @@
     "vTakeOffMs": 100
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-17M4"
   ],
   "stations": [
     {

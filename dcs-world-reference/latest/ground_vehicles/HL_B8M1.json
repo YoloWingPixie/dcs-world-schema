@@ -86,12 +86,16 @@
   "mobility": {
     "enginePower": 144,
     "fordingDepthM": 0.7,
+    "gearType": 1,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 37,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 133.2,
+    "maxSpeedKmh": 133.20000000000002,
     "maxVertObstacleM": 0.45,
     "minTurnRadiusM": 5.9,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.35,
+    "traceWidth": 0.223
   },
   "model": {
     "animationArguments": {
@@ -878,6 +882,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/HL_B8M1"
+  ],
   "tags": [
     "Artillery",
     "MRL"
@@ -885,10 +892,14 @@
   "weaponSystems": [
     {
       "barrels": 20,
+      "barrelsReloadType": 3,
+      "canSetTacticalDir": true,
       "launchDelayS": 1,
       "launcherType": 34,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
+      "outVelocity": 450,
       "payloads": [
         {
           "ammoCapacity": 20,
@@ -900,17 +911,26 @@
       "rMaxKm": 5.0,
       "rMinKm": 1.0,
       "reactionTimeS": 15,
+      "referenceAngleZRad": 0.17453292519943295,
       "sectorsRad": [
         [
-          0.010471975511966,
-          -0.010471975511966,
+          0.010471975511965976,
+          -0.010471975511965976,
           0,
-          0.50265482457437
+          0.5026548245743669
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.017453292519943,
-        "yaw": 0.017453292519943
+        "pitch": 0.017453292519943295,
+        "yaw": 0.017453292519943295
       },
       "weapons": [
         "C_8OFP2"

@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 36400,
     "internalFuelKg": 30000,
     "maxSpeedKmh": 621,
@@ -50,11 +51,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 80
   },
   "dimensions": {
     "heightM": 11.66,
     "lengthM": 29.79,
+    "mainGearPosition": [
+      -2.654,
+      -2.5,
+      2.746
+    ],
+    "noseGearPosition": [
+      8.133,
+      -2.5,
+      0
+    ],
+    "wingAreaM2": 152.1,
     "wingSpanM": 40.4
   },
   "displayName": "KC-130",
@@ -69,11 +82,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -804,8 +817,17 @@
     "isTanker": true,
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/KC130"
   ],
   "stations": [],
   "tasks": [

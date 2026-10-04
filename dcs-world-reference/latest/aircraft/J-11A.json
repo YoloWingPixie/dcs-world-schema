@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 147,
     "emptyMassKg": 17500,
     "internalFuelKg": 9400,
-    "maxSpeedKmh": 2499.984,
+    "maxSpeedKmh": 2499.9840000000004,
     "maxTakeoffKg": 33000
   },
   "attributes": [
@@ -68,11 +69,23 @@
   "detection": {
     "detectionRangeMax": 250,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 5.5
   },
   "dimensions": {
     "heightM": 5.932,
     "lengthM": 21.935,
+    "mainGearPosition": [
+      -0.537,
+      -2.237,
+      2.168
+    ],
+    "noseGearPosition": [
+      5.221,
+      -2.185,
+      0
+    ],
+    "wingAreaM2": 62,
     "wingSpanM": 14.7
   },
   "displayName": "J-11A",
@@ -153,11 +166,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -439,13 +452,13 @@
                 0.082471
               ],
               "proto": {
-                "angle_max": 3.1415926535898,
-                "angle_min": 3.1415926535898,
+                "angle_max": 3.141592653589793,
+                "angle_min": 3.141592653589793,
                 "color": [
                   1,
                   1,
                   1,
-                  0.37947331922021
+                  0.3794733192202055
                 ],
                 "controller": "Strobe",
                 "period": 1.33333,
@@ -560,10 +573,27 @@
     ],
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "OLS-27"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "N-001"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "N-001",
     "OLS-27"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/J-11A"
   ],
   "stations": [
     {

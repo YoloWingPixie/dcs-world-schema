@@ -122,12 +122,16 @@
   "mobility": {
     "enginePower": 154.455,
     "fordingDepthM": 1.2,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 25,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 90,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 3.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.55,
+    "traceWidth": 0.263
   },
   "model": {
     "animationArguments": {
@@ -246,6 +250,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Sd_Kfz_234_2_Puma"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -263,6 +270,7 @@
       "payloads": [
         {
           "ammoCapacity": 12,
+          "automaticLoader": false,
           "gunAmmo": [
             "Pzgr_39_5cm"
           ],
@@ -271,6 +279,7 @@
         },
         {
           "ammoCapacity": 31,
+          "automaticLoader": false,
           "gunAmmo": [
             "Pzgr_39_5cm"
           ],
@@ -283,15 +292,23 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.34906585039887,
-        "yaw": 0.4014257279587
+        "pitch": 0.3490658503988659,
+        "yaw": 0.4014257279586958
       },
       "ws": 1
     },
@@ -307,6 +324,7 @@
       "payloads": [
         {
           "ammoCapacity": 4,
+          "automaticLoader": false,
           "gunAmmo": [
             "Sprgr_38"
           ],
@@ -315,6 +333,7 @@
         },
         {
           "ammoCapacity": 8,
+          "automaticLoader": false,
           "gunAmmo": [
             "Sprgr_38"
           ],
@@ -327,15 +346,23 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.34906585039887,
-        "yaw": 0.4014257279587
+        "pitch": 0.3490658503988659,
+        "yaw": 0.4014257279586958
       },
       "ws": 1
     },
@@ -359,7 +386,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -370,7 +398,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -381,7 +410,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -392,7 +422,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -403,7 +434,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -414,7 +446,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -425,7 +458,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -436,7 +470,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -447,24 +482,34 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         }
       ],
       "rMaxKm": 1.1,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
+      "secondary": true,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.001,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.001,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.34906585039887,
-        "yaw": 0.4014257279587
+        "pitch": 0.3490658503988659,
+        "yaw": 0.4014257279586958
       },
       "ws": 1
     }

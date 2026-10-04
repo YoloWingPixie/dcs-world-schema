@@ -1,8 +1,10 @@
 {
+  "backgroundFactor": 0.5,
   "category": 2,
   "categoryName": "SENSOR_IRST",
   "detectionRangeField": "detection_distance_for_tail_on_Su_27",
   "detectionRangeKm": 80.0,
+  "headOnDistanceCoeff": 0.333,
   "id": "OLS-27",
   "irstDetectionDistance": {
     "afterburnerM": 80000,
@@ -10,6 +12,8 @@
     "minimalM": 25000
   },
   "kind": "irst",
+  "laserRanger": true,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -30,
@@ -19,5 +23,8 @@
       -30,
       30
     ]
-  }
+  },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/OLS-27"
+  ]
 }

@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 175.5,
     "emptyMassKg": 18951,
     "internalFuelKg": 7348,
     "maxSpeedKmh": 2490,
@@ -50,11 +51,23 @@
   "detection": {
     "detectionRangeMax": 350,
     "irEmissionCoeff": 0.97,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 6
   },
   "dimensions": {
     "heightM": 4.88,
     "lengthM": 19.1,
+    "mainGearPosition": [
+      -0.579,
+      -1.825,
+      2.467
+    ],
+    "noseGearPosition": [
+      6.454,
+      -1.78,
+      0
+    ],
+    "wingAreaM2": 68.5,
     "wingSpanM": 19.54
   },
   "displayName": "F-14A",
@@ -127,11 +140,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -244,8 +257,8 @@
             {
               "lights": [
                 {
-                  "angle_max": 0.36651914291881,
-                  "angle_min": 0.26179938779915,
+                  "angle_max": 0.3665191429188092,
+                  "angle_min": 0.2617993877991494,
                   "argument": 51,
                   "color": [
                     1,
@@ -254,7 +267,7 @@
                     0.3
                   ],
                   "direction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "exposure": [
                     [
@@ -310,7 +323,7 @@
             {
               "lights": [
                 {
-                  "angle_max": 0.58119464091411,
+                  "angle_max": 0.5811946409141117,
                   "angle_min": 0,
                   "argument": 51,
                   "color": [
@@ -320,7 +333,7 @@
                     0.12
                   ],
                   "direction": {
-                    "elevation": 0.20943951023932
+                    "elevation": 0.20943951023931956
                   },
                   "exposure": [
                     [
@@ -407,9 +420,22 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-71"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-71",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-14A"
   ],
   "stations": [
     {

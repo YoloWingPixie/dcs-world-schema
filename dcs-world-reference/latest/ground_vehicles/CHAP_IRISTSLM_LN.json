@@ -106,14 +106,35 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 1900,
+    "engineMaxRpm": 2300,
+    "engineMinRpm": 650,
     "enginePower": 480,
     "fordingDepthM": 1.5,
+    "gearRatios": [
+      -6.5,
+      0,
+      11,
+      8.5,
+      6.6,
+      5.2,
+      4,
+      3.1,
+      2.4,
+      1.8,
+      1.4
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.5,
+    "maxAcceleration": 2.6,
     "maxRoadSpeedMs": 25,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 90,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 10.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.625
   },
   "model": {
     "animationArguments": {
@@ -188,6 +209,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_IRISTSLM_LN"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -195,6 +219,7 @@
   "weaponSystems": [
     {
       "barrels": 8,
+      "barrelsReloadType": 3,
       "dependsOn": [
         [
           {
@@ -209,6 +234,8 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 8,
@@ -222,12 +249,20 @@
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -1.5707963267949,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "SA_IRIS_T_SL"
       ],

@@ -82,12 +82,15 @@
   ],
   "mobility": {
     "enginePower": 1,
+    "gearType": 1,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 1,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 3.6,
     "maxVertObstacleM": 0.1,
     "minTurnRadiusM": 0,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.4
   },
   "model": {
     "animationArguments": {
@@ -222,6 +225,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/LeFH_18-40-105"
+  ],
   "tags": [
     "Artillery",
     "Howitzer"
@@ -229,6 +235,7 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "gunAmmo": [
         "leFH18_105HE"
       ],
@@ -236,9 +243,11 @@
       "launcherType": 6,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 40,
+          "automaticLoader": false,
           "gunAmmo": [
             "leFH18_105HE"
           ],
@@ -251,15 +260,23 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          0.4014257279587,
-          -0.4014257279587,
-          -0.078539816339745,
-          0.72431163957765
+          0.4014257279586958,
+          -0.4014257279586958,
+          -0.07853981633974483,
+          0.7243116395776468
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.05235987755983
+        "pitch": 0.17453292519943295,
+        "yaw": 0.05235987755982989
       },
       "ws": 1
     }

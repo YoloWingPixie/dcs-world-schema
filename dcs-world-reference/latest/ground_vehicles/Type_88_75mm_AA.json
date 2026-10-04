@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -125,6 +128,9 @@
   "sensors": [
     "long-range air defence optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Type_88_75mm_AA"
+  ],
   "tags": [
     "Air Defence",
     "AAA"
@@ -146,7 +152,8 @@
           ],
           "portionAmmoCapacity": 20,
           "reloadTimeS": 10,
-          "shotDelayS": 3
+          "shotDelayS": 3,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 200,
@@ -155,7 +162,8 @@
           ],
           "portionAmmoCapacity": 20,
           "reloadTimeS": 10,
-          "shotDelayS": 3
+          "shotDelayS": 3,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 200,
@@ -164,7 +172,8 @@
           ],
           "portionAmmoCapacity": 20,
           "reloadTimeS": 10,
-          "shotDelayS": 3
+          "shotDelayS": 3,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 200,
@@ -173,7 +182,8 @@
           ],
           "portionAmmoCapacity": 20,
           "reloadTimeS": 10,
-          "shotDelayS": 3
+          "shotDelayS": 3,
+          "switchOnDelay": 5
         }
       ],
       "rMaxKm": 13.0,
@@ -182,15 +192,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.4835298641952
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.069813170079773,
-        "yaw": 0.20943951023932
+        "pitch": 0.06981317007977318,
+        "yaw": 0.20943951023931956
       },
       "ws": 1
     }

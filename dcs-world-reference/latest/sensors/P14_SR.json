@@ -12,6 +12,7 @@
   "id": "P14_SR",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 6,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       15
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/P14_SR"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 20
+  }
 }

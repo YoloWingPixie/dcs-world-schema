@@ -62,8 +62,15 @@
   "displayName": "EWR 55G6",
   "fireControl": {
     "maxTargetDetectionRangeM": 400000,
+    "radarRotationType": 0,
     "radarType": 105,
-    "radarTypeName": "wsType_Radar_Gun"
+    "radarTypeName": "wsType_Radar_Gun",
+    "searchRadarFrequencies": [
+      [
+        30000000,
+        300000000
+      ]
+    ]
   },
   "id": "55G6 EWR",
   "life": [
@@ -74,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -143,6 +153,9 @@
   "sensors": [
     "55G6 EWR"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/55G6 EWR"
+  ],
   "tags": [
     "Air Defence",
     "EW Radar"
@@ -160,10 +173,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -184,10 +197,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -208,10 +221,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -232,10 +245,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -256,10 +269,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -280,10 +293,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -304,10 +317,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -328,10 +341,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -352,10 +365,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {
@@ -376,10 +389,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.5235987755983
+          0.5235987755982988
         ]
       ],
       "slewRateRadS": {

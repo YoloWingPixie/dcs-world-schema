@@ -72,8 +72,15 @@
   "displayName": "AAA Fire Can SON-9",
   "fireControl": {
     "maxTargetDetectionRangeM": 55000,
+    "radarRotationType": 2,
     "radarType": 103,
-    "radarTypeName": "wsType_Radar_MissGun"
+    "radarTypeName": "wsType_Radar_MissGun",
+    "searchRadarFrequencies": [
+      [
+        2700000000,
+        2900000000
+      ]
+    ]
   },
   "id": "SON_9",
   "life": [
@@ -88,12 +95,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -317,6 +327,9 @@
   "sensors": [
     "son-9 tr"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SON_9"
+  ],
   "tags": [
     "Air Defence",
     "Tracking Radar",
@@ -324,7 +337,7 @@
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.5,
       "hMaxM": 14000,
       "hMinM": 25,
@@ -333,13 +346,14 @@
       "rMaxKm": 55.0,
       "rMinKm": 0.1,
       "reactionTimeS": 1,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.5,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.5707963267948966
         ]
       ],
       "slewRateRadS": {
@@ -365,12 +379,13 @@
       "payloads": [
         {
           "ammoCapacity": 200,
+          "automaticLoader": false,
           "gunAmmo": [
             "KS19_100HE"
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 1200,
-          "shotDelayS": 4.2857142857143
+          "shotDelayS": 4.285714285714286
         }
       ],
       "rMaxKm": 20.0,
@@ -379,12 +394,18 @@
       "reflectionLimit": 0.5,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.02,
+        "type": 1
+      },
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1
@@ -409,442 +430,530 @@
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm HE-T",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 4,
           "ammoDisplayName": "57mm APCBC-HE-T",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 4,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         }
       ],
       "rMaxKm": 5.0,
@@ -853,12 +962,20 @@
       "reflectionLimit": 0.5,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1

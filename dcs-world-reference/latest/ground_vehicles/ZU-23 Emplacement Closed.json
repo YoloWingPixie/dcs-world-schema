@@ -80,12 +80,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -410,6 +413,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/ZU-23 Emplacement Closed"
+  ],
   "tags": [
     "Air Defence",
     "AAA"
@@ -436,7 +442,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -447,7 +454,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -458,7 +466,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -469,7 +478,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -480,24 +490,34 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         }
       ],
       "rMaxKm": 2.5,
       "rMinKm": 0.0,
       "reactionTimeS": 3,
+      "referenceAngleZRad": 0.5235987755982988,
       "reflectionLimit": 0.2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           -0.1,
           1.48173
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 0.87266462599716
+        "pitch": 1.0471975511965976,
+        "yaw": 0.8726646259971648
       },
       "ws": 1
     }

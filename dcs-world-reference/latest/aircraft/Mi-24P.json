@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 207.5,
     "emptyMassKg": 8891,
     "internalFuelKg": 1701,
     "maxSpeedKmh": 330,
@@ -80,6 +81,16 @@
   "dimensions": {
     "heightM": 4.354,
     "lengthM": 20.953,
+    "mainGearPosition": [
+      -1.105,
+      -1.8,
+      1.3
+    ],
+    "noseGearPosition": [
+      3.3,
+      -2.02,
+      0
+    ],
     "rotorDiameterM": 17.3
   },
   "displayName": "Mi-24P",
@@ -358,11 +369,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.93969262078591,
-      -0.95280922353749,
-      -0.96592582628907,
-      0.0094409633615699,
-      0.98480775301221
+      -0.9396926207859083,
+      -0.9528092235374883,
+      -0.9659258262890683,
+      0.009440963361569854,
+      0.984807753012208
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -866,14 +877,14 @@
               "argument": 83,
               "connector": "RED_BEACON",
               "proto": {
-                "angle_max": 0.78539816339745,
-                "angle_min": 0.61086523819802,
-                "angular_velocity": 6.2831853071796,
+                "angle_max": 0.7853981633974483,
+                "angle_min": 0.6108652381980153,
+                "angular_velocity": 6.283185307179586,
                 "color": [
                   1,
                   0,
                   0,
-                  0.19049409439665
+                  0.19049409439665055
                 ],
                 "cups": 2,
                 "range": 40
@@ -1349,9 +1360,22 @@
     "Mi-24P__radio0",
     "Mi-24P__radio1"
   ],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Raduga-Sh"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Raduga-Sh"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/Mi-24P"
   ],
   "stations": [
     {

@@ -50,6 +50,9 @@
     "airWeaponDistM": 12000,
     "detectionRangeM": 27000,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 12,
+    "radar2Period": 2,
+    "radar3Period": 1,
     "rcsM2": 60000,
     "sensor": {
       "maxAltM": 10000,
@@ -68,7 +71,11 @@
     "heightM": 29.9,
     "lengthM": 131,
     "massKg": 4250000,
-    "widthM": 15.6
+    "shipLengthM": 120,
+    "tailWidth": 12.7,
+    "widthM": 15.6,
+    "xNoseM": 52.2,
+    "xTailM": -64.3
   },
   "displayName": "Frigate 11540 Neustrashimy",
   "facilities": {
@@ -84,7 +91,30 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 27000,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        1000000000,
+        2000000000
+      ],
+      [
+        2000000000,
+        3000000000
+      ],
+      [
+        3000000000,
+        4000000000
+      ],
+      [
+        8000000000,
+        12000000000
+      ],
+      [
+        9400000000,
+        9460000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.6981317007977318
   },
   "id": "NEUSTRASH",
   "life": [
@@ -94,13 +124,15 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 419,
     "draftM": 9,
     "economyDistance": 8334000,
-    "economyVelocity": 8.23111,
+    "economyVelocityMs": 8.23111,
     "maxSpeedMs": 16.4622,
     "minTurnRadiusM": 246,
     "raceDistance": 2963200,
-    "raceVelocity": 16.4622
+    "raceVelocityMs": 16.4622,
+    "speedup": 0.367215
   },
   "model": {
     "animationArguments": {
@@ -174,6 +206,9 @@
     "long-range naval optics",
     "neustrashimy search radar"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/NEUSTRASH"
+  ],
   "tags": [
     "Frigate"
   ],
@@ -197,14 +232,24 @@
       ],
       "rMinKm": 0.05,
       "reactionTimeS": 15,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
+          2.6179938779914944,
+          -2.6179938779914944,
           -0.2,
-          1.5707963267949
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0003,
+        "deviationErrorDistance": 3e-05,
+        "deviationErrorElevation": 0.0003,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.003,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.6,
         "yaw": 0.6
@@ -213,14 +258,18 @@
     },
     {
       "barrels": 8,
+      "barrelsReloadType": 2,
+      "dispertionReductionFactor": 0,
       "launchDelayS": 1,
       "launcherType": 33,
       "ln": 1,
       "maxShootingSpeed": 100,
+      "missileControlInterval": 0.01,
       "payloads": [
         {
           "ammoCapacity": 64,
           "ammoName": "9M311",
+          "automaticLoader": true,
           "reloadTimeS": 10000000,
           "shotDelayS": 20,
           "weapon": "SA9M311"
@@ -228,19 +277,31 @@
       ],
       "rMaxKm": 8.0,
       "rMinKm": 3.0,
+      "radialDisperse": 0,
       "reactionTimeS": 5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.05,
+      "reloadAngleZ": 1.5690509975429023,
       "sectorsRad": [
         [
-          1.5707963267949,
-          -1.5707963267949,
-          -0.17453292519943,
-          1.5707963267949
+          1.5707963267948966,
+          -1.5707963267948966,
+          -0.17453292519943295,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.7453292519943,
-        "yaw": 1.3962634015955
+        "pitch": 1.7453292519943295,
+        "yaw": 1.3962634015954636
       },
       "weapons": [
         "SA9M311"
@@ -249,7 +310,7 @@
     },
     {
       "barrels": 2,
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "displayName": "GSh-6-30K",
       "gunAmmo": [
         "AK630_30_AP",
@@ -268,7 +329,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -278,7 +340,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -288,7 +351,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -298,7 +362,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -308,7 +373,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -318,7 +384,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -328,7 +395,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -338,7 +406,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -348,7 +417,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -358,37 +428,54 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         }
       ],
       "rMaxKm": 3.5,
       "rMinKm": 0.01,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.05,
+      "reloadAngleZ": 1.5690509975429023,
       "sectorsRad": [
         [
-          1.5707963267949,
-          -1.5707963267949,
-          -0.17453292519943,
-          1.5707963267949
+          1.5707963267948966,
+          -1.5707963267948966,
+          -0.17453292519943295,
+          1.5707963267948966
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 1.7453292519943,
-        "yaw": 1.3962634015955
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 1.7453292519943295,
+        "yaw": 1.3962634015954636
+      },
+      "useTargetAccelInSight": true,
       "ws": 2
     },
     {
       "barrels": 8,
+      "barrelsReloadType": 2,
+      "dispertionReductionFactor": 0,
       "launchDelayS": 1,
       "launcherType": 33,
       "ln": 1,
       "maxShootingSpeed": 100,
+      "missileControlInterval": 0.01,
       "payloads": [
         {
           "ammoCapacity": 64,
           "ammoName": "9M311",
+          "automaticLoader": true,
           "reloadTimeS": 10000000,
           "shotDelayS": 20,
           "weapon": "SA9M311"
@@ -396,19 +483,31 @@
       ],
       "rMaxKm": 8.0,
       "rMinKm": 3.0,
+      "radialDisperse": 0,
       "reactionTimeS": 5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.05,
+      "reloadAngleZ": 1.5690509975429023,
       "sectorsRad": [
         [
-          1.5707963267949,
-          -1.5707963267949,
-          -0.17453292519943,
-          1.5707963267949
+          1.5707963267948966,
+          -1.5707963267948966,
+          -0.17453292519943295,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.7453292519943,
-        "yaw": 1.3962634015955
+        "pitch": 1.7453292519943295,
+        "yaw": 1.3962634015954636
       },
       "weapons": [
         "SA9M311"
@@ -417,7 +516,7 @@
     },
     {
       "barrels": 2,
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "displayName": "GSh-6-30K",
       "gunAmmo": [
         "AK630_30_AP",
@@ -436,7 +535,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -446,7 +546,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -456,7 +557,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -466,7 +568,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -476,7 +579,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -486,7 +590,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -496,7 +601,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -506,7 +612,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -516,7 +623,8 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         },
         {
           "ammoCapacity": 1000,
@@ -526,25 +634,38 @@
             "AK630_30_HE"
           ],
           "reloadTimeS": 1000000,
-          "shotDelayS": 0.010909090909091
+          "shotDelayS": 0.01090909090909091,
+          "switchOnDelay": 600
         }
       ],
       "rMaxKm": 3.5,
       "rMinKm": 0.01,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.05,
+      "reloadAngleZ": 1.5690509975429023,
       "sectorsRad": [
         [
-          1.5707963267949,
-          -1.5707963267949,
-          -0.17453292519943,
-          1.5707963267949
+          1.5707963267948966,
+          -1.5707963267948966,
+          -0.17453292519943295,
+          1.5707963267948966
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 1.7453292519943,
-        "yaw": 1.3962634015955
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 1.7453292519943295,
+        "yaw": 1.3962634015954636
+      },
+      "useTargetAccelInSight": true,
       "ws": 3
     },
     {
@@ -558,10 +679,10 @@
       "reflectionLimit": 0.04,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.1170107212764
+          1.117010721276371
         ]
       ],
       "slewRateRadS": {
@@ -572,7 +693,8 @@
     },
     {
       "barrels": 1,
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 4,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.8,
       "frequencyRangeHz": [
         4000000000,
@@ -582,6 +704,7 @@
       "launcherType": 4,
       "ln": 1,
       "missileChannels": 2,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 8,
@@ -593,15 +716,24 @@
       "rMaxKm": 12.0,
       "rMinKm": 1.5,
       "reactionTimeS": 6,
+      "referenceAngleZRad": 1.5707963267948966,
       "reflectionLimit": 0.04,
       "sectorsRad": [
         [
-          0.5235987755983,
-          -0.5235987755983,
-          -1.5707963267949,
-          1.5707963267949
+          0.5235987755982988,
+          -0.5235987755982988,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "SA9M330"
       ],
@@ -609,7 +741,8 @@
     },
     {
       "barrels": 1,
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 4,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.8,
       "frequencyRangeHz": [
         4000000000,
@@ -619,6 +752,7 @@
       "launcherType": 4,
       "ln": 1,
       "missileChannels": 2,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 8,
@@ -630,15 +764,24 @@
       "rMaxKm": 12.0,
       "rMinKm": 1.5,
       "reactionTimeS": 6,
+      "referenceAngleZRad": 1.5707963267948966,
       "reflectionLimit": 0.04,
       "sectorsRad": [
         [
-          0.5235987755983,
-          -0.5235987755983,
-          -1.5707963267949,
-          1.5707963267949
+          0.5235987755982988,
+          -0.5235987755982988,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "SA9M330"
       ],
@@ -646,7 +789,8 @@
     },
     {
       "barrels": 1,
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 4,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.8,
       "frequencyRangeHz": [
         4000000000,
@@ -656,6 +800,7 @@
       "launcherType": 4,
       "ln": 1,
       "missileChannels": 2,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 8,
@@ -667,15 +812,24 @@
       "rMaxKm": 12.0,
       "rMinKm": 1.5,
       "reactionTimeS": 6,
+      "referenceAngleZRad": 1.5707963267948966,
       "reflectionLimit": 0.04,
       "sectorsRad": [
         [
-          0.5235987755983,
-          -0.5235987755983,
-          -1.5707963267949,
-          1.5707963267949
+          0.5235987755982988,
+          -0.5235987755982988,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "SA9M330"
       ],
@@ -683,7 +837,8 @@
     },
     {
       "barrels": 1,
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 4,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.8,
       "frequencyRangeHz": [
         4000000000,
@@ -693,6 +848,7 @@
       "launcherType": 4,
       "ln": 1,
       "missileChannels": 2,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 8,
@@ -704,15 +860,24 @@
       "rMaxKm": 12.0,
       "rMinKm": 1.5,
       "reactionTimeS": 6,
+      "referenceAngleZRad": 1.5707963267948966,
       "reflectionLimit": 0.04,
       "sectorsRad": [
         [
-          0.5235987755983,
-          -0.5235987755983,
-          -1.5707963267949,
-          1.5707963267949
+          0.5235987755982988,
+          -0.5235987755982988,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "SA9M330"
       ],

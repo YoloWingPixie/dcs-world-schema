@@ -84,12 +84,16 @@
     "canSwim": false,
     "enginePower": 264.6,
     "fordingDepthM": 1.3,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 18,
     "maxSlopeRad": 0.9,
     "maxSpeedKmh": 64.8,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 10,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.7,
+    "traceWidth": 0.405
   },
   "model": {
     "animationArguments": {
@@ -467,17 +471,31 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Uragan_BM-27"
+  ],
   "tags": [
     "Artillery",
     "MRL"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          0.3490658503988659,
+          -0.3490658503988659,
+          -0.08726646259971647,
+          0.9599310885968813
+        ]
+      ],
       "barrels": 16,
+      "barrelsReloadType": 3,
+      "canSetTacticalDir": true,
       "launchDelayS": 0.587,
       "launcherType": 34,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 16,
@@ -492,15 +510,23 @@
       "reactionTimeS": 80,
       "sectorsRad": [
         [
-          0.34906585039887,
-          -0.34906585039887,
-          0.10471975511966,
-          0.95993108859688
+          0.3490658503988659,
+          -0.3490658503988659,
+          0.10471975511965978,
+          0.9599310885968813
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.05235987755983,
-        "yaw": 0.05235987755983
+        "pitch": 0.05235987755982989,
+        "yaw": 0.05235987755982989
       },
       "weapons": [
         "URAGAN_9M27F"

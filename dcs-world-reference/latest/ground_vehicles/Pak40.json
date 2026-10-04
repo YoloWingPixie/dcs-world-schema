@@ -103,12 +103,15 @@
   ],
   "mobility": {
     "enginePower": 1,
+    "gearType": 1,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 1,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 3.6,
     "maxVertObstacleM": 0.1,
     "minTurnRadiusM": 0,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.4
   },
   "model": {
     "animationArguments": {
@@ -223,6 +226,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Pak40"
+  ],
   "tags": [
     "Artillery",
     "Howitzer"
@@ -230,6 +236,8 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
+      "distanceMaxForFcs": 4000,
       "gunAmmo": [
         "Pzgr_39/40"
       ],
@@ -237,9 +245,11 @@
       "launcherType": 2,
       "ln": 1,
       "maxShootingSpeed": 2,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 50,
+          "automaticLoader": false,
           "gunAmmo": [
             "Pzgr_39/40"
           ],
@@ -252,20 +262,30 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          0.4014257279587,
-          -0.4014257279587,
-          -0.087266462599716,
-          1.1519173063163
+          0.4014257279586958,
+          -0.4014257279586958,
+          -0.08726646259971647,
+          1.1519173063162575
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.05235987755983
+        "pitch": 0.17453292519943295,
+        "yaw": 0.05235987755982989
       },
       "ws": 1
     },
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
+      "distanceMaxForFcs": 4000,
       "gunAmmo": [
         "Sprgr_34_L48"
       ],
@@ -273,9 +293,11 @@
       "launcherType": 6,
       "ln": 2,
       "maxShootingSpeed": 2,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 25,
+          "automaticLoader": false,
           "gunAmmo": [
             "Sprgr_34_L48"
           ],
@@ -288,15 +310,23 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          0.4014257279587,
-          -0.4014257279587,
-          -0.087266462599716,
-          1.1519173063163
+          0.4014257279586958,
+          -0.4014257279586958,
+          -0.08726646259971647,
+          1.1519173063162575
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.05235987755983
+        "pitch": 0.17453292519943295,
+        "yaw": 0.05235987755982989
       },
       "ws": 1
     }

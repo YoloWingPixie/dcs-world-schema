@@ -80,12 +80,15 @@
   "mobility": {
     "enginePower": 0.5,
     "fordingDepthM": 1,
+    "gearType": 3,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 1,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 0.1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -157,12 +160,16 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Soldier RPG"
+  ],
   "tags": [
     "Infantry"
   ],
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "hMaxM": 300,
       "launchDelayS": 12,
       "launcherType": 35,
@@ -179,17 +186,27 @@
       "rMaxKm": 0.5,
       "rMinKm": 0.05,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.78539816339745,
-          1.0471975511966
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.7853981633974483,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0025,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0025,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.3962634015955,
-        "yaw": 1.3962634015955
+        "pitch": 1.3962634015954636,
+        "yaw": 1.3962634015954636
       },
       "weapons": [
         "PG_16V"

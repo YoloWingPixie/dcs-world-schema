@@ -85,6 +85,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 22000,
     "threatRangeMinM": 30
   },
@@ -108,12 +109,16 @@
   "mobility": {
     "enginePower": 405,
     "fordingDepthM": 1.07,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 15.6389,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 56.30004,
     "maxVertObstacleM": 1.07,
     "minTurnRadiusM": 2.7,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.33,
+    "traceWidth": 0.369
   },
   "model": {
     "animationArguments": {
@@ -308,6 +313,9 @@
   "sensors": [
     "MP7"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M-109"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -335,9 +343,11 @@
       "launcherType": 6,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 39,
+          "automaticLoader": false,
           "gunAmmo": [
             "M185_155"
           ],
@@ -347,17 +357,27 @@
       ],
       "rMinKm": 0.03,
       "reactionTimeS": 100,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.05235987755983,
-          1.3089969389957
+          3.141592653589793,
+          -3.141592653589793,
+          -0.05235987755982989,
+          1.3089969389957472
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.43633231299858,
-        "yaw": 0.34906585039887
+        "pitch": 0.4363323129985824,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     }

@@ -48,6 +48,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.2,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 5000,
     "threatRangeM": 0
   },
@@ -55,7 +58,11 @@
     "heightM": 9.9,
     "lengthM": 91,
     "massKg": 3800000,
-    "widthM": 8.8
+    "shipLengthM": 91,
+    "tailWidth": 5.2,
+    "widthM": 8.8,
+    "xNoseM": 33.2,
+    "xTailM": -45.3
   },
   "displayName": "SSK 641B Tango",
   "facilities": {
@@ -69,13 +76,15 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 323,
     "draftM": 8.5,
     "economyDistance": 926000,
-    "economyVelocity": 1.54333,
+    "economyVelocityMs": 1.54333,
     "maxSpeedMs": 8.23111,
     "minTurnRadiusM": 182,
     "raceDistance": 926000,
-    "raceVelocity": 5.14444
+    "raceVelocityMs": 5.14444,
+    "speedup": 0.124086
   },
   "model": {
     "animationArguments": {
@@ -111,6 +120,9 @@
   "sensors": [
     "long-range naval LLTV",
     "long-range naval optics"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/SOM"
   ],
   "tags": [
     "Submarine"

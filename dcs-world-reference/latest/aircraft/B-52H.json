@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 83460,
     "internalFuelKg": 141135,
     "maxSpeedKmh": 957.6,
@@ -102,11 +103,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 4,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 100
   },
   "dimensions": {
     "heightM": 12.4,
     "lengthM": 49.05,
+    "mainGearPosition": [
+      -6.296,
+      -3.8,
+      1.24
+    ],
+    "noseGearPosition": [
+      9.051,
+      -3.8,
+      1.24
+    ],
+    "wingAreaM2": 371,
     "wingSpanM": 56.4
   },
   "displayName": "B-52H",
@@ -141,11 +154,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      0.023436679747723,
-      0.86602540378444
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      0.0234366797477234,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -551,13 +564,13 @@
             {
               "lights": [
                 {
-                  "angle_max": 0.62831853071796,
-                  "angle_min": 0.36651914291881,
+                  "angle_max": 0.6283185307179586,
+                  "angle_min": 0.3665191429188092,
                   "argument": 211,
                   "connector": "MAIN_SPOT_PTR_1",
                   "dir_correction": {
                     "azimuth": 0,
-                    "elevation": 0.05235987755983
+                    "elevation": 0.05235987755982989
                   },
                   "exposure": [
                     [
@@ -568,14 +581,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.043633231299858,
-                    "angle_max": 0.17453292519943,
-                    "angle_min": 0.10471975511966,
+                    "angle_change_rate": 0.04363323129985824,
+                    "angle_max": 0.17453292519943295,
+                    "angle_min": 0.10471975511965978,
                     "color": [
                       255,
                       201,
                       125,
-                      0.19370562748477
+                      0.1937056274847714
                     ],
                     "power_up_t": 0.6,
                     "range": 2400
@@ -584,13 +597,13 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_max": 0.62831853071796,
-                  "angle_min": 0.36651914291881,
+                  "angle_max": 0.6283185307179586,
+                  "angle_min": 0.3665191429188092,
                   "argument": 211,
                   "connector": "MAIN_SPOT_PTR_4",
                   "dir_correction": {
                     "azimuth": 0,
-                    "elevation": 0.034906585039887
+                    "elevation": 0.03490658503988659
                   },
                   "exposure": [
                     [
@@ -601,14 +614,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.043633231299858,
-                    "angle_max": 0.17453292519943,
-                    "angle_min": 0.10471975511966,
+                    "angle_change_rate": 0.04363323129985824,
+                    "angle_max": 0.17453292519943295,
+                    "angle_min": 0.10471975511965978,
                     "color": [
                       255,
                       201,
                       125,
-                      0.19370562748477
+                      0.1937056274847714
                     ],
                     "power_up_t": 0.6,
                     "range": 2400
@@ -625,17 +638,17 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "BANO_2",
               "dir_correction": {
                 "azimuth": 0,
-                "elevation": 0.78539816339745
+                "elevation": 0.7853981633974483
               },
               "movable": true,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.3,
@@ -647,17 +660,17 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "BANO_1",
               "dir_correction": {
                 "azimuth": 0,
-                "elevation": 0.78539816339745
+                "elevation": 0.7853981633974483
               },
               "movable": true,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.8,
@@ -669,8 +682,8 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 192,
               "connector": "BANO_0_L",
               "dir_correction": {
@@ -679,7 +692,7 @@
               },
               "movable": true,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   1,
@@ -692,8 +705,8 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 192,
               "connector": "BANO_0_R",
               "dir_correction": {
@@ -702,7 +715,7 @@
               },
               "movable": true,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   1,
@@ -731,13 +744,13 @@
             {
               "lights": [
                 {
-                  "angle_max": 0.69813170079773,
-                  "angle_min": 0.31415926535898,
+                  "angle_max": 0.6981317007977318,
+                  "angle_min": 0.3141592653589793,
                   "argument": 208,
                   "connector": "RESERV_SPOT_PTR_1",
                   "dir_correction": {
-                    "azimuth": 0.05235987755983,
-                    "elevation": -0.10471975511966
+                    "azimuth": 0.05235987755982989,
+                    "elevation": -0.10471975511965978
                   },
                   "exposure": [
                     [
@@ -748,14 +761,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.05235987755983,
-                    "angle_max": 0.20943951023932,
-                    "angle_min": 0.13962634015955,
+                    "angle_change_rate": 0.05235987755982989,
+                    "angle_max": 0.20943951023931956,
+                    "angle_min": 0.13962634015954636,
                     "color": [
                       255,
                       201,
                       125,
-                      0.40347331922021
+                      0.4034733192202055
                     ],
                     "power_up_t": 3.22,
                     "range": 6480
@@ -764,13 +777,13 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_max": 0.78539816339745,
-                  "angle_min": 0.20943951023932,
+                  "angle_max": 0.7853981633974483,
+                  "angle_min": 0.20943951023931956,
                   "argument": 209,
                   "connector": "RESERV_SPOT_PTR_2",
                   "dir_correction": {
-                    "azimuth": -0.05235987755983,
-                    "elevation": -0.1221730476396
+                    "azimuth": -0.05235987755982989,
+                    "elevation": -0.12217304763960307
                   },
                   "exposure": [
                     [
@@ -781,14 +794,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.05235987755983,
-                    "angle_max": 0.20943951023932,
-                    "angle_min": 0.13962634015955,
+                    "angle_change_rate": 0.05235987755982989,
+                    "angle_max": 0.20943951023931956,
+                    "angle_min": 0.13962634015954636,
                     "color": [
                       255,
                       201,
                       125,
-                      0.40347331922021
+                      0.4034733192202055
                     ],
                     "power_up_t": 3.22,
                     "range": 6480
@@ -797,13 +810,13 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_max": 1.4311699866354,
-                  "angle_min": 0.75049157835756,
+                  "angle_max": 1.4311699866353502,
+                  "angle_min": 0.7504915783575618,
                   "argument": 208,
                   "connector": "MAIN_SPOT_PTR_2",
                   "dir_correction": {
                     "azimuth": 0,
-                    "elevation": -0.43633231299858
+                    "elevation": -0.4363323129985824
                   },
                   "exposure": [
                     [
@@ -814,14 +827,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.043633231299858,
-                    "angle_max": 0.17453292519943,
-                    "angle_min": 0.10471975511966,
+                    "angle_change_rate": 0.04363323129985824,
+                    "angle_max": 0.17453292519943295,
+                    "angle_min": 0.10471975511965978,
                     "color": [
                       255,
                       201,
                       125,
-                      0.19370562748477
+                      0.1937056274847714
                     ],
                     "power_up_t": 0.6,
                     "range": 2400
@@ -830,13 +843,13 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_max": 2.0943951023932,
-                  "angle_min": 1.3962634015955,
+                  "angle_max": 2.0943951023931953,
+                  "angle_min": 1.3962634015954636,
                   "argument": 208,
                   "connector": "MAIN_SPOT_PTR_3",
                   "dir_correction": {
                     "azimuth": 0,
-                    "elevation": -0.48869219055841
+                    "elevation": -0.4886921905584123
                   },
                   "exposure": [
                     [
@@ -847,14 +860,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.043633231299858,
-                    "angle_max": 0.17453292519943,
-                    "angle_min": 0.10471975511966,
+                    "angle_change_rate": 0.04363323129985824,
+                    "angle_max": 0.17453292519943295,
+                    "angle_min": 0.10471975511965978,
                     "color": [
                       255,
                       201,
                       125,
-                      0.19370562748477
+                      0.1937056274847714
                     ],
                     "power_up_t": 0.6,
                     "range": 2400
@@ -873,19 +886,19 @@
             {
               "lights": [
                 {
-                  "angular_velocity": 4.1887902047864,
+                  "angular_velocity": 4.1887902047863905,
                   "argument": -1,
                   "connector": "RED_BEACON",
                   "flood_light_argument": 200,
                   "proto": {
-                    "angle_max": 0.78539816339745,
-                    "angle_min": 0.61086523819802,
-                    "angular_velocity": 6.2831853071796,
+                    "angle_max": 0.7853981633974483,
+                    "angle_min": 0.6108652381980153,
+                    "angular_velocity": 6.283185307179586,
                     "color": [
                       1,
                       0,
                       0,
-                      0.19049409439665
+                      0.19049409439665055
                     ],
                     "cups": 2,
                     "range": 40
@@ -970,10 +983,27 @@
     ],
     "tankerType": 1
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "ASQ-151"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "B-52H SS radar"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "ASQ-151",
     "Abstract RWR",
     "B-52H SS radar"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/B-52H"
   ],
   "stations": [
     {

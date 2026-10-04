@@ -48,6 +48,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.2,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 3000,
     "sensor": {
       "maxAltM": 5000,
@@ -66,7 +69,11 @@
     "heightM": 8.43,
     "lengthM": 58.8,
     "massKg": 3076000,
-    "widthM": 8.8
+    "shipLengthM": 58.8,
+    "tailWidth": 7.3,
+    "widthM": 8.8,
+    "xNoseM": 34.4,
+    "xTailM": -23.5
   },
   "displayName": "SSK 877V Kilo",
   "facilities": {
@@ -80,13 +87,18 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 237.8,
     "draftM": 8.5,
     "economyDistance": 11112000,
-    "economyVelocity": 3.60111,
+    "economyVelocityMs": 3.60111,
+    "maxPeriscopeDepth": 12,
     "maxSpeedMs": 8.74556,
+    "minPeriscopeDepth": 9,
     "minTurnRadiusM": 125.2,
+    "periscopeHeight": 13,
     "raceDistance": 740800,
-    "raceVelocity": 5.14444
+    "raceVelocityMs": 5.14444,
+    "speedup": 0.203634
   },
   "model": {
     "animationArguments": {
@@ -190,6 +202,9 @@
   "sensors": [
     "long-range naval LLTV",
     "long-range naval optics"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/KILO"
   ],
   "tags": [
     "Submarine"

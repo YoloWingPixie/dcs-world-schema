@@ -86,12 +86,16 @@
   "mobility": {
     "enginePower": 144,
     "fordingDepthM": 0.7,
+    "gearType": 1,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 37,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 133.2,
+    "maxSpeedKmh": 133.20000000000002,
     "maxVertObstacleM": 0.45,
     "minTurnRadiusM": 5.9,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.35,
+    "traceWidth": 0.223
   },
   "model": {
     "animationArguments": {
@@ -808,6 +812,9 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/HL_KORD"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -834,7 +841,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -845,7 +853,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -856,7 +865,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -867,7 +877,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -878,7 +889,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -889,27 +901,37 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.2,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.41887902047864,
-          -0.41887902047864,
-          -0.11344640137963,
-          1.3962634015955
+          0.4188790204786391,
+          -0.4188790204786391,
+          -0.11344640137963143,
+          1.3962634015954636
         ],
         [
-          -0.41887902047864,
-          0.41887902047864,
-          -0.4014257279587,
-          1.3962634015955
+          -0.4188790204786391,
+          0.4188790204786391,
+          -0.4014257279586958,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.001,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.001,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "ws": 1
     }
   ]

@@ -85,12 +85,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -364,6 +367,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/NASAMS_LN_C"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -371,6 +377,7 @@
   "weaponSystems": [
     {
       "barrels": 6,
+      "barrelsReloadType": 3,
       "dependsOn": [
         [
           {
@@ -383,11 +390,13 @@
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": -0.17453292519943295,
       "missileChannels": 1,
       "payloads": [
         {
           "ammoCapacity": 6,
           "ammoName": "AIM-120C",
+          "automaticLoader": false,
           "portionReloadTimeS": 300,
           "shotDelayS": 0.1,
           "weapon": "AIM_120C"
@@ -399,12 +408,20 @@
       "reflectionLimit": 0.05,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "yaw": 0.723599
       },

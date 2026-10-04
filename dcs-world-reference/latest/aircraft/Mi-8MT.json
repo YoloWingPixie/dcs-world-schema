@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 8866,
     "internalFuelKg": 1929,
     "maxSpeedKmh": 250,
@@ -80,6 +81,16 @@
   "dimensions": {
     "heightM": 4.908,
     "lengthM": 25.942,
+    "mainGearPosition": [
+      -1.322,
+      -2.37,
+      2.118
+    ],
+    "noseGearPosition": [
+      3.236,
+      -2.55,
+      0
+    ],
     "rotorDiameterM": 21.33
   },
   "displayName": "Mi-8MTV2",
@@ -379,11 +390,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.93969262078591,
-      -0.95280922353749,
-      -0.96592582628907,
-      -0.98106026219041,
-      -0.99619469809175
+      -0.9396926207859083,
+      -0.9528092235374883,
+      -0.9659258262890683,
+      -0.981060262190407,
+      -0.9961946980917455
     ],
     "damageArgs": [
       {
@@ -842,14 +853,14 @@
                   "connector": "RESERV_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -861,14 +872,14 @@
                   "connector": "RESERV_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.20943951023932,
-                    "angle_max": 0.83775804095728,
+                    "angle_change_rate": 0.20943951023931956,
+                    "angle_max": 0.8377580409572782,
                     "angle_min": 0,
                     "color": [
                       255,
                       201,
                       125,
-                      0.15545341380124
+                      0.15545341380123986
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -886,14 +897,14 @@
                   "connector": "RESERV_SPOT_PTR_2",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -905,14 +916,14 @@
                   "connector": "RESERV_SPOT_PTR_2",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.20943951023932,
-                    "angle_max": 0.83775804095728,
+                    "angle_change_rate": 0.20943951023931956,
+                    "angle_max": 0.8377580409572782,
                     "angle_min": 0,
                     "color": [
                       255,
                       201,
                       125,
-                      0.15545341380124
+                      0.15545341380123986
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -932,11 +943,11 @@
               "argument": 195,
               "connector": "BANO_0",
               "dir_correction": {
-                "azimuth": 3.1415926535898
+                "azimuth": 3.141592653589793
               },
               "power_up_t": 1e-06,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   1,
@@ -951,8 +962,8 @@
               "argument": 190,
               "connector": "BANO_1",
               "dir_correction": {
-                "azimuth": -1.5707963267949,
-                "elevation": -0.78539816339745
+                "azimuth": -1.5707963267948966,
+                "elevation": -0.7853981633974483
               },
               "exposure": [
                 [
@@ -965,7 +976,7 @@
               ],
               "power_up_t": 1e-06,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -980,8 +991,8 @@
               "argument": 192,
               "connector": "BANO_3",
               "dir_correction": {
-                "azimuth": -1.5707963267949,
-                "elevation": -0.78539816339745
+                "azimuth": -1.5707963267948966,
+                "elevation": -0.7853981633974483
               },
               "exposure": [
                 [
@@ -994,7 +1005,7 @@
               ],
               "power_up_t": 1e-06,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -1009,8 +1020,8 @@
               "argument": 191,
               "connector": "BANO_2",
               "dir_correction": {
-                "azimuth": -1.5707963267949,
-                "elevation": 0.78539816339745
+                "azimuth": -1.5707963267948966,
+                "elevation": 0.7853981633974483
               },
               "exposure": [
                 [
@@ -1023,7 +1034,7 @@
               ],
               "power_up_t": 1e-06,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -1038,8 +1049,8 @@
               "argument": 194,
               "connector": "BANO_4",
               "dir_correction": {
-                "azimuth": -1.5707963267949,
-                "elevation": 0.78539816339745
+                "azimuth": -1.5707963267948966,
+                "elevation": 0.7853981633974483
               },
               "exposure": [
                 [
@@ -1052,7 +1063,7 @@
               ],
               "power_up_t": 1e-06,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -1096,15 +1107,15 @@
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
                     "azimuth": 0,
-                    "elevation": 0.069813170079773
+                    "elevation": 0.06981317007977318
                   },
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
@@ -1113,16 +1124,16 @@
                 {
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
-                    "azimuth": 0.19198621771938,
-                    "elevation": 0.069813170079773
+                    "azimuth": 0.19198621771937624,
+                    "elevation": 0.06981317007977318
                   },
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
@@ -1131,16 +1142,16 @@
                 {
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
-                    "azimuth": 0.38397243543875,
-                    "elevation": 0.069813170079773
+                    "azimuth": 0.3839724354387525,
+                    "elevation": 0.06981317007977318
                   },
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
@@ -1149,16 +1160,16 @@
                 {
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
-                    "azimuth": -0.19198621771938,
-                    "elevation": 0.069813170079773
+                    "azimuth": -0.19198621771937624,
+                    "elevation": 0.06981317007977318
                   },
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
@@ -1167,16 +1178,16 @@
                 {
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
-                    "azimuth": -0.38397243543875,
-                    "elevation": 0.069813170079773
+                    "azimuth": -0.3839724354387525,
+                    "elevation": 0.06981317007977318
                   },
                   "proto": {
-                    "angle_max": 0.48869219055841,
+                    "angle_max": 0.4886921905584123,
                     "color": [
                       255,
                       201,
                       125,
-                      0.12792304845413
+                      0.12792304845413266
                     ],
                     "range": 250
                   },
@@ -1196,14 +1207,14 @@
               "emitter_shift_x": -0.25,
               "emitter_shift_y": -0.04,
               "proto": {
-                "angle_max": 0.78539816339745,
-                "angle_min": 0.61086523819802,
-                "angular_velocity": 6.2831853071796,
+                "angle_max": 0.7853981633974483,
+                "angle_min": 0.6108652381980153,
+                "angular_velocity": 6.283185307179586,
                 "color": [
                   1,
                   0,
                   0,
-                  0.19049409439665
+                  0.19049409439665055
                 ],
                 "cups": 2,
                 "range": 40
@@ -1323,7 +1334,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 1.221730476396,
+                  "angle_max": 1.2217304763960306,
                   "angle_min": 0,
                   "color": [
                     1,
@@ -1332,8 +1343,8 @@
                     0.7
                   ],
                   "direction": {
-                    "azimuth": -1.3962634015955,
-                    "elevation": 0.78539816339745
+                    "azimuth": -1.3962634015954636,
+                    "elevation": 0.7853981633974483
                   },
                   "exposure": [
                     [
@@ -1342,7 +1353,7 @@
                       1
                     ]
                   ],
-                  "intensity_max": 9.9,
+                  "intensity_max": 9.899999999999999,
                   "movable": true,
                   "position": [
                     2.649,
@@ -1352,7 +1363,7 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_max": 1.9198621771938,
+                  "angle_max": 1.9198621771937625,
                   "angle_min": 0,
                   "color": [
                     1,
@@ -1361,8 +1372,8 @@
                     0.7
                   ],
                   "direction": {
-                    "azimuth": 3.1415926535898,
-                    "elevation": 0.78539816339745
+                    "azimuth": 3.141592653589793,
+                    "elevation": 0.7853981633974483
                   },
                   "exposure": [
                     [
@@ -1371,7 +1382,7 @@
                       0.5
                     ]
                   ],
-                  "intensity_max": 14.85,
+                  "intensity_max": 14.850000000000001,
                   "movable": true,
                   "position": [
                     -2.611,
@@ -1825,6 +1836,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/Mi-8MT"
+  ],
   "stations": [
     {
       "accepts": [

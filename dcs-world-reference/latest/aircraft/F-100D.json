@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 254.4,
     "emptyMassKg": 9361.2393,
     "internalFuelKg": 3505.4,
     "maxSpeedKmh": 1378.8,
@@ -15,6 +16,12 @@
     "Planes",
     "Refuelable"
   ],
+  "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
+    "flareChargeSize": 0,
+    "flareDefault": 0
+  },
   "countryOfOrigin": "USA",
   "crew": 1,
   "defaultRadio": {
@@ -32,11 +39,23 @@
   "detection": {
     "detectionRangeMax": 60,
     "irEmissionCoeff": 0.8,
+    "irEmissionCoeffAfterburner": 2.6,
     "rcsM2": 3
   },
   "dimensions": {
     "heightM": 4.927,
     "lengthM": 14.351,
+    "mainGearPosition": [
+      -0.677,
+      -2.42,
+      1.829
+    ],
+    "noseGearPosition": [
+      3.768,
+      -2.664,
+      0
+    ],
+    "wingAreaM2": 37.161,
     "wingSpanM": 11.811
   },
   "displayName": "F-100D",
@@ -934,11 +953,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1779,8 +1798,17 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-100D"
   ],
   "stations": [
     {

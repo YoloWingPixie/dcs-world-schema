@@ -87,6 +87,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 4500
   },
   "dimensions": {
@@ -96,7 +97,17 @@
   },
   "displayName": "SAM Linebacker - Bradley M6",
   "fireControl": {
-    "maxTargetDetectionRangeM": 10000
+    "maxTargetDetectionRangeM": 10000,
+    "smoke": [
+      "SMOKE_02",
+      "SMOKE_05",
+      "SMOKE_01",
+      "SMOKE_06",
+      "SMOKE_04",
+      "SMOKE_07",
+      "SMOKE_03",
+      "SMOKE_08"
+    ]
   },
   "id": "M6 Linebacker",
   "life": [
@@ -108,12 +119,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 500,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 18.3333,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 65.99988,
     "maxVertObstacleM": 0.91,
     "minTurnRadiusM": 2.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.325,
+    "traceWidth": 0.46,
+    "waterlineLevel": 1.7
   },
   "model": {
     "animationArguments": {
@@ -181,6 +197,9 @@
     "Linebacker IR",
     "Linebacker day"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M6 Linebacker"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
@@ -188,10 +207,15 @@
   "weaponSystems": [
     {
       "barrels": 4,
+      "barrelsReloadType": 3,
       "ecmK": -1,
+      "inclinationCorrectionBias": 0.17453292519943295,
+      "inclinationCorrectionUpperLimit": 0.5235987755982988,
+      "laser": true,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 1,
+      "minLaunchAngle": 0.08726646259971647,
       "missileChannels": 2,
       "payloads": [
         {
@@ -206,18 +230,29 @@
       "rMinKm": 0.2,
       "reactionTimeS": 2,
       "reflectionLimit": 0.22,
+      "reloadAngleY": 0.5235987755982988,
+      "reloadAngleZ": 0.5235987755982988,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.0297442586767
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.0297442586766545
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.87266462599716,
-        "yaw": 0.69813170079773
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.8726646259971648,
+        "yaw": 0.6981317007977318
+      },
+      "stabilizer": true,
       "weapons": [
         "FIM_92C"
       ],
@@ -225,63 +260,80 @@
     },
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "M242 Bushmaster",
       "gunAmmo": [
         "M242_25_AP_M791",
         "M242_25_HE_M792"
       ],
       "hMaxM": 1200,
+      "laser": true,
       "launcherType": 12,
       "ln": 2,
       "name": "M242_Bushmaster",
       "payloads": [
         {
           "ammoCapacity": 230,
+          "feedSlot": 1,
           "gunAmmo": [
             "M242_25_HE_M792"
           ],
           "portionAmmoCapacity": 230,
           "reloadTimeS": 800,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 0
         },
         {
           "ammoCapacity": 70,
+          "feedSlot": 2,
           "gunAmmo": [
             "M242_25_AP_M791"
           ],
           "portionAmmoCapacity": 70,
           "reloadTimeS": 400,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 0
         }
       ],
       "rMaxKm": 2.5,
       "rMinKm": 0.01,
       "reactionTimeS": 1.8,
       "reflectionLimit": 0.22,
+      "reloadAngleY": 0.5235987755982988,
+      "reloadAngleZ": 0.5235987755982988,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.0297442586767
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.0297442586766545
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.87266462599716,
-        "yaw": 0.69813170079773
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.15,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.8726646259971648,
+        "yaw": 0.6981317007977318
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "M240",
       "gunAmmo": [
         "7_62x51",
         "7_62x51tr"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 3,
       "name": "M240",
@@ -295,25 +347,37 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 480,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
+      "reloadAngleY": 0.5235987755982988,
+      "reloadAngleZ": 0.5235987755982988,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.0297442586767
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.0297442586766545
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.87266462599716,
-        "yaw": 0.69813170079773
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.8726646259971648,
+        "yaw": 0.6981317007977318
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

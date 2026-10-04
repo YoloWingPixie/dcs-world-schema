@@ -1,0 +1,42 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.135,
+    "cxCoeff": [
+      1,
+      0.5,
+      0.4,
+      0.3,
+      1.15
+    ],
+    "lengthM": 1,
+    "massKg": 14,
+    "maxAoaRad": 0.25,
+    "sourcePath": "_G/weapons_table/weapons/missiles/KONKURS#/client/fm"
+  },
+  "autopilot": {
+    "operatingTime": 22,
+    "sourcePath": "_G/weapons_table/weapons/missiles/KONKURS#/client/autopilot"
+  },
+  "motorStages": [
+    {
+      "fuelMassKg": 2.5,
+      "impulseS": 130,
+      "sourcePath": "_G/weapons_table/weapons/missiles/KONKURS#/client/booster",
+      "stage": "booster",
+      "workTimeS": 0.04
+    },
+    {
+      "fuelMassKg": 2,
+      "impulseS": 140,
+      "sourcePath": "_G/weapons_table/weapons/missiles/KONKURS#/client/march",
+      "stage": "march",
+      "startTime": 0.3,
+      "workTimeS": 20
+    }
+  ],
+  "sourcePath": "_G/weapons_table/weapons/missiles/KONKURS#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/KONKURS"
+  ],
+  "weapon": "KONKURS"
+}

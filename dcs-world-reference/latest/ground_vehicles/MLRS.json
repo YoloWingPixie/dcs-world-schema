@@ -84,12 +84,16 @@
   "mobility": {
     "enginePower": 370,
     "fordingDepthM": 0.8,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 17.7778,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 64.00008,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 2.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.345,
+    "traceWidth": 0.349
   },
   "model": {
     "animationArguments": {
@@ -353,13 +357,56 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/MLRS"
+  ],
   "tags": [
     "Artillery",
     "MRL"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          2.443460952792061,
+          1.0471975511965976,
+          0,
+          1.0471975511965976
+        ],
+        [
+          1.0471975511965976,
+          0.05235987755982989,
+          0.10471975511965978,
+          1.0471975511965976
+        ],
+        [
+          0.05235987755982989,
+          -0.05235987755982989,
+          0,
+          1.0471975511965976
+        ],
+        [
+          -0.05235987755982989,
+          -1.0471975511965976,
+          0.10471975511965978,
+          1.0471975511965976
+        ],
+        [
+          -1.0471975511965976,
+          -2.443460952792061,
+          0,
+          1.0471975511965976
+        ],
+        [
+          -2.443460952792061,
+          2.443460952792061,
+          0,
+          0.5235987755982988
+        ]
+      ],
       "barrels": 12,
+      "barrelsReloadType": 3,
+      "canSetTacticalDir": true,
       "dependsOn": [
         [
           {
@@ -377,6 +424,8 @@
       "launcherType": 34,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
+      "outVelocity": 590,
       "payloads": [
         {
           "ammoCapacity": 12,
@@ -390,18 +439,26 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          2.0071286397935,
-          1.0471975511966,
-          0.10471975511966,
-          1.0471975511966
+          2.007128639793479,
+          1.0471975511965976,
+          0.10471975511965978,
+          1.0471975511965976
         ],
         [
-          -1.0471975511966,
-          -2.0071286397935,
-          0.10471975511966,
-          1.0471975511966
+          -1.0471975511965976,
+          -2.007128639793479,
+          0.10471975511965978,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.22,
         "yaw": 0.32

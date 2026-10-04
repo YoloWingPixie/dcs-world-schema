@@ -1,8 +1,10 @@
 {
+  "backgroundFactor": 0.5,
   "category": 2,
   "categoryName": "SENSOR_IRST",
   "detectionRangeField": "detection_distance_for_tail_on_Su_27",
   "detectionRangeKm": 50.0,
+  "headOnDistanceCoeff": 0.333,
   "id": "8TP",
   "irstDetectionDistance": {
     "afterburnerM": 50000,
@@ -10,6 +12,7 @@
     "minimalM": 15000
   },
   "kind": "irst",
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -30,
@@ -19,5 +22,8 @@
       -30,
       30
     ]
-  }
+  },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/8TP"
+  ]
 }

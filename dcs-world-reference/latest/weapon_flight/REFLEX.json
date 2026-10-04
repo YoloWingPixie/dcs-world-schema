@@ -1,0 +1,42 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.125,
+    "cxCoeff": [
+      1,
+      0.22,
+      0.6,
+      0.15,
+      1.28
+    ],
+    "lengthM": 0.69,
+    "massKg": 17.2,
+    "maxAoaRad": 0.2,
+    "sourcePath": "_G/weapons_table/weapons/missiles/REFLEX#/client/fm"
+  },
+  "autopilot": {
+    "operatingTime": 20,
+    "sourcePath": "_G/weapons_table/weapons/missiles/REFLEX#/client/autopilot"
+  },
+  "motorStages": [
+    {
+      "fuelMassKg": 2.2,
+      "impulseS": 170,
+      "sourcePath": "_G/weapons_table/weapons/missiles/REFLEX#/client/booster",
+      "stage": "booster",
+      "workTimeS": 0.1
+    },
+    {
+      "fuelMassKg": 1.5,
+      "impulseS": 200,
+      "sourcePath": "_G/weapons_table/weapons/missiles/REFLEX#/client/march",
+      "stage": "march",
+      "startTime": 0.2,
+      "workTimeS": 9
+    }
+  ],
+  "sourcePath": "_G/weapons_table/weapons/missiles/REFLEX#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/REFLEX"
+  ],
+  "weapon": "REFLEX"
+}

@@ -12,6 +12,7 @@
   "id": "RLS_19J6",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 6,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       45
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/RLS_19J6"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 20
+  }
 }

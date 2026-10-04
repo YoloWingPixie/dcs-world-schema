@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -239,6 +242,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Patriot ln"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -246,6 +252,7 @@
   "weaponSystems": [
     {
       "barrels": 4,
+      "barrelsReloadType": 3,
       "dependsOn": [
         [
           {
@@ -269,15 +276,24 @@
       "rMaxKm": 100.0,
       "rMinKm": 3.0,
       "reactionTimeS": 2,
+      "referenceAngleZRad": 0.533495,
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          1.9198621771938,
-          -1.9198621771938,
+          1.9198621771937625,
+          -1.9198621771937625,
           0,
-          1.4835298641952
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0,
         "yaw": 0.523599

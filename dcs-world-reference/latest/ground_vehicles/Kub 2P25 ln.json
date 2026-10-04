@@ -82,12 +82,16 @@
   "mobility": {
     "enginePower": 340,
     "fordingDepthM": 1,
+    "gearType": 2,
+    "maxAcceleration": 3.47222,
     "maxRoadSpeedMs": 12.2222,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 43.99992,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 2.66,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.33,
+    "traceWidth": 0.455
   },
   "model": {
     "animationArguments": {
@@ -415,6 +419,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Kub 2P25 ln"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -422,6 +429,7 @@
   "weaponSystems": [
     {
       "barrels": 3,
+      "barrelsReloadType": 3,
       "dependsOn": [
         [
           {
@@ -434,10 +442,13 @@
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": 0.3490658503988659,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 3,
           "ammoName": "3M9",
+          "automaticLoader": false,
           "reloadTimeS": 1800,
           "shotDelayS": 0.1,
           "weapon": "SA3M9M"
@@ -446,15 +457,24 @@
       "rMaxKm": 25.0,
       "rMinKm": 4.0,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
           1.223
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.174533,
         "yaw": 0.2618

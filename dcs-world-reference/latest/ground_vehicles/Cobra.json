@@ -86,12 +86,16 @@
   "mobility": {
     "enginePower": 190,
     "fordingDepthM": 1.9,
+    "gearType": 1,
+    "maxAcceleration": 1.1,
     "maxRoadSpeedMs": 32,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 115.2,
     "maxVertObstacleM": 0.32,
     "minTurnRadiusM": 8.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.5,
+    "traceWidth": 0.262
   },
   "model": {
     "animationArguments": {
@@ -223,6 +227,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Cobra"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -249,7 +256,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 20,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 100,
@@ -260,7 +268,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 20,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 100,
@@ -271,7 +280,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 20,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 100,
@@ -282,7 +292,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 20,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 100,
@@ -293,30 +304,40 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 20,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 15
         }
       ],
+      "primaryWeapon": true,
       "rMaxKm": 1.2,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          2.3561944901923,
-          -2.3561944901923,
-          -0.15707963267949,
-          1.0471975511966
+          2.356194490192345,
+          -2.356194490192345,
+          -0.15707963267948966,
+          1.0471975511965976
         ],
         [
-          -2.3561944901923,
-          2.3561944901923,
-          -0.047123889803847,
-          1.0471975511966
+          -2.356194490192345,
+          2.356194490192345,
+          -0.0471238898038469,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 1
     }

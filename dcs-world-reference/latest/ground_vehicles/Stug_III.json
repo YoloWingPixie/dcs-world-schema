@@ -86,6 +86,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 3000
   },
   "dimensions": {
@@ -112,12 +113,16 @@
   "mobility": {
     "enginePower": 223.71,
     "fordingDepthM": 0.5,
+    "gearType": 2,
+    "maxAcceleration": 1.4,
     "maxRoadSpeedMs": 11.11,
     "maxSlopeRad": 0.52,
     "maxSpeedKmh": 39.996,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.4,
+    "traceWidth": 0.393
   },
   "model": {
     "animationArguments": {
@@ -236,6 +241,9 @@
     "TRP-2A day",
     "TRP-2A night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Stug_III"
+  ],
   "tags": [
     "Armor",
     "SPG"
@@ -243,6 +251,8 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
+      "distanceMaxForFcs": 4000,
       "gunAmmo": [
         "Pzgr_39/40"
       ],
@@ -253,6 +263,7 @@
       "payloads": [
         {
           "ammoCapacity": 10,
+          "automaticLoader": false,
           "gunAmmo": [
             "Pzgr_39/40"
           ],
@@ -261,6 +272,7 @@
         },
         {
           "ammoCapacity": 23,
+          "automaticLoader": false,
           "gunAmmo": [
             "Pzgr_39/40"
           ],
@@ -273,20 +285,30 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          0.17453292519943,
-          -0.17453292519943,
-          -0.087266462599716,
-          0.26179938779915
+          0.17453292519943295,
+          -0.17453292519943295,
+          -0.08726646259971647,
+          0.2617993877991494
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.25481807079117
+        "pitch": 0.17453292519943295,
+        "yaw": 0.25481807079117214
       },
       "ws": 1
     },
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
+      "distanceMaxForFcs": 4000,
       "gunAmmo": [
         "Sprgr_34_L48"
       ],
@@ -297,6 +319,7 @@
       "payloads": [
         {
           "ammoCapacity": 5,
+          "automaticLoader": false,
           "gunAmmo": [
             "Sprgr_34_L48"
           ],
@@ -305,6 +328,7 @@
         },
         {
           "ammoCapacity": 16,
+          "automaticLoader": false,
           "gunAmmo": [
             "Sprgr_34_L48"
           ],
@@ -317,15 +341,23 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          0.17453292519943,
-          -0.17453292519943,
-          -0.087266462599716,
-          0.26179938779915
+          0.17453292519943295,
+          -0.17453292519943295,
+          -0.08726646259971647,
+          0.2617993877991494
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.25481807079117
+        "pitch": 0.17453292519943295,
+        "yaw": 0.25481807079117214
       },
       "ws": 1
     }

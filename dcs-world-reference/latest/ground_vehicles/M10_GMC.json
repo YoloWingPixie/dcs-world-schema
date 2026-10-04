@@ -91,6 +91,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 6000
   },
   "dimensions": {
@@ -116,12 +117,17 @@
   "mobility": {
     "enginePower": 205,
     "fordingDepthM": 0.91,
+    "gearType": 2,
+    "maxAcceleration": 1.4,
     "maxRoadSpeedMs": 11.11,
-    "maxSlopeRad": 0.5235987755983,
+    "maxSlopeRad": 0.5235987755982988,
     "maxSpeedKmh": 39.996,
+    "maxTrenchWidth": 2.3,
     "maxVertObstacleM": 0.9,
     "minTurnRadiusM": 5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.345,
+    "traceWidth": 0.41
   },
   "model": {
     "animationArguments": {
@@ -265,12 +271,23 @@
     "TRP-2A day",
     "TRP-2A night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M10_GMC"
+  ],
   "tags": [
     "Armor",
     "SPG"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.5235987755982988
+        ]
+      ],
       "barrels": 1,
       "gunAmmo": [
         "M62_APC"
@@ -282,6 +299,7 @@
       "payloads": [
         {
           "ammoCapacity": 24,
+          "automaticLoader": false,
           "gunAmmo": [
             "M62_APC"
           ],
@@ -290,6 +308,7 @@
         },
         {
           "ammoCapacity": 12,
+          "automaticLoader": false,
           "gunAmmo": [
             "M62_APC"
           ],
@@ -302,25 +321,41 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          2.7925268031909,
-          -2.7925268031909,
-          -0.087266462599716,
-          0.34906585039887
+          2.792526803190927,
+          -2.792526803190927,
+          -0.08726646259971647,
+          0.3490658503988659
         ],
         [
-          -2.7925268031909,
-          2.7925268031909,
-          -0.017453292519943,
-          0.34906585039887
+          -2.792526803190927,
+          2.792526803190927,
+          -0.017453292519943295,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.31415926535898,
-        "yaw": 0.34906585039887
+        "pitch": 0.3141592653589793,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     },
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.5235987755982988
+        ]
+      ],
       "barrels": 1,
       "gunAmmo": [
         "M42A1_HE"
@@ -332,6 +367,7 @@
       "payloads": [
         {
           "ammoCapacity": 6,
+          "automaticLoader": false,
           "gunAmmo": [
             "M42A1_HE"
           ],
@@ -340,6 +376,7 @@
         },
         {
           "ammoCapacity": 12,
+          "automaticLoader": false,
           "gunAmmo": [
             "M42A1_HE"
           ],
@@ -352,21 +389,29 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          2.7925268031909,
-          -2.7925268031909,
-          -0.087266462599716,
-          0.34906585039887
+          2.792526803190927,
+          -2.792526803190927,
+          -0.08726646259971647,
+          0.3490658503988659
         ],
         [
-          -2.7925268031909,
-          2.7925268031909,
-          -0.017453292519943,
-          0.34906585039887
+          -2.792526803190927,
+          2.792526803190927,
+          -0.017453292519943295,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.31415926535898,
-        "yaw": 0.34906585039887
+        "pitch": 0.3141592653589793,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     }

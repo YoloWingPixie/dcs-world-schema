@@ -75,14 +75,31 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 3000,
+    "engineMaxRpm": 3800,
+    "engineMinRpm": 700,
     "enginePower": 160,
     "fordingDepthM": 0.76,
+    "gearRatios": [
+      -4.78,
+      0,
+      4.78,
+      2.6,
+      1.55,
+      1
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.45,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 31.3889,
     "maxSlopeRad": 0.5,
     "maxSpeedKmh": 113.00004,
     "maxVertObstacleM": 0.56,
     "minTurnRadiusM": 7.62,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.46,
+    "traceWidth": 0.343
   },
   "model": {
     "animationArguments": {
@@ -478,6 +495,9 @@
         "to": 9999
       }
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Hummer"
   ],
   "tags": [
     "Unarmed",

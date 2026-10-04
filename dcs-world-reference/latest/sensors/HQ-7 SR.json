@@ -14,6 +14,7 @@
   "lockOnDistanceCoeff": 0.9,
   "multipleTargetsTracking": true,
   "rcs": 2,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -24,6 +25,12 @@
       70
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/HQ-7 SR"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 15
+  }
 }

@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 2223,
     "internalFuelKg": 1300,
     "maxSpeedKmh": 400,
@@ -31,11 +32,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 0.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 11,
+    "mainGearPosition": [
+      -0.628,
+      -2.046,
+      1.888
+    ],
+    "noseGearPosition": [
+      2.504,
+      -1.94,
+      0
+    ],
+    "wingAreaM2": 23.52,
     "wingSpanM": 20
   },
   "displayName": "MQ-9 Reaper",
@@ -50,11 +63,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.3649716762171,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.3649716762170987,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -255,13 +268,13 @@
                     0
                   ],
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 0.5235987755983,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 0.5235987755982988,
                     "color": [
                       0.92,
                       0.92,
                       1,
-                      0.20784609690827
+                      0.2078460969082653
                     ],
                     "controller": "Strobe",
                     "period": 1,
@@ -278,13 +291,13 @@
                     0
                   ],
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 0.5235987755983,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 0.5235987755982988,
                     "color": [
                       0.92,
                       0.92,
                       1,
-                      0.20784609690827
+                      0.2078460969082653
                     ],
                     "controller": "Strobe",
                     "period": 1,
@@ -453,23 +466,40 @@
   "performance": {
     "averageFuelConsumptionKgS": 0.302,
     "bankAngleMaxDeg": 30,
-    "casMin": 27.777777777778,
+    "casMin": 27.77777777777778,
     "enginesCount": 1,
     "hMaxM": 15000,
     "machMax": 0.4,
     "nyMax": 3,
     "rangeKm": 5920,
-    "vLandMs": 27.777777777778,
-    "vMaxHMs": 111.11111111111,
-    "vMaxSeaLevelMs": 111.11111111111,
+    "vLandMs": 27.77777777777778,
+    "vMaxHMs": 111.11111111111111,
+    "vMaxSeaLevelMs": 111.11111111111111,
     "vOptMs": 80,
-    "vTakeOffMs": 27.777777777778
+    "vTakeOffMs": 27.77777777777778
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "RQ-1 Predator CAM"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "RQ-1 Predator FLIR"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "RQ-1 Predator SAR"
+    }
+  ],
   "sensors": [
     "RQ-1 Predator CAM",
     "RQ-1 Predator FLIR",
     "RQ-1 Predator SAR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MQ-9 Reaper"
   ],
   "stations": [
     {

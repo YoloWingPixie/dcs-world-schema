@@ -56,12 +56,14 @@
     "detectionRangeM": 30000,
     "irEmissionCoeff": 0.08,
     "sensor": {
+      "beamWidthRad": 1.5707963267948966,
       "heightM": 5.438,
       "maxAltM": 5000,
       "maxRangeM": 30000,
       "minAltM": 10,
       "minRangeM": 1500
     },
+    "sensorMountWs": 1,
     "threatRangeM": 10300
   },
   "dimensions": {
@@ -72,8 +74,16 @@
   "displayName": "SAM SA-8 Osa \"Gecko\" TEL",
   "fireControl": {
     "maxTargetDetectionRangeM": 35000,
+    "radarRotationType": 1,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        6000000000,
+        8000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.7853981633974483
   },
   "id": "Osa 9A33 ln",
   "life": [
@@ -85,12 +95,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 185,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 22.2222,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 79.99992,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 6,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.6,
+    "traceWidth": 0.555,
+    "waterlineLevel": 1.5
   },
   "model": {
     "animationArguments": {
@@ -405,6 +420,9 @@
     "Karat visir",
     "Osa 9A33 ln"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Osa 9A33 ln"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
@@ -412,16 +430,20 @@
   "weaponSystems": [
     {
       "barrels": 6,
-      "beamWidthRad": 0.017453292519943,
+      "barrelsReloadType": 3,
+      "beamWidthRad": 0.017453292519943295,
       "ecmK": 0.8,
       "frequencyRangeHz": [
         14200000000,
         14800000000
       ],
+      "inclinationCorrectionBias": 0,
+      "inclinationCorrectionUpperLimit": -1.5707963267948966,
       "launchDelayS": 4,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": -1.5707963267948966,
       "missileChannels": 2,
       "payloads": [
         {
@@ -435,18 +457,27 @@
       "rMaxKm": 18.0,
       "rMinKm": 1.5,
       "reactionTimeS": 18,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.20943951023932,
-          1.3613568165556
+          3.141592653589793,
+          -3.141592653589793,
+          -0.20943951023931956,
+          1.361356816555577
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.26179938779915,
-        "yaw": 0.5235987755983
+        "pitch": 0.2617993877991494,
+        "yaw": 0.5235987755982988
       },
       "weapons": [
         "SA9M33"

@@ -85,6 +85,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 5000
   },
   "dimensions": {
@@ -95,7 +96,17 @@
   "displayName": "LT FV101 Scorpion [CH]",
   "fireControl": {
     "fireOnMove": true,
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_02",
+      "SMOKE_05",
+      "SMOKE_01",
+      "SMOKE_06",
+      "SMOKE_04",
+      "SMOKE_07",
+      "SMOKE_03",
+      "SMOKE_08"
+    ]
   },
   "id": "CHAP_FV101",
   "life": [
@@ -109,15 +120,34 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": false,
     "canSwim": true,
+    "engineMaxPowerRpm": 2600,
+    "engineMaxRpm": 3000,
+    "engineMinRpm": 800,
     "enginePower": 190,
     "fordingDepthM": 1,
+    "gearRatios": [
+      -4.8,
+      0,
+      6,
+      3.9,
+      2.6,
+      1.8,
+      1.3,
+      1
+    ],
+    "gearType": 2,
+    "mainGearRatio": 4.3,
+    "maxAcceleration": 4,
     "maxRoadSpeedMs": 22.22,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 79.992,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.275,
+    "waterlineLevel": 0.9
   },
   "model": {
     "animationArguments": {
@@ -244,6 +274,9 @@
     "Raven day",
     "Raven night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_FV101"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -251,12 +284,13 @@
   "weaponSystems": [
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "L23A1 76 mm",
       "gunAmmo": [
         "CHAP_76_HESH_T"
       ],
       "hMaxM": 3000,
+      "laser": false,
       "launcherType": 2,
       "ln": 1,
       "maxShootingSpeed": 0,
@@ -276,26 +310,36 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.61086523819802
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.6108652381980153
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.78539816339745
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.5235987755982988,
+        "yaw": 0.7853981633974483
+      },
+      "stabilizer": false,
       "ws": 1
     },
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "L23A1 76 mm",
       "gunAmmo": [
         "CHAP_76_HE_T"
       ],
       "hMaxM": 3000,
+      "laser": false,
       "launcherType": 6,
       "ln": 2,
       "maxShootingSpeed": 0,
@@ -315,16 +359,25 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.61086523819802
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.6108652381980153
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.78539816339745
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.5235987755982988,
+        "yaw": 0.7853981633974483
+      },
+      "stabilizer": false,
       "ws": 1
     },
     {
@@ -335,6 +388,7 @@
         "7_62x51tr"
       ],
       "hMaxM": 1200,
+      "laser": false,
       "launcherType": 9,
       "ln": 3,
       "name": "L37A1 7.62 mm",
@@ -346,7 +400,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -355,7 +409,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -364,7 +418,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -373,7 +427,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -382,7 +436,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -391,7 +445,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -400,7 +454,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -409,7 +463,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -418,7 +472,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -427,7 +481,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -436,7 +490,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -445,24 +499,34 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         }
       ],
       "rMaxKm": 1.2,
       "rMinKm": 0.001,
       "reactionTimeS": 0.5,
+      "secondary": true,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.61086523819802
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.6108652381980153
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.78539816339745
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.5235987755982988,
+        "yaw": 0.7853981633974483
+      },
+      "stabilizer": false,
       "ws": 1
     }
   ]

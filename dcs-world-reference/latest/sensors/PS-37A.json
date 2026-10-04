@@ -10,7 +10,11 @@
       "upperHeadOnM": 30000,
       "upperTailOnM": 30000
     },
-    "lockOnDistanceCoeff": 0.85
+    "lockOnDistanceCoeff": 0.85,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -18,6 +22,7 @@
   "detectionRangeKm": 120.0,
   "id": "PS-37A",
   "kind": "radar",
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -28,6 +33,9 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/PS-37A"
+  ],
   "surfaceSearch": {
     "gmtiDetectionDistanceM": 120000,
     "hrmDetectionDistanceM": 120000,

@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 10749,
     "internalFuelKg": 4476,
-    "maxSpeedKmh": 2203.2,
+    "maxSpeedKmh": 2203.2000000000003,
     "maxTakeoffKg": 20000
   },
   "attributes": [
@@ -70,11 +71,23 @@
   "detection": {
     "detectionRangeMax": 60,
     "irEmissionCoeff": 0.62,
+    "irEmissionCoeffAfterburner": 2,
     "rcsM2": 3
   },
   "dimensions": {
     "heightM": 5.81,
     "lengthM": 16.3,
+    "mainGearPosition": [
+      -0.8,
+      -2.1,
+      -2.5
+    ],
+    "noseGearPosition": [
+      5.1,
+      -2.1,
+      0
+    ],
+    "wingAreaM2": 46,
     "wingSpanM": 10.6
   },
   "displayName": "AJS37",
@@ -691,7 +704,7 @@
             {
               "connector": "MAIN_SPOT_PTR_01",
               "dir_correction": {
-                "elevation": -0.017453292519943
+                "elevation": -0.017453292519943295
               },
               "typename": "argumentlight"
             }
@@ -1198,10 +1211,27 @@
     ],
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Shkval"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "PS-37A"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "PS-37A",
     "Shkval"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/AJS37"
   ],
   "stations": [
     {

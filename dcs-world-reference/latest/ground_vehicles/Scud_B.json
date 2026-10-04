@@ -88,12 +88,16 @@
   "mobility": {
     "enginePower": 330,
     "fordingDepthM": 1.1,
+    "gearType": 1,
+    "maxAcceleration": 1.30719,
     "maxRoadSpeedMs": 16.6667,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 60.00012,
+    "maxSpeedKmh": 60.000119999999995,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 12.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.708,
+    "traceWidth": 0.573
   },
   "model": {
     "animationArguments": {
@@ -554,6 +558,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Scud_B"
+  ],
   "tags": [
     "MissilesSS",
     "SSM"
@@ -565,6 +572,7 @@
       "launcherType": 8,
       "ln": 1,
       "missileChannels": 1,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 1,
@@ -577,14 +585,23 @@
       "rMaxKm": 285.0,
       "rMinKm": 50.0,
       "reactionTimeS": 8,
+      "referenceAngleZRad": 1.5707963267948966,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -1.5707963267949,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "SCUD_RAKETA"
       ],

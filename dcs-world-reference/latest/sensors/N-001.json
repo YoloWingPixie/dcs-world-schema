@@ -16,6 +16,7 @@
   "id": "N-001",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -26,6 +27,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/N-001"
+  ],
   "trackVolume": {
     "azimuthDeg": [
       -60,
@@ -37,5 +41,9 @@
     ]
   },
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 58.33333333333333,
+    "relativeRadialVelocityMinMs": 41.666666666666664
+  }
 }

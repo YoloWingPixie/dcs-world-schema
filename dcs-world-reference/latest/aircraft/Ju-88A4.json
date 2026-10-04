@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 156.75,
     "emptyMassKg": 9860,
     "internalFuelKg": 2120,
     "maxSpeedKmh": 540,
@@ -32,11 +33,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 100
   },
   "dimensions": {
     "heightM": 5.07,
     "lengthM": 14.35,
+    "mainGearPosition": [
+      1.366,
+      -2.88,
+      3
+    ],
+    "noseGearPosition": [
+      -7.48,
+      -1.17,
+      0
+    ],
+    "wingAreaM2": 54.7,
     "wingSpanM": 20.08
   },
   "displayName": "Ju 88 A-4",
@@ -203,11 +216,11 @@
   "missionOptions": [],
   "model": {
     "canopyGeometry": [
-      -0.99984769515639,
-      -0.99984769515639,
-      -0.99984769515639,
-      -0.99984769515639,
-      -0.99984769515639
+      -0.9998476951563913,
+      -0.9998476951563913,
+      -0.9998476951563913,
+      -0.9998476951563913,
+      -0.9998476951563913
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -486,14 +499,14 @@
                   "argument": 208,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -501,19 +514,19 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -529,14 +542,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -556,8 +569,8 @@
               "argument": 190,
               "connector": "BANO_2",
               "proto": {
-                "angle_max": 2.6179938779915,
-                "angle_min": 1.5707963267949,
+                "angle_max": 2.6179938779914944,
+                "angle_min": 1.5707963267948966,
                 "color": [
                   1,
                   0.35,
@@ -572,8 +585,8 @@
               "argument": 191,
               "connector": "BANO_1",
               "proto": {
-                "angle_max": 2.6179938779915,
-                "angle_min": 1.5707963267949,
+                "angle_max": 2.6179938779914944,
+                "angle_min": 1.5707963267948966,
                 "color": [
                   0,
                   0.894,
@@ -589,7 +602,7 @@
               "connector": "BANO_0",
               "movable": true,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   1,
@@ -611,14 +624,14 @@
                   "argument": 208,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -626,19 +639,19 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -654,14 +667,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1098,6 +1111,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Ju-88A4"
+  ],
   "stations": [
     {
       "accepts": [

@@ -6,7 +6,10 @@
       "upperHeadOnM": 19000,
       "upperTailOnM": 19000
     },
-    "lockOnDistanceCoeff": 0.85
+    "lockOnDistanceCoeff": 0.85,
+    "velocityLimits": {
+      "radialVelocityMinMs": 0
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -14,6 +17,7 @@
   "detectionRangeKm": 19.0,
   "id": "Triton_G",
   "kind": "radar",
+  "scanPeriodS": 1.5,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -24,6 +28,9 @@
       21
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/Triton_G"
+  ],
   "surfaceSearch": {
     "rbmDetectionDistanceM": 19000,
     "rcs": 2

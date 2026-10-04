@@ -1,5 +1,7 @@
 {
   "aero": {
+    "ammoMass": 147,
+    "defaultFuelFraction": 0.5,
     "emptyMassKg": 19680,
     "internalFuelKg": 9500,
     "maxSpeedKmh": 2300,
@@ -69,11 +71,23 @@
   "detection": {
     "detectionRangeMax": 250,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 5.5
   },
   "dimensions": {
     "heightM": 5.72,
     "lengthM": 21.18,
+    "mainGearPosition": [
+      -0.584,
+      -2.17,
+      2.175
+    ],
+    "noseGearPosition": [
+      5.346,
+      -2.14,
+      0
+    ],
+    "wingAreaM2": 62,
     "wingSpanM": 14.7
   },
   "displayName": "Su-33",
@@ -148,11 +162,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -626,10 +640,27 @@
     ],
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "OLS-27"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "N-001"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "N-001",
     "OLS-27"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-33"
   ],
   "stations": [
     {

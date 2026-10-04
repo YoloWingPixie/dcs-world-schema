@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 130.2,
     "emptyMassKg": 5252,
     "internalFuelKg": 1800,
     "maxSpeedKmh": 992,
@@ -30,11 +31,23 @@
   "detection": {
     "detectionRangeMax": 100,
     "irEmissionCoeff": 0.34,
+    "irEmissionCoeffAfterburner": 1.6,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 3.8885,
     "lengthM": 13.025,
+    "mainGearPosition": [
+      0.2,
+      -1.375,
+      2.1
+    ],
+    "noseGearPosition": [
+      4.7,
+      -1.375,
+      0
+    ],
+    "wingAreaM2": 25.16,
     "wingSpanM": 9
   },
   "displayName": "MiG-19P",
@@ -206,11 +219,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -499,7 +512,7 @@
             {
               "argument": 209,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -529,7 +542,7 @@
             {
               "argument": 208,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -950,9 +963,9 @@
     "nyMax": 7,
     "rangeKm": 1200,
     "vLandMs": 78,
-    "vMaxHMs": 275.55555555556,
-    "vMaxSeaLevelMs": 294.16666666667,
-    "vOptMs": 236.11111111111,
+    "vMaxHMs": 275.55555555555554,
+    "vMaxSeaLevelMs": 294.1666666666667,
+    "vOptMs": 236.11111111111111,
     "vTakeOffMs": 63
   },
   "radios": [],
@@ -965,9 +978,22 @@
     ],
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "N-008"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "N-008"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MiG-19P"
   ],
   "stations": [
     {

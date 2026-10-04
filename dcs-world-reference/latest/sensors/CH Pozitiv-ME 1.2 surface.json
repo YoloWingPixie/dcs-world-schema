@@ -1,4 +1,5 @@
 {
+  "airborneRadar": false,
   "category": 1,
   "categoryName": "SENSOR_RADAR",
   "detectionDistance": {
@@ -12,7 +13,9 @@
   "id": "CH Pozitiv-ME 1.2 surface",
   "kind": "radar",
   "lockOnDistanceCoeff": 1,
+  "rbmDetectionDistanceM": 80000,
   "rcs": 10,
+  "scanPeriodS": 10,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -23,6 +26,13 @@
       85
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/CH Pozitiv-ME 1.2 surface"
+  ],
   "type": 1,
-  "typeName": "RADAR_SS"
+  "typeName": "RADAR_SS",
+  "vehiclesDetection": true,
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }

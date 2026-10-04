@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 22300,
     "internalFuelKg": 11700,
     "maxSpeedKmh": 1700,
@@ -48,11 +49,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 1.5,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 7.5
   },
   "dimensions": {
     "heightM": 4.97,
     "lengthM": 24.53,
+    "mainGearPosition": [
+      -1.512,
+      -2.238,
+      1.89
+    ],
+    "noseGearPosition": [
+      7.016,
+      -2.454,
+      0
+    ],
+    "wingAreaM2": 55.17,
     "wingSpanM": 17.64
   },
   "displayName": "Su-24MR",
@@ -61,11 +74,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.3649716762171,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.3649716762170987,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -216,14 +229,14 @@
               ],
               "movable": true,
               "proto": {
-                "angle_change_rate": 0.039269908169872,
-                "angle_max": 0.15707963267949,
-                "angle_min": 0.087266462599716,
+                "angle_change_rate": 0.039269908169872414,
+                "angle_max": 0.15707963267948966,
+                "angle_min": 0.08726646259971647,
                 "color": [
                   255,
                   201,
                   125,
-                  0.31793876913398
+                  0.3179387691339814
                 ],
                 "power_up_t": 1.75,
                 "range": 4800
@@ -241,14 +254,14 @@
               ],
               "movable": true,
               "proto": {
-                "angle_change_rate": 0.039269908169872,
-                "angle_max": 0.15707963267949,
-                "angle_min": 0.087266462599716,
+                "angle_change_rate": 0.039269908169872414,
+                "angle_max": 0.15707963267948966,
+                "angle_min": 0.08726646259971647,
                 "color": [
                   255,
                   201,
                   125,
-                  0.31793876913398
+                  0.3179387691339814
                 ],
                 "power_up_t": 1.75,
                 "range": 4800
@@ -288,14 +301,14 @@
               ],
               "movable": true,
               "proto": {
-                "angle_change_rate": -0.11780972450962,
-                "angle_max": 0.47123889803847,
-                "angle_min": 0.37699111843078,
+                "angle_change_rate": -0.11780972450961724,
+                "angle_max": 0.47123889803846897,
+                "angle_min": 0.3769911184307752,
                 "color": [
                   255,
                   201,
                   125,
-                  0.18499689437998
+                  0.18499689437998487
                 ],
                 "power_up_t": 0.9,
                 "range": 300
@@ -313,14 +326,14 @@
               ],
               "movable": true,
               "proto": {
-                "angle_change_rate": -0.11780972450962,
-                "angle_max": 0.47123889803847,
-                "angle_min": 0.37699111843078,
+                "angle_change_rate": -0.11780972450961724,
+                "angle_max": 0.47123889803846897,
+                "angle_min": 0.3769911184307752,
                 "color": [
                   255,
                   201,
                   125,
-                  0.18499689437998
+                  0.18499689437998487
                 ],
                 "power_up_t": 0.9,
                 "range": 300
@@ -420,10 +433,27 @@
   "refuelling": {
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Kaira-1"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "Orion-A"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Kaira-1",
     "Orion-A"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-24MR"
   ],
   "stations": [
     {

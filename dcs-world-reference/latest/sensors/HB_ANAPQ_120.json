@@ -10,7 +10,11 @@
       "upperHeadOnM": 60000,
       "upperTailOnM": 60000
     },
-    "lockOnDistanceCoeff": 0.85
+    "lockOnDistanceCoeff": 0.85,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -18,6 +22,7 @@
   "detectionRangeKm": 90.0,
   "id": "HB_ANAPQ_120",
   "kind": "radar",
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -28,6 +33,9 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/HB_ANAPQ_120"
+  ],
   "surfaceSearch": {
     "rcs": 100,
     "vehiclesDetection": false

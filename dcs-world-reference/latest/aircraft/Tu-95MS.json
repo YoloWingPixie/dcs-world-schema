@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 1056,
     "emptyMassKg": 96000,
     "internalFuelKg": 87000,
     "maxSpeedKmh": 828,
@@ -101,11 +102,23 @@
   "detection": {
     "detectionRangeMax": 400000,
     "irEmissionCoeff": 1.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 100
   },
   "dimensions": {
     "heightM": 13.3,
     "lengthM": 49.5,
+    "mainGearPosition": [
+      -1.1,
+      -3.66,
+      6.195
+    ],
+    "noseGearPosition": [
+      13.36,
+      -4.19,
+      0
+    ],
+    "wingAreaM2": 295,
     "wingSpanM": 50.04
   },
   "displayName": "Tu-95MS [CH]",
@@ -163,11 +176,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.45315389351832,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.45315389351832497,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -376,14 +389,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -395,14 +408,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.20943951023932,
-                    "angle_max": 0.83775804095728,
+                    "angle_change_rate": 0.20943951023931956,
+                    "angle_max": 0.8377580409572782,
                     "angle_min": 0,
                     "color": [
                       255,
                       201,
                       125,
-                      0.15545341380124
+                      0.15545341380123986
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -419,14 +432,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -444,8 +457,8 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 2.6179938779915,
+              "angle_max": 2.792526803190927,
+              "angle_min": 2.6179938779914944,
               "argument": 190,
               "color": [
                 1,
@@ -469,8 +482,8 @@
               "typename": "omnilight"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 2.6179938779915,
+              "angle_max": 2.792526803190927,
+              "angle_min": 2.6179938779914944,
               "argument": 191,
               "color": [
                 0,
@@ -526,14 +539,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -545,14 +558,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.20943951023932,
-                    "angle_max": 0.83775804095728,
+                    "angle_change_rate": 0.20943951023931956,
+                    "angle_max": 0.8377580409572782,
                     "angle_min": 0,
                     "color": [
                       255,
                       201,
                       125,
-                      0.15545341380124
+                      0.15545341380123986
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -569,14 +582,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -603,13 +616,13 @@
                     0
                   ],
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 0.5235987755983,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 0.5235987755982988,
                     "color": [
                       0.92,
                       0.92,
                       1,
-                      0.20784609690827
+                      0.2078460969082653
                     ],
                     "controller": "Strobe",
                     "period": 1,
@@ -727,9 +740,22 @@
     ],
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "CH Obzor surface"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "CH Obzor surface"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Tu-95MS"
   ],
   "stations": [
     {

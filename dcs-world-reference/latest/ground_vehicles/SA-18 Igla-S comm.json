@@ -81,12 +81,15 @@
   "mobility": {
     "enginePower": 0.5,
     "fordingDepthM": 1,
+    "gearType": 3,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 1,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 0.1,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -231,6 +234,9 @@
       "countryName": "PERU"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SA-18 Igla-S comm"
+  ],
   "tags": [
     "Air Defence",
     "MANPADS"
@@ -244,13 +250,15 @@
       "rMaxKm": 5.2,
       "rMinKm": 0.5,
       "reactionTimeS": 5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.78539816339745,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.7853981633974483,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {

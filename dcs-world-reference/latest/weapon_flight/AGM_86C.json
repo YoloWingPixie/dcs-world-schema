@@ -1,0 +1,142 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.697,
+    "cxCoeff": [
+      1,
+      0.3,
+      0.65,
+      0.023,
+      1.6
+    ],
+    "lengthM": 6.6,
+    "massKg": 1950,
+    "maxAoaRad": 0.2,
+    "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/fm"
+  },
+  "batteryLifeS": 10000,
+  "killDistanceM": 0,
+  "launchTables": [
+    {
+      "columnHeaders": [
+        100,
+        125,
+        175,
+        250
+      ],
+      "key": "LaunchDistData",
+      "rows": [
+        {
+          "cells": [
+            0,
+            0,
+            1170000,
+            1200000
+          ],
+          "header": 500
+        },
+        {
+          "cells": [
+            1185000,
+            1185000,
+            1190000,
+            1230000
+          ],
+          "header": 2000
+        },
+        {
+          "cells": [
+            1220000,
+            1235000,
+            1240000,
+            1245000
+          ],
+          "header": 7000
+        },
+        {
+          "cells": [
+            1250000,
+            1250000,
+            1260000,
+            1260000
+          ],
+          "header": 13000
+        }
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/LaunchDistData"
+    },
+    {
+      "columnHeaders": [
+        100,
+        125,
+        175,
+        250
+      ],
+      "key": "MinLaunchDistData",
+      "rows": [
+        {
+          "cells": [
+            0,
+            0,
+            18500,
+            20000
+          ],
+          "header": 500
+        },
+        {
+          "cells": [
+            21000,
+            24000,
+            26000,
+            63000
+          ],
+          "header": 2000
+        },
+        {
+          "cells": [
+            48000,
+            55000,
+            56000,
+            63000
+          ],
+          "header": 7000
+        },
+        {
+          "cells": [
+            84000,
+            88000,
+            95000,
+            100000
+          ],
+          "header": 13000
+        }
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/MinLaunchDistData"
+    }
+  ],
+  "machMax": 0.9,
+  "motorStages": [
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 0,
+      "impulseS": 0,
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/boost",
+      "stage": "boost",
+      "startTime": 0,
+      "workTimeS": 0
+    },
+    {
+      "fuelMassKg": 255,
+      "impulseS": 3000,
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client/march",
+      "stage": "march",
+      "startTime": 0.8,
+      "workTimeS": 999999
+    }
+  ],
+  "rangeMaxM": 1200000,
+  "sourcePath": "_G/weapons_table/weapons/missiles/AGM_86C#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/AGM_86C"
+  ],
+  "weapon": "AGM_86C"
+}

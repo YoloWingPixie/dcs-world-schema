@@ -84,12 +84,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -208,6 +211,9 @@
   "sensors": [
     "long-range naval optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SK_C_28_naval_gun"
+  ],
   "tags": [
     "Fortification",
     "Buildings"
@@ -224,11 +230,12 @@
       "payloads": [
         {
           "ammoCapacity": 200,
+          "automaticLoader": false,
           "gunAmmo": [
             "RM_15cm_HE"
           ],
           "portionReloadTimeS": 20,
-          "shotDelayS": 8.5714285714286
+          "shotDelayS": 8.571428571428571
         }
       ],
       "rMaxKm": 20.0,
@@ -236,15 +243,23 @@
       "reactionTimeS": 15,
       "sectorsRad": [
         [
-          1.1344640137963,
-          -1.1344640137963,
-          -0.087266462599716,
-          0.48869219055841
+          1.1344640137963142,
+          -1.1344640137963142,
+          -0.08726646259971647,
+          0.4886921905584123
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.034906585039887,
-        "yaw": 0.034906585039887
+        "pitch": 0.03490658503988659,
+        "yaw": 0.03490658503988659
       },
       "ws": 1
     }

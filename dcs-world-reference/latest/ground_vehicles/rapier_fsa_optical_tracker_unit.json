@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -245,6 +248,9 @@
   "sensors": [
     "generic SAM search visir"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/rapier_fsa_optical_tracker_unit"
+  ],
   "tags": [
     "Air Defence",
     "Optical Tracker"
@@ -271,12 +277,20 @@
       "reflectionLimit": 0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1

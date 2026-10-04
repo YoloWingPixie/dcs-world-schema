@@ -1,5 +1,7 @@
 {
   "aero": {
+    "ammoMass": 0,
+    "defaultFuelFraction": 0.5493,
     "emptyMassKg": 648,
     "internalFuelKg": 71,
     "maxSpeedKmh": 306,
@@ -31,12 +33,24 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.04,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 1.5
   },
   "dimensions": {
     "heightM": 1.9812,
     "lengthM": 5.6388,
-    "wingSpanM": 11.594846
+    "mainGearPosition": [
+      0.49,
+      -1.3,
+      0.859
+    ],
+    "noseGearPosition": [
+      -3.566,
+      -0.68,
+      0
+    ],
+    "wingAreaM2": 11.61288,
+    "wingSpanM": 11.594845999999999
   },
   "displayName": "Christen Eagle II",
   "failures": [
@@ -117,11 +131,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.64085638205579,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.3420201433256687,
+      -0.6408563820557885,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -893,6 +907,9 @@
     "tankerType": 0
   },
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Christen Eagle II"
+  ],
   "stations": [
     {
       "accepts": [

@@ -49,6 +49,7 @@
   "detection": {
     "detectionRangeM": 30000,
     "irEmissionCoeff": 0.03,
+    "noVisualDetectorInAlarmedState": false,
     "sensor": {
       "heightM": 2,
       "laser": false,
@@ -81,12 +82,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -192,6 +196,9 @@
   "sensors": [
     "long-range air defence optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/KDO_Mod40"
+  ],
   "tags": [
     "Air Defence",
     "AAA",
@@ -209,15 +216,15 @@
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.5620696805349
+          1.562069680534925
         ]
       ],
       "slewRateRadS": {
-        "pitch": 0.34906585039887,
-        "yaw": 0.34906585039887
+        "pitch": 0.3490658503988659,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     },
@@ -238,6 +245,7 @@
       "payloads": [
         {
           "ammoCapacity": 200,
+          "automaticLoader": false,
           "gunAmmo": [
             "Flak18_Sprgr_39"
           ],
@@ -251,12 +259,19 @@
       "reactionTimeS": 15,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.5620696805349
+          1.562069680534925
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.02,
+        "type": 1
+      },
+      "sightMaxTanVel": 200,
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1
@@ -280,6 +295,7 @@
       "payloads": [
         {
           "ammoCapacity": 200,
+          "automaticLoader": false,
           "gunAmmo": [
             "Flak41_Sprgr_39"
           ],
@@ -293,12 +309,19 @@
       "reactionTimeS": 15,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.5620696805349
+          1.562069680534925
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.02,
+        "type": 1
+      },
+      "sightMaxTanVel": 200,
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1

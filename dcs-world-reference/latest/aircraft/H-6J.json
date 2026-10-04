@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 35000,
     "internalFuelKg": 25000,
     "maxSpeedKmh": 1044,
@@ -100,11 +101,23 @@
   "detection": {
     "detectionRangeMax": 400000,
     "irEmissionCoeff": 2.5,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 55
   },
   "dimensions": {
     "heightM": 10.36,
     "lengthM": 34.8,
+    "mainGearPosition": [
+      -0.584,
+      -3.3625,
+      4.887
+    ],
+    "noseGearPosition": [
+      10.656,
+      -3.3535,
+      0
+    ],
+    "wingAreaM2": 165,
     "wingSpanM": 33
   },
   "displayName": "H-6J",
@@ -355,8 +368,8 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 2.6179938779915,
+              "angle_max": 2.792526803190927,
+              "angle_min": 2.6179938779914944,
               "argument": 190,
               "color": [
                 1,
@@ -380,8 +393,8 @@
               "typename": "omnilight"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 2.6179938779915,
+              "angle_max": 2.792526803190927,
+              "angle_min": 2.6179938779914944,
               "argument": 191,
               "color": [
                 0,
@@ -463,13 +476,13 @@
                     0.092
                   ],
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 3.141592653589793,
                     "color": [
                       1,
                       0,
                       0,
-                      0.37947331922021
+                      0.3794733192202055
                     ],
                     "controller": "Strobe",
                     "period": 1.33333,
@@ -485,13 +498,13 @@
                     0
                   ],
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 0.5235987755983,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 0.5235987755982988,
                     "color": [
                       0.92,
                       0.92,
                       1,
-                      0.20784609690827
+                      0.2078460969082653
                     ],
                     "controller": "Strobe",
                     "period": 1,
@@ -565,11 +578,32 @@
     ],
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "H-6J TV"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "H-6J FLIR"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "H-6J RADAR"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "H-6J FLIR",
     "H-6J RADAR",
     "H-6J TV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/H-6J"
   ],
   "stations": [
     {

@@ -8,7 +8,11 @@
     },
     "multipleTargetsTracking": true,
     "rcs": 6,
-    "twsMaxTargets": 60
+    "twsMaxTargets": 60,
+    "velocityLimits": {
+      "radialVelocityMinMs": 18.51851851851852,
+      "relativeRadialVelocityMinMs": 18.51851851851852
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -16,6 +20,7 @@
   "detectionRangeKm": 500.0,
   "id": "AESA_KJ2000",
   "kind": "radar",
+  "scanPeriodS": 0.1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -26,6 +31,9 @@
       50
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/AESA_KJ2000"
+  ],
   "surfaceSearch": {
     "gmtiDetectionDistanceM": 400000,
     "rbmDetectionDistanceM": 350000,

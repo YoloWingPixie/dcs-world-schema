@@ -18,6 +18,7 @@
   "lockOnDistanceCoeff": 0.54,
   "multipleTargetsTracking": true,
   "rcs": 5,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -28,6 +29,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/ANAPG-71"
+  ],
   "trackVolume": {
     "azimuthDeg": [
       -65,
@@ -40,5 +44,9 @@
   },
   "twsMaxTargets": 6,
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 27.77777777777778,
+    "relativeRadialVelocityMinMs": 27.77777777777778
+  }
 }

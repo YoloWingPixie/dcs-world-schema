@@ -84,6 +84,7 @@
       "minAltM": 10,
       "minRangeM": 200
     },
+    "sensorMountWs": 1,
     "threatRangeM": 15000
   },
   "dimensions": {
@@ -95,8 +96,16 @@
   "fireControl": {
     "fireOnMove": false,
     "maxTargetDetectionRangeM": 20000,
+    "radarRotationType": 1,
     "radarType": 103,
-    "radarTypeName": "wsType_Radar_MissGun"
+    "radarTypeName": "wsType_Radar_MissGun",
+    "searchRadarFrequencies": [
+      [
+        2000000000,
+        3000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 1.4835298641951802
   },
   "id": "HQ-7_LN_P",
   "life": [
@@ -112,12 +121,17 @@
   "mobility": {
     "canSwim": false,
     "enginePower": 260,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 22,
     "maxSlopeRad": 0.6,
     "maxSpeedKmh": 79.2,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 7,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.56,
+    "traceWidth": 0.343,
+    "waterlineLevel": 0.8
   },
   "model": {
     "animationArguments": {
@@ -226,6 +240,9 @@
     "HQ-7B Optic Sight",
     "HQ-7B search visir"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/HQ-7_LN_P"
+  ],
   "tags": [
     "Air Defence",
     "SAM TELAR"
@@ -235,11 +252,15 @@
       "barrels": 4,
       "ecmK": -1,
       "externalTrackingAwacs": false,
+      "inclinationCorrectionBias": 0.08726646259971647,
+      "inclinationCorrectionUpperLimit": 0.08726646259971647,
       "launchDelayS": 2.5,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": 0.08726646259971647,
       "missileChannels": 1,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 4,
@@ -251,18 +272,28 @@
       "rMaxKm": 15.0,
       "rMinKm": 0.7,
       "reactionTimeS": 6.5,
+      "referenceAngleYRad": 3.141592653589793,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.26179938779915,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.2617993877991494,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.3962634015955,
-        "yaw": 1.3962634015955
+        "pitch": 1.3962634015954636,
+        "yaw": 1.3962634015954636
       },
       "weapons": [
         "HQ-7B"

@@ -94,8 +94,16 @@
   "fireControl": {
     "fireOnMove": false,
     "maxTargetDetectionRangeM": 250000,
+    "radarRotationType": 1,
     "radarType": 102,
-    "radarTypeName": "wsType_Radar_Miss"
+    "radarTypeName": "wsType_Radar_Miss",
+    "searchRadarFrequencies": [
+      [
+        4000000000,
+        6000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 1.2217304763960306
   },
   "id": "CHAP_IRISTSLM_STR",
   "life": [
@@ -109,14 +117,35 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 1900,
+    "engineMaxRpm": 2300,
+    "engineMinRpm": 650,
     "enginePower": 480,
     "fordingDepthM": 1.5,
+    "gearRatios": [
+      -6.5,
+      0,
+      11,
+      8.5,
+      6.6,
+      5.2,
+      4,
+      3.1,
+      2.4,
+      1.8,
+      1.4
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.5,
+    "maxAcceleration": 2.5,
     "maxRoadSpeedMs": 25,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 90,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 10.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.625
   },
   "model": {
     "animationArguments": {
@@ -198,13 +227,16 @@
   "sensors": [
     "CH TRML-4D air"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_IRISTSLM_STR"
+  ],
   "tags": [
     "Air Defence",
     "Search & Track Radar"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 0.034906585039887,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -216,22 +248,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 1
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -243,22 +278,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 2
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -270,22 +308,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 3
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -297,22 +338,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 4
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -324,22 +368,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 5
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -351,22 +398,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 6
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -378,22 +428,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 7
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -405,22 +458,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 8
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -432,22 +488,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 9
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -459,22 +518,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 10
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -486,22 +548,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 11
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -513,22 +578,25 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 12
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.2,
       "frequencyRangeHz": [
         4000000000,
@@ -540,16 +608,18 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 1,
+      "mountBeforeMove": true,
+      "moveable": false,
       "rMaxKm": 250.0,
       "rMinKm": 0.5,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
       "ws": 13

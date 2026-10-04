@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 7619,
     "internalFuelKg": 1100,
     "maxSpeedKmh": 240,
@@ -52,6 +53,16 @@
   "dimensions": {
     "heightM": 4.893,
     "lengthM": 18.654,
+    "mainGearPosition": [
+      1.081,
+      -1.55,
+      1.288
+    ],
+    "noseGearPosition": [
+      -3.566,
+      -1.57,
+      0
+    ],
     "rotorDiameterM": 16.4
   },
   "displayName": "SH-60B",
@@ -60,11 +71,11 @@
   "kind": "rotary",
   "model": {
     "canopyGeometry": [
-      -0.93969262078591,
-      -0.95280922353749,
-      -0.96592582628907,
-      -0.049950211252315,
-      0.86602540378444
+      -0.9396926207859083,
+      -0.9528092235374883,
+      -0.9659258262890683,
+      -0.0499502112523148,
+      0.8660254037844387
     ],
     "damageArgs": [
       {
@@ -183,10 +194,27 @@
     "rangeKm": 480
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "NTS"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "AN/APS-142"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APS-142",
     "Abstract RWR",
     "NTS"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/SH-60B"
   ],
   "stations": [
     {

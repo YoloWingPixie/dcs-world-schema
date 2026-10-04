@@ -1,0 +1,53 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.36,
+    "cxCoeff": [
+      1,
+      1,
+      0.85,
+      0.5,
+      1.5
+    ],
+    "lengthM": 4.7,
+    "massKg": 610,
+    "maxAoaRad": 0.28,
+    "sourcePath": "_G/weapons_table/weapons/missiles/X_31A#/client/fm"
+  },
+  "autopilot": {
+    "finsLimitRad": 0.7853981633974483,
+    "operatingTime": 120,
+    "sourcePath": "_G/weapons_table/weapons/missiles/X_31A#/client/autopilot"
+  },
+  "motorStages": [
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 93,
+      "impulseS": 250,
+      "sourcePath": "_G/weapons_table/weapons/missiles/X_31A#/client/boost",
+      "stage": "boost",
+      "startTime": 0.5,
+      "workTimeS": 2.2
+    },
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 55,
+      "impulseS": 0,
+      "sourcePath": "_G/weapons_table/weapons/missiles/X_31A#/client/march",
+      "stage": "march",
+      "startTime": 3,
+      "workTimeS": 0
+    }
+  ],
+  "seeker": {
+    "farDistance": 60000,
+    "fovRad": 0.7853981633974483,
+    "nearDistance": 10,
+    "operatingTime": 120,
+    "sourcePath": "_G/weapons_table/weapons/missiles/X_31A#/client/seeker"
+  },
+  "sourcePath": "_G/weapons_table/weapons/missiles/X_31A#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/X_31A"
+  ],
+  "weapon": "X_31A"
+}

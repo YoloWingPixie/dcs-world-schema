@@ -109,14 +109,31 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 2100,
+    "engineMaxRpm": 2500,
+    "engineMinRpm": 700,
     "enginePower": 330,
     "fordingDepthM": 0.9,
+    "gearRatios": [
+      -4.78,
+      0,
+      4.78,
+      2.6,
+      1.55,
+      1
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.45,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 29.166,
     "maxSlopeRad": 0.5,
     "maxSpeedKmh": 104.9976,
     "maxVertObstacleM": 0.56,
     "minTurnRadiusM": 9.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.6,
+    "traceWidth": 0.343
   },
   "model": {
     "animationArguments": {
@@ -320,6 +337,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/MaxxPro_MRAP"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -346,7 +366,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -357,7 +378,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -368,7 +390,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -379,7 +402,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -390,7 +414,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
@@ -399,12 +424,21 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.26179938779915,
-          0.43633231299858
+          3.141592653589793,
+          -3.141592653589793,
+          -0.2617993877991494,
+          0.4363323129985824
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
+      "sightMaxTanVel": 55.55555555555556,
       "ws": 1
     }
   ]

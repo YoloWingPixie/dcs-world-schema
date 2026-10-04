@@ -83,6 +83,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 18700,
     "threatRangeMinM": 30
   },
@@ -106,12 +107,16 @@
   "mobility": {
     "enginePower": 253.7,
     "fordingDepthM": 1.2,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 22.22,
     "maxSlopeRad": 0.2,
     "maxSpeedKmh": 79.992,
     "maxVertObstacleM": 0.4,
     "minTurnRadiusM": 23,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.72,
+    "traceWidth": 0.357
   },
   "model": {
     "animationArguments": {
@@ -243,6 +248,9 @@
     "TKN-3B day",
     "TKN-3B night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SpGH_Dana"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -257,6 +265,7 @@
       "launcherType": 6,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 36,
@@ -268,6 +277,7 @@
         },
         {
           "ammoCapacity": 24,
+          "automaticLoader": false,
           "gunAmmo": [
             "DANA_152"
           ],
@@ -280,15 +290,23 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          3.1398473243378,
-          -3.1398473243378,
-          -0.069813170079773,
-          1.221730476396
+          3.139847324337799,
+          -3.139847324337799,
+          -0.06981317007977318,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.22689280275926,
-        "yaw": 0.31415926535898
+        "pitch": 0.22689280275926285,
+        "yaw": 0.3141592653589793
       },
       "ws": 1
     }

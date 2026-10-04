@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 166.4,
     "emptyMassKg": 14461,
     "internalFuelKg": 4864,
     "maxSpeedKmh": 2370,
@@ -45,11 +46,23 @@
   "detection": {
     "detectionRangeMax": 100,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 4,
     "rcsM2": 7
   },
   "dimensions": {
     "heightM": 5,
     "lengthM": 19.2,
+    "mainGearPosition": [
+      -1.184,
+      -1.927,
+      2.714
+    ],
+    "noseGearPosition": [
+      6.157,
+      -2.014,
+      0
+    ],
+    "wingAreaM2": 49.24,
     "wingSpanM": 11.68
   },
   "displayName": "F-4E",
@@ -122,11 +135,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      0.023436679747723,
-      0.86602540378444
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      0.0234366797477234,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -318,9 +331,22 @@
     "vTakeOffMs": 58
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APQ-120"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APQ-120",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-4E"
   ],
   "stations": [
     {

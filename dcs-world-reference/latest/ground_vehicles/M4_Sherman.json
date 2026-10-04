@@ -126,12 +126,17 @@
   "mobility": {
     "enginePower": 275.9,
     "fordingDepthM": 0.6,
+    "gearType": 2,
+    "maxAcceleration": 1.4,
     "maxRoadSpeedMs": 11.11,
-    "maxSlopeRad": 0.5235987755983,
+    "maxSlopeRad": 0.5235987755982988,
     "maxSpeedKmh": 39.996,
+    "maxTrenchWidth": 2.3,
     "maxVertObstacleM": 0.9,
     "minTurnRadiusM": 1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.345,
+    "traceWidth": 0.413
   },
   "model": {
     "animationArguments": {
@@ -287,6 +292,9 @@
     "TRP-2A day",
     "TRP-2A night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M4_Sherman"
+  ],
   "tags": [
     "Armor",
     "Tank"
@@ -304,6 +312,7 @@
       "payloads": [
         {
           "ammoCapacity": 29,
+          "automaticLoader": false,
           "gunAmmo": [
             "M61"
           ],
@@ -312,6 +321,7 @@
         },
         {
           "ammoCapacity": 44,
+          "automaticLoader": false,
           "gunAmmo": [
             "M61"
           ],
@@ -324,15 +334,23 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.31415926535898,
-        "yaw": 0.34906585039887
+        "pitch": 0.3141592653589793,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     },
@@ -348,6 +366,7 @@
       "payloads": [
         {
           "ammoCapacity": 8,
+          "automaticLoader": false,
           "gunAmmo": [
             "M46"
           ],
@@ -356,6 +375,7 @@
         },
         {
           "ammoCapacity": 16,
+          "automaticLoader": false,
           "gunAmmo": [
             "M46"
           ],
@@ -368,15 +388,23 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.31415926535898,
-        "yaw": 0.34906585039887
+        "pitch": 0.3141592653589793,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     },
@@ -400,7 +428,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -411,7 +440,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -422,7 +452,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -433,7 +464,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -444,7 +476,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -455,7 +488,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -466,7 +500,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -477,7 +512,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -488,7 +524,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -499,7 +536,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -510,7 +548,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -521,7 +560,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -532,7 +572,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -543,7 +584,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -554,24 +596,34 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         }
       ],
       "rMaxKm": 1.1,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
+      "secondary": true,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.31415926535898,
-        "yaw": 0.34906585039887
+        "pitch": 0.3141592653589793,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     },
@@ -595,7 +647,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -606,7 +659,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -617,7 +671,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -628,7 +683,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -639,7 +695,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -650,7 +707,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -661,7 +719,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -672,7 +731,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -683,7 +743,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -694,7 +755,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         }
       ],
       "rMaxKm": 1.1,
@@ -703,15 +765,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.26179938779915,
-          -0.26179938779915,
-          -0.26179938779915,
-          0.26179938779915
+          0.2617993877991494,
+          -0.2617993877991494,
+          -0.2617993877991494,
+          0.2617993877991494
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.001,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.001,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 2
     }

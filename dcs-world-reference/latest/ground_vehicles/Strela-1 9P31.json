@@ -86,12 +86,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 140,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 27.7778,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 100.00008,
     "maxVertObstacleM": 0.4,
     "minTurnRadiusM": 6.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.5,
+    "traceWidth": 0.28,
+    "waterlineLevel": 1.4
   },
   "model": {
     "animationArguments": {
@@ -519,22 +524,40 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Strela-1 9P31"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
+        ]
+      ],
       "barrels": 4,
+      "barrelsReloadType": 3,
       "ecmK": -1,
+      "inclinationCorrectionBias": 0.03490658503988659,
+      "inclinationCorrectionUpperLimit": 0.2617993877991494,
+      "launchDelayHuman": 1.2,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 1,
+      "minLaunchAngle": -0.05235987755982989,
       "missileChannels": 2,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 4,
           "ammoName": "9M31",
+          "automaticLoader": false,
           "reloadTimeS": 1200,
           "shotDelayS": 0.1,
           "weapon": "SA9M31"
@@ -546,15 +569,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 0.69813170079773
+        "pitch": 0.6981317007977318,
+        "yaw": 0.6981317007977318
       },
       "weapons": [
         "SA9M31"

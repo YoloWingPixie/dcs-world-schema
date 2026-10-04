@@ -102,14 +102,35 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 1900,
+    "engineMaxRpm": 2300,
+    "engineMinRpm": 650,
     "enginePower": 480,
     "fordingDepthM": 1.5,
+    "gearRatios": [
+      -6.5,
+      0,
+      11,
+      8.5,
+      6.6,
+      5.2,
+      4,
+      3.1,
+      2.4,
+      1.8,
+      1.4
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.5,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 25,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 90,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 10.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.625
   },
   "model": {
     "animationArguments": {
@@ -199,6 +220,9 @@
       "country": 92,
       "countryName": "NEW ZEALAND"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_HX77"
   ],
   "tags": [
     "Unarmed",

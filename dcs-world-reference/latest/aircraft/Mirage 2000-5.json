@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 141.75,
     "emptyMassKg": 7500,
     "internalFuelKg": 3160,
     "maxSpeedKmh": 2340,
@@ -48,11 +49,23 @@
   "detection": {
     "detectionRangeMax": 150,
     "irEmissionCoeff": 0.8,
+    "irEmissionCoeffAfterburner": 3,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 5.2,
     "lengthM": 14.36,
+    "mainGearPosition": [
+      -1.121,
+      -1.748,
+      1.751
+    ],
+    "noseGearPosition": [
+      3.924,
+      -1.746,
+      0
+    ],
+    "wingAreaM2": 41,
     "wingSpanM": 9.13
   },
   "displayName": "Mirage 2000-5",
@@ -84,11 +97,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.55667039922642,
-      -0.93969262078591,
-      -0.29883623873012,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.5566703992264194,
+      -0.9396926207859083,
+      -0.2988362387301198,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -129,9 +142,9 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": -0.078539816339745,
-                  "angle_max": 0.34906585039887,
-                  "angle_min": 0.27925268031909,
+                  "angle_change_rate": -0.07853981633974483,
+                  "angle_max": 0.3490658503988659,
+                  "angle_min": 0.2792526803190927,
                   "argument": 51,
                   "exposure": [
                     [
@@ -147,14 +160,14 @@
                     -0.106
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -162,9 +175,9 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.078539816339745,
-                  "angle_max": 0.34906585039887,
-                  "angle_min": 0.27925268031909,
+                  "angle_change_rate": -0.07853981633974483,
+                  "angle_max": 0.3490658503988659,
+                  "angle_min": 0.2792526803190927,
                   "exposure": [
                     [
                       0,
@@ -179,14 +192,14 @@
                     0.106
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -208,14 +221,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -238,9 +251,9 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": -0.23561944901923,
-                  "angle_max": 0.97738438111682,
-                  "angle_min": 0.80285145591739,
+                  "angle_change_rate": -0.23561944901923448,
+                  "angle_max": 0.9773843811168246,
+                  "angle_min": 0.8028514559173916,
                   "argument": 51,
                   "exposure": [
                     [
@@ -256,14 +269,14 @@
                     -0.106
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -271,9 +284,9 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.23561944901923,
-                  "angle_max": 0.97738438111682,
-                  "angle_min": 0.80285145591739,
+                  "angle_change_rate": -0.23561944901923448,
+                  "angle_max": 0.9773843811168246,
+                  "angle_min": 0.8028514559173916,
                   "exposure": [
                     [
                       0,
@@ -288,14 +301,14 @@
                     0.106
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -317,14 +330,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -426,9 +439,22 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "RDY"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "RDY"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Mirage 2000-5"
   ],
   "stations": [
     {

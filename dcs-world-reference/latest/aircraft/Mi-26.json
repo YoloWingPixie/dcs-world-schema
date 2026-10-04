@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 28890,
     "internalFuelKg": 9600,
     "maxSpeedKmh": 300,
@@ -52,6 +53,16 @@
   "dimensions": {
     "heightM": 12.9,
     "lengthM": 40.854,
+    "mainGearPosition": [
+      -1.319,
+      -4.97,
+      2.5
+    ],
+    "noseGearPosition": [
+      7.255,
+      -5.08,
+      0
+    ],
     "rotorDiameterM": 32
   },
   "displayName": "Mi-26",
@@ -60,11 +71,11 @@
   "kind": "rotary",
   "model": {
     "canopyGeometry": [
-      -0.76604444311898,
-      -0.73657561215276,
-      -0.70710678118655,
-      0.079459311298946,
-      0.86602540378444
+      -0.766044443118978,
+      -0.7365756121527628,
+      -0.7071067811865476,
+      0.07945931129894557,
+      0.8660254037844387
     ],
     "damageArgs": [
       {
@@ -222,14 +233,14 @@
                   "argument": 46,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -244,14 +255,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -262,14 +273,14 @@
                 {
                   "connector": "RESERV_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -284,14 +295,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -310,16 +321,16 @@
             {
               "lights": [
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 190,
                   "connector": "BANO_1",
                   "dir_correction": {
-                    "azimuth": 1.5707963267949
+                    "azimuth": 1.5707963267948966
                   },
                   "proto": {
-                    "angle_max": 2.6179938779915,
-                    "angle_min": 1.5707963267949,
+                    "angle_max": 2.6179938779914944,
+                    "angle_min": 1.5707963267948966,
                     "color": [
                       1,
                       0.35,
@@ -331,16 +342,16 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 191,
                   "connector": "BANO_2",
                   "dir_correction": {
-                    "azimuth": -1.5707963267949
+                    "azimuth": -1.5707963267948966
                   },
                   "proto": {
-                    "angle_max": 2.6179938779915,
-                    "angle_min": 1.5707963267949,
+                    "angle_max": 2.6179938779914944,
+                    "angle_min": 1.5707963267948966,
                     "color": [
                       0,
                       0.894,
@@ -355,7 +366,7 @@
                   "argument": 192,
                   "connector": "BANO_0",
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -389,14 +400,14 @@
                   "argument": 46,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -411,14 +422,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -429,14 +440,14 @@
                 {
                   "connector": "RESERV_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -451,14 +462,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -480,14 +491,14 @@
                   "argument": 83,
                   "connector": "RED_BEACON",
                   "proto": {
-                    "angle_max": 0.78539816339745,
-                    "angle_min": 0.61086523819802,
-                    "angular_velocity": 6.2831853071796,
+                    "angle_max": 0.7853981633974483,
+                    "angle_min": 0.6108652381980153,
+                    "angular_velocity": 6.283185307179586,
                     "color": [
                       1,
                       0,
                       0,
-                      0.19049409439665
+                      0.19049409439665055
                     ],
                     "cups": 2,
                     "range": 40
@@ -495,18 +506,18 @@
                   "typename": "strobelight"
                 },
                 {
-                  "angular_velocity": 6.1086523819802,
+                  "angular_velocity": 6.1086523819801535,
                   "argument": 83,
                   "connector": "RESERV_RED_BEACON",
                   "proto": {
-                    "angle_max": 0.78539816339745,
-                    "angle_min": 0.61086523819802,
-                    "angular_velocity": 6.2831853071796,
+                    "angle_max": 0.7853981633974483,
+                    "angle_min": 0.6108652381980153,
+                    "angular_velocity": 6.283185307179586,
                     "color": [
                       1,
                       0,
                       0,
-                      0.19049409439665
+                      0.19049409439665055
                     ],
                     "cups": 2,
                     "range": 40
@@ -645,6 +656,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/Mi-26"
+  ],
   "stations": [],
   "tasks": [
     {

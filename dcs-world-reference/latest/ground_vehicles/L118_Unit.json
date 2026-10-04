@@ -511,12 +511,16 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/L118_Unit"
+  ],
   "tags": [
     "Artillery",
     "Howitzer"
   ],
   "weaponSystems": [
     {
+      "automaticLoader": false,
       "barrels": 1,
       "gunAmmo": [
         "2A18_122"
@@ -538,14 +542,24 @@
       "rMaxKm": 17.5,
       "rMinKm": 0.5,
       "reactionTimeS": 15,
+      "referenceAngleZRad": 0,
+      "reloadTime": 4800,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.0471975511966
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0003,
+        "deviationErrorDistance": 3e-05,
+        "deviationErrorElevation": 0.0003,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.003,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.6,
         "yaw": 0.6

@@ -1,6 +1,18 @@
 {
   "aero": {
+    "ammoMass": 235.79999999999998,
+    "defaultFuelFraction": 0.672,
     "emptyMassKg": 7489.5,
+    "fuelPerTankKg": [
+      190,
+      214.4,
+      255.3,
+      163.7,
+      255.3,
+      214.4,
+      190,
+      206.2
+    ],
     "internalFuelKg": 1483.1,
     "maxSpeedKmh": 648,
     "maxTakeoffKg": 11000
@@ -14,6 +26,12 @@
     "NonArmoredUnits",
     "Planes"
   ],
+  "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
+    "flareChargeSize": 0,
+    "flareDefault": 0
+  },
   "countryOfOrigin": "UK",
   "crew": 2,
   "defaultRadio": {
@@ -31,11 +49,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 3.81,
     "lengthM": 12.34,
+    "mainGearPosition": [
+      0.464,
+      -2.249,
+      2.491
+    ],
+    "noseGearPosition": [
+      -8.043,
+      -0.419,
+      0
+    ],
+    "wingAreaM2": 42,
     "wingSpanM": 16.3
   },
   "displayName": "Mosquito FB Mk. VI",
@@ -1082,11 +1112,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.55667039922642,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.5566703992264194,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1607,7 +1637,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0.99,
@@ -1644,7 +1674,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0,
@@ -1681,7 +1711,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0.99,
@@ -1718,7 +1748,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0.99,
@@ -1737,8 +1767,8 @@
             {
               "lights": [
                 {
-                  "angle_max": 2.4434609527921,
-                  "angle_min": 1.3962634015955,
+                  "angle_max": 2.443460952792061,
+                  "angle_min": 1.3962634015954636,
                   "argument": 205,
                   "color": [
                     255,
@@ -1810,22 +1840,22 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.31415926535898,
-                  "angle_min": 0.19198621771938,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.3141592653589793,
+                  "angle_min": 0.19198621771937624,
                   "argument": 208,
                   "connector": "Light_208",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1833,21 +1863,21 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "Light_208",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1863,14 +1893,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1884,22 +1914,22 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.31415926535898,
-                  "angle_min": 0.19198621771938,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.3141592653589793,
+                  "angle_min": 0.19198621771937624,
                   "argument": 209,
                   "connector": "Light_209",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1907,21 +1937,21 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "Light_209",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1937,14 +1967,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1961,13 +1991,13 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "Light_190",
               "proto": {
-                "angle_max": 2.6179938779915,
-                "angle_min": 1.5707963267949,
+                "angle_max": 2.6179938779914944,
+                "angle_min": 1.5707963267948966,
                 "color": [
                   1,
                   0.35,
@@ -1979,13 +2009,13 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "Light_191",
               "proto": {
-                "angle_max": 2.6179938779915,
-                "angle_min": 1.5707963267949,
+                "angle_max": 2.6179938779914944,
+                "angle_min": 1.5707963267948966,
                 "color": [
                   0,
                   0.894,
@@ -2002,7 +2032,7 @@
                   "argument": 192,
                   "connector": "Light_192",
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -2016,7 +2046,7 @@
                 {
                   "connector": "Light_192",
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -2052,22 +2082,22 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.31415926535898,
-                  "angle_min": 0.19198621771938,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.3141592653589793,
+                  "angle_min": 0.19198621771937624,
                   "argument": 208,
                   "connector": "Light_208",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -2075,21 +2105,21 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "Light_208",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -2105,14 +2135,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -2605,8 +2635,17 @@
     "vTakeOffMs": 53
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    }
+  ],
   "sensors": [
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MosquitoFBMkVI"
   ],
   "stations": [
     {

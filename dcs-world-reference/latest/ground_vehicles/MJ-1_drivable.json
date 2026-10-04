@@ -67,13 +67,20 @@
   ],
   "mobility": {
     "canSwim": false,
+    "canWade": false,
+    "engineMaxPowerRpm": 900,
+    "engineMaxRpm": 1300,
+    "engineMinRpm": 700,
     "enginePower": 30,
+    "gearType": 1,
+    "maxAcceleration": 1.8,
     "maxRoadSpeedMs": 3.6,
     "maxSlopeRad": 0.15,
     "maxSpeedKmh": 12.96,
     "maxVertObstacleM": 0.15,
     "minTurnRadiusM": 2.2,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.235928
   },
   "model": {
     "animationArguments": {
@@ -481,6 +488,9 @@
       "country": 92,
       "countryName": "NEW ZEALAND"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/MJ-1_drivable"
   ],
   "tags": [
     "Unarmed",

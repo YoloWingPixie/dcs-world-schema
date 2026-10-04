@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 3210,
     "internalFuelKg": 626,
     "maxSpeedKmh": 763.2,
@@ -30,11 +31,23 @@
   "detection": {
     "detectionRangeMax": 60,
     "irEmissionCoeff": 0.2,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 1.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 12.13,
+    "mainGearPosition": [
+      -0.652,
+      -1.593,
+      1.25
+    ],
+    "noseGearPosition": [
+      3.675,
+      -1.491,
+      0
+    ],
+    "wingAreaM2": 19.5,
     "wingSpanM": 10.5
   },
   "displayName": "MB-339A",
@@ -475,11 +488,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -768,7 +781,7 @@
               "argument": 190,
               "connector": "MAIN_SPOT_PTR_02",
               "dir_correction": {
-                "elevation": 0.034906585039887
+                "elevation": 0.03490658503988659
               },
               "typename": "spotlight"
             },
@@ -776,7 +789,7 @@
               "argument": 190,
               "connector": "MAIN_SPOT_PTR_01",
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "typename": "spotlight"
             }
@@ -1332,8 +1345,17 @@
   "refuelling": {
     "isTanker": false
   },
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "OLS-27"
+    }
+  ],
   "sensors": [
     "OLS-27"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MB-339A"
   ],
   "stations": [
     {

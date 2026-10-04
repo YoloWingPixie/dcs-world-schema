@@ -49,13 +49,20 @@
     "airFindDistM": 25000,
     "airWeaponDistM": 3000,
     "detectionRangeM": 25000,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "threatRangeM": 3000
   },
   "dimensions": {
     "heightM": 30,
     "lengthM": 74,
     "massKg": 1427,
-    "widthM": 13.2
+    "shipLengthM": 74.1,
+    "tailWidth": 14,
+    "widthM": 13.2,
+    "xNoseM": 33.5,
+    "xTailM": -40.5
   },
   "displayName": "Castle Class",
   "facilities": {
@@ -71,7 +78,8 @@
   },
   "fireControl": {
     "maxTargetDetectionRangeM": 25000,
-    "radarType": 109
+    "radarType": 109,
+    "searchRadarMaxElevationRad": 1.2217304763960306
   },
   "id": "CastleClass_01",
   "life": [
@@ -81,14 +89,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 200,
     "draftM": 3.43,
     "economyDistance": 10000,
-    "economyVelocity": 5.144,
+    "economyVelocityMs": 5.144,
     "maxSpeedKmh": 48.15,
     "maxSpeedMs": 13.375,
     "minTurnRadiusM": 208.4,
     "raceDistance": 2963.2,
-    "raceVelocity": 9
+    "raceVelocityMs": 9,
+    "speedup": 0.0814062
   },
   "model": {
     "animationArguments": {
@@ -147,6 +157,9 @@
   "sensors": [
     "long-range naval optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/CastleClass_01"
+  ],
   "tags": [
     "Corvette and Patrol"
   ],
@@ -170,7 +183,8 @@
           ],
           "portionAmmoCapacity": 230,
           "reloadTimeS": 800,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 0
         },
         {
           "ammoCapacity": 70,
@@ -179,27 +193,37 @@
           ],
           "portionAmmoCapacity": 70,
           "reloadTimeS": 400,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 0
         }
       ],
       "rMaxKm": 2.5,
       "rMinKm": 0.01,
       "reactionTimeS": 1.8,
+      "referenceAngleYRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
-          -0.087266462599716,
-          1.221730476396
+          2.6179938779914944,
+          -2.6179938779914944,
+          -0.08726646259971647,
+          1.2217304763960306
         ],
         [
-          -2.6179938779915,
-          2.6179938779915,
-          1.0471975511966,
-          1.221730476396
+          -2.6179938779914944,
+          2.6179938779914944,
+          1.0471975511965976,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.15,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "ws": 1
     },
     {
@@ -223,21 +247,31 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 480,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          2.8797932657906,
-          -0.087266462599716,
-          -0.087266462599716,
-          1.221730476396
+          2.8797932657906435,
+          -0.08726646259971647,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "ws": 2
     },
     {
@@ -261,21 +295,31 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 480,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.087266462599716,
-          -2.8797932657906,
-          -0.087266462599716,
-          1.221730476396
+          0.08726646259971647,
+          -2.8797932657906435,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "ws": 3
     }
   ]

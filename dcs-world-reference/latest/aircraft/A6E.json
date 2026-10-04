@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 12000,
     "internalFuelKg": 7229.8,
     "maxSpeedKmh": 1036.8,
@@ -72,11 +73,23 @@
   "detection": {
     "detectionRangeMax": 277.8,
     "irEmissionCoeff": 0.62,
+    "irEmissionCoeffAfterburner": 0.62,
     "rcsM2": 5.31
   },
   "dimensions": {
     "heightM": 4.93,
     "lengthM": 16.73,
+    "mainGearPosition": [
+      -1.429,
+      -2.66,
+      1.655
+    ],
+    "noseGearPosition": [
+      3.817,
+      -2.77,
+      0
+    ],
+    "wingAreaM2": 49.14,
     "wingSpanM": 16.15
   },
   "displayName": "A-6E",
@@ -318,14 +331,14 @@
               "argument": 195,
               "connector": "Point_Beacon_Tail",
               "proto": {
-                "angle_max": 0.78539816339745,
-                "angle_min": 0.61086523819802,
-                "angular_velocity": 6.2831853071796,
+                "angle_max": 0.7853981633974483,
+                "angle_min": 0.6108652381980153,
+                "angular_velocity": 6.283185307179586,
                 "color": [
                   1,
                   0,
                   0,
-                  0.19049409439665
+                  0.19049409439665055
                 ],
                 "cups": 2,
                 "range": 40
@@ -336,14 +349,14 @@
               "argument": 196,
               "connector": "Point_Beacon_R",
               "proto": {
-                "angle_max": 0.78539816339745,
-                "angle_min": 0.61086523819802,
-                "angular_velocity": 6.2831853071796,
+                "angle_max": 0.7853981633974483,
+                "angle_min": 0.6108652381980153,
+                "angular_velocity": 6.283185307179586,
                 "color": [
                   1,
                   0,
                   0,
-                  0.19049409439665
+                  0.19049409439665055
                 ],
                 "cups": 2,
                 "range": 40
@@ -355,14 +368,14 @@
               "argument": 197,
               "connector": "Point_Beacon_L",
               "proto": {
-                "angle_max": 0.78539816339745,
-                "angle_min": 0.61086523819802,
-                "angular_velocity": 6.2831853071796,
+                "angle_max": 0.7853981633974483,
+                "angle_min": 0.6108652381980153,
+                "angular_velocity": 6.283185307179586,
                 "color": [
                   1,
                   0,
                   0,
-                  0.19049409439665
+                  0.19049409439665055
                 ],
                 "cups": 2,
                 "range": 40
@@ -787,10 +800,27 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "AN/AAS-33A TRAM - Sensor"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "HB_ANAPQ_156"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/AAS-33A TRAM - Sensor",
     "Abstract RWR",
     "HB_ANAPQ_156"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/A6E"
   ],
   "stations": [
     {

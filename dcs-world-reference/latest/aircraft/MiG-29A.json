@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 147,
     "emptyMassKg": 10922,
     "internalFuelKg": 3376,
     "maxSpeedKmh": 2450,
@@ -68,11 +69,23 @@
   "detection": {
     "detectionRangeMax": 160,
     "irEmissionCoeff": 0.77,
+    "irEmissionCoeffAfterburner": 4,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 4.73,
     "lengthM": 20.32,
+    "mainGearPosition": [
+      -0.678,
+      -1.67,
+      1.544
+    ],
+    "noseGearPosition": [
+      2.938,
+      -1.794,
+      0
+    ],
+    "wingAreaM2": 38.1,
     "wingSpanM": 11.36
   },
   "displayName": "MiG-29A",
@@ -155,11 +168,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.58058609380733,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.3420201433256687,
+      -0.5805860938073303,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -686,10 +699,27 @@
   "radios": [
     "MiG-29A__radio0"
   ],
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "KOLS"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "N-019"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "KOLS",
     "N-019"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MiG-29A"
   ],
   "stations": [
     {

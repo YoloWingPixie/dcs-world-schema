@@ -87,6 +87,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 2500
   },
   "dimensions": {
@@ -97,7 +98,17 @@
   "displayName": "Scout FV107 Scimitar [CH]",
   "fireControl": {
     "fireOnMove": true,
-    "maxTargetDetectionRangeM": 6000
+    "maxTargetDetectionRangeM": 6000,
+    "smoke": [
+      "SMOKE_02",
+      "SMOKE_05",
+      "SMOKE_01",
+      "SMOKE_06",
+      "SMOKE_04",
+      "SMOKE_07",
+      "SMOKE_03",
+      "SMOKE_08"
+    ]
   },
   "id": "CHAP_FV107",
   "life": [
@@ -111,15 +122,34 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": false,
     "canSwim": true,
+    "engineMaxPowerRpm": 2600,
+    "engineMaxRpm": 3000,
+    "engineMinRpm": 800,
     "enginePower": 190,
     "fordingDepthM": 1,
+    "gearRatios": [
+      -4.8,
+      0,
+      6,
+      3.9,
+      2.6,
+      1.8,
+      1.3,
+      1
+    ],
+    "gearType": 2,
+    "mainGearRatio": 4.3,
+    "maxAcceleration": 4,
     "maxRoadSpeedMs": 22.22,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 79.992,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.275,
+    "waterlineLevel": 0.9
   },
   "model": {
     "animationArguments": {
@@ -194,6 +224,9 @@
     "Raven day",
     "Raven night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_FV107"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -201,13 +234,14 @@
   "weaponSystems": [
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "L21A1 RARDEN",
       "gunAmmo": [
         "L14A2_30_APDS",
         "L21A1_30_HE"
       ],
       "hMaxM": 1000,
+      "laser": false,
       "launcherType": 12,
       "ln": 1,
       "maxShootingSpeed": 0,
@@ -215,687 +249,839 @@
       "payloads": [
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 1,
           "gunAmmo": [
             "L21A1_30_HE"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         },
         {
           "ammoCapacity": 3,
+          "feedSlot": 2,
           "gunAmmo": [
             "L14A2_30_APDS"
           ],
           "portionAmmoCapacity": 3,
           "reloadTimeS": 5,
-          "shotDelayS": 0.66
+          "shotDelayS": 0.66,
+          "switchOnDelay": 0.8
         }
       ],
       "rMaxKm": 2.5,
@@ -904,16 +1090,25 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.61086523819802
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.6108652381980153
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.78539816339745,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.002,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.7853981633974483,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": false,
       "ws": 1
     },
     {
@@ -924,6 +1119,7 @@
         "7_62x51tr"
       ],
       "hMaxM": 1200,
+      "laser": false,
       "launcherType": 9,
       "ln": 2,
       "name": "L37A1 7.62 mm",
@@ -935,7 +1131,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -944,7 +1140,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -953,7 +1149,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -962,7 +1158,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -971,7 +1167,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -980,7 +1176,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -989,7 +1185,7 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         },
         {
           "ammoCapacity": 250,
@@ -998,24 +1194,34 @@
             "7_62x51tr"
           ],
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         }
       ],
       "rMaxKm": 1.2,
       "rMinKm": 0.001,
       "reactionTimeS": 0.5,
+      "secondary": true,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.61086523819802
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.6108652381980153
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.78539816339745,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.7853981633974483,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": false,
       "ws": 1
     }
   ]

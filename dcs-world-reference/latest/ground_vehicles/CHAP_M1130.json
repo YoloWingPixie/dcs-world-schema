@@ -82,6 +82,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 1200
   },
   "dimensions": {
@@ -92,7 +93,25 @@
   "displayName": "IFV M1130 Stryker CV [CH]",
   "fireControl": {
     "fireOnMove": true,
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_01",
+      "SMOKE_02",
+      "SMOKE_03",
+      "SMOKE_04",
+      "SMOKE_05",
+      "SMOKE_06",
+      "SMOKE_07",
+      "SMOKE_08",
+      "SMOKE_09",
+      "SMOKE_10",
+      "SMOKE_11",
+      "SMOKE_12",
+      "SMOKE_13",
+      "SMOKE_14",
+      "SMOKE_15",
+      "SMOKE_16"
+    ]
   },
   "id": "CHAP_M1130",
   "life": [
@@ -106,14 +125,34 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 2200,
+    "engineMaxRpm": 2800,
+    "engineMinRpm": 650,
+    "engineMoi": 3.5,
     "enginePower": 350,
     "fordingDepthM": 1.2,
+    "gearRatios": [
+      -5,
+      0,
+      8,
+      4.5,
+      2.8,
+      1.9,
+      1.4,
+      1,
+      0.75
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.2,
+    "maxAcceleration": 5.5,
     "maxRoadSpeedMs": 27.78,
     "maxSlopeRad": 0.58,
-    "maxSpeedKmh": 100.008,
+    "maxSpeedKmh": 100.00800000000001,
     "maxVertObstacleM": 0.61,
     "minTurnRadiusM": 7.6,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -180,6 +219,9 @@
     "M151 Protector RWS IR",
     "M151 Protector RWS day"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_M1130"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -193,6 +235,7 @@
         "M2_12_7_T"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 1,
       "name": "M2_Browning",
@@ -206,7 +249,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -217,7 +261,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -228,7 +273,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -239,7 +285,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -250,25 +297,37 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.26179938779915,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.2617993877991494,
+          1.0471975511965976
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.08,
+        "deviationErrorStability": 0.003,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.6981317007977318,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

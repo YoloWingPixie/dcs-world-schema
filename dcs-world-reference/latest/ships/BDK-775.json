@@ -49,6 +49,9 @@
     "airWeaponDistM": 6000,
     "detectionRangeM": 25000,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 51000,
     "sensor": {
       "heightM": 12.8,
@@ -68,7 +71,11 @@
     "heightM": 26,
     "lengthM": 112.5,
     "massKg": 4400000,
-    "widthM": 15
+    "shipLengthM": 112.5,
+    "tailWidth": 5,
+    "widthM": 15,
+    "xNoseM": 46,
+    "xTailM": -53
   },
   "displayName": "LS Ropucha",
   "facilities": {
@@ -77,7 +84,18 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 64000,
     "radarType": 102,
-    "radarTypeName": "wsType_Radar_Miss"
+    "radarTypeName": "wsType_Radar_Miss",
+    "searchRadarFrequencies": [
+      [
+        3825000000,
+        3980000000
+      ],
+      [
+        9280000000,
+        9480000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.6981317007977318
   },
   "id": "BDK-775",
   "life": [
@@ -87,14 +105,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 500,
     "draftM": 3.7,
     "economyDistance": 15700000,
-    "economyVelocity": 7,
+    "economyVelocityMs": 7,
     "maxSpeedKmh": 32.976,
     "maxSpeedMs": 9.16,
     "minTurnRadiusM": 120,
     "raceDistance": 1500000,
-    "raceVelocity": 8
+    "raceVelocityMs": 8,
+    "speedup": 0.2
   },
   "model": {
     "animationArguments": {
@@ -167,12 +187,15 @@
     "long-range naval optics",
     "rezki search radar"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/BDK-775"
+  ],
   "tags": [
     "Amphibious Assault"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.65,
       "hMaxM": 10000,
       "hMinM": 50,
@@ -184,10 +207,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.5707963267949
+          1.5707963267948966
         ]
       ],
       "slewRateRadS": {
@@ -197,6 +220,14 @@
       "ws": 1
     },
     {
+      "anglesMechRad": [
+        [
+          2.0943951023931953,
+          -2.0943951023931953,
+          -0.20943951023931956,
+          1.4835298641951802
+        ]
+      ],
       "barrels": 2,
       "displayName": "AK_725",
       "gunAmmo": [
@@ -216,7 +247,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -226,7 +258,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -236,7 +269,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -246,7 +280,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -256,28 +291,47 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         }
       ],
       "rMaxKm": 6.0,
       "rMinKm": 0.01,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.05,
       "sectorsRad": [
         [
-          2.0943951023932,
-          -2.0943951023932,
-          -0.20943951023932,
-          1.4835298641952
+          2.0943951023931953,
+          -2.0943951023931953,
+          -0.20943951023931956,
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.34906585039887
+        "pitch": 0.5235987755982988,
+        "yaw": 0.3490658503988659
       },
       "ws": 2
     },
     {
+      "anglesMechRad": [
+        [
+          -0.8726646259971648,
+          0.8726646259971648,
+          -0.17453292519943295,
+          1.53588974175501
+        ]
+      ],
       "barrels": 2,
       "displayName": "AK_725",
       "gunAmmo": [
@@ -297,7 +351,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -307,7 +362,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -317,7 +373,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -327,7 +384,8 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         },
         {
           "ammoCapacity": 200,
@@ -337,24 +395,35 @@
             "53-UOR-281U"
           ],
           "reloadTimeS": 900,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 300
         }
       ],
       "rMaxKm": 6.0,
       "rMinKm": 0.01,
       "reactionTimeS": 3,
+      "referenceAngleYRad": -3.141592653589793,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.05,
       "sectorsRad": [
         [
-          -0.87266462599716,
-          0.87266462599716,
-          -0.17453292519943,
-          1.535889741755
+          -0.8726646259971648,
+          0.8726646259971648,
+          -0.17453292519943295,
+          1.53588974175501
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.34906585039887
+        "pitch": 0.5235987755982988,
+        "yaw": 0.3490658503988659
       },
       "ws": 3
     }

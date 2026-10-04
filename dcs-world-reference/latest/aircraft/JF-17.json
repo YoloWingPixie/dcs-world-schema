@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 79.2,
     "emptyMassKg": 6586,
     "internalFuelKg": 2325,
     "maxSpeedKmh": 2520,
@@ -98,11 +99,23 @@
   "detection": {
     "detectionRangeMax": 180,
     "irEmissionCoeff": 0.6,
+    "irEmissionCoeffAfterburner": 2,
     "rcsM2": 3
   },
   "dimensions": {
     "heightM": 4.7,
     "lengthM": 14.25,
+    "mainGearPosition": [
+      -0.53039,
+      -1.6559570000000001,
+      1.14
+    ],
+    "noseGearPosition": [
+      4.35099,
+      -1.72228,
+      0
+    ],
+    "wingAreaM2": 24.4,
     "wingSpanM": 8.5
   },
   "displayName": "JF-17",
@@ -2780,9 +2793,22 @@
     ],
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "KLJ-7"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "KLJ-7"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/JF-17"
   ],
   "stations": [
     {

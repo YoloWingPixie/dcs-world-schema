@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -178,6 +181,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/v1_launcher"
+  ],
   "tags": [
     "MissilesSS",
     "SSM"
@@ -198,14 +204,26 @@
       ],
       "rMaxKm": 0.0,
       "reactionTimeS": 300,
+      "referenceAngleYRad": 3.141592653589793,
+      "referenceAngleZRad": 0.17453292519943295,
+      "reloadAngleY": 3.141592653589793,
+      "reloadAngleZ": 0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "V-1"
       ],

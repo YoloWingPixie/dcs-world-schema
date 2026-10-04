@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 235.92399999999998,
     "emptyMassKg": 19090,
     "internalFuelKg": 7348,
     "maxSpeedKmh": 2407.5792,
@@ -111,11 +112,23 @@
   "detection": {
     "detectionRangeMax": 200,
     "irEmissionCoeff": 0.9,
+    "irEmissionCoeffAfterburner": 4.75,
     "rcsM2": 6
   },
   "dimensions": {
     "heightM": 4.8,
     "lengthM": 16.6,
+    "mainGearPosition": [
+      -0.8493,
+      -2.3066,
+      2.5136
+    ],
+    "noseGearPosition": [
+      6.305,
+      -2.3066,
+      0
+    ],
+    "wingAreaM2": 54.5,
     "wingSpanM": 10.15
   },
   "displayName": "F-14A",
@@ -781,11 +794,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1372,9 +1385,22 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-71"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-71",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-14A-135-GR-Early"
   ],
   "stations": [
     {

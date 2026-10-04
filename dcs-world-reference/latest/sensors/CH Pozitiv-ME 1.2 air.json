@@ -12,6 +12,7 @@
   "id": "CH Pozitiv-ME 1.2 air",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.9,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       85
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/CH Pozitiv-ME 1.2 air"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }

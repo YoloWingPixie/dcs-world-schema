@@ -83,12 +83,16 @@
   "mobility": {
     "enginePower": 330,
     "fordingDepthM": 1.1,
+    "gearType": 1,
+    "maxAcceleration": 1.30719,
     "maxRoadSpeedMs": 16.6667,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 60.00012,
+    "maxSpeedKmh": 60.000119999999995,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 12.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.708,
+    "traceWidth": 0.573
   },
   "model": {
     "animationArguments": {
@@ -446,17 +450,32 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Smerch_HE"
+  ],
   "tags": [
     "Artillery",
     "MRL"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          1.0471975511965976,
+          -1.0471975511965976,
+          0,
+          0.7853981633974483
+        ]
+      ],
       "barrels": 12,
+      "barrelsReloadType": 3,
+      "canSetTacticalDir": true,
       "launchDelayS": 3,
       "launcherType": 34,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
+      "outVelocity": 830,
       "payloads": [
         {
           "ammoCapacity": 12,
@@ -470,27 +489,35 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          1.0471975511966,
-          0.34906585039887,
+          1.0471975511965976,
+          0.3490658503988659,
           0,
-          0.78539816339745
+          0.7853981633974483
         ],
         [
-          0.34906585039887,
-          -0.34906585039887,
-          0.26179938779915,
-          0.78539816339745
+          0.3490658503988659,
+          -0.3490658503988659,
+          0.2617993877991494,
+          0.7853981633974483
         ],
         [
-          -0.34906585039887,
-          -1.0471975511966,
+          -0.3490658503988659,
+          -1.0471975511965976,
           0,
-          0.78539816339745
+          0.7853981633974483
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.069813170079773,
-        "yaw": 0.087266462599716
+        "pitch": 0.06981317007977318,
+        "yaw": 0.08726646259971647
       },
       "weapons": [
         "SMERCH_9M55F"

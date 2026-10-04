@@ -68,8 +68,15 @@
   "displayName": "SAM Roland EWR",
   "fireControl": {
     "maxTargetDetectionRangeM": 35000,
+    "radarRotationType": 0,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        1000000000,
+        2000000000
+      ]
+    ]
   },
   "id": "Roland Radar",
   "life": [
@@ -81,12 +88,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 600,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 20.8333,
     "maxSlopeRad": 0.61,
     "maxSpeedKmh": 74.99988,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 3.8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.39,
+    "traceWidth": 0.516,
+    "waterlineLevel": 1.9
   },
   "model": {
     "animationArguments": {
@@ -225,6 +237,9 @@
   "sensors": [
     "Roland Radar"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Roland Radar"
+  ],
   "tags": [
     "Air Defence",
     "Search & Track Radar"
@@ -242,10 +257,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -266,10 +281,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -290,10 +305,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -314,10 +329,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -338,10 +353,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -362,10 +377,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -386,10 +401,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -410,10 +425,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -434,10 +449,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {
@@ -458,10 +473,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.69813170079773
+          0.6981317007977318
         ]
       ],
       "slewRateRadS": {

@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 117000,
     "internalFuelKg": 157000,
     "maxSpeedKmh": 2200,
@@ -50,11 +51,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 4,
+    "irEmissionCoeffAfterburner": 10,
     "rcsM2": 15
   },
   "dimensions": {
     "heightM": 13.25,
     "lengthM": 54.1,
+    "mainGearPosition": [
+      -4.142,
+      -3.693,
+      3.66
+    ],
+    "noseGearPosition": [
+      15.622,
+      -3.73,
+      0
+    ],
+    "wingAreaM2": 360,
     "wingSpanM": 55.7
   },
   "displayName": "Tu-160",
@@ -63,11 +76,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.45315389351832,
-      -0.81915204428899,
-      0.023436679747723,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.45315389351832497,
+      -0.8191520442889918,
+      0.0234366797477234,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -245,9 +258,22 @@
     ],
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "Poisk"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Poisk"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Tu-160"
   ],
   "stations": [
     {

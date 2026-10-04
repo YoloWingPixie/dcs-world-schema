@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 1229,
     "internalFuelKg": 87.84,
     "maxSpeedKmh": 270,
@@ -13,6 +14,12 @@
     "Planes",
     "UAVs"
   ],
+  "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
+    "flareChargeSize": 0,
+    "flareDefault": 0
+  },
   "countryOfOrigin": "RUS",
   "crew": 2,
   "defaultRadio": {
@@ -30,11 +37,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 2.7,
     "lengthM": 7.745,
+    "mainGearPosition": [
+      -1.042,
+      -1.455,
+      1.392
+    ],
+    "noseGearPosition": [
+      0.803,
+      -1.506,
+      0
+    ],
+    "wingAreaM2": 15,
     "wingSpanM": 9.3
   },
   "displayName": "Yak-52",
@@ -197,11 +216,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.45315389351832,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.08715574274765817,
+      -0.45315389351832497,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -795,15 +814,24 @@
     "machMax": 0.3524,
     "nyMax": 7,
     "rangeKm": 465,
-    "vLandMs": 33.333333333333,
+    "vLandMs": 33.333333333333336,
     "vMaxHMs": 75,
     "vMaxSeaLevelMs": 75,
-    "vOptMs": 52.777777777778,
-    "vTakeOffMs": 33.333333333333
+    "vOptMs": 52.77777777777778,
+    "vTakeOffMs": 33.333333333333336
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    }
+  ],
   "sensors": [
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Yak-52"
   ],
   "stations": [
     {

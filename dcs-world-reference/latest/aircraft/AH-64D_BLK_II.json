@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 411.6,
     "emptyMassKg": 5930.47,
     "internalFuelKg": 1140,
     "maxSpeedKmh": 365,
@@ -15,6 +16,9 @@
     "NonAndLightArmoredUnits",
     "NonArmoredUnits",
     "Refuelable"
+  ],
+  "connectDatalinks": [
+    "IDM"
   ],
   "countermeasures": {
     "chaff": {
@@ -91,6 +95,16 @@
   "dimensions": {
     "heightM": 4.15,
     "lengthM": 17.87,
+    "mainGearPosition": [
+      1.361,
+      -1.832,
+      1.017
+    ],
+    "noseGearPosition": [
+      -9.203,
+      -0.96,
+      0
+    ],
     "rotorDiameterM": 14.63
   },
   "displayName": "AH-64D BLK.II",
@@ -422,11 +436,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.93969262078591,
-      -0.95280922353749,
-      -0.96592582628907,
-      -0.049950211252315,
-      0.86602540378444
+      -0.9396926207859083,
+      -0.9528092235374883,
+      -0.9659258262890683,
+      -0.04995021125231486,
+      0.8660254037844386
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1235,11 +1249,32 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "TADS DTV"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "TADS FLIR"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-78"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-78",
     "Abstract RWR",
     "TADS DTV",
     "TADS FLIR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/AH-64D_BLK_II"
   ],
   "stations": [
     {

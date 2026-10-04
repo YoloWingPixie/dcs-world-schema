@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 300,
     "internalFuelKg": 54,
     "maxSpeedKmh": 185,
@@ -19,6 +20,12 @@
     "maximalCapacity": 100,
     "nominalCapacity": 100
   },
+  "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
+    "flareChargeSize": 0,
+    "flareDefault": 0
+  },
   "countryOfOrigin": "CHN",
   "crew": 2,
   "defaultRadio": {
@@ -36,11 +43,23 @@
   "detection": {
     "detectionRangeMax": 2,
     "irEmissionCoeff": 0.05,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 0.4
   },
   "dimensions": {
     "heightM": 1.85,
     "lengthM": 5.1,
+    "mainGearPosition": [
+      -1.44,
+      -1.33,
+      1.068
+    ],
+    "noseGearPosition": [
+      0.77,
+      -1.34,
+      0
+    ],
+    "wingAreaM2": 3,
     "wingSpanM": 3.2
   },
   "displayName": "Falcon Assault Gyrocopter",
@@ -56,11 +75,11 @@
   "missionOptions": [],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.3649716762171,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.3649716762170987,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -141,21 +160,21 @@
         {
           "lights": [
             {
-              "angle_max": 3.1415926535898,
-              "angle_min": 1.5707963267949,
+              "angle_max": 3.141592653589793,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "BANO_1",
               "controller": "Strobe",
               "cool_down_t": 0.6,
               "dir_correction": {
-                "azimuth": -0.78539816339745
+                "azimuth": -0.7853981633974483
               },
               "flash_time": 0.7,
               "mode": 1,
               "period": 1,
               "power_up_t": 0.3,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -167,21 +186,21 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 3.1415926535898,
-              "angle_min": 1.5707963267949,
+              "angle_max": 3.141592653589793,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "BANO_2",
               "controller": "Strobe",
               "cool_down_t": 0.6,
               "dir_correction": {
-                "azimuth": 0.78539816339745
+                "azimuth": 0.7853981633974483
               },
               "flash_time": 0.7,
               "mode": 1,
               "period": 1,
               "power_up_t": 0.3,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -594,21 +613,30 @@
   "performance": {
     "averageFuelConsumptionKgS": 0.015,
     "bankAngleMaxDeg": 60,
-    "casMin": 27.777777777778,
+    "casMin": 27.77777777777778,
     "enginesCount": 1,
     "hMaxM": 3000,
     "machMax": 0.2,
     "nyMax": 6,
     "rangeKm": 600,
-    "vLandMs": 27.777777777778,
-    "vMaxHMs": 51.388888888889,
-    "vMaxSeaLevelMs": 51.388888888889,
-    "vOptMs": 38.888888888889,
-    "vTakeOffMs": 33.333333333333
+    "vLandMs": 27.77777777777778,
+    "vMaxHMs": 51.388888888888886,
+    "vMaxSeaLevelMs": 51.388888888888886,
+    "vOptMs": 38.888888888888886,
+    "vTakeOffMs": 33.333333333333336
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Winglong-1 CAM"
+    }
+  ],
   "sensors": [
     "Winglong-1 CAM"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Falcon_Gyrocopter"
   ],
   "stations": [
     {

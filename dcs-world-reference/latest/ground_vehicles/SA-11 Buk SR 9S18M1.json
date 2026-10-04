@@ -73,8 +73,15 @@
     "fireOnMove": false,
     "isDetector": true,
     "maxTargetDetectionRangeM": 120000,
+    "radarRotationType": 1,
     "radarType": 103,
-    "radarTypeName": "wsType_Radar_MissGun"
+    "radarTypeName": "wsType_Radar_MissGun",
+    "searchRadarFrequencies": [
+      [
+        3000000000,
+        4000000000
+      ]
+    ]
   },
   "id": "SA-11 Buk SR 9S18M1",
   "life": [
@@ -86,12 +93,16 @@
   "mobility": {
     "enginePower": 740,
     "fordingDepthM": 1.3,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 18.0556,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 65.00016,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 2.62,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.46,
+    "traceWidth": 0.446
   },
   "model": {
     "animationArguments": {
@@ -255,6 +266,9 @@
   "sensors": [
     "SA-11 Buk SR 9S18M1"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SA-11 Buk SR 9S18M1"
+  ],
   "tags": [
     "Air Defence",
     "Search Radar"
@@ -271,16 +285,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -300,16 +315,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -329,16 +345,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -358,16 +375,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -387,16 +405,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -416,16 +435,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -445,16 +465,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -474,16 +495,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -503,16 +525,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -532,16 +555,17 @@
       "launcherType": 101,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "rMaxKm": 100.0,
       "rMinKm": 2.0,
       "reactionTimeS": 14,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {

@@ -1,0 +1,142 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.6,
+    "cxCoeff": [
+      1,
+      0.3,
+      0.65,
+      0.023,
+      1.6
+    ],
+    "lengthM": 6.8,
+    "massKg": 1700,
+    "maxAoaRad": 0.2,
+    "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/fm"
+  },
+  "batteryLifeS": 10000,
+  "killDistanceM": 0,
+  "launchTables": [
+    {
+      "columnHeaders": [
+        100,
+        125,
+        175,
+        250
+      ],
+      "key": "LaunchDistData",
+      "rows": [
+        {
+          "cells": [
+            0,
+            0,
+            2500000,
+            2520000
+          ],
+          "header": 500
+        },
+        {
+          "cells": [
+            2500000,
+            2500000,
+            2510000,
+            2540000
+          ],
+          "header": 2000
+        },
+        {
+          "cells": [
+            2540000,
+            2550000,
+            2550000,
+            2560000
+          ],
+          "header": 7000
+        },
+        {
+          "cells": [
+            2570000,
+            2570000,
+            2580000,
+            2590000
+          ],
+          "header": 12500
+        }
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/LaunchDistData"
+    },
+    {
+      "columnHeaders": [
+        100,
+        125,
+        175,
+        250
+      ],
+      "key": "MinLaunchDistData",
+      "rows": [
+        {
+          "cells": [
+            0,
+            0,
+            20000,
+            21000
+          ],
+          "header": 500
+        },
+        {
+          "cells": [
+            24000,
+            25000,
+            26000,
+            27000
+          ],
+          "header": 2000
+        },
+        {
+          "cells": [
+            15000,
+            15000,
+            16000,
+            17000
+          ],
+          "header": 7000
+        },
+        {
+          "cells": [
+            16000,
+            18000,
+            19000,
+            20000
+          ],
+          "header": 12500
+        }
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/MinLaunchDistData"
+    }
+  ],
+  "machMax": 0.9,
+  "motorStages": [
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 0,
+      "impulseS": 0,
+      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/boost",
+      "stage": "boost",
+      "startTime": 0,
+      "workTimeS": 0
+    },
+    {
+      "fuelMassKg": 400,
+      "impulseS": 3000,
+      "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client/march",
+      "stage": "march",
+      "startTime": 0.8,
+      "workTimeS": 999999
+    }
+  ],
+  "rangeMaxM": 2500000,
+  "sourcePath": "_G/weapons_table/weapons/missiles/KD_20#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/KD_20"
+  ],
+  "weapon": "KD_20"
+}

@@ -144,14 +144,33 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": false,
+    "engineMaxPowerRpm": 2000,
+    "engineMaxRpm": 2400,
+    "engineMinRpm": 800,
+    "engineMoi": 3.8,
     "enginePower": 840,
     "fordingDepthM": 1.2,
+    "gearRatios": [
+      -5,
+      0,
+      6.8,
+      4.4,
+      3,
+      2.1,
+      1.5,
+      1
+    ],
+    "gearType": 2,
+    "mainGearRatio": 4.2,
+    "maxAcceleration": 3.5,
     "maxRoadSpeedMs": 16.67,
     "maxSlopeRad": 0.52,
-    "maxSpeedKmh": 60.012,
+    "maxSpeedKmh": 60.01200000000001,
     "maxVertObstacleM": 0.85,
     "minTurnRadiusM": 8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.35
   },
   "model": {
     "animationArguments": {
@@ -246,6 +265,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_TOS1A"
+  ],
   "tags": [
     "Artillery",
     "MRL"
@@ -257,11 +279,15 @@
       "launchDelayS": 0.25,
       "launcherType": 34,
       "ln": 1,
+      "mountBeforeMove": true,
+      "moveable": true,
+      "outVelocity": 480,
       "payloads": [
         {
           "ammoCapacity": 24,
           "reloadTimeS": 600,
           "shotDelayS": 0.25,
+          "switchOnDelay": 600,
           "weapon": "MO_10104M"
         }
       ],
@@ -270,15 +296,23 @@
       "reactionTimeS": 5,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          0.83775804095728
+          0.8377580409572782
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.13962634015955,
-        "yaw": 0.17453292519943
+        "pitch": 0.13962634015954636,
+        "yaw": 0.17453292519943295
       },
       "weapons": [
         "MO_10104M"

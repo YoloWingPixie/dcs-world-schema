@@ -43,13 +43,20 @@
     "airFindDistM": 0,
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "threatRangeM": 0
   },
   "dimensions": {
     "heightM": 30,
     "lengthM": 20,
     "massKg": 1427,
-    "widthM": 7.7
+    "shipLengthM": 20,
+    "tailWidth": 8,
+    "widthM": 7.7,
+    "xNoseM": 10.5,
+    "xTailM": -10.5
   },
   "displayName": "Harbor Tug",
   "facilities": {
@@ -63,13 +70,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 300,
     "economyDistance": 10000,
-    "economyVelocity": 5.144,
+    "economyVelocityMs": 5.144,
     "maxSpeedKmh": 48.15,
     "maxSpeedMs": 13.375,
     "minTurnRadiusM": 247,
     "raceDistance": 2963.2,
-    "raceVelocity": 9
+    "raceVelocityMs": 9,
+    "riverCraft": true,
+    "speedup": 0.365728
   },
   "model": {
     "animationArguments": {
@@ -471,6 +481,9 @@
       "country": 92,
       "countryName": "NEW ZEALAND"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/HarborTug"
   ],
   "tags": [
     "Support"

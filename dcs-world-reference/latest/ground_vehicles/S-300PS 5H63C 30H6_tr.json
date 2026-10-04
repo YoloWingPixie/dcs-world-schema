@@ -73,7 +73,13 @@
     "fireOnMove": false,
     "maxTargetDetectionRangeM": 160000,
     "radarType": 102,
-    "radarTypeName": "wsType_Radar_Miss"
+    "radarTypeName": "wsType_Radar_Miss",
+    "searchRadarFrequencies": [
+      [
+        8000000000,
+        20000000000
+      ]
+    ]
   },
   "id": "S-300PS 5H63C 30H6_tr",
   "life": [
@@ -89,12 +95,16 @@
   "mobility": {
     "enginePower": 330,
     "fordingDepthM": 1.1,
+    "gearType": 1,
+    "maxAcceleration": 1.30719,
     "maxRoadSpeedMs": 16.6667,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 60.00012,
+    "maxSpeedKmh": 60.000119999999995,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 12.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.708,
+    "traceWidth": 0.573
   },
   "model": {
     "animationArguments": {
@@ -366,13 +376,16 @@
   "sensors": [
     "S-300PS 40B6M tr"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/S-300PS 5H63C 30H6_tr"
+  ],
   "tags": [
     "Air Defence",
     "Tracking Radar"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -393,13 +406,14 @@
       "rMaxKm": 120.0,
       "rMinKm": 2.0,
       "reactionTimeS": 6,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -409,7 +423,8 @@
       "ws": 1
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 1,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -433,10 +448,10 @@
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.17453292519943,
-          1.3962634015955
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -446,7 +461,8 @@
       "ws": 2
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 1,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -470,10 +486,10 @@
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.17453292519943,
-          1.3962634015955
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -483,7 +499,8 @@
       "ws": 3
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 1,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -507,10 +524,10 @@
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.17453292519943,
-          1.3962634015955
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -520,7 +537,8 @@
       "ws": 4
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 1,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -544,10 +562,10 @@
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.17453292519943,
-          1.3962634015955
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -557,7 +575,8 @@
       "ws": 5
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 1,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -581,10 +600,10 @@
       "reflectionLimit": 0.049,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.17453292519943,
-          1.3962634015955
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {

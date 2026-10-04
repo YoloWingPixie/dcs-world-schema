@@ -76,7 +76,14 @@
     "fireOnMove": false,
     "maxTargetDetectionRangeM": 10000,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        12000000000,
+        18000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 1.3962634015954636
   },
   "id": "HEMTT_C-RAM_Phalanx",
   "life": [
@@ -92,12 +99,16 @@
   "mobility": {
     "enginePower": 160,
     "fordingDepthM": 1.2,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 20.8333,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 74.99988,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 10.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.75,
+    "traceWidth": 0.394
   },
   "model": {
     "animationArguments": {
@@ -229,6 +240,9 @@
   "sensors": [
     "C_RAM_Phalanx"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/HEMTT_C-RAM_Phalanx"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -236,7 +250,7 @@
   "weaponSystems": [
     {
       "barrels": 1,
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "displayName": "Phalanx",
       "frequencyRangeHz": [
         12000000000,
@@ -257,43 +271,55 @@
             "M246_20_HE_gr"
           ],
           "reloadTimeS": 300,
-          "shotDelayS": 0.013333333333333
+          "shotDelayS": 0.013333333333333334,
+          "switchOnDelay": 300
         }
       ],
       "rMaxKm": 2.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.3,
+      "referenceAngleYRad": 3.141592653589793,
+      "referenceAngleZRad": 0.08726646259971647,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          2.833716573538,
-          0.31415926535898,
-          -0.17453292519943,
-          1.5707963267949
+          2.833716573537994,
+          0.3141592653589793,
+          -0.17453292519943295,
+          1.5707963267948966
         ],
         [
-          0.31415926535898,
-          -0.31415926535898,
-          -0.076794487087751,
-          1.5707963267949
+          0.3141592653589793,
+          -0.3141592653589793,
+          -0.07679448708775051,
+          1.5707963267948966
         ],
         [
-          -0.31415926535898,
-          -2.833716573538,
-          -0.17453292519943,
-          1.5707963267949
+          -0.3141592653589793,
+          -2.833716573537994,
+          -0.17453292519943295,
+          1.5707963267948966
         ],
         [
-          -2.833716573538,
-          2.833716573538,
-          -0.076794487087751,
-          1.5707963267949
+          -2.833716573537994,
+          2.833716573537994,
+          -0.07679448708775051,
+          1.5707963267948966
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 2.0245819323134,
-        "yaw": 2.0071286397935
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 2.0245819323134224,
+        "yaw": 2.007128639793479
+      },
+      "useTargetAccelInSight": true,
       "ws": 1
     }
   ]

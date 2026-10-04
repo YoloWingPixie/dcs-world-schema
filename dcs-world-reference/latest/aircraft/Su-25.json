@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 245,
     "emptyMassKg": 10099,
     "internalFuelKg": 2835,
     "maxSpeedKmh": 980,
@@ -68,11 +69,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.7,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 7
   },
   "dimensions": {
     "heightM": 4.8,
     "lengthM": 15.36,
+    "mainGearPosition": [
+      -1,
+      -2.009,
+      1.352
+    ],
+    "noseGearPosition": [
+      2.808,
+      -2.15,
+      0
+    ],
+    "wingAreaM2": 30.1,
     "wingSpanM": 14.35
   },
   "displayName": "Su-25",
@@ -150,11 +163,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.58058609380733,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.3420201433256687,
+      -0.5805860938073303,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -289,9 +302,9 @@
         "2": {
           "lights": [
             {
-              "angle_change_rate": 1.3962634015955,
-              "angle_max": 0.34906585039887,
-              "angle_min": 0.26179938779915,
+              "angle_change_rate": 1.3962634015954636,
+              "angle_max": 0.3490658503988659,
+              "angle_min": 0.2617993877991494,
               "argument": -1,
               "color": [
                 255,
@@ -307,9 +320,9 @@
               "typename": "Spot"
             },
             {
-              "angle_change_rate": 1.3962634015955,
-              "angle_max": 0.34906585039887,
-              "angle_min": 0.26179938779915,
+              "angle_change_rate": 1.3962634015954636,
+              "angle_max": 0.3490658503988659,
+              "angle_min": 0.2617993877991494,
               "argument": -1,
               "color": [
                 255,
@@ -342,8 +355,8 @@
               "typename": "omnilight"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 2.6179938779915,
+              "angle_max": 2.792526803190927,
+              "angle_min": 2.6179938779914944,
               "argument": 190,
               "color": [
                 1,
@@ -362,8 +375,8 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 2.6179938779915,
+              "angle_max": 2.792526803190927,
+              "angle_min": 2.6179938779914944,
               "argument": 191,
               "color": [
                 0,
@@ -387,8 +400,8 @@
         "6": {
           "lights": [
             {
-              "angle_change_rate": -1.3962634015955,
-              "angle_max": 1.7453292519943,
+              "angle_change_rate": -1.3962634015954636,
+              "angle_max": 1.7453292519943295,
               "argument": -1,
               "color": [
                 255,
@@ -404,8 +417,8 @@
               "typename": "Spot"
             },
             {
-              "angle_change_rate": -1.3962634015955,
-              "angle_max": 1.7453292519943,
+              "angle_change_rate": -1.3962634015954636,
+              "angle_max": 1.7453292519943295,
               "argument": -1,
               "color": [
                 255,
@@ -602,8 +615,17 @@
   "radios": [
     "Su-25__radio0"
   ],
+  "sensorRoles": [
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-25"
   ],
   "stations": [
     {

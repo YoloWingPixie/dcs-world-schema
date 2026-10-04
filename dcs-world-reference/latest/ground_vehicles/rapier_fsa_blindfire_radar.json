@@ -68,7 +68,13 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 30000,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        20000000000,
+        40000000000
+      ]
+    ]
   },
   "id": "rapier_fsa_blindfire_radar",
   "life": [
@@ -83,12 +89,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -293,13 +302,16 @@
   "sensors": [
     "Tor 9A331"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/rapier_fsa_blindfire_radar"
+  ],
   "tags": [
     "Air Defence",
     "Tracking Radar"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -317,15 +329,24 @@
       "rMaxKm": 30.0,
       "rMinKm": 0.4,
       "reactionTimeS": 0.1,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1.5,
         "yaw": 1.2

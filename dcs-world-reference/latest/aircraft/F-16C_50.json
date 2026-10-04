@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 132.6,
     "emptyMassKg": 9026,
     "internalFuelKg": 3249,
     "maxSpeedKmh": 2120.04,
@@ -16,6 +17,9 @@
     "NonArmoredUnits",
     "Planes",
     "Refuelable"
+  ],
+  "connectDatalinks": [
+    "Link16"
   ],
   "countermeasures": {
     "chaff": {
@@ -99,11 +103,23 @@
   "detection": {
     "detectionRangeMax": 160,
     "irEmissionCoeff": 0.6,
+    "irEmissionCoeffAfterburner": 3,
     "rcsM2": 4
   },
   "dimensions": {
     "heightM": 5.02,
     "lengthM": 14.52,
+    "mainGearPosition": [
+      -1.803,
+      -1.99,
+      1.094
+    ],
+    "noseGearPosition": [
+      2.268,
+      -2.021,
+      0
+    ],
+    "wingAreaM2": 28,
     "wingSpanM": 9.45
   },
   "displayName": "F-16CM bl.50",
@@ -271,11 +287,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.45315389351832,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.45315389351832497,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -518,13 +534,13 @@
               "typename": "argnatostrobelight"
             },
             {
-              "angle_max": 1.9198621771938,
-              "angle_min": 1.3962634015955,
+              "angle_max": 1.9198621771937625,
+              "angle_min": 1.3962634015954636,
               "argument": 193,
               "connector": "WHITE_BEACON",
               "controller": "VariablePatternStrobe",
               "dir_correction": {
-                "azimuth": -1.5707963267949
+                "azimuth": -1.5707963267948966
               },
               "exposure": [
                 [
@@ -538,13 +554,13 @@
               "mode": "1 Flash",
               "period": 0.5,
               "proto": {
-                "angle_max": 3.1415926535898,
-                "angle_min": 0.5235987755983,
+                "angle_max": 3.141592653589793,
+                "angle_min": 0.5235987755982988,
                 "color": [
                   0.92,
                   0.92,
                   1,
-                  0.20784609690827
+                  0.2078460969082653
                 ],
                 "controller": "Strobe",
                 "period": 1,
@@ -554,13 +570,13 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 1.9198621771938,
-              "angle_min": 1.3962634015955,
+              "angle_max": 1.9198621771937625,
+              "angle_min": 1.3962634015954636,
               "argument": 193,
               "connector": "WHITE_BEACON",
               "controller": "VariablePatternStrobe",
               "dir_correction": {
-                "azimuth": 1.5707963267949
+                "azimuth": 1.5707963267948966
               },
               "exposure": [
                 [
@@ -574,13 +590,13 @@
               "mode": "1 Flash",
               "period": 0.5,
               "proto": {
-                "angle_max": 3.1415926535898,
-                "angle_min": 0.5235987755983,
+                "angle_max": 3.141592653589793,
+                "angle_min": 0.5235987755982988,
                 "color": [
                   0.92,
                   0.92,
                   1,
-                  0.20784609690827
+                  0.2078460969082653
                 ],
                 "controller": "Strobe",
                 "period": 1,
@@ -1173,9 +1189,22 @@
     ],
     "tankerType": 1
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-68"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-68",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-16C_50"
   ],
   "stations": [
     {

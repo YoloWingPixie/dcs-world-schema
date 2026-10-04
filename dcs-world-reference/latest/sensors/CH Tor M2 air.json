@@ -13,6 +13,7 @@
   "kind": "radar",
   "lockOnDistanceCoeff": 0.8,
   "multipleTargetsTracking": true,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -23,6 +24,12 @@
       65
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/CH Tor M2 air"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 13.89
+  }
 }

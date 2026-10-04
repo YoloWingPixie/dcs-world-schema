@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 223.011,
     "emptyMassKg": 14742,
     "internalFuelKg": 5510.5,
-    "maxSpeedKmh": 2203.2,
+    "maxSpeedKmh": 2203.2000000000003,
     "maxTakeoffKg": 28122
   },
   "attributes": [
@@ -95,11 +96,23 @@
   "detection": {
     "detectionRangeMax": 60,
     "irEmissionCoeff": 0.8,
+    "irEmissionCoeffAfterburner": 4,
     "rcsM2": 6
   },
   "dimensions": {
     "heightM": 5,
     "lengthM": 19.2,
+    "mainGearPosition": [
+      -1.085,
+      -2.4,
+      -2.73
+    ],
+    "noseGearPosition": [
+      5.973,
+      -2.552,
+      0
+    ],
+    "wingAreaM2": 49.2,
     "wingSpanM": 11.7
   },
   "displayName": "QF-4E",
@@ -1618,9 +1631,22 @@
     ],
     "tankerType": 1
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "HB_ANAPQ_120"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "HB_ANAPQ_120"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/QF-4E"
   ],
   "stations": [
     {

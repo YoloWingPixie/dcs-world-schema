@@ -84,6 +84,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 4000
   },
   "dimensions": {
@@ -94,8 +95,26 @@
   "displayName": "SPAAA Gepard",
   "fireControl": {
     "maxTargetDetectionRangeM": 10000,
+    "radarRotationType": 1,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        2000000000,
+        3000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.7853981633974483,
+    "smoke": [
+      "SMOKE_04",
+      "SMOKE_05",
+      "SMOKE_03",
+      "SMOKE_06",
+      "SMOKE_02",
+      "SMOKE_07",
+      "SMOKE_01",
+      "SMOKE_08"
+    ]
   },
   "id": "Gepard",
   "life": [
@@ -107,12 +126,26 @@
   "mobility": {
     "enginePower": 830,
     "fordingDepthM": 1.2,
+    "gearRatios": [
+      -9.4,
+      -18.1,
+      0,
+      19.5,
+      8,
+      5.5,
+      3.6
+    ],
+    "gearType": 2,
+    "mainGearRatio": 3,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 18.0556,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 65.00016,
     "maxVertObstacleM": 1.15,
     "minTurnRadiusM": 2.694,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.35,
+    "traceWidth": 0.49
   },
   "model": {
     "animationArguments": {
@@ -252,6 +285,9 @@
     "Gepard",
     "Karat visir"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Gepard"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -259,7 +295,7 @@
   "weaponSystems": [
     {
       "barrels": 2,
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "displayName": "KDA 35mm",
       "frequencyRangeHz": [
         10000000000,
@@ -269,6 +305,7 @@
         "KDA_35_HE"
       ],
       "hMaxM": 3000,
+      "laser": true,
       "launcherType": 3,
       "ln": 1,
       "name": "KDA_35mm",
@@ -280,7 +317,7 @@
           ],
           "portionAmmoCapacity": 660,
           "reloadTimeS": 1800,
-          "shotDelayS": 0.10909090909091
+          "shotDelayS": 0.10909090909090909
         }
       ],
       "rMaxKm": 4.0,
@@ -289,22 +326,32 @@
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          2.3561944901923,
-          -2.3561944901923,
-          -0.13962634015955,
+          2.356194490192345,
+          -2.356194490192345,
+          -0.13962634015954636,
           1.4835
         ],
         [
-          -2.3561944901923,
-          2.3561944901923,
-          -0.078539816339745,
+          -2.356194490192345,
+          2.356194490192345,
+          -0.07853981633974483,
           1.4835
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 2.0943951023932,
-        "yaw": 1.9198621771938
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 2.0943951023931953,
+        "yaw": 1.9198621771937625
+      },
+      "stabilizer": true,
+      "useTargetAccelInSight": true,
       "ws": 1
     }
   ]

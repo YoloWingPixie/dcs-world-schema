@@ -18,6 +18,7 @@
   "lockOnDistanceCoeff": 0.85,
   "multipleTargetsTracking": true,
   "rcs": 19,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -70,
@@ -28,6 +29,9 @@
       70
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/BRLS-8B"
+  ],
   "trackVolume": {
     "azimuthDeg": [
       -70,
@@ -40,5 +44,9 @@
   },
   "twsMaxTargets": 4,
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 55.55555555555556,
+    "relativeRadialVelocityMinMs": 41.666666666666664
+  }
 }
