@@ -49,11 +49,16 @@ dcs-world-reference/latest/
 ```
 
 Series: `aircraft`, `ground_vehicles`, `personnel`, `ships`, `structures`, `sensors`, `radios`,
-`datalink`, `weapons`, `warheads`, `stores`, `racks`, `gun_ammo`, `fuzes`, `attributes`, `countries`,
-`callsigns`, `formations`, `tasks`, `skills`, `actions`, `options`, `threats`, `liveries`,
+`datalink`, `weapons`, `weapon_flight`, `aircraft_flight`, `warheads`, `stores`, `racks`, `gun_ammo`, `fuzes`,
+`attributes`, `countries`, `callsigns`, `formations`, `tasks`, `skills`, `actions`, `options`, `threats`, `liveries`,
 `theatres`, `beacons`, `navaids`, `airbases`. Each is an `Entity.*` type in
 `dcs-world-schema/types/entities/`. File names are the DCS id made safe for Windows file systems;
 the record carries the true id. Hand-authored facts are in `tools/datamine/overlays.yaml`.
+
+`weapon_flight` holds each weapon's flight model, motor stages, autopilot, seeker and fuze
+([docs/weapon-flight.md](docs/weapon-flight.md)); `aircraft_flight` each aircraft's AI flight
+model (`SFM_Data`, helicopter rotor and engine keys). Records list the `_G` dump files they were
+read from in `sourcePaths`; keys without a field are only in the dump ([docs/dcs-dump.md](docs/dcs-dump.md)).
 
 A version extracted without its own probe run carries the previous version's probe results
 forward, marked `probedOn: <version>` (in `api/probe.json`, `api/actions-probe.json` and each
@@ -145,6 +150,8 @@ task --list    # all tasks
 | `dcs-world-reference/latest/` | The newest DCS version's data, one JSON file per record, by series; earlier versions are in git history |
 | `.../aircraft/`, `ground_vehicles/`, `ships/`, `structures/` | Units: stations, sensors, radios, attributes |
 | `.../weapons/`, `stores/`, `warheads/` | Weapons, the stores that carry them (by CLSID) and their warheads |
+| `.../weapon_flight/` | Weapon flight models, motors, autopilots, seekers and fuzes |
+| `.../aircraft_flight/` | Aircraft AI flight models (`SFM_Data`, helicopter rotor and engine) |
 | `.../airbases/<theatre>/`, `beacons/<theatre>/` | Airbases (runways, parking stands, ATC frequencies and callsigns) and beacons per map |
 | `.../actions/`, `options/` | AI tasks, commands and options; source of `DcsTask.*` |
 | `.../api/` | API dumps of each Lua environment and the probe results |

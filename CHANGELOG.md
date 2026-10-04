@@ -5,6 +5,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `weapon_flight` series: each weapon's flight model (`Cx0`, `CxB`, `K1`, `K2`, `Cya`, trim tables...), motor stages, autopilot, seeker, gimbal, proximity fuze, `PN_coeffs` and launch range tables.
+- `aircraft_flight` series: each aircraft's AI flight model (`SFM_Data` aerodynamics and engine tables, helicopter rotor and engine keys).
+- More fields read from the DCS unit, sensor and shell tables on aircraft, ground units, ships, structures, sensors and gun ammo (mobility, chassis, launchers, detection tables, ballistics...).
+- `sourcePaths` on records: the `_G` dump files each was read from.
+- `task datamine:coverage`: diff dumps against each other or Quaggles' datamine.
+
+### Changed
+- Numbers are exact: the dump no longer rounds to 14 significant digits (`3.1415926535898` is now `3.141592653589793`). Values in 198 existing fields change in their last digits.
+- The dump keeps functions, shared tables, cycles and numeric keys it used to drop or rename.
+- A unit type DCS defines twice is reported instead of the later record replacing the earlier.
+
 ## [0.4.0] - 2026-10-01
 
 ### Added

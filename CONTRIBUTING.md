@@ -30,6 +30,7 @@ Branch from `main`. `task --list` describes every task.
 | `datamine` | Refresh `dcs-world-reference` from a DCS install (not in `ci`) |
 | `datamine:extract` | Re-extract from the cached dumps without DCS |
 | `datamine:dcs-database-types`, `datamine:api-schema`, `datamine:action-types`, `datamine:id-types` | Regenerate `types/dcs-database/`, `globals/{hooks,server,export}/`, `types/ai/` and `types/ids/` (`:check` variants run in `ci`) |
+| `datamine:coverage` | Diff a dump against another, or against Quaggles' datamine ([docs/dcs-dump.md](docs/dcs-dump.md#coverage)) |
 | `datamine:actions` | Print the Mission Editor actions/options extraction without writing |
 | `datamine:probe:plan`, `datamine:actions-probe:plan` | Show what the argument or actions probe would run |
 
@@ -55,6 +56,18 @@ Branch from `main`. `task --list` describes every task.
   version; earlier versions are in git history.
 - A field holding ids of other records declares their type with `ref` (`ref: Entity.Weapon`, or a
   union `"Entity.Aircraft | Entity.GroundVehicle"`).
+- A curated field is added only when its meaning is known; the rest stays in the `_G` dump
+  ([docs/dcs-dump.md](docs/dcs-dump.md)).
+- After a DCS patch, check what changed against the previous version's records before committing:
+
+  ```bash
+  cp -r .datamine/_G .datamine/_G.previous          # the previous version's dump
+  task datamine
+  task datamine:coverage -- diff .datamine/_G .datamine/_G.previous
+  task datamine:coverage -- diff .datamine/_G --quaggles-ref <dcs version>
+  task datamine:coverage -- typed dcs-world-reference/latest
+  task validate-data
+  ```
 - Extractor rules are in each module's docstring; the DCS hooks are described in
   [tools/datamine/hook/README.md](tools/datamine/hook/README.md).
 
