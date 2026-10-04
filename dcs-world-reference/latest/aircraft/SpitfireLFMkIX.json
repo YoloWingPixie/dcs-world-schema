@@ -1,6 +1,11 @@
 {
   "aero": {
+    "ammoMass": 114.11999999999998,
     "emptyMassKg": 2914,
+    "fuelPerTankKg": [
+      156.716163835,
+      120.882366605
+    ],
     "internalFuelKg": 277.59853044,
     "maxSpeedKmh": 828,
     "maxTakeoffKg": 3400
@@ -14,6 +19,12 @@
     "NonArmoredUnits",
     "Planes"
   ],
+  "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
+    "flareChargeSize": 0,
+    "flareDefault": 0
+  },
   "countryOfOrigin": "UK",
   "crew": 1,
   "defaultRadio": {
@@ -31,11 +42,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 12.13,
+    "mainGearPosition": [
+      0.158,
+      -1.805,
+      0.885
+    ],
+    "noseGearPosition": [
+      -6.032,
+      -0.526,
+      0
+    ],
+    "wingAreaM2": 22.48,
     "wingSpanM": 11.25
   },
   "displayName": "Spitfire LF Mk. IX",
@@ -805,11 +828,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.45315389351832,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.08715574274765817,
+      -0.45315389351832497,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1128,7 +1151,7 @@
                   "typename": "Omni"
                 },
                 {
-                  "angle_max": 1.9198621771938,
+                  "angle_max": 1.9198621771937625,
                   "angle_min": 0,
                   "color": [
                     0.92,
@@ -1138,7 +1161,7 @@
                   ],
                   "connector": "BANO_Top",
                   "dir_correction": {
-                    "azimuth": 1.5707963267949
+                    "azimuth": 1.5707963267948966
                   },
                   "power_up_t": 0.005,
                   "range": 180,
@@ -1168,7 +1191,7 @@
                   "typename": "Omni"
                 },
                 {
-                  "angle_max": 1.9198621771938,
+                  "angle_max": 1.9198621771937625,
                   "angle_min": 0,
                   "color": [
                     255,
@@ -1178,7 +1201,7 @@
                   ],
                   "connector": "BANO_Bottom",
                   "dir_correction": {
-                    "azimuth": -1.5707963267949
+                    "azimuth": -1.5707963267948966
                   },
                   "power_up_t": 0.005,
                   "range": 240,
@@ -1193,15 +1216,15 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "BANO_LeftWing",
               "dir_correction": {
-                "elevation": -0.78539816339745
+                "elevation": -0.7853981633974483
               },
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -1213,15 +1236,15 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "BANO_RightWing",
               "dir_correction": {
-                "elevation": 0.78539816339745
+                "elevation": 0.7853981633974483
               },
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -1244,11 +1267,11 @@
                   ],
                   "connector": "BANO_Tail",
                   "dir_correction": {
-                    "azimuth": 3.1415926535898
+                    "azimuth": 3.141592653589793
                   },
                   "movable": true,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -1269,7 +1292,7 @@
                   "connector": "BANO_Tail",
                   "movable": true,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -1718,8 +1741,17 @@
     "vTakeOffMs": 53
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    }
+  ],
   "sensors": [
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/SpitfireLFMkIX"
   ],
   "stations": [
     {

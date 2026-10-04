@@ -53,6 +53,9 @@
     "airWeaponDistM": 1000,
     "detectionRangeM": 3000,
     "irEmissionCoeff": 0.08,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 50,
     "sensor": {
       "heightM": 2,
@@ -68,7 +71,11 @@
     "heightM": 2,
     "lengthM": 11.05,
     "massKg": 8200,
-    "widthM": 3.2
+    "shipLengthM": 8.26,
+    "tailWidth": 2.2,
+    "widthM": 3.2,
+    "xNoseM": 4.8,
+    "xTailM": -4.6
   },
   "displayName": "Boat LCVP Higgins",
   "facilities": {
@@ -85,14 +92,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 50,
     "draftM": 1.3,
     "economyDistance": 300000,
-    "economyVelocity": 4,
-    "maxSpeedKmh": 21.996,
+    "economyVelocityMs": 4,
+    "maxSpeedKmh": 21.996000000000002,
     "maxSpeedMs": 6.11,
     "minTurnRadiusM": 20,
     "raceDistance": 200000,
-    "raceVelocity": 6
+    "raceVelocityMs": 6,
+    "speedup": 3
   },
   "model": {
     "animationArguments": {
@@ -211,6 +220,9 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/Higgins_boat"
+  ],
   "tags": [
     "Support"
   ],
@@ -235,7 +247,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -246,7 +259,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -257,7 +271,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -268,7 +283,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -279,30 +295,42 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         }
       ],
+      "primaryWeapon": true,
       "rMaxKm": 1.5,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0.17453292519943295,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          1.5707963267949,
-          0.17453292519943,
-          -0.087266462599716,
-          1.221730476396
+          1.5707963267948966,
+          0.17453292519943295,
+          -0.08726646259971647,
+          1.2217304763960306
         ],
         [
-          0.17453292519943,
-          -0.95993108859688,
-          -0.087266462599716,
-          1.221730476396
+          0.17453292519943295,
+          -0.9599310885968813,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
+      "sightMaxTanVel": 44.44444444444444,
       "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 1.0471975511966
+        "pitch": 0.6981317007977318,
+        "yaw": 1.0471975511965976
       },
       "ws": 1
     },
@@ -326,7 +354,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -337,7 +366,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -348,7 +378,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -359,7 +390,8 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 250,
@@ -370,30 +402,42 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 15
         }
       ],
+      "primaryWeapon": true,
       "rMaxKm": 1.5,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": -0.17453292519943295,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.95993108859688,
-          -0.17453292519943,
-          -0.087266462599716,
-          1.221730476396
+          0.9599310885968813,
+          -0.17453292519943295,
+          -0.08726646259971647,
+          1.2217304763960306
         ],
         [
-          -0.17453292519943,
-          -1.5707963267949,
-          -0.087266462599716,
-          1.221730476396
+          -0.17453292519943295,
+          -1.5707963267948966,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
+      "sightMaxTanVel": 44.44444444444444,
       "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 1.0471975511966
+        "pitch": 0.6981317007977318,
+        "yaw": 1.0471975511965976
       },
       "ws": 2
     }

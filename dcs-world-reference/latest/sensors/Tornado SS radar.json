@@ -3,9 +3,12 @@
   "categoryName": "SENSOR_RADAR",
   "detectionRangeField": "max_measuring_distance",
   "detectionRangeKm": 250.0,
+  "hrmDetectionDistanceM": 18000,
   "id": "Tornado SS radar",
   "kind": "radar",
+  "rbmDetectionDistanceM": 160000,
   "rcs": 100,
+  "scanPeriodS": 4,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -16,6 +19,10 @@
       15
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/Tornado SS radar"
+  ],
   "type": 1,
-  "typeName": "RADAR_SS"
+  "typeName": "RADAR_SS",
+  "vehiclesDetection": true
 }

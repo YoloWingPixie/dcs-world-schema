@@ -64,6 +64,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 3800
   },
   "dimensions": {
@@ -83,14 +84,31 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 3000,
+    "engineMaxRpm": 3800,
+    "engineMinRpm": 700,
     "enginePower": 160,
     "fordingDepthM": 0.76,
+    "gearRatios": [
+      -4.78,
+      0,
+      4.78,
+      2.6,
+      1.55,
+      1
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.45,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 31.3889,
     "maxSlopeRad": 0.5,
     "maxSpeedKmh": 113.00004,
     "maxVertObstacleM": 0.56,
     "minTurnRadiusM": 7.62,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.46,
+    "traceWidth": 0.343
   },
   "model": {
     "animationArguments": {
@@ -375,6 +393,9 @@
     "TAS4 TOW day",
     "TAS4 TOW night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M1045 HMMWV TOW"
+  ],
   "tags": [
     "Armor",
     "SP ATGM"
@@ -382,16 +403,22 @@
   "weaponSystems": [
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
+      "dispertionReductionFactor": 0.986,
       "hMaxM": 3000,
+      "inclinationCorrectionBias": 0.019198621771937627,
+      "inclinationCorrectionUpperLimit": 0.7853981633974483,
+      "launchDelayHuman": 1.5,
       "launchDelayS": 2,
       "launcherType": 33,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "missileControlInterval": 0.1,
       "payloads": [
         {
           "ammoCapacity": 6,
           "ammoName": "TOW",
+          "automaticLoader": false,
           "reloadTimeS": 180,
           "shotDelayS": 30,
           "weapon": "TOW2"
@@ -399,18 +426,27 @@
       ],
       "rMaxKm": 3.8,
       "rMinKm": 0.05,
+      "radialDisperse": 2,
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.34906585039887
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.3490658503988659
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.87266462599716
+        "pitch": 0.5235987755982988,
+        "yaw": 0.8726646259971648
       },
       "weapons": [
         "TOW2"

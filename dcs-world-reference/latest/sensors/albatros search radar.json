@@ -1,4 +1,5 @@
 {
+  "airborneRadar": false,
   "category": 1,
   "categoryName": "SENSOR_RADAR",
   "detectionDistance": {
@@ -12,7 +13,9 @@
   "id": "albatros search radar",
   "kind": "radar",
   "lockOnDistanceCoeff": 1,
+  "rbmDetectionDistanceM": 30000,
   "rcs": 100,
+  "scanPeriodS": 12,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -23,6 +26,13 @@
       10
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/albatros search radar"
+  ],
   "type": 1,
-  "typeName": "RADAR_SS"
+  "typeName": "RADAR_SS",
+  "vehiclesDetection": true,
+  "velocityLimits": {
+    "radialVelocityMinMs": 15
+  }
 }

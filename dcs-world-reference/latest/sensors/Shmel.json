@@ -6,7 +6,11 @@
       "upperHeadOnM": 320000,
       "upperTailOnM": 320000
     },
-    "rcs": 6
+    "rcs": 6,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -14,6 +18,7 @@
   "detectionRangeKm": 400.0,
   "id": "Shmel",
   "kind": "radar",
+  "scanPeriodS": 10,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -24,6 +29,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/Shmel"
+  ],
   "surfaceSearch": {
     "gmtiDetectionDistanceM": 300000,
     "rbmDetectionDistanceM": 250000,

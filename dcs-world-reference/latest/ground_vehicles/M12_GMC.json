@@ -85,6 +85,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 18300
   },
   "dimensions": {
@@ -111,12 +112,17 @@
   "mobility": {
     "enginePower": 275.9,
     "fordingDepthM": 0.6,
+    "gearType": 2,
+    "maxAcceleration": 1.4,
     "maxRoadSpeedMs": 11.11,
-    "maxSlopeRad": 0.5235987755983,
+    "maxSlopeRad": 0.5235987755982988,
     "maxSpeedKmh": 39.996,
+    "maxTrenchWidth": 2.3,
     "maxVertObstacleM": 0.9,
     "minTurnRadiusM": 1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.345,
+    "traceWidth": 0.41
   },
   "model": {
     "animationArguments": {
@@ -248,6 +254,9 @@
     "TRP-2A day",
     "TRP-2A night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M12_GMC"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -255,6 +264,7 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "gunAmmo": [
         "M101"
       ],
@@ -264,6 +274,7 @@
       "payloads": [
         {
           "ammoCapacity": 50,
+          "automaticLoader": false,
           "gunAmmo": [
             "M101"
           ],
@@ -276,15 +287,23 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          0.24434609527921,
-          -0.24434609527921,
-          -0.087266462599716,
-          0.5235987755983
+          0.24434609527920614,
+          -0.24434609527920614,
+          -0.08726646259971647,
+          0.5235987755982988
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.034906585039887,
-        "yaw": 0.034906585039887
+        "pitch": 0.03490658503988659,
+        "yaw": 0.03490658503988659
       },
       "ws": 1
     }

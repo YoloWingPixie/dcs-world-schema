@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 110.88,
     "emptyMassKg": 14090,
     "internalFuelKg": 4663,
     "maxSpeedKmh": 2340,
@@ -48,11 +49,23 @@
   "detection": {
     "detectionRangeMax": 150,
     "irEmissionCoeff": 0.6,
+    "irEmissionCoeffAfterburner": 2.2,
     "rcsM2": 4
   },
   "dimensions": {
     "heightM": 5.7,
     "lengthM": 16.7,
+    "mainGearPosition": [
+      -1.323,
+      -2.107,
+      1.541
+    ],
+    "noseGearPosition": [
+      3.821,
+      -2.107,
+      0
+    ],
+    "wingAreaM2": 36.5,
     "wingSpanM": 13.91
   },
   "displayName": "Tornado GR4",
@@ -77,11 +90,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      0.023436679747723,
-      0.86602540378444
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      0.0234366797477234,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -247,8 +260,8 @@
           "lights": [
             {
               "direction": {
-                "azimuth": -0.034906585039887,
-                "elevation": 0.15707963267949
+                "azimuth": -0.03490658503988659,
+                "elevation": 0.15707963267948966
               },
               "exposure": [
                 [
@@ -264,14 +277,14 @@
                 1.7
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -293,14 +306,14 @@
                 1.7
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -310,8 +323,8 @@
             },
             {
               "direction": {
-                "azimuth": 0.034906585039887,
-                "elevation": 0.17453292519943
+                "azimuth": 0.03490658503988659,
+                "elevation": 0.17453292519943295
               },
               "exposure": [
                 [
@@ -327,14 +340,14 @@
                 -1.7
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -356,14 +369,14 @@
                 -1.7
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -382,7 +395,7 @@
           "lights": [
             {
               "direction": {
-                "elevation": 0.1221730476396
+                "elevation": 0.12217304763960307
               },
               "exposure": [
                 [
@@ -398,14 +411,14 @@
                 0.047
               ],
               "proto": {
-                "angle_change_rate": -0.19198621771938,
-                "angle_max": 0.7679448708775,
-                "angle_min": 0.614355896702,
+                "angle_change_rate": -0.19198621771937624,
+                "angle_max": 0.767944870877505,
+                "angle_min": 0.6143558967020041,
                 "color": [
                   255,
                   201,
                   125,
-                  0.27855844122716
+                  0.27855844122715717
                 ],
                 "power_up_t": 2.42,
                 "range": 960
@@ -422,19 +435,19 @@
               ],
               "movable": true,
               "position": [
-                4.435,
+                4.4350000000000005,
                 -1.26,
                 0.047
               ],
               "proto": {
-                "angle_change_rate": -0.19198621771938,
-                "angle_max": 0.7679448708775,
-                "angle_min": 0.614355896702,
+                "angle_change_rate": -0.19198621771937624,
+                "angle_max": 0.767944870877505,
+                "angle_min": 0.6143558967020041,
                 "color": [
                   255,
                   201,
                   125,
-                  0.27855844122716
+                  0.27855844122715717
                 ],
                 "power_up_t": 2.42,
                 "range": 960
@@ -547,10 +560,27 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Tornado GR_4 FLIR"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "Tornado SS radar"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Tornado GR_4 FLIR",
     "Tornado SS radar"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Tornado GR4"
   ],
   "stations": [
     {

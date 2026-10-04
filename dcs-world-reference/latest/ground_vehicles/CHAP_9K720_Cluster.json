@@ -106,14 +106,36 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 1900,
+    "engineMaxRpm": 2100,
+    "engineMinRpm": 800,
+    "engineMoi": 3.5,
     "enginePower": 500,
     "fordingDepthM": 1.4,
+    "gearRatios": [
+      -6,
+      0,
+      12,
+      9.5,
+      7.5,
+      5.8,
+      4.5,
+      3.5,
+      2.7,
+      2,
+      1.5
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.2,
+    "maxAcceleration": 2.8,
     "maxRoadSpeedMs": 19.44,
     "maxSlopeRad": 0.52,
-    "maxSpeedKmh": 69.984,
+    "maxSpeedKmh": 69.98400000000001,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 14,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.67
   },
   "model": {
     "animationArguments": {
@@ -245,6 +267,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_9K720_Cluster"
+  ],
   "tags": [
     "MissilesSS",
     "SSM"
@@ -258,11 +283,14 @@
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 2,
+      "mountBeforeMove": true,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 2,
           "reloadTimeS": 600,
           "shotDelayS": 5,
+          "switchOnDelay": 600,
           "weapon": "9M723"
         }
       ],
@@ -271,12 +299,20 @@
       "reactionTimeS": 2,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -1.5707963267949,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "9M723"
       ],

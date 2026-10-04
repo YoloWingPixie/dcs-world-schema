@@ -12,7 +12,11 @@
     },
     "lockOnDistanceCoeff": 0.7,
     "multipleTargetsTracking": true,
-    "twsMaxTargets": 4
+    "twsMaxTargets": 4,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -20,6 +24,7 @@
   "detectionRangeKm": 350.0,
   "id": "N-011M",
   "kind": "radar",
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -70,
@@ -30,6 +35,9 @@
       45
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/N-011M"
+  ],
   "surfaceSearch": {
     "gmtiDetectionDistanceM": 250000,
     "hrmDetectionDistanceM": 50000,

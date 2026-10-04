@@ -45,6 +45,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.3,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 1000,
     "sensor": {
       "heightM": 6,
@@ -60,7 +63,11 @@
     "heightM": 12.9,
     "lengthM": 40,
     "massKg": 85000,
-    "widthM": 6.5
+    "shipLengthM": 36.2,
+    "tailWidth": 3.9,
+    "widthM": 6.5,
+    "xNoseM": 17.5,
+    "xTailM": -19
   },
   "displayName": "Boat Zvezdny type",
   "facilities": {
@@ -74,13 +81,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 101,
     "draftM": 2.5,
     "economyDistance": 4630000,
-    "economyVelocity": 7.30511,
+    "economyVelocityMs": 7.30511,
     "maxSpeedMs": 7.30511,
     "minTurnRadiusM": 34,
     "raceDistance": 4630000,
-    "raceVelocity": 7.30511
+    "raceVelocityMs": 7.30511,
+    "riverCraft": true,
+    "speedup": 0.523183
   },
   "model": {
     "animationArguments": {
@@ -170,6 +180,9 @@
       "country": 82,
       "countryName": "UN_PEACEKEEPERS"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/ZWEZDNY"
   ],
   "tags": [
     "Civilian"

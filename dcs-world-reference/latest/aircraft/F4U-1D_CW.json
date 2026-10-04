@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 328.8,
     "emptyMassKg": 4492,
     "internalFuelKg": 662,
     "maxSpeedKmh": 662.4,
@@ -45,11 +46,23 @@
   "detection": {
     "detectionRangeMax": 10,
     "irEmissionCoeff": 0.15,
+    "irEmissionCoeffAfterburner": 0.15,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 4.5,
     "lengthM": 10.31,
+    "mainGearPosition": [
+      0.6,
+      -2.05,
+      1.87
+    ],
+    "noseGearPosition": [
+      -5.58,
+      -0.6499999999999999,
+      0
+    ],
+    "wingAreaM2": 29.172,
     "wingSpanM": 12.49
   },
   "displayName": "F4U-1D Mk.IV",
@@ -514,7 +527,7 @@
     {
       "arg": 1013,
       "control": "comboList",
-      "default": 0,
+      "default": 7,
       "id": "F4U_CW_number_1",
       "label": "1st number",
       "values": [
@@ -573,7 +586,7 @@
     {
       "arg": 1012,
       "control": "comboList",
-      "default": 0,
+      "default": 2,
       "id": "F4U_CW_number_2",
       "label": "2nd number",
       "values": [
@@ -632,7 +645,7 @@
     {
       "arg": 1011,
       "control": "comboList",
-      "default": 3,
+      "default": 5,
       "id": "F4U_CW_number_3",
       "label": "3rd number",
       "values": [
@@ -691,11 +704,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.45315389351832,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.45315389351832497,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1643,6 +1656,9 @@
     "tankerType": 0
   },
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F4U-1D_CW"
+  ],
   "stations": [
     {
       "accepts": [

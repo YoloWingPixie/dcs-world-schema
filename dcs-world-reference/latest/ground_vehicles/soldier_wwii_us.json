@@ -86,12 +86,15 @@
   "mobility": {
     "enginePower": 0.5,
     "fordingDepthM": 1,
+    "gearType": 3,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 1,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 0.1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -134,12 +137,16 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/soldier_wwii_us"
+  ],
   "tags": [
     "Infantry"
   ],
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "gunAmmo": [
         "7_92x57sS"
       ],
@@ -157,7 +164,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         },
         {
           "ammoCapacity": 8,
@@ -167,7 +175,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         },
         {
           "ammoCapacity": 8,
@@ -177,7 +186,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         },
         {
           "ammoCapacity": 8,
@@ -187,7 +197,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         },
         {
           "ammoCapacity": 8,
@@ -197,7 +208,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         },
         {
           "ammoCapacity": 8,
@@ -207,7 +219,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         },
         {
           "ammoCapacity": 8,
@@ -217,7 +230,8 @@
           ],
           "portionAmmoCapacity": 5,
           "reloadTimeS": 7,
-          "shotDelayS": 0.8
+          "shotDelayS": 0.8,
+          "switchOnDelay": 7
         }
       ],
       "rMaxKm": 0.5,
@@ -226,15 +240,24 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -1.0471975511966,
-          1.0471975511966
+          0.7853981633974483,
+          -0.7853981633974483,
+          -1.0471975511965976,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
+      "sightMaxTanVel": 44.44444444444444,
       "slewRateRadS": {
-        "pitch": 1.7453292519943,
-        "yaw": 1.7453292519943
+        "pitch": 1.7453292519943295,
+        "yaw": 1.7453292519943295
       },
       "ws": 1
     }

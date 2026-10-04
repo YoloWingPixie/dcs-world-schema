@@ -106,14 +106,34 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 2400,
+    "engineMaxRpm": 2600,
+    "engineMinRpm": 800,
+    "engineMoi": 2.8,
     "enginePower": 330,
     "fordingDepthM": 0.91,
+    "gearRatios": [
+      -5,
+      0,
+      7.2,
+      4.8,
+      3.2,
+      2.1,
+      1.5,
+      1,
+      0.75
+    ],
+    "gearType": 1,
+    "mainGearRatio": 6.5,
+    "maxAcceleration": 3.1,
     "maxRoadSpeedMs": 23.61,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 84.996,
     "maxVertObstacleM": 0.51,
     "minTurnRadiusM": 12,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.56
   },
   "model": {
     "animationArguments": {
@@ -212,24 +232,39 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_M142_GMLRS_M31"
+  ],
   "tags": [
     "Artillery",
     "MRL"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          0,
+          0.9599310885968813
+        ]
+      ],
       "barrels": 6,
+      "barrelsReloadType": 2,
+      "canSetTacticalDir": true,
       "externalTrackingAwacs": false,
       "launchDelayS": 1,
       "launcherType": 8,
       "ln": 1,
       "maxShootingSpeed": 0,
       "missileChannels": 6,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 6,
           "reloadTimeS": 300,
           "shotDelayS": 0.1,
+          "switchOnDelay": 300,
           "weapon": "M31"
         }
       ],
@@ -238,15 +273,23 @@
       "reactionTimeS": 3,
       "sectorsRad": [
         [
-          -0.5235987755983,
-          0.5235987755983,
+          -0.5235987755982988,
+          0.5235987755982988,
           0,
-          0.95993108859688
+          0.9599310885968813
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.20943951023932,
-        "yaw": 0.43633231299858
+        "pitch": 0.20943951023931956,
+        "yaw": 0.4363323129985824
       },
       "weapons": [
         "M31"

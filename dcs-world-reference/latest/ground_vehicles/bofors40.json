@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -640,6 +643,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/bofors40"
+  ],
   "tags": [
     "Air Defence",
     "AAA"
@@ -663,24 +669,35 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 1200,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 1
         }
       ],
       "rMaxKm": 2.0,
       "rMinKm": 0.0,
       "reactionTimeS": 2,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 1.1,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.5690509975429
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.5690509975429023
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
+      "sightMaxTanVel": 138.88888888888889,
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 1
     }

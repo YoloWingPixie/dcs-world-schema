@@ -83,12 +83,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 212,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 16.6667,
     "maxSlopeRad": 0.61,
-    "maxSpeedKmh": 60.00012,
+    "maxSpeedKmh": 60.000119999999995,
     "maxVertObstacleM": 0.61,
     "minTurnRadiusM": 2.17,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.33,
+    "traceWidth": 0.367,
+    "waterlineLevel": 1.6
   },
   "model": {
     "animationArguments": {
@@ -282,23 +287,38 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M48 Chaparral"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.15707963267948966,
+          1.5533430342749532
+        ]
+      ],
       "barrels": 4,
+      "barrelsReloadType": 3,
+      "canSetTacticalDir": true,
       "ecmK": -1,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": 0.2617993877991494,
       "missileChannels": 2,
       "payloads": [
         {
           "ammoCapacity": 8,
           "ammoName": "MIM-72G",
+          "automaticLoader": false,
           "reloadTimeS": 320,
           "shotDelayS": 40,
           "weapon": "MIM_72G"
@@ -307,27 +327,36 @@
       "rMaxKm": 8.5,
       "rMinKm": 0.5,
       "reactionTimeS": 2,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          1.221730476396,
-          -0.15707963267949,
-          1.553343034275
+          3.141592653589793,
+          1.2217304763960306,
+          -0.15707963267948966,
+          1.5533430342749532
         ],
         [
-          1.221730476396,
-          -1.221730476396,
-          0.41887902047864,
-          1.553343034275
+          1.2217304763960306,
+          -1.2217304763960306,
+          0.4188790204786391,
+          1.5533430342749532
         ],
         [
-          -1.221730476396,
-          -3.1415926535898,
-          -0.15707963267949,
-          1.553343034275
+          -1.2217304763960306,
+          -3.141592653589793,
+          -0.15707963267948966,
+          1.5533430342749532
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.6,
         "yaw": 0.5

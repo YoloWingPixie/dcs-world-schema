@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 1560,
     "internalFuelKg": 454,
     "maxSpeedKmh": 220,
@@ -48,6 +49,16 @@
   "dimensions": {
     "heightM": 2.29,
     "lengthM": 10.48,
+    "mainGearPosition": [
+      -0.997,
+      -1.169,
+      0.917
+    ],
+    "noseGearPosition": [
+      1.03,
+      -1.166,
+      0.917
+    ],
     "rotorDiameterM": 10.53
   },
   "displayName": "OH-58D",
@@ -56,11 +67,11 @@
   "kind": "rotary",
   "model": {
     "canopyGeometry": [
-      -0.93969262078591,
-      -0.90285901228517,
-      -0.86602540378444,
-      5.5511151231258e-17,
-      0.86602540378444
+      -0.9396926207859083,
+      -0.9028590122851734,
+      -0.8660254037844386,
+      5.551115123125783e-17,
+      0.8660254037844387
     ],
     "damageArgs": [
       {
@@ -111,18 +122,18 @@
                   "connector": "RED_BEACON",
                   "controller": "VariablePatternStrobe",
                   "dir_correction": {
-                    "azimuth": 1.3962634015955
+                    "azimuth": 1.3962634015954636
                   },
                   "mode": "2 Flash Long",
                   "period": 0.25,
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 3.141592653589793,
                     "color": [
                       1,
                       0,
                       0,
-                      0.37947331922021
+                      0.3794733192202055
                     ],
                     "controller": "Strobe",
                     "period": 1.33333,
@@ -135,19 +146,19 @@
                   "connector": "RED_BEACON_2",
                   "controller": "VariablePatternStrobe",
                   "dir_correction": {
-                    "azimuth": -1.5707963267949
+                    "azimuth": -1.5707963267948966
                   },
                   "mode": "2 Flash Long",
                   "period": 0.25,
                   "phase_shift": 2,
                   "proto": {
-                    "angle_max": 3.1415926535898,
-                    "angle_min": 0.5235987755983,
+                    "angle_max": 3.141592653589793,
+                    "angle_min": 0.5235987755982988,
                     "color": [
                       0.92,
                       0.92,
                       1,
-                      0.20784609690827
+                      0.2078460969082653
                     ],
                     "controller": "Strobe",
                     "period": 1,
@@ -170,14 +181,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -193,14 +204,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -219,15 +230,15 @@
             {
               "lights": [
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 190,
                   "connector": "BANO_1",
                   "dir_correction": {
-                    "elevation": -1.5707963267949
+                    "elevation": -1.5707963267948966
                   },
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       0.35,
@@ -239,15 +250,15 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_max": 3.1415926535898,
-                  "angle_min": 2.9670597283904,
+                  "angle_max": 3.141592653589793,
+                  "angle_min": 2.9670597283903604,
                   "argument": 191,
                   "connector": "BANO_2",
                   "dir_correction": {
-                    "elevation": 1.5707963267949
+                    "elevation": 1.5707963267948966
                   },
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       0,
                       0.894,
@@ -282,14 +293,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -305,14 +316,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": -0.19198621771938,
-                    "angle_max": 0.7679448708775,
-                    "angle_min": 0.614355896702,
+                    "angle_change_rate": -0.19198621771937624,
+                    "angle_max": 0.767944870877505,
+                    "angle_min": 0.6143558967020041,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 2.42,
                     "range": 960
@@ -393,10 +404,27 @@
     "rangeKm": 556
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "TVS"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "TIS"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "TIS",
     "TVS"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/OH-58D"
   ],
   "stations": [
     {

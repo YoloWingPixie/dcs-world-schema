@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 147,
     "emptyMassKg": 17700,
     "internalFuelKg": 9400,
     "maxSpeedKmh": 2200,
@@ -71,11 +72,23 @@
   "detection": {
     "detectionRangeMax": 250,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 6
   },
   "dimensions": {
     "heightM": 6.36,
     "lengthM": 21.9,
+    "mainGearPosition": [
+      -0.624,
+      -2.19,
+      2.256
+    ],
+    "noseGearPosition": [
+      5.207,
+      -2.19,
+      0
+    ],
+    "wingAreaM2": 62,
     "wingSpanM": 14.7
   },
   "displayName": "Su-30",
@@ -100,11 +113,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -180,8 +193,8 @@
           "lights": [
             {
               "direction": {
-                "azimuth": -0.034906585039887,
-                "elevation": 0.15707963267949
+                "azimuth": -0.03490658503988659,
+                "elevation": 0.15707963267948966
               },
               "exposure": [
                 [
@@ -197,14 +210,14 @@
                 0.121
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -226,14 +239,14 @@
                 0.121
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -243,8 +256,8 @@
             },
             {
               "direction": {
-                "azimuth": 0.034906585039887,
-                "elevation": 0.17453292519943
+                "azimuth": 0.03490658503988659,
+                "elevation": 0.17453292519943295
               },
               "exposure": [
                 [
@@ -260,14 +273,14 @@
                 -0.154
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -289,14 +302,14 @@
                 -0.154
               ],
               "proto": {
-                "angle_change_rate": 0.05235987755983,
-                "angle_max": 0.20943951023932,
-                "angle_min": 0.13962634015955,
+                "angle_change_rate": 0.05235987755982989,
+                "angle_max": 0.20943951023931956,
+                "angle_min": 0.13962634015954636,
                 "color": [
                   255,
                   201,
                   125,
-                  0.40347331922021
+                  0.4034733192202055
                 ],
                 "power_up_t": 3.22,
                 "range": 6480
@@ -306,7 +319,7 @@
             },
             {
               "direction": {
-                "elevation": 0.1221730476396
+                "elevation": 0.12217304763960307
               },
               "exposure": [
                 [
@@ -322,14 +335,14 @@
                 -0.002
               ],
               "proto": {
-                "angle_change_rate": -0.19198621771938,
-                "angle_max": 0.7679448708775,
-                "angle_min": 0.614355896702,
+                "angle_change_rate": -0.19198621771937624,
+                "angle_max": 0.767944870877505,
+                "angle_min": 0.6143558967020041,
                 "color": [
                   255,
                   201,
                   125,
-                  0.27855844122716
+                  0.27855844122715717
                 ],
                 "power_up_t": 2.42,
                 "range": 960
@@ -346,19 +359,19 @@
               ],
               "movable": true,
               "position": [
-                5.701,
+                5.7010000000000005,
                 -0.675,
                 -0.002
               ],
               "proto": {
-                "angle_change_rate": -0.19198621771938,
-                "angle_max": 0.7679448708775,
-                "angle_min": 0.614355896702,
+                "angle_change_rate": -0.19198621771937624,
+                "angle_max": 0.767944870877505,
+                "angle_min": 0.6143558967020041,
                 "color": [
                   255,
                   201,
                   125,
-                  0.27855844122716
+                  0.27855844122715717
                 ],
                 "power_up_t": 2.42,
                 "range": 960
@@ -377,7 +390,7 @@
           "lights": [
             {
               "direction": {
-                "elevation": 0.1221730476396
+                "elevation": 0.12217304763960307
               },
               "exposure": [
                 [
@@ -393,14 +406,14 @@
                 -0.002
               ],
               "proto": {
-                "angle_change_rate": -0.19198621771938,
-                "angle_max": 0.7679448708775,
-                "angle_min": 0.614355896702,
+                "angle_change_rate": -0.19198621771937624,
+                "angle_max": 0.767944870877505,
+                "angle_min": 0.6143558967020041,
                 "color": [
                   255,
                   201,
                   125,
-                  0.27855844122716
+                  0.27855844122715717
                 ],
                 "power_up_t": 2.42,
                 "range": 960
@@ -417,19 +430,19 @@
               ],
               "movable": true,
               "position": [
-                5.701,
+                5.7010000000000005,
                 -0.675,
                 -0.002
               ],
               "proto": {
-                "angle_change_rate": -0.19198621771938,
-                "angle_max": 0.7679448708775,
-                "angle_min": 0.614355896702,
+                "angle_change_rate": -0.19198621771937624,
+                "angle_max": 0.767944870877505,
+                "angle_min": 0.6143558967020041,
                 "color": [
                   255,
                   201,
                   125,
-                  0.27855844122716
+                  0.27855844122715717
                 ],
                 "power_up_t": 2.42,
                 "range": 960
@@ -604,10 +617,27 @@
     "vTakeOffMs": 75
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "OLS-27"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "N-011M"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "N-011M",
     "OLS-27"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-30"
   ],
   "stations": [
     {

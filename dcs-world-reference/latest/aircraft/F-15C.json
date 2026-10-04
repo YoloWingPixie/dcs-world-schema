@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 244.4,
     "emptyMassKg": 13380,
     "internalFuelKg": 6103,
     "maxSpeedKmh": 2650,
@@ -74,11 +75,23 @@
   "detection": {
     "detectionRangeMax": 335,
     "irEmissionCoeff": 0.85,
+    "irEmissionCoeffAfterburner": 4.25,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 5.63,
     "lengthM": 19.43,
+    "mainGearPosition": [
+      -0.8,
+      -2.456,
+      1.425
+    ],
+    "noseGearPosition": [
+      4.59,
+      -2.523,
+      0
+    ],
+    "wingAreaM2": 56.5,
     "wingSpanM": 13.05
   },
   "displayName": "F-15C",
@@ -223,11 +236,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.55667039922642,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.5566703992264194,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "damageArgs": [
       {
@@ -651,9 +664,22 @@
     ],
     "tankerType": 1
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-63"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-63",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-15C"
   ],
   "stations": [
     {

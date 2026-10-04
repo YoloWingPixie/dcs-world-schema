@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 20000,
     "internalFuelKg": 15245,
     "maxSpeedKmh": 3000,
@@ -30,11 +31,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 4,
+    "irEmissionCoeffAfterburner": 8,
     "rcsM2": 10
   },
   "dimensions": {
     "heightM": 6.1,
     "lengthM": 23.82,
+    "mainGearPosition": [
+      -0.691,
+      -2.056,
+      2.162
+    ],
+    "noseGearPosition": [
+      4.594,
+      -2.056,
+      0
+    ],
+    "wingAreaM2": 61,
     "wingSpanM": 14
   },
   "displayName": "MiG-25RBT",
@@ -43,11 +56,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.3649716762171,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.3649716762170987,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -342,10 +355,27 @@
     "vTakeOffMs": 75
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Kaira-1"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "Orion-A"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Kaira-1",
     "Orion-A"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MiG-25RBT"
   ],
   "stations": [
     {

@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 141.75,
     "emptyMassKg": 7600,
     "internalFuelKg": 3165,
     "maxSpeedKmh": 2376,
@@ -98,11 +99,23 @@
   "detection": {
     "detectionRangeMax": 120,
     "irEmissionCoeff": 0.8,
+    "irEmissionCoeffAfterburner": 1.62,
     "rcsM2": 4
   },
   "dimensions": {
     "heightM": 5.2,
     "lengthM": 14.36,
+    "mainGearPosition": [
+      -1.9,
+      -1.5,
+      1.75
+    ],
+    "noseGearPosition": [
+      2.9,
+      -1.5,
+      0
+    ],
+    "wingAreaM2": 41.4,
     "wingSpanM": 9.13
   },
   "displayName": "M-2000C",
@@ -718,7 +731,7 @@
         "11": {
           "lights": [
             {
-              "angle_max": 0.87266462599716,
+              "angle_max": 0.8726646259971648,
               "angle_min": 0,
               "argument": 905,
               "color": [
@@ -728,8 +741,8 @@
               ],
               "connector": "CTN_POL1",
               "direction": {
-                "azimuth": -0.69813170079773,
-                "elevation": -0.069813170079773
+                "azimuth": -0.6981317007977318,
+                "elevation": -0.06981317007977318
               },
               "pos_correction": [
                 0,
@@ -741,7 +754,7 @@
               "typename": "spotlight"
             },
             {
-              "angle_max": 0.43633231299858,
+              "angle_max": 0.4363323129985824,
               "angle_min": 0,
               "argument": 905,
               "color": [
@@ -751,8 +764,8 @@
               ],
               "connector": "CTN_POL1",
               "direction": {
-                "azimuth": -0.69813170079773,
-                "elevation": -0.069813170079773
+                "azimuth": -0.6981317007977318,
+                "elevation": -0.06981317007977318
               },
               "pos_correction": [
                 0,
@@ -764,7 +777,7 @@
               "typename": "spotlight"
             },
             {
-              "angle_max": 0.087266462599716,
+              "angle_max": 0.08726646259971647,
               "angle_min": 0,
               "argument": 905,
               "color": [
@@ -774,8 +787,8 @@
               ],
               "connector": "CTN_POL1",
               "direction": {
-                "azimuth": -0.69813170079773,
-                "elevation": -0.069813170079773
+                "azimuth": -0.6981317007977318,
+                "elevation": -0.06981317007977318
               },
               "pos_correction": [
                 0,
@@ -794,7 +807,7 @@
             {
               "argument": 208,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -802,7 +815,7 @@
             {
               "argument": 208,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -855,7 +868,7 @@
             {
               "argument": 209,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -863,7 +876,7 @@
             {
               "argument": 209,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -1310,9 +1323,22 @@
     ],
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "RDY"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "RDY"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/M-2000C"
   ],
   "stations": [
     {

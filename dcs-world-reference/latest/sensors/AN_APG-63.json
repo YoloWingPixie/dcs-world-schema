@@ -16,6 +16,7 @@
   "id": "AN/APG-63",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -26,6 +27,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/ANAPG-63"
+  ],
   "trackVolume": {
     "azimuthDeg": [
       -60,
@@ -38,5 +42,9 @@
   },
   "twsMaxTargets": 4,
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 27.77777777777778,
+    "relativeRadialVelocityMinMs": 27.77777777777778
+  }
 }

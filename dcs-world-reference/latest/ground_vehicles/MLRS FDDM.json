@@ -101,14 +101,31 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 3000,
+    "engineMaxRpm": 3800,
+    "engineMinRpm": 700,
     "enginePower": 160,
     "fordingDepthM": 0.76,
+    "gearRatios": [
+      -4.78,
+      0,
+      4.78,
+      2.6,
+      1.55,
+      1
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.45,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 31.3889,
     "maxSlopeRad": 0.5,
     "maxSpeedKmh": 113.00004,
     "maxVertObstacleM": 0.56,
     "minTurnRadiusM": 7.62,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.46,
+    "traceWidth": 0.343
   },
   "model": {
     "animationArguments": {
@@ -253,6 +270,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/MLRS FDDM"
+  ],
   "tags": [
     "Artillery",
     "Command & Control",
@@ -263,6 +283,7 @@
       "launcherType": 34,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 1,
@@ -276,15 +297,23 @@
       "reactionTimeS": 40,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 3.1415926535898,
-        "yaw": 3.1415926535898
+        "pitch": 3.141592653589793,
+        "yaw": 3.141592653589793
       },
       "weapons": [
         "M26"
@@ -312,7 +341,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -323,7 +353,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -334,7 +365,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -345,7 +377,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -356,7 +389,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
@@ -365,15 +399,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.87266462599716
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.8726646259971648
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 2
     }

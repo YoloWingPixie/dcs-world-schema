@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 299.829,
     "emptyMassKg": 8010,
     "internalFuelKg": 1500,
     "maxSpeedKmh": 619.2,
@@ -32,11 +33,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 100
   },
   "dimensions": {
     "heightM": 4.83,
     "lengthM": 14.63,
+    "mainGearPosition": [
+      -1.35,
+      -2.15,
+      2.61
+    ],
+    "noseGearPosition": [
+      2.85,
+      -2.285,
+      0
+    ],
+    "wingAreaM2": 43.1,
     "wingSpanM": 18.69
   },
   "displayName": "A-20G",
@@ -298,11 +311,11 @@
   "missionOptions": [],
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.64085638205579,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.3420201433256687,
+      -0.6408563820557885,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -738,14 +751,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -753,20 +766,20 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -783,14 +796,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -808,14 +821,14 @@
                   "connector": "RESERV_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -823,20 +836,20 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "RESERV_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -853,14 +866,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -880,8 +893,8 @@
               "argument": 190,
               "connector": "BANO_2",
               "proto": {
-                "angle_max": 2.6179938779915,
-                "angle_min": 1.5707963267949,
+                "angle_max": 2.6179938779914944,
+                "angle_min": 1.5707963267948966,
                 "color": [
                   1,
                   0.35,
@@ -896,8 +909,8 @@
               "argument": 191,
               "connector": "BANO_1",
               "proto": {
-                "angle_max": 2.6179938779915,
-                "angle_min": 1.5707963267949,
+                "angle_max": 2.6179938779914944,
+                "angle_min": 1.5707963267948966,
                 "color": [
                   0,
                   0.894,
@@ -912,7 +925,7 @@
               "argument": 192,
               "connector": "BANO_0",
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   1,
@@ -935,14 +948,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -950,20 +963,20 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -980,14 +993,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1005,14 +1018,14 @@
                   "connector": "RESERV_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1020,20 +1033,20 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.3736477827123,
-                  "angle_min": 2.0245819323134,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.3736477827122884,
+                  "angle_min": 2.0245819323134224,
                   "connector": "RESERV_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1050,14 +1063,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -1482,6 +1495,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/A-20G"
+  ],
   "stations": [
     {
       "accepts": [

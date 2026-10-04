@@ -1,4 +1,5 @@
 {
+  "airborneRadar": false,
   "category": 1,
   "categoryName": "SENSOR_RADAR",
   "detectionDistance": {
@@ -12,7 +13,9 @@
   "id": "CH MR-320 Topaz-2V surface",
   "kind": "radar",
   "lockOnDistanceCoeff": 1,
+  "rbmDetectionDistanceM": 40000,
   "rcs": 100,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -23,6 +26,13 @@
       20
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/CH MR-320 Topaz-2V surface"
+  ],
   "type": 1,
-  "typeName": "RADAR_SS"
+  "typeName": "RADAR_SS",
+  "vehiclesDetection": true,
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }

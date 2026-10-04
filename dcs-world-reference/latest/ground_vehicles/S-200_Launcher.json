@@ -82,12 +82,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -288,6 +291,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/S-200_Launcher"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -295,6 +301,7 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "barrelsReloadType": 3,
       "dependsOn": [
         [
           {
@@ -306,6 +313,7 @@
       "ecmK": -1,
       "launcherType": 4,
       "ln": 1,
+      "minLaunchAngle": 0.8377580409572782,
       "missileChannels": 1,
       "payloads": [
         {
@@ -320,15 +328,23 @@
       "reactionTimeS": 3,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.87266462599716
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.8726646259971648
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.023911010752322,
-        "yaw": 0.08918632477691
+        "pitch": 0.023911010752322315,
+        "yaw": 0.08918632477691024
       },
       "weapons": [
         "SA5V28"

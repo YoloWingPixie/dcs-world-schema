@@ -1,0 +1,66 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.76,
+    "cxCoeff": [
+      1,
+      0.45,
+      0.65,
+      0.2,
+      1.35
+    ],
+    "lengthM": 7.36,
+    "massKg": 3000,
+    "maxAoaRad": 0.3,
+    "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client/fm"
+  },
+  "autopilot": {
+    "finsLimitRad": 0.8726646259971648,
+    "operatingTime": 400,
+    "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client/autopilot"
+  },
+  "batteryLifeS": 1800,
+  "killDistanceM": 0,
+  "machMax": 1.1,
+  "motorStages": [
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 570,
+      "impulseS": 150,
+      "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client/boost",
+      "stage": "boost",
+      "startTime": 0,
+      "workTimeS": 5
+    },
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 250,
+      "impulseS": 219,
+      "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client/march",
+      "stage": "march",
+      "startTime": 0,
+      "workTimeS": 25
+    },
+    {
+      "boostFactor": 0,
+      "fuelMassKg": 1000,
+      "impulseS": 250,
+      "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client/march2",
+      "stage": "march2",
+      "startTime": 25,
+      "workTimeS": 320
+    }
+  ],
+  "rangeMaxM": 100000,
+  "seeker": {
+    "farDistance": 40000,
+    "fovRad": 0.7853981633974483,
+    "nearDistance": 10,
+    "operatingTime": 400,
+    "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client/seeker"
+  },
+  "sourcePath": "_G/weapons_table/weapons/missiles/HY-2#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/HY-2"
+  ],
+  "weapon": "HY-2"
+}

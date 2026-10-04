@@ -46,6 +46,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 3,
+    "radar2Period": 1,
+    "radar3Period": 1,
     "rcsM2": 100000,
     "sensor": {
       "maxAltM": 3000,
@@ -64,7 +67,11 @@
     "heightM": 27,
     "lengthM": 180,
     "massKg": 23456000,
-    "widthM": 24
+    "shipLengthM": 180,
+    "tailWidth": 20,
+    "widthM": 24,
+    "xNoseM": 85,
+    "xTailM": -90
   },
   "displayName": "Bulker Handy Wind",
   "facilities": {
@@ -85,14 +92,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 500,
     "draftM": 9.5,
     "economyDistance": 15927200,
-    "economyVelocity": 6.17333,
+    "economyVelocityMs": 6.17333,
     "maxSpeedKmh": 25.927992,
     "maxSpeedMs": 7.20222,
     "minTurnRadiusM": 400,
     "raceDistance": 15927200,
-    "raceVelocity": 6.17333
+    "raceVelocityMs": 6.17333,
+    "speedup": 0.101986
   },
   "model": {
     "animationArguments": {
@@ -417,6 +426,9 @@
       "country": 92,
       "countryName": "NEW ZEALAND"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/HandyWind"
   ],
   "tags": [
     "Civilian"

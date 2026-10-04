@@ -1,6 +1,11 @@
 {
   "aero": {
+    "ammoMass": 186.5,
     "emptyMassKg": 3600,
+    "fuelPerTankKg": [
+      200,
+      188
+    ],
     "internalFuelKg": 388,
     "maxSpeedKmh": 828,
     "maxTakeoffKg": 4840
@@ -30,11 +35,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 12.13,
+    "mainGearPosition": [
+      1,
+      -2.03,
+      1.65
+    ],
+    "noseGearPosition": [
+      -5.83,
+      -0.51,
+      0
+    ],
+    "wingAreaM2": 18.3,
     "wingSpanM": 10.5
   },
   "displayName": "Fw 190 D-9",
@@ -755,11 +772,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.45315389351832,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.08715574274765817,
+      -0.45315389351832497,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -998,15 +1015,15 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.6179938779915,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.6179938779914944,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "BANO_1",
               "dir_correction": {
-                "elevation": -0.78539816339745
+                "elevation": -0.7853981633974483
               },
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -1018,15 +1035,15 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.6179938779915,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.6179938779914944,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "BANO_2",
               "dir_correction": {
-                "elevation": 0.78539816339745
+                "elevation": 0.7853981633974483
               },
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -1043,11 +1060,11 @@
                   "argument": 192,
                   "connector": "BANO_03",
                   "dir_correction": {
-                    "azimuth": -1.5707963267949
+                    "azimuth": -1.5707963267948966
                   },
                   "movable": true,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -1062,7 +1079,7 @@
                   "connector": "BANO_03",
                   "movable": true,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -1160,6 +1177,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/FW-190D9"
+  ],
   "stations": [
     {
       "accepts": [

@@ -85,6 +85,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 10500
   },
   "dimensions": {
@@ -111,12 +112,16 @@
   "mobility": {
     "enginePower": 103,
     "fordingDepthM": 0.5,
+    "gearType": 2,
+    "maxAcceleration": 0.7,
     "maxRoadSpeedMs": 11.11,
     "maxSlopeRad": 0.52,
     "maxSpeedKmh": 39.996,
     "maxVertObstacleM": 0.42,
     "minTurnRadiusM": 1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.4,
+    "traceWidth": 0.305
   },
   "model": {
     "animationArguments": {
@@ -237,6 +242,9 @@
   "sensors": [
     "TRP-2A day"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Wespe124"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -244,6 +252,7 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "gunAmmo": [
         "leFH18_105HE"
       ],
@@ -254,6 +263,7 @@
       "payloads": [
         {
           "ammoCapacity": 40,
+          "automaticLoader": false,
           "gunAmmo": [
             "leFH18_105HE"
           ],
@@ -266,15 +276,23 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          0.34906585039887,
-          -0.34906585039887,
-          -0.087266462599716,
-          0.73303828583762
+          0.3490658503988659,
+          -0.3490658503988659,
+          -0.08726646259971647,
+          0.7330382858376184
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.17453292519943
+        "pitch": 0.17453292519943295,
+        "yaw": 0.17453292519943295
       },
       "ws": 1
     }

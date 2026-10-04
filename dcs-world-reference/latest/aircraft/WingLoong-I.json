@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 550,
     "internalFuelKg": 400,
     "maxSpeedKmh": 280,
@@ -28,11 +29,23 @@
   "detection": {
     "detectionRangeMax": 10000,
     "irEmissionCoeff": 0.02,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 0.55
   },
   "dimensions": {
     "heightM": 2.77,
     "lengthM": 9.05,
+    "mainGearPosition": [
+      -0.406,
+      -1.224,
+      1.025
+    ],
+    "noseGearPosition": [
+      2.77,
+      -1.233,
+      0
+    ],
+    "wingAreaM2": 14.2,
     "wingSpanM": 14
   },
   "displayName": "WingLoong-I",
@@ -47,11 +60,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.3649716762171,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.3649716762170987,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -244,21 +257,21 @@
         {
           "lights": [
             {
-              "angle_max": 3.1415926535898,
-              "angle_min": 1.5707963267949,
+              "angle_max": 3.141592653589793,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "BANO_1",
               "controller": "Strobe",
               "cool_down_t": 0.6,
               "dir_correction": {
-                "azimuth": -0.78539816339745
+                "azimuth": -0.7853981633974483
               },
               "flash_time": 0.7,
               "mode": 1,
               "period": 1,
               "power_up_t": 0.3,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -270,21 +283,21 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 3.1415926535898,
-              "angle_min": 1.5707963267949,
+              "angle_max": 3.141592653589793,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "BANO_2",
               "controller": "Strobe",
               "cool_down_t": 0.6,
               "dir_correction": {
-                "azimuth": 0.78539816339745
+                "azimuth": 0.7853981633974483
               },
               "flash_time": 0.7,
               "mode": 1,
               "period": 1,
               "power_up_t": 0.3,
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -396,22 +409,35 @@
   "performance": {
     "averageFuelConsumptionKgS": 0.02,
     "bankAngleMaxDeg": 30,
-    "casMin": 27.777777777778,
+    "casMin": 27.77777777777778,
     "enginesCount": 1,
     "hMaxM": 7500,
     "machMax": 0.4,
     "nyMax": 2,
     "rangeKm": 4000,
-    "vLandMs": 27.777777777778,
-    "vMaxHMs": 77.777777777778,
-    "vMaxSeaLevelMs": 77.777777777778,
+    "vLandMs": 27.77777777777778,
+    "vMaxHMs": 77.77777777777777,
+    "vMaxSeaLevelMs": 77.77777777777777,
     "vOptMs": 60,
-    "vTakeOffMs": 27.777777777778
+    "vTakeOffMs": 27.77777777777778
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Winglong-1 CAM"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "Winglong-1 FLIR"
+    }
+  ],
   "sensors": [
     "Winglong-1 CAM",
     "Winglong-1 FLIR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/WingLoong-I"
   ],
   "stations": [
     {

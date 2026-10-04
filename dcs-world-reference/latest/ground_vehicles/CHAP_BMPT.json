@@ -122,6 +122,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 6000,
     "threatRangeMinM": 800
   },
@@ -133,7 +134,23 @@
   "displayName": "IFV BMPT Terminator [CH]",
   "fireControl": {
     "fireOnMove": true,
-    "maxTargetDetectionRangeM": 7000
+    "maxTargetDetectionRangeM": 7000,
+    "smoke": [
+      "SMOKE_01",
+      "SMOKE_02",
+      "SMOKE_03",
+      "SMOKE_04",
+      "SMOKE_05",
+      "SMOKE_06",
+      "SMOKE_07",
+      "SMOKE_08",
+      "SMOKE_09",
+      "SMOKE_10",
+      "SMOKE_11",
+      "SMOKE_12",
+      "SMOKE_13",
+      "SMOKE_14"
+    ]
   },
   "id": "CHAP_BMPT",
   "life": [
@@ -147,14 +164,33 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": false,
+    "engineMaxPowerRpm": 2000,
+    "engineMaxRpm": 2600,
+    "engineMinRpm": 800,
+    "engineMoi": 4,
     "enginePower": 1000,
     "fordingDepthM": 1.8,
+    "gearRatios": [
+      -4.5,
+      0,
+      7,
+      5.6,
+      4.4,
+      3.2,
+      2.3,
+      1.7
+    ],
+    "gearType": 2,
+    "mainGearRatio": 4.1,
+    "maxAcceleration": 4,
     "maxRoadSpeedMs": 18.06,
     "maxSlopeRad": 0.52,
-    "maxSpeedKmh": 65.016,
+    "maxSpeedKmh": 65.01599999999999,
     "maxVertObstacleM": 0.85,
     "minTurnRadiusM": 8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.36
   },
   "model": {
     "animationArguments": {
@@ -253,6 +289,9 @@
     "TKN-3B day",
     "TKN-3B night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_BMPT"
+  ],
   "tags": [
     "Armor",
     "IFV"
@@ -266,45 +305,61 @@
         "2A42_30_HE"
       ],
       "hMaxM": 1200,
+      "laser": true,
       "launcherType": 12,
       "ln": 1,
+      "mountBeforeMove": false,
       "name": "2A42",
       "payloads": [
         {
           "ammoCapacity": 300,
+          "feedSlot": 1,
           "gunAmmo": [
             "2A42_30_HE"
           ],
           "portionAmmoCapacity": 300,
           "reloadTimeS": 1200,
-          "shotDelayS": 0.109
+          "shotDelayS": 0.109,
+          "switchOnDelay": 0.5
         },
         {
           "ammoCapacity": 550,
+          "feedSlot": 2,
           "gunAmmo": [
             "2A42_30_AP"
           ],
           "portionAmmoCapacity": 550,
           "reloadTimeS": 600,
-          "shotDelayS": 0.109
+          "shotDelayS": 0.109,
+          "switchOnDelay": 0.5
         }
       ],
       "rMaxKm": 2.0,
       "rMinKm": 0.01,
       "reactionTimeS": 1.8,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.78539816339745
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.7853981633974483
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.78539816339745
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.08,
+        "deviationErrorStability": 0.003,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.5235987755982988,
+        "yaw": 0.7853981633974483
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
@@ -315,8 +370,10 @@
         "7_62x54_NOTRACER"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 2,
+      "mountBeforeMove": false,
       "name": "7_62_PKT",
       "payloads": [
         {
@@ -328,35 +385,55 @@
           ],
           "portionAmmoCapacity": 250,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 15
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
+      "secondary": true,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.78539816339745
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.7853981633974483
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.78539816339745
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.002,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.5235987755982988,
+        "yaw": 0.7853981633974483
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
       "barrels": 4,
-      "beamWidthRad": 0.017453292519943,
+      "barrelsReloadType": 3,
+      "beamWidthRad": 0.017453292519943295,
+      "dispertionReductionFactor": 0.985,
       "hMaxM": 4000,
+      "inclinationCorrectionBias": 0.08726646259971647,
+      "inclinationCorrectionUpperLimit": 0.17453292519943295,
+      "laser": true,
       "launchDelayS": 2,
       "launcherType": 33,
       "ln": 3,
       "maxShootingSpeed": 0,
+      "missileControlInterval": 0.01,
+      "mountBeforeMove": false,
       "payloads": [
         {
           "ammoCapacity": 4,
@@ -366,19 +443,30 @@
       ],
       "rMaxKm": 6.0,
       "rMinKm": 0.8,
+      "radialDisperse": 0,
       "reactionTimeS": 5,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          0.78539816339745
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          0.7853981633974483
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.78539816339745
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.5235987755982988,
+        "yaw": 0.7853981633974483
+      },
+      "stabilizer": true,
       "weapons": [
         "Ataka_9M120"
       ],
@@ -391,6 +479,7 @@
         "VOG17"
       ],
       "hMaxM": 500,
+      "laser": false,
       "launcherType": 9,
       "ln": 1,
       "name": "AG17",
@@ -402,7 +491,8 @@
           ],
           "portionAmmoCapacity": 300,
           "reloadTimeS": 1500,
-          "shotDelayS": 0.13333333333333
+          "shotDelayS": 0.13333333333333333,
+          "switchOnDelay": 10
         }
       ],
       "rMaxKm": 1.73,
@@ -411,16 +501,25 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.47123889803847,
-          -0.087266462599716,
-          -0.087266462599716,
-          0.34906585039887
+          0.47123889803846897,
+          -0.08726646259971647,
+          -0.08726646259971647,
+          0.3490658503988659
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.26179938779915
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.17453292519943295,
+        "yaw": 0.2617993877991494
+      },
+      "stabilizer": false,
       "ws": 2
     },
     {
@@ -430,6 +529,7 @@
         "VOG17"
       ],
       "hMaxM": 500,
+      "laser": false,
       "launcherType": 9,
       "ln": 1,
       "name": "AG17",
@@ -441,7 +541,8 @@
           ],
           "portionAmmoCapacity": 300,
           "reloadTimeS": 1500,
-          "shotDelayS": 0.13333333333333
+          "shotDelayS": 0.13333333333333333,
+          "switchOnDelay": 10
         }
       ],
       "rMaxKm": 1.73,
@@ -450,16 +551,25 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.087266462599716,
-          -0.47123889803847,
-          -0.087266462599716,
-          0.34906585039887
+          0.08726646259971647,
+          -0.47123889803846897,
+          -0.08726646259971647,
+          0.3490658503988659
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.26179938779915
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.17453292519943295,
+        "yaw": 0.2617993877991494
+      },
+      "stabilizer": false,
       "ws": 3
     }
   ]

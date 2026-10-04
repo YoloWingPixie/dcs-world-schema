@@ -55,6 +55,7 @@
   "detection": {
     "detectionRangeM": 5200,
     "irEmissionCoeff": 0.075,
+    "noVisualDetectorInAlarmedState": false,
     "sensor": {
       "heightM": 3.076,
       "laser": false,
@@ -63,6 +64,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 4500
   },
   "dimensions": {
@@ -82,14 +84,31 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 3000,
+    "engineMaxRpm": 3800,
+    "engineMinRpm": 700,
     "enginePower": 160,
     "fordingDepthM": 0.76,
+    "gearRatios": [
+      -4.78,
+      0,
+      4.78,
+      2.6,
+      1.55,
+      1
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.45,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 31.3889,
     "maxSlopeRad": 0.5,
     "maxSpeedKmh": 113.00004,
     "maxVertObstacleM": 0.56,
     "minTurnRadiusM": 7.62,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.46,
+    "traceWidth": 0.343
   },
   "model": {
     "animationArguments": {
@@ -210,6 +229,9 @@
     "generic SAM IR search visir",
     "generic SAM search visir"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M1097 Avenger"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
@@ -217,11 +239,16 @@
   "weaponSystems": [
     {
       "barrels": 8,
+      "barrelsReloadType": 3,
       "ecmK": -1,
+      "inclinationCorrectionBias": 0.17453292519943295,
+      "inclinationCorrectionUpperLimit": 0.5235987755982988,
+      "laser": true,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 8.34,
+      "minLaunchAngle": 0.08726646259971647,
       "missileChannels": 2,
       "payloads": [
         {
@@ -238,16 +265,25 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1.0472,
         "yaw": 1.0472
       },
+      "stabilizer": true,
       "weapons": [
         "FIM_92C"
       ],
@@ -261,6 +297,7 @@
         "M2_12_7_T"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 2,
       "name": "M2_Browning",
@@ -274,7 +311,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 25,
-          "shotDelayS": 0.054545454545455
+          "shotDelayS": 0.05454545454545454,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
@@ -283,16 +321,25 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.002,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1.0472,
         "yaw": 1.0472
       },
+      "stabilizer": true,
       "ws": 1
     }
   ]

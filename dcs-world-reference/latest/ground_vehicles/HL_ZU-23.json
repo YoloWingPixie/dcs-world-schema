@@ -85,12 +85,16 @@
   "mobility": {
     "enginePower": 144,
     "fordingDepthM": 0.7,
+    "gearType": 1,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 37,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 133.2,
+    "maxSpeedKmh": 133.20000000000002,
     "maxVertObstacleM": 0.45,
     "minTurnRadiusM": 5.9,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.35,
+    "traceWidth": 0.223
   },
   "model": {
     "animationArguments": {
@@ -807,6 +811,9 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/HL_ZU-23"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -833,7 +840,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -844,7 +852,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -855,7 +864,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -866,7 +876,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -877,30 +888,40 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         }
       ],
       "rMaxKm": 2.5,
       "rMinKm": 0.0,
       "reactionTimeS": 3,
+      "referenceAngleZRad": 0.17453292519943295,
       "reflectionLimit": 0.2,
       "sectorsRad": [
         [
-          0.61261056745001,
-          -0.61261056745001,
-          0.17453292519943,
-          1.535889741755
+          0.6126105674500097,
+          -0.6126105674500097,
+          0.17453292519943295,
+          1.53588974175501
         ],
         [
-          -0.61261056745001,
-          0.61261056745001,
-          -0.24434609527921,
-          1.535889741755
+          -0.6126105674500097,
+          0.6126105674500097,
+          -0.24434609527920614,
+          1.53588974175501
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 0.87266462599716
+        "pitch": 1.0471975511965976,
+        "yaw": 0.8726646259971648
       },
       "ws": 1
     }

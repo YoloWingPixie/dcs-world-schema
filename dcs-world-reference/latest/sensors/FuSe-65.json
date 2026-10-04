@@ -12,6 +12,7 @@
   "id": "FuSe-65",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -22,6 +23,12 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/FuSe-65"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 50
+  }
 }

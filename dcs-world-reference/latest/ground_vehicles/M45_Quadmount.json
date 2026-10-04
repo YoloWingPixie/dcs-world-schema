@@ -101,12 +101,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -246,6 +249,9 @@
       "countryName": "ECUADOR"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M45_Quadmount"
+  ],
   "tags": [
     "Air Defence",
     "AAA"
@@ -272,7 +278,8 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 12,
-          "shotDelayS": 0.10434782608696
+          "shotDelayS": 0.10434782608695652,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 800,
@@ -283,7 +290,8 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 12,
-          "shotDelayS": 0.10434782608696
+          "shotDelayS": 0.10434782608695652,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 800,
@@ -294,7 +302,8 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 12,
-          "shotDelayS": 0.10434782608696
+          "shotDelayS": 0.10434782608695652,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 800,
@@ -305,7 +314,8 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 12,
-          "shotDelayS": 0.10434782608696
+          "shotDelayS": 0.10434782608695652,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 800,
@@ -316,7 +326,8 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 12,
-          "shotDelayS": 0.10434782608696
+          "shotDelayS": 0.10434782608695652,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.5,
@@ -325,15 +336,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.5690509975429
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.5690509975429023
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 0.87266462599716
+        "pitch": 1.0471975511965976,
+        "yaw": 0.8726646259971648
       },
       "ws": 1
     }

@@ -1,5 +1,7 @@
 {
   "aero": {
+    "ammoMass": 0,
+    "defaultFuelFraction": 0.8,
     "emptyMassKg": 39099.6,
     "internalFuelKg": 19692,
     "maxSpeedKmh": 630,
@@ -229,11 +231,23 @@
   "detection": {
     "detectionRangeMax": 250,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 80
   },
   "dimensions": {
     "heightM": 11.84,
     "lengthM": 44.36,
+    "mainGearPosition": [
+      -0.621,
+      -4.655,
+      2.1726
+    ],
+    "noseGearPosition": [
+      12.62,
+      -4.5,
+      0
+    ],
+    "wingAreaM2": 162.1,
     "wingSpanM": 40.41
   },
   "displayName": "C-130J-30",
@@ -1244,10 +1258,27 @@
   "refuelling": {
     "isTanker": 0
   },
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "OLS-27"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "TADS DVO"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "OLS-27",
     "TADS DVO"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/C-130J-30"
   ],
   "stations": [
     {

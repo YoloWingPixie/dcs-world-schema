@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 87.5,
     "emptyMassKg": 19200,
     "internalFuelKg": 11700,
     "maxSpeedKmh": 1700,
@@ -49,11 +50,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 1.5,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 7.5
   },
   "dimensions": {
     "heightM": 4.97,
     "lengthM": 24.53,
+    "mainGearPosition": [
+      -2.832159,
+      -2.450034,
+      1.687489
+    ],
+    "noseGearPosition": [
+      5.599148,
+      -2.497651,
+      0
+    ],
+    "wingAreaM2": 55.17,
     "wingSpanM": 17.64
   },
   "displayName": "Su-24M",
@@ -78,11 +91,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.3649716762171,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.08715574274765817,
+      -0.3649716762170987,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -373,10 +386,27 @@
   "refuelling": {
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Kaira-1"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "Orion-A"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Kaira-1",
     "Orion-A"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-24M"
   ],
   "stations": [
     {

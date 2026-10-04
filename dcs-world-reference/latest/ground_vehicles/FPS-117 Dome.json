@@ -62,8 +62,15 @@
   "displayName": "EWR AN/FPS-117 Radar (domed)",
   "fireControl": {
     "maxTargetDetectionRangeM": 400000,
+    "radarRotationType": 0,
     "radarType": 105,
-    "radarTypeName": "wsType_Radar_Gun"
+    "radarTypeName": "wsType_Radar_Gun",
+    "searchRadarFrequencies": [
+      [
+        1215000000,
+        1400000000
+      ]
+    ]
   },
   "id": "FPS-117 Dome",
   "life": [
@@ -78,12 +85,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -306,6 +316,9 @@
   "sensors": [
     "FPS-117"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/FPS-117 Dome"
+  ],
   "tags": [
     "Air Defence",
     "EW Radar"
@@ -323,10 +336,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -347,10 +360,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -371,10 +384,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -395,10 +408,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -419,10 +432,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -443,10 +456,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -467,10 +480,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -491,10 +504,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -515,10 +528,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -539,10 +552,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
+          3.141592653589793,
+          -3.141592653589793,
           0,
-          1.3962634015955
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {

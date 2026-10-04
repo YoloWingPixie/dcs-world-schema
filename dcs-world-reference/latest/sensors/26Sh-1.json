@@ -1,8 +1,10 @@
 {
+  "backgroundFactor": 0.25,
   "category": 2,
   "categoryName": "SENSOR_IRST",
   "detectionRangeField": "detection_distance_for_tail_on_Su_27",
   "detectionRangeKm": 35.0,
+  "headOnDistanceCoeff": 0.25,
   "id": "26Sh-1",
   "irstDetectionDistance": {
     "afterburnerM": 35000,
@@ -10,6 +12,7 @@
     "minimalM": 8000
   },
   "kind": "irst",
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -30,
@@ -19,5 +22,8 @@
       -20,
       20
     ]
-  }
+  },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/26Sh-1"
+  ]
 }

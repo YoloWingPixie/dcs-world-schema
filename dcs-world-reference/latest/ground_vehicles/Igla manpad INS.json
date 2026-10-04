@@ -90,12 +90,15 @@
   "mobility": {
     "enginePower": 0.5,
     "fordingDepthM": 1,
+    "gearType": 3,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 1,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 0.1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -148,6 +151,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Igla manpad INS"
+  ],
   "tags": [
     "Air Defence",
     "MANPADS"
@@ -156,14 +162,18 @@
     {
       "barrels": 1,
       "ecmK": -1,
+      "inclinationCorrectionBias": 0,
+      "inclinationCorrectionUpperLimit": 0,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": -0.3490658503988659,
       "payloads": [
         {
           "ammoCapacity": 3,
           "ammoName": "9M39",
+          "automaticLoader": false,
           "reloadTimeS": 120,
           "shotDelayS": 13,
           "weapon": "Igla_1E"
@@ -173,14 +183,23 @@
       "rMinKm": 0.5,
       "reactionTimeS": 2,
       "reflectionLimit": 0.22,
+      "reloadAngleY": -100,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.78539816339745,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.7853981633974483,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1.5,
         "yaw": 1.5

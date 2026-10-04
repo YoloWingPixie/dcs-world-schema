@@ -88,6 +88,7 @@
       "minAltM": 5,
       "minRangeM": 200
     },
+    "sensorMountWs": 1,
     "threatRangeM": 20000
   },
   "dimensions": {
@@ -99,8 +100,16 @@
   "fireControl": {
     "fireOnMove": true,
     "maxTargetDetectionRangeM": 36000,
+    "radarRotationType": 1,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        2000000000,
+        4000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 1.2217304763960306
   },
   "id": "CHAP_PantsirS1",
   "life": [
@@ -124,15 +133,44 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": false,
     "canSwim": false,
+    "engineMaxPowerRpm": 2200,
+    "engineMaxRpm": 2500,
+    "engineMinRpm": 800,
     "enginePower": 400,
     "fordingDepthM": 1.75,
+    "gearRatios": [
+      -12.92,
+      -10.8,
+      0,
+      13.8,
+      11.54,
+      9.49,
+      7.93,
+      6.53,
+      5.46,
+      4.57,
+      3.82,
+      3.02,
+      2.53,
+      2.08,
+      1.74,
+      1.43,
+      1.2,
+      1,
+      0.84
+    ],
+    "gearType": 1,
+    "mainGearRatio": 6.53,
+    "maxAcceleration": 1.2,
     "maxRoadSpeedMs": 25,
     "maxSlopeRad": 0.52,
     "maxSpeedKmh": 90,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 12,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.58
   },
   "model": {
     "animationArguments": {
@@ -289,13 +327,16 @@
     "CH 1TPP1 Optic Sight TV",
     "CH 2RL80 air"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_PantsirS1"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 0.034906585039887,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.4,
       "frequencyRangeHz": [
         8000000000,
@@ -312,16 +353,17 @@
       "reflectionLimit": 0.02,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
       "ws": 1
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.4,
       "frequencyRangeHz": [
         8000000000,
@@ -338,16 +380,17 @@
       "reflectionLimit": 0.02,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.087266462599716,
-          1.221730476396
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
       "ws": 2
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.4,
       "frequencyRangeHz": [
         8000000000,
@@ -364,16 +407,17 @@
       "reflectionLimit": 0.02,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.087266462599716,
-          1.221730476396
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
       "ws": 3
     },
     {
-      "beamWidthRad": 0.034906585039887,
+      "baseWs": 1,
+      "beamWidthRad": 0.03490658503988659,
       "ecmK": 0.4,
       "frequencyRangeHz": [
         8000000000,
@@ -390,30 +434,48 @@
       "reflectionLimit": 0.02,
       "sectorsRad": [
         [
-          0.78539816339745,
-          -0.78539816339745,
-          -0.087266462599716,
-          1.221730476396
+          0.7853981633974483,
+          -0.7853981633974483,
+          -0.08726646259971647,
+          1.2217304763960306
         ]
       ],
       "ws": 4
     },
     {
+      "anglesMechRad": [
+        [
+          1.3962634015954636,
+          -1.3962634015954636,
+          0.06981317007977318,
+          1.4835298641951802
+        ],
+        [
+          -1.3962634015954636,
+          1.3962634015954636,
+          -0.017453292519943295,
+          1.4835298641951802
+        ]
+      ],
       "barrels": 4,
-      "beamWidthRad": 0.034906585039887,
+      "beamWidthRad": 0.03490658503988659,
+      "canSetTacticalDir": true,
       "displayName": "2A38M",
       "gunAmmo": [
         "2A38_30_AP",
         "2A38_30_HE"
       ],
       "hMaxM": 3000,
+      "laser": true,
       "launcherType": 3,
       "ln": 1,
       "maxShootingSpeed": 6,
+      "mountBeforeMove": false,
       "name": "2A38M",
       "payloads": [
         {
           "ammoCapacity": 1400,
+          "automaticLoader": false,
           "gunAmmo": [
             "2A38_30_AP",
             "2A38_30_HE"
@@ -426,23 +488,51 @@
       "rMaxKm": 3.5,
       "rMinKm": 0.2,
       "reactionTimeS": 1,
+      "referenceAngleYRad": -3.141592653589793,
+      "referenceAngleZRad": 0.06981317007977318,
       "reflectionLimit": 0.02,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.017453292519943,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.017453292519943295,
+          1.4835298641951802
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.6981317007977318,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": true,
+      "useTargetAccelInSight": true,
       "ws": 5
     },
     {
+      "anglesMechRad": [
+        [
+          1.3962634015954636,
+          -1.3962634015954636,
+          0.06981317007977318,
+          1.4835298641951802
+        ],
+        [
+          -1.3962634015954636,
+          1.3962634015954636,
+          -0.017453292519943295,
+          1.4835298641951802
+        ]
+      ],
       "barrels": 12,
+      "barrelsReloadType": 3,
+      "canSetTacticalDir": true,
       "dependsOn": [
         [
           {
@@ -468,11 +558,15 @@
       "displayName": "57E6",
       "ecmK": 0.4,
       "externalTrackingAwacs": false,
+      "inclinationCorrectionBias": 0.05235987755982989,
+      "inclinationCorrectionUpperLimit": 0.3490658503988659,
+      "laser": true,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 2,
       "maxShootingSpeed": 2.77,
       "missileChannels": 1,
+      "mountBeforeMove": false,
       "name": "57E6",
       "payloads": [
         {
@@ -484,19 +578,30 @@
       "rMaxKm": 20.0,
       "rMinKm": 1.2,
       "reactionTimeS": 2,
+      "referenceAngleYRad": -3.141592653589793,
+      "referenceAngleZRad": 0.06981317007977318,
       "reflectionLimit": 0.02,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.017453292519943,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.017453292519943295,
+          1.4835298641951802
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.6981317007977318,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": true,
       "weapons": [
         "SA57E6"
       ],

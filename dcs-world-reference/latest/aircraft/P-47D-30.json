@@ -1,6 +1,12 @@
 {
   "aero": {
+    "ammoMass": 328.8,
+    "defaultFuelFraction": 0.672,
     "emptyMassKg": 5006,
+    "fuelPerTankKg": [
+      735,
+      272
+    ],
     "internalFuelKg": 1007,
     "maxSpeedKmh": 828,
     "maxTakeoffKg": 7112
@@ -14,6 +20,12 @@
     "NonArmoredUnits",
     "Planes"
   ],
+  "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
+    "flareChargeSize": 0,
+    "flareDefault": 0
+  },
   "countryOfOrigin": "USA",
   "crew": 1,
   "defaultRadio": {
@@ -31,11 +43,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 11,
+    "mainGearPosition": [
+      -0.147,
+      -2.467,
+      2.373
+    ],
+    "noseGearPosition": [
+      -6.294,
+      -0.972,
+      0
+    ],
+    "wingAreaM2": 27.87,
     "wingSpanM": 12.42
   },
   "displayName": "P-47D-30",
@@ -1056,11 +1080,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.51342418176678,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.08715574274765817,
+      -0.5134241817667833,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1451,7 +1475,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0.99,
@@ -1488,7 +1512,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0,
@@ -1525,7 +1549,7 @@
                   "typename": "omnilight"
                 },
                 {
-                  "angle_max": 2.4434609527921,
+                  "angle_max": 2.443460952792061,
                   "angle_min": 0,
                   "color": [
                     0.99,
@@ -1549,22 +1573,22 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.55850536063819,
-                  "angle_min": 0.19198621771938,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.5585053606381855,
+                  "angle_min": 0.19198621771937624,
                   "argument": 51,
                   "connector": "MAIN_SPOT_L",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.047996554429844,
-                    "angle_max": 0.19198621771938,
-                    "angle_min": 0.1221730476396,
+                    "angle_change_rate": 0.04799655442984406,
+                    "angle_max": 0.19198621771937624,
+                    "angle_min": 0.12217304763960307,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 1,
                     "range": 3120
@@ -1572,21 +1596,21 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.8972465583106,
-                  "angle_min": 2.7227136331112,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.897246558310587,
+                  "angle_min": 2.722713633111154,
                   "connector": "MAIN_SPOT_L",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.047996554429844,
-                    "angle_max": 0.19198621771938,
-                    "angle_min": 0.1221730476396,
+                    "angle_change_rate": 0.04799655442984406,
+                    "angle_max": 0.19198621771937624,
+                    "angle_min": 0.12217304763960307,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 1,
                     "range": 3120
@@ -1603,16 +1627,16 @@
         "3": {
           "lights": [
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 190,
               "connector": "BANO_LeftWing",
               "dir_correction": {
-                "azimuth": -0.78539816339745,
-                "elevation": 0.5235987755983
+                "azimuth": -0.7853981633974483,
+                "elevation": 0.5235987755982988
               },
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   1,
                   0.35,
@@ -1624,16 +1648,16 @@
               "typename": "Spot"
             },
             {
-              "angle_max": 2.7925268031909,
-              "angle_min": 1.5707963267949,
+              "angle_max": 2.792526803190927,
+              "angle_min": 1.5707963267948966,
               "argument": 191,
               "connector": "BANO_RightWing",
               "dir_correction": {
-                "azimuth": 0.78539816339745,
-                "elevation": 0.5235987755983
+                "azimuth": 0.7853981633974483,
+                "elevation": 0.5235987755982988
               },
               "proto": {
-                "angle_max": 3.1415926535898,
+                "angle_max": 3.141592653589793,
                 "color": [
                   0,
                   0.894,
@@ -1651,7 +1675,7 @@
                   "connector": "BANO_Tail",
                   "movable": true,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -1666,7 +1690,7 @@
                   "connector": "BANO_Tail",
                   "movable": true,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -1689,22 +1713,22 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.55850536063819,
-                  "angle_min": 0.19198621771938,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.5585053606381855,
+                  "angle_min": 0.19198621771937624,
                   "argument": 51,
                   "connector": "MAIN_SPOT_L",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.047996554429844,
-                    "angle_max": 0.19198621771938,
-                    "angle_min": 0.1221730476396,
+                    "angle_change_rate": 0.04799655442984406,
+                    "angle_max": 0.19198621771937624,
+                    "angle_min": 0.12217304763960307,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 1,
                     "range": 3120
@@ -1712,21 +1736,21 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.8972465583106,
-                  "angle_min": 2.7227136331112,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.897246558310587,
+                  "angle_min": 2.722713633111154,
                   "connector": "MAIN_SPOT_L",
                   "movable": true,
                   "power_up_t": 2.8,
                   "proto": {
-                    "angle_change_rate": 0.047996554429844,
-                    "angle_max": 0.19198621771938,
-                    "angle_min": 0.1221730476396,
+                    "angle_change_rate": 0.04799655442984406,
+                    "angle_max": 0.19198621771937624,
+                    "angle_min": 0.12217304763960307,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 1,
                     "range": 3120
@@ -2187,8 +2211,17 @@
     "vTakeOffMs": 53
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    }
+  ],
   "sensors": [
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/P-47D-30"
   ],
   "stations": [
     {

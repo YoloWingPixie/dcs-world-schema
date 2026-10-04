@@ -1,0 +1,324 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.3048,
+    "cxCoeff": [
+      1,
+      0.34,
+      0.38,
+      0.536,
+      1.31
+    ],
+    "lengthM": 3.4798,
+    "massKg": 263,
+    "maxAoaRad": 0.23,
+    "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client/fm"
+  },
+  "autopilot": {
+    "finsLimitRad": 1,
+    "operatingTime": 30,
+    "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client/autopilot"
+  },
+  "batteryLifeS": 30,
+  "killDistanceM": 0,
+  "launchTables": [
+    {
+      "columnHeaders": [
+        150,
+        200,
+        250,
+        300
+      ],
+      "key": "LaunchDistData",
+      "rows": [
+        {
+          "cells": [
+            9000,
+            10000,
+            11000,
+            12500
+          ],
+          "header": 300
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            12500
+          ],
+          "header": 400
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            13000
+          ],
+          "header": 500
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            13000
+          ],
+          "header": 600
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            13000
+          ],
+          "header": 700
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            13000
+          ],
+          "header": 800
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            13000
+          ],
+          "header": 900
+        },
+        {
+          "cells": [
+            9000,
+            10000,
+            11500,
+            13000
+          ],
+          "header": 1000
+        },
+        {
+          "cells": [
+            10000,
+            11000,
+            12000,
+            13500
+          ],
+          "header": 2000
+        },
+        {
+          "cells": [
+            10500,
+            11500,
+            12500,
+            14000
+          ],
+          "header": 3000
+        },
+        {
+          "cells": [
+            10500,
+            11500,
+            13000,
+            14000
+          ],
+          "header": 4000
+        },
+        {
+          "cells": [
+            10500,
+            12000,
+            13000,
+            14500
+          ],
+          "header": 5000
+        },
+        {
+          "cells": [
+            11000,
+            12000,
+            13000,
+            14000
+          ],
+          "header": 6000
+        },
+        {
+          "cells": [
+            10000,
+            11500,
+            12000,
+            14500
+          ],
+          "header": 7000
+        }
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client/LaunchDistData"
+    },
+    {
+      "columnHeaders": [
+        150,
+        200,
+        250,
+        300
+      ],
+      "key": "MinLaunchDistData",
+      "rows": [
+        {
+          "cells": [
+            4150,
+            4600,
+            5000,
+            5450
+          ],
+          "header": 300
+        },
+        {
+          "cells": [
+            4290,
+            4740,
+            5140,
+            5540
+          ],
+          "header": 400
+        },
+        {
+          "cells": [
+            4380,
+            4830,
+            5230,
+            5680
+          ],
+          "header": 500
+        },
+        {
+          "cells": [
+            4470,
+            4970,
+            5320,
+            5820
+          ],
+          "header": 600
+        },
+        {
+          "cells": [
+            4610,
+            5060,
+            5510,
+            5910
+          ],
+          "header": 700
+        },
+        {
+          "cells": [
+            4750,
+            5150,
+            5550,
+            6000
+          ],
+          "header": 800
+        },
+        {
+          "cells": [
+            4840,
+            5240,
+            5690,
+            6140
+          ],
+          "header": 900
+        },
+        {
+          "cells": [
+            4880,
+            5380,
+            5830,
+            6230
+          ],
+          "header": 1000
+        },
+        {
+          "cells": [
+            5680,
+            6030,
+            6630,
+            7180
+          ],
+          "header": 2000
+        },
+        {
+          "cells": [
+            6430,
+            6930,
+            7330,
+            7780
+          ],
+          "header": 3000
+        },
+        {
+          "cells": [
+            6180,
+            7030,
+            7830,
+            8380
+          ],
+          "header": 4000
+        },
+        {
+          "cells": [
+            6630,
+            6630,
+            6680,
+            7630
+          ],
+          "header": 5000
+        },
+        {
+          "cells": [
+            8030,
+            8030,
+            8030,
+            8080
+          ],
+          "header": 6000
+        },
+        {
+          "cells": [
+            9430,
+            9530,
+            9430,
+            9430
+          ],
+          "header": 7000
+        }
+      ],
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client/MinLaunchDistData"
+    }
+  ],
+  "machMax": 1.8,
+  "motorStages": [
+    {
+      "fuelMassKg": 40,
+      "impulseS": 270,
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client/booster",
+      "stage": "booster",
+      "workTimeS": 2
+    },
+    {
+      "fuelMassKg": 0.01,
+      "impulseS": 0.01,
+      "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client/burnout",
+      "stage": "burnout",
+      "workTimeS": 0.1
+    }
+  ],
+  "rangeMaxM": 15500,
+  "sourcePath": "_G/weapons_table/weapons/missiles/AGM_12B#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/AGM_12B"
+  ],
+  "weapon": "AGM_12B"
+}

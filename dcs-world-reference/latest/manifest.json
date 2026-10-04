@@ -46,7 +46,112 @@
     }
   ],
   "dcsVersion": "2.9.30.28536",
-  "extractedAt": "2026-09-30T23:27:02Z",
+  "dumpJoins": {
+    "ambiguous": [
+      {
+        "candidates": [
+          "_G/rockets/YJ-83"
+        ],
+        "entity": "Entity.Weapon:YJ-83",
+        "reason": "_G/rockets/YJ-83 has name 'YJ-83' but neither the _unique_resource_name nor the complete ws_type of _G/weapons_table/weapons/missiles/YJ-83; not joined"
+      }
+    ],
+    "counts": [
+      {
+        "ambiguous": 1,
+        "entityType": "Entity.Weapon",
+        "resolved": 510,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Warhead",
+        "resolved": 503,
+        "unresolved": 2
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.WeaponFlight",
+        "resolved": 496,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.AircraftFlight",
+        "resolved": 170,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Store",
+        "resolved": 2151,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Rack",
+        "resolved": 148,
+        "unresolved": 1
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.GunAmmo",
+        "resolved": 266,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Sensor",
+        "resolved": 244,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Aircraft",
+        "resolved": 170,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.GroundVehicle",
+        "resolved": 362,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Personnel",
+        "resolved": 10,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Ship",
+        "resolved": 57,
+        "unresolved": 0
+      },
+      {
+        "ambiguous": 0,
+        "entityType": "Entity.Structure",
+        "resolved": 285,
+        "unresolved": 0
+      }
+    ],
+    "unresolved": [
+      {
+        "entity": "Entity.Warhead:CM-400AKG",
+        "reason": "no dump file of the weapon holds a warhead at warhead, client.warhead or server.warhead"
+      },
+      {
+        "entity": "Entity.Warhead:MIM_72G",
+        "reason": "no dump file of the weapon holds a warhead at warhead, client.warhead or server.warhead"
+      },
+      {
+        "entity": "Entity.Rack:M272",
+        "reason": "no Pylons record has ShapeName 'M272'"
+      }
+    ]
+  },
+  "extractedAt": "2026-10-04T14:05:45Z",
   "extractor": "dcs-world-schema/tools/datamine@0.1.0",
   "modulesPresent": [
     "A-10 Warthog",

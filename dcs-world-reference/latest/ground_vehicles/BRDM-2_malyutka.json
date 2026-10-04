@@ -87,12 +87,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 140,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 27.7778,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 100.00008,
     "maxVertObstacleM": 0.4,
     "minTurnRadiusM": 6.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.5,
+    "traceWidth": 0.28,
+    "waterlineLevel": 1.4
   },
   "model": {
     "animationArguments": {
@@ -343,6 +348,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/BRDM-2_malyutka"
+  ],
   "tags": [
     "Armor",
     "SP ATGM"
@@ -350,15 +358,22 @@
   "weaponSystems": [
     {
       "barrels": 6,
+      "barrelsReloadType": 3,
+      "dispertionReductionFactor": 0.993,
       "hMaxM": 3000,
+      "inclinationCorrectionBias": 0.06981317007977318,
+      "inclinationCorrectionUpperLimit": 0.17453292519943295,
       "launchDelayS": 3,
       "launcherType": 33,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "missileControlInterval": 0.18,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 18,
           "ammoName": "9M14",
+          "automaticLoader": false,
           "reloadTimeS": 360,
           "shotDelayS": 20,
           "weapon": "MALUTKA"
@@ -366,18 +381,27 @@
       ],
       "rMaxKm": 3.0,
       "rMinKm": 0.1,
+      "radialDisperse": 1.4,
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          1.5184364492351,
-          -1.5184364492351,
-          -0.05235987755983,
-          0.17453292519943
+          1.5184364492350666,
+          -1.5184364492350666,
+          -0.05235987755982989,
+          0.17453292519943295
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.34906585039887,
-        "yaw": 0.34906585039887
+        "pitch": 0.3490658503988659,
+        "yaw": 0.3490658503988659
       },
       "weapons": [
         "MALUTKA"

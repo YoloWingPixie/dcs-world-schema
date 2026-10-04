@@ -94,7 +94,15 @@
   },
   "displayName": "IFV BTR-82A",
   "fireControl": {
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_03",
+      "SMOKE_04",
+      "SMOKE_02",
+      "SMOKE_05",
+      "SMOKE_01",
+      "SMOKE_06"
+    ]
   },
   "id": "BTR-82A",
   "life": [
@@ -110,12 +118,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 260,
+    "gearType": 1,
+    "maxAcceleration": 0.925926,
     "maxRoadSpeedMs": 25,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 90,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 7,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.56,
+    "traceWidth": 0.425,
+    "waterlineLevel": 1.4
   },
   "model": {
     "animationArguments": {
@@ -235,6 +248,9 @@
     "TKN-3B day",
     "TKN-3B night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/BTR-82A"
+  ],
   "tags": [
     "Armor",
     "IFV"
@@ -242,8 +258,9 @@
   "weaponSystems": [
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "PKT 7.62mm",
+      "distanceMaxForFcs": 2000,
       "gunAmmo": [
         "7_62x54",
         "7_62x54_NOTRACER"
@@ -262,37 +279,50 @@
           ],
           "portionAmmoCapacity": 2000,
           "reloadTimeS": 600,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 0.1
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
       "reflectionLimit": 0.22,
+      "secondary": true,
       "sectorsRad": [
         [
-          2.7925268031909,
-          -2.7925268031909,
-          -0.10471975511966,
-          1.0471975511966
+          2.792526803190927,
+          -2.792526803190927,
+          -0.10471975511965978,
+          1.0471975511965976
         ],
         [
-          -2.7925268031909,
-          2.7925268031909,
-          -0.034906585039887,
-          1.0471975511966
+          -2.792526803190927,
+          2.792526803190927,
+          -0.03490658503988659,
+          1.0471975511965976
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 0.5235987755983
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.15,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.6981317007977318,
+        "yaw": 0.5235987755982988
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "2A72",
+      "distanceMaxForFcs": 4000,
       "gunAmmo": [
         "2A42_30_AP",
         "2A42_30_HE"
@@ -304,21 +334,25 @@
       "payloads": [
         {
           "ammoCapacity": 180,
+          "feedSlot": 1,
           "gunAmmo": [
             "2A42_30_HE"
           ],
           "portionAmmoCapacity": 340,
           "reloadTimeS": 1200,
-          "shotDelayS": 0.17647058823529
+          "shotDelayS": 0.17647058823529413,
+          "switchOnDelay": 0.5
         },
         {
           "ammoCapacity": 120,
+          "feedSlot": 2,
           "gunAmmo": [
             "2A42_30_AP"
           ],
           "portionAmmoCapacity": 160,
           "reloadTimeS": 600,
-          "shotDelayS": 0.17647058823529
+          "shotDelayS": 0.17647058823529413,
+          "switchOnDelay": 0.5
         }
       ],
       "rMaxKm": 2.0,
@@ -327,22 +361,31 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          2.7925268031909,
-          -2.7925268031909,
-          -0.10471975511966,
-          1.0471975511966
+          2.792526803190927,
+          -2.792526803190927,
+          -0.10471975511965978,
+          1.0471975511965976
         ],
         [
-          -2.7925268031909,
-          2.7925268031909,
-          -0.034906585039887,
-          1.0471975511966
+          -2.792526803190927,
+          2.792526803190927,
+          -0.03490658503988659,
+          1.0471975511965976
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 0.5235987755983
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.15,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.6981317007977318,
+        "yaw": 0.5235987755982988
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

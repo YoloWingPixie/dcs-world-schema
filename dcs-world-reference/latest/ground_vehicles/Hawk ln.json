@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -371,6 +374,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Hawk ln"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -378,6 +384,7 @@
   "weaponSystems": [
     {
       "barrels": 3,
+      "barrelsReloadType": 2,
       "dependsOn": [
         [
           {
@@ -391,10 +398,12 @@
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": 0.3490658503988659,
       "payloads": [
         {
           "ammoCapacity": 3,
           "ammoName": "MIM_23",
+          "automaticLoader": false,
           "reloadTimeS": 420,
           "shotDelayS": 0.1,
           "weapon": "HAWK_RAKETA"
@@ -406,12 +415,20 @@
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.069813170079773,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.06981317007977318,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.174533,
         "yaw": 0.523599

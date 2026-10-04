@@ -112,12 +112,17 @@
   "mobility": {
     "enginePower": 275.9,
     "fordingDepthM": 0.6,
+    "gearType": 2,
+    "maxAcceleration": 1.4,
     "maxRoadSpeedMs": 11.11,
-    "maxSlopeRad": 0.5235987755983,
+    "maxSlopeRad": 0.5235987755982988,
     "maxSpeedKmh": 39.996,
+    "maxTrenchWidth": 2.3,
     "maxVertObstacleM": 0.9,
     "minTurnRadiusM": 1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.345,
+    "traceWidth": 0.41
   },
   "model": {
     "animationArguments": {
@@ -245,6 +250,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M30_CC"
+  ],
   "tags": [
     "Unarmed",
     "Support & Logistics"
@@ -271,7 +279,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -282,7 +291,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -293,7 +303,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -304,7 +315,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -315,7 +327,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
@@ -324,15 +337,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 1
     }

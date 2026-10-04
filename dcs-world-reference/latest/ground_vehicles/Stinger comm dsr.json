@@ -81,12 +81,15 @@
   "mobility": {
     "enginePower": 0.5,
     "fordingDepthM": 1,
+    "gearType": 3,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 1,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 0.1,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -174,12 +177,23 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Stinger comm dsr"
+  ],
   "tags": [
     "Air Defence",
     "MANPADS"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -1.5707963267948966,
+          1.0471975511965976
+        ]
+      ],
       "hMaxM": 3500,
       "hMinM": 10,
       "launcherType": 102,
@@ -187,13 +201,14 @@
       "rMaxKm": 4.5,
       "rMinKm": 0.2,
       "reactionTimeS": 5,
+      "referenceAngleZRad": -1.5184364492350666,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.78539816339745,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.7853981633974483,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {

@@ -85,12 +85,15 @@
   "mobility": {
     "enginePower": 51.48,
     "fordingDepthM": 0.6,
+    "gearType": 1,
+    "maxAcceleration": 1.079,
     "maxRoadSpeedMs": 13.778,
-    "maxSlopeRad": 0.36215581978882,
+    "maxSlopeRad": 0.3621558197888234,
     "maxSpeedKmh": 49.6008,
-    "maxVertObstacleM": 0.249,
+    "maxVertObstacleM": 0.24899999999999997,
     "minTurnRadiusM": 6.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.38
   },
   "model": {
     "animationArguments": {
@@ -156,6 +159,9 @@
   "sensors": [
     "long-range air defence optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Type_94_25mm_AA_Truck"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -177,7 +183,8 @@
           ],
           "portionAmmoCapacity": 30,
           "reloadTimeS": 8,
-          "shotDelayS": 0.23076923076923
+          "shotDelayS": 0.23076923076923078,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 150,
@@ -186,7 +193,8 @@
           ],
           "portionAmmoCapacity": 30,
           "reloadTimeS": 8,
-          "shotDelayS": 0.23076923076923
+          "shotDelayS": 0.23076923076923078,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 150,
@@ -195,7 +203,8 @@
           ],
           "portionAmmoCapacity": 30,
           "reloadTimeS": 8,
-          "shotDelayS": 0.23076923076923
+          "shotDelayS": 0.23076923076923078,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 150,
@@ -204,7 +213,8 @@
           ],
           "portionAmmoCapacity": 30,
           "reloadTimeS": 8,
-          "shotDelayS": 0.23076923076923
+          "shotDelayS": 0.23076923076923078,
+          "switchOnDelay": 5
         }
       ],
       "rMaxKm": 6.0,
@@ -213,15 +223,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.20943951023932,
-        "yaw": 0.43633231299858
+        "pitch": 0.20943951023931956,
+        "yaw": 0.4363323129985824
       },
       "ws": 1
     }

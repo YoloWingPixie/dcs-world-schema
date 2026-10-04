@@ -94,8 +94,15 @@
   "displayName": "SAM Roland ADS",
   "fireControl": {
     "maxTargetDetectionRangeM": 12000,
+    "radarRotationType": 1,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        1000000000,
+        2000000000
+      ]
+    ]
   },
   "id": "Roland ADS",
   "life": [
@@ -107,12 +114,17 @@
   "mobility": {
     "canSwim": true,
     "enginePower": 600,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 20.8333,
     "maxSlopeRad": 0.61,
     "maxSpeedKmh": 74.99988,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 3.8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.39,
+    "traceWidth": 0.516,
+    "waterlineLevel": 1.9
   },
   "model": {
     "animationArguments": {
@@ -284,6 +296,9 @@
     "generic SAM IR search visir",
     "generic SAM search visir"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Roland ADS"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
@@ -291,16 +306,21 @@
   "weaponSystems": [
     {
       "barrels": 2,
-      "beamWidthRad": 1.5707963267949,
+      "barrelsReloadType": 2,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.65,
       "frequencyRangeHz": [
         8000000000,
         12000000000
       ],
+      "inclinationCorrectionBias": 0.08726646259971647,
+      "inclinationCorrectionUpperLimit": 0.08726646259971647,
       "launchDelayS": 3,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "maxTrackingSpeed": 0,
+      "minLaunchAngle": 0.08726646259971647,
       "payloads": [
         {
           "ammoCapacity": 10,
@@ -315,12 +335,20 @@
       "reactionTimeS": 8,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.523599,
         "yaw": 0.523599

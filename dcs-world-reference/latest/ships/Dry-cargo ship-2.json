@@ -44,6 +44,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.3,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 10000,
     "sensor": {
       "heightM": 7.5,
@@ -59,7 +62,11 @@
     "heightM": 13.4,
     "lengthM": 85.2,
     "massKg": 7250000,
-    "widthM": 14.6
+    "shipLengthM": 83.5,
+    "tailWidth": 11,
+    "widthM": 14.6,
+    "xNoseM": 42.8,
+    "xTailM": -42
   },
   "displayName": "Cargo Ivanov",
   "facilities": {
@@ -73,13 +80,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 304.31,
     "draftM": 2.5,
     "economyDistance": 15927200,
-    "economyVelocity": 6.17333,
+    "economyVelocityMs": 6.17333,
     "maxSpeedMs": 7.20222,
     "minTurnRadiusM": 169.54,
     "raceDistance": 15927200,
-    "raceVelocity": 6.17333
+    "raceVelocityMs": 6.17333,
+    "riverCraft": true,
+    "speedup": 0.101986
   },
   "model": {
     "animationArguments": {
@@ -173,6 +183,9 @@
       "country": 82,
       "countryName": "UN_PEACEKEEPERS"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/Dry-cargo ship-2"
   ],
   "tags": [
     "Civilian"

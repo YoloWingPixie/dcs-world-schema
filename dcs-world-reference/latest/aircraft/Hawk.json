@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 3127,
     "internalFuelKg": 1272,
     "maxSpeedKmh": 2880,
@@ -15,6 +16,8 @@
     "Planes"
   ],
   "countermeasures": {
+    "chaffChargeSize": 1,
+    "chaffDefault": 0,
     "dispensers": [
       {
         "direction": [
@@ -40,7 +43,9 @@
           -2
         ]
       }
-    ]
+    ],
+    "flareChargeSize": 1,
+    "flareDefault": 0
   },
   "crew": 2,
   "defaultRadio": {
@@ -58,11 +63,23 @@
   "detection": {
     "detectionRangeMax": 60,
     "irEmissionCoeff": 0.62,
+    "irEmissionCoeffAfterburner": 1.02,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 4.02,
     "lengthM": 11.98,
+    "mainGearPosition": [
+      -0.241,
+      -1.57895,
+      1.584
+    ],
+    "noseGearPosition": [
+      4.147,
+      -1.4582,
+      0
+    ],
+    "wingAreaM2": 16.69,
     "wingSpanM": 9.418
   },
   "displayName": "Hawk",
@@ -591,7 +608,7 @@
               ],
               "connector": "MAIN_SPOT_PTR_01",
               "dir_correction": {
-                "elevation": 0.15707963267949
+                "elevation": 0.15707963267948966
               },
               "typename": "spotlight"
             }
@@ -1091,6 +1108,9 @@
     "tankerType": 0
   },
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Hawk"
+  ],
   "stations": [
     {
       "accepts": [

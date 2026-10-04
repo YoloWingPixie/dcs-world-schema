@@ -13,6 +13,7 @@
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
   "rcs": 2,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -23,6 +24,12 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/2S6 Tunguska"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }

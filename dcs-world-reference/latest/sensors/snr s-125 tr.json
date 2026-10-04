@@ -12,6 +12,7 @@
   "id": "snr s-125 tr",
   "kind": "radar",
   "lockOnDistanceCoeff": 1,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/snr s-125 tr"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }

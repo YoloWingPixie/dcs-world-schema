@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 75.82000000000001,
     "emptyMassKg": 2843,
     "internalFuelKg": 333,
     "maxSpeedKmh": 774,
@@ -15,6 +16,8 @@
     "Planes"
   ],
   "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
     "dispensers": [
       {
         "direction": [
@@ -40,7 +43,9 @@
           0.422
         ]
       }
-    ]
+    ],
+    "flareChargeSize": 0,
+    "flareDefault": 0
   },
   "crew": 1,
   "defaultRadio": {
@@ -58,11 +63,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 2.54,
     "lengthM": 8.6,
+    "mainGearPosition": [
+      0.64,
+      -1.86,
+      1.43
+    ],
+    "noseGearPosition": [
+      -4.49,
+      -0.5,
+      0
+    ],
+    "wingAreaM2": 17.51,
     "wingSpanM": 9.8
   },
   "displayName": "La-7",
@@ -138,11 +155,11 @@
   "missionOptions": [],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.51342418176678,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.08715574274765817,
+      -0.5134241817667833,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -903,8 +920,17 @@
     "isTanker": false,
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    }
+  ],
   "sensors": [
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/La-7"
   ],
   "stations": [
     {

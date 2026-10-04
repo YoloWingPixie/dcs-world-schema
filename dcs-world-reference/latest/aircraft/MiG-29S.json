@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 147,
     "emptyMassKg": 11222,
     "internalFuelKg": 3493,
     "maxSpeedKmh": 2450,
@@ -71,11 +72,23 @@
   "detection": {
     "detectionRangeMax": 160,
     "irEmissionCoeff": 0.77,
+    "irEmissionCoeffAfterburner": 4,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 4.73,
     "lengthM": 20.32,
+    "mainGearPosition": [
+      -0.68,
+      -1.5,
+      1.55
+    ],
+    "noseGearPosition": [
+      2.917,
+      -1.644,
+      0
+    ],
+    "wingAreaM2": 38.1,
     "wingSpanM": 11.36
   },
   "displayName": "MiG-29S",
@@ -158,11 +171,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.58058609380733,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.3420201433256687,
+      -0.5805860938073303,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "damageArgs": [
       {
@@ -601,10 +614,27 @@
   "radios": [
     "MiG-29S__radio0"
   ],
+  "sensorRoles": [
+    {
+      "role": "IRST",
+      "sensor": "KOLS"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "N-019M"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "KOLS",
     "N-019M"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MiG-29S"
   ],
   "stations": [
     {

@@ -1,6 +1,11 @@
 {
   "aero": {
+    "ammoMass": 233,
     "emptyMassKg": 3640,
+    "fuelPerTankKg": [
+      200,
+      209
+    ],
     "internalFuelKg": 409,
     "maxSpeedKmh": 900,
     "maxTakeoffKg": 4840
@@ -30,11 +35,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 12.13,
+    "mainGearPosition": [
+      0.9,
+      -2.076,
+      1.757
+    ],
+    "noseGearPosition": [
+      -5.534,
+      -0.73,
+      0
+    ],
+    "wingAreaM2": 18.3,
     "wingSpanM": 10.5
   },
   "displayName": "Fw 190 A-8",
@@ -862,11 +879,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.45315389351832,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.08715574274765817,
+      -0.45315389351832497,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1626,6 +1643,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/FW-190A8"
+  ],
   "stations": [
     {
       "accepts": [

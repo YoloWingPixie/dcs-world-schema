@@ -85,6 +85,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 4500
   },
   "dimensions": {
@@ -111,12 +112,16 @@
   "mobility": {
     "enginePower": 223.71,
     "fordingDepthM": 0.5,
+    "gearType": 2,
+    "maxAcceleration": 1.4,
     "maxRoadSpeedMs": 10.56,
     "maxSlopeRad": 0.52,
-    "maxSpeedKmh": 38.016,
+    "maxSpeedKmh": 38.016000000000005,
     "maxVertObstacleM": 0.6,
     "minTurnRadiusM": 1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.4,
+    "traceWidth": 0.39
   },
   "model": {
     "animationArguments": {
@@ -243,6 +248,9 @@
     "TRP-2A day",
     "TRP-2A night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SturmPzIV"
+  ],
   "tags": [
     "Armor",
     "SPG"
@@ -250,6 +258,7 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "gunAmmo": [
         "I_Gr_33"
       ],
@@ -260,6 +269,7 @@
       "payloads": [
         {
           "ammoCapacity": 19,
+          "automaticLoader": false,
           "gunAmmo": [
             "I_Gr_33"
           ],
@@ -268,6 +278,7 @@
         },
         {
           "ammoCapacity": 19,
+          "automaticLoader": false,
           "gunAmmo": [
             "I_Gr_33"
           ],
@@ -280,15 +291,23 @@
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          0.17453292519943,
-          -0.17453292519943,
-          -0.087266462599716,
-          0.5235987755983
+          0.17453292519943295,
+          -0.17453292519943295,
+          -0.08726646259971647,
+          0.5235987755982988
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.034906585039887,
-        "yaw": 0.034906585039887
+        "pitch": 0.03490658503988659,
+        "yaw": 0.03490658503988659
       },
       "ws": 1
     },
@@ -312,7 +331,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -323,7 +343,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -334,7 +355,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -345,7 +367,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -356,7 +379,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -367,7 +391,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -378,7 +403,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -389,7 +415,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -400,7 +427,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -411,7 +439,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -422,7 +451,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -433,7 +463,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -444,7 +475,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -455,7 +487,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         },
         {
           "ammoCapacity": 200,
@@ -466,7 +499,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 15,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765,
+          "switchOnDelay": 15
         }
       ],
       "rMaxKm": 1.1,
@@ -475,15 +509,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.17453292519943,
-          -0.17453292519943,
-          -0.17453292519943,
-          0.17453292519943
+          0.17453292519943295,
+          -0.17453292519943295,
+          -0.17453292519943295,
+          0.17453292519943295
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0005,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0005,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 2
     }

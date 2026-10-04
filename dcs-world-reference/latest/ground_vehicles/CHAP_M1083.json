@@ -103,14 +103,34 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 2400,
+    "engineMaxRpm": 2600,
+    "engineMinRpm": 800,
+    "engineMoi": 2.8,
     "enginePower": 330,
     "fordingDepthM": 0.76,
+    "gearRatios": [
+      -5,
+      0,
+      7.2,
+      4.8,
+      3.2,
+      2.1,
+      1.5,
+      1,
+      0.75
+    ],
+    "gearType": 1,
+    "mainGearRatio": 6.5,
+    "maxAcceleration": 3.5,
     "maxRoadSpeedMs": 26.11,
     "maxSlopeRad": 0.58,
     "maxSpeedKmh": 93.996,
     "maxVertObstacleM": 0.51,
     "minTurnRadiusM": 11.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.63
   },
   "model": {
     "animationArguments": {
@@ -196,6 +216,9 @@
       "country": 83,
       "countryName": "ARGENTINA"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_M1083"
   ],
   "tags": [
     "Unarmed",

@@ -46,6 +46,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.4,
+    "radar1Period": 3,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 1400000,
     "sensor": {
       "maxAltM": 3000,
@@ -64,7 +67,11 @@
     "heightM": 27,
     "lengthM": 458.45,
     "massKg": 646642000,
-    "widthM": 24.611
+    "shipLengthM": 457,
+    "tailWidth": 20,
+    "widthM": 24.611,
+    "xNoseM": 216.15,
+    "xTailM": -225.73
   },
   "displayName": "Tanker Seawise Giant",
   "facilities": {
@@ -85,14 +92,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 800,
     "draftM": 29,
     "economyDistance": 15927200,
-    "economyVelocity": 6,
+    "economyVelocityMs": 6,
     "maxSpeedKmh": 30.6,
     "maxSpeedMs": 8.5,
     "minTurnRadiusM": 400,
     "raceDistance": 15927200,
-    "raceVelocity": 7.8
+    "raceVelocityMs": 7.8,
+    "speedup": 0.101986
   },
   "model": {
     "animationArguments": {
@@ -388,6 +397,9 @@
       "country": 92,
       "countryName": "NEW ZEALAND"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/Seawise_Giant"
   ],
   "tags": [
     "Civilian"

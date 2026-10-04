@@ -13,7 +13,11 @@
     "lockOnDistanceCoeff": 0.85,
     "multipleTargetsTracking": true,
     "rcs": 5,
-    "twsMaxTargets": 10
+    "twsMaxTargets": 10,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -21,6 +25,7 @@
   "detectionRangeKm": 175.0,
   "id": "KLJ-7",
   "kind": "radar",
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -31,6 +36,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/KLJ-7"
+  ],
   "surfaceSearch": {
     "gmtiDetectionDistanceM": 140000,
     "hrmDetectionDistanceM": 20000,

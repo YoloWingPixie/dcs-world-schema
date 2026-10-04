@@ -49,6 +49,9 @@
     "airWeaponDistM": 16000,
     "detectionRangeM": 30000,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 40000,
     "sensor": {
       "maxAltM": 10000,
@@ -67,7 +70,11 @@
     "heightM": 22.7,
     "lengthM": 123,
     "massKg": 3650000,
-    "widthM": 9
+    "shipLengthM": 113.9,
+    "tailWidth": 10.4,
+    "widthM": 9,
+    "xNoseM": 50.6689,
+    "xTailM": -63.417
   },
   "displayName": "Frigate 1135M Rezky",
   "facilities": {
@@ -76,7 +83,22 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 30000,
     "radarType": 102,
-    "radarTypeName": "wsType_Radar_Miss"
+    "radarTypeName": "wsType_Radar_Miss",
+    "searchRadarFrequencies": [
+      [
+        1000000000,
+        1200000000
+      ],
+      [
+        6000000000,
+        8000000000
+      ],
+      [
+        9.38,
+        9.44
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.6981317007977318
   },
   "id": "REZKY",
   "life": [
@@ -86,13 +108,15 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 420.5,
     "draftM": 6.5,
     "economyDistance": 8519200,
-    "economyVelocity": 10.2889,
+    "economyVelocityMs": 10.2889,
     "maxSpeedMs": 16.4622,
     "minTurnRadiusM": 247,
     "raceDistance": 2963200,
-    "raceVelocity": 15.4333
+    "raceVelocityMs": 15.4333,
+    "speedup": 0.365728
   },
   "model": {
     "animationArguments": {
@@ -173,12 +197,15 @@
     "long-range naval optics",
     "rezki search radar"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/REZKY"
+  ],
   "tags": [
     "Frigate"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.65,
       "frequencyRangeHz": [
         14.2,
@@ -191,14 +218,15 @@
       "missileChannels": 2,
       "rMaxKm": 30.0,
       "rMinKm": 1.2,
+      "radarType": 104,
       "reactionTimeS": 10,
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          2.1816615649929,
-          -2.1816615649929,
-          -0.087266462599716,
-          1.0471975511966
+          2.181661564992912,
+          -2.181661564992912,
+          -0.08726646259971647,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -208,7 +236,7 @@
       "ws": 1
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.65,
       "frequencyRangeHz": [
         14.2,
@@ -221,14 +249,15 @@
       "missileChannels": 2,
       "rMaxKm": 30.0,
       "rMinKm": 1.2,
+      "radarType": 104,
       "reactionTimeS": 10,
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          2.3561944901923,
-          -2.3561944901923,
-          -0.087266462599716,
-          1.0471975511966
+          2.356194490192345,
+          -2.356194490192345,
+          -0.08726646259971647,
+          1.0471975511965976
         ]
       ],
       "slewRateRadS": {
@@ -238,8 +267,17 @@
       "ws": 2
     },
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.008726646259971648,
+          1.5690509975429023
+        ]
+      ],
       "barrels": 2,
-      "beamWidthRad": 0.017453292519943,
+      "barrelsReloadType": 2,
+      "beamWidthRad": 0.017453292519943295,
       "dependsOn": [
         [
           {
@@ -264,15 +302,27 @@
       "rMaxKm": 10.3,
       "rMinKm": 1.5,
       "reactionTimeS": 1,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.1,
+      "reloadAngleY": 3.141592653589793,
+      "reloadAngleZ": 1.5690509975429023,
       "sectorsRad": [
         [
-          2.1816615649929,
-          -2.1816615649929,
-          -0.0087266462599716,
-          1.5690509975429
+          2.181661564992912,
+          -2.181661564992912,
+          -0.008726646259971648,
+          1.5690509975429023
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1
@@ -283,8 +333,17 @@
       "ws": 3
     },
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.008726646259971648,
+          1.5690509975429023
+        ]
+      ],
       "barrels": 2,
-      "beamWidthRad": 0.017453292519943,
+      "barrelsReloadType": 2,
+      "beamWidthRad": 0.017453292519943295,
       "dependsOn": [
         [
           {
@@ -309,15 +368,27 @@
       "rMaxKm": 10.3,
       "rMinKm": 1.5,
       "reactionTimeS": 1,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.1,
+      "reloadAngleY": 3.141592653589793,
+      "reloadAngleZ": 1.5690509975429023,
       "sectorsRad": [
         [
-          2.3561944901923,
-          -2.3561944901923,
-          -0.0087266462599716,
-          1.5690509975429
+          2.356194490192345,
+          -2.356194490192345,
+          -0.008726646259971648,
+          1.5690509975429023
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1,
         "yaw": 1
@@ -346,14 +417,24 @@
       ],
       "rMinKm": 0.05,
       "reactionTimeS": 15,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          2.1816615649929,
-          -2.1816615649929,
-          -0.17453292519943,
-          1.3962634015955
+          2.181661564992912,
+          -2.181661564992912,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0003,
+        "deviationErrorDistance": 3e-05,
+        "deviationErrorElevation": 0.0003,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.003,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.6,
         "yaw": 0.6
@@ -379,14 +460,24 @@
       ],
       "rMinKm": 0.05,
       "reactionTimeS": 15,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          2.1816615649929,
-          -2.1816615649929,
-          -0.17453292519943,
-          1.3962634015955
+          2.181661564992912,
+          -2.181661564992912,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0003,
+        "deviationErrorDistance": 3e-05,
+        "deviationErrorElevation": 0.0003,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.003,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.6,
         "yaw": 0.6

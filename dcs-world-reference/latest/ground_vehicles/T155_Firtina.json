@@ -111,12 +111,16 @@
   "mobility": {
     "enginePower": 735.5,
     "fordingDepthM": 1.07,
+    "gearType": 2,
+    "maxAcceleration": 1,
     "maxRoadSpeedMs": 18.05,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 64.98,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 2,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.33,
+    "traceWidth": 0.45
   },
   "model": {
     "animationArguments": {
@@ -202,6 +206,9 @@
   "sensors": [
     "MP7"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/T155_Firtina"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -216,9 +223,11 @@
       "launcherType": 6,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 48,
+          "automaticLoader": false,
           "gunAmmo": [
             "K307_155HE"
           ],
@@ -228,22 +237,33 @@
       ],
       "rMinKm": 0.03,
       "reactionTimeS": 30,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.034906585039887,
-          1.3089969389957
+          3.141592653589793,
+          -3.141592653589793,
+          -0.03490658503988659,
+          1.3089969389957472
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.34906585039887,
-        "yaw": 0.26179938779915
+        "pitch": 0.3490658503988659,
+        "yaw": 0.2617993877991494
       },
       "ws": 1
     },
     {
       "barrels": 1,
+      "baseWs": 1,
       "displayName": "M2 Browning",
       "gunAmmo": [
         "M2_12_7",
@@ -263,7 +283,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -274,7 +295,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -285,7 +307,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -296,7 +319,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -307,7 +331,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
@@ -316,15 +341,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.13962634015955,
-          0.87266462599716
+          3.141592653589793,
+          -3.141592653589793,
+          -0.13962634015954636,
+          0.8726646259971648
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.001,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.001,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.87266462599716,
-        "yaw": 0.87266462599716
+        "pitch": 0.8726646259971648,
+        "yaw": 0.8726646259971648
       },
       "ws": 2
     }

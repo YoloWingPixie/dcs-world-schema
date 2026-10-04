@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 44663,
     "internalFuelKg": 90700,
-    "maxSpeedKmh": 1009.008,
+    "maxSpeedKmh": 1009.0079999999999,
     "maxTakeoffKg": 146000
   },
   "attributes": [
@@ -52,11 +53,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 4,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 80
   },
   "dimensions": {
     "heightM": 12.93,
     "lengthM": 46.61,
+    "mainGearPosition": [
+      -2.293,
+      -3.761,
+      4.147
+    ],
+    "noseGearPosition": [
+      17.671,
+      -3.665,
+      0
+    ],
+    "wingAreaM2": 226,
     "wingSpanM": 40
   },
   "displayName": "KC-135MPRS",
@@ -71,11 +84,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -776,8 +789,17 @@
     "isTanker": true,
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/KC135MPRS"
   ],
   "stations": [],
   "tasks": [

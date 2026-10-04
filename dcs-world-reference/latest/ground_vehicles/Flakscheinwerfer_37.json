@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -211,6 +214,9 @@
   "sensors": [
     "VIRTUAL_AUDIO_SENSOR"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Flakscheinwerfer_37"
+  ],
   "tags": [
     "Air Defence",
     "AAA",
@@ -225,18 +231,28 @@
       "rMaxKm": 15.0,
       "rMinKm": 0.3,
       "reactionTimeS": 4,
+      "referenceAngleYRad": 1.5707963267948966,
+      "referenceAngleZRad": 0.7853981633974483,
       "reflectionLimit": 0.01,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.5706217938697
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.5706217938696971
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.05,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0.05,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 2
+      },
       "slewRateRadS": {
-        "pitch": 1.3962634015955,
-        "yaw": 1.3962634015955
+        "pitch": 1.3962634015954636,
+        "yaw": 1.3962634015954636
       },
       "ws": 1
     }

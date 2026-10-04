@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 120.36000000000001,
     "emptyMassKg": 3753,
     "internalFuelKg": 1172,
     "maxSpeedKmh": 992,
@@ -31,11 +32,23 @@
   "detection": {
     "detectionRangeMax": 30,
     "irEmissionCoeff": 0.26,
+    "irEmissionCoeffAfterburner": 0.26,
     "rcsM2": 2
   },
   "dimensions": {
     "heightM": 3.7,
     "lengthM": 10.11,
+    "mainGearPosition": [
+      -0.4,
+      -1.249,
+      1.905
+    ],
+    "noseGearPosition": [
+      2.782,
+      -1.416,
+      0
+    ],
+    "wingAreaM2": 20.6,
     "wingSpanM": 10.08
   },
   "displayName": "MiG-15bis",
@@ -174,11 +187,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.64085638205579,
-      -0.93969262078591,
-      -0.29883623873012,
-      0.34202014332567
+      -0.3420201433256687,
+      -0.6408563820557885,
+      -0.9396926207859083,
+      -0.2988362387301198,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -883,13 +896,16 @@
     "nyMax": 8,
     "rangeKm": 1240,
     "vLandMs": 78,
-    "vMaxHMs": 275.55555555556,
-    "vMaxSeaLevelMs": 294.16666666667,
-    "vOptMs": 236.11111111111,
+    "vMaxHMs": 275.55555555555554,
+    "vMaxSeaLevelMs": 294.1666666666667,
+    "vOptMs": 236.11111111111111,
     "vTakeOffMs": 63
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/MiG-15bis"
+  ],
   "stations": [
     {
       "accepts": [

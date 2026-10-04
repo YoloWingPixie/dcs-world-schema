@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 7015.2598,
     "internalFuelKg": 3519.423,
     "maxSpeedKmh": 990,
@@ -124,11 +125,23 @@
   "detection": {
     "detectionRangeMax": 100,
     "irEmissionCoeff": 0.7,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 3.55,
     "lengthM": 14.12,
+    "mainGearPosition": [
+      -1.97,
+      -1.725,
+      2.45
+    ],
+    "noseGearPosition": [
+      2.02,
+      -2.05,
+      0
+    ],
+    "wingAreaM2": 21.37,
     "wingSpanM": 9.24
   },
   "displayName": "AV-8B N/A",
@@ -457,11 +470,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -913,7 +926,7 @@
             {
               "argument": 209,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -926,7 +939,7 @@
             {
               "argument": 208,
               "dir_correction": {
-                "elevation": 0.05235987755983
+                "elevation": 0.05235987755982989
               },
               "speed": 1,
               "typename": "argumentlight"
@@ -1442,9 +1455,22 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Harrier GR_5 FLIR"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Harrier GR_5 FLIR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/AV8BNA"
   ],
   "stations": [
     {

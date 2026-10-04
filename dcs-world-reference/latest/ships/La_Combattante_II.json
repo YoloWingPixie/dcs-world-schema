@@ -50,6 +50,9 @@
     "airWeaponDistM": 4000,
     "detectionRangeM": 19000,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 1.5,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 18000,
     "sensor": {
       "maxAltM": 8000,
@@ -68,7 +71,11 @@
     "heightM": 13,
     "lengthM": 47,
     "massKg": 265000,
-    "widthM": 7
+    "shipLengthM": 46,
+    "tailWidth": 5,
+    "widthM": 7,
+    "xNoseM": 20.5,
+    "xTailM": -23
   },
   "displayName": "FAC La Combattante IIa",
   "facilities": {
@@ -77,7 +84,14 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 45000,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        5200000000,
+        6000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.3665191429188092
   },
   "id": "La_Combattante_II",
   "life": [
@@ -87,14 +101,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 250,
     "draftM": 2.5,
     "economyDistance": 15700000,
-    "economyVelocity": 13,
+    "economyVelocityMs": 13,
     "maxSpeedKmh": 66.996,
     "maxSpeedMs": 18.61,
     "minTurnRadiusM": 120,
     "raceDistance": 1500000,
-    "raceVelocity": 16
+    "raceVelocityMs": 16,
+    "speedup": 0.8
   },
   "model": {
     "animationArguments": {
@@ -207,12 +223,15 @@
     "long-range naval LLTV",
     "long-range naval optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/La_Combattante_II"
+  ],
   "tags": [
     "Fast Attack Craft"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.5,
       "frequencyRangeHz": [
         8000000000,
@@ -224,14 +243,15 @@
       "ln": 1,
       "rMaxKm": 16.0,
       "rMinKm": 0.2,
+      "radarType": 104,
       "reactionTimeS": 1.5,
       "reflectionLimit": 0.1,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.4835298641951802
         ]
       ],
       "slewRateRadS": {
@@ -259,26 +279,36 @@
       ],
       "rMinKm": 0.05,
       "reactionTimeS": 15,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0.15707963267948966,
       "sectorsRad": [
         [
-          2.3736477827123,
-          0.69813170079773,
-          -0.13089969389957,
-          1.1344640137963
+          2.3736477827122884,
+          0.6981317007977318,
+          -0.1308996938995747,
+          1.1344640137963142
         ],
         [
-          0.69813170079773,
-          -0.69813170079773,
+          0.6981317007977318,
+          -0.6981317007977318,
           0,
-          1.1344640137963
+          1.1344640137963142
         ],
         [
-          -0.69813170079773,
-          -2.3736477827123,
-          -0.13089969389957,
-          1.1344640137963
+          -0.6981317007977318,
+          -2.3736477827122884,
+          -0.1308996938995747,
+          1.1344640137963142
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0003,
+        "deviationErrorDistance": 3e-05,
+        "deviationErrorElevation": 0.0003,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.003,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 0.6,
         "yaw": 0.6
@@ -310,34 +340,48 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 1200,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 1
         }
       ],
       "rMaxKm": 2.0,
       "rMinKm": 0.0,
       "reactionTimeS": 2,
+      "referenceAngleYRad": 3.141592653589793,
+      "referenceAngleZRad": 0.15707963267948966,
       "reflectionLimit": 1.1,
       "sectorsRad": [
         [
-          -0.69813170079773,
-          0.69813170079773,
-          -0.087266462599716,
-          1.4835298641952
+          -0.6981317007977318,
+          0.6981317007977318,
+          -0.08726646259971647,
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
+      "sightMaxTanVel": 138.88888888888889,
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
       },
       "ws": 3
     },
     {
       "barrels": 2,
+      "canSetTacticalDir": true,
       "hMaxM": 18300,
       "launchDelayS": 2,
       "launcherType": 1,
       "ln": 1,
       "missileChannels": 8,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 2,
@@ -347,15 +391,26 @@
       ],
       "rMaxKm": 95.0,
       "rMinKm": 3.0,
+      "railLength": 3,
       "reactionTimeS": 3,
+      "referenceAngleYRad": -0.7853981633974483,
+      "referenceAngleZRad": 0.15707963267948966,
       "sectorsRad": [
         [
           0,
-          -1.5707963267949,
-          -1.5707963267949,
-          1.5707963267949
+          -1.5707963267948966,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "AGM_84S"
       ],
@@ -363,11 +418,13 @@
     },
     {
       "barrels": 2,
+      "canSetTacticalDir": true,
       "hMaxM": 18300,
       "launchDelayS": 2,
       "launcherType": 1,
       "ln": 1,
       "missileChannels": 8,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 2,
@@ -377,15 +434,26 @@
       ],
       "rMaxKm": 95.0,
       "rMinKm": 3.0,
+      "railLength": 3,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 0.7853981633974483,
+      "referenceAngleZRad": 0.15707963267948966,
       "sectorsRad": [
         [
-          1.5707963267949,
+          1.5707963267948966,
           0,
-          -1.5707963267949,
-          1.5707963267949
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "AGM_84S"
       ],

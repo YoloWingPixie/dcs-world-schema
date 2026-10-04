@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 150.28,
     "emptyMassKg": 11631,
     "internalFuelKg": 4900,
-    "maxSpeedKmh": 1950.12,
+    "maxSpeedKmh": 1950.1200000000001,
     "maxTakeoffKg": 23541
   },
   "attributes": [
@@ -77,11 +78,23 @@
   "detection": {
     "detectionRangeMax": 160,
     "irEmissionCoeff": 0.73,
+    "irEmissionCoeffAfterburner": 4,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 4.66,
     "lengthM": 17.07,
+    "mainGearPosition": [
+      -2.319,
+      -1.85,
+      1.57
+    ],
+    "noseGearPosition": [
+      3.02,
+      -1.77,
+      0
+    ],
+    "wingAreaM2": 37,
     "wingSpanM": 11.43
   },
   "displayName": "F/A-18C",
@@ -186,11 +199,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.49640011097796,
-      -0.81915204428899,
-      -0.45315389351832,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.49640011097796105,
+      -0.8191520442889918,
+      -0.45315389351832497,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -383,7 +396,7 @@
             {
               "argument": 51,
               "direction": {
-                "elevation": 0.10471975511966
+                "elevation": 0.10471975511965978
               },
               "exposure": [
                 [
@@ -399,14 +412,14 @@
                 0
               ],
               "proto": {
-                "angle_change_rate": 0.039269908169872,
-                "angle_max": 0.15707963267949,
-                "angle_min": 0.087266462599716,
+                "angle_change_rate": 0.039269908169872414,
+                "angle_max": 0.15707963267948966,
+                "angle_min": 0.08726646259971647,
                 "color": [
                   255,
                   201,
                   125,
-                  0.31793876913398
+                  0.3179387691339814
                 ],
                 "power_up_t": 1.75,
                 "range": 4800
@@ -488,14 +501,14 @@
                 0
               ],
               "proto": {
-                "angle_change_rate": -0.11780972450962,
-                "angle_max": 0.47123889803847,
-                "angle_min": 0.37699111843078,
+                "angle_change_rate": -0.11780972450961724,
+                "angle_max": 0.47123889803846897,
+                "angle_min": 0.3769911184307752,
                 "color": [
                   255,
                   201,
                   125,
-                  0.18499689437998
+                  0.18499689437998487
                 ],
                 "power_up_t": 0.9,
                 "range": 300
@@ -937,9 +950,22 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-73"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-73",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/FA-18C"
   ],
   "stations": [
     {

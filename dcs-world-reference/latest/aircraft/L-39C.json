@@ -1,5 +1,7 @@
 {
   "aero": {
+    "ammoMass": 0,
+    "defaultFuelFraction": 0.84,
     "emptyMassKg": 3478,
     "internalFuelKg": 980,
     "maxSpeedKmh": 763.2,
@@ -71,11 +73,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.2,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 4.77,
     "lengthM": 12.13,
+    "mainGearPosition": [
+      -0.27,
+      -1.527,
+      1.211
+    ],
+    "noseGearPosition": [
+      4.181,
+      -1.51,
+      0
+    ],
+    "wingAreaM2": 18.8,
     "wingSpanM": 9.12
   },
   "displayName": "L-39C",
@@ -1066,6 +1080,9 @@
     "L-39C__radio0"
   ],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/L-39C"
+  ],
   "stations": [
     {
       "accepts": [

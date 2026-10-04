@@ -81,12 +81,16 @@
   "mobility": {
     "enginePower": 230,
     "fordingDepthM": 1.5,
+    "gearType": 1,
+    "maxAcceleration": 0.95,
     "maxRoadSpeedMs": 20.8333,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 74.99988,
     "maxVertObstacleM": 0.61,
     "minTurnRadiusM": 10.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.61,
+    "traceWidth": 0.249
   },
   "model": {
     "animationArguments": {
@@ -358,6 +362,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Ural-375 ZU-23"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -384,7 +391,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -395,7 +403,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -406,7 +415,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -417,7 +427,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -428,30 +439,40 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         }
       ],
       "rMaxKm": 2.5,
       "rMinKm": 0.0,
       "reactionTimeS": 3,
+      "referenceAngleZRad": 0.5235987755982988,
       "reflectionLimit": 0.2,
       "sectorsRad": [
         [
-          2.3561944901923,
-          -2.3561944901923,
+          2.356194490192345,
+          -2.356194490192345,
           -0.1,
           1.48173
         ],
         [
-          -2.3561944901923,
-          2.3561944901923,
-          0.20943951023932,
+          -2.356194490192345,
+          2.356194490192345,
+          0.20943951023931956,
           1.48173
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 0.87266462599716
+        "pitch": 1.0471975511965976,
+        "yaw": 0.8726646259971648
       },
       "ws": 1
     }

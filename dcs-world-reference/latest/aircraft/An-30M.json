@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 15850,
     "internalFuelKg": 8300,
     "maxSpeedKmh": 540,
@@ -48,11 +49,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.5,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 50
   },
   "dimensions": {
     "heightM": 8.575,
     "lengthM": 23.8,
+    "mainGearPosition": [
+      -0.6,
+      -2.78,
+      3.87
+    ],
+    "noseGearPosition": [
+      7.297,
+      -2.67,
+      0
+    ],
+    "wingAreaM2": 75,
     "wingSpanM": 29.2
   },
   "displayName": "An-30M",
@@ -61,11 +74,11 @@
   "kind": "fixedwing",
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.40821789367673,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.17364817766693033,
+      -0.4082178936767348,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -265,17 +278,17 @@
                   "argument": 51,
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -285,17 +298,17 @@
                 {
                   "connector": "RESERV_SPOT_PTR",
                   "dir_correction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "proto": {
-                    "angle_change_rate": 0.039269908169872,
-                    "angle_max": 0.15707963267949,
-                    "angle_min": 0.087266462599716,
+                    "angle_change_rate": 0.039269908169872414,
+                    "angle_max": 0.15707963267948966,
+                    "angle_min": 0.08726646259971647,
                     "color": [
                       255,
                       201,
                       125,
-                      0.31793876913398
+                      0.3179387691339814
                     ],
                     "power_up_t": 1.75,
                     "range": 4800
@@ -333,17 +346,17 @@
                   "argument": 51,
                   "connector": "MAIN_SPOT_PTR",
                   "dir_correction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -353,17 +366,17 @@
                 {
                   "connector": "RESERV_SPOT_PTR",
                   "dir_correction": {
-                    "elevation": 0.13962634015955
+                    "elevation": 0.13962634015954636
                   },
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -485,6 +498,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/An-30M"
+  ],
   "stations": [],
   "tasks": [
     {

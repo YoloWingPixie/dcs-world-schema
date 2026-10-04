@@ -88,6 +88,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 17000,
     "threatRangeMinM": 30
   },
@@ -111,12 +112,16 @@
   "mobility": {
     "enginePower": 520,
     "fordingDepthM": 1,
+    "gearType": 2,
+    "maxAcceleration": 1.85185,
     "maxRoadSpeedMs": 16.6667,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 60.00012,
+    "maxSpeedKmh": 60.000119999999995,
     "maxVertObstacleM": 0.7,
     "minTurnRadiusM": 2.7,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.6,
+    "traceWidth": 0.478
   },
   "model": {
     "animationArguments": {
@@ -360,6 +365,9 @@
     "TKN-3B day",
     "TKN-3B night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SAU Akatsia"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -374,9 +382,11 @@
       "launcherType": 6,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 12,
+          "automaticLoader": false,
           "gunAmmo": [
             "2A33_152"
           ],
@@ -385,6 +395,7 @@
         },
         {
           "ammoCapacity": 34,
+          "automaticLoader": false,
           "gunAmmo": [
             "2A33_152"
           ],
@@ -396,15 +407,23 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.069813170079773,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.06981317007977318,
+          1.0471975511965976
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.22689280275926,
-        "yaw": 0.31415926535898
+        "pitch": 0.22689280275926285,
+        "yaw": 0.3141592653589793
       },
       "ws": 1
     }

@@ -82,12 +82,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -213,6 +216,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/flak41"
+  ],
   "tags": [
     "Air Defence",
     "AAA"
@@ -242,6 +248,7 @@
       "payloads": [
         {
           "ammoCapacity": 200,
+          "automaticLoader": false,
           "gunAmmo": [
             "Flak41_Sprgr_39"
           ],
@@ -253,17 +260,24 @@
       "rMaxKm": 5.0,
       "rMinKm": 0.01,
       "reactionTimeS": 15,
+      "referenceAngleZRad": 0.08726646259971647,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "type": 1
+      },
       "slewRateRadS": {
-        "pitch": 0.10471975511966,
-        "yaw": 0.1850049007114
+        "pitch": 0.10471975511965978,
+        "yaw": 0.18500490071139894
       },
       "ws": 1
     }

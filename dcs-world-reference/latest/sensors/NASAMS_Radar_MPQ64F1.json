@@ -12,6 +12,7 @@
   "id": "NASAMS_Radar_MPQ64F1",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 2,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       80
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/NASAMS_Radar_MPQ64F1"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 15
+  }
 }

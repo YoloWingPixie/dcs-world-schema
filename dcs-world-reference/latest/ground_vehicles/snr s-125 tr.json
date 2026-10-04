@@ -68,7 +68,13 @@
     "isDetector": true,
     "maxTargetDetectionRangeM": 100000,
     "radarType": 103,
-    "radarTypeName": "wsType_Radar_MissGun"
+    "radarTypeName": "wsType_Radar_MissGun",
+    "searchRadarFrequencies": [
+      [
+        9000000000,
+        9400000000
+      ]
+    ]
   },
   "id": "snr s-125 tr",
   "life": [
@@ -79,12 +85,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -377,13 +386,16 @@
   "sensors": [
     "snr s-125 tr"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/snr s-125 tr"
+  ],
   "tags": [
     "Air Defence",
     "Tracking Radar"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -414,13 +426,14 @@
       "rMaxKm": 100.0,
       "rMinKm": 1.5,
       "reactionTimeS": 6,
+      "referenceAngleZRad": 0.17453292519943295,
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
@@ -430,7 +443,8 @@
       "ws": 1
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "baseWs": 1,
+      "beamWidthRad": 1.5707963267948966,
       "ecmK": 0.5,
       "frequencyRangeHz": [
         9000000000,
@@ -447,10 +461,10 @@
       "reflectionLimit": 0.18,
       "sectorsRad": [
         [
-          0.17453292519943,
-          -0.17453292519943,
-          -0.17453292519943,
-          0.17453292519943
+          0.17453292519943295,
+          -0.17453292519943295,
+          -0.17453292519943295,
+          0.17453292519943295
         ]
       ],
       "slewRateRadS": {
@@ -471,10 +485,10 @@
       "reflectionLimit": 0.3,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.5707963267948966
         ]
       ],
       "slewRateRadS": {

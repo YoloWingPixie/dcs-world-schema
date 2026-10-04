@@ -10,7 +10,11 @@
       "upperHeadOnM": 57000,
       "upperTailOnM": 30000
     },
-    "lockOnDistanceCoeff": 0.85
+    "lockOnDistanceCoeff": 0.85,
+    "velocityLimits": {
+      "radialVelocityMinMs": 55.55555555555556,
+      "relativeRadialVelocityMinMs": 41.666666666666664
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -21,6 +25,7 @@
   "pods": [
     "Kopyo radar"
   ],
+  "scanPeriodS": 3,
   "scanVolume": {
     "azimuthDeg": [
       -40,
@@ -31,6 +36,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/Kopyo"
+  ],
   "surfaceSearch": {
     "rbmDetectionDistanceM": 150000,
     "rcs": 100

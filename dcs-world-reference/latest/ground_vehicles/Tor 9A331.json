@@ -81,6 +81,7 @@
       "minAltM": 20,
       "minRangeM": 500
     },
+    "sensorMountWs": 1,
     "threatRangeM": 12000
   },
   "dimensions": {
@@ -91,8 +92,16 @@
   "displayName": "SAM SA-15 Tor \"Gauntlet\"",
   "fireControl": {
     "maxTargetDetectionRangeM": 25000,
+    "radarRotationType": 1,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        3000000000,
+        4000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.7853981633974483
   },
   "id": "Tor 9A331",
   "life": [
@@ -104,12 +113,16 @@
   "mobility": {
     "enginePower": 740,
     "fordingDepthM": 1.3,
+    "gearType": 2,
+    "maxAcceleration": 4.08497,
     "maxRoadSpeedMs": 18.0556,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 65.00016,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 2.62,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.46,
+    "traceWidth": 0.446
   },
   "model": {
     "animationArguments": {
@@ -334,6 +347,9 @@
     "Tor 9A331",
     "generic SAM search visir"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Tor 9A331"
+  ],
   "tags": [
     "Air Defence",
     "SAM SHORAD"
@@ -341,17 +357,22 @@
   "weaponSystems": [
     {
       "barrels": 8,
-      "beamWidthRad": 0.017453292519943,
+      "barrelsReloadType": 3,
+      "beamWidthRad": 0.017453292519943295,
       "ecmK": 0.8,
       "frequencyRangeHz": [
         4000000000,
         8000000000
       ],
+      "inclinationCorrectionBias": 0,
+      "inclinationCorrectionUpperLimit": 0,
       "launchDelayS": 4,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": -0.08726646259971647,
       "missileChannels": 2,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 8,
@@ -365,18 +386,27 @@
       "rMaxKm": 12.0,
       "rMinKm": 1.5,
       "reactionTimeS": 6,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.04,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.4835298641952
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.4835298641951802
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.69813170079773,
-        "yaw": 0.5235987755983
+        "pitch": 0.6981317007977318,
+        "yaw": 0.5235987755982988
       },
       "weapons": [
         "SA9M330"

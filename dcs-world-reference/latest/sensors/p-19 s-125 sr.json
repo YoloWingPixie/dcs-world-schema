@@ -12,6 +12,7 @@
   "id": "p-19 s-125 sr",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       20
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/p-19 s-125 sr"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 15
+  }
 }

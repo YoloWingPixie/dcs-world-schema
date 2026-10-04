@@ -11,7 +11,11 @@
       "upperTailOnM": 80000
     },
     "lockOnDistanceCoeff": 0.85,
-    "twsMaxTargets": 4
+    "twsMaxTargets": 4,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -19,6 +23,7 @@
   "detectionRangeKm": 200.0,
   "id": "RDY",
   "kind": "radar",
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -60,
@@ -29,6 +34,9 @@
       30
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/RDY"
+  ],
   "surfaceSearch": {
     "gmtiDetectionDistanceM": 185000,
     "hrmDetectionDistanceM": 22000,

@@ -86,6 +86,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 1200
   },
   "dimensions": {
@@ -110,14 +111,33 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 2200,
+    "engineMaxRpm": 2600,
+    "engineMinRpm": 800,
+    "engineMoi": 3,
     "enginePower": 370,
     "fordingDepthM": 0.8,
+    "gearRatios": [
+      -5,
+      0,
+      7.5,
+      4,
+      2.5,
+      1.6,
+      1.1,
+      0.8
+    ],
+    "gearType": 1,
+    "mainGearRatio": 4.8,
+    "maxAcceleration": 5.5,
     "maxRoadSpeedMs": 27.78,
     "maxSlopeRad": 0.58,
-    "maxSpeedKmh": 100.008,
+    "maxSpeedKmh": 100.00800000000001,
     "maxVertObstacleM": 0.46,
     "minTurnRadiusM": 8.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.6
   },
   "model": {
     "animationArguments": {
@@ -216,6 +236,9 @@
     "M151 Protector RWS IR",
     "M151 Protector RWS day"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_MATV"
+  ],
   "tags": [
     "Armor",
     "Scout/Recon"
@@ -229,6 +252,7 @@
         "M2_12_7_T"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 1,
       "name": "M2_Browning",
@@ -242,7 +266,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -253,7 +278,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -264,7 +290,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -275,7 +302,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 100,
@@ -286,25 +314,37 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 15,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 12
         }
       ],
       "rMaxKm": 1.2,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.26179938779915,
-          1.0471975511966
+          3.141592653589793,
+          -3.141592653589793,
+          -0.2617993877991494,
+          1.0471975511965976
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.61086523819802,
-        "yaw": 0.87266462599716
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.08,
+        "deviationErrorStability": 0.003,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.6108652381980153,
+        "yaw": 0.8726646259971648
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

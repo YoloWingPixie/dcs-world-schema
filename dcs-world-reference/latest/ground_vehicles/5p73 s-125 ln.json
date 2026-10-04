@@ -81,12 +81,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -430,6 +433,9 @@
       }
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/5p73 s-125 ln"
+  ],
   "tags": [
     "Air Defence",
     "Launcher"
@@ -437,6 +443,7 @@
   "weaponSystems": [
     {
       "barrels": 4,
+      "barrelsReloadType": 3,
       "dependsOn": [
         [
           {
@@ -446,13 +453,17 @@
         ]
       ],
       "ecmK": -1,
+      "inclinationCorrectionBias": 0.13962634015954636,
+      "inclinationCorrectionUpperLimit": 1.5707963267948966,
       "launchDelayS": 10,
       "launcherType": 4,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "minLaunchAngle": 0.07853981633974483,
       "payloads": [
         {
           "ammoCapacity": 4,
+          "automaticLoader": false,
           "portionAmmoCapacity": 2,
           "reloadTimeS": 600,
           "shotDelayS": 0.1,
@@ -462,18 +473,27 @@
       "rMaxKm": 18.0,
       "rMinKm": 1.5,
       "reactionTimeS": 2,
+      "referenceAngleZRad": 0.4363323129985824,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.087266462599716,
-          1.1344640137963
+          3.141592653589793,
+          -3.141592653589793,
+          -0.08726646259971647,
+          1.1344640137963142
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.069813170079773,
-        "yaw": 0.17453292519943
+        "pitch": 0.06981317007977318,
+        "yaw": 0.17453292519943295
       },
       "weapons": [
         "SA5B27"

@@ -1,6 +1,15 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 11400,
+    "fuelPerTankKg": [
+      353.564,
+      820.168,
+      353.564,
+      353.564,
+      820.168,
+      353.564
+    ],
     "internalFuelKg": 3054.592,
     "maxSpeedKmh": 285,
     "maxTakeoffKg": 22680
@@ -151,6 +160,16 @@
   "dimensions": {
     "heightM": 5.998,
     "lengthM": 28.3,
+    "mainGearPosition": [
+      1.872,
+      -2.536,
+      1.402
+    ],
+    "noseGearPosition": [
+      -4.99,
+      -2.271,
+      1.605
+    ],
     "rotorDiameterM": 18.3
   },
   "displayName": "CH-47F",
@@ -466,11 +485,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.99984769515639,
-      -0.99984769515639,
-      -0.99984769515639,
-      -0.99984769515639,
-      -0.99984769515639
+      -0.9998476951563913,
+      -0.9998476951563913,
+      -0.9998476951563913,
+      -0.9998476951563913,
+      -0.9998476951563913
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -926,8 +945,8 @@
                   "connector": "LIGHT_IR_L",
                   "movable": true,
                   "proto": {
-                    "angle_max": 0.48869219055841,
-                    "angle_min": 0.34906585039887,
+                    "angle_max": 0.4886921905584123,
+                    "angle_min": 0.3490658503988659,
                     "color": [
                       2,
                       0,
@@ -967,8 +986,8 @@
                   "connector": "LIGHT_IR_R",
                   "movable": true,
                   "proto": {
-                    "angle_max": 0.48869219055841,
-                    "angle_min": 0.34906585039887,
+                    "angle_max": 0.4886921905584123,
+                    "angle_min": 0.3490658503988659,
                     "color": [
                       2,
                       0,
@@ -1775,9 +1794,22 @@
     "CH-47Fbl1__radio1",
     "CH-47Fbl1__radio2"
   ],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/CH-47Fbl1"
   ],
   "stations": [
     {

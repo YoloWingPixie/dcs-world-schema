@@ -46,6 +46,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 0,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 5,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 100000,
     "threatRangeM": 0
   },
@@ -53,7 +56,11 @@
     "heightM": 27,
     "lengthM": 180,
     "massKg": 17456000,
-    "widthM": 24
+    "shipLengthM": 180,
+    "tailWidth": 20,
+    "widthM": 24,
+    "xNoseM": 85,
+    "xTailM": -90
   },
   "displayName": "Supply Ship MV Tilde",
   "facilities": {
@@ -74,13 +81,15 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 500,
     "economyDistance": 15927200,
-    "economyVelocity": 6.17333,
+    "economyVelocityMs": 6.17333,
     "maxSpeedKmh": 37.0404,
     "maxSpeedMs": 10.289,
     "minTurnRadiusM": 400,
     "raceDistance": 15927200,
-    "raceVelocity": 6.17333
+    "raceVelocityMs": 6.17333,
+    "speedup": 0.101986
   },
   "model": {
     "animationArguments": {
@@ -482,6 +491,9 @@
       "country": 92,
       "countryName": "NEW ZEALAND"
     }
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/Ship_Tilde_Supply"
   ],
   "tags": [
     "Civilian"

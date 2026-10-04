@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 147,
     "emptyMassKg": 22300,
     "internalFuelKg": 9800,
     "maxSpeedKmh": 1900.008,
@@ -72,11 +73,23 @@
   "detection": {
     "detectionRangeMax": 250,
     "irEmissionCoeff": 1,
+    "irEmissionCoeffAfterburner": 5,
     "rcsM2": 6
   },
   "dimensions": {
     "heightM": 6,
     "lengthM": 23.3,
+    "mainGearPosition": [
+      -0.29,
+      -2.819,
+      2.33
+    ],
+    "noseGearPosition": [
+      6.78,
+      -2.587,
+      0
+    ],
+    "wingAreaM2": 62,
     "wingSpanM": 14.7
   },
   "displayName": "Su-34",
@@ -107,11 +120,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.34202014332567,
-      -0.58058609380733,
-      -0.81915204428899,
-      -0.23856595048166,
-      0.34202014332567
+      -0.3420201433256687,
+      -0.5805860938073303,
+      -0.8191520442889918,
+      -0.23856595048166154,
+      0.3420201433256687
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -499,10 +512,27 @@
     ],
     "tankerType": 4
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Su-34 FLIR"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "N-011M"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "N-011M",
     "Su-34 FLIR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Su-34"
   ],
   "stations": [
     {

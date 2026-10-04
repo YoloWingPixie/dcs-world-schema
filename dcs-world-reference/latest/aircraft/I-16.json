@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 33.32,
     "emptyMassKg": 1614,
     "internalFuelKg": 191,
-    "maxSpeedKmh": 464.4,
+    "maxSpeedKmh": 464.40000000000003,
     "maxTakeoffKg": 2146
   },
   "attributes": [
@@ -15,6 +16,8 @@
     "Planes"
   ],
   "countermeasures": {
+    "chaffChargeSize": 0,
+    "chaffDefault": 0,
     "dispensers": [
       {
         "direction": [
@@ -40,7 +43,9 @@
           0.422
         ]
       }
-    ]
+    ],
+    "flareChargeSize": 0,
+    "flareDefault": 0
   },
   "crew": 1,
   "defaultRadio": {
@@ -58,11 +63,23 @@
   "detection": {
     "detectionRangeMax": 0,
     "irEmissionCoeff": 0.1,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 2.5
   },
   "dimensions": {
     "heightM": 3.25,
     "lengthM": 6.13,
+    "mainGearPosition": [
+      0.4,
+      -1.59,
+      1.15
+    ],
+    "noseGearPosition": [
+      -3.93,
+      -0.348,
+      0
+    ],
+    "wingAreaM2": 14.54,
     "wingSpanM": 9.004
   },
   "displayName": "I-16",
@@ -216,11 +233,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.087155742747658,
-      -0.51342418176678,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.08715574274765817,
+      -0.5134241817667833,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -913,8 +930,17 @@
     "isTanker": false,
     "tankerType": 0
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Merkury LLTV"
+    }
+  ],
   "sensors": [
     "Merkury LLTV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/I-16"
   ],
   "stations": [
     {

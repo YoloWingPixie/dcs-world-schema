@@ -77,12 +77,15 @@
   ],
   "mobility": {
     "enginePower": 0,
+    "gearType": 4,
+    "maxAcceleration": 0,
     "maxRoadSpeedMs": 0,
     "maxSlopeRad": 0,
     "maxSpeedKmh": 0,
     "maxVertObstacleM": 0,
     "minTurnRadiusM": 0,
-    "mobile": false
+    "mobile": false,
+    "rMaxM": 0
   },
   "model": {
     "animationArguments": {
@@ -279,6 +282,9 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/2B11 mortar"
+  ],
   "tags": [
     "Artillery",
     "Mortar"
@@ -307,17 +313,26 @@
       ],
       "rMinKm": 0.03,
       "reactionTimeS": 100,
+      "referenceAngleZRad": 1.0471975511965976,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          0.78539816339745,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          0.7853981633974483,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.5235987755983
+        "pitch": 0.5235987755982988,
+        "yaw": 0.5235987755982988
       },
       "ws": 1
     }

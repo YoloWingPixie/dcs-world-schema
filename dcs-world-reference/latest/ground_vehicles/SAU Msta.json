@@ -88,6 +88,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 23500,
     "threatRangeMinM": 30
   },
@@ -99,7 +100,15 @@
   "displayName": "SPH 2S19 Msta 152mm",
   "fireControl": {
     "fireOnMove": false,
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_03",
+      "SMOKE_04",
+      "SMOKE_02",
+      "SMOKE_05",
+      "SMOKE_01",
+      "SMOKE_06"
+    ]
   },
   "id": "SAU Msta",
   "life": [
@@ -109,14 +118,34 @@
     }
   ],
   "mobility": {
+    "engineMaxPowerRpm": 2200,
+    "engineMaxRpm": 2600,
+    "engineMinRpm": 600,
+    "engineMoi": 4,
     "enginePower": 840,
     "fordingDepthM": 1.2,
+    "gearRatios": [
+      -10,
+      0,
+      10,
+      6.32,
+      4.625,
+      3.377,
+      2.557,
+      1.977,
+      1.5
+    ],
+    "gearType": 2,
+    "mainGearRatio": 4,
+    "maxAcceleration": 1.85185,
     "maxRoadSpeedMs": 16.6667,
     "maxSlopeRad": 0.61,
-    "maxSpeedKmh": 60.00012,
+    "maxSpeedKmh": 60.000119999999995,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 3,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.44,
+    "traceWidth": 0.577
   },
   "model": {
     "animationArguments": {
@@ -260,6 +289,9 @@
     "TKN-3B day",
     "TKN-3B night"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/SAU Msta"
+  ],
   "tags": [
     "Artillery",
     "SPA"
@@ -274,9 +306,11 @@
       "launcherType": 6,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "mountBeforeMove": true,
       "payloads": [
         {
           "ammoCapacity": 20,
+          "automaticLoader": false,
           "gunAmmo": [
             "2A64_152"
           ],
@@ -285,6 +319,7 @@
         },
         {
           "ammoCapacity": 30,
+          "automaticLoader": false,
           "gunAmmo": [
             "2A64_152"
           ],
@@ -296,20 +331,29 @@
       "reactionTimeS": 100,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.069813170079773,
-          1.1868238913561
+          3.141592653589793,
+          -3.141592653589793,
+          -0.06981317007977318,
+          1.1868238913561442
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.0005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.1,
+        "deviationErrorStability": 0.2,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.24434609527921,
-        "yaw": 0.38397243543875
+        "pitch": 0.24434609527920614,
+        "yaw": 0.3839724354387525
       },
       "ws": 1
     },
     {
       "barrels": 1,
+      "baseWs": 1,
       "displayName": "MG 12.7mm",
       "gunAmmo": [
         "Utes_12_7x108",
@@ -329,7 +373,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -340,7 +385,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -351,7 +397,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -362,7 +409,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -373,7 +421,8 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         },
         {
           "ammoCapacity": 50,
@@ -384,24 +433,36 @@
           ],
           "portionAmmoCapacity": 50,
           "reloadTimeS": 15,
-          "shotDelayS": 0.08
+          "shotDelayS": 0.08,
+          "switchOnDelay": 12
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.2,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.05235987755983,
-          1.221730476396
+          3.141592653589793,
+          -3.141592653589793,
+          -0.05235987755982989,
+          1.2217304763960306
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.001,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.001,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.87266462599716,
-        "yaw": 0.87266462599716
+        "pitch": 0.8726646259971648,
+        "yaw": 0.8726646259971648
       },
       "ws": 2
     }

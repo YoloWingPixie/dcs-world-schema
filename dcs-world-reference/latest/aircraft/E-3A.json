@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 60000,
     "internalFuelKg": 65000,
     "maxSpeedKmh": 860,
@@ -47,11 +48,23 @@
   "detection": {
     "detectionRangeMax": 500,
     "irEmissionCoeff": 4,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 80
   },
   "dimensions": {
     "heightM": 12.93,
     "lengthM": 46.61,
+    "mainGearPosition": [
+      -2.293,
+      -3.761,
+      4.147
+    ],
+    "noseGearPosition": [
+      17.671,
+      -3.665,
+      0
+    ],
+    "wingAreaM2": 283,
     "wingSpanM": 44.4
   },
   "displayName": "E-3A",
@@ -86,11 +99,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.40821789367673,
-      -0.64278760968654,
-      0.11161889704895,
-      0.86602540378444
+      -0.17364817766693033,
+      -0.4082178936767348,
+      -0.6427876096865393,
+      0.11161889704894967,
+      0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -301,9 +314,9 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": -0.13089969389957,
-                  "angle_max": 0.57595865315813,
-                  "angle_min": 0.47123889803847,
+                  "angle_change_rate": -0.1308996938995747,
+                  "angle_max": 0.5759586531581288,
+                  "angle_min": 0.47123889803846897,
                   "argument": 208,
                   "connector": "MAIN_SPOT_PTR",
                   "exposure": [
@@ -315,14 +328,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.043633231299858,
-                    "angle_max": 0.17453292519943,
-                    "angle_min": 0.10471975511966,
+                    "angle_change_rate": 0.04363323129985824,
+                    "angle_max": 0.17453292519943295,
+                    "angle_min": 0.10471975511965978,
                     "color": [
                       255,
                       201,
                       125,
-                      0.19370562748477
+                      0.1937056274847714
                     ],
                     "power_up_t": 0.6,
                     "range": 2400
@@ -330,9 +343,9 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.13089969389957,
-                  "angle_max": 0.57595865315813,
-                  "angle_min": 0.47123889803847,
+                  "angle_change_rate": -0.1308996938995747,
+                  "angle_max": 0.5759586531581288,
+                  "angle_min": 0.47123889803846897,
                   "connector": "RESERV_SPOT_PTR",
                   "exposure": [
                     [
@@ -343,14 +356,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.043633231299858,
-                    "angle_max": 0.17453292519943,
-                    "angle_min": 0.10471975511966,
+                    "angle_change_rate": 0.04363323129985824,
+                    "angle_max": 0.17453292519943295,
+                    "angle_min": 0.10471975511965978,
                     "color": [
                       255,
                       201,
                       125,
-                      0.19370562748477
+                      0.1937056274847714
                     ],
                     "power_up_t": 0.6,
                     "range": 2400
@@ -358,9 +371,9 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.13089969389957,
-                  "angle_max": 0.57595865315813,
-                  "angle_min": 0.47123889803847,
+                  "angle_change_rate": -0.1308996938995747,
+                  "angle_max": 0.5759586531581288,
+                  "angle_min": 0.47123889803846897,
                   "connector": "FARA_3",
                   "exposure": [
                     [
@@ -371,14 +384,14 @@
                   ],
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.047996554429844,
-                    "angle_max": 0.19198621771938,
-                    "angle_min": 0.1221730476396,
+                    "angle_change_rate": 0.04799655442984406,
+                    "angle_max": 0.19198621771937624,
+                    "angle_min": 0.12217304763960307,
                     "color": [
                       255,
                       201,
                       125,
-                      0.27855844122716
+                      0.27855844122715717
                     ],
                     "power_up_t": 1,
                     "range": 3120
@@ -413,20 +426,20 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": -0.26179938779915,
-                  "angle_max": 1.1519173063163,
-                  "angle_min": 0.94247779607694,
+                  "angle_change_rate": -0.2617993877991494,
+                  "angle_max": 1.1519173063162575,
+                  "angle_min": 0.9424777960769379,
                   "argument": 208,
                   "connector": "MAIN_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.1608210510119
+                      0.16082105101189656
                     ],
                     "power_up_t": 0.75,
                     "range": 192
@@ -434,19 +447,19 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.26179938779915,
-                  "angle_max": 1.1519173063163,
-                  "angle_min": 0.94247779607694,
+                  "angle_change_rate": -0.2617993877991494,
+                  "angle_max": 1.1519173063162575,
+                  "angle_min": 0.9424777960769379,
                   "connector": "RESERV_SPOT_PTR",
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.1608210510119
+                      0.16082105101189656
                     ],
                     "power_up_t": 0.75,
                     "range": 192
@@ -454,20 +467,20 @@
                   "typename": "Spot"
                 },
                 {
-                  "angle_change_rate": -0.26179938779915,
-                  "angle_max": 1.1519173063163,
-                  "angle_min": 0.94247779607694,
+                  "angle_change_rate": -0.2617993877991494,
+                  "angle_max": 1.1519173063162575,
+                  "angle_min": 0.9424777960769379,
                   "connector": "FARA_3",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": -0.11780972450962,
-                    "angle_max": 0.47123889803847,
-                    "angle_min": 0.37699111843078,
+                    "angle_change_rate": -0.11780972450961724,
+                    "angle_max": 0.47123889803846897,
+                    "angle_min": 0.3769911184307752,
                     "color": [
                       255,
                       201,
                       125,
-                      0.18499689437998
+                      0.18499689437998487
                     ],
                     "power_up_t": 0.9,
                     "range": 300
@@ -628,9 +641,22 @@
     ],
     "tankerType": 1
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "AN/APY-1"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APY-1",
     "Abstract RWR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/E-3A"
   ],
   "stations": [],
   "tasks": [

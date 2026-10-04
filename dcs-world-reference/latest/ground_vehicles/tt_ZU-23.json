@@ -84,14 +84,31 @@
     }
   ],
   "mobility": {
+    "engineMaxPowerRpm": 3000,
+    "engineMaxRpm": 5000,
+    "engineMinRpm": 700,
     "enginePower": 205,
     "fordingDepthM": 0.7,
+    "gearRatios": [
+      -5.25,
+      0,
+      5.25,
+      2.842,
+      1.912,
+      1.284,
+      0.858
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.5,
+    "maxAcceleration": 2.925926,
     "maxRoadSpeedMs": 37,
     "maxSlopeRad": 0.27,
-    "maxSpeedKmh": 133.2,
+    "maxSpeedKmh": 133.20000000000002,
     "maxVertObstacleM": 0.45,
     "minTurnRadiusM": 5.9,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.41,
+    "traceWidth": 0.18
   },
   "model": {
     "animationArguments": {
@@ -816,6 +833,9 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/tt_ZU-23"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -842,7 +862,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -853,7 +874,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -864,7 +886,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -875,7 +898,8 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         },
         {
           "ammoCapacity": 100,
@@ -886,30 +910,40 @@
           ],
           "portionAmmoCapacity": 100,
           "reloadTimeS": 10,
-          "shotDelayS": 0.066666666666667
+          "shotDelayS": 0.06666666666666667,
+          "switchOnDelay": 10
         }
       ],
       "rMaxKm": 2.5,
       "rMinKm": 0.0,
       "reactionTimeS": 3,
+      "referenceAngleZRad": 0.5759586531581288,
       "reflectionLimit": 0.2,
       "sectorsRad": [
         [
-          0.6457718232379,
-          -0.6457718232379,
-          0.57595865315813,
-          1.535889741755
+          0.6457718232379019,
+          -0.6457718232379019,
+          0.5759586531581288,
+          1.53588974175501
         ],
         [
-          -0.6457718232379,
-          0.6457718232379,
-          -0.24434609527921,
-          1.535889741755
+          -0.6457718232379019,
+          0.6457718232379019,
+          -0.24434609527920614,
+          1.53588974175501
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 0.87266462599716
+        "pitch": 1.0471975511965976,
+        "yaw": 0.8726646259971648
       },
       "ws": 1
     }

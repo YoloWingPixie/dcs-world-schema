@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 2883,
     "internalFuelKg": 631,
     "maxSpeedKmh": 200,
@@ -80,6 +81,16 @@
   "dimensions": {
     "heightM": 4.41,
     "lengthM": 17.62,
+    "mainGearPosition": [
+      -0.458,
+      -1.577,
+      1.332
+    ],
+    "noseGearPosition": [
+      1.714,
+      -1.636,
+      1.33
+    ],
     "rotorDiameterM": 14.7
   },
   "displayName": "UH-1H",
@@ -351,11 +362,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.76604444311898,
-      -0.81603492345171,
-      -0.86602540378444,
-      -0.86602540378444,
-      -0.86602540378444
+      -0.766044443118978,
+      -0.8160349234517084,
+      -0.8660254037844386,
+      -0.8660254037844386,
+      -0.8660254037844386
     ],
     "damageArgs": [
       {
@@ -649,19 +660,19 @@
             {
               "lights": [
                 {
-                  "angle_max": 2.0943951023932,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.0943951023931953,
+                  "angle_min": 1.5707963267948966,
                   "argument": 190,
                   "connector": "BANO_1",
                   "controller": "Strobe",
                   "dir_correction": {
-                    "azimuth": -0.78539816339745
+                    "azimuth": -0.7853981633974483
                   },
                   "flash_time": 0.5,
                   "mode": 1,
                   "period": 1,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -673,18 +684,18 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_max": 2.0943951023932,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.0943951023931953,
+                  "angle_min": 1.5707963267948966,
                   "connector": "RESERV_BANO_1",
                   "controller": "Strobe",
                   "dir_correction": {
-                    "azimuth": -0.78539816339745
+                    "azimuth": -0.7853981633974483
                   },
                   "flash_time": 0.5,
                   "mode": 1,
                   "period": 1,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -696,19 +707,19 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_max": 2.0943951023932,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.0943951023931953,
+                  "angle_min": 1.5707963267948966,
                   "argument": 191,
                   "connector": "BANO_2",
                   "controller": "Strobe",
                   "dir_correction": {
-                    "azimuth": 0.78539816339745
+                    "azimuth": 0.7853981633974483
                   },
                   "flash_time": 0.5,
                   "mode": 1,
                   "period": 1,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       0,
                       0.894,
@@ -720,18 +731,18 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_max": 2.0943951023932,
-                  "angle_min": 1.5707963267949,
+                  "angle_max": 2.0943951023931953,
+                  "angle_min": 1.5707963267948966,
                   "connector": "RESERV_BANO_2",
                   "controller": "Strobe",
                   "dir_correction": {
-                    "azimuth": 0.78539816339745
+                    "azimuth": 0.7853981633974483
                   },
                   "flash_time": 0.5,
                   "mode": 1,
                   "period": 1,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       0,
                       0.894,
@@ -747,13 +758,13 @@
                   "connector": "BANO_0",
                   "controller": "Strobe",
                   "dir_correction": {
-                    "azimuth": 3.1415926535898
+                    "azimuth": 3.141592653589793
                   },
                   "flash_time": 0.5,
                   "mode": 1,
                   "period": 1,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -768,13 +779,13 @@
                   "connector": "RESERV_BANO_0",
                   "controller": "Strobe",
                   "dir_correction": {
-                    "azimuth": 3.1415926535898
+                    "azimuth": 3.141592653589793
                   },
                   "flash_time": 0.5,
                   "mode": 1,
                   "period": 1,
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -797,7 +808,7 @@
                     0
                   ],
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -820,22 +831,22 @@
             {
               "lights": [
                 {
-                  "angle_max": 0.78539816339745,
-                  "angular_velocity": 3.8397243543875,
+                  "angle_max": 0.7853981633974483,
+                  "angular_velocity": 3.839724354387525,
                   "argument": 193,
                   "connector": "RED_BEACON",
                   "cups": 1,
                   "emitter_shift_x": -0.1,
                   "emitter_shift_y": -0.04,
                   "proto": {
-                    "angle_max": 0.78539816339745,
-                    "angle_min": 0.61086523819802,
-                    "angular_velocity": 6.2831853071796,
+                    "angle_max": 0.7853981633974483,
+                    "angle_min": 0.6108652381980153,
+                    "angular_velocity": 6.283185307179586,
                     "color": [
                       1,
                       0,
                       0,
-                      0.19049409439665
+                      0.19049409439665055
                     ],
                     "cups": 2,
                     "range": 40
@@ -1196,6 +1207,9 @@
   },
   "radios": [],
   "sensors": [],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/UH-1H"
+  ],
   "stations": [
     {
       "accepts": [

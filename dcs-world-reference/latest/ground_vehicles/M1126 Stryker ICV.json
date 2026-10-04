@@ -86,6 +86,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 1200
   },
   "dimensions": {
@@ -95,7 +96,17 @@
   },
   "displayName": "IFV M1126 Stryker ICV",
   "fireControl": {
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_02",
+      "SMOKE_05",
+      "SMOKE_04",
+      "SMOKE_07",
+      "SMOKE_01",
+      "SMOKE_06",
+      "SMOKE_03",
+      "SMOKE_08"
+    ]
   },
   "id": "M1126 Stryker ICV",
   "life": [
@@ -107,12 +118,16 @@
   "mobility": {
     "enginePower": 350,
     "fordingDepthM": 1.2,
+    "gearType": 1,
+    "maxAcceleration": 4,
     "maxRoadSpeedMs": 26.9,
     "maxSlopeRad": 0.47,
     "maxSpeedKmh": 96.84,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 7,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.58,
+    "traceWidth": 0.25
   },
   "model": {
     "animationArguments": {
@@ -192,20 +207,32 @@
     "M151 Protector RWS IR",
     "M151 Protector RWS day"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/M1126 Stryker ICV"
+  ],
   "tags": [
     "Armor",
     "IFV"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.3839724354387525,
+          0.9599310885968813
+        ]
+      ],
       "barrels": 1,
-      "beamWidthRad": 0.017453292519943,
+      "beamWidthRad": 0.017453292519943295,
       "displayName": "M2 Browning",
       "gunAmmo": [
         "M2_12_7",
         "M2_12_7_T"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 1,
       "name": "M2_Browning",
@@ -219,7 +246,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 25,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 20
         },
         {
           "ammoCapacity": 200,
@@ -230,7 +258,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 25,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 20
         },
         {
           "ammoCapacity": 200,
@@ -241,7 +270,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 25,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 20
         },
         {
           "ammoCapacity": 200,
@@ -252,7 +282,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 25,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 20
         },
         {
           "ammoCapacity": 200,
@@ -263,7 +294,8 @@
           ],
           "portionAmmoCapacity": 200,
           "reloadTimeS": 25,
-          "shotDelayS": 0.11538461538462
+          "shotDelayS": 0.11538461538461539,
+          "switchOnDelay": 20
         }
       ],
       "rMaxKm": 1.2,
@@ -272,28 +304,37 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          2.1816615649929,
-          -0.15707963267949,
-          0.95993108859688
+          3.141592653589793,
+          2.181661564992912,
+          -0.15707963267948966,
+          0.9599310885968813
         ],
         [
-          2.1816615649929,
-          -2.6179938779915,
-          -0.27925268031909,
-          0.95993108859688
+          2.181661564992912,
+          -2.6179938779914944,
+          -0.2792526803190927,
+          0.9599310885968813
         ],
         [
-          -2.6179938779915,
-          -3.1415926535898,
-          -0.15707963267949,
-          0.95993108859688
+          -2.6179938779914944,
+          -3.141592653589793,
+          -0.15707963267948966,
+          0.9599310885968813
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 1.5707963267949,
-        "yaw": 1.221730476396
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.15,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 1.5707963267948966,
+        "yaw": 1.2217304763960306
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

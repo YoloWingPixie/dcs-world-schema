@@ -1,8 +1,9 @@
 {
   "aero": {
+    "ammoMass": 153.08999999999997,
     "emptyMassKg": 7887,
     "internalFuelKg": 3246,
-    "maxSpeedKmh": 1389.6,
+    "maxSpeedKmh": 1389.6000000000001,
     "maxTakeoffKg": 16200
   },
   "attributes": [
@@ -71,11 +72,23 @@
   "detection": {
     "detectionRangeMax": 70,
     "irEmissionCoeff": 0.8,
+    "irEmissionCoeffAfterburner": 3,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 4.5,
     "lengthM": 15.3,
+    "mainGearPosition": [
+      -2.072,
+      -2.083,
+      1.221
+    ],
+    "noseGearPosition": [
+      2.871,
+      -2.287,
+      0
+    ],
+    "wingAreaM2": 25,
     "wingSpanM": 8.4
   },
   "displayName": "Mirage F1M (C.14 52-73)",
@@ -1193,9 +1206,9 @@
         "11": {
           "lights": [
             {
-              "angle_change_rate": 0.13962634015955,
-              "angle_max": 0.55850536063819,
-              "angle_min": 0.19198621771938,
+              "angle_change_rate": 0.13962634015954636,
+              "angle_max": 0.5585053606381855,
+              "angle_min": 0.19198621771937624,
               "argument": 905,
               "color": [
                 255,
@@ -1215,9 +1228,9 @@
         "12": {
           "lights": [
             {
-              "angle_change_rate": 0.13962634015955,
-              "angle_max": 0.55850536063819,
-              "angle_min": 0.19198621771938,
+              "angle_change_rate": 0.13962634015954636,
+              "angle_max": 0.5585053606381855,
+              "angle_min": 0.19198621771937624,
               "argument": 903,
               "color": [
                 255,
@@ -1240,9 +1253,9 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.5235987755983,
-                  "angle_min": 0.17453292519943,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.5235987755982988,
+                  "angle_min": 0.17453292519943295,
                   "argument": 209,
                   "color": [
                     255,
@@ -1257,9 +1270,9 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.8797932657906,
-                  "angle_min": 2.5307274153918,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.8797932657906435,
+                  "angle_min": 2.530727415391778,
                   "color": [
                     255,
                     194,
@@ -1376,9 +1389,9 @@
             {
               "lights": [
                 {
-                  "angle_change_rate": 0.13962634015955,
-                  "angle_max": 0.5235987755983,
-                  "angle_min": 0.17453292519943,
+                  "angle_change_rate": 0.13962634015954636,
+                  "angle_max": 0.5235987755982988,
+                  "angle_min": 0.17453292519943295,
                   "argument": 209,
                   "color": [
                     255,
@@ -1393,9 +1406,9 @@
                   "typename": "spotlight"
                 },
                 {
-                  "angle_change_rate": -0.90757121103705,
-                  "angle_max": 2.8797932657906,
-                  "angle_min": 2.5307274153918,
+                  "angle_change_rate": -0.9075712110370514,
+                  "angle_max": 2.8797932657906435,
+                  "angle_min": 2.530727415391778,
                   "color": [
                     255,
                     194,
@@ -1562,9 +1575,22 @@
     ],
     "tankerType": 2
   },
+  "sensorRoles": [
+    {
+      "role": "RADAR",
+      "sensor": "RDY"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "RDY"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/Mirage-F1M-EE"
   ],
   "stations": [
     {

@@ -13,6 +13,7 @@
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
   "multipleTargetsTracking": true,
+  "scanPeriodS": 2,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -23,6 +24,12 @@
       70
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/CH 2RL80 air"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }

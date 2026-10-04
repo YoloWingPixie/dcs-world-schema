@@ -50,6 +50,9 @@
     "airWeaponDistM": 4000,
     "detectionRangeM": 30000,
     "irEmissionCoeff": 0.35,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 2,
     "rcsM2": 18000,
     "sensor": {
       "maxAltM": 5000,
@@ -68,7 +71,11 @@
     "heightM": 13,
     "lengthM": 38.5,
     "massKg": 210000,
-    "widthM": 7.8
+    "shipLengthM": 37.5,
+    "tailWidth": 5.8,
+    "widthM": 7.8,
+    "xNoseM": 20.5,
+    "xTailM": -23
   },
   "displayName": "Type 021-1 Missile Boat",
   "facilities": {
@@ -77,7 +84,18 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 48000,
     "radarType": 104,
-    "radarTypeName": "wsType_MissGun"
+    "radarTypeName": "wsType_MissGun",
+    "searchRadarFrequencies": [
+      [
+        2000000000,
+        3000000000
+      ],
+      [
+        8000000000,
+        12000000000
+      ]
+    ],
+    "searchRadarMaxElevationRad": 0.6981317007977318
   },
   "id": "Type_021_1",
   "life": [
@@ -87,14 +105,17 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 400,
     "draftM": 1.87,
     "economyDistance": 12500000,
-    "economyVelocity": 13,
+    "economyVelocityMs": 13,
     "maxSpeedKmh": 72,
     "maxSpeedMs": 20,
     "minTurnRadiusM": 120,
     "raceDistance": 1000000,
-    "raceVelocity": 16
+    "raceVelocityMs": 16,
+    "riverCraft": true,
+    "speedup": 1
   },
   "model": {
     "animationArguments": {
@@ -195,12 +216,15 @@
     "long-range naval optics",
     "type341 fire control radar"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/Type_021_1"
+  ],
   "tags": [
     "Fast Attack Craft"
   ],
   "weaponSystems": [
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "frequencyRangeHz": [
         7000000000,
         9000000000
@@ -211,13 +235,14 @@
       "ln": 1,
       "rMaxKm": 12.0,
       "rMinKm": 0.2,
+      "radarType": 104,
       "reactionTimeS": 4,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
-          -0.069813170079773,
-          1.553343034275
+          2.6179938779914944,
+          -2.6179938779914944,
+          -0.06981317007977318,
+          1.5533430342749532
         ]
       ],
       "slewRateRadS": {
@@ -227,7 +252,7 @@
       "ws": 1
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "hMaxM": 1000,
       "hMinM": -1,
       "launcherType": 103,
@@ -237,20 +262,20 @@
       "reactionTimeS": 1,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
-          -0.19198621771938,
-          1.3962634015955
+          2.6179938779914944,
+          -2.6179938779914944,
+          -0.19198621771937624,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
-        "pitch": 1.3962634015955,
-        "yaw": 2.0943951023932
+        "pitch": 1.3962634015954636,
+        "yaw": 2.0943951023931953
       },
       "ws": 2
     },
     {
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "hMaxM": 1000,
       "hMinM": -1,
       "launcherType": 103,
@@ -260,21 +285,21 @@
       "reactionTimeS": 1,
       "sectorsRad": [
         [
-          1.5707963267949,
-          -1.5707963267949,
-          -0.19198621771938,
-          1.3962634015955
+          1.5707963267948966,
+          -1.5707963267948966,
+          -0.19198621771937624,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
-        "pitch": 1.3962634015955,
-        "yaw": 2.0943951023932
+        "pitch": 1.3962634015954636,
+        "yaw": 2.0943951023931953
       },
       "ws": 3
     },
     {
       "barrels": 2,
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -318,21 +343,30 @@
       "reflectionLimit": 0.05,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
-          -0.20943951023932,
-          1.5184364492351
+          2.6179938779914944,
+          -2.6179938779914944,
+          -0.20943951023931956,
+          1.5184364492350666
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 2.6179938779915,
-        "yaw": 2.2689280275926
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 2.6179938779914944,
+        "yaw": 2.2689280275926285
+      },
+      "useTargetAccelInSight": true,
       "ws": 4
     },
     {
       "barrels": 2,
-      "beamWidthRad": 1.5707963267949,
+      "beamWidthRad": 1.5707963267948966,
       "dependsOn": [
         [
           {
@@ -368,33 +402,45 @@
       "rMaxKm": 7.6,
       "rMinKm": 0.01,
       "reactionTimeS": 3,
+      "referenceAngleYRad": 3.141592653589793,
       "reflectionLimit": 0.05,
       "sectorsRad": [
         [
-          3.1415926535898,
-          1.5707963267949,
-          -0.20943951023932,
-          1.5184364492351
+          3.141592653589793,
+          1.5707963267948966,
+          -0.20943951023931956,
+          1.5184364492350666
         ],
         [
-          -1.5707963267949,
-          -3.1415926535898,
-          -0.20943951023932,
-          1.5184364492351
+          -1.5707963267948966,
+          -3.141592653589793,
+          -0.20943951023931956,
+          1.5184364492350666
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 2.6179938779915,
-        "yaw": 2.2689280275926
+      "sensor": {
+        "deviationErrorAzimuth": 0.0004,
+        "deviationErrorDistance": 0.001,
+        "deviationErrorElevation": 0.0004,
+        "deviationErrorSpeedSensor": 0.005,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 2.6179938779914944,
+        "yaw": 2.2689280275926285
+      },
+      "useTargetAccelInSight": true,
       "ws": 5
     },
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "externalTrackingAwacs": false,
       "launchDelayS": 5,
       "launcherType": 1,
       "ln": 1,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 1,
@@ -406,15 +452,24 @@
       ],
       "rMaxKm": 100.0,
       "rMinKm": 13.0,
+      "railLength": 10,
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          0.34906585039887,
-          -0.34906585039887,
-          -0.17453292519943,
-          1.3962634015955
+          0.3490658503988659,
+          -0.3490658503988659,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "HY-2"
       ],
@@ -422,10 +477,12 @@
     },
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "externalTrackingAwacs": false,
       "launchDelayS": 5,
       "launcherType": 1,
       "ln": 1,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 1,
@@ -437,15 +494,24 @@
       ],
       "rMaxKm": 100.0,
       "rMinKm": 13.0,
+      "railLength": 10,
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          0.34906585039887,
-          -0.34906585039887,
-          -0.17453292519943,
-          1.3962634015955
+          0.3490658503988659,
+          -0.3490658503988659,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "HY-2"
       ],
@@ -453,10 +519,12 @@
     },
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "externalTrackingAwacs": false,
       "launchDelayS": 5,
       "launcherType": 1,
       "ln": 1,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 1,
@@ -468,15 +536,24 @@
       ],
       "rMaxKm": 100.0,
       "rMinKm": 13.0,
+      "railLength": 10,
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          0.34906585039887,
-          -0.34906585039887,
-          -0.17453292519943,
-          1.3962634015955
+          0.3490658503988659,
+          -0.3490658503988659,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "HY-2"
       ],
@@ -484,10 +561,12 @@
     },
     {
       "barrels": 1,
+      "canSetTacticalDir": true,
       "externalTrackingAwacs": false,
       "launchDelayS": 5,
       "launcherType": 1,
       "ln": 1,
+      "moveable": false,
       "payloads": [
         {
           "ammoCapacity": 1,
@@ -499,15 +578,24 @@
       ],
       "rMaxKm": 100.0,
       "rMinKm": 13.0,
+      "railLength": 10,
       "reactionTimeS": 10,
       "sectorsRad": [
         [
-          0.34906585039887,
-          -0.34906585039887,
-          -0.17453292519943,
-          1.3962634015955
+          0.3490658503988659,
+          -0.3490658503988659,
+          -0.17453292519943295,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "HY-2"
       ],

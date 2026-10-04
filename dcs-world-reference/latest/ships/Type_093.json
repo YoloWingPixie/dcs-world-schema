@@ -51,6 +51,9 @@
     "airWeaponDistM": 0,
     "detectionRangeM": 42000,
     "irEmissionCoeff": 0.2,
+    "radar1Period": 6,
+    "radar2Period": 3,
+    "radar3Period": 1,
     "rcsM2": 4000,
     "threatRangeM": 42000
   },
@@ -58,7 +61,11 @@
     "heightM": 10.4,
     "lengthM": 103,
     "massKg": 5300000,
-    "widthM": 10.5
+    "shipLengthM": 103,
+    "tailWidth": 7.3,
+    "widthM": 10.5,
+    "xNoseM": 21,
+    "xTailM": -45
   },
   "displayName": "Type 093 Attack Submarine",
   "facilities": {
@@ -67,7 +74,8 @@
   "fireControl": {
     "maxTargetDetectionRangeM": 42000,
     "radarType": 102,
-    "radarTypeName": "wsType_Radar_Miss"
+    "radarTypeName": "wsType_Radar_Miss",
+    "searchRadarMaxElevationRad": 1.3962634015954636
   },
   "id": "Type_093",
   "life": [
@@ -77,14 +85,19 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 568.4,
     "draftM": 8,
     "economyDistance": 72000000,
-    "economyVelocity": 5.15,
+    "economyVelocityMs": 5.15,
+    "maxPeriscopeDepth": 15,
     "maxSpeedKmh": 53.64,
     "maxSpeedMs": 14.9,
+    "minPeriscopeDepth": 10,
     "minTurnRadiusM": 345.6,
+    "periscopeHeight": 16,
     "raceDistance": 7200000,
-    "raceVelocity": 14.9
+    "raceVelocityMs": 14.9,
+    "speedup": 0.4
   },
   "model": {
     "animationArguments": {
@@ -261,6 +274,9 @@
     "long-range naval LLTV",
     "long-range naval optics"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/Type_093"
+  ],
   "tags": [
     "Submarine"
   ],
@@ -273,6 +289,7 @@
       "launcherType": 32,
       "ln": 1,
       "missileChannels": 6,
+      "moveable": true,
       "name": "YU6",
       "payloads": [
         {
@@ -288,15 +305,23 @@
       "reactionTimeS": 3,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.3962634015955
+        "pitch": 1.0471975511965976,
+        "yaw": 1.3962634015954636
       },
       "weapons": [
         "YU-6"
@@ -311,6 +336,7 @@
       "launcherType": 1,
       "ln": 1,
       "missileChannels": 4,
+      "moveable": false,
       "name": "YJ-82",
       "payloads": [
         {
@@ -325,12 +351,20 @@
       "reactionTimeS": 8,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -1.5707963267949,
-          1.5707963267949
+          3.141592653589793,
+          -3.141592653589793,
+          -1.5707963267948966,
+          1.5707963267948966
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "weapons": [
         "YJ-82"
       ],

@@ -115,12 +115,16 @@
   "mobility": {
     "enginePower": 580,
     "fordingDepthM": 1.4,
+    "gearType": 2,
+    "maxAcceleration": 1.85185,
     "maxRoadSpeedMs": 12,
     "maxSlopeRad": 0.27,
     "maxSpeedKmh": 43.2,
     "maxVertObstacleM": 0.5,
     "minTurnRadiusM": 3,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.42,
+    "traceWidth": 0.568
   },
   "model": {
     "animationArguments": {
@@ -350,6 +354,9 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/ZSU_57_2"
+  ],
   "tags": [
     "Air Defence",
     "SP AAA"
@@ -366,227 +373,272 @@
       "launcherType": 3,
       "ln": 1,
       "maxShootingSpeed": 0,
+      "maxTrackingSpeed": 5.56,
       "name": "S_68",
       "payloads": [
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UOR281U (57mm HE-T)",
+          "feedSlot": 1,
           "gunAmmo": [
             "53-UOR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         },
         {
           "ammoCapacity": 8,
           "ammoDisplayName": "53UBR281U (57mm APCBC-HE-T)",
+          "feedSlot": 2,
           "gunAmmo": [
             "53-UBR-281U"
           ],
           "portionAmmoCapacity": 8,
           "reloadTimeS": 4,
-          "shotDelayS": 0.5
+          "shotDelayS": 0.5,
+          "switchOnDelay": 0.7
         }
       ],
       "rMaxKm": 7.0,
@@ -595,15 +647,23 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          1.535889741755
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          1.53588974175501
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.003,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.04,
+        "type": 0
+      },
       "slewRateRadS": {
-        "pitch": 0.5235987755983,
-        "yaw": 0.34906585039887
+        "pitch": 0.5235987755982988,
+        "yaw": 0.3490658503988659
       },
       "ws": 1
     }

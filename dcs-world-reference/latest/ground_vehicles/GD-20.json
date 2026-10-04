@@ -93,13 +93,20 @@
   ],
   "mobility": {
     "canSwim": false,
+    "canWade": false,
+    "engineMaxPowerRpm": 900,
+    "engineMaxRpm": 1300,
+    "engineMinRpm": 700,
     "enginePower": 30,
+    "gearType": 1,
+    "maxAcceleration": 1.8,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 0.15,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 0.15,
     "minTurnRadiusM": 1.6,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.235928
   },
   "model": {
     "animationArguments": {
@@ -190,14 +197,27 @@
       "countryName": "UN_PEACEKEEPERS"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/GD-20"
+  ],
   "tags": [
     "Unarmed",
     "Support & Logistics"
   ],
   "weaponSystems": [
     {
+      "anglesMechRad": [
+        [
+          3.141592653589793,
+          -3.141592653589793,
+          -0.13962634015954636,
+          0.2617993877991494
+        ]
+      ],
       "barrels": 1,
+      "baseWs": 1,
       "displayName": "Lift Operator",
+      "distanceMaxForFcs": 30,
       "launcherType": 103,
       "ln": 1,
       "name": "Lift_Operator",
@@ -205,15 +225,15 @@
       "rMinKm": 0.0,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -1.0471975511966,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -1.0471975511965976,
+          1.3962634015954636
         ]
       ],
       "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.3962634015955
+        "pitch": 1.0471975511965976,
+        "yaw": 1.3962634015954636
       },
       "ws": 1
     }

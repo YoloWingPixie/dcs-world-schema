@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 245,
     "emptyMassKg": 8920,
     "internalFuelKg": 1500,
     "maxSpeedKmh": 365,
@@ -77,6 +78,16 @@
   "dimensions": {
     "heightM": 5.087,
     "lengthM": 17.87,
+    "mainGearPosition": [
+      1.08,
+      -1.85,
+      1.3
+    ],
+    "noseGearPosition": [
+      -10.72,
+      -0.67,
+      0
+    ],
     "rotorDiameterM": 17.2
   },
   "displayName": "Mi-28N [CH]",
@@ -139,11 +150,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.25881904510252,
-      -0.48296291314453,
-      -0.70710678118655,
-      0.13885048591283,
-      0.98480775301221
+      -0.25881904510252074,
+      -0.48296291314453416,
+      -0.7071067811865476,
+      0.13885048591283022,
+      0.984807753012208
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -338,14 +349,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": false,
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -357,14 +368,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": false,
                   "proto": {
-                    "angle_change_rate": 0.20943951023932,
-                    "angle_max": 0.83775804095728,
+                    "angle_change_rate": 0.20943951023931956,
+                    "angle_max": 0.8377580409572782,
                     "angle_min": 0,
                     "color": [
                       255,
                       201,
                       125,
-                      0.15545341380124
+                      0.15545341380123986
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -381,14 +392,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -411,11 +422,11 @@
                   "argument": 190,
                   "connector": "BANO_1",
                   "dir_correction": {
-                    "elevation": -0.78539816339745
+                    "elevation": -0.7853981633974483
                   },
                   "proto": {
-                    "angle_max": 2.6179938779915,
-                    "angle_min": 1.5707963267949,
+                    "angle_max": 2.6179938779914944,
+                    "angle_min": 1.5707963267948966,
                     "color": [
                       1,
                       0.35,
@@ -430,11 +441,11 @@
                   "argument": 191,
                   "connector": "BANO_2",
                   "dir_correction": {
-                    "elevation": 0.78539816339745
+                    "elevation": 0.7853981633974483
                   },
                   "proto": {
-                    "angle_max": 2.6179938779915,
-                    "angle_min": 1.5707963267949,
+                    "angle_max": 2.6179938779914944,
+                    "angle_min": 1.5707963267948966,
                     "color": [
                       0,
                       0.894,
@@ -449,10 +460,10 @@
                   "argument": 192,
                   "connector": "BANO_0",
                   "dir_correction": {
-                    "azimuth": 3.1415926535898
+                    "azimuth": 3.141592653589793
                   },
                   "proto": {
-                    "angle_max": 3.1415926535898,
+                    "angle_max": 3.141592653589793,
                     "color": [
                       1,
                       1,
@@ -487,14 +498,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -506,14 +517,14 @@
                   "connector": "MAIN_SPOT_PTR",
                   "movable": true,
                   "proto": {
-                    "angle_change_rate": 0.20943951023932,
-                    "angle_max": 0.83775804095728,
+                    "angle_change_rate": 0.20943951023931956,
+                    "angle_max": 0.8377580409572782,
                     "angle_min": 0,
                     "color": [
                       255,
                       201,
                       125,
-                      0.15545341380124
+                      0.15545341380123986
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -530,14 +541,14 @@
                     0
                   ],
                   "proto": {
-                    "angle_change_rate": 0.10471975511966,
-                    "angle_max": 0.22689280275926,
-                    "angle_min": 0.19198621771938,
+                    "angle_change_rate": 0.10471975511965978,
+                    "angle_max": 0.22689280275926285,
+                    "angle_min": 0.19198621771937624,
                     "color": [
                       255,
                       201,
                       125,
-                      0.28690682760248
+                      0.28690682760247976
                     ],
                     "cool_down_t": 1.12,
                     "power_up_t": 1.12,
@@ -557,19 +568,19 @@
             {
               "lights": [
                 {
-                  "angular_velocity": 4.1887902047864,
+                  "angular_velocity": 4.1887902047863905,
                   "argument": 193,
                   "connector": "RED_BEACON",
                   "emitter_shift_x": -0.25,
                   "proto": {
-                    "angle_max": 0.78539816339745,
-                    "angle_min": 0.61086523819802,
-                    "angular_velocity": 6.2831853071796,
+                    "angle_max": 0.7853981633974483,
+                    "angle_min": 0.6108652381980153,
+                    "angular_velocity": 6.283185307179586,
                     "color": [
                       1,
                       0,
                       0,
-                      0.19049409439665
+                      0.19049409439665055
                     ],
                     "cups": 2,
                     "range": 40
@@ -697,10 +708,27 @@
     "rangeKm": 407
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Mi-28N TV"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "Mi-28N FLIR"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "Mi-28N FLIR",
     "Mi-28N TV"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/Mi-28N"
   ],
   "stations": [
     {

@@ -51,6 +51,9 @@
     "airFindDistM": 100000,
     "airWeaponDistM": 74000,
     "detectionRangeM": 100000,
+    "radar1Period": 6,
+    "radar2Period": 7,
+    "radar3Period": 1,
     "rcsM2": 700000,
     "sensor": {
       "maxAltM": 30000,
@@ -69,7 +72,11 @@
     "heightM": 50.65,
     "lengthM": 211.316,
     "massKg": 20000000,
-    "widthM": 28.306
+    "shipLengthM": 211.316,
+    "tailWidth": 10.07,
+    "widthM": 28.306,
+    "xNoseM": 105.265,
+    "xTailM": -106.051
   },
   "displayName": "SS Atlantic Conveyor",
   "facilities": {
@@ -521,14 +528,16 @@
     }
   ],
   "mobility": {
+    "distFindObstacles": 250,
     "draftM": 9.6,
     "economyDistance": 13000,
-    "economyVelocity": 9.26,
+    "economyVelocityMs": 9.26,
     "maxSpeedKmh": 42.588,
     "maxSpeedMs": 11.83,
     "minTurnRadiusM": 665.8,
     "raceDistance": 2778000,
-    "raceVelocity": 9
+    "raceVelocityMs": 9,
+    "speedup": 0.16
   },
   "model": {
     "animationArguments": {
@@ -588,6 +597,9 @@
     "long-range naval FLIR",
     "long-range naval LLTV",
     "long-range naval optics"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Ships/Ship/atconveyor"
   ],
   "tags": [
     "Carrier"

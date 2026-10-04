@@ -1,8 +1,10 @@
 {
+  "backgroundFactor": 0.3,
   "category": 2,
   "categoryName": "SENSOR_IRST",
   "detectionRangeField": "detection_distance_for_tail_on_Su_27",
   "detectionRangeKm": 20.0,
+  "headOnDistanceCoeff": 0.25,
   "id": "KOLS",
   "irstDetectionDistance": {
     "afterburnerM": 20000,
@@ -10,6 +12,8 @@
     "minimalM": 6000
   },
   "kind": "irst",
+  "laserRanger": true,
+  "scanPeriodS": 3,
   "scanVolume": {
     "azimuthDeg": [
       -30,
@@ -19,5 +23,8 @@
       -30,
       30
     ]
-  }
+  },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/KOLS"
+  ]
 }

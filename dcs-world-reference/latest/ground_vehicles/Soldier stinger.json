@@ -90,12 +90,15 @@
   "mobility": {
     "enginePower": 0.5,
     "fordingDepthM": 1,
+    "gearType": 3,
+    "maxAcceleration": 3,
     "maxRoadSpeedMs": 4,
     "maxSlopeRad": 1,
     "maxSpeedKmh": 14.4,
     "maxVertObstacleM": 1,
     "minTurnRadiusM": 0.1,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.53
   },
   "model": {
     "animationArguments": {
@@ -359,6 +362,9 @@
       "countryName": "NEW ZEALAND"
     }
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Soldier stinger"
+  ],
   "tags": [
     "Air Defence",
     "MANPADS"
@@ -366,14 +372,19 @@
   "weaponSystems": [
     {
       "barrels": 1,
+      "barrelsReloadType": 1,
       "ecmK": -1,
+      "inclinationCorrectionBias": 0.17453292519943295,
+      "inclinationCorrectionUpperLimit": 1.5707963267948966,
       "launchDelayS": 1,
       "launcherType": 4,
       "ln": 1,
+      "minLaunchAngle": -0.7853981633974483,
       "payloads": [
         {
           "ammoCapacity": 3,
           "ammoName": "FIM-92 Stinger",
+          "automaticLoader": false,
           "reloadTimeS": 120,
           "shotDelayS": 13,
           "weapon": "FIM_92C"
@@ -383,14 +394,23 @@
       "rMinKm": 0.2,
       "reactionTimeS": 2,
       "reflectionLimit": 0.22,
+      "reloadAngleY": -100,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.78539816339745,
-          1.3962634015955
+          3.141592653589793,
+          -3.141592653589793,
+          -0.7853981633974483,
+          1.3962634015954636
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0,
+        "deviationErrorDistance": 0,
+        "deviationErrorElevation": 0,
+        "deviationErrorSpeedSensor": 0,
+        "deviationErrorStability": 0,
+        "type": 0
+      },
       "slewRateRadS": {
         "pitch": 1.5,
         "yaw": 1.5

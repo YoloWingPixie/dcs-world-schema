@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 1.0679999999999998,
     "emptyMassKg": 1901.5,
     "internalFuelKg": 333.69,
     "maxSpeedKmh": 230,
@@ -65,6 +66,16 @@
   "dimensions": {
     "heightM": 2.77,
     "lengthM": 10.2,
+    "mainGearPosition": [
+      -0.277,
+      -0.89,
+      0.957
+    ],
+    "noseGearPosition": [
+      1.161,
+      -0.88,
+      0.957
+    ],
     "rotorDiameterM": 10.668
   },
   "displayName": "OH-58D(R)",
@@ -268,11 +279,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.76604444311898,
-      -0.81603492345171,
-      -0.86602540378444,
-      0.059391174613885,
-      0.98480775301221
+      -0.766044443118978,
+      -0.8160349234517084,
+      -0.8660254037844386,
+      0.05939117461388471,
+      0.984807753012208
     ],
     "className": "lLandPlane",
     "damageArgs": [
@@ -1295,10 +1306,27 @@
     "OH58D__radio2",
     "OH58D__radio3"
   ],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "TVS"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "TIS"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "Abstract RWR",
     "TIS",
     "TVS"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Helicopters/Helicopter/OH58D"
   ],
   "stations": [
     {
@@ -1403,8 +1431,8 @@
       "order": 2,
       "position": {
         "lateral": -0.835,
-        "longitudinal": 1.368,
-        "vertical": 0.094
+        "longitudinal": 1.3679999999999999,
+        "vertical": 0.09399999999999997
       },
       "station": 2,
       "type": 2,
@@ -1435,8 +1463,8 @@
       "order": 3,
       "position": {
         "lateral": -0.835,
-        "longitudinal": 1.368,
-        "vertical": 0.094
+        "longitudinal": 1.3679999999999999,
+        "vertical": 0.09399999999999997
       },
       "station": 3,
       "type": 2,
@@ -1467,8 +1495,8 @@
       "order": 4,
       "position": {
         "lateral": -0.835,
-        "longitudinal": 1.368,
-        "vertical": 0.094
+        "longitudinal": 1.3679999999999999,
+        "vertical": 0.09399999999999997
       },
       "station": 4,
       "type": 2,

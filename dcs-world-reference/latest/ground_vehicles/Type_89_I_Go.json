@@ -124,7 +124,17 @@
   },
   "displayName": "Tk Type 89 I Go",
   "fireControl": {
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_01",
+      "SMOKE_02",
+      "SMOKE_03",
+      "SMOKE_04",
+      "SMOKE_05",
+      "SMOKE_06",
+      "SMOKE_07",
+      "SMOKE_08"
+    ]
   },
   "id": "Type_89_I_Go",
   "life": [
@@ -140,12 +150,16 @@
   "mobility": {
     "enginePower": 95.61,
     "fordingDepthM": 0.9,
+    "gearType": 2,
+    "maxAcceleration": 0.8,
     "maxRoadSpeedMs": 13.89,
-    "maxSlopeRad": 0.5235987755983,
-    "maxSpeedKmh": 50.004,
+    "maxSlopeRad": 0.5235987755982988,
+    "maxSpeedKmh": 50.004000000000005,
+    "maxTrenchWidth": 1,
     "maxVertObstacleM": 0.7,
     "minTurnRadiusM": 6.5,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.33
   },
   "model": {
     "animationArguments": {
@@ -219,6 +233,9 @@
     "TPKU-2B",
     "TPN1"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/Type_89_I_Go"
+  ],
   "tags": [
     "Armor",
     "Tank"
@@ -240,7 +257,8 @@
           ],
           "portionAmmoCapacity": 1,
           "reloadTimeS": 1200,
-          "shotDelayS": 4
+          "shotDelayS": 4,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 100,
@@ -249,7 +267,8 @@
           ],
           "portionAmmoCapacity": 1,
           "reloadTimeS": 1200,
-          "shotDelayS": 4
+          "shotDelayS": 4,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 100,
@@ -258,7 +277,8 @@
           ],
           "portionAmmoCapacity": 1,
           "reloadTimeS": 1200,
-          "shotDelayS": 4
+          "shotDelayS": 4,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 100,
@@ -267,7 +287,8 @@
           ],
           "portionAmmoCapacity": 1,
           "reloadTimeS": 1200,
-          "shotDelayS": 4
+          "shotDelayS": 4,
+          "switchOnDelay": 5
         }
       ],
       "rMaxKm": 7.2,
@@ -276,20 +297,30 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          3.1415926535898,
-          -3.1415926535898,
-          -0.17453292519943,
-          0.43633231299858
+          3.141592653589793,
+          -3.141592653589793,
+          -0.17453292519943295,
+          0.4363323129985824
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 0.17453292519943,
-        "yaw": 0.34906585039887
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.002,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.01,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 0.17453292519943295,
+        "yaw": 0.3490658503988659
+      },
+      "stabilizer": false,
       "ws": 1
     },
     {
       "barrels": 1,
+      "baseWs": 1,
       "gunAmmo": [
         "6_5mm_Type_91_JAP"
       ],
@@ -303,7 +334,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -311,7 +343,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -319,7 +352,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -327,7 +361,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -335,7 +370,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         }
       ],
       "rMaxKm": 3.36,
@@ -344,16 +380,26 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.61086523819802,
-          -0.61086523819802,
-          -0.43633231299858,
-          0.43633231299858
+          0.6108652381980153,
+          -0.6108652381980153,
+          -0.4363323129985824,
+          0.4363323129985824
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.002,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
+      "stabilizer": false,
       "ws": 2
     },
     {
       "barrels": 1,
+      "baseWs": 1,
       "gunAmmo": [
         "6_5mm_Type_91_JAP"
       ],
@@ -367,7 +413,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -375,7 +422,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -383,7 +431,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -391,7 +440,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         },
         {
           "ammoCapacity": 260,
@@ -399,7 +449,8 @@
             "6_5mm_Type_91_JAP"
           ],
           "reloadTimeS": 10,
-          "shotDelayS": 0.12
+          "shotDelayS": 0.12,
+          "switchOnDelay": 5
         }
       ],
       "rMaxKm": 3.36,
@@ -408,12 +459,21 @@
       "reflectionLimit": 0.22,
       "sectorsRad": [
         [
-          0.61086523819802,
-          -0.61086523819802,
-          -0.43633231299858,
-          0.43633231299858
+          0.6108652381980153,
+          -0.6108652381980153,
+          -0.4363323129985824,
+          0.4363323129985824
         ]
       ],
+      "sensor": {
+        "deviationErrorAzimuth": 0.0007,
+        "deviationErrorDistance": 0.002,
+        "deviationErrorElevation": 0.0007,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.01,
+        "type": 0
+      },
+      "stabilizer": false,
       "ws": 3
     }
   ]

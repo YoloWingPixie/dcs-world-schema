@@ -86,6 +86,7 @@
       "minAltM": 0,
       "minRangeM": 0
     },
+    "sensorMountWs": 1,
     "threatRangeM": 3000
   },
   "dimensions": {
@@ -96,7 +97,25 @@
   "displayName": "IFV M1296 Dragoon [CH]",
   "fireControl": {
     "fireOnMove": true,
-    "maxTargetDetectionRangeM": 5000
+    "maxTargetDetectionRangeM": 5000,
+    "smoke": [
+      "SMOKE_001",
+      "SMOKE_002",
+      "SMOKE_003",
+      "SMOKE_004",
+      "SMOKE_005",
+      "SMOKE_006",
+      "SMOKE_007",
+      "SMOKE_008",
+      "SMOKE_009",
+      "SMOKE_010",
+      "SMOKE_011",
+      "SMOKE_012",
+      "SMOKE_013",
+      "SMOKE_014",
+      "SMOKE_015",
+      "SMOKE_016"
+    ]
   },
   "id": "CHAP_M1296",
   "life": [
@@ -110,14 +129,34 @@
     }
   ],
   "mobility": {
+    "automaticTransmission": true,
+    "engineMaxPowerRpm": 2100,
+    "engineMaxRpm": 2500,
+    "engineMinRpm": 650,
+    "engineMoi": 3.5,
     "enginePower": 450,
     "fordingDepthM": 1.2,
+    "gearRatios": [
+      -5,
+      0,
+      8,
+      4.5,
+      2.8,
+      1.9,
+      1.4,
+      1,
+      0.75
+    ],
+    "gearType": 1,
+    "mainGearRatio": 5.2,
+    "maxAcceleration": 1.8,
     "maxRoadSpeedMs": 26.9,
     "maxSlopeRad": 0.6,
     "maxSpeedKmh": 96.84,
     "maxVertObstacleM": 0.61,
     "minTurnRadiusM": 8.8,
-    "mobile": true
+    "mobile": true,
+    "rMaxM": 0.55
   },
   "model": {
     "animationArguments": {
@@ -184,6 +223,9 @@
     "M151 Protector RWS IR",
     "M151 Protector RWS day"
   ],
+  "sourcePaths": [
+    "_G/db/Units/Cars/Car/CHAP_M1296"
+  ],
   "tags": [
     "Armor",
     "IFV"
@@ -197,6 +239,7 @@
         "CHAP_30_MK266_HEI_T"
       ],
       "hMaxM": 2000,
+      "laser": true,
       "launcherType": 3,
       "ln": 1,
       "maxShootingSpeed": 15,
@@ -204,80 +247,103 @@
       "payloads": [
         {
           "ammoCapacity": 78,
+          "feedSlot": 1,
           "gunAmmo": [
             "CHAP_30_MK266_HEI_T"
           ],
           "portionAmmoCapacity": 78,
           "reloadTimeS": 50,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 50
         },
         {
           "ammoCapacity": 78,
+          "feedSlot": 1,
           "gunAmmo": [
             "CHAP_30_MK266_HEI_T"
           ],
           "portionAmmoCapacity": 78,
           "reloadTimeS": 50,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 50
         },
         {
           "ammoCapacity": 54,
+          "feedSlot": 1,
           "gunAmmo": [
             "CHAP_30_MK266_HEI_T"
           ],
           "portionAmmoCapacity": 78,
           "reloadTimeS": 50,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 50
         },
         {
           "ammoCapacity": 78,
+          "feedSlot": 2,
           "gunAmmo": [
             "CHAP_30_MK258_APFSDS_T"
           ],
           "portionAmmoCapacity": 78,
           "reloadTimeS": 50,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 50
         },
         {
           "ammoCapacity": 78,
+          "feedSlot": 2,
           "gunAmmo": [
             "CHAP_30_MK258_APFSDS_T"
           ],
           "portionAmmoCapacity": 78,
           "reloadTimeS": 50,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 50
         },
         {
           "ammoCapacity": 54,
+          "feedSlot": 2,
           "gunAmmo": [
             "CHAP_30_MK258_APFSDS_T"
           ],
           "portionAmmoCapacity": 78,
           "reloadTimeS": 50,
-          "shotDelayS": 0.3
+          "shotDelayS": 0.3,
+          "switchOnDelay": 50
         }
       ],
       "rMaxKm": 3.0,
       "rMinKm": 0.01,
       "reactionTimeS": 1,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
-          -0.17453292519943,
-          0.78539816339745
+          2.6179938779914944,
+          -2.6179938779914944,
+          -0.17453292519943295,
+          0.7853981633974483
         ],
         [
-          -2.6179938779915,
-          2.6179938779915,
-          -0.017453292519943,
-          0.78539816339745
+          -2.6179938779914944,
+          2.6179938779914944,
+          -0.017453292519943295,
+          0.7853981633974483
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0.0002,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0002,
+        "deviationErrorSpeedSensor": 0.08,
+        "deviationErrorStability": 0.003,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": true,
       "ws": 1
     },
     {
@@ -288,6 +354,7 @@
         "7_62x51tr"
       ],
       "hMaxM": 500,
+      "laser": true,
       "launcherType": 9,
       "ln": 2,
       "name": "M240",
@@ -301,31 +368,44 @@
           ],
           "portionAmmoCapacity": 800,
           "reloadTimeS": 480,
-          "shotDelayS": 0.070588235294118
+          "shotDelayS": 0.07058823529411765
         }
       ],
+      "primaryWeapon": false,
       "rMaxKm": 1.0,
       "rMinKm": 0.0,
       "reactionTimeS": 0.5,
+      "referenceAngleYRad": 0,
+      "referenceAngleZRad": 0,
       "reflectionLimit": 0.22,
+      "secondary": true,
       "sectorsRad": [
         [
-          2.6179938779915,
-          -2.6179938779915,
-          -0.17453292519943,
-          0.78539816339745
+          2.6179938779914944,
+          -2.6179938779914944,
+          -0.17453292519943295,
+          0.7853981633974483
         ],
         [
-          -2.6179938779915,
-          2.6179938779915,
-          -0.017453292519943,
-          0.78539816339745
+          -2.6179938779914944,
+          2.6179938779914944,
+          -0.017453292519943295,
+          0.7853981633974483
         ]
       ],
-      "slewRateRadS": {
-        "pitch": 1.0471975511966,
-        "yaw": 1.0471975511966
+      "sensor": {
+        "deviationErrorAzimuth": 0.0015,
+        "deviationErrorDistance": 0.005,
+        "deviationErrorElevation": 0.0015,
+        "deviationErrorSpeedSensor": 0.2,
+        "deviationErrorStability": 0.05,
+        "type": 0
       },
+      "slewRateRadS": {
+        "pitch": 1.0471975511965976,
+        "yaw": 1.0471975511965976
+      },
+      "stabilizer": true,
       "ws": 1
     }
   ]

@@ -12,6 +12,7 @@
   "id": "052C SAM STR",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 1,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/052C SAM STR"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 15
+  }
 }

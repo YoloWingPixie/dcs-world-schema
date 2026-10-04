@@ -6,7 +6,11 @@
       "upperHeadOnM": 28430,
       "upperTailOnM": 18000
     },
-    "lockOnDistanceCoeff": 1
+    "lockOnDistanceCoeff": 1,
+    "velocityLimits": {
+      "radialVelocityMinMs": 27.77777777777778,
+      "relativeRadialVelocityMinMs": 27.77777777777778
+    }
   },
   "category": 1,
   "categoryName": "SENSOR_RADAR",
@@ -14,6 +18,7 @@
   "detectionRangeKm": 28.43,
   "id": "molniya search radar",
   "kind": "radar",
+  "scanPeriodS": 12,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -24,6 +29,9 @@
       70
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/molniya search radar"
+  ],
   "surfaceSearch": {
     "rbmDetectionDistanceM": 28430,
     "rcs": 100

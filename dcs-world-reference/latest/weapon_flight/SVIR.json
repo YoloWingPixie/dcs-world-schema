@@ -1,0 +1,42 @@
+{
+  "aerodynamics": {
+    "caliberM": 0.125,
+    "cxCoeff": [
+      1,
+      0.22,
+      0.6,
+      0.15,
+      1.28
+    ],
+    "lengthM": 0.69,
+    "massKg": 17.2,
+    "maxAoaRad": 0.2,
+    "sourcePath": "_G/weapons_table/weapons/missiles/SVIR#/client/fm"
+  },
+  "autopilot": {
+    "operatingTime": 20,
+    "sourcePath": "_G/weapons_table/weapons/missiles/SVIR#/client/autopilot"
+  },
+  "motorStages": [
+    {
+      "fuelMassKg": 1.8,
+      "impulseS": 170,
+      "sourcePath": "_G/weapons_table/weapons/missiles/SVIR#/client/booster",
+      "stage": "booster",
+      "workTimeS": 0.1
+    },
+    {
+      "fuelMassKg": 1.5,
+      "impulseS": 200,
+      "sourcePath": "_G/weapons_table/weapons/missiles/SVIR#/client/march",
+      "stage": "march",
+      "startTime": 0.25,
+      "workTimeS": 9
+    }
+  ],
+  "sourcePath": "_G/weapons_table/weapons/missiles/SVIR#/client",
+  "sourcePaths": [
+    "_G/weapons_table/weapons/missiles/SVIR"
+  ],
+  "weapon": "SVIR"
+}

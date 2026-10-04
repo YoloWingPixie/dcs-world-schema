@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 0,
     "emptyMassKg": 430,
     "internalFuelKg": 200,
     "maxSpeedKmh": 220,
@@ -26,11 +27,23 @@
   "detection": {
     "detectionRangeMax": 10000,
     "irEmissionCoeff": 0.01,
+    "irEmissionCoeffAfterburner": 0,
     "rcsM2": 0.65
   },
   "dimensions": {
     "heightM": 2.21,
     "lengthM": 8.13,
+    "mainGearPosition": [
+      -0.11,
+      -1.608,
+      1.337
+    ],
+    "noseGearPosition": [
+      2.682,
+      -1.608,
+      0
+    ],
+    "wingAreaM2": 14.2,
     "wingSpanM": 14.8
   },
   "displayName": "MQ-1A Predator",
@@ -230,9 +243,22 @@
     "vTakeOffMs": 20.833333333333
   },
   "radios": [],
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "RQ-1 Predator CAM"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "RQ-1 Predator FLIR"
+    }
+  ],
   "sensors": [
     "RQ-1 Predator CAM",
     "RQ-1 Predator FLIR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/RQ-1A Predator"
   ],
   "stations": [
     {

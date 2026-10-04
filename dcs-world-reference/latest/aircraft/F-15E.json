@@ -1,5 +1,6 @@
 {
   "aero": {
+    "ammoMass": 244.4,
     "emptyMassKg": 17072,
     "internalFuelKg": 10246,
     "maxSpeedKmh": 2650,
@@ -77,11 +78,23 @@
   "detection": {
     "detectionRangeMax": 250,
     "irEmissionCoeff": 0.91,
+    "irEmissionCoeffAfterburner": 4,
     "rcsM2": 5
   },
   "dimensions": {
     "heightM": 5.63,
     "lengthM": 19.43,
+    "mainGearPosition": [
+      -0.773,
+      -2.24,
+      1.371
+    ],
+    "noseGearPosition": [
+      4.659,
+      -2.24,
+      0
+    ],
+    "wingAreaM2": 56.5,
     "wingSpanM": 13.05
   },
   "displayName": "F-15E",
@@ -180,11 +193,11 @@
   ],
   "model": {
     "canopyGeometry": [
-      -0.17364817766693,
-      -0.55667039922642,
-      -0.93969262078591,
-      -0.51342418176678,
-      -0.087155742747658
+      -0.17364817766693033,
+      -0.5566703992264194,
+      -0.9396926207859083,
+      -0.5134241817667833,
+      -0.08715574274765817
     ],
     "damageArgs": [
       {
@@ -590,11 +603,32 @@
     ],
     "tankerType": 1
   },
+  "sensorRoles": [
+    {
+      "role": "OPTIC",
+      "sensor": "Sniper XR FLIR"
+    },
+    {
+      "role": "OPTIC",
+      "sensor": "Sniper XR CCD TV"
+    },
+    {
+      "role": "RADAR",
+      "sensor": "AN/APG-63"
+    },
+    {
+      "role": "RWR",
+      "sensor": "Abstract RWR"
+    }
+  ],
   "sensors": [
     "AN/APG-63",
     "Abstract RWR",
     "Sniper XR CCD TV",
     "Sniper XR FLIR"
+  ],
+  "sourcePaths": [
+    "_G/db/Units/Planes/Plane/F-15E"
   ],
   "stations": [
     {

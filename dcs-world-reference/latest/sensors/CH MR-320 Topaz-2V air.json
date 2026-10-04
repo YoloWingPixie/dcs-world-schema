@@ -12,6 +12,7 @@
   "id": "CH MR-320 Topaz-2V air",
   "kind": "radar",
   "lockOnDistanceCoeff": 0.85,
+  "scanPeriodS": 5,
   "scanVolume": {
     "azimuthDeg": [
       -180,
@@ -22,6 +23,12 @@
       60
     ]
   },
+  "sourcePaths": [
+    "_G/db/Sensors/Sensor/CH MR-320 Topaz-2V air"
+  ],
   "type": 0,
-  "typeName": "RADAR_AS"
+  "typeName": "RADAR_AS",
+  "velocityLimits": {
+    "radialVelocityMinMs": 10
+  }
 }
