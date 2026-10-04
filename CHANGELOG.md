@@ -5,6 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- SQLite: `schema_types` (every entity type with its fields), `ref_paths` (every reference), a `search` table with an FTS5 index, and the Lua API (`api_symbols`, `api_type_uses`).
+- Reference site in `site/`: search, record pages, compare and the Lua API, read live from the SQLite in the browser.
+
+### Changed
+- Breaking: `weapon_flight.launchTables` is replaced by `launchEnvelopes`: maximum and minimum launch range (m) and aspect (deg) by launch altitude (m) and true airspeed (m/s).
+
 ## [0.5.0] - 2026-10-04
 
 ### Added

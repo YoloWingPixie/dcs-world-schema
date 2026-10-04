@@ -30,7 +30,7 @@ from tools.datamine.common import (
 )
 from tools.export_jsonschema import export
 from tools.merge import merge_tree
-from tools.package import bundles
+from tools.package import api_docs, bundles
 from tools.package import sqlite as sqlite_db
 from tools.package.cookbook import snippets
 
@@ -41,6 +41,20 @@ class Built:
     series: dict[str, dict[str, Any]]
     manifest: dict[str, Any]
     document: dict[str, Any]
+    api: api_docs.ApiRows | None = None
+
+
+def _api_rows() -> api_docs.ApiRows:
+    """The API docs rows from the schema sources, merged as ``task merge:json``
+    and ``task build:envs`` merge them."""
+    root = str(REPO_ROOT / "dcs-world-schema")
+    mission, _ = merge_tree(root)
+    envs = {}
+    for env in ("hooks", "export", "server"):
+        merged, count = merge_tree(root, subdirs=[f"globals/{env}"])
+        if count:
+            envs[env] = merged
+    return api_docs.build_rows(mission, envs)
 
 
 def _build(
@@ -49,9 +63,10 @@ def _build(
     series: dict[str, Any],
     manifest: dict[str, Any],
     document: dict[str, Any],
+    api: api_docs.ApiRows | None = None,
 ) -> Path:
     out = tmp / name
-    sqlite_db.build(series, manifest, document, "0.0.0", out)
+    sqlite_db.build(series, manifest, document, "0.0.0", out, api)
     return out
 
 
@@ -71,8 +86,9 @@ def built(tmp_path_factory: pytest.TempPathFactory) -> Built:
     made = bundles.build(REFERENCE_DATA_DIR / LATEST, tmp / "bundles")
     merged, _ = merge_tree(str(REPO_ROOT / "dcs-world-schema"))
     document = export(merged["types"])
-    path = _build(tmp, "a.sqlite", made.series, made.manifest, document)
-    return Built(path, made.series, made.manifest, document)
+    api = _api_rows()
+    path = _build(tmp, "a.sqlite", made.series, made.manifest, document, api)
+    return Built(path, made.series, made.manifest, document, api)
 
 
 @pytest.fixture(scope="module")
@@ -170,7 +186,9 @@ def test_docs(db: sqlite3.Connection) -> None:
 def test_deterministic(built: Built, tmp_path: Path) -> None:
     if os.environ.get("DCS_REF_SQLITE"):
         pytest.skip("checked when building")
-    again = _build(tmp_path, "b.sqlite", built.series, built.manifest, built.document)
+    again = _build(
+        tmp_path, "b.sqlite", built.series, built.manifest, built.document, _api_rows()
+    )
     assert again.read_bytes() == built.path.read_bytes()
 
 
@@ -201,3 +219,190 @@ def test_sql_snippet(db: sqlite3.Connection, recipe: str) -> None:
     minimum, text = EXPECTED[recipe]
     assert len(rows) >= minimum, rows
     assert text in str(rows), rows
+
+
+def test_self_description(db: sqlite3.Connection, built: Built) -> None:
+    """Range-request clients render from ``schema_types`` and ``ref_paths``."""
+    kinds = dict(db.execute("SELECT name, kind FROM schema_types").fetchall())
+    assert set(kinds) == set(built.document["definitions"])
+    assert kinds["Entity.Aircraft"] == "record"
+    assert kinds["Entity.AircraftKind"] == "enum"
+    (definition,) = db.execute(
+        "SELECT definition FROM schema_types WHERE name = 'Entity.Station'"
+    ).fetchone()
+    assert "accepts" in json.loads(definition)["properties"]
+    paths = {
+        (s, p): (t, table)
+        for s, p, t, table in db.execute(
+            "SELECT series, path, target, table_name FROM ref_paths"
+        )
+    }
+    assert paths[("aircraft", "stations[].accepts[].clsid")] == (
+        "stores",
+        "aircraft__stations_accepts_clsid",
+    )
+    assert paths[("weapons", "warhead")] == ("warheads", "weapons")
+    # Every link table is described, so reverse references need no schema walk.
+    links = {t for t in _tables(db) if "__" in t}
+    assert links <= {table for _, table in paths.values()}
+
+
+def test_reverse_reference_queries(db: sqlite3.Connection) -> None:
+    rows = db.execute(
+        "SELECT table_name, source_column, target_column FROM ref_paths"
+        " WHERE target = 'stores' AND series = 'aircraft'"
+    ).fetchall()
+    found = set()
+    for table, src, dst in rows:
+        found |= {
+            r[0]
+            for r in db.execute(
+                f'SELECT "{src}" FROM "{table}" WHERE "{dst}" = ?',
+                ("{5CE2FF2A-645A-4197-B48D-8720AC69394F}",),
+            )
+        }
+    assert "F-16C_50" in found
+    plan = " ".join(
+        str(r)
+        for r in db.execute(
+            "EXPLAIN QUERY PLAN SELECT id FROM weapons WHERE warhead = 'AIM_120C'"
+        )
+    )
+    assert "INDEX" in plan
+
+
+def test_search(db: sqlite3.Connection, built: Built) -> None:
+    count = db.execute(
+        "SELECT count(*) FROM search WHERE series != ?", (api_docs.API_SERIES,)
+    ).fetchone()[0]
+    assert count == sum(
+        len(b)
+        for n, b in built.series.items()
+        if n not in ("weapon_flight", "aircraft_flight")
+    )
+    hits = db.execute(
+        "SELECT s.series, s.id, s.name FROM search_fts f"
+        " JOIN search s ON s.rowid = f.rowid"
+        " WHERE search_fts MATCH ? ORDER BY rank LIMIT 20",
+        ('"aim120c"*',),
+    ).fetchall()
+    assert ("weapons", "AIM_120C", "AIM-120C") in hits
+    (name,) = db.execute(
+        "SELECT name FROM search WHERE series = 'aircraft' AND id = 'F-16C_50'"
+    ).fetchone()
+    assert name == built.series["aircraft"]["F-16C_50"]["displayName"]
+
+
+def test_page_size(db: sqlite3.Connection) -> None:
+    assert db.execute("PRAGMA page_size").fetchone()[0] == sqlite_db.PAGE_SIZE
+
+
+def _symbol(db: sqlite3.Connection, section: str, page: str, name: str = "") -> Any:
+    row = db.execute(
+        "SELECT entry FROM api_symbols WHERE section = ? AND page = ? AND name = ?",
+        (section, page, name),
+    ).fetchone()
+    assert row, (section, page, name)
+    return json.loads(row[0])
+
+
+def test_api_symbols(db: sqlite3.Connection) -> None:
+    sections = dict(
+        db.execute(
+            "SELECT section, count(*) FROM api_symbols WHERE name = '' GROUP BY section"
+        )
+    )
+    assert (
+        sections["mission"] >= 25
+        and sections["hooks"] >= 20
+        and sections["export"] >= 3
+    )
+    assert sections["types"] > 300
+    classes = db.execute(
+        "SELECT count(*) FROM api_symbols WHERE kind = 'class'"
+    ).fetchone()[0]
+    assert classes == 10
+    # Reference-data types are not part of the Lua API.
+    assert not db.execute(
+        "SELECT 1 FROM api_symbols WHERE page LIKE 'Entity.%' OR page LIKE 'DcsDb.%'"
+    ).fetchone()
+    get_by_name = _symbol(db, "mission", "Unit", "getByName")
+    assert (
+        api_docs.tokens_text(get_by_name["sig"])
+        == "Unit.getByName(name: string): Unit?"
+    )
+    assert {"r": "Unit"} in get_by_name["sig"]
+    out_text = _symbol(db, "mission", "trigger.action", "outText")
+    assert api_docs.tokens_text(out_text["sig"]) == (
+        "trigger.action.outText(text: string, displayTime: number, clearview?: boolean)"
+    )
+    (path,) = db.execute(
+        "SELECT path FROM api_symbols WHERE section = 'mission' AND page = 'Controller'"
+        " AND name = 'setTask'"
+    ).fetchone()
+    assert path == "Controller.setTask"
+    # A page's rows are stored together, page row first (one range read).
+    rows = db.execute(
+        "SELECT name FROM api_symbols WHERE section = 'mission' AND page = 'Unit' ORDER BY rowid"
+    ).fetchall()
+    assert rows[0] == ("",) and len(rows) > 40
+
+
+def test_api_inheritance_and_links(db: sqlite3.Connection) -> None:
+    unit = _symbol(db, "mission", "Unit")
+    origin = {g["from"]: g for g in unit["inherited"]}
+    assert origin["Object"]["href"] == "/api/Object/"
+    assert any(m["qualified"] == "Unit:isExist" for m in origin["Object"]["members"])
+    # Unit declares getCoalition itself: not listed again as inherited.
+    assert "CoalitionObject" not in origin
+    assert {"name": "CoalitionObject", "href": "/api/types/CoalitionObject/"} in unit[
+        "inherits"
+    ]
+    assert unit["links"]["Unit.Category"] == "/api/types/Unit/Category/"
+    obj = _symbol(db, "mission", "Object")
+    assert "Unit" in {s["name"] for s in obj["subclasses"]}
+    uses = db.execute(
+        "SELECT label, href FROM api_type_uses WHERE section = 'types' AND type = 'Vec3'"
+    ).fetchall()
+    assert ("Unit:getPoint", "/api/Object/#getPoint") not in uses
+    assert ("Object:getPoint", "/api/Object/#getPoint") in uses
+
+
+def test_api_enum_values_name_records(db: sqlite3.Connection) -> None:
+    weapons = _symbol(db, "types", "DcsId.WeaponType")
+    assert weapons["valuesSeries"] == "weapons"
+    refs = [v["ref"] for v in weapons["values"]]
+    found = db.execute(
+        f"SELECT count(*) FROM weapons WHERE id IN ({','.join('?' * len(refs))})", refs
+    ).fetchone()[0]
+    assert found > 400
+    batumi = next(
+        v
+        for v in _symbol(db, "types", "DcsId.Theatre.Caucasus.AirbaseName")["values"]
+        if v["key"] == "Batumi"
+    )
+    assert db.execute(
+        "SELECT name FROM airbases WHERE id = ?", (batumi["ref"],)
+    ).fetchone()
+
+
+def test_api_search(db: sqlite3.Connection, built: Built) -> None:
+    def hits(match: str) -> list[str]:
+        return [
+            r[0]
+            for r in db.execute(
+                "SELECT s.name FROM search_fts f JOIN search s ON s.rowid = f.rowid"
+                " WHERE search_fts MATCH ? AND s.series = 'api'"
+                " ORDER BY bm25(search_fts, 8.0, 2.0, 1.0) LIMIT 10",
+                (match,),
+            )
+        ]
+
+    assert hits('"outtext"*')[0] == "trigger.action.outText"
+    assert "Unit.getByName" in hits('"getbyname"*')
+    assert hits('"controller"* "settask"*')[0] == "Controller:setTask"
+    if built.api:
+        api = db.execute("SELECT count(*) FROM search WHERE series = 'api'").fetchone()[
+            0
+        ]
+        assert api == len(built.api.search)

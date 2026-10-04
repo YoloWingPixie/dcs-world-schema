@@ -472,6 +472,7 @@ tasks:
       dcs-world-reference/latest/ (needs Node >= 20.10 and Go >= 1.24)
     deps:
       - build:jsonschema
+      - build:envs
     cmds:
       - "uv run python -m tools.package.build"
       - "uv run python -m tools.package.sqlite"
@@ -486,6 +487,7 @@ tasks:
       Build dist/dcs-world-reference-<version>-dcs<dcs version>.sqlite
     deps:
       - build:jsonschema
+      - build:envs
     cmds:
       - "uv run python -m tools.package.bundles"
       - "uv run python -m tools.package.sqlite"
@@ -608,3 +610,17 @@ tasks:
       - "datamine:id-types:check"
       - lint
       - "package:test"
+
+  site:dev:
+    desc: "Run the reference site prototype (site/) dev server on :3210"
+    dir: site
+    cmds:
+      - corepack pnpm install
+      - corepack pnpm dev
+
+  site:build:
+    desc: "Build the reference site prototype as a static export into site/out (SITE_BASE_PATH for GitHub Pages)"
+    dir: site
+    cmds:
+      - corepack pnpm install
+      - corepack pnpm build
