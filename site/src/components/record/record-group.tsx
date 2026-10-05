@@ -73,7 +73,7 @@ export function RecordsBlock({
       ) : null}
       {entry.axis && !entry.keyField ? (
         <details className="exact">
-          <summary>Exact rows ({rows.length})</summary>
+          <summary>Table ({rows.length} rows)</summary>
           <RecordsTable
             entry={entry}
             rows={rows}

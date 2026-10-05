@@ -4,7 +4,7 @@ async function openPalette(page: Page) {
   // The shortcut is bound once the page has hydrated.
   await page.waitForLoadState("networkidle");
   await page.keyboard.press("Control+k");
-  const dialog = page.getByRole("dialog", { name: "Search the reference" });
+  const dialog = page.getByRole("dialog", { name: "Search" });
   await expect(dialog).toBeVisible();
   return dialog;
 }
@@ -52,9 +52,7 @@ test("right-click a field on an aircraft and compare it across aircraft", async 
   await field.click({ button: "right", position: { x: 40, y: 12 } });
   await page.getByRole("menuitem", { name: /Compare Max takeoff across aircraft/ }).click();
   await expect(page).toHaveURL(/\/compare\/\?s=aircraft&f=aero\.maxTakeoffKg&r=F-16C_50/);
-  await expect(
-    page.getByRole("heading", { name: /All \d+ aircraft with this field/ }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: /All aircraft \(\d+\)/ })).toBeVisible();
 });
 
 test("weapon compare: right-click cx0, add R-27ER, the chart shows two series", async ({
@@ -70,7 +68,7 @@ test("weapon compare: right-click cx0, add R-27ER, the chart shows two series", 
   const chart = page.locator(".chart svg").first();
   await expect(chart.locator("path[data-series]")).toHaveCount(1);
 
-  const add = page.getByRole("combobox", { name: "Add a weapon to compare" });
+  const add = page.getByRole("combobox", { name: "Add weapon" });
   await add.fill("R-27ER");
   await expect(page.getByRole("option", { name: /^R-27ER\b/ }).first()).toBeVisible();
   await add.press("Enter");
@@ -85,9 +83,7 @@ test("keyboard: C on a focused field jumps to its comparison", async ({ page }) 
   await page.locator('.field[data-field="massKg"]').first().focus();
   await page.keyboard.press("c");
   await expect(page).toHaveURL(/\/compare\/\?s=weapons&f=massKg&r=P_27PE/);
-  await expect(
-    page.getByRole("heading", { name: /All \d+ weapons with this field/ }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: /All weapons \(\d+\)/ })).toBeVisible();
 });
 
 test("units switch: AIM-120C mass and range in imperial, and back", async ({ page }) => {

@@ -1,12 +1,13 @@
-import "@fontsource/barlow/400.css";
-import "@fontsource/barlow/500.css";
-import "@fontsource/barlow-condensed/500.css";
-import "@fontsource/barlow-condensed/600.css";
-import "@fontsource/barlow-condensed/700.css";
-import "@fontsource/chakra-petch/600.css";
-import "@fontsource/chakra-petch/700.css";
-import "@fontsource/ibm-plex-mono/400.css";
-import "@fontsource/ibm-plex-mono/500.css";
+// Latin subset only (other scripts fall back to system fonts); each sets font-display: swap.
+import "@fontsource/barlow/latin-400.css";
+import "@fontsource/barlow/latin-500.css";
+import "@fontsource/barlow-condensed/latin-500.css";
+import "@fontsource/barlow-condensed/latin-600.css";
+import "@fontsource/barlow-condensed/latin-700.css";
+import "@fontsource/chakra-petch/latin-600.css";
+import "@fontsource/chakra-petch/latin-700.css";
+import "@fontsource/ibm-plex-mono/latin-400.css";
+import "@fontsource/ibm-plex-mono/latin-500.css";
 import "./globals.css";
 import "../styles/record.css";
 import "../styles/browse.css";
@@ -20,12 +21,13 @@ import { FieldMenu } from "@/components/field-menu";
 import { SiteHeader } from "@/components/header";
 import { DataVersion } from "@/components/series-directory";
 import { Toaster } from "@/components/toast";
+import { bootScript, CONFIG_URL, WASM_URL, WORKER_URL } from "@/lib/db/boot";
 import { UNITS_BOOTSTRAP } from "@/lib/units";
+import { preloadFonts } from "./fonts";
 
 export const metadata: Metadata = {
   title: { default: "DCS World Reference", template: "%s · DCS World Reference" },
-  description:
-    "Aircraft, weapons, sensors, airbases and every other record DCS World ships, field by field.",
+  description: "DCS World data reference and Lua API.",
 };
 
 export const viewport: Viewport = {
@@ -39,11 +41,23 @@ export const viewport: Viewport = {
 const themeScript = `try{var t=localStorage.getItem("dcs-ref:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}${UNITS_BOOTSTRAP}`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  preloadFonts();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static theme bootstrap */}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <link rel="preload" href={CONFIG_URL} as="fetch" crossOrigin="anonymous" />
+        <link rel="preload" href={WASM_URL} as="fetch" crossOrigin="anonymous" />
+        <link rel="preload" href={WORKER_URL} as="script" />
+        <link
+          rel="preload"
+          href={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}/overlays/reference.json`}
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static database prefetch */}
+        <script dangerouslySetInnerHTML={{ __html: bootScript() }} />
       </head>
       <body>
         <a className="skip-link" href="#main">

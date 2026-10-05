@@ -1,4 +1,4 @@
-Hand-written notes layered on the reference, which the site reads live from the released
+Notes layered on the reference, which the site reads live from the released
 SQLite database. They ship with the site (scripts/build-overlays.ts); never edit the data.
 
 - `<series>/_index.md`: intro on the series' browse page.

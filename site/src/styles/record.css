@@ -283,12 +283,6 @@ pre.json-block {
   gap: 12px;
 }
 
-.chart-caption {
-  margin: 0 0 6px;
-  font-family: var(--font-ui);
-  color: var(--ink-3);
-}
-
 .seg-wrap {
   margin-bottom: 6px;
 }
@@ -319,15 +313,6 @@ pre.json-block {
   border-radius: var(--radius-m);
   background: var(--surface);
   padding: 12px 16px 10px;
-}
-
-.md-overlay-label {
-  display: inline-block;
-  margin-bottom: 4px;
-  font: 600 12px var(--font-ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
 }
 
 .md-body > :first-child {
@@ -448,6 +433,23 @@ pre.json-block {
 .sk-row {
   height: 20px;
   margin: 14px 0;
+}
+
+/* Text-sized placeholder: keeps the line height of the text it stands for. */
+.sk-text {
+  display: inline-block;
+  color: transparent;
+  border-radius: 4px;
+  user-select: none;
+}
+
+.chart-pending {
+  border-radius: var(--radius-m);
+  background: var(--surface-2);
+}
+
+.refby-more {
+  margin-top: 10px;
 }
 
 @keyframes sk-shimmer {

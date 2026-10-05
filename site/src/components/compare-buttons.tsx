@@ -9,7 +9,6 @@ import {
   useCompare,
   useInCompare,
 } from "@/lib/compare-store";
-import { SERIES_BY_ID } from "@/lib/series";
 import { CompareIcon, PlusIcon } from "@/ui/icons";
 import { showToast } from "./toast";
 
@@ -25,7 +24,6 @@ export function RecordCompareActions({
   useCompare();
   const inCompare = useInCompare(series, slug);
   const others = getCompare(series).records.filter((r) => r !== slug);
-  const plural = SERIES_BY_ID.get(series)?.label.toLowerCase() ?? "records";
   return (
     <div className="plate-actions">
       <button
@@ -45,13 +43,9 @@ export function RecordCompareActions({
         <PlusIcon style={inCompare ? { transform: "rotate(45deg)" } : undefined} />
         {inCompare ? "In compare" : "Add to compare"}
       </button>
-      <Link
-        className="btn"
-        href={compareHref({ series, field: null, records: [slug, ...others] })}
-        title={`Side by side with the other ${plural} in your selection`}
-      >
+      <Link className="btn" href={compareHref({ series, field: null, records: [slug, ...others] })}>
         <CompareIcon />
-        {others.length ? `Compare with ${others.length} more` : "Compare side by side"}
+        {others.length ? `Compare (${others.length + 1})` : "Compare"}
       </Link>
     </div>
   );

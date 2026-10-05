@@ -9,7 +9,7 @@ export function MarkdownSource({
 }: {
   source: string;
   className?: string;
-  handWritten?: boolean | string;
+  handWritten?: boolean;
 }) {
   return (
     <Markdown

@@ -4,8 +4,9 @@ import { useState } from "react";
 import { isRecord } from "@/lib/catalog";
 import type { CatalogEntry } from "@/lib/types";
 import { convertValue, displayUnit, formatNumber } from "@/lib/units";
+import { SERIES_COLORS } from "../chart-colors";
 import { fieldDataAttrs, MoreButton } from "../field-view";
-import { LineChart, SERIES_COLORS } from "../line-chart";
+import { LazyLineChart as LineChart } from "../lazy-line-chart";
 import { HeatGrid, type RenderCtx } from "./blocks";
 
 export type Surface = { rows: number[]; cols: number[]; z: number[][] };
@@ -100,9 +101,8 @@ export function EnvelopeBlock({
         <h4>
           {grids.map((g) => at(g)?.label ?? g).join(", ")}{" "}
           <span className="muted">
-            {total > 1 ? `envelope ${index + 1} of ${total}, ` : ""}
-            {rows.length} {rowEntry.label.toLowerCase()}s × {cols.length}{" "}
-            {colEntry.label.toLowerCase()}s
+            {total > 1 ? `${index + 1} of ${total} · ` : ""}
+            {rows.length} × {cols.length}
           </span>
         </h4>
         {grids.length > 1 ? (
@@ -138,10 +138,6 @@ export function EnvelopeBlock({
       </div>
       <div className="envelope-body">
         <div>
-          <p className="chart-caption">
-            {gridEntry.label} by {colEntry.label.toLowerCase()}
-            {zUnit ? ` (${zUnit})` : ""}, one line per {rowEntry.label.toLowerCase()}
-          </p>
           {/* biome-ignore lint/a11y/useSemanticElements: toggle chips */}
           <div className="seg seg-wrap" role="group" aria-label={`${rowEntry.label} lines`}>
             {rows.map((r, i) => (
@@ -171,11 +167,11 @@ export function EnvelopeBlock({
               height={280}
             />
           ) : (
-            <p className="muted">Pick at least one {rowEntry.label.toLowerCase()}.</p>
+            <p className="muted">No {rowEntry.label.toLowerCase()} selected.</p>
           )}
         </div>
         <details className="exact" open>
-          <summary>Heatmap and exact values</summary>
+          <summary>Table</summary>
           <HeatGrid
             entry={gridEntry}
             grid={grid}

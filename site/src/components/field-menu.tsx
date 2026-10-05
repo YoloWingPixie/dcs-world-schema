@@ -42,7 +42,7 @@ async function copy(text: string, what: string) {
     await navigator.clipboard.writeText(text);
     showToast(`Copied ${what}.`);
   } catch {
-    showToast("Copying is blocked in this browser.");
+    showToast("Copy failed.");
   }
 }
 
@@ -250,7 +250,7 @@ export function FieldMenu() {
               addRecords(series, record);
               const state = getCompare(series);
               showToast(
-                `Added ${name} to compare (${state.records.length}).`,
+                `Added ${name} to compare.`,
                 compareHref({ ...state, field: null }),
                 "Open compare",
               );

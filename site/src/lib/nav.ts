@@ -11,7 +11,6 @@ export type NavSection = {
   id: string;
   label: string;
   href: string;
-  description: string;
   match?: string[];
 };
 
@@ -20,20 +19,17 @@ export const NAV_SECTIONS: NavSection[] = [
     id: "reference",
     label: "Reference",
     href: "/reference/",
-    description: "Every unit, weapon, sensor and world record DCS World ships, field by field.",
     match: ["/reference", ...SERIES.map((s) => `/${s.id}/`)],
   },
   {
     id: "compare",
     label: "Compare",
     href: "/compare/",
-    description: "Line up any field across records, or put records side by side.",
   },
   {
     id: "api",
     label: "Lua API",
     href: "/api/",
-    description: "The DCS World Lua scripting API: globals, classes, functions and types.",
   },
 ];
 

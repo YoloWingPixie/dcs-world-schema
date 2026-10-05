@@ -18,7 +18,7 @@ export function useModel() {
 /** Every browsable series in the database, grouped, with record counts. */
 export function SeriesDirectory() {
   const { model, failed } = useModel();
-  if (failed) return <p className="muted">The reference database did not load. Reload to retry.</p>;
+  if (failed) return <p className="muted">Failed to load data. Reload the page.</p>;
   if (!model) {
     return (
       <div className="home-sections" aria-busy="true">
@@ -62,14 +62,12 @@ export function SeriesDirectory() {
 export function DataVersion({ variant }: { variant: "footer" | "home" }) {
   const { model } = useModel();
   const total = model?.series.filter((s) => !s.parent).reduce((n, s) => n + s.count, 0) ?? 0;
-  const count = (id: string) => model?.byId.get(id)?.count;
   if (variant === "footer") {
     return (
       <span>
-        Data from DCS World <span className="mono">{model?.meta.dcsVersion ?? "…"}</span>
-        {model?.meta.extractedAt ? `, extracted ${model.meta.extractedAt.slice(0, 10)}` : ""}.{" "}
-        {model ? `${total.toLocaleString("en-US")} records. ` : ""}Not affiliated with Eagle
-        Dynamics.
+        DCS World <span className="mono">{model?.meta.dcsVersion ?? "…"}</span>
+        {model?.meta.extractedAt ? ` · ${model.meta.extractedAt.slice(0, 10)}` : ""} · Not
+        affiliated with Eagle Dynamics
       </span>
     );
   }
@@ -81,13 +79,6 @@ export function DataVersion({ variant }: { variant: "footer" | "home" }) {
       <span>
         <strong>{model ? total.toLocaleString("en-US") : "…"}</strong> records
       </span>
-      {(["aircraft", "weapons", "airbases"] as const).map((id) =>
-        count(id) !== undefined ? (
-          <span key={id}>
-            <strong>{count(id)}</strong> {model?.byId.get(id)?.label.toLowerCase()}
-          </span>
-        ) : null,
-      )}
     </p>
   );
 }

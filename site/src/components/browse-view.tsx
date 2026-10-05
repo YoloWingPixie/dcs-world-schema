@@ -78,7 +78,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
     setError(null);
     loadSeriesIndex(series).then(
       (i) => live && setIndex(i),
-      () => live && setError(`The ${info?.label.toLowerCase() ?? series} list did not load.`),
+      () => live && setError("Failed to load data."),
     );
     loadCatalog(series).then(
       (c) => live && setCatalog(c),
@@ -87,7 +87,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return () => {
       live = false;
     };
-  }, [series, info]);
+  }, [series]);
 
   useEffect(() => {
     const narrow = window.matchMedia("(max-width: 860px)");
@@ -328,15 +328,12 @@ export function BrowseView({ series, count }: { series: string; count: number })
   return (
     <div>
       <h1 className="page-title">{info?.label ?? series}</h1>
-      <p className="lede">
-        {info?.blurb} <span className="muted">{total.toLocaleString("en-US")} records.</span>
-      </p>
       {index?.intro ? (
         <div className="browse-intro">
           <Markdown html={index.intro.html} handWritten />
           {index.intro.seeAlso?.length ? (
             <p className="see-also">
-              See also:{" "}
+              See also{" "}
               {index.intro.seeAlso.map((s, i) => (
                 <span key={s.href}>
                   {i ? ", " : ""}
@@ -391,9 +388,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                       </label>
                     ))}
                     {options.length > shown.length ? (
-                      <span className="muted facet-more">
-                        {options.length - shown.length} more; use the text filter.
-                      </span>
+                      <span className="muted facet-more">{options.length - shown.length} more</span>
                     ) : null}
                   </fieldset>
                 );
@@ -410,8 +405,8 @@ export function BrowseView({ series, count }: { series: string; count: number })
                 <input
                   className="combo-input"
                   type="search"
-                  aria-label={`Filter ${plural} by text`}
-                  placeholder={`Filter ${plural} by name, id or value…`}
+                  aria-label={`Filter ${plural}`}
+                  placeholder="Filter"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
@@ -464,7 +459,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
 
           {error ? (
             <div className="empty-state">
-              <p>{error} Reload the page to try again.</p>
+              <p>{error} Reload the page.</p>
             </div>
           ) : (
             <section
@@ -501,7 +496,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                   ) : sorted.length === 0 ? (
                     <tr>
                       <td colSpan={colSpan} className="results-empty">
-                        No {plural} match. Remove a filter or shorten the text.
+                        No matches.
                       </td>
                     </tr>
                   ) : (

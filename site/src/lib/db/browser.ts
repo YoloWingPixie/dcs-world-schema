@@ -11,13 +11,11 @@
  *     "full"     one file read with Range requests (local dev, e2e)
  *     "chunked"  parts under a content-hashed path, each fetched whole (Cloudflare Pages)
  */
-import type { WorkerHttpvfs } from "sql.js-httpvfs";
+import { createDbWorker, type WorkerHttpvfs } from "sql.js-httpvfs";
+import { CONFIG_URL, WASM_URL, WORKER_URL } from "./boot";
 import type { Query, Row } from "./reference";
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-/** Override with NEXT_PUBLIC_REFERENCE_CONFIG (absolute URL or site path) at build time. */
-export const CONFIG_URL =
-  process.env.NEXT_PUBLIC_REFERENCE_CONFIG ?? `${BASE_PATH}/data/reference.json`;
+export { CONFIG_URL };
 
 /** /data/reference.json (scripts/split-sqlite.ts). */
 export type ReferenceConfig = {
@@ -29,6 +27,7 @@ export type ReferenceConfig = {
   requestChunkSize: number;
   maxReadSpeed?: number;
   databaseLengthBytes: number;
+  boot?: { core: number[]; search: number[]; api: number[] };
   file: string;
   version: string | null;
   sha256: string;
@@ -43,21 +42,25 @@ function absolute(url: string, base = window.location.href) {
 
 /** The served database's description (file name, version, layout). */
 export function referenceConfig(): Promise<ReferenceConfig> {
-  config ??= fetch(absolute(CONFIG_URL), { cache: "no-cache" })
-    .then((res) => {
+  // Started by the inline boot script (lib/db/boot.ts) when the page loaded.
+  const early = (window as { __dcsRefConfig?: Promise<ReferenceConfig> }).__dcsRefConfig;
+  (window as { __dcsRefConfig?: unknown }).__dcsRefConfig = undefined;
+  config ??= (
+    early ??
+    fetch(absolute(CONFIG_URL)).then((res) => {
       if (!res.ok) throw new Error(`${CONFIG_URL}: HTTP ${res.status}`);
       return res.json() as Promise<ReferenceConfig>;
     })
-    .catch((error: unknown) => {
-      config = null;
-      throw error;
-    });
+  ).catch((error: unknown) => {
+    config = null;
+    throw error;
+  });
   return config;
 }
 
 function open(): Promise<WorkerHttpvfs> {
-  worker ??= Promise.all([referenceConfig(), import("sql.js-httpvfs")])
-    .then(([c, { createDbWorker }]) => {
+  worker ??= referenceConfig()
+    .then((c) => {
       const base = absolute(CONFIG_URL);
       const inline =
         c.serverMode === "chunked"
@@ -78,8 +81,8 @@ function open(): Promise<WorkerHttpvfs> {
             };
       return createDbWorker(
         [{ from: "inline", config: inline }],
-        absolute(`${BASE_PATH}/sqlite/sqlite.worker.js`),
-        absolute(`${BASE_PATH}/sqlite/sql-wasm.wasm`),
+        absolute(WORKER_URL),
+        absolute(WASM_URL),
       );
     })
     .catch((error: unknown) => {
@@ -113,4 +116,6 @@ export async function databaseStats() {
 
 if (typeof window !== "undefined") {
   Object.assign(window, { __dcsRefStats: databaseStats, __dcsRefQuery: browserQuery });
+  // Start the worker (and its wasm) as soon as this code runs, not on the first query.
+  open().catch(() => undefined);
 }

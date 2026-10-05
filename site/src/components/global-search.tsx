@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { setNavHint } from "@/lib/nav-hints";
 import { useGlobalSearch, warmSearch } from "@/lib/search/client";
 import type { SearchResultItem } from "@/lib/search/types";
 import { SearchIcon } from "@/ui/icons";
@@ -39,7 +40,7 @@ type Row = SearchResultItem & { source: string; sourceLabel: string };
  */
 export function GlobalSearch({
   label,
-  placeholder = "Search aircraft, weapons, sensors, airbases…",
+  placeholder = "Search",
   autoFocus,
   variant,
   initialQuery = "",
@@ -82,6 +83,7 @@ export function GlobalSearch({
 
   const pick = (row: Row | undefined) => {
     if (!row) return;
+    setNavHint(row.href, { name: row.title, ...(row.subtitle ? { meta: row.subtitle } : {}) });
     onPick(row);
     if (variant === "inline") setOpen(false);
   };
@@ -160,7 +162,7 @@ export function GlobalSearch({
         <div className="combo-popup">
           {q && results.groups.length > 0 ? (
             // biome-ignore lint/a11y/useSemanticElements: a toolbar of toggle chips
-            <div className="gsearch-chips" role="group" aria-label="Filter by section">
+            <div className="gsearch-chips" role="group" aria-label="Filter results">
               <button
                 type="button"
                 className="gchip"
@@ -235,22 +237,19 @@ export function GlobalSearch({
             ))}
           </div>
           {q && results.loading.length && !results.ready ? (
-            <div className="results-empty">Loading the search indexes…</div>
+            <div className="results-empty">Loading…</div>
           ) : null}
           {q && results.ready && rows.length === 0 && results.loading.length === 0 ? (
-            <div className="results-empty">
-              Nothing matches “{query}”. Try a shorter name, a DCS id, or a type like “radar”.
-            </div>
+            <div className="results-empty">No results for “{query}”.</div>
           ) : null}
           {q && results.loading.length > 0 && results.ready ? (
             <div className="results-loading" aria-live="polite">
-              Still loading {results.loading.length} section
-              {results.loading.length === 1 ? "" : "s"}…
+              Loading…
             </div>
           ) : null}
           {results.failed.length ? (
             <div className="results-empty">
-              Some sections did not load ({results.failed.map((s) => s.label).join(", ")}).
+              Failed to load: {results.failed.map((s) => s.label).join(", ")}.
             </div>
           ) : null}
           {!q && emptyHint ? emptyHint : null}

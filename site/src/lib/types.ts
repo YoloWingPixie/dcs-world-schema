@@ -85,6 +85,8 @@ export type ReferencedBy = {
   path: string;
   label: string;
   records: LinkTarget[];
+  /** Set when `records` is capped: how many records the group has. */
+  total?: number;
 };
 
 export type Overlay = {

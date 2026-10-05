@@ -22,5 +22,6 @@ export default defineConfig({
     command: `${prepare}node scripts/serve-out.mjs ${port} ${root}`,
     url: `http://127.0.0.1:${port}/`,
     reuseExistingServer: true,
+    timeout: 180_000,
   },
 });

@@ -36,7 +36,7 @@ export const API_PROVIDER: SearchProvider = {
       const hrefs = await resolveSymbols(browserQuery, overlayHits);
       for (const [path, href] of hrefs) {
         if (hits.some((h) => h.href === href)) continue;
-        hits.push({ href, path, subtitle: "Hand-written notes", score: top * 0.5 });
+        hits.push({ href, path, subtitle: "Note", score: top * 0.5 });
       }
     }
     const wanted = norm(query);

@@ -56,7 +56,7 @@ function UnitsToggle() {
         type="button"
         className="units-compact"
         onClick={() => setUnitSystem(imperial ? "metric" : "imperial")}
-        aria-label={`Units: ${imperial ? "imperial" : "metric"}. Switch to ${imperial ? "metric" : "imperial"}`}
+        aria-label={`Switch to ${imperial ? "metric" : "imperial"} units`}
         title="Switch units"
       >
         <span className="units-compact-metric">kg·m</span>
@@ -69,7 +69,7 @@ function UnitsToggle() {
           className="units-opt units-metric"
           aria-pressed={!imperial}
           onClick={() => setUnitSystem("metric")}
-          title="Metric units (as DCS stores them)"
+          title="m, km, km/h, kg"
         >
           Metric
         </button>
@@ -78,7 +78,7 @@ function UnitsToggle() {
           className="units-opt units-imperial"
           aria-pressed={imperial}
           onClick={() => setUnitSystem("imperial")}
-          title="Imperial units: ft, nm, kt, lb"
+          title="ft, nm, kt, lb"
         >
           Imperial
         </button>
@@ -96,9 +96,9 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link href="/" className="brand" aria-label="DCS World Reference, home">
+        <Link href="/" className="brand" aria-label="Home">
           <BrandMark className="brand-mark" />
-          <span className="brand-name">DCS Reference</span>
+          <span className="brand-name">DCS World Reference</span>
         </Link>
         <nav className="site-nav" aria-label="Main">
           {NAV_SECTIONS.map((s) =>
@@ -130,7 +130,7 @@ export function SiteHeader() {
           )}
         </nav>
         <details className="nav-menu">
-          <summary aria-label="Sections">
+          <summary aria-label="Menu">
             <span aria-hidden="true">☰</span>
           </summary>
           <nav className="nav-menu-list" aria-label="Main">
@@ -147,12 +147,7 @@ export function SiteHeader() {
           </nav>
         </details>
         <span className="header-spacer" />
-        <button
-          type="button"
-          className="search-trigger"
-          onClick={openPalette}
-          aria-label="Search the reference"
-        >
+        <button type="button" className="search-trigger" onClick={openPalette} aria-label="Search">
           <SearchIcon width={18} height={18} />
           <span className="search-trigger-text">Search</span>
           <span className="kbd">{mac ? "⌘K" : "Ctrl K"}</span>

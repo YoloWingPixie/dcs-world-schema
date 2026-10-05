@@ -6,6 +6,7 @@ import { machAxis, plainValue, type ValueContext } from "@/lib/format-field";
 import { enumDisplay } from "@/lib/names";
 import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
 import { convertValue, displayUnit, formatNumber } from "@/lib/units";
+import { SERIES_COLORS } from "../chart-colors";
 import {
   Description,
   type FieldContext,
@@ -15,7 +16,7 @@ import {
   ScalarValue,
   tipIdFor,
 } from "../field-view";
-import { LineChart, SERIES_COLORS } from "../line-chart";
+import { LazyLineChart as LineChart } from "../lazy-line-chart";
 
 export type RenderCtx = {
   catalog: SeriesCatalog;
@@ -75,7 +76,7 @@ export function MachCard({
       />
       <details className="exact">
         <summary>
-          Exact values ({values.length} samples, Mach step {formatNumber(step)})
+          Table ({values.length} samples, Mach step {formatNumber(step)})
         </summary>
         <div className="exact-scroll">
           <table className="exact-table">
@@ -270,7 +271,7 @@ export function JsonValue({ value }: { value: unknown }) {
   if (text.length < 120) return <code className="json">{JSON.stringify(value)}</code>;
   return (
     <details className="exact">
-      <summary>Show raw value ({text.length.toLocaleString("en-US")} characters)</summary>
+      <summary>Raw value ({text.length.toLocaleString("en-US")} characters)</summary>
       <pre className="json-block">{text}</pre>
     </details>
   );

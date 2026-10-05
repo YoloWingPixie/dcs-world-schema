@@ -13,6 +13,7 @@ import type {
   CatalogEntry,
   Facet,
   FieldValues,
+  LinkTarget,
   RecordDoc,
   ReferencedBy,
   SeriesCatalog,
@@ -143,7 +144,7 @@ export const seriesGroups = (model: Model) => {
   const groups: Array<{ id: string; label: string; series: SeriesModel[] }> = SERIES_GROUPS.map(
     (g) => ({ id: g.id, label: g.label, series: [] }),
   );
-  const other = { id: "other", label: "More series", series: [] as SeriesModel[] };
+  const other = { id: "other", label: "Other", series: [] as SeriesModel[] };
   for (const s of model.series) {
     if (s.parent) continue;
     (groups.find((g) => g.id === s.group) ?? other).series.push(s);
@@ -272,7 +273,71 @@ async function resolveIds(
 // ---------------------------------------------------------------------------
 // Records
 
+/** A `record_views` row (tools/package/sqlite.py): a record page in one read. */
+type RecordView = {
+  name: string;
+  subtitle: string;
+  record: Record<string, unknown>;
+  companion?: Record<string, unknown>;
+  links: Record<string, Record<string, string>>;
+  referencedBy: Array<{
+    series: string;
+    path: string;
+    via?: string;
+    total: number;
+    records: [string, string][];
+  }>;
+};
+
+const missingTable = (error: unknown) => /no such table/i.test(String(error));
+
+const byName = (a: LinkTarget, b: LinkTarget) => a[1].localeCompare(b[1], "en", { numeric: true });
+
+function referencedLabel(model: Model, series: string, path: string, via?: string): string {
+  if (via) return `via ${model.byId.get(via)?.label.toLowerCase() ?? via}`;
+  return catalogFor(model, series).entries[path]?.label ?? humanize(path.split(".").pop() ?? path);
+}
+
+/** A record page: one `record_views` row, else (an older database) the record's own queries. */
 export async function getRecord(
+  q: Query,
+  model: Model,
+  series: string,
+  id: string,
+): Promise<RecordDoc | null> {
+  const s = model.byId.get(series);
+  if (!s) return null;
+  let rows: Row[];
+  try {
+    rows = await q("SELECT view FROM record_views WHERE series = ? AND id = ?", [series, id]);
+  } catch (error) {
+    if (!missingTable(error)) throw error;
+    return getRecordByQueries(q, model, series, id);
+  }
+  const [row] = rows;
+  if (!row) return null;
+  const view = JSON.parse(String(row.view)) as RecordView;
+  const key = view.record[s.keyColumn];
+  return {
+    series,
+    id: String(key ?? id),
+    slug: String(key ?? id),
+    name: view.name,
+    meta: view.subtitle,
+    data: view.record,
+    ...(view.companion ? { companion: view.companion } : {}),
+    links: view.links,
+    referencedBy: view.referencedBy.map((g) => ({
+      series: g.series,
+      path: g.path,
+      label: referencedLabel(model, g.series, g.path, g.via),
+      records: [...g.records].sort(byName),
+      ...(g.total > g.records.length ? { total: g.total } : {}),
+    })),
+  };
+}
+
+async function getRecordByQueries(
   q: Query,
   model: Model,
   series: string,
@@ -419,10 +484,23 @@ export async function referencedBy(
     ...[...hops.values()].map((h) => ({
       series: h.series,
       path: `via:${h.via}`,
-      label: `Through ${model.byId.get(h.via)?.label.toLowerCase() ?? h.via}`,
+      label: `via ${model.byId.get(h.via)?.label.toLowerCase() ?? h.via}`,
       records: toRecords(h.series, h.ids),
     })),
   ];
+}
+
+/** Every record of one "referenced by" group (`from`, `path`), uncapped. */
+export async function referencedByGroup(
+  q: Query,
+  model: Model,
+  series: string,
+  id: string,
+  from: string,
+  path: string,
+): Promise<LinkTarget[]> {
+  const groups = await referencedBy(q, model, series, id);
+  return groups.find((g) => g.series === from && g.path === path)?.records ?? [];
 }
 
 // ---------------------------------------------------------------------------
@@ -433,33 +511,68 @@ const topLevelScalars = (catalog: SeriesCatalog, key: string) =>
     (e) => !e.path.includes(".") && !e.path.includes("[") && SCALAR.has(e.kind) && e.name !== key,
   );
 
-/** Every record of a series with its top-level scalar columns (read from a covering index). */
+/** A `series_views` row (tools/package/sqlite.py): a browse table in one read. */
+type SeriesView = {
+  columns: string[];
+  rows: unknown[][];
+  labels: Record<string, Record<string, string>>;
+};
+
+async function seriesView(q: Query, series: string): Promise<SeriesView | null> {
+  try {
+    const [row] = await q("SELECT view FROM series_views WHERE series = ?", [series]);
+    return row ? (JSON.parse(String(row.view)) as SeriesView) : null;
+  } catch (error) {
+    if (missingTable(error)) return null;
+    throw error;
+  }
+}
+
+/** Every record of a series with its top-level scalar columns (one `series_views` row). */
 export async function getSeriesIndex(q: Query, model: Model, series: string): Promise<SeriesIndex> {
   const s = model.byId.get(series);
   if (!s) throw new Error(`Unknown series: ${series}`);
   const catalog = catalogFor(model, series);
   const columns = topLevelScalars(catalog, s.keyColumn);
-  const cols = columns.map((c) => qi(c.name)).join(", ");
-  const rows = await q(
-    `SELECT ${qi(s.keyColumn)} AS __id${cols ? `, ${cols}` : ""} FROM ${qi(series)}`,
-  );
-  const names = new Map(
-    (await q("SELECT id, name FROM search WHERE series = ?", [series])).map((r) => [
-      String(r.id),
-      String(r.name),
-    ]),
-  );
-
+  const view = await seriesView(q, series);
+  let rows: Row[];
+  let names: Map<string, string>;
   // Ref columns show the target's name.
   const refNames = new Map<string, Map<string, [string, string]>>();
-  for (const c of columns.filter((c) => c.kind === "ref" && c.ref?.length)) {
-    const ids = new Set(
-      rows
-        .map((r) => r[c.name])
-        .filter((v) => v !== null)
-        .map(String),
+  if (view) {
+    const at = new Map(view.columns.map((c, i) => [c, i + 2]));
+    rows = view.rows.map((r) => {
+      const out: Row = { __id: r[0] };
+      for (const c of columns) {
+        const i = at.get(c.name);
+        out[c.name] = i === undefined ? null : (r[i] ?? null);
+      }
+      return out;
+    });
+    names = new Map(view.rows.map((r) => [String(r[0]), String(r[1])]));
+    for (const [c, labels] of Object.entries(view.labels)) {
+      refNames.set(c, new Map(Object.entries(labels).map(([k, v]) => [k, [series, v]])));
+    }
+  } else {
+    const cols = columns.map((c) => qi(c.name)).join(", ");
+    rows = await q(
+      `SELECT ${qi(s.keyColumn)} AS __id${cols ? `, ${cols}` : ""} FROM ${qi(series)}`,
     );
-    refNames.set(c.name, await resolveIds(q, model, c.ref ?? [], ids));
+    names = new Map(
+      (await q("SELECT id, name FROM search WHERE series = ?", [series])).map((r) => [
+        String(r.id),
+        String(r.name),
+      ]),
+    );
+    for (const c of columns.filter((c) => c.kind === "ref" && c.ref?.length)) {
+      const ids = new Set(
+        rows
+          .map((r) => r[c.name])
+          .filter((v) => v !== null)
+          .map(String),
+      );
+      refNames.set(c.name, await resolveIds(q, model, c.ref ?? [], ids));
+    }
   }
 
   const count = rows.length;

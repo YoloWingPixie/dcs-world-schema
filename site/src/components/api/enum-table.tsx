@@ -56,7 +56,7 @@ export function EnumTable({
                 checked={linkedOnly}
                 onChange={(e) => setLinkedOnly(e.target.checked)}
               />
-              With a {seriesLabel} page
+              Linked only
             </label>
           ) : null}
           <span className="api-enum-count" aria-live="polite">
@@ -106,7 +106,7 @@ export function EnumTable({
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={3} className="muted">
-                  No value matches “{query}”.
+                  No results for “{query}”.
                 </td>
               </tr>
             ) : null}
