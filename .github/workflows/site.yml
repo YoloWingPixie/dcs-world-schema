@@ -1,0 +1,144 @@
+name: Site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site
+  cancel-in-progress: true
+
+jobs:
+  shell:
+    name: Build shell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache key
+        id: key
+        run: echo "key=site-shell-${{ hashFiles('site/**', '!site/node_modules/**', '!site/out/**', '!site/.next/**', 'dcs-world-schema/**') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore shell
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: site/out
+          key: ${{ steps.key.outputs.key }}
+
+      - name: Set up Node
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install uv and Task
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install uv
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build shell
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          SITE_SQLITE: none
+        run: |
+          task uv:sync
+          task merge
+          corepack enable
+          cd site
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-shell
+          path: site/out
+          retention-days: 1
+
+  database:
+    name: Build database
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache key
+        id: key
+        run: echo "key=site-db-${{ hashFiles('dcs-world-reference/latest/**', 'dcs-world-schema/**', 'tools/**', 'VERSION', 'uv.lock') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore database
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: dist/site-db
+          key: ${{ steps.key.outputs.key }}
+
+      - name: Set up Python
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv and Task
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install uv
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build database
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          task uv:sync
+          task package:sqlite
+          mkdir -p dist/site-db
+          cp dist/dcs-world-reference-*-dcs*.sqlite dist/site-db/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-db
+          path: dist/site-db
+          retention-days: 1
+
+  deploy:
+    name: Deploy
+    needs: [shell, database]
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudflare-pages
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: site/scripts
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-shell
+          path: public
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-db
+          path: db
+
+      - name: Split database
+        run: node site/scripts/split-sqlite.ts public --mode=chunked --db="$(ls db/*.sqlite)"
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.147.0"
+          command: pages deploy public --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }} --branch=main
