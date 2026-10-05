@@ -30,7 +30,7 @@ from tools.datamine.common import (
 )
 from tools.export_jsonschema import export
 from tools.merge import merge_tree
-from tools.package import api_docs, bundles
+from tools.package import api_docs, bundles, page_order
 from tools.package import sqlite as sqlite_db
 from tools.package.cookbook import snippets
 
@@ -406,3 +406,99 @@ def test_api_search(db: sqlite3.Connection, built: Built) -> None:
             0
         ]
         assert api == len(built.api.search)
+
+
+def _view(db: sqlite3.Connection, series: str, key: str) -> dict[str, Any]:
+    row = db.execute(
+        "SELECT view FROM record_views WHERE series = ? AND id = ?", (series, key)
+    ).fetchone()
+    assert row, f"{series}/{key}"
+    return json.loads(row[0])
+
+
+def test_record_views(db: sqlite3.Connection, built: Built) -> None:
+    companions = {"weapon_flight", "aircraft_flight"}
+    counts = dict(
+        db.execute("SELECT series, count(*) FROM record_views GROUP BY series")
+    )
+    for name, bundle in built.series.items():
+        assert counts.get(name, 0) == (0 if name in companions else len(bundle)), name
+
+    weapon = _view(db, "weapons", "AIM_120C")
+    assert weapon["name"] == "AIM-120C"
+    record = built.series["weapons"]["AIM_120C"]
+    assert weapon["record"] == {k: v for k, v in record.items() if v is not None}
+    assert weapon["companion"]["weapon"] == "AIM_120C"
+    groups = {(g["series"], g["path"]): g for g in weapon["referencedBy"]}
+    stores = groups[("stores", "delivers[].weapon")]
+    assert stores["total"] == len(stores["records"]) >= 1
+    via = groups[("aircraft", "via:stores")]
+    assert via["via"] == "stores"
+    assert "F-16C_50" in {r[0] for r in via["records"]}
+
+    jet = _view(db, "aircraft", "F-16C_50")
+    clsid = "{5CE2FF2A-645A-4197-B48D-8720AC69394F}"
+    assert jet["links"]["stores"][clsid] == "AIM-9X Sidewinder IR AAM"
+    assert jet["subtitle"]
+    assert "companion" in jet
+
+    store = _view(db, "stores", clsid)
+    by = {(g["series"], g["path"]) for g in store["referencedBy"]}
+    assert any(s == "aircraft" for s, _ in by)
+    for (view,) in db.execute("SELECT view FROM record_views"):
+        for g in json.loads(view)["referencedBy"]:
+            assert len(g["records"]) == min(g["total"], sqlite_db.REF_CAP)
+
+
+def test_record_view_is_one_index_lookup(db: sqlite3.Connection) -> None:
+    plan = " ".join(
+        str(r)
+        for r in db.execute(
+            "EXPLAIN QUERY PLAN SELECT view FROM record_views WHERE series = ? AND id = ?",
+            ("weapons", "AIM_120C"),
+        )
+    )
+    assert "sqlite_autoindex_record_views_1" in plan
+    # Key order: rowids follow (series, id).
+    keys = [
+        r[0:2]
+        for r in db.execute("SELECT series, id, rowid FROM record_views ORDER BY rowid")
+    ]
+    assert keys == sorted(keys)
+
+
+def test_series_views(db: sqlite3.Connection, built: Built) -> None:
+    view = json.loads(
+        db.execute("SELECT view FROM series_views WHERE series = 'weapons'").fetchone()[
+            0
+        ]
+    )
+    assert len(view["rows"]) == len(built.series["weapons"])
+    columns = [r[2] for r in db.execute("PRAGMA index_info('weapons__scalars')")][1:]
+    assert view["columns"] == columns
+    row = next(r for r in view["rows"] if r[0] == "AIM_120C")
+    assert row[1] == "AIM-120C"
+    record = built.series["weapons"]["AIM_120C"]
+    assert row[2:] == [record.get(c) for c in columns]
+    if "warhead" in columns:
+        assert view["labels"]["warhead"]
+
+
+def test_boot_pages_are_together(built: Built) -> None:
+    db = sqlite3.connect(f"file:{built.path}?mode=ro", uri=True)
+    try:
+        assert db.execute("PRAGMA integrity_check").fetchone() == ("ok",)
+        roots = {r[0] for r in db.execute("SELECT rootpage FROM sqlite_schema")}
+    finally:
+        db.close()
+    for whole, upper in sqlite_db.BOOT_GROUPS:
+        pages = page_order.hot_pages(built.path, whole, upper)
+        rest = [p for p in pages if p != 1 and not (p in roots and p < 128)]
+        assert rest, (whole, upper)
+        # Every hot page beyond the one-byte root pages sits in one run (other groups'
+        # pages may sit between, never cold ones).
+        span = rest[-1] - rest[0] + 1
+        assert span <= sum(
+            len(page_order.hot_pages(built.path, w, u))
+            for w, u in sqlite_db.BOOT_GROUPS
+        )

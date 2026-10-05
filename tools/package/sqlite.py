@@ -39,8 +39,17 @@ the database also describes itself and indexes what such a client queries:
   and member, render-ready JSON), ``api_type_uses`` (used-by) and ``search``
   rows of ``series = 'api'`` (``id`` the site path), from the merged API
   schema and the per-environment schemas (``task merge:json build:envs``);
+* ``record_views``: one row per record (``series``, ``id``, ``view``), the
+  whole record page as compact JSON : the record, its
+  companion's record (``weapon_flight`` on a weapon), display names of every
+  record it references and the records referencing it (at most ``REF_CAP``
+  per group, with the full count); ``series_views``: one row per browsable
+  series, its browse table. Rows are stored in key order, so a page is one
+  index lookup and one contiguous read;
 * an index on every scalar ref column and one covering each series' scalar
   columns (browse tables read it instead of whole rows);
+* the pages a client reads first (``BOOT_GROUPS``) moved
+  together near the start (``tools.package.page_order``);
 * pages of ``PAGE_SIZE`` bytes, small enough that one range request fetches
   little beyond what a lookup needs.
 
@@ -54,6 +63,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sqlite3
 from collections.abc import Iterator
 from pathlib import Path
@@ -70,6 +80,7 @@ from tools.datamine.common import (
     fail,
     load_json,
 )
+from tools.package import page_order
 from tools.package.api_docs import ApiRows, build_rows
 from tools.package.bundles import BUNDLE_DIR
 
@@ -80,6 +91,45 @@ NAME_FIELDS = ("displayName", "name", "natoDesignation", "callsign", "countryNam
 KEYWORD_MAX = 48  # longest scalar text kept as a search keyword
 API_ENVS = ("hooks", "export", "server")  # env schemas besides the mission one
 SQL_TYPES = {"string": "TEXT", "number": "NUMERIC", "integer": "INTEGER"}
+# Pages a client reads first, laid out together in this order
+# (tools.package.page_order; site/scripts/split-sqlite.ts lists the same):
+# ``(whole tables, tables or indexes whose interior pages)`` for every page,
+# then for search, then for the API docs.
+BOOT_GROUPS: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = (
+    (
+        ("meta", "series", "ref_paths", "schema_types"),
+        (
+            "record_views",
+            "sqlite_autoindex_record_views_1",
+            "series_views",
+            "sqlite_autoindex_series_views_1",
+        ),
+    ),
+    (
+        ("search_fts_config",),
+        (
+            "search",
+            "sqlite_autoindex_search_1",
+            "search__names",
+            "search_fts_data",
+            "search_fts_idx",
+            "search_fts_docsize",
+        ),
+    ),
+    (
+        (),
+        (
+            "api_symbols",
+            "sqlite_autoindex_api_symbols_1",
+            "api_symbols__path",
+            "api_symbols__pages",
+            "api_type_uses",
+            "sqlite_autoindex_api_type_uses_1",
+        ),
+    ),
+)
+REF_CAP = 200  # referencing records stored per group in a record view
+HOP_MAX = 400  # second-hop reverse references only from groups this small
 
 
 def sqlite_name(version: str, dcs_version: str) -> str:
@@ -243,6 +293,175 @@ def search_rows(
     return rows
 
 
+def _natural(text: str) -> tuple[Any, ...]:
+    """Sort key: case-insensitive, digit runs by value (``F-15`` before ``F-117``)."""
+    out: list[Any] = []
+    for part in re.split(r"(\d+)", text.casefold()):
+        if part:
+            out.append((0, int(part), "") if part.isdigit() else (1, 0, part))
+    return tuple(out)
+
+
+def _strip_nulls(record: dict[str, Any]) -> dict[str, Any]:
+    return {k: v for k, v in record.items() if v is not None}
+
+
+def views(
+    series: dict[str, dict[str, Any]],
+    all_rules: list[Rule],
+    titles: dict[tuple[str, str], tuple[str, str]],
+    scalars: dict[str, list[str]],
+) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]]]:
+    """``record_views`` rows ``(series, id, view)`` and ``series_views`` rows
+    ``(series, view)``, both as compact JSON in key order.
+
+    ``titles`` are the ``(name, subtitle)`` of each ``(series, id)``.
+
+    A record view: ``name``, ``subtitle``, ``record`` (null fields dropped),
+    ``companion`` (the companion series' record, if any), ``links`` (``{series:
+    {id: name}}`` of every reference it holds, its companion's included) and
+    ``referencedBy``: groups ``{series, path, total, records: [[id, name]]}``
+    (``path`` of a companion's reference prefixed ``flight.``; ``via`` set on
+    unit series reaching the record through a non-unit series' records), at
+    most ``REF_CAP`` records each.
+
+    A series view: ``columns`` (scalar fields but the key, schema order),
+    ``rows`` (``[id, name, *values]``) and ``labels`` (``{column: {id: name}}``
+    of reference columns)."""
+    names = {k: v[0] for k, v in titles.items()}
+    scalar_refs = {
+        (r.series, r.path[0]): r.target for r in all_rules if len(r.path) == 1
+    }
+    parent = {
+        n: scalar_refs[(n, s.id_field)]
+        for n, s in SERIES.items()
+        if (n, s.id_field) in scalar_refs and scalar_refs[(n, s.id_field)] != UNITS
+    }
+    companion = {p: c for c, p in parent.items()}
+    keys = {n: {str(k) for k in series[n]} for n in SERIES}
+
+    def owner(name: str) -> str:
+        return parent.get(name, name)
+
+    def resolve(target: str, value: Any) -> tuple[str, str] | None:
+        """``(owner series, name)`` of a referenced id, else None."""
+        key = str(value)
+        for t in UNIT_SERIES if target == UNITS else [target]:
+            if key in keys[t]:
+                o = owner(t)
+                return o, names.get((o, key), key)
+        return None
+
+    # Reverse references: target series -> id -> (series, path) -> source ids.
+    reverse: dict[str, dict[str, dict[tuple[str, str], set[str]]]] = {}
+    for rule in all_rules:
+        if parent.get(rule.series) == rule.target:
+            continue  # a companion's key: its own record
+        for key, record in series[rule.series].items():
+            for value in rule.values(record):
+                hit = resolve(rule.target, value)
+                if hit is None:
+                    continue
+                targets = (
+                    [t for t in UNIT_SERIES if str(value) in keys[t]]
+                    if rule.target == UNITS
+                    else [rule.target]
+                )
+                o = owner(rule.series)
+                path = rule.label if o == rule.series else f"flight.{rule.label}"
+                for t in targets:
+                    reverse.setdefault(t, {}).setdefault(str(value), {}).setdefault(
+                        (o, path), set()
+                    ).add(str(key))
+
+    def listed(ser: str, ids: set[str]) -> dict[str, Any]:
+        records = sorted(
+            ([i, names.get((ser, i), i)] for i in ids),
+            key=lambda r: (_natural(r[1]), r[0]),
+        )
+        return {"total": len(records), "records": records[:REF_CAP]}
+
+    def referenced_by(ser: str, key: str) -> list[dict[str, Any]]:
+        groups = reverse.get(ser, {}).get(key, {})
+        out = [
+            {"series": o, "path": path, **listed(o, ids)}
+            for (o, path), ids in sorted(groups.items())
+        ]
+        hops: dict[tuple[str, str], set[str]] = {}
+        for (o, _), ids in sorted(groups.items()):
+            if SERIES[o].unit or len(ids) > HOP_MAX:
+                continue
+            for i in ids:
+                for (src_series, path), srcs in reverse.get(o, {}).get(i, {}).items():
+                    if SERIES[src_series].unit and not path.startswith("flight."):
+                        hops.setdefault((src_series, o), set()).update(srcs)
+        out += [
+            {"series": u, "path": f"via:{o}", "via": o, **listed(u, ids)}
+            for (u, o), ids in sorted(hops.items())
+        ]
+        return out
+
+    record_rows: list[tuple[str, str, str]] = []
+    for name in sorted(SERIES):
+        if name in parent:
+            continue
+        comp = companion.get(name)
+        for key, record in series[name].items():
+            k = str(key)
+            links: dict[str, dict[str, str]] = {}
+            parts = [(name, record)]
+            extra = series[comp].get(key) if comp else None
+            if extra is not None and comp:
+                parts.append((comp, extra))
+            for ser, rec in parts:
+                for rule in all_rules:
+                    if rule.series != ser:
+                        continue
+                    for value in rule.values(rec):
+                        hit = resolve(rule.target, value)
+                        if hit:
+                            links.setdefault(hit[0], {})[str(value)] = hit[1]
+            title, subtitle = titles.get((name, k), (k, ""))
+            view: dict[str, Any] = {
+                "name": title,
+                "subtitle": subtitle,
+                "record": _strip_nulls(record),
+            }
+            if extra is not None:
+                view["companion"] = _strip_nulls(extra)
+            view["links"] = {
+                o: dict(sorted(m.items())) for o, m in sorted(links.items())
+            }
+            view["referencedBy"] = referenced_by(name, k)
+            record_rows.append((name, k, json_value(view)))
+
+    series_rows: list[tuple[str, str]] = []
+    for name in sorted(SERIES):
+        if name in parent:
+            continue
+        records = series[name]
+        columns = scalars[name]
+        labels: dict[str, dict[str, str]] = {}
+        for c in columns:
+            target = scalar_refs.get((name, c))
+            if target is None:
+                continue
+            for r in records.values():
+                if r.get(c) is not None and (hit := resolve(target, r[c])):
+                    labels.setdefault(c, {})[str(r[c])] = hit[1]
+        rows = [
+            [str(k), names.get((name, str(k)), str(k)), *(r.get(c) for c in columns)]
+            for k, r in records.items()
+        ]
+        view = {
+            "columns": columns,
+            "rows": rows,
+            "labels": {c: dict(sorted(m.items())) for c, m in sorted(labels.items())},
+        }
+        series_rows.append((name, json_value(view)))
+    return sorted(record_rows), series_rows
+
+
 def build(
     series: dict[str, dict[str, Any]],
     manifest: dict[str, Any],
@@ -311,6 +530,7 @@ def build(
     )
 
     docs: list[tuple[str, str, str]] = []
+    scalars: dict[str, list[str]] = {}
     key_sql = {UNITS: "TEXT"}
     for s in SERIES.values():
         props = document["definitions"][s.type_name]["properties"]
@@ -350,6 +570,7 @@ def build(
                     f"CREATE INDEX {q(s.name + '__' + field)} ON {q(s.name)} ({q(field)})"
                 )
         scalar = [f for f, k in kinds.items() if k != JSON and f != s.id_field]
+        scalars[s.name] = scalar
         if scalar:
             cols = ", ".join(q(f) for f in [s.id_field, *scalar])
             db.execute(
@@ -438,6 +659,9 @@ def build(
             for name, node in document["definitions"].items()
         ),
     )
+    records_search = search_rows(
+        series, document, {n for n, f in scalar_refs if f == SERIES[n].id_field}
+    )
     create(
         "search",
         [
@@ -448,14 +672,7 @@ def build(
             "keywords TEXT NOT NULL",
             "PRIMARY KEY (series, id)",
         ],
-        sorted(
-            search_rows(
-                series,
-                document,
-                {n for n, f in scalar_refs if f == SERIES[n].id_field},
-            )
-            + (api.search if api else [])
-        ),
+        sorted(records_search + (api.search if api else [])),
     )
     # Names by series without the keywords: link labels read this index only.
     db.execute("CREATE INDEX search__names ON search (series, id, name)")
@@ -515,6 +732,30 @@ def build(
                 ),
             ]
         )
+    record_views, series_views = views(
+        series, all_rules, {(r[0], r[1]): (r[2], r[3]) for r in records_search}, scalars
+    )
+    create(
+        "record_views",
+        [
+            "series TEXT NOT NULL",
+            "id TEXT NOT NULL",
+            "view TEXT NOT NULL",
+            "PRIMARY KEY (series, id)",
+        ],
+        record_views,
+    )
+    create(
+        "series_views",
+        ["series TEXT PRIMARY KEY", "view TEXT NOT NULL"],
+        series_views,
+    )
+    docs.extend(
+        [
+            ("record_views", "", "Each record page as one JSON document."),
+            ("series_views", "", "Each series' browse table as one JSON document."),
+        ]
+    )
     create(
         "unresolved_refs",
         [
@@ -544,6 +785,7 @@ def build(
         fail(f"foreign key violations: {problems[:5]}")
     db.execute("VACUUM")
     db.close()
+    page_order.reorder(tmp, BOOT_GROUPS)
     tmp.replace(output)
     return counts
 
