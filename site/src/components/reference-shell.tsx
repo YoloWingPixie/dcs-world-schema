@@ -30,8 +30,8 @@ function NotFound() {
 /**
  * Every reference page: `/<series>/` (browse) and `/<series>/<id>/` (a record), rendered
  * client side from the database. The host serves this for any path it has no file for
- * (404.html on GitHub Pages, the not-found route in `next dev`), so new series and records
- * need no build.
+ * (404.html, with status 200 under each series via _redirects; the not-found route in
+ * `next dev`), so new series and records need no build.
  */
 export function ReferenceShell() {
   const pathname = usePathname();

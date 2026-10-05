@@ -19,7 +19,7 @@
     "format": "biome check --write .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "e2e": "playwright test",
+    "e2e": "playwright test && SITE_DB_MODE=chunked playwright test",
     "check:overlays": "tsx scripts/check-overlays.ts"
   },
   "dependencies": {

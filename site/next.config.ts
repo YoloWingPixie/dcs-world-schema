@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-// GitHub Pages serves a project site under /<repo>; set SITE_BASE_PATH=/dcs-world-schema there.
+// Set SITE_BASE_PATH when the site is served under a subpath (Cloudflare Pages serves it at /).
 const basePath = process.env.SITE_BASE_PATH ?? "";
 
 const nextConfig: NextConfig = {
