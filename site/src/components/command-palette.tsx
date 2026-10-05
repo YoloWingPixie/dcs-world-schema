@@ -1,10 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { GlobalSearch } from "./global-search";
-import { openHref } from "./ref-link";
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+
+// The dialog and the search engine behind it load on first open.
+const PaletteBody = lazy(() => import("./palette-body"));
 
 const OPEN_EVENT = "dcs-ref:open-palette";
 
@@ -20,7 +19,6 @@ function isTyping(target: EventTarget | null) {
 /** Global command palette: Ctrl/Cmd+K or "/" anywhere. */
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const returnFocus = useRef<HTMLElement | null>(null);
 
   const show = useCallback(() => {
@@ -57,52 +55,16 @@ export function CommandPalette() {
 
   if (!open) return null;
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: Escape is handled by the combobox
-    // biome-ignore lint/a11y/noStaticElementInteractions: backdrop click closes the dialog
-    <div
-      className="palette-backdrop"
-      onClick={(event) => {
-        if (event.target === event.currentTarget) close();
-      }}
+    <Suspense
+      fallback={
+        <div className="palette-backdrop">
+          <div className="palette" role="dialog" aria-label="Search" aria-busy="true">
+            <span className="visually-hidden">Loading…</span>
+          </div>
+        </div>
+      }
     >
-      <div className="palette" role="dialog" aria-modal="true" aria-label="Search the reference">
-        <GlobalSearch
-          label="Search the reference"
-          variant="palette"
-          autoFocus
-          onEscape={close}
-          onPick={(item) => {
-            setOpen(false);
-            openHref(item.href, router);
-          }}
-          emptyHint={
-            <div className="results-empty">
-              Type a name (<code>F-16C</code>, <code>AMRAAM</code>), a DCS id (<code>P_27PE</code>),
-              an airbase (<code>Batumi</code>) or a type (<code>radar</code>).{" "}
-              <Link href="/reference/" onClick={() => setOpen(false)}>
-                Browse every section
-              </Link>
-            </div>
-          }
-          footer={
-            <div className="results-hint">
-              <span>
-                <span className="kbd">↑</span> <span className="kbd">↓</span> move
-              </span>
-              <span>
-                <span className="kbd">Alt</span> <span className="kbd">←</span>{" "}
-                <span className="kbd">→</span> section
-              </span>
-              <span>
-                <span className="kbd">Enter</span> open
-              </span>
-              <span>
-                <span className="kbd">Esc</span> close
-              </span>
-            </div>
-          }
-        />
-      </div>
-    </div>
+      <PaletteBody close={close} dismiss={() => setOpen(false)} />
+    </Suspense>
   );
 }

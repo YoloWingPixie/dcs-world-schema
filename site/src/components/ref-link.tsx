@@ -1,6 +1,7 @@
 "use client";
 
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { type NavHint, setNavHint } from "@/lib/nav-hints";
 
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -34,16 +35,20 @@ type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   /** Site path without basePath. */
   href: string;
   children: ReactNode;
+  /** Shown on the record page while it loads; defaults to the link text. */
+  hint?: NavHint;
 };
 
 /** A link to a reference record or series page (plain <a>, client-side inside the shell). */
-export function RefLink({ href, onClick, children, ...rest }: Props) {
+export function RefLink({ href, onClick, children, hint, ...rest }: Props) {
   return (
     <a
       {...rest}
       href={`${BASE_PATH}${href}`}
       onClick={(event: MouseEvent<HTMLAnchorElement>) => {
         onClick?.(event);
+        const name = hint ?? (typeof children === "string" ? { name: children } : null);
+        if (name) setNavHint(href, name);
         if (
           event.defaultPrevented ||
           event.button !== 0 ||

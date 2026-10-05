@@ -53,7 +53,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "ground vehicle",
     group: "units",
     type: "Entity.GroundVehicle",
-    blurb: "Armour, air defence, artillery and soft vehicles with their weapon systems.",
+    blurb: "Armour, air defence, artillery and soft-skinned vehicles.",
     unit: true,
   },
   {
@@ -98,7 +98,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "weapon",
     group: "weapons",
     type: "Entity.Weapon",
-    blurb: "Missiles, bombs, rockets and torpedoes, with their flight models.",
+    blurb: "Missiles, bombs, rockets and torpedoes.",
     companion: "weapon_flight",
   },
   {
@@ -116,7 +116,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "store",
     group: "weapons",
     type: "Entity.Store",
-    blurb: "Pylon loads by CLSID: what each delivers, its rack, mass and drag.",
+    blurb: "Pylon loads by CLSID: payload, rack, mass, drag.",
   },
   {
     id: "racks",
@@ -148,7 +148,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "fuze",
     group: "weapons",
     type: "Entity.FuzeType",
-    blurb: "Fuze types and their parameters.",
+    blurb: "Fuze types.",
   },
   {
     id: "sensors",
@@ -172,7 +172,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "datalink",
     group: "systems",
     type: "Entity.Datalink",
-    blurb: "Datalink capabilities of the aircraft that have one.",
+    blurb: "Aircraft datalink capabilities.",
   },
   {
     id: "threats",
@@ -236,7 +236,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "attribute",
     group: "mission",
     type: "Entity.Attribute",
-    blurb: "Unit attributes and the units that carry them.",
+    blurb: "Unit attributes.",
   },
   {
     id: "tasks",
@@ -252,7 +252,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "action",
     group: "mission",
     type: "Entity.Action",
-    blurb: "Mission-editor actions and their parameters.",
+    blurb: "Mission-editor actions.",
   },
   {
     id: "options",
@@ -260,7 +260,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "option",
     group: "mission",
     type: "Entity.ActionOption",
-    blurb: "AI options (ROE, reaction to threat, formation…).",
+    blurb: "AI options: ROE, reaction to threat, formation.",
   },
   {
     id: "formations",
@@ -268,7 +268,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "formation",
     group: "mission",
     type: "Entity.Formation",
-    blurb: "Flight formations and their variants.",
+    blurb: "Flight formations.",
   },
   {
     id: "skills",
@@ -284,7 +284,7 @@ export const SERIES: SeriesInfo[] = [
     singular: "livery",
     group: "mission",
     type: "Entity.Livery",
-    blurb: "Paint schemes and the unit types they apply to.",
+    blurb: "Paint schemes per unit type.",
   },
 ];
 

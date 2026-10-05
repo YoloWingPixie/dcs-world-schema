@@ -51,11 +51,96 @@ export type ReferenceConfig = {
   /** Read-ahead cap (patched into the worker by copy-sqlite-assets): one part per request. */
   maxReadSpeed?: number;
   databaseLengthBytes: number;
+  /**
+   * Chunked: the parts each page reads first, fetched in parallel at startup (see
+   * BOOT_GROUPS): every page, search, the API docs. Indexes into the part files.
+   */
+  boot?: { core: number[]; search: number[]; api: number[] };
   /** The released file and its hash, for display. */
   file: string;
   version: string | null;
   sha256: string;
 };
+
+/**
+ * The pages a client reads first: [whole tables, tables or indexes whose interior pages].
+ * Mirrors BOOT_GROUPS in tools/package/sqlite.py, which lays these pages out together.
+ */
+const BOOT_GROUPS: Record<"core" | "search" | "api", [string[], string[]]> = {
+  core: [
+    ["sqlite_schema", "sqlite_master", "meta", "series", "ref_paths", "schema_types"],
+    [
+      "record_views",
+      "sqlite_autoindex_record_views_1",
+      "series_views",
+      "sqlite_autoindex_series_views_1",
+    ],
+  ],
+  search: [
+    ["search_fts_config"],
+    [
+      "search",
+      "sqlite_autoindex_search_1",
+      "search__names",
+      "search_fts_data",
+      "search_fts_idx",
+      "search_fts_docsize",
+    ],
+  ],
+  api: [
+    [],
+    [
+      "api_symbols",
+      "sqlite_autoindex_api_symbols_1",
+      "api_symbols__path",
+      "api_symbols__pages",
+      "api_type_uses",
+      "sqlite_autoindex_api_type_uses_1",
+    ],
+  ],
+};
+
+/** Part indexes holding each boot group's pages (dbstat), each group without earlier ones. */
+export function bootParts(path: string, partSize: number): NonNullable<ReferenceConfig["boot"]> {
+  const db = new DatabaseSync(path, { readOnly: true });
+  try {
+    const seen = new Set<number>();
+    const marks = (n: number) => Array.from({ length: n }, () => "?").join(",");
+    const pick = ([whole, upper]: [string[], string[]]) => {
+      const pages = new Set<number>([1]);
+      const rows = [
+        ...(whole.length
+          ? db
+              .prepare(`SELECT pageno FROM dbstat WHERE name IN (${marks(whole.length)})`)
+              .all(...whole)
+          : []),
+        ...db
+          .prepare(
+            `SELECT pageno FROM dbstat WHERE name IN (${marks(upper.length)}) AND pagetype = 'internal'`,
+          )
+          .all(...upper),
+        ...db
+          .prepare(
+            `SELECT rootpage AS pageno FROM sqlite_master WHERE name IN (${marks(upper.length)})`,
+          )
+          .all(...upper),
+      ] as { pageno: number }[];
+      for (const r of rows) pages.add(Number(r.pageno));
+      const parts = [...new Set([...pages].map((p) => Math.floor(((p - 1) * PAGE) / partSize)))]
+        .filter((p) => !seen.has(p))
+        .sort((a, b) => a - b);
+      for (const p of parts) seen.add(p);
+      return parts;
+    };
+    return {
+      core: pick(BOOT_GROUPS.core),
+      search: pick(BOOT_GROUPS.search),
+      api: pick(BOOT_GROUPS.api),
+    };
+  } finally {
+    db.close();
+  }
+}
 
 const siteRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -128,6 +213,7 @@ export function publish(
       suffixLength,
       requestChunkSize: partSize,
       maxReadSpeed: partSize,
+      boot: bootParts(source, partSize),
       ...base,
     };
   }

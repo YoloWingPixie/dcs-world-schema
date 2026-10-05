@@ -15,10 +15,12 @@ import {
   keyedFieldPaths,
   loadModel as loadModelFrom,
   type Model,
+  referencedByGroup,
 } from "./db/reference";
 import { slugify } from "./series-display";
 import type {
   FieldValues,
+  LinkTarget,
   Overlay,
   RecordDoc,
   SeriesCatalog,
@@ -52,12 +54,13 @@ function once<T>(key: string, load: () => Promise<T>): Promise<T> {
 export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
 
 const NO_OVERLAYS: OverlayFile = { series: {} };
+const OVERLAYS_URL = `${BASE_PATH}/overlays/reference.json`;
 
 export const loadOverlays = () =>
   once(
     "overlays",
     (): Promise<OverlayFile> =>
-      fetch(`${BASE_PATH}/overlays/reference.json`)
+      fetch(OVERLAYS_URL)
         .then((r) => (r.ok ? (r.json() as Promise<OverlayFile>) : NO_OVERLAYS))
         .catch(() => NO_OVERLAYS),
   );
@@ -125,11 +128,22 @@ export const loadSeriesIndex = (series: string) =>
 
 export const loadRecord = (series: string, id: string) =>
   once(`record:${series}:${id}`, async (): Promise<RecordDoc> => {
-    const [model, overlays] = await Promise.all([loadModel(), loadOverlays()]);
-    const doc = await getRecord(browserQuery, model, series, id);
+    const overlaysLoading = loadOverlays();
+    const model = await loadModel();
+    const [doc, overlays] = await Promise.all([
+      getRecord(browserQuery, model, series, id),
+      overlaysLoading,
+    ]);
     if (!doc) throw new Error(`No ${series} record ${id}.`);
     const overlay = recordOverlay(overlays, model, series, doc.id);
     return overlay ? { ...doc, overlay } : doc;
+  });
+
+/** The full list of a capped "referenced by" group (`total` > `records.length`). */
+export const loadReferencedByGroup = (series: string, id: string, from: string, path: string) =>
+  once(`refby:${series}:${id}:${from}:${path}`, async (): Promise<LinkTarget[]> => {
+    const model = await loadModel();
+    return referencedByGroup(browserQuery, model, series, id, from, path);
   });
 
 export const loadFieldValues = (series: string, path: string) =>

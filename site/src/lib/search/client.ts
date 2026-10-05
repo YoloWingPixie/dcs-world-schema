@@ -2,7 +2,8 @@
 
 import type MiniSearch from "minisearch";
 import { useEffect, useMemo, useState } from "react";
-import { deserializeIndex, mergeHits, searchIndex } from "./engine";
+import type * as Engine from "./engine";
+import { mergeHits } from "./merge";
 import { SEARCH_PROVIDERS, SEARCH_SOURCES } from "./sources";
 import type { SearchGroup, SearchSource, SourceHits, StoredDoc } from "./types";
 
@@ -13,19 +14,29 @@ const pending = new Map<string, Promise<MiniSearch<StoredDoc>>>();
 const listeners = new Set<() => void>();
 const failed = new Set<string>();
 
+// MiniSearch loads with the first index, not with the page.
+let engine: typeof Engine | null = null;
+const loadEngine = () =>
+  import("./engine").then((m) => {
+    engine = m;
+    return m;
+  });
+
 /** Fetch and deserialise one source's prebuilt index (once per page view). */
 export function loadSource(source: SearchSource): Promise<MiniSearch<StoredDoc>> {
   const ready = indexes.get(source.id);
   if (ready) return Promise.resolve(ready);
   let promise = pending.get(source.id);
   if (!promise) {
-    promise = fetch(`${BASE_PATH}${source.indexUrl}`)
-      .then((res) => {
+    promise = Promise.all([
+      fetch(`${BASE_PATH}${source.indexUrl}`).then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.text();
-      })
-      .then((json) => {
-        const index = deserializeIndex(json, source.options);
+      }),
+      loadEngine(),
+    ])
+      .then(([json, e]) => {
+        const index = e.deserializeIndex(json, source.options);
         indexes.set(source.id, index);
         failed.delete(source.id);
         return index;
@@ -117,8 +128,8 @@ export function useGlobalSearch(
     const groups: SourceHits[] = [];
     for (const source of sources) {
       const index = indexes.get(source.id);
-      if (!index || !query.trim()) continue;
-      groups.push({ source, results: searchIndex(index, source, query, limit) });
+      if (!index || !engine || !query.trim()) continue;
+      groups.push({ source, results: engine.searchIndex(index, source, query, limit) });
     }
     const fromProviders = provided.groups.filter((g) => !wanted || wanted.has(g.source.id));
     const loading = sources.filter((s) => !indexes.has(s.id) && !failed.has(s.id));

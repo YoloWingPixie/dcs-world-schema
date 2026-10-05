@@ -67,7 +67,7 @@ export function Description({
       {stored ? <span className="tip-stored">Stored as {stored}</span> : null}
       {entry.note ? (
         <div className="tip-note">
-          <Markdown html={entry.note} handWritten="Note" />
+          <Markdown html={entry.note} handWritten />
         </div>
       ) : null}
     </div>
@@ -83,7 +83,7 @@ export function MoreButton({ label }: { label: string }) {
         data-field-menu-button=""
         aria-haspopup="menu"
         aria-label={`Actions for ${label}`}
-        title="Compare and copy (right-click or press C)"
+        title="Actions (C)"
       >
         <MoreIcon />
       </button>
@@ -186,8 +186,8 @@ export function FieldRow({
         {shown}
         {entry.dcsKey ? <span className="field-key">{entry.dcsKey}</span> : null}
         {entry.note ? (
-          <span className="note-dot" title="Has an editor's note">
-            <span className="visually-hidden">(has a note)</span>
+          <span className="note-dot" title="Note">
+            <span className="visually-hidden">(note)</span>
           </span>
         ) : null}
       </span>

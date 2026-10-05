@@ -54,8 +54,8 @@ function CompactMembers({ members, links }: { members: Member[]; links: Links })
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Signature or type</th>
-            <th scope="col">Notes</th>
+            <th scope="col">Signature</th>
+            <th scope="col">Description</th>
           </tr>
         </thead>
         <tbody>
@@ -151,9 +151,7 @@ export function ApiPageView({
           <p className="api-lede">
             <RichText text={page.description} links={links} />
           </p>
-        ) : (
-          <p className="api-lede api-desc-missing">No description in the schema yet.</p>
-        )}
+        ) : null}
         {page.inherits?.length || page.subclasses?.length ? (
           <dl className="api-hier">
             {page.inherits?.length ? (
@@ -219,13 +217,9 @@ export function ApiPageView({
           {page.values ? (
             <section id="values" className="section" aria-labelledby="values-h">
               <div className="section-head">
-                <h2 id="values-h">Values</h2>
-                <span className="section-blurb">
-                  {page.values.length} values
-                  {page.valuesSeries
-                    ? `; linked ones open the ${SERIES_LABEL[page.valuesSeries] ?? page.valuesSeries} reference page`
-                    : ""}
-                </span>
+                <h2 id="values-h">
+                  Values <span className="section-tag">{page.values.length}</span>
+                </h2>
               </div>
               <EnumTable
                 name={page.name}
@@ -238,8 +232,9 @@ export function ApiPageView({
           {page.anyOf ? (
             <section id="members" className="section" aria-labelledby="members-h">
               <div className="section-head">
-                <h2 id="members-h">Members</h2>
-                <span className="section-blurb">A value of any one of these types</span>
+                <h2 id="members-h">
+                  Members <span className="section-tag">{page.anyOf.length}</span>
+                </h2>
               </div>
               <ul className="api-union">
                 {page.anyOf.map((t, i) => (
@@ -271,8 +266,9 @@ export function ApiPageView({
               aria-labelledby={`g-${g.id}-h`}
             >
               <div className="section-head">
-                <h2 id={`g-${g.id}-h`}>{g.title}</h2>
-                <span className="section-blurb">{g.members.length}</span>
+                <h2 id={`g-${g.id}-h`}>
+                  {g.title} <span className="section-tag">{g.members.length}</span>
+                </h2>
               </div>
               {compact ? (
                 <CompactMembers members={g.members} links={links} />
@@ -290,7 +286,6 @@ export function ApiPageView({
             <section id="inherited" className="section" aria-labelledby="inherited-h">
               <div className="section-head">
                 <h2 id="inherited-h">Inherited</h2>
-                <span className="section-blurb">Declared by a parent; documented there</span>
               </div>
               {inherited.map((g) => (
                 <div key={g.from} className="api-inherited">
@@ -319,8 +314,9 @@ export function ApiPageView({
           {page.usedBy.length ? (
             <section id="used-by" className="section" aria-labelledby="used-by-h">
               <div className="section-head">
-                <h2 id="used-by-h">Used by</h2>
-                <span className="section-blurb">Functions taking or returning {page.name}</span>
+                <h2 id="used-by-h">
+                  Used by <span className="section-tag">{page.usedBy.length}</span>
+                </h2>
               </div>
               <ul className="api-usedby">
                 {page.usedBy.map((u) => (

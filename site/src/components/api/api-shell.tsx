@@ -29,8 +29,7 @@ function Missing({ what }: { what: string }) {
     <div className="empty-state">
       <h1>No such API page</h1>
       <p>
-        The Lua API has no <code>{what}</code>. <ApiLink href="/api/">Browse the Lua API</ApiLink>{" "}
-        or press <span className="kbd">Ctrl K</span> to search it.
+        <code>{what}</code> not found. <ApiLink href="/api/">Lua API</ApiLink>
       </p>
     </div>
   );
@@ -39,8 +38,8 @@ function Missing({ what }: { what: string }) {
 function Failed() {
   return (
     <div className="empty-state">
-      <h1>The reference database did not load</h1>
-      <p>Check your connection and reload the page.</p>
+      <h1>Failed to load data</h1>
+      <p>Reload the page.</p>
     </div>
   );
 }

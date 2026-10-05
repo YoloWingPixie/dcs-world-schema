@@ -24,8 +24,8 @@ test("API home -> Unit -> getByName anchor", async ({ page }) => {
     "href",
     /\/api\/Unit\/$/,
   );
-  // Hand-written overlay renders, marked as such.
-  await expect(entry.getByText("Hand-written")).toBeVisible();
+  // The overlay renders.
+  await expect(entry.getByRole("complementary", { name: "Notes" })).toBeVisible();
   // Inherited methods link to their origin.
   await expect(page.locator("#inherited a", { hasText: "Unit:isExist" })).toHaveAttribute(
     "href",

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   type KeyboardEvent,
@@ -175,10 +174,6 @@ export function CompareView() {
       <div className="compare-head">
         <div>
           <h1 className="page-title">Compare</h1>
-          <p className="lede">
-            Pick a field to line it up across {plural}, or leave it on “All fields” for a
-            side-by-side sheet. This page's address holds the selection, so you can share it.
-          </p>
         </div>
         <div className="compare-controls compare-controls-3">
           <div>
@@ -209,8 +204,8 @@ export function CompareView() {
               {info?.label ?? "Records"}
             </span>
             <AddPicker
-              label={`Add a${/^[aeiou]/i.test(singular) ? "n" : ""} ${singular} to compare`}
-              placeholder={`Add a${/^[aeiou]/i.test(singular) ? "n" : ""} ${singular}…`}
+              label={`Add ${singular}`}
+              placeholder={`Add ${singular}`}
               records={records}
               exclude={state.records}
               onPick={add}
@@ -232,9 +227,7 @@ export function CompareView() {
         {/* biome-ignore lint/a11y/useSemanticElements: a labelled group of removable chips */}
         <div className="selection" role="group" aria-labelledby="records-label">
           {state.records.length === 0 ? (
-            <span className="muted">
-              No {plural} yet. Add some above, or from any {singular} page.
-            </span>
+            <span className="muted">No {plural} selected.</span>
           ) : (
             state.records.map((slug) => (
               <span className="sel-chip" key={slug}>
@@ -264,9 +257,9 @@ export function CompareView() {
 
       {state.field && catalog && !entry ? (
         <div className="empty-state">
-          <h2>That field is not in the catalog</h2>
+          <h2>Unknown field</h2>
           <p>
-            <code>{state.field}</code> is not a field of {plural}. Pick one from the list above.
+            <code>{state.field}</code>
           </p>
         </div>
       ) : null}
@@ -287,18 +280,7 @@ export function CompareView() {
       ) : null}
 
       {!state.field && catalog ? (
-        state.records.length === 0 ? (
-          <div className="empty-state">
-            <h2>Start a comparison</h2>
-            <p>
-              Right-click any value on a record page and choose “Compare … across {plural}”, or add{" "}
-              {plural} above for a side-by-side sheet.
-            </p>
-            <p>
-              <Link href="/weapons/?id=AIM_120C">Open the AIM-120C</Link> to try it.
-            </p>
-          </div>
-        ) : (
+        state.records.length === 0 ? null : (
           <Matrix
             series={series}
             catalog={catalog}
@@ -438,7 +420,7 @@ function AddPicker({
           </div>
           {records.size === 0 ? <div className="results-empty">Loading…</div> : null}
           {records.size > 0 && hits.length === 0 ? (
-            <div className="results-empty">Nothing matches “{query}”.</div>
+            <div className="results-empty">No results for “{query}”.</div>
           ) : null}
         </div>
       ) : null}
@@ -490,7 +472,7 @@ function FieldSelect({
       onChange={(e) => onChange(e.target.value || null)}
       disabled={!catalog}
     >
-      <option value="">All fields, side by side</option>
+      <option value="">All fields</option>
       {value && catalog && !catalog.fieldPaths.some((f) => f.path === value) ? (
         <option value={value}>{value}</option>
       ) : null}
@@ -572,7 +554,7 @@ function FieldCompare(props: FieldProps) {
   const isEnvelope = entry.axis?.startsWith("grid:") ?? false;
 
   let selection: ReactNode;
-  if (!values) selection = <p className="muted">Loading values…</p>;
+  if (!values) selection = <p className="muted">Loading…</p>;
   else if (entry.kind === "numbers" && entry.axis === "mach") {
     selection = (
       <MachCompare
@@ -639,15 +621,13 @@ function FieldCompare(props: FieldProps) {
           <span className="field-key">{path}</span>
         </div>
         <p className="compare-desc">{renderDescription(entry.description)}</p>
-        {entry.note ? (
-          <Markdown html={entry.note} handWritten="Note" className="compare-note" />
-        ) : null}
+        {entry.note ? <Markdown html={entry.note} handWritten className="compare-note" /> : null}
       </div>
 
       {selected.length > 0 ? (
         <section className="panel" aria-labelledby="sel-h">
           <div className="panel-head">
-            <h3 id="sel-h">Your selection</h3>
+            <h3 id="sel-h">Selected</h3>
             {missing.length && values ? (
               <span className="muted">No value for {missing.map(name).join(", ")}.</span>
             ) : null}
@@ -674,11 +654,9 @@ function ChartLegend({ series }: { series: ChartSeries[] }) {
   );
 }
 
-function TooMany({ slugs, what }: { slugs: string[]; what: string }) {
+function TooMany({ slugs }: { slugs: string[] }) {
   return slugs.length > MAX_SERIES ? (
-    <p className="muted">
-      The chart shows the first {MAX_SERIES} {what}; the table has all of them.
-    </p>
+    <p className="muted">Chart shows the first {MAX_SERIES}.</p>
   ) : null;
 }
 
@@ -713,8 +691,7 @@ function MachCompare({
     values: valuesOf(slug),
     step: stepOf(slug),
   }));
-  if (series.length === 0)
-    return <p className="muted">None of the selected records has this table.</p>;
+  if (series.length === 0) return <p className="muted">No data.</p>;
   const longest = series.reduce((a, b) =>
     (b.values.length - 1) * (b.step ?? 0.2) > (a.values.length - 1) * (a.step ?? 0.2) ? b : a,
   );
@@ -727,9 +704,9 @@ function MachCompare({
         series={series}
         yUnit={displayUnit(entry.unit, system, entry.name)}
       />
-      <TooMany slugs={slugs} what="records" />
+      <TooMany slugs={slugs} />
       <details className="exact" style={{ marginTop: 10 }}>
-        <summary>Exact values by Mach</summary>
+        <summary>Table</summary>
         <div className="exact-scroll" style={{ maxHeight: 360 }}>
           <table className="exact-table">
             <thead>
@@ -800,8 +777,7 @@ function CurveCompare({
     x: v.x.map(convX),
     values: v.y.map((y) => conv(entry, y, system)),
   }));
-  if (series.length === 0)
-    return <p className="muted">None of the selected records has this table.</p>;
+  if (series.length === 0) return <p className="muted">No data.</p>;
   const xs = [...new Set(series.flatMap((s) => s.x ?? []))].sort((a, b) => a - b);
   return (
     <div>
@@ -812,9 +788,9 @@ function CurveCompare({
         xLabel={xLabel}
         yUnit={displayUnit(entry.unit, system, entry.name)}
       />
-      <TooMany slugs={curves.map((c) => c.slug)} what="records" />
+      <TooMany slugs={curves.map((c) => c.slug)} />
       <details className="exact" style={{ marginTop: 10 }}>
-        <summary>Exact values</summary>
+        <summary>Table</summary>
         <div className="exact-scroll" style={{ maxHeight: 360 }}>
           <table className="exact-table">
             <thead>
@@ -921,9 +897,7 @@ function EnvelopeCompare({
         </select>
       </div>
       {series.length === 0 ? (
-        <p className="muted">
-          None of the selected records has a table at this {rowEntry?.label.toLowerCase() ?? "row"}.
-        </p>
+        <p className="muted">No data.</p>
       ) : (
         <>
           <ChartLegend series={series} />
@@ -936,10 +910,7 @@ function EnvelopeCompare({
         </>
       )}
       {without.length ? (
-        <p className="muted">
-          No table at this {rowEntry?.label.toLowerCase() ?? "row"} for{" "}
-          {without.map(name).join(", ")}.
-        </p>
+        <p className="muted">No value for {without.map(name).join(", ")}.</p>
       ) : null}
     </div>
   );
@@ -967,8 +938,7 @@ function SelectedTable({
     .filter((v): v is number => typeof v === "number" && entry.kind === "number")
     .map((v) => conv(entry, v, vctx.system));
   const max = nums.length ? Math.max(...nums.map(Math.abs)) : 0;
-  if (slugs.length === 0)
-    return <p className="muted">None of the selected records has this field.</p>;
+  if (slugs.length === 0) return <p className="muted">No data.</p>;
   return (
     <div className="table-wrap">
       <table className="table">
@@ -1016,7 +986,6 @@ function SelectedTable({
 function AllRecordsTable({
   series,
   entry,
-  path,
   catalog,
   all,
   loading,
@@ -1108,15 +1077,13 @@ function AllRecordsTable({
   return (
     <section className="panel" aria-labelledby="all-h">
       <div className="panel-head">
-        <h3 id="all-h">
-          {loading ? `All ${plural} with this field` : `All ${total} ${plural} with this field`}
-        </h3>
+        <h3 id="all-h">{loading ? `All ${plural}` : `All ${plural} (${total})`}</h3>
         <div className="toolbar">
           <input
             className="input"
             type="search"
-            placeholder="Filter these rows…"
-            aria-label={`Filter ${plural} in this table`}
+            placeholder="Filter"
+            aria-label={`Filter ${plural}`}
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
           />
@@ -1166,9 +1133,6 @@ function AllRecordsTable({
           </tbody>
         </table>
       </div>
-      <p className="muted" style={{ marginTop: 8, fontSize: 14 }}>
-        Tick a row to add it to your selection. <code>{path}</code>
-      </p>
     </section>
   );
 }
@@ -1229,8 +1193,8 @@ function Matrix({
       );
   }, [catalog, valueMaps]);
 
-  if (!docs) return <p className="muted">Loading records…</p>;
-  if (records.length === 0) return <p className="muted">None of the selected records loaded.</p>;
+  if (!docs) return <p className="muted">Loading…</p>;
+  if (records.length === 0) return <p className="muted">Failed to load data. Reload the page.</p>;
 
   // Sections in the order their first field appears.
   const sectionOrder: string[] = [];
@@ -1246,7 +1210,7 @@ function Matrix({
             checked={diffOnly}
             onChange={(e) => setDiffOnly(e.target.checked)}
           />
-          Only fields that differ
+          Differences only
         </label>
       </div>
       <div className="table-wrap" style={{ maxHeight: "70vh", overflow: "auto" }}>
@@ -1288,7 +1252,6 @@ function Matrix({
                             type="button"
                             className="sort-btn"
                             onClick={() => onPickField(path)}
-                            title={`Compare ${label} across all records`}
                           >
                             {label}
                           </button>

@@ -22,7 +22,7 @@ export function SearchResultsPage() {
   }, [query, params, pathname, router]);
   return (
     <GlobalSearch
-      label="Search the reference"
+      label="Search"
       variant="page"
       autoFocus
       initialQuery={initial}

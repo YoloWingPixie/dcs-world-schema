@@ -3,39 +3,38 @@
 import Link from "next/link";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { COMPANION_PREFIX, getPath, isRecord } from "@/lib/catalog";
-import { loadCatalog, loadRecord } from "@/lib/client-data";
+import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
 import type { ValueContext } from "@/lib/format-field";
 import { constantLabel } from "@/lib/names";
+import type { NavHint } from "@/lib/nav-hints";
 import { recordHref, SERIES_BY_ID, seriesHref } from "@/lib/series";
 import { displayFor } from "@/lib/series-display";
-import type { CatalogEntry, RecordDoc, SeriesCatalog } from "@/lib/types";
+import type {
+  CatalogEntry,
+  LinkTarget,
+  RecordDoc,
+  ReferencedBy as RefGroup,
+  SeriesCatalog,
+} from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import { formatWithUnit } from "@/lib/units";
-import { RecordCompareActions } from "../compare-buttons";
 import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../field-view";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
 import type { RenderCtx } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
+import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
 
 type Json = Record<string, unknown>;
 type Section = {
   id: string;
   title: string;
-  blurb?: string | undefined;
   tag?: string | undefined;
   body: ReactNode;
 };
 
 const PROVENANCE = new Set(["sourcePaths", "sourcePath", "_source"]);
 const HEADER_FIELDS = new Set(["id"]);
-
-/** First sentence of a schema description, backticks dropped. */
-function blurbOf(text: string | undefined): string | undefined {
-  if (!text) return undefined;
-  const first = text.replace(/`/g, "").split(/(?<=\.)\s/)[0] ?? text;
-  return first.length > 160 ? `${first.slice(0, 157)}…` : first;
-}
 
 function useRecord(series: string, slug: string) {
   const [state, setState] = useState<{
@@ -110,7 +109,6 @@ function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Se
         out.push({
           id,
           title: entry.label,
-          blurb: blurbOf(catalog.types[entry.recordType]?.description),
           tag,
           body: (
             <RecordGroup
@@ -127,7 +125,6 @@ function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Se
         out.push({
           id,
           title: `${entry.label}`,
-          blurb: blurbOf(entry.description),
           tag: tag ?? `${v.length}`,
           body: (
             <RecordsBlock
@@ -149,7 +146,7 @@ function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Se
     build(doc.companion, companionEntry.recordType, COMPANION_PREFIX, "flight model");
   }
 
-  // Provenance: where the values come from.
+  // Source paths.
   const prov: Array<{ entry: CatalogEntry; path: string; value: unknown }> = [];
   for (const [root, prefix] of [
     [doc.data, ""],
@@ -165,8 +162,7 @@ function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Se
   if (prov.length) {
     out.push({
       id: "provenance",
-      title: "Provenance",
-      blurb: "Where in the DCS dump these values come from.",
+      title: "Source",
       body: (
         <div className="fields">
           {prov.map((p) => (
@@ -210,39 +206,83 @@ function ProvenanceRow({
   );
 }
 
+const groupSize = (g: RefGroup) => Math.max(g.total ?? 0, g.records.length);
+
+/** One referring series and path; long groups arrive capped and load in full on request. */
+function RefByGroup({ doc, group: g }: { doc: RecordDoc; group: RefGroup }) {
+  const [all, setAll] = useState<LinkTarget[] | null>(null);
+  const [status, setStatus] = useState<"idle" | "loading" | "failed">("idle");
+  const info = SERIES_BY_ID.get(g.series);
+  const records = all ?? g.records;
+  const total = all ? all.length : groupSize(g);
+  const capped = !all && total > g.records.length;
+  const listId = `refby-${g.series}-${g.path}`.replace(/[^\w-]/g, "_");
+
+  const showAll = () => {
+    setStatus("loading");
+    loadReferencedByGroup(doc.series, doc.id, g.series, g.path).then(
+      (list) => {
+        setAll(list);
+        setStatus("idle");
+      },
+      () => setStatus("failed"),
+    );
+  };
+
+  return (
+    <div className="refby-group">
+      <h3 className="subgroup-title">
+        {info?.label ?? g.series}
+        <span className="refby-path">
+          {g.path === "carriers" ? (
+            g.label
+          ) : (
+            <>
+              via <code>{g.path}</code>
+            </>
+          )}
+        </span>
+        <span className="muted"> ({total})</span>
+      </h3>
+      <ul className="link-list" id={listId} aria-busy={status === "loading"}>
+        {records.map(([slug, name]) => (
+          <li key={slug}>
+            <RefLink className="ref-link" href={recordHref(g.series, slug)}>
+              {name}
+            </RefLink>
+          </li>
+        ))}
+      </ul>
+      {capped ? (
+        <p className="refby-more">
+          <button
+            type="button"
+            className="btn"
+            aria-controls={listId}
+            disabled={status === "loading"}
+            onClick={showAll}
+          >
+            {status === "loading" ? "Loading…" : `Show all ${total.toLocaleString("en-US")}`}
+          </button>
+          {status === "failed" ? (
+            <span className="muted" role="alert">
+              {" "}
+              Failed to load data.
+            </span>
+          ) : null}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
 function ReferencedBy({ doc }: { doc: RecordDoc }) {
   if (!doc.referencedBy.length) return null;
   return (
     <div className="refby">
-      {doc.referencedBy.map((g) => {
-        const info = SERIES_BY_ID.get(g.series);
-        return (
-          <div className="refby-group" key={`${g.series}|${g.path}`}>
-            <h3 className="subgroup-title">
-              {info?.label ?? g.series}
-              <span className="refby-path">
-                {g.path === "carriers" ? (
-                  g.label
-                ) : (
-                  <>
-                    via <code>{g.path}</code>
-                  </>
-                )}
-              </span>
-              <span className="muted"> ({g.records.length})</span>
-            </h3>
-            <ul className="link-list">
-              {g.records.map(([slug, name]) => (
-                <li key={slug}>
-                  <RefLink className="ref-link" href={recordHref(g.series, slug)}>
-                    {name}
-                  </RefLink>
-                </li>
-              ))}
-            </ul>
-          </div>
-        );
-      })}
+      {doc.referencedBy.map((g) => (
+        <RefByGroup key={`${g.series}|${g.path}`} doc={doc} group={g} />
+      ))}
     </div>
   );
 }
@@ -305,51 +345,25 @@ function Readouts({ doc, ctx }: { doc: RecordDoc; ctx: RenderCtx }) {
   );
 }
 
-function RecordSkeleton({ label }: { label: string }) {
-  return (
-    <div className="record-skeleton" aria-busy="true" aria-live="polite">
-      <span className="visually-hidden">Loading {label}…</span>
-      <div className="plate">
-        <div className="sk sk-title" />
-        <div className="sk sk-line" />
-        <div className="sk sk-chips" />
-        <div className="readouts">
-          {[0, 1, 2, 3].map((i) => (
-            <div className="readout" key={i}>
-              <div className="sk sk-line" />
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="record-layout">
-        <div className="toc">
-          <div className="sk sk-line" />
-          <div className="sk sk-line" />
-        </div>
-        <div>
-          {[0, 1].map((i) => (
-            <div className="section" key={i}>
-              <div className="sk sk-heading" />
-              {[0, 1, 2, 3, 4].map((j) => (
-                <div className="sk sk-row" key={j} />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /** A record page of any series, rendered from its catalog (client side, from per-record JSON). */
-export function RecordView({ series, slug }: { series: string; slug: string }) {
+export function RecordView({
+  series,
+  slug,
+  hint,
+}: {
+  series: string;
+  slug: string;
+  /** Name (and meta) from the link that led here, shown until the record loads. */
+  hint?: NavHint | null;
+}) {
   const info = SERIES_BY_ID.get(series);
   const { catalog, doc, error } = useRecord(series, slug);
   const system = useUnitSystem();
 
+  const title = doc?.name ?? hint?.name;
   useEffect(() => {
-    if (doc) document.title = `${doc.name} · DCS World Reference`;
-  }, [doc]);
+    if (title) document.title = `${title} · DCS World Reference`;
+  }, [title]);
 
   const ctx = useMemo<RenderCtx | null>(() => {
     if (!catalog || !doc) return null;
@@ -368,20 +382,15 @@ export function RecordView({ series, slug }: { series: string; slug: string }) {
       <div className="empty-state">
         <h1>No such {info?.singular ?? "record"}</h1>
         <p>
-          <code>{slug}</code> is not in this DCS version's {info?.label.toLowerCase() ?? series}.
-        </p>
-        <p>
-          <RefLink href={seriesHref(series)}>
-            Browse all {info?.label.toLowerCase() ?? series}
-          </RefLink>
+          <RefLink href={seriesHref(series)}>{info?.label ?? series}</RefLink>
         </p>
       </div>
     );
   }
-  if (!catalog || !doc || !ctx) return <RecordSkeleton label={slug} />;
+  if (!catalog || !doc || !ctx) return <RecordSkeleton series={series} slug={slug} hint={hint} />;
 
-  const meta = doc.meta ? [...new Set(doc.meta.split(" · ").map((m) => constantLabel(m)))] : [];
-  const refCount = doc.referencedBy.reduce((n, g) => n + g.records.length, 0);
+  const chips = metaChips(doc.meta, constantLabel);
+  const refCount = doc.referencedBy.reduce((n, g) => n + groupSize(g), 0);
   const toc = [
     ...sections.map((s) => ({
       id: s.id,
@@ -393,45 +402,22 @@ export function RecordView({ series, slug }: { series: string; slug: string }) {
 
   return (
     <div className="record">
-      <nav className="crumbs" aria-label="Breadcrumb">
-        <Link href="/reference/">Reference</Link>
-        <span aria-hidden="true">/</span>
-        <RefLink href={seriesHref(series)}>{info?.label ?? series}</RefLink>
-        <span aria-hidden="true">/</span>
-        <span aria-current="page">{doc.name}</span>
-      </nav>
-
-      <header className="plate">
-        <div className="plate-head">
-          <div>
-            <h1>{doc.name}</h1>
-            {doc.overlay?.aliases?.length ? (
-              <p className="plate-nick">{doc.overlay.aliases.join(" · ")}</p>
-            ) : null}
-            <p className="plate-id">
-              <span className="muted">DCS id</span> {doc.id}
-            </p>
-            <div className="plate-chips">
-              <span className="chip chip-accent">{info?.singular ?? series}</span>
-              {meta.map((m) => (
-                <span className="chip" key={m}>
-                  {m}
-                </span>
-              ))}
-              {doc.companion ? <span className="chip">Flight model</span> : null}
-            </div>
-          </div>
-          <RecordCompareActions series={series} slug={doc.slug} name={doc.name} />
-        </div>
-        <Readouts doc={doc} ctx={ctx} />
-      </header>
+      <RecordHeader
+        series={series}
+        slug={doc.slug}
+        name={doc.name}
+        id={doc.id}
+        chips={chips}
+        aliases={doc.overlay?.aliases}
+        readouts={<Readouts doc={doc} ctx={ctx} />}
+      />
 
       {doc.overlay?.html || doc.overlay?.seeAlso?.length ? (
-        <section className="overlay-note" aria-label="Editor's note">
+        <section className="overlay-note" aria-label="Note">
           {doc.overlay.html ? <Markdown html={doc.overlay.html} handWritten /> : null}
           {doc.overlay.seeAlso?.length ? (
             <p className="see-also">
-              See also:{" "}
+              See also{" "}
               {doc.overlay.seeAlso.map((s, i) => (
                 <span key={s.href}>
                   {i ? ", " : ""}
@@ -471,7 +457,6 @@ export function RecordView({ series, slug }: { series: string; slug: string }) {
                   {section.title}
                   {section.tag ? <span className="section-tag">{section.tag}</span> : null}
                 </h2>
-                {section.blurb ? <span className="section-blurb">{section.blurb}</span> : null}
               </div>
               {section.body}
             </section>
@@ -482,10 +467,6 @@ export function RecordView({ series, slug }: { series: string; slug: string }) {
                 <h2 id="referenced-by-h">
                   Referenced by <span className="section-tag">{refCount}</span>
                 </h2>
-                <span className="section-blurb">
-                  Records elsewhere in the reference that point at this {info?.singular ?? "record"}
-                  .
-                </span>
               </div>
               <ReferencedBy doc={doc} />
             </section>

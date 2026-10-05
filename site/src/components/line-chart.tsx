@@ -164,7 +164,7 @@ export function LineChart({
         height={h}
         viewBox={`0 0 ${width} ${h}`}
         role="img"
-        aria-label={`${title}: line chart by ${xLabel}, ${series.length} series. Use left and right arrows to read values.`}
+        aria-label={`${title} by ${xLabel}. Arrow keys read values.`}
         tabIndex={0}
         onPointerMove={onPointer}
         onPointerLeave={() => setHoverX(null)}
@@ -277,13 +277,4 @@ export function LineChart({
   );
 }
 
-export const SERIES_COLORS = [
-  "var(--s1)",
-  "var(--s2)",
-  "var(--s3)",
-  "var(--s4)",
-  "var(--s5)",
-  "var(--s6)",
-  "var(--s7)",
-  "var(--s8)",
-];
+export { SERIES_COLORS } from "./chart-colors";

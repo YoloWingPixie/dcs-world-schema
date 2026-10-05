@@ -3,11 +3,14 @@
 // other unknown paths get 404.html (the reference shell) with status 404. Files honour
 // HTTP Range requests (single-file mode reads the SQLite database by ranges).
 // SERVE_NO_RANGES=1 answers Range requests with the whole file, as Cloudflare Pages does.
+// Text and wasm go out brotli- or gzip-compressed when the client accepts it (as on Pages),
+// with the headers _headers gives their path.
 //   node scripts/serve-out.mjs [port] [root]
 import { createReadStream, existsSync, readFileSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { brotliCompressSync, constants, gzipSync } from "node:zlib";
 
 const root = resolve(process.argv[3] ?? fileURLToPath(new URL("../out", import.meta.url)));
 const port = Number(process.argv[2] ?? process.env.PORT ?? 3211);
@@ -18,6 +21,25 @@ const rewrites = existsSync(join(root, "_redirects"))
       .filter(([from, to, status]) => from?.endsWith("/*") && to && status === "200")
       .map(([from, to]) => ({ prefix: from.slice(0, -1), to }))
   : [];
+const headerRules = [];
+if (existsSync(join(root, "_headers"))) {
+  for (const line of readFileSync(join(root, "_headers"), "utf8").split("\n")) {
+    if (!line.trim() || line.trim().startsWith("#")) continue;
+    if (!/^\s/.test(line)) {
+      const pattern = line
+        .trim()
+        .replace(/[.+?^${}()|[\]\\]/g, "\\$&")
+        .replace(/\*/g, ".*");
+      headerRules.push({ test: new RegExp(`^${pattern}$`), headers: {} });
+    } else if (headerRules.length) {
+      const [name, ...value] = line.trim().split(":");
+      headerRules.at(-1).headers[name.trim().toLowerCase()] = value.join(":").trim();
+    }
+  }
+}
+const headersFor = (pathname) =>
+  Object.assign({}, ...headerRules.filter((r) => r.test.test(pathname)).map((r) => r.headers));
+
 const types = {
   ".html": "text/html; charset=utf-8",
   ".js": "text/javascript",
@@ -31,6 +53,22 @@ const types = {
   ".wasm": "application/wasm",
   ".sqlite": "application/octet-stream",
 };
+
+const compressible = new Set([".html", ".js", ".css", ".json", ".svg", ".txt", ".wasm"]);
+const packed = new Map();
+function compressed(path, encoding) {
+  const key = `${encoding}:${path}:${statSync(path).mtimeMs}`;
+  let body = packed.get(key);
+  if (!body) {
+    const raw = readFileSync(path);
+    body =
+      encoding === "br"
+        ? brotliCompressSync(raw, { params: { [constants.BROTLI_PARAM_QUALITY]: 5 } })
+        : gzipSync(raw);
+    packed.set(key, body);
+  }
+  return body;
+}
 
 createServer((req, res) => {
   const url = new URL(req.url ?? "/", "http://localhost");
@@ -51,6 +89,7 @@ createServer((req, res) => {
     createReadStream(join(root, "404.html")).pipe(res);
     return;
   }
+  for (const [name, value] of Object.entries(headersFor(url.pathname))) res.setHeader(name, value);
   const size = statSync(path).size;
   const type = types[extname(path)] ?? "application/octet-stream";
   const range = !process.env.SERVE_NO_RANGES && /^bytes=(\d*)-(\d*)$/.exec(req.headers.range ?? "");
@@ -69,6 +108,25 @@ createServer((req, res) => {
     });
     if (req.method === "HEAD") res.end();
     else createReadStream(path, { start, end }).pipe(res);
+    return;
+  }
+  const accepts = String(req.headers["accept-encoding"] ?? "");
+  const encoding = !compressible.has(extname(path))
+    ? null
+    : /\bbr\b/.test(accepts)
+      ? "br"
+      : /\bgzip\b/.test(accepts)
+        ? "gzip"
+        : null;
+  if (encoding) {
+    const body = compressed(path, encoding);
+    res.writeHead(200, {
+      "content-type": type,
+      "content-length": body.length,
+      "content-encoding": encoding,
+      vary: "accept-encoding",
+    });
+    res.end(req.method === "HEAD" ? undefined : body);
     return;
   }
   res.writeHead(200, { "content-type": type, "content-length": size, "accept-ranges": "bytes" });

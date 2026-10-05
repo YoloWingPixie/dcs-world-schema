@@ -15,11 +15,7 @@ export function EnvBadges({ envs }: { envs?: ApiEnv[] | undefined }) {
   return (
     <>
       {envs.map((e) => (
-        <span
-          key={e}
-          className={`api-badge api-env api-env-${e}`}
-          title={`Environment: ${ENV_LABEL[e]}`}
-        >
+        <span key={e} className={`api-badge api-env api-env-${e}`}>
           {ENV_LABEL[e]}
         </span>
       ))}
@@ -27,12 +23,12 @@ export function EnvBadges({ envs }: { envs?: ApiEnv[] | undefined }) {
   );
 }
 
-/** Hand-written content: marked, quietly, as not generated from the schema. */
+/** Overlay content, styled apart from the generated entry. */
 export function OverlayBlock({ overlay }: { overlay: ApiOverlay }) {
   if (!overlay.html) return null;
   return (
-    <aside className="api-overlay" aria-label="Hand-written notes" title={`From ${overlay.source}`}>
-      <Markdown html={overlay.html} handWritten="Hand-written" className="api-prose" />
+    <aside className="api-overlay" aria-label="Notes">
+      <Markdown html={overlay.html} handWritten className="api-prose" />
     </aside>
   );
 }
@@ -172,14 +168,10 @@ export function MemberEntry({
           <EnvBadges envs={envs} />
           {m.deprecated ? <span className="api-badge api-badge-warn">deprecated</span> : null}
           {m.addedVersion ? (
-            <span className="api-badge api-badge-quiet" title="DCS version that added it">
-              since {m.addedVersion}
-            </span>
+            <span className="api-badge api-badge-quiet">since {m.addedVersion}</span>
           ) : null}
           {m.overlay?.since ? (
-            <span className="api-badge api-badge-quiet" title="From the hand-written notes">
-              since {m.overlay.since}
-            </span>
+            <span className="api-badge api-badge-quiet">since {m.overlay.since}</span>
           ) : null}
         </span>
       </header>
@@ -207,13 +199,9 @@ export function MemberEntry({
         <p className="api-desc">
           <RichText text={m.description} links={links} />
         </p>
-      ) : (
-        <p className="api-desc api-desc-missing">No description in the schema yet.</p>
-      )}
-
-      {isFn && m.params === null ? (
-        <p className="api-note">Signature unknown: the API dump does not record one.</p>
       ) : null}
+
+      {isFn && m.params === null ? <p className="api-note">Signature unknown.</p> : null}
 
       {isFn && params.length ? (
         <div className="table-wrap api-table-wrap">
