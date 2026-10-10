@@ -43,7 +43,7 @@ AERODYNAMICS: tuple[F, ...] = (
 )
 # ``table_data`` columns by row length (the install scripts' legend).
 AERO_ROW: dict[int, tuple[str, ...]] = {
-    8: ("mach", "cx0", "cya", "b", "b4", "rollRateMaxRadS", "aoaMax", "cyMax")
+    8: ("mach", "cx0", "cya", "b", "b4", "rollRateMaxRadS", "aoaMaxDeg", "cyMax")
 }
 ENGINE: tuple[F, ...] = (
     F("type", "type", kind="string"),

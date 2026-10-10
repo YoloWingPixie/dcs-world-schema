@@ -75,7 +75,7 @@ def test_buk_weapon_systems(surface: Surface) -> None:
         0.034906585039887,
     )
     assert tel["mountBeforeMove"] is True
-    assert (tel["minLaunchAngle"], tel["barrelsReloadType"]) == (0.17453292519943, 3)
+    assert (tel["minLaunchAngleRad"], tel["barrelsReloadType"]) == (0.17453292519943, 3)
     assert tel["sensor"] == {
         "type": 0,
         "deviationErrorAzimuth": 0,

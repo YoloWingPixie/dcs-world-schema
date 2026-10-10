@@ -36,10 +36,10 @@ SHELL: tuple[F, ...] = (
     F("smoke_tail_life_time", "smokeTailLifeTime"),
 )
 REBOUND: tuple[F, ...] = (
-    F("angle0", "angle0"),
-    F("angle100", "angle100"),
+    F("angle0", "angle0Deg", unit="deg"),
+    F("angle100", "angle100Deg", unit="deg"),
     F("cx_factor", "cxFactor"),
-    F("deviation_angle", "deviationAngle"),
+    F("deviation_angle", "deviationAngleDeg", unit="deg"),
     F("velocity_loss_factor", "velocityLossFactor"),
 )
 # rebound_<surface> -> field.

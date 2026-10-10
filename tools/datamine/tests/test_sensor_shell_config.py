@@ -89,10 +89,10 @@ def test_shell_fields_exact() -> None:
     for absent in ("massKg", "roundMass", "k1", "da1", "tracerOff", "projectile"):
         assert absent not in out
     assert out["reboundWater"] == {
-        "angle0": 65,
-        "angle100": 83,
+        "angle0Deg": 65,
+        "angle100Deg": 83,
         "cxFactor": 5,
-        "deviationAngle": 30,
+        "deviationAngleDeg": 30,
         "velocityLossFactor": 0.5,
     }
     _validate("Entity.GunAmmo", {"id": "M256_120_AP_L55", **out})

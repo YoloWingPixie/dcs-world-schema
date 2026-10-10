@@ -86,7 +86,7 @@ are not stages.
 | | `nearDistance`, `farDistance` | `sens_near_dist`, `sens_far_dist` | not stated |
 | | `operatingTime` | `op_time` | not stated |
 | gimbal | `yawMaxRad`, `pitchMaxRad` | `yaw_max`, `pitch_max` | rad |
-| | `trackingRateMax` | `max_tracking_rate` | not stated |
+| | `trackingRateMaxRadS` | `max_tracking_rate` | rad/s (`math.rad(n)` per second, the time unit implied) |
 | | `operatingTime` | `op_time` | not stated |
 | proximityFuze | `radius` | `radius` | not stated |
 | | `armDelay` | `arm_delay` | not stated |
