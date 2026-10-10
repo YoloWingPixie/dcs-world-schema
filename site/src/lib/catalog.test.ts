@@ -88,6 +88,41 @@ describe("catalog from every entity schema", () => {
     expect(weapons.entries.categoryName?.kind).toBe("enum");
   });
 
+  it("marks roles, layouts, Mach steps, list titles and unit conversions once", () => {
+    const weapons = catalogOf("weapons");
+    expect(weapons.entries.sourcePaths).toMatchObject({ role: "provenance", comparable: false });
+    expect(weapons.entries["flight.aerodynamics.sourcePath"]?.role).toBe("provenance");
+    expect(weapons.entries.massKg?.role).toBeUndefined();
+    expect(weapons.entries["flight.launchEnvelopes"]?.layout).toBe("envelope");
+    expect(weapons.entries["flight.motorStages"]).toMatchObject({ keyField: "stage" });
+    expect(weapons.entries["flight.motorStages"]?.layout).toBeUndefined();
+    expect(weapons.entries["flight.aerodynamics.cx0"]?.step).toEqual({
+      field: "machStep",
+      fallback: 0.2,
+    });
+    expect(weapons.entries["flight.aerodynamics.cxCoeff"]?.step).toBeUndefined();
+    const aircraft = catalogOf("aircraft");
+    expect(aircraft.entries["flight.aerodynamics.table"]?.layout).toBe("axis-table");
+    const vehicles = catalogOf("ground_vehicles");
+    expect(vehicles.entries["weaponSystems[].payloads"]).toMatchObject({
+      titleFields: ["ammoName", "ammoDisplayName"],
+      countFields: ["ammoCapacity", "portionAmmoCapacity"],
+    });
+    // Units resolve per entry: a range in metres reads in nm, an altitude in ft.
+    const range = Object.values(weapons.entries).find(
+      (e) => e.unit === "m" && /range/i.test(e.name),
+    );
+    expect(range?.conversions?.imperial?.to).toBe("nm");
+    expect(weapons.entries["flight.gimbal.yawMaxRad"]?.conversions).toMatchObject({
+      metric: { to: "°" },
+      imperial: { to: "°" },
+    });
+    expect(weapons.entries.massKg?.conversions).toMatchObject({
+      metric: null,
+      imperial: { to: "lb" },
+    });
+  });
+
   it("reads values along paths, keyed arrays and axis tables", () => {
     const weapons = catalogOf("weapons");
     const data = { id: "X", massKg: 100 };

@@ -76,9 +76,9 @@ export function EnvelopeBlock({
   );
 
   const conv = (e: CatalogEntry | undefined, v: number) =>
-    e ? convertValue(v, e.unit, vctx.system, e.name).value : v;
-  const rowUnit = rowEntry ? displayUnit(rowEntry.unit, vctx.system, rowEntry.name) : null;
-  const zUnit = gridEntry ? displayUnit(gridEntry.unit, vctx.system, gridEntry.name) : null;
+    e ? convertValue(v, e, vctx.system).value : v;
+  const rowUnit = rowEntry ? displayUnit(rowEntry, vctx.system) : null;
+  const zUnit = gridEntry ? displayUnit(gridEntry, vctx.system) : null;
 
   const series = picked
     .filter((r) => grid[r])
@@ -183,11 +183,4 @@ export function EnvelopeBlock({
       </div>
     </div>
   );
-}
-
-/** Whether a records entry is envelope-shaped. */
-export function isEnvelope(entry: CatalogEntry, ctx: RenderCtx, prefix: string): boolean {
-  const fields = ctx.catalog.types[entry.recordType ?? ""]?.fields ?? [];
-  const kinds = fields.map((f) => ctx.catalog.entries[`${prefix}[].${f}`]?.kind);
-  return kinds.filter((k) => k === "numbers").length >= 2 && kinds.includes("grid");
 }

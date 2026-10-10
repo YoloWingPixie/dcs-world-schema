@@ -386,6 +386,8 @@ select {
 main {
   flex: 1;
   width: 100%;
+  /* The footer starts below the fold, so content arriving later never moves it on screen. */
+  min-height: calc(100vh - var(--header-h));
 }
 
 .page {
@@ -1186,16 +1188,6 @@ select.input {
   margin-top: -10px;
 }
 
-.table-caption {
-  caption-side: top;
-  text-align: left;
-  padding: 0 0 6px 2px;
-  font-family: var(--font-head);
-  font-weight: 500;
-  font-size: 13.5px;
-  color: var(--ink);
-}
-
 .sort-btn {
   border: 0;
   background: none;
@@ -1461,7 +1453,7 @@ select.input {
 .section {
   margin-bottom: 60px;
   counter-increment: chapter;
-  counter-reset: sub tbl fig;
+  counter-reset: sub fig;
 }
 
 .section-head {
@@ -1531,15 +1523,13 @@ select.input {
 
 /* The same spaced-dot leader as the contents list, clipped to the room left. */
 .field:not(.field-wide) > .field-label::after,
-.field-wide:has(> .field-body > .value-list) > .field-label::after,
 .contents-leader::before {
   content: var(--leader-dots);
   letter-spacing: 0.08em;
   color: var(--ink-3);
 }
 
-.field:not(.field-wide) > .field-label::after,
-.field-wide:has(> .field-body > .value-list) > .field-label::after {
+.field:not(.field-wide) > .field-label::after {
   flex: 1 1 0;
   min-width: 1.5em;
   margin-left: -2px;
@@ -1680,38 +1670,30 @@ select.input {
 }
 
 /* A short list of numbers (a scan limit pair, a gear position) reads like any other value:
-   on the label's line, after the leader, in the two-column grid. */
-.field-wide:has(> .field-body > .value-list) {
-  grid-column: auto;
+   on the label's line, after the leader (FieldRow `wide` false). The label keeps its room. */
+.field-list {
   grid-template-columns: minmax(min(9em, 30%), 1fr) fit-content(70%) 24px;
-  padding: 5px 0;
-  margin-top: 0;
-  border-top: 0;
 }
 
-.field-wide:has(> .field-body > .value-list) .field-label {
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: 16px;
-  margin-bottom: 0;
-}
-
-.field-wide:has(> .field-body > .value-list) .field-body {
-  grid-column: auto;
-}
-
-.field-wide:has(> .field-body > .value-list) .value-list {
+.field-list > .value-list {
   gap: 0 0.7em;
+}
+
+/* Phones: a long DCS key goes under the label rather than under the numbers. */
+@media (max-width: 760px) {
+  .field-list > .field-label {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 761px) {
+  .field-list {
+    grid-template-columns: minmax(min(9em, 30%), 1fr) fit-content(70%);
+  }
 }
 
 .value-list > .unit {
   margin-left: -0.45em;
-}
-
-@media (min-width: 761px) {
-  .field-wide:has(> .field-body > .value-list) {
-    grid-template-columns: minmax(min(9em, 30%), 1fr) fit-content(70%);
-  }
 }
 
 .field-actions {

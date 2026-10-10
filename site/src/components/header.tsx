@@ -92,6 +92,12 @@ function UnitsToggle() {
   );
 }
 
+/**
+ * API pages are client-routed from the 404 shell (`/api/*` rewrites to it in _redirects):
+ * a prefetch of `/api/`'s route tree gets that shell back, so the link does not prefetch.
+ */
+const noPrefetch = (id: string) => (id === "api" ? false : null);
+
 export function SiteHeader() {
   const pathname = usePathname();
   const compare = useCompare();
@@ -125,6 +131,7 @@ export function SiteHeader() {
               <Link
                 key={s.id}
                 href={s.href}
+                prefetch={noPrefetch(s.id)}
                 className={s.id === "reference" ? "nav-browse" : undefined}
                 aria-current={section?.id === s.id ? "page" : undefined}
               >
@@ -142,6 +149,7 @@ export function SiteHeader() {
               <Link
                 key={s.id}
                 href={s.id === "compare" ? compareHref(compare) : s.href}
+                prefetch={noPrefetch(s.id)}
                 aria-current={section?.id === s.id ? "page" : undefined}
                 onClick={(e) => e.currentTarget.closest("details")?.removeAttribute("open")}
               >

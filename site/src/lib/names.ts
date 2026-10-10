@@ -76,10 +76,6 @@ const CONSTANTS: Record<string, string> = {
   MODULATION_AM_AND_FM: "AM and FM",
 };
 
-export function guidanceLabel(constant: string | null | undefined): string | null {
-  return constant ? (GUIDANCE[constant] ?? constant.replace(/([a-z])([A-Z])/g, "$1 $2")) : null;
-}
-
 /** Friendly label of any DCS constant name. */
 export function constantLabel(constant: string): string {
   return CONSTANTS[constant] ?? GUIDANCE[constant] ?? enumConstantLabel(constant);
@@ -112,7 +108,7 @@ export function enumConstant(
  * the code goes to the tooltip and field menu only.
  */
 export function enumDisplay(
-  entry: Pick<CatalogEntry, "enumType" | "name">,
+  entry: Pick<CatalogEntry, "enumType">,
   value: unknown,
   enums: Record<string, EnumInfo>,
 ): { label: string; raw: string; rewrite: boolean } {
@@ -125,13 +121,10 @@ export function enumDisplay(
 }
 
 function enumDisplayRaw(
-  entry: Pick<CatalogEntry, "enumType" | "name">,
+  entry: Pick<CatalogEntry, "enumType">,
   value: unknown,
   enums: Record<string, EnumInfo>,
 ): { label: string; raw: string } {
-  if (entry.name === "seekerTypeName" && typeof value === "string") {
-    return { label: guidanceLabel(value) ?? value, raw: value };
-  }
   const constant = enumConstant(entry, value, enums);
   if (typeof value === "number") {
     return constant

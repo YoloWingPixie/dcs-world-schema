@@ -1,20 +1,13 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import {
-  type KeyboardEvent,
-  type ReactNode,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
 import { COMPANION_PREFIX, catalogKeyFor, comparableValues } from "@/lib/catalog";
 import {
   loadCatalog,
   loadFieldPaths,
   loadFieldValues,
+  loadNames,
   loadRecord,
   loadSeriesIndex,
 } from "@/lib/client-data";
@@ -36,7 +29,7 @@ import {
 } from "@/lib/format-field";
 import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
-import { capitalise, squash } from "@/lib/text";
+import { capitalise, naturalCompare, squash } from "@/lib/text";
 import type { CatalogEntry, FieldValues, RecordDoc, SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import {
@@ -61,7 +54,7 @@ const MAX_SERIES = SERIES_COLORS.length;
 type RecordInfo = { name: string; id: string; sub: string };
 
 const conv = (entry: CatalogEntry, v: number, system: UnitSystem) =>
-  convertValue(v, entry.unit, system, entry.name).value;
+  convertValue(v, entry, system).value;
 
 /** "Overview", a top-level group's label, or "Flight model: <group>". */
 function sectionOf(catalog: SeriesCatalog, key: string): string {
@@ -86,35 +79,38 @@ export function CompareView() {
   const params = useSearchParams();
   const state = useCompare();
   const system = useUnitSystem();
-  const hydrated = useRef(false);
+  // Until the URL has been read, the store holds the last or default comparison: nothing
+  // loads for it, so a shared link's series is the first one read.
+  const [hydrated, setHydrated] = useState(false);
 
   // URL wins on arrival (shared links); afterwards the store drives the URL.
   useEffect(() => {
-    if (hydrated.current) return;
-    hydrated.current = true;
+    if (hydrated) return;
+    setHydrated(true);
     const fromUrl = parseCompareParams(new URLSearchParams(params.toString()));
     if (fromUrl) setCompare(fromUrl);
     else router.replace(compareHref(getCompare()), { scroll: false });
-  }, [params, router]);
+  }, [hydrated, params, router]);
 
   useEffect(() => {
-    if (!hydrated.current) return;
+    if (!hydrated) return;
     const href = compareHref(state);
     const query = params.toString().replace(/%2C/g, ",");
     const current = `/compare/${query ? `?${query}` : ""}`;
     if (href !== current) router.replace(href, { scroll: false });
-  }, [state, params, router]);
+  }, [hydrated, state, params, router]);
 
   const series = state.series;
+  const loadKey = hydrated ? series : "";
   const info = SERIES_BY_ID.get(series);
-  const baseCatalog = useLoaded(loadCatalog, series);
-  const fieldPaths = useLoaded(loadFieldPaths, series);
+  const baseCatalog = useLoaded((s) => (s ? loadCatalog(s) : Promise.resolve(null)), loadKey);
+  const fieldPaths = useLoaded((s) => (s ? loadFieldPaths(s) : Promise.resolve(null)), loadKey);
   const { model } = useModel();
   const catalog = useMemo(
     () => (baseCatalog && fieldPaths ? { ...baseCatalog, fieldPaths } : baseCatalog),
     [baseCatalog, fieldPaths],
   );
-  const index = useLoaded(loadSeriesIndex, series);
+  const index = useLoaded((s) => (s ? loadSeriesIndex(s) : Promise.resolve(null)), loadKey);
 
   const records = useMemo(() => {
     const map = new Map<string, RecordInfo>();
@@ -319,10 +315,7 @@ function AddPicker({
       if (score >= 0) scored.push({ slug, info, score });
     }
     return scored
-      .sort(
-        (a, b) =>
-          a.score - b.score || a.info.name.localeCompare(b.info.name, "en", { numeric: true }),
-      )
+      .sort((a, b) => a.score - b.score || naturalCompare(a.info.name, b.info.name))
       .slice(0, 12);
   }, [query, records, exclude]);
 
@@ -489,43 +482,56 @@ type FieldProps = {
   system: UnitSystem;
 };
 
-/** Link table for a ref field's values, from the target series' browse indexes. */
-function useRefLinks(entry: CatalogEntry): RecordDoc["links"] | undefined {
+/**
+ * Link table for a ref field's values: the names of the ids `all` holds, one IN query per
+ * target series (not the targets' whole browse indexes).
+ */
+function useRefLinks(
+  entry: CatalogEntry,
+  all: Record<string, unknown>,
+): RecordDoc["links"] | undefined {
   const targets = (entry.ref ?? []).filter((t) => !SERIES_BY_ID.get(t)?.parent).join(",");
-  const links = useLoaded(async (key) => {
-    if (!key) return null;
-    const list = await Promise.all(
-      key.split(",").map((t) => loadSeriesIndex(t).then((ix) => [t, ix] as const)),
-    );
+  const key = useMemo(() => {
+    if (!targets) return "";
+    const ids = new Set<string>();
+    for (const v of Object.values(all)) {
+      for (const x of Array.isArray(v) ? v : [v]) {
+        if (typeof x === "string" || typeof x === "number") ids.add(String(x));
+      }
+    }
+    return ids.size ? `${targets}\n${[...ids].sort().join("\n")}` : "";
+  }, [targets, all]);
+  const links = useLoaded(async (k) => {
+    if (!k) return null;
+    const [list = "", ...ids] = k.split("\n");
+    const wanted = new Set(ids);
+    const names = await loadNames(new Map(list.split(",").map((t) => [t, wanted])));
     const out: RecordDoc["links"] = {};
-    for (const [t, ix] of list) {
-      const map: Record<string, [string, string]> = {};
-      for (const [slug, name, id] of ix.rows) map[id] = [slug, name];
-      out[t] = map;
+    for (const [t, byId] of names) {
+      // Browse slugs are record ids.
+      out[t] = Object.fromEntries([...byId].map(([id, name]) => [id, [id, name]]));
     }
     return out;
-  }, targets);
+  }, key);
   return links ?? undefined;
 }
 
 function FieldCompare(props: FieldProps) {
   const { series, path, entry, catalog, selected, records, color, system } = props;
   const values = useLoaded<FieldValues | null>((p) => loadFieldValues(series, p), path);
-  const machStepPath = path.replace(/[^.]+$/, "machStep");
-  const hasStep =
-    entry.kind === "numbers" &&
-    entry.axis === "mach" &&
-    catalog.fieldPaths.some((f) => f.path === machStepPath);
+  // A Mach-sampled field's step: its sibling step field per record (catalog `step`).
+  const stepPath = entry.step ? path.replace(/[^.]+$/, entry.step.field) : "";
+  const hasStep = Boolean(stepPath) && catalog.fieldPaths.some((f) => f.path === stepPath);
   const steps = useLoaded<FieldValues | null>(
     (p) => (p ? loadFieldValues(series, p) : Promise.resolve(null)),
-    hasStep ? machStepPath : "",
+    hasStep ? stepPath : "",
   );
   const all = values?.values ?? {};
   const have = selected.filter((s) => all[s] !== undefined);
   const missing = selected.filter((s) => all[s] === undefined);
   const name = (slug: string) => records.get(slug)?.name ?? slug;
   const label = pathLabel(entry, path);
-  const links = useRefLinks(entry);
+  const links = useRefLinks(entry, all);
   const vctx: ValueContext = links
     ? { enums: catalog.enums, system, links }
     : { enums: catalog.enums, system };
@@ -533,12 +539,13 @@ function FieldCompare(props: FieldProps) {
 
   let selection: ReactNode;
   if (!values) selection = <p className="muted">Loading…</p>;
-  else if (entry.kind === "numbers" && entry.axis === "mach") {
+  else if (entry.step) {
     selection = (
       <MachCompare
         slugs={have}
         all={all}
         steps={steps?.values ?? {}}
+        fallback={entry.step.fallback}
         name={name}
         color={color}
         label={label}
@@ -592,8 +599,8 @@ function FieldCompare(props: FieldProps) {
         <div className="compare-field-title">
           <h2>{label}</h2>
           {entry.dcsKey ? <span className="field-key">{entry.dcsKey}</span> : null}
-          {displayUnit(entry.unit, system, entry.name) ? (
-            <span className="chip">{displayUnit(entry.unit, system, entry.name)}</span>
+          {displayUnit(entry, system) ? (
+            <span className="chip">{displayUnit(entry, system)}</span>
           ) : null}
           {entry.unitNotStated ? <span className="chip">unit not stated</span> : null}
           <span className="field-key">{path}</span>
@@ -638,10 +645,12 @@ function TooMany({ slugs }: { slugs: string[] }) {
   ) : null;
 }
 
+/** Mach-indexed lists (`numbers` on the Mach axis): each record's values at its own step. */
 function MachCompare({
   slugs,
   all,
   steps,
+  fallback,
   name,
   color,
   label,
@@ -650,70 +659,31 @@ function MachCompare({
 }: {
   slugs: string[];
   all: Record<string, unknown>;
+  /** Each record's step (catalog `step.field`), else `fallback`. */
   steps: Record<string, unknown>;
+  fallback: number;
   name: (s: string) => string;
   color: (s: string) => string | undefined;
   label: string;
   entry: CatalogEntry;
   system: UnitSystem;
 }) {
-  const stepOf = (s: string) => (typeof steps[s] === "number" ? (steps[s] as number) : 0.2);
-  const valuesOf = (s: string) =>
-    (Array.isArray(all[s]) ? (all[s] as unknown[]) : [])
+  const series = slugs.map((slug): ChartSeries => {
+    const own = steps[slug];
+    const step = typeof own === "number" ? own : fallback;
+    const values = (Array.isArray(all[slug]) ? (all[slug] as unknown[]) : [])
       .filter((v): v is number => typeof v === "number")
       .map((v) => conv(entry, v, system));
-  const series: ChartSeries[] = slugs.slice(0, MAX_SERIES).map((slug) => ({
-    id: slug,
-    label: name(slug),
-    color: color(slug) ?? "var(--ink-3)",
-    values: valuesOf(slug),
-    step: stepOf(slug),
-  }));
-  if (series.length === 0) return <p className="muted">No data.</p>;
-  const longest = series.reduce((a, b) =>
-    (b.values.length - 1) * (b.step ?? 0.2) > (a.values.length - 1) * (a.step ?? 0.2) ? b : a,
-  );
-  const axis = machAxis(longest.values.length, longest.step ?? 0.2);
+    return {
+      id: slug,
+      label: name(slug),
+      color: color(slug) ?? "var(--ink-3)",
+      x: machAxis(values.length, step),
+      values,
+    };
+  });
   return (
-    <div>
-      <ChartLegend series={series} />
-      <LineChart
-        title={label}
-        series={series}
-        yUnit={displayUnit(entry.unit, system, entry.name)}
-      />
-      <TooMany slugs={slugs} />
-      <details className="exact" style={{ marginTop: 10 }}>
-        <summary>Table</summary>
-        <div className="exact-scroll" style={{ maxHeight: 360 }}>
-          <table className="exact-table">
-            <thead>
-              <tr>
-                <th scope="col">Mach</th>
-                {slugs.map((s) => (
-                  <th scope="col" key={s}>
-                    {name(s)}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {axis.map((m) => (
-                <tr key={m}>
-                  <td>{formatNumber(m)}</td>
-                  {slugs.map((s) => {
-                    const step = stepOf(s);
-                    const i = Math.round(m / step);
-                    const v = Math.abs(i * step - m) < 1e-6 ? valuesOf(s)[i] : undefined;
-                    return <td key={s}>{v === undefined ? "" : formatNumber(v)}</td>;
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
-    </div>
+    <SeriesCompare series={series} title={label} xLabel="Mach" yUnit={displayUnit(entry, system)} />
   );
 }
 
@@ -743,28 +713,58 @@ function CurveCompare({
   const convX = (v: number) => (axisEntry ? conv(axisEntry, v, system) : v);
   const xLabel =
     axisName === "mach" ? "Mach" : unitLabel(axisEntry?.label ?? axisName, axisEntry, system);
-  const curves = slugs
-    .map((slug) => ({ slug, v: all[slug] }))
-    .filter((c): c is { slug: string; v: { x: number[]; y: number[] } } => isXY(c.v));
-  const series: ChartSeries[] = curves.slice(0, MAX_SERIES).map(({ slug, v }) => ({
-    id: slug,
-    label: name(slug),
-    color: color(slug) ?? "var(--ink-3)",
-    x: v.x.map(convX),
-    values: v.y.map((y) => conv(entry, y, system)),
-  }));
+  const series = slugs.flatMap((slug): ChartSeries[] => {
+    const v = all[slug];
+    if (!isXY(v)) return [];
+    const values = v.y.map((y) => conv(entry, y, system));
+    return [
+      {
+        id: slug,
+        label: name(slug),
+        color: color(slug) ?? "var(--ink-3)",
+        x: v.x.map(convX),
+        values,
+      },
+    ];
+  });
+  return (
+    <SeriesCompare
+      series={series}
+      title={pathLabel(entry, path)}
+      xLabel={xLabel}
+      yUnit={displayUnit(entry, system)}
+    />
+  );
+}
+
+/**
+ * Records' series over one x axis: a chart of the first `MAX_SERIES`, and a table of
+ * every record with a row per x any of them has.
+ */
+function SeriesCompare({
+  series,
+  title,
+  xLabel,
+  yUnit,
+}: {
+  /** Each with explicit `x`. */
+  series: ChartSeries[];
+  title: string;
+  xLabel: string;
+  yUnit: string | null;
+}) {
   if (series.length === 0) return <p className="muted">No data.</p>;
+  const charted = series.slice(0, MAX_SERIES);
   const xs = [...new Set(series.flatMap((s) => s.x ?? []))].sort((a, b) => a - b);
+  const valueAt = (s: ChartSeries, x: number) => {
+    const i = (s.x ?? []).findIndex((v) => Math.abs(v - x) < 1e-9);
+    return i >= 0 ? s.values[i] : undefined;
+  };
   return (
     <div>
-      <ChartLegend series={series} />
-      <LineChart
-        title={pathLabel(entry, path)}
-        series={series}
-        xLabel={xLabel}
-        yUnit={displayUnit(entry.unit, system, entry.name)}
-      />
-      <TooMany slugs={curves.map((c) => c.slug)} />
+      <ChartLegend series={charted} />
+      <LineChart title={title} series={charted} xLabel={xLabel} yUnit={yUnit} />
+      <TooMany slugs={series.map((s) => s.id)} />
       <details className="exact" style={{ marginTop: 10 }}>
         <summary>Table</summary>
         <div className="exact-scroll" style={{ maxHeight: 360 }}>
@@ -784,8 +784,7 @@ function CurveCompare({
                 <tr key={x}>
                   <td>{formatNumber(x)}</td>
                   {series.map((s) => {
-                    const i = (s.x ?? []).findIndex((v) => Math.abs(v - x) < 1e-9);
-                    const v = i >= 0 ? s.values[i] : undefined;
+                    const v = valueAt(s, x);
                     return <td key={s.id}>{v === undefined ? "" : formatNumber(v)}</td>;
                   })}
                 </tr>
@@ -832,10 +831,7 @@ function EnvelopeCompare({
   const [row, setRow] = useState<number | null>(null);
   const chosen = row !== null && rows.includes(row) ? row : (rows[0] ?? null);
   const fmtAxis = (e: CatalogEntry | undefined, v: number) =>
-    withUnit(
-      formatNumber(e ? conv(e, v, system) : v),
-      e ? displayUnit(e.unit, system, e.name) : null,
-    );
+    withUnit(formatNumber(e ? conv(e, v, system) : v), e ? displayUnit(e, system) : null);
 
   const series: ChartSeries[] = [];
   const without: string[] = [];
@@ -884,7 +880,7 @@ function EnvelopeCompare({
             title={`${pathLabel(entry, path)} at ${chosen === null ? "" : fmtAxis(rowEntry, chosen)}`}
             series={series}
             xLabel={unitLabel(colEntry?.label ?? "Column", colEntry, system)}
-            yUnit={displayUnit(entry.unit, system, entry.name)}
+            yUnit={displayUnit(entry, system)}
           />
         </>
       )}
@@ -980,7 +976,7 @@ function AllRecordsTable({
   });
   const info = SERIES_BY_ID.get(series);
   const plural = info?.label.toLowerCase() ?? "records";
-  const links = useRefLinks(entry);
+  const links = useRefLinks(entry, all);
   const vctx = useMemo<ValueContext>(
     () => (links ? { enums: catalog.enums, system, links } : { enums: catalog.enums, system }),
     [catalog, system, links],
@@ -1015,15 +1011,14 @@ function AllRecordsTable({
       ? list.filter((r) => `${r.name} ${r.id} ${r.sub} ${r.text}`.toLowerCase().includes(f))
       : list;
     visible.sort((a, b) => {
-      if (sort.key === "name")
-        return sort.dir * a.name.localeCompare(b.name, "en", { numeric: true });
+      if (sort.key === "name") return sort.dir * naturalCompare(a.name, b.name);
       if (sort.key === "sub") return sort.dir * a.sub.localeCompare(b.sub);
       const av = a.sort;
       const bv = b.sort;
       if (av === null) return 1;
       if (bv === null) return -1;
       if (typeof av === "number" && typeof bv === "number") return sort.dir * (av - bv);
-      return sort.dir * String(av).localeCompare(String(bv), "en", { numeric: true });
+      return sort.dir * naturalCompare(String(av), String(bv));
     });
     return visible;
   }, [all, filter, sort, entry, records, vctx, system, curve]);

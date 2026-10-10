@@ -5,12 +5,13 @@
  * the hand-written overlays shipped with the site (public/overlays/reference.json).
  * Overlays naming a record or field the database no longer has are ignored.
  */
-import { BASE_PATH } from "./base-path";
 import { COMPANION_PREFIX } from "./catalog";
+import { OVERLAYS_URL } from "./db/boot";
 import { browserQuery } from "./db/browser";
 import {
   catalogFor,
   type GroupTarget,
+  getBeaconRows,
   getFieldValues,
   getGroupTargets,
   getRecord,
@@ -18,6 +19,7 @@ import {
   keyedFieldPaths,
   loadModel as loadModelFrom,
   type Model,
+  namesOf,
   referencedByGroup,
 } from "./db/reference";
 import { fetchJsonOr, once } from "./once";
@@ -45,7 +47,6 @@ export type OverlayFile = {
 export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
 
 const NO_OVERLAYS: OverlayFile = { series: {} };
-const OVERLAYS_URL = `${BASE_PATH}/overlays/reference.json`;
 
 export const loadOverlays = () => once("overlays", () => fetchJsonOr(OVERLAYS_URL, NO_OVERLAYS));
 
@@ -113,6 +114,10 @@ export const loadRecord = (series: string, id: string) =>
     return overlay ? { ...doc, overlay } : doc;
   });
 
+/** Beacon rows by id, for map points (components/location-map). */
+export const loadBeaconRows = (ids: string[]) =>
+  once(`beacons:${ids.join("\u0000")}`, () => getBeaconRows(browserQuery, ids));
+
 /** The full list of a capped "referenced by" group (`total` > `records.length`). */
 export const loadReferencedByGroup = (series: string, id: string, from: string, path: string) =>
   once(`refby:${series}:${id}:${from}:${path}`, async (): Promise<LinkTarget[]> => {
@@ -125,6 +130,10 @@ export const loadFieldValues = (series: string, path: string) =>
     const model = await loadModel();
     return getFieldValues(browserQuery, model, series, path);
   });
+
+/** Record names by id per series (`series -> id -> name`), for the ids wanted only. */
+export const loadNames = async (wanted: Map<string, Set<string>>) =>
+  namesOf(browserQuery, await loadModel(), wanted);
 
 /** Per row id, the record a group-by ref field points at (lib/series-display `groupBy`). */
 export const loadGroupTargets = (series: string, path: string) =>

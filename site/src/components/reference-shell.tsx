@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useState } from "react";
+import { parseApiPath } from "@/lib/api/routes";
 import { loadModel, loadRecord, loadSeriesIndex } from "@/lib/client-data";
 import type { Model } from "@/lib/db/reference";
 import { getNavHint } from "@/lib/nav-hints";
@@ -14,9 +15,25 @@ import { registerShell } from "./ref-link";
 // (it is the root not-found page).
 const loadRecordView = () => import("./record/record-view");
 const loadBrowseView = () => import("./browse-view");
+const loadApiShell = () => import("./api/api-shell");
 const RecordView = lazy(() => loadRecordView().then((m) => ({ default: m.RecordView })));
 const BrowseView = lazy(() => loadBrowseView().then((m) => ({ default: m.BrowseView })));
-const ApiShell = lazy(() => import("./api/api-shell").then((m) => ({ default: m.ApiShell })));
+const ApiShell = lazy(() => loadApiShell().then((m) => ({ default: m.ApiShell })));
+
+const isApiPath = (path: string) => /^\/api(\/|$)/.test(path);
+
+/** An API page's code and data, fetched together (the shell's chunk would otherwise wait for its own). */
+function preloadApi(path: string) {
+  loadApiShell().catch(() => {});
+  const route = parseApiPath(path);
+  if (!route) return;
+  import("@/lib/api/client")
+    .then(
+      (m): Promise<unknown> =>
+        route.home ? m.loadApiPages() : m.loadApiPage(route.section, route.name),
+    )
+    .catch(() => {});
+}
 
 /** A page placeholder while its view or data loads. */
 export function Skeleton() {
@@ -61,19 +78,26 @@ export function ReferenceShell() {
   // Read the address after mount: the static HTML is the same for every path.
   useEffect(() => {
     setPath(pathname);
+    if (isApiPath(pathname)) {
+      preloadApi(pathname);
+      return;
+    }
     // Fetch the view's code alongside the model rather than after it.
-    const route = /^\/api(\/|$)/.test(pathname) ? null : parseReferencePath(pathname);
+    const route = parseReferencePath(pathname);
     if (route) (route.id === null ? loadBrowseView : loadRecordView)().catch(() => {});
     // And its data: the view picks up the same (memoized) promise.
     if (route?.id != null) loadRecord(route.series, route.id).catch(() => {});
     else if (route) loadSeriesIndex(route.series).catch(() => {});
   }, [pathname]);
+  // The model, once a reference page needs it (API pages load it themselves, when they do).
+  const needsModel = !isApiPath(pathname);
   useEffect(() => {
-    loadModel().then(setModel, () => setFailed(true));
-  }, []);
+    if (needsModel) loadModel().then(setModel, () => setFailed(true));
+  }, [needsModel]);
+  const hint = useMemo(() => (path ? getNavHint(path) : null), [path]);
 
   if (path === null) return null;
-  if (/^\/api(\/|$)/.test(path)) {
+  if (isApiPath(path)) {
     return (
       <Suspense fallback={<Skeleton />}>
         <ApiShell path={path} />
@@ -91,7 +115,6 @@ export function ReferenceShell() {
     );
   }
   if (route.id !== null) {
-    const hint = getNavHint(path);
     const view = (
       <Suspense fallback={<RecordSkeleton series={route.series} slug={route.id} hint={hint} />}>
         <RecordView

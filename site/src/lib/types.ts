@@ -1,4 +1,5 @@
 /** Shapes of the reference data the pages read (lib/db/reference.ts builds them from SQLite). */
+import type { UnitConversions } from "./units";
 
 export type FieldKind =
   /** Scalars. */
@@ -46,6 +47,8 @@ export type CatalogEntry = {
   type: string;
   kind: FieldKind;
   unit: string | null;
+  /** How `unit` displays in each system (lib/units.ts `resolveConversions`); set with a unit. */
+  conversions?: UnitConversions;
   unitNotStated: boolean;
   description: string;
   /** The DCS key the description names (`Cx0`), when it names one. */
@@ -71,6 +74,19 @@ export type CatalogEntry = {
   codeField?: string;
   /** Keyed arrays (`*` in paths): the field naming each element. */
   keyField?: string;
+  /** What the field is for, when it is not reference data: `provenance` (`sourcePaths`, `sourcePath`). */
+  role?: "provenance";
+  /**
+   * How a `records` array lays out: `envelope` (two number[] axes and number[][] grids per
+   * item), `axis-table` (rows indexed by the `axis` column).
+   */
+  layout?: "envelope" | "axis-table";
+  /** On a Mach-indexed `numbers` field: the sibling field holding the step, and the step without it. */
+  step?: { field: string; fallback: number };
+  /** On a `records` field: item fields that name an item without a link, in order. */
+  titleFields?: string[];
+  /** On a `records` field: item counts shown beside each item in a list (`ammoCapacity`). */
+  countFields?: string[];
   /** Can be compared across records (its values read with getFieldValues, lib/db/reference.ts). */
   comparable: boolean;
   /** Hand-written field note (content/reference/<series>/_fields/<path>.md), as HTML. */
@@ -99,6 +115,8 @@ export type ReferencedBy = {
   path: string;
   label: string;
   records: LinkTarget[];
+  /** A derived group: units reaching the record through this series (aircraft via stores). */
+  via?: string;
   /** Set when `records` is capped: how many records the group has. */
   total?: number;
 };

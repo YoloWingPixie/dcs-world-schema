@@ -6,14 +6,14 @@ import {
   isAngleSectors,
   machAxis,
   plainValue,
-  rangePair,
   rangeText,
   sectorRanges,
   type ValueContext,
 } from "@/lib/format-field";
-import { isGeoField, LOCATED_SERIES, LOCATION_ID } from "@/lib/geo";
+import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
-import { type CatalogEntry, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
+import { complexFields, type RangeList as RangeListSpec, tableColumns } from "@/lib/record-tables";
+import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
 import { convertValue, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import {
@@ -36,7 +36,7 @@ export type RenderCtx = {
 };
 
 const conv = (entry: CatalogEntry, v: number, vctx: ValueContext) =>
-  convertValue(v, entry.unit, vctx.system, entry.name).value;
+  convertValue(v, entry, vctx.system).value;
 
 /** A Mach-indexed coefficient: small chart, exact values on demand. */
 export function MachCard({
@@ -141,7 +141,7 @@ export function NumberList({
   values: number[];
   vctx: ValueContext;
 }) {
-  const unit = displayUnit(entry.unit, vctx.system, entry.name);
+  const unit = displayUnit(entry, vctx.system);
   return (
     <div className="field-value value-list">
       {values.map((v, i) => (
@@ -153,21 +153,6 @@ export function NumberList({
   );
 }
 
-/**
- * An array of ranges with at most two other scalar columns (radio segments): the columns
- * a range list shows, else null (a table fits better).
- */
-export function rangeListOf(ctx: RenderCtx, entry: CatalogEntry, prefix: string) {
-  if (!entry.recordType || entry.keyField || entry.axis) return null;
-  const item = `${prefix}[]`;
-  const pair = rangePair(ctx.catalog, entry.recordType, item);
-  if (!pair || complexFields(ctx.catalog, entry.recordType, item).length) return null;
-  const others = tableColumns(ctx.catalog, entry.recordType, item).filter(
-    (c) => c.entry !== pair.min && c.entry !== pair.max,
-  );
-  return others.length <= 2 ? { pair, others } : null;
-}
-
 /** One ruled row per range: "100–150 MHz . . . . AM". */
 export function RangeList({
   rows,
@@ -176,7 +161,7 @@ export function RangeList({
 }: {
   rows: unknown[];
   ctx: RenderCtx;
-  list: NonNullable<ReturnType<typeof rangeListOf>>;
+  list: RangeListSpec;
 }) {
   return (
     <div className="fields range-list">
@@ -271,7 +256,7 @@ export function StringList({
   if (entry.codeField) {
     return <>{values.map((v) => enumDisplay(entry, v, vctx.enums).label).join(", ")}</>;
   }
-  if (/^sourcePaths?$/.test(entry.name)) {
+  if (entry.role === "provenance") {
     return (
       <ul className="path-list">
         {values.map((v) => (
@@ -336,13 +321,13 @@ export function HeatGrid({
     const t = max === min ? 0.5 : (v - min) / (max - min);
     return `rgb(var(--heat) / ${(0.06 + t * 0.42).toFixed(3)})`;
   };
-  const unit = displayUnit(entry.unit, vctx.system, entry.name);
+  const unit = displayUnit(entry, vctx.system);
   const axisText = (axis: { entry: CatalogEntry; values: number[] } | undefined, i: number) =>
     axis?.values[i] !== undefined
       ? formatNumber(conv(axis.entry, axis.values[i] as number, vctx))
       : String(i + 1);
-  const rowUnit = rowAxis ? displayUnit(rowAxis.entry.unit, vctx.system, rowAxis.entry.name) : null;
-  const colUnit = colAxis ? displayUnit(colAxis.entry.unit, vctx.system, colAxis.entry.name) : null;
+  const rowUnit = rowAxis ? displayUnit(rowAxis.entry, vctx.system) : null;
+  const colUnit = colAxis ? displayUnit(colAxis.entry, vctx.system) : null;
   const columns = Math.max(...grid.map((r) => r.length));
   return (
     <div className="table-wrap">
@@ -403,50 +388,6 @@ export function JsonValue({ value }: { value: unknown }) {
 // ---------------------------------------------------------------------------
 // Arrays of records
 
-type Column = { path: string; key: string; entry: CatalogEntry; parts: string[] };
-
-/** Scalar columns of a record type, one level of nested records flattened. */
-export function tableColumns(catalog: SeriesCatalog, typeName: string, prefix: string): Column[] {
-  const out: Column[] = [];
-  for (const name of catalog.types[typeName]?.fields ?? []) {
-    const key = `${prefix}.${name}`;
-    const entry = catalog.entries[key];
-    if (!entry) continue;
-    if (SCALAR_KINDS.has(entry.kind)) out.push({ path: name, key, entry, parts: [name] });
-    else if (entry.kind === "record" && entry.recordType) {
-      for (const sub of catalog.types[entry.recordType]?.fields ?? []) {
-        const subEntry = catalog.entries[`${key}.${sub}`];
-        if (subEntry && SCALAR_KINDS.has(subEntry.kind)) {
-          out.push({
-            path: `${name}.${sub}`,
-            key: `${key}.${sub}`,
-            entry: subEntry,
-            parts: [name, sub],
-          });
-        }
-      }
-    }
-  }
-  // A code beside its constant name (`modulation`, `modulationName`): one column, the name.
-  const named = new Set(
-    out.flatMap((c) =>
-      c.entry.codeField ? [[...c.parts.slice(0, -1), c.entry.codeField].join(".")] : [],
-    ),
-  );
-  return out.filter((c) => !named.has(c.path));
-}
-
-/** Complex (non-column) fields of a record type: lists, nested tables. */
-function complexFields(catalog: SeriesCatalog, typeName: string, prefix: string) {
-  const fields = (catalog.types[typeName]?.fields ?? [])
-    .map((name) => ({ name, entry: catalog.entries[`${prefix}.${name}`] }))
-    .filter((f): f is { name: string; entry: CatalogEntry } => Boolean(f.entry));
-  const named = new Set(fields.map((f) => f.entry.codeField));
-  return fields.filter(
-    (f) => !named.has(f.name) && !SCALAR_KINDS.has(f.entry.kind) && f.entry.kind !== "record",
-  );
-}
-
 /** Short inline rendering of an array value inside a table cell or card. */
 function InlineArray({
   entry,
@@ -485,15 +426,15 @@ function InlineArray({
               ? fieldsOf.find((f) => at(f)?.ref && Array.isArray(rec[f]) && rec[f].length)
               : undefined;
             const named = missing
-              ? fieldsOf.find((f) => /Name$/.test(f) && typeof rec[f] === "string" && rec[f])
+              ? entry.titleFields?.find((f) => typeof rec[f] === "string" && rec[f])
               : undefined;
             const extras = [
               ...Object.entries(rec)
                 .filter(([k, v]) => k !== refName && k !== links && Array.isArray(v) && v.length)
                 .map(([k, v]) => `${(v as unknown[]).length} ${labelOf(k)}`),
-              ...Object.entries(rec)
-                .filter(([k, v]) => /capacity$/i.test(k) && typeof v === "number")
-                .map(([k, v]) => `${labelOf(k)} ${v}`),
+              ...(entry.countFields ?? [])
+                .filter((k) => typeof rec[k] === "number")
+                .map((k) => `${labelOf(k)} ${rec[k]}`),
             ];
             const lead = !missing ? (
               <RecordLink entry={refEntry} raw={rec[refName]} vctx={ctx.vctx} />
@@ -570,7 +511,6 @@ export function RecordsTable({
   prefix,
   concretePrefix,
   compact,
-  headed,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
@@ -579,8 +519,6 @@ export function RecordsTable({
   prefix: string;
   concretePrefix: string;
   compact?: boolean;
-  /** A heading with the table's label sits right above: its caption is for screen readers only. */
-  headed?: boolean;
 }) {
   const typeName = entry.recordType ?? "";
   const itemPrefix = entry.keyField ? `${prefix}.*` : `${prefix}[]`;
@@ -659,9 +597,8 @@ export function RecordsTable({
       style={rows.length > 25 ? { maxHeight: 520, overflow: "auto" } : undefined}
     >
       <table className={compact ? "mini-table" : "table data-table"}>
-        {compact ? null : (
-          <caption className={headed ? "visually-hidden" : "table-caption"}>{entry.label}</caption>
-        )}
+        {/* A heading with the table's label sits right above: the caption is for screen readers. */}
+        {compact ? null : <caption className="visually-hidden">{entry.label}</caption>}
         <thead>
           <tr>
             {entry.keyField ? <th scope="col">{entry.keyField}</th> : null}
@@ -724,7 +661,7 @@ export function RecordsTable({
                         {v === undefined ? (
                           <span className="muted">—</span>
                         ) : c.entry.kind === "number" && typeof v === "number" ? (
-                          isGeoField(c.entry.name) && LOCATED_SERIES.has(ctx.fctx.series) ? (
+                          ctx.fctx.hasLocation && isGeoField(c.entry.name) ? (
                             // Runway thresholds, stand positions: on the Location figure.
                             <a className="geo-link" href={`#${LOCATION_ID}`}>
                               {formatNumber(conv(c.entry, v, ctx.vctx))}
@@ -734,7 +671,7 @@ export function RecordsTable({
                           )
                         ) : c.entry.kind === "enum" ? (
                           enumDisplay(c.entry, v, ctx.vctx.enums).label
-                        ) : c.entry.name === "sourcePath" && typeof v === "string" ? (
+                        ) : c.entry.role === "provenance" && typeof v === "string" ? (
                           <>
                             <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
                             <LuaLink path={v} />
@@ -842,7 +779,7 @@ export function AxisTableChart({
       <LineChart
         title={`${column.entry.label} by ${axis}`}
         xLabel={axis === "mach" ? "Mach" : axis}
-        yUnit={displayUnit(column.entry.unit, ctx.vctx.system, column.entry.name)}
+        yUnit={displayUnit(column.entry, ctx.vctx.system)}
         series={series}
         height={260}
       />

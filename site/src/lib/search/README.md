@@ -47,7 +47,7 @@ served by the shell in `app/not-found.tsx`; link to them with `RefLink` / `openH
 ## Units (`../units.ts`)
 
 `useUnitSystem()` (`../unit-system.ts`, client) returns `"metric" | "imperial"`;
-`convertValue` / `formatPlain(value, unit, system, fieldName)` (`../units.ts`) convert for display
-only; radians (`rad`, `rad/s`) show as degrees in both systems, and `formatStored` gives the stored
+`convertValue` / `formatPlain(value, entry, system)` (`../units.ts`) convert for display only;
+pass the catalog entry (its unit, name and resolved conversions) or a bare unit string; radians (`rad`, `rad/s`) show as degrees in both systems, and `formatStored` gives the stored
 value whenever the display converts. Units come from field-name suffixes (`unitFor(name)`), and a
 suffixed record field passes its unit to unsuffixed members (`slewRateRadS.yaw`).

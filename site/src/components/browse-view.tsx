@@ -1,26 +1,28 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { BASE_PATH } from "@/lib/base-path";
 import {
   columnWidth,
   type Group,
   type GroupOf,
   groupRows,
+  type Layout,
   layoutItems,
   visibleRange,
 } from "@/lib/browse-groups";
 import { loadCatalog, loadFieldValues, loadGroupTargets, loadSeriesIndex } from "@/lib/client-data";
 import type { GroupTarget } from "@/lib/db/reference";
+import { plainValue, sortableValue, type ValueContext } from "@/lib/format-field";
+import { replaceQuery } from "@/lib/history";
 import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { displayFor } from "@/lib/series-display";
-import { capitalise } from "@/lib/text";
+import { capitalise, naturalCompare } from "@/lib/text";
 import { type CatalogEntry, type Facet, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { convertValue, formatNumber, type UnitSystem, unitLabel } from "@/lib/units";
+import { convertValue, formatNumber, unitLabel } from "@/lib/units";
 import { useLoaded } from "@/lib/use-loaded";
 import { SearchIcon, TableIcon } from "@/ui/icons";
 import { Markdown } from "./Markdown";
@@ -41,22 +43,33 @@ const facetParam = (path: string) => `f.${path}`;
 /** `?group=flat` lists a grouped series flat. */
 const GROUP_PARAM = "group";
 
-/** Display text of a cell value. */
-function cellText(
-  entry: CatalogEntry | undefined,
-  value: unknown,
-  catalog: SeriesCatalog | null,
-  system: UnitSystem,
-): string {
+/**
+ * Display text of a cell value: lib/format-field `plainValue`, except that numbers leave
+ * their unit to the column head and enums show their label alone.
+ */
+function cellText(entry: CatalogEntry | undefined, value: unknown, ctx: ValueContext): string {
   if (value === undefined || value === null) return "";
-  if (entry?.kind === "enum" && catalog) return enumDisplay(entry, value, catalog.enums).label;
-  if (typeof value === "number") {
-    return formatNumber(convertValue(value, entry?.unit ?? null, system, entry?.name).value);
+  if (!entry) {
+    // Catalog still loading: the raw value.
+    if (typeof value === "number") return formatNumber(value);
+    if (typeof value === "boolean") return value ? "Yes" : "No";
+    if (Array.isArray(value)) return value.map(String).join(", ");
+    return typeof value === "object" ? JSON.stringify(value) : String(value);
   }
-  if (typeof value === "boolean") return value ? "Yes" : "No";
-  if (Array.isArray(value)) return value.map(String).join(", ");
-  if (typeof value === "object") return JSON.stringify(value);
-  return String(value);
+  if (entry.kind === "enum") return enumDisplay(entry, value, ctx.enums).label;
+  if (typeof value === "number") {
+    return formatNumber(convertValue(value, entry, ctx.system).value);
+  }
+  return plainValue(entry, value, ctx);
+}
+
+/** A cell's sort key: lib/format-field `sortableValue`, or its text before the catalog loads. */
+function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueContext) {
+  if (entry) return sortableValue(entry, value, ctx);
+  if (value === undefined || value === null) return null;
+  if (typeof value === "number") return value;
+  if (typeof value === "boolean") return value ? 1 : 0;
+  return cellText(entry, value, ctx);
 }
 
 /** Values a facet sees for one row (a list for `strings`). */
@@ -80,7 +93,6 @@ function facetLabel(facet: Facet, value: string, catalog: SeriesCatalog | null):
 export function BrowseView({ series, count }: { series: string; count: number }) {
   const info = SERIES_BY_ID.get(series);
   const params = useSearchParams();
-  const pathname = usePathname();
   const system = useUnitSystem();
 
   const loaded = useLoaded(
@@ -113,25 +125,16 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return () => narrow.removeEventListener("change", onChange);
   }, []);
 
-  const replaceParams = useCallback(
-    (next: URLSearchParams) => {
-      const qs = next.toString();
-      // Native history: Next.js syncs useSearchParams, and the shell route has no RSC payload.
-      window.history.replaceState(null, "", `${BASE_PATH}${pathname}${qs ? `?${qs}` : ""}`);
-    },
-    [pathname],
-  );
-
   // Keep the text filter in the URL (debounced) so a filtered list is shareable.
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const next = new URLSearchParams(params.toString());
       if (query.trim()) next.set("q", query.trim());
       else next.delete("q");
-      if (next.toString() !== params.toString()) replaceParams(next);
+      replaceQuery(next);
     }, 250);
     return () => window.clearTimeout(timer);
-  }, [query, params, replaceParams]);
+  }, [query, params]);
 
   // Columns: URL `cols`, else the series default.
   const columns = useMemo(() => {
@@ -203,65 +206,87 @@ export function BrowseView({ series, count }: { series: string; count: number })
     [selected],
   );
 
+  const ctx = useMemo<ValueContext>(
+    () => ({ enums: catalog?.enums ?? {}, system }),
+    [catalog, system],
+  );
+
+  // Each row's cell texts (every column, not only those that fit) and its lowercased
+  // filter text, built once per data, column or unit change rather than per keystroke.
+  const texts = useMemo(() => {
+    const entries = columns.map((c) => catalog?.entries[c]);
+    const cells = new Map<Row, string[]>();
+    const hay = new Map<Row, string>();
+    for (const row of rows) {
+      const own = columns.map((c, i) => cellText(entries[i], row.values.get(c), ctx));
+      cells.set(row, own);
+      hay.set(
+        row,
+        [row.name, row.id, groupBy ? groupOf(row).label : "", ...own].join(" ").toLowerCase(),
+      );
+    }
+    return { cells, hay };
+  }, [rows, columns, catalog, ctx, groupBy, groupOf]);
+
   const textMatched = useMemo(() => {
     const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
     if (!tokens.length) return rows;
     return rows.filter((row) => {
-      const hay = [
-        row.name,
-        row.id,
-        groupBy ? groupOf(row).label : "",
-        ...columns.map((c) => cellText(catalog?.entries[c], row.values.get(c), catalog, system)),
-      ]
-        .join(" ")
-        .toLowerCase();
+      const hay = texts.hay.get(row) ?? "";
       return tokens.every((t) => hay.includes(t));
     });
-  }, [rows, query, columns, catalog, system, groupBy, groupOf]);
+  }, [rows, query, texts]);
 
-  const filtered = useMemo(
-    () => textMatched.filter((row) => facets.every((f) => matchesFacet(row, f))),
-    [textMatched, facets, matchesFacet],
-  );
+  // Facet options with counts, all facets in one pass: a facet counts the rows every
+  // other facet lets through (so its own options stay selectable).
+  const facetOptions = useMemo(() => {
+    const counts = new Map(facets.map((f) => [f.path, new Map<string, number>()]));
+    const filtered: Row[] = [];
+    for (const row of textMatched) {
+      const failing = facets.filter((f) => !matchesFacet(row, f));
+      if (failing.length === 0) filtered.push(row);
+      if (failing.length > 1) continue;
+      for (const f of failing.length ? failing : facets) {
+        const map = counts.get(f.path);
+        if (!map) continue;
+        for (const v of new Set(facetValues(f, row.values.get(f.path)))) {
+          map.set(v, (map.get(v) ?? 0) + 1);
+        }
+      }
+    }
+    const options = new Map(
+      facets.map((f) => {
+        const c = counts.get(f.path) ?? new Map<string, number>();
+        const list = [...c.keys()].sort(
+          (a, b) => (c.get(b) ?? 0) - (c.get(a) ?? 0) || a.localeCompare(b),
+        );
+        for (const v of selected[f.path] ?? []) if (!list.includes(v)) list.push(v);
+        return [f.path, { counts: c, options: list }] as const;
+      }),
+    );
+    return { filtered, options };
+  }, [textMatched, facets, matchesFacet, selected]);
+  const filtered = facetOptions.filtered;
 
+  // Sort keys computed once per row, then indices sorted with one shared collator.
   const sorted = useMemo(() => {
-    const out = [...filtered];
     const key = sort.key;
     const entry = catalog?.entries[key];
-    const value = (row: Row): number | string | null => {
-      if (key === "name") return row.name;
-      const v = row.values.get(key);
-      if (v === undefined || v === null) return null;
-      if (typeof v === "number" && entry?.kind !== "enum") {
-        return convertValue(v, entry?.unit ?? null, system, entry?.name).value;
-      }
-      if (typeof v === "boolean") return v ? 1 : 0;
-      return cellText(entry, v, catalog, system);
-    };
-    out.sort((a, b) => {
-      const av = value(a);
-      const bv = value(b);
+    const keys = filtered.map((row) =>
+      key === "name" ? row.name : sortKey(entry, row.values.get(key), ctx),
+    );
+    const order = filtered.map((_, i) => i);
+    order.sort((i, j) => {
+      const av = keys[i] ?? null;
+      const bv = keys[j] ?? null;
       if (av === null && bv === null) return 0;
       if (av === null || av === "") return 1;
       if (bv === null || bv === "") return -1;
       if (typeof av === "number" && typeof bv === "number") return sort.dir * (av - bv);
-      return sort.dir * String(av).localeCompare(String(bv), "en", { numeric: true });
+      return sort.dir * naturalCompare(String(av), String(bv));
     });
-    return out;
-  }, [filtered, sort, catalog, system]);
-
-  const counts = (facet: Facet) => {
-    const pool = textMatched.filter((row) =>
-      facets.every((f) => f.path === facet.path || matchesFacet(row, f)),
-    );
-    const map = new Map<string, number>();
-    for (const row of pool) {
-      for (const v of new Set(facetValues(facet, row.values.get(facet.path)))) {
-        map.set(v, (map.get(v) ?? 0) + 1);
-      }
-    }
-    return map;
-  };
+    return order.map((i) => filtered[i] as Row);
+  }, [filtered, sort, catalog, ctx]);
 
   const toggle = (path: string, value: string) => {
     const next = new URLSearchParams(params.toString());
@@ -273,20 +298,20 @@ export function BrowseView({ series, count }: { series: string; count: number })
       : [...current, value]) {
       next.append(key, v);
     }
-    replaceParams(next);
+    replaceQuery(next);
   };
 
   const anyFilter = facets.some((f) => (selected[f.path] ?? []).length > 0);
   const clearFilters = () => {
     const next = new URLSearchParams(params.toString());
     for (const f of facets) next.delete(facetParam(f.path));
-    replaceParams(next);
+    replaceQuery(next);
   };
 
   const setColumns = (cols: string[]) => {
     const next = new URLSearchParams(params.toString());
     next.set("cols", cols.join(","));
-    replaceParams(next);
+    replaceQuery(next);
   };
 
   const pickable = useMemo(() => {
@@ -303,54 +328,28 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return out.sort((a, b) => a.path.localeCompare(b.path));
   }, [catalog]);
 
-  // ---- virtualization: the page scrolls; rows render for the window's view of the body.
+  // ---- virtualization: the page scrolls; <BrowseBody> renders the rows in the window's
+  // view of the body and owns the scroll position, so scrolling re-renders the body only.
   const wrapRef = useRef<HTMLElement>(null);
-  const bodyRef = useRef<HTMLTableSectionElement>(null);
   const headRef = useRef<HTMLDivElement>(null);
   const chRef = useRef<HTMLSpanElement>(null);
-  const [scrollTop, setScrollTop] = useState(0);
-  const [viewH, setViewH] = useState(800);
   const [headH, setHeadH] = useState(0);
   const [tableW, setTableW] = useState(0);
   const [chPx, setChPx] = useState(8);
-  const measure = useCallback(() => {
-    const body = bodyRef.current;
-    if (!body) return;
-    // Whole rows only, so a few pixels of scroll do not re-render.
-    const past = Math.max(0, -body.getBoundingClientRect().top);
-    setScrollTop(Math.floor(past / ROW_H) * ROW_H);
-    setViewH(window.innerHeight);
-  }, []);
+  const hasIndex = Boolean(index);
+  // biome-ignore lint/correctness/useExhaustiveDependencies: the browse subtree remounts when the index arrives; observe the new nodes
   useEffect(() => {
-    let frame = 0;
-    const schedule = () => {
-      if (frame) return;
-      frame = requestAnimationFrame(() => {
-        frame = 0;
-        measure();
-      });
-    };
     const resized = () => {
-      schedule();
       if (wrapRef.current) setTableW(wrapRef.current.clientWidth);
       if (chRef.current) setChPx(chRef.current.getBoundingClientRect().width || 8);
       if (headRef.current) setHeadH(headRef.current.offsetHeight);
     };
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    // Anything above the table changing height (filters panel, intro) moves the body.
     const observer = new ResizeObserver(resized);
-    observer.observe(document.body);
     if (wrapRef.current) observer.observe(wrapRef.current);
     if (headRef.current) observer.observe(headRef.current);
     resized();
-    return () => {
-      window.removeEventListener("scroll", schedule);
-      window.removeEventListener("resize", schedule);
-      observer.disconnect();
-      cancelAnimationFrame(frame);
-    };
-  }, [measure]);
+    return () => observer.disconnect();
+  }, [hasIndex]);
   // A new result set starts at its top: bring the table head back under the sticky bars.
   // biome-ignore lint/correctness/useExhaustiveDependencies: reset when the result set changes
   useEffect(() => {
@@ -375,18 +374,12 @@ export function BrowseView({ series, count }: { series: string; count: number })
     () => layoutItems<Row>(groups ? { groups } : { rows: sorted }, ROW_H, GROUP_H),
     [groups, sorted],
   );
-  const [start, end] = visibleRange(layout.tops, scrollTop, viewH, OVERSCAN);
-  const visibleItems = layout.items.slice(start, end);
-  const totalH = layout.tops[layout.items.length] ?? 0;
-  // The body's position or contents changed without a scroll: re-read the view.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure when the layout changes
-  useEffect(() => measure(), [layout, ready, measure]);
 
   const setGrouped = (on: boolean) => {
     const next = new URLSearchParams(params.toString());
     if (on) next.delete(GROUP_PARAM);
     else next.set(GROUP_PARAM, "flat");
-    replaceParams(next);
+    replaceQuery(next);
   };
 
   const headerLabel = (path: string) => {
@@ -399,12 +392,11 @@ export function BrowseView({ series, count }: { series: string; count: number })
   // biome-ignore lint/correctness/useExhaustiveDependencies: headerLabel reads catalog and system
   const allWidths = useMemo(
     () =>
-      columns.map((c) => {
-        const entry = catalog?.entries[c];
-        const texts = rows.map((r) => cellText(entry, r.values.get(c), catalog, system).length);
-        return columnWidth(texts, headerLabel(c).length);
+      columns.map((c, i) => {
+        const lengths = rows.map((r) => texts.cells.get(r)?.[i]?.length ?? 0);
+        return columnWidth(lengths, headerLabel(c).length);
       }),
-    [columns, rows, catalog, system],
+    [columns, rows, texts, catalog, system],
   );
   // The columns that fit beside a usable name column (the first always shows), so the
   // table never scrolls sideways; the rest stay in the Columns menu.
@@ -444,6 +436,10 @@ export function BrowseView({ series, count }: { series: string; count: number })
     </th>
   );
 
+  // While the index loads, the filters column is kept (most series have facets). The loaded
+  // view is a new subtree (keyed below), so a series without facets replaces the loading
+  // layout instead of shifting it sideways.
+  const showFacets = index ? facets.length > 0 : !error;
   const total = index?.count ?? count;
   const plural = info?.label.toLowerCase() ?? series;
 
@@ -473,8 +469,11 @@ export function BrowseView({ series, count }: { series: string; count: number })
         </div>
       ) : null}
 
-      <div className={facets.length ? "browse" : "browse browse-nofacets"}>
-        {facets.length ? (
+      <div
+        key={index ? "loaded" : "loading"}
+        className={showFacets ? "browse" : "browse browse-nofacets"}
+      >
+        {showFacets ? (
           <details
             className="facets-panel"
             open={filtersOpen}
@@ -488,12 +487,11 @@ export function BrowseView({ series, count }: { series: string; count: number })
             </summary>
             <aside className="facets" aria-label="Filters">
               {facets.map((facet) => {
-                const c = counts(facet);
+                const { counts: c, options } = facetOptions.options.get(facet.path) ?? {
+                  counts: new Map<string, number>(),
+                  options: [],
+                };
                 const sel = selected[facet.path] ?? [];
-                const options = [...c.keys()].sort(
-                  (a, b) => (c.get(b) ?? 0) - (c.get(a) ?? 0) || a.localeCompare(b),
-                );
-                for (const v of sel) if (!options.includes(v)) options.push(v);
                 const shown = options.slice(0, 40);
                 return (
                   <fieldset className="facet" key={facet.path}>
@@ -649,116 +647,188 @@ export function BrowseView({ series, count }: { series: string; count: number })
                     )}
                   </tr>
                 </thead>
-                <tbody ref={bodyRef}>
-                  {!ready ? (
-                    Array.from({ length: 10 }, (_, i) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: placeholder rows
-                      <tr key={i} className="vrow">
-                        <td colSpan={colSpan || 1}>
-                          <span className="sk-bar" />
-                        </td>
-                      </tr>
-                    ))
-                  ) : sorted.length === 0 ? (
-                    <tr>
-                      <td colSpan={colSpan} className="results-empty">
-                        No matches.
-                      </td>
-                    </tr>
-                  ) : (
-                    <>
-                      {start > 0 ? (
-                        <tr className="vspacer">
-                          <td colSpan={colSpan} style={{ height: layout.tops[start] }} />
-                        </tr>
-                      ) : null}
-                      {visibleItems.map((item, i) =>
-                        item.kind === "group" ? (
-                          <tr
-                            key={`g:${item.group.key}`}
-                            className="vgroup"
-                            aria-rowindex={start + i + 2}
-                          >
-                            <th colSpan={colSpan} scope="colgroup">
-                              <span className="vgroup-head">
-                                <span className="contents-num">{item.number}</span>
-                                <span className="vgroup-name">
-                                  {item.group.href ? (
-                                    <RefLink href={item.group.href} title={item.group.label}>
-                                      {item.group.label}
-                                    </RefLink>
-                                  ) : (
-                                    item.group.label
-                                  )}
-                                  {item.group.sub ? (
-                                    <span className="vgroup-sub">{item.group.sub}</span>
-                                  ) : null}
-                                </span>
-                                <span className="contents-leader" aria-hidden="true" />
-                                <span className="vgroup-count">
-                                  {item.group.rows.length.toLocaleString("en-US")}
-                                  <span className="visually-hidden">
-                                    {" "}
-                                    {item.group.rows.length === 1 ? info?.singular : plural}
-                                  </span>
-                                </span>
-                              </span>
-                            </th>
-                          </tr>
-                        ) : (
-                          <tr
-                            key={item.row.slug}
-                            className={item.group ? "vrow vrow-grouped" : "vrow"}
-                            aria-rowindex={start + i + 2}
-                          >
-                            <td className="name-cell">
-                              <RefLink
-                                href={recordHref(series, item.row.slug)}
-                                title={item.row.name}
-                              >
-                                {item.row.name}
-                              </RefLink>
-                              {item.row.id !== item.row.name ? (
-                                <span className="sub mono">{item.row.id}</span>
-                              ) : null}
-                            </td>
-                            {visibleCols.map((c, ci) => {
-                              const entry = catalog?.entries[c];
-                              const text = cellText(entry, item.row.values.get(c), catalog, system);
-                              return (
-                                <td
-                                  key={c}
-                                  className={[
-                                    entry?.kind === "number" ? "num" : "",
-                                    ci === 0 ? "col-keep" : "col-opt",
-                                  ]
-                                    .filter(Boolean)
-                                    .join(" ")}
-                                  title={text}
-                                >
-                                  {text || <span className="muted">—</span>}
-                                </td>
-                              );
-                            })}
-                          </tr>
-                        ),
-                      )}
-                      {end < layout.items.length ? (
-                        <tr className="vspacer">
-                          <td
-                            colSpan={colSpan}
-                            style={{ height: totalH - (layout.tops[end] ?? 0) }}
-                          />
-                        </tr>
-                      ) : null}
-                    </>
-                  )}
-                </tbody>
+                <BrowseBody
+                  layout={layout}
+                  ready={ready}
+                  empty={sorted.length === 0}
+                  colSpan={colSpan}
+                  visibleCols={visibleCols}
+                  cells={texts.cells}
+                  catalog={catalog}
+                  series={series}
+                  singular={info?.singular}
+                  plural={plural}
+                />
               </table>
             </section>
           )}
         </div>
       </div>
     </div>
+  );
+}
+
+/**
+ * The virtualised table body: the page scrolls, and only the items in the window's view
+ * of the body (plus overscan) render. Owns the scroll position, so a scroll step
+ * re-renders this body alone, not the toolbar, facets or head.
+ */
+function BrowseBody({
+  layout,
+  ready,
+  empty,
+  colSpan,
+  visibleCols,
+  cells,
+  catalog,
+  series,
+  singular,
+  plural,
+}: {
+  layout: Layout<Row>;
+  ready: boolean;
+  empty: boolean;
+  colSpan: number;
+  visibleCols: string[];
+  /** Each row's cell texts, in column order (visible columns come first). */
+  cells: Map<Row, string[]>;
+  catalog: SeriesCatalog | null;
+  series: string;
+  singular: string | undefined;
+  plural: string;
+}) {
+  const bodyRef = useRef<HTMLTableSectionElement>(null);
+  const [scrollTop, setScrollTop] = useState(0);
+  const [viewH, setViewH] = useState(800);
+  const measure = useCallback(() => {
+    const body = bodyRef.current;
+    if (!body) return;
+    // Whole rows only, so a few pixels of scroll do not re-render.
+    const past = Math.max(0, -body.getBoundingClientRect().top);
+    setScrollTop(Math.floor(past / ROW_H) * ROW_H);
+    setViewH(window.innerHeight);
+  }, []);
+  useEffect(() => {
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        measure();
+      });
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    // Anything above the table changing height (filters panel, intro) moves the body.
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [measure]);
+  // The body's position or contents changed without a scroll: re-read the view.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure when the layout changes
+  useEffect(() => measure(), [layout, ready, measure]);
+
+  const [start, end] = visibleRange(layout.tops, scrollTop, viewH, OVERSCAN);
+  const visibleItems = layout.items.slice(start, end);
+  const totalH = layout.tops[layout.items.length] ?? 0;
+
+  return (
+    <tbody ref={bodyRef}>
+      {!ready ? (
+        Array.from({ length: 10 }, (_, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: placeholder rows
+          <tr key={i} className="vrow">
+            <td colSpan={colSpan || 1}>
+              <span className="sk-bar" />
+            </td>
+          </tr>
+        ))
+      ) : empty ? (
+        <tr>
+          <td colSpan={colSpan} className="results-empty">
+            No matches.
+          </td>
+        </tr>
+      ) : (
+        <>
+          {start > 0 ? (
+            <tr className="vspacer">
+              <td colSpan={colSpan} style={{ height: layout.tops[start] }} />
+            </tr>
+          ) : null}
+          {visibleItems.map((item, i) =>
+            item.kind === "group" ? (
+              <tr key={`g:${item.group.key}`} className="vgroup" aria-rowindex={start + i + 2}>
+                <th colSpan={colSpan} scope="colgroup">
+                  <span className="vgroup-head">
+                    <span className="contents-num">{item.number}</span>
+                    <span className="vgroup-name">
+                      {item.group.href ? (
+                        <RefLink href={item.group.href} title={item.group.label}>
+                          {item.group.label}
+                        </RefLink>
+                      ) : (
+                        item.group.label
+                      )}
+                      {item.group.sub ? <span className="vgroup-sub">{item.group.sub}</span> : null}
+                    </span>
+                    <span className="contents-leader" aria-hidden="true" />
+                    <span className="vgroup-count">
+                      {item.group.rows.length.toLocaleString("en-US")}
+                      <span className="visually-hidden">
+                        {" "}
+                        {item.group.rows.length === 1 ? singular : plural}
+                      </span>
+                    </span>
+                  </span>
+                </th>
+              </tr>
+            ) : (
+              <tr
+                key={item.row.slug}
+                className={item.group ? "vrow vrow-grouped" : "vrow"}
+                aria-rowindex={start + i + 2}
+              >
+                <td className="name-cell">
+                  <RefLink href={recordHref(series, item.row.slug)} title={item.row.name}>
+                    {item.row.name}
+                  </RefLink>
+                  {item.row.id !== item.row.name ? (
+                    <span className="sub mono">{item.row.id}</span>
+                  ) : null}
+                </td>
+                {visibleCols.map((c, ci) => {
+                  const text = cells.get(item.row)?.[ci] ?? "";
+                  return (
+                    <td
+                      key={c}
+                      className={[
+                        catalog?.entries[c]?.kind === "number" ? "num" : "",
+                        ci === 0 ? "col-keep" : "col-opt",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      title={text}
+                    >
+                      {text || <span className="muted">—</span>}
+                    </td>
+                  );
+                })}
+              </tr>
+            ),
+          )}
+          {end < layout.items.length ? (
+            <tr className="vspacer">
+              <td colSpan={colSpan} style={{ height: totalH - (layout.tops[end] ?? 0) }} />
+            </tr>
+          ) : null}
+        </>
+      )}
+    </tbody>
   );
 }

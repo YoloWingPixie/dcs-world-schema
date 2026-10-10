@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { isRecord } from "@/lib/catalog";
+import { rangeListOf } from "@/lib/record-tables";
 import { type CatalogEntry, SCALAR_KINDS } from "@/lib/types";
 import { FieldRow } from "../field-view";
 import {
@@ -13,12 +14,14 @@ import {
   RangeList,
   RecordsTable,
   type RenderCtx,
-  rangeListOf,
   StringList,
 } from "./blocks";
-import { EnvelopeBlock, isEnvelope } from "./envelope";
+import { EnvelopeBlock } from "./envelope";
 
 type Json = Record<string, unknown>;
+
+/** A number list this long or shorter reads on its label's line, like any other value. */
+const INLINE_NUMBERS = 12;
 
 const present = (v: unknown) =>
   v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0);
@@ -66,7 +69,7 @@ export function RecordsBlock({
   prefix: string;
   concretePrefix: string;
 }) {
-  if (isEnvelope(entry, ctx, prefix)) {
+  if (entry.layout === "envelope") {
     return (
       <div className="envelopes">
         {rows.filter(isRecord).map((item, i) => (
@@ -84,35 +87,25 @@ export function RecordsBlock({
       </div>
     );
   }
-  const ranges = rangeListOf(ctx, entry, prefix);
+  const ranges = rangeListOf(ctx.catalog, entry, prefix);
   if (ranges) return <RangeList rows={rows} ctx={ctx} list={ranges} />;
+  const table = (
+    <RecordsTable
+      entry={entry}
+      rows={rows}
+      ctx={ctx}
+      prefix={prefix}
+      concretePrefix={concretePrefix}
+    />
+  );
+  if (entry.layout !== "axis-table") return table;
   return (
     <>
-      {entry.axis && !entry.keyField ? (
-        <AxisTableChart entry={entry} rows={rows} ctx={ctx} prefix={prefix} />
-      ) : null}
-      {entry.axis && !entry.keyField ? (
-        <details className="exact">
-          <summary>Table ({rows.length} rows)</summary>
-          <RecordsTable
-            entry={entry}
-            rows={rows}
-            ctx={ctx}
-            prefix={prefix}
-            concretePrefix={concretePrefix}
-            headed
-          />
-        </details>
-      ) : (
-        <RecordsTable
-          entry={entry}
-          rows={rows}
-          ctx={ctx}
-          prefix={prefix}
-          concretePrefix={concretePrefix}
-          headed
-        />
-      )}
+      <AxisTableChart entry={entry} rows={rows} ctx={ctx} prefix={prefix} />
+      <details className="exact">
+        <summary>Table ({rows.length} rows)</summary>
+        {table}
+      </details>
     </>
   );
 }
@@ -128,7 +121,7 @@ export function RecordGroup({
   value,
   ctx,
   depth,
-  skip,
+  only,
 }: {
   typeName: string;
   /** Catalog path of this value (`aero`, `flight.motorStages.*`), "" at the root. */
@@ -138,9 +131,12 @@ export function RecordGroup({
   value: Json;
   ctx: RenderCtx;
   depth: number;
-  skip?: Set<string>;
+  /** The fields to show (a record page's Overview: lib/placement.ts); all by default. */
+  only?: ReadonlySet<string>;
 }) {
-  const fields = presentFields(ctx, typeName, prefix, value).filter((f) => !skip?.has(f.name));
+  const fields = presentFields(ctx, typeName, prefix, value).filter(
+    (f) => !only || only.has(f.name),
+  );
   if (depth === 0 && !prefix) {
     // Friendly classifications first, raw codes and numbers after (stable otherwise).
     const rank = (e: CatalogEntry) =>
@@ -148,7 +144,10 @@ export function RecordGroup({
     fields.sort((a, b) => rank(a.entry) - rank(b.entry));
   }
   const concrete = (name: string) => (concretePrefix ? `${concretePrefix}.${name}` : name);
-  const machStep = typeof value.machStep === "number" ? value.machStep : 0.2;
+  const stepOf = (e: CatalogEntry) => {
+    const step = e.step ? value[e.step.field] : undefined;
+    return typeof step === "number" ? step : (e.step?.fallback ?? 0);
+  };
 
   const scalars: ReactNode[] = [];
   const wide: ReactNode[] = [];
@@ -157,7 +156,7 @@ export function RecordGroup({
 
   for (const { name, key, value: v, entry } of fields) {
     const path = concrete(name);
-    if (/^sourcePaths?$/.test(name)) {
+    if (entry.role === "provenance") {
       wide.push(
         <FieldRow
           key={key}
@@ -192,7 +191,7 @@ export function RecordGroup({
           entry={entry}
           path={path}
           values={v as number[]}
-          step={machStep}
+          step={stepOf(entry)}
           ctx={ctx}
         />,
       );
@@ -205,6 +204,7 @@ export function RecordGroup({
           value={v}
           ctx={ctx.fctx}
           vctx={ctx.vctx}
+          wide={v.length > INLINE_NUMBERS}
           body={<NumberList entry={entry} values={v as number[]} vctx={ctx.vctx} />}
         />,
       );

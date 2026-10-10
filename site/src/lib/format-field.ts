@@ -81,9 +81,8 @@ export function sectorRanges(
   sectors: number[][],
   system: UnitSystem,
 ): SectorRange[] {
-  const unit = displayUnit(entry.unit, system, entry.name);
-  const angle = (v: number) =>
-    withUnit(formatNumber(convertValue(v, entry.unit, system, entry.name).value), unit);
+  const unit = displayUnit(entry, system);
+  const angle = (v: number) => withUnit(formatNumber(convertValue(v, entry, system).value), unit);
   const range = (a: number | undefined, b: number | undefined) =>
     a === undefined || b === undefined ? null : `${angle(a)} to ${angle(b)}`;
   return sectors.map(([az0, az1, el0, el1]) => ({
@@ -120,10 +119,9 @@ export function rangeText(
 ): string | null {
   const [a, b] = [row[pair.min.name], row[pair.max.name]];
   if (typeof a !== "number" || typeof b !== "number") return null;
-  const fmt = (e: CatalogEntry, v: number) =>
-    formatNumber(convertValue(v, e.unit, system, e.name).value);
+  const fmt = (e: CatalogEntry, v: number) => formatNumber(convertValue(v, e, system).value);
   const text = `${fmt(pair.min, a)}–${fmt(pair.max, b)}`;
-  return unit ? withUnit(text, displayUnit(pair.min.unit, system, pair.min.name)) : text;
+  return unit ? withUnit(text, displayUnit(pair.min, system)) : text;
 }
 
 /** Several ranges with one unit: "100–150, 220–390 MHz". */
@@ -134,7 +132,7 @@ export function coverageText(
 ): string | null {
   const parts = rows.map((r) => rangeText(pair, r, system, false)).filter((t) => t !== null);
   if (!parts.length) return null;
-  return withUnit(parts.join(", "), displayUnit(pair.min.unit, system, pair.min.name));
+  return withUnit(parts.join(", "), displayUnit(pair.min, system));
 }
 
 /** Short plain-text rendering, for copying, compare tables and tooltips. */
@@ -153,17 +151,15 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
       .map((r) => (r.elevation ? `azimuth ${r.azimuth}, elevation ${r.elevation}` : r.azimuth))
       .join("; ");
   }
-  if (typeof value === "number") return formatPlain(value, entry.unit, ctx.system, entry.name);
+  if (typeof value === "number") return formatPlain(value, entry, ctx.system);
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (typeof value === "string") return value;
   if (isXY(value)) {
-    const ys = value.y.map((v) => convertValue(v, entry.unit, ctx.system, entry.name).value);
+    const ys = value.y.map((v) => convertValue(v, entry, ctx.system).value);
     return `${ys.length} points, ${formatNumber(Math.min(...ys))} to ${formatNumber(Math.max(...ys))}`;
   }
   if (entry.kind === "numbers") {
-    const nums = numbers(value).map(
-      (v) => convertValue(v, entry.unit, ctx.system, entry.name).value,
-    );
+    const nums = numbers(value).map((v) => convertValue(v, entry, ctx.system).value);
     if (entry.axis === "mach" || nums.length > 8) {
       return `${nums.length} values, ${formatNumber(Math.min(...nums))} to ${formatNumber(Math.max(...nums))}`;
     }
@@ -199,7 +195,7 @@ export function storedValue(
     return withUnit(rows.join(", "), entry.unit);
   }
   if (typeof value !== "number") return null;
-  return formatStored(value, entry.unit, system, entry.name);
+  return formatStored(value, entry, system);
 }
 
 /** A value that sorts (and charts), in the display system. */
@@ -211,7 +207,7 @@ export function sortableValue(
   if (value === undefined || value === null) return null;
   if (typeof value === "number") {
     if (entry.kind === "enum") return enumDisplay(entry, value, ctx.enums).label;
-    return convertValue(value, entry.unit, ctx.system, entry.name).value;
+    return convertValue(value, entry, ctx.system).value;
   }
   if (typeof value === "boolean") return value ? 1 : 0;
   if (typeof value === "string") {
@@ -219,14 +215,11 @@ export function sortableValue(
     if (entry.kind === "ref") return resolveLink(entry, value, ctx.links)?.name ?? value;
     return value;
   }
-  if (isXY(value))
-    return Math.max(
-      ...value.y.map((v) => convertValue(v, entry.unit, ctx.system, entry.name).value),
-    );
+  if (isXY(value)) return Math.max(...value.y.map((v) => convertValue(v, entry, ctx.system).value));
   if (entry.kind === "numbers") {
     const nums = numbers(value);
     return nums.length
-      ? Math.max(...nums.map((v) => convertValue(v, entry.unit, ctx.system, entry.name).value))
+      ? Math.max(...nums.map((v) => convertValue(v, entry, ctx.system).value))
       : null;
   }
   if (Array.isArray(value)) return value.length;

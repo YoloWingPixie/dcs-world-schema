@@ -125,11 +125,9 @@ export const googleUrl = (p: LatLon) =>
   `https://www.google.com/maps/search/?api=1&query=${p.lat.toFixed(6)}%2C${p.lon.toFixed(6)}`;
 
 /**
- * Whether a field's value is a latitude or longitude in degrees, and so links to the figure.
+ * Whether a field's value is a latitude or longitude in degrees, and so links to the figure
+ * (on a page that shows one: FieldContext `hasLocation`).
  * Field names are `latitude` / `longitude` throughout the schema (beacons, `Entity.MapPoint`,
  * `Entity.GeoPoint`).
  */
 export const isGeoField = (name: string) => name === "latitude" || name === "longitude";
-
-/** Series whose record pages can carry the figure (and so the `#location` anchor). */
-export const LOCATED_SERIES = new Set(["beacons", "airbases", "navaids"]);

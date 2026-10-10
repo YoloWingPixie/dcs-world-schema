@@ -16,12 +16,31 @@ const REV = process.env.NEXT_PUBLIC_SQLITE_REV ?? "0";
 export const WORKER_URL = `${BASE_PATH}/sqlite/sqlite.worker.js?v=${REV}`;
 export const WASM_URL = `${BASE_PATH}/sqlite/sql-wasm.wasm?v=${REV}`;
 
+/** Hand-written record and field notes (lib/client-data.ts `loadOverlays`). */
+export const OVERLAYS_URL = `${BASE_PATH}/overlays/reference.json`;
+
 /**
  * The inline script. Besides the parts every page reads, API pages fetch the API docs'
- * parts and the search page the search index's.
+ * parts and the search page the search index's. Pages that read the reference overlays
+ * (records, browse tables, compare, search) preload them; the home page, the reference
+ * contents and API pages do not.
  */
 export function bootScript(): string {
   const api = `^${BASE_PATH}/api(/|$)`;
   const search = `^${BASE_PATH}/search(/|$)`;
-  return `(function(){try{var u=new URL(${JSON.stringify(CONFIG_URL)},location.href);var p=fetch(u).then(function(r){if(!r.ok)throw new Error(u+": HTTP "+r.status);return r.json()});window.__dcsRefConfig=p;p.then(function(c){var b=c.boot;if(c.serverMode!=="chunked"||!b)return;var l=location.pathname,g=b.core.slice();if(new RegExp(${JSON.stringify(api)}).test(l))g=g.concat(b.api);if(new RegExp(${JSON.stringify(search)}).test(l))g=g.concat(b.search);g.forEach(function(i){var s=String(i);while(s.length<c.suffixLength)s="0"+s;fetch(new URL(c.urlPrefix+s,u),{priority:"low"}).catch(function(){})})}).catch(function(){})}catch(e){}})();`;
+  const noOverlays = `^${BASE_PATH}(/|/reference/|/api(/.*)?)?$`;
+  return `(function(){try{if(!new RegExp(${JSON.stringify(noOverlays)}).test(location.pathname)){var k=document.createElement("link");k.rel="preload";k.as="fetch";k.crossOrigin="anonymous";k.href=${JSON.stringify(OVERLAYS_URL)};document.head.appendChild(k)}var u=new URL(${JSON.stringify(CONFIG_URL)},location.href);var p=fetch(u).then(function(r){if(!r.ok)throw new Error(u+": HTTP "+r.status);return r.json()});window.__dcsRefConfig=p;p.then(function(c){var b=c.boot;if(c.serverMode!=="chunked"||!b)return;var l=location.pathname,g=b.core.slice();if(new RegExp(${JSON.stringify(api)}).test(l))g=g.concat(b.api);if(new RegExp(${JSON.stringify(search)}).test(l))g=g.concat(b.search);g.forEach(function(i){var s=String(i);while(s.length<c.suffixLength)s="0"+s;fetch(new URL(c.urlPrefix+s,u),{priority:"low"}).catch(function(){})})}).catch(function(){})}catch(e){}})();`;
+}
+
+/** Fetch database parts ahead of the worker (chunked mode); the HTTP cache keeps them. */
+export function prefetchParts(
+  c: { serverMode: string; urlPrefix?: string; suffixLength?: number },
+  base: string,
+  parts: number[],
+): void {
+  if (c.serverMode !== "chunked" || c.urlPrefix === undefined) return;
+  for (const i of parts) {
+    const url = new URL(c.urlPrefix + String(i).padStart(c.suffixLength ?? 5, "0"), base);
+    fetch(url, { priority: "low" }).catch(() => {});
+  }
 }
