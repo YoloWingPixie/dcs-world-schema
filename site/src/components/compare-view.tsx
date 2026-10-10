@@ -122,7 +122,9 @@ function Comparison({ state }: { state: CompareState }) {
   const toggle = (slug: string) => (state.records.includes(slug) ? remove(slug) : add(slug));
   const name = (slug: string) => records.get(slug)?.name ?? slug;
 
-  const entry = state.field && catalog ? entryFor(catalog, state.field) : null;
+  // Only a comparable field (`compareAs`) has values across records (lib/db/reference `getField`).
+  const found = state.field && catalog ? entryFor(catalog, state.field) : null;
+  const entry = found?.compareAs !== undefined ? found : null;
   const singular = info?.singular ?? "record";
   const plural = info?.label.toLowerCase() ?? "records";
 
@@ -393,8 +395,8 @@ function FieldSelect({
   value: string | null;
   onChange: (v: string | null) => void;
 }) {
-  // Keyed paths (`flight.motorStages.march.impulseS`) take a scan of the series: read once
-  // the list opens, or when the address names one.
+  // Keyed paths (`flight.motorStages.march.impulseS`) take a read of the series' keyed path
+  // list: read once the list opens, or when the address names one.
   const [opened, setOpened] = useState(false);
   const keyedValue = Boolean(value && catalog && catalogKeyFor(value, catalog)?.includes("*"));
   const allPaths = useLoaded(() => loadFieldPaths(series), opened || keyedValue ? series : null);

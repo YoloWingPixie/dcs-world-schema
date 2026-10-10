@@ -172,3 +172,82 @@ def test_scripting_value_rows_match_constant_names() -> None:
     assert row["note"] == "SENSOR_OPTICAL = 0"
     data["categoryName"] = "SENSOR_RADAR"
     assert scripting_rows(spec, "sensors", "s", data, API) == []
+
+
+def test_walk_mirrors_walk_path() -> None:
+    record = {
+        "a": {"b": 1, "empty": [], "none": None},
+        "stages": [{"stage": "boost", "t": 2}, {"stage": "march", "t": 5}, {"t": 7}],
+        "list": [{"x": 1}, {"x": None}, {"x": 3}],
+    }
+    keys = {"flight.stages": "stage"}
+    assert site_views.walk(record, "a.b", {}) == [("a.b", 1, record["a"])]
+    assert site_views.walk(record, "a.empty", {}) == []
+    assert site_views.walk(record, "a.none", {}) == []
+    assert [p for p, _, _ in site_views.walk(record, "flight.stages.*.t", keys)] == [
+        "flight.stages.boost.t",
+        "flight.stages.march.t",
+        "flight.stages.undefined.t",
+    ]
+    assert [(p, v) for p, v, _ in site_views.walk(record, "list[].x", {})] == [
+        ("list[0].x", 1),
+        ("list[2].x", 3),
+    ]
+
+
+def test_table_shapes() -> None:
+    rows = [{"mach": 0, "cx": 0.2}, {"mach": 1, "cx": True}, {"mach": 2, "cx": 0.4}, 3]
+    assert site_views.curve_of(rows, "mach", "cx") == {"x": [0, 2], "y": [0.2, 0.4]}
+    assert site_views.curve_of(None, "mach", "cx") is None
+    items = [{"r": [1], "c": [2], "z": [[3]]}, {"r": [1], "z": None}, {"z": [[4]]}]
+    assert site_views.surfaces_of(items, "r", "c", "z") == [
+        {"rows": [1], "cols": [2], "z": [[3]]},
+        {"z": [[4]]},
+    ]
+    holder = {"cx0": [0.1, "x"], "machStep": 0.1, "other": 1}
+    assert site_views.samples_of(holder, "cx0", "machStep") == {
+        "cx0": [0.1, "x"],
+        "machStep": 0.1,
+    }
+    assert site_views.samples_of({"cx0": [0.1]}, "cx0", "machStep") == {"cx0": [0.1]}
+    assert site_views.samples_of({"cx0": ["x"]}, "cx0", "machStep") is None
+
+
+def test_field_value() -> None:
+    record = {
+        "aero": {"cx0": [1, 2], "machStep": 0.1},
+        "table": [{"m": 0, "y": 1}],
+        "stages": [{"stage": "a", "t": 1}, {"stage": "a", "t": 2}],
+    }
+    keys = {"stages": "stage"}
+    sampled = {"path": "aero.cx0", "samples": {"list": "cx0", "step": "machStep"}}
+    assert site_views.field_value(sampled, record, "aero.cx0", keys) == record["aero"]
+    curve = {"path": "table[].y", "curve": {"table": "table", "x": "m", "y": "y"}}
+    assert site_views.field_value(curve, record, "table[].y", keys) == {
+        "x": [0],
+        "y": [1],
+    }
+    # A keyed path: the first item with the key.
+    keyed = {"path": "stages.*.t"}
+    assert site_views.field_value(keyed, record, "stages.a.t", keys) == 1
+    assert site_views.field_value(keyed, record, "stages.b.t", keys) is None
+
+
+def test_keyed_paths_count_keys_as_sqlite_groups_them() -> None:
+    spec = {
+        "fields": [{"path": "s.*.t"}, {"path": "s.*.u"}, {"path": "other"}],
+        "keyFields": {"s": "stage"},
+        "keyed": ["s"],
+    }
+    columns = {
+        "s": [
+            [{"stage": "b"}, {"stage": "a"}, {"stage": 2}, {"x": 1}, 5],
+            [{"stage": "a"}, {"stage": True}],
+            None,
+        ]
+    }
+    paths = site_views.keyed_paths(spec, columns)
+    # `a` twice; then by SQLite's order: numbers (1 for true, 2) before text.
+    assert [p for p, _ in paths][::2] == ["s.a.t", "s.1.t", "s.2.t", "s.b.t"]
+    assert paths[:2] == [["s.a.t", "s.*.t"], ["s.a.u", "s.*.u"]]
+    assert site_views.keyed_paths({"fields": []}, {}) == []

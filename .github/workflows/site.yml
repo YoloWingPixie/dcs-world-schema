@@ -95,7 +95,7 @@ jobs:
 
       - name: Cache key
         id: key
-        run: echo "key=site-db-${{ hashFiles('dcs-world-reference/latest/**', 'dcs-world-schema/**', 'tools/**', 'VERSION', 'uv.lock') }}" >> "$GITHUB_OUTPUT"
+        run: echo "key=site-db-${{ hashFiles('dcs-world-reference/latest/**', 'dcs-world-schema/**', 'tools/**', 'VERSION', 'uv.lock', 'site/src/lib/series-display.json', 'site/src/lib/api/scripting.json', 'site/src/lib/compare-fields.json') }}" >> "$GITHUB_OUTPUT"
 
       - name: Restore database
         id: cache

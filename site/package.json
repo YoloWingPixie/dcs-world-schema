@@ -20,7 +20,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "e2e": "playwright test && SITE_DB_MODE=chunked playwright test",
-    "check:overlays": "tsx scripts/check-overlays.ts"
+    "check:overlays": "tsx scripts/check-overlays.ts",
+    "gen:compare-fields": "tsx scripts/build-compare-fields.ts"
   },
   "dependencies": {
     "@fontsource/archivo": "^5.3.0",

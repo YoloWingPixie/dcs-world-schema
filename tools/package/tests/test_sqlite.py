@@ -427,7 +427,7 @@ def _series_view(db: sqlite3.Connection, series: str) -> dict[str, Any]:
 
 
 def test_views_are_raw_deflated_json(db: sqlite3.Connection) -> None:
-    for table in ("record_views", "series_views"):
+    for table in ("record_views", "series_views", "field_values"):
         kinds = {r[0] for r in db.execute(f"SELECT DISTINCT typeof(view) FROM {table}")}
         assert kinds == {"blob"}, table
         for (blob,) in db.execute(f"SELECT view FROM {table} LIMIT 20"):
@@ -587,6 +587,86 @@ def test_series_view_fields(db: sqlite3.Connection, built: Built) -> None:
                 series,
                 path,
             )
+
+
+def _field(db: sqlite3.Connection, series: str, path: str) -> dict[str, Any]:
+    row = db.execute(
+        "SELECT view FROM field_values WHERE series = ? AND path = ?", (series, path)
+    ).fetchone()
+    assert row, f"{series} {path}"
+    view: dict[str, Any] = json.loads(site_views.decompress(row[0]))
+    return view
+
+
+def test_field_values(db: sqlite3.Connection, built: Built) -> None:
+    compare = site_views.load_compare()
+    stored = {(s, p) for s, p in db.execute("SELECT series, path FROM field_values")}
+    for series, spec in compare.items():
+        for field in spec["fields"]:
+            if "*" not in field["path"]:
+                assert (series, field["path"]) in stored, (series, field["path"])
+
+    f16 = built.series["aircraft"]["F-16C_50"]
+    take_off = _field(db, "aircraft", "aero.maxTakeoffKg")["values"]
+    assert take_off["F-16C_50"] == f16["aero"]["maxTakeoffKg"]
+    assert all(v is not None for v in take_off.values())
+    # A whole column of references: its join table's resolved ids, and their names.
+    attributes = _field(db, "aircraft", "attributes")
+    assert attributes["values"]["F-16C_50"] == f16["attributes"]
+    names = attributes["links"]["attributes"]
+    assert all(names[a] for a in f16["attributes"])
+    # A companion's table column as a curve, a Mach-sampled list as stored, a grid.
+    flight = built.series["aircraft_flight"]["F-16C_50"]
+    curve = _field(db, "aircraft", "flight.aerodynamics.table[].cx0")["values"]
+    table = flight["aerodynamics"]["table"]
+    assert curve["F-16C_50"] == {
+        "x": [r["mach"] for r in table],
+        "y": [r["cx0"] for r in table],
+    }
+    cx0 = _field(db, "weapons", "flight.aerodynamics.cx0")["values"]["AIM_120C"]
+    assert (
+        cx0["cx0"] == built.series["weapon_flight"]["AIM_120C"]["aerodynamics"]["cx0"]
+    )
+    envelopes = _field(db, "weapons", "flight.launchEnvelopes[].maxRangeM")["values"]
+    assert envelopes and all(
+        {"rows", "cols", "z"} <= s.keys() for v in envelopes.values() for s in v
+    )
+
+
+def test_field_paths(db: sqlite3.Connection, built: Built) -> None:
+    (text,) = db.execute(
+        "SELECT paths FROM field_paths WHERE series = 'weapons'"
+    ).fetchone()
+    paths = json.loads(text)
+    stages = [p for p, k in paths if k == "flight.motorStages.*.impulseS"]
+    # Keys most common first, as a json_each scan grouped by stage counts them.
+    counts = dict(
+        db.execute(
+            """SELECT json_extract(j.value, '$.stage') AS stage, count(*)
+            FROM weapon_flight, json_each(weapon_flight.motorStages) AS j
+            WHERE stage IS NOT NULL GROUP BY stage"""
+        ).fetchall()
+    )
+    keys = [p.split(".")[2] for p in stages]
+    assert sorted(keys) == sorted(counts)
+    assert [counts[k] for k in keys] == sorted(counts.values(), reverse=True)
+    march = _field(db, "weapons", "flight.motorStages.march.impulseS")["values"]
+    stage = next(
+        s
+        for s in built.series["weapon_flight"]["AIM_120C"]["motorStages"]
+        if s["stage"] == "march"
+    )
+    assert march["AIM_120C"] == stage["impulseS"]
+
+
+def test_field_views_fail_on_an_unknown_path(built: Built) -> None:
+    refs = sqlite_db.References(built.series, sqlite_db.rules(built.document), {})
+    good = {"aircraft": {"fields": [{"path": "flight.aerodynamics.table[].cx0"}]}}
+    sqlite_db.field_views(built.series, refs, good, built.document)
+    for path in ("aero.nope", "flight.nope", "flight.motorStages.*.nope"):
+        bad = {"weapons": {"fields": [{"path": path}]}}
+        with pytest.raises(SystemExit):
+            sqlite_db.field_views(built.series, refs, bad, built.document)
 
 
 def test_series_view_groups(db: sqlite3.Connection) -> None:
