@@ -233,17 +233,24 @@ function anchorsOf(root: Node): Map<Key, Node> {
   return out;
 }
 
-/** The range of `pointer` (`/a/[1]`) in the dump file `text`; null when it has no value. */
-export function locate(text: string, pointer: string): Located | null {
+/** A dump file parsed once: its value tree, and its anchors when a ref needs them. */
+export type ParsedLua = { root: Node | null; anchors: Map<Key, Node> | null };
+
+/** Parse a dump file for `locateIn` (the file's one assignment). */
+export function parseLua(text: string): ParsedLua {
+  return { root: new Parser(text).file(), anchors: null };
+}
+
+/** The range of `pointer` (`/a/[1]`) in a parsed dump file; null when it has no value. */
+export function locateIn(parsed: ParsedLua, pointer: string): Located | null {
   let keys: Key[];
   try {
     keys = parsePointer(pointer);
   } catch {
     return null;
   }
-  const root = new Parser(text).file();
+  const root = parsed.root;
   if (!root) return null;
-  let anchors: Map<Key, Node> | null = null;
   let node: Node = root;
   let at = { start: root.start, end: root.end };
   for (const key of keys) {
@@ -256,9 +263,10 @@ export function locate(text: string, pointer: string): Located | null {
         if (!value) break;
         node = value;
       } else if (kindName === "ref") {
-        anchors ??= anchorsOf(root);
+        parsed.anchors ??= anchorsOf(root);
         const id = field(node, "id");
-        const target = id?.type === "scalar" && id.value !== null ? anchors.get(id.value) : null;
+        const target =
+          id?.type === "scalar" && id.value !== null ? parsed.anchors.get(id.value) : null;
         if (!target) break;
         node = target;
       } else break;
@@ -270,4 +278,28 @@ export function locate(text: string, pointer: string): Located | null {
     at = { start: entry.start, end: entry.node.end };
   }
   return { ...at, partial: false };
+}
+
+/** The range of `pointer` (`/a/[1]`) in the dump file `text`; null when it has no value. */
+export function locate(text: string, pointer: string): Located | null {
+  return locateIn(parseLua(text), pointer);
+}
+
+/** Start offset of each line of `text`. */
+export function lineStarts(text: string): number[] {
+  const out = [0];
+  for (let i = text.indexOf("\n"); i >= 0; i = text.indexOf("\n", i + 1)) out.push(i + 1);
+  return out;
+}
+
+/** The 0-based line holding offset `pos` (`starts` from `lineStarts`). */
+export function lineAt(starts: number[], pos: number): number {
+  let lo = 0;
+  let hi = starts.length - 1;
+  while (lo < hi) {
+    const mid = (lo + hi + 1) >> 1;
+    if ((starts[mid] as number) <= pos) lo = mid;
+    else hi = mid - 1;
+  }
+  return lo;
 }
