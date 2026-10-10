@@ -1,8 +1,8 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { isRecord } from "@/lib/catalog";
-import { rangeListOf } from "@/lib/record-tables";
+import { type ReactNode, useState } from "react";
+import { isRecord, type Json } from "@/lib/json";
+import { rangeListOf, withoutNamedCodes } from "@/lib/record-tables";
 import { type CatalogEntry, SCALAR_KINDS } from "@/lib/types";
 import { FieldRow } from "../field-view";
 import {
@@ -11,14 +11,13 @@ import {
   JsonValue,
   MachCard,
   NumberList,
+  ProvenanceValue,
   RangeList,
   RecordsTable,
   type RenderCtx,
   StringList,
 } from "./blocks";
 import { EnvelopeBlock } from "./envelope";
-
-type Json = Record<string, unknown>;
 
 /** A number list this long or shorter reads on its label's line, like any other value. */
 const INLINE_NUMBERS = 12;
@@ -39,8 +38,7 @@ export function presentFields(ctx: RenderCtx, typeName: string, prefix: string, 
     }))
     .map((f) => ({ ...f, entry: ctx.catalog.entries[f.key] }))
     .filter((f): f is typeof f & { entry: CatalogEntry } => Boolean(f.entry) && present(f.value));
-  const named = new Set(fields.map((f) => f.entry.codeField));
-  return fields.filter((f) => !named.has(f.name));
+  return withoutNamedCodes(fields, (f) => ({ path: f.name, entry: f.entry }));
 }
 
 /** Tooltip lines of a field: the code its constant name stands for, its provenance. */
@@ -87,7 +85,7 @@ export function RecordsBlock({
       </div>
     );
   }
-  const ranges = rangeListOf(ctx.catalog, entry, prefix);
+  const ranges = rangeListOf(ctx.catalog, entry);
   if (ranges) return <RangeList rows={rows} ctx={ctx} list={ranges} />;
   const table = (
     <RecordsTable
@@ -102,11 +100,19 @@ export function RecordsBlock({
   return (
     <>
       <AxisTableChart entry={entry} rows={rows} ctx={ctx} prefix={prefix} />
-      <details className="exact">
-        <summary>Table ({rows.length} rows)</summary>
-        {table}
-      </details>
+      <ExactTable rows={rows.length}>{table}</ExactTable>
     </>
+  );
+}
+
+/** A table under a collapsed "Table (n rows)": rendered once first opened. */
+function ExactTable({ rows, children }: { rows: number; children: ReactNode }) {
+  const [opened, setOpened] = useState(false);
+  return (
+    <details className="exact" onToggle={(e) => e.currentTarget.open && setOpened(true)}>
+      <summary>Table ({rows} rows)</summary>
+      {opened ? children : null}
+    </details>
   );
 }
 
@@ -131,23 +137,17 @@ export function RecordGroup({
   value: Json;
   ctx: RenderCtx;
   depth: number;
-  /** The fields to show (a record page's Overview: lib/placement.ts); all by default. */
-  only?: ReadonlySet<string>;
+  /** The fields to show, in this order (a record page's Overview: lib/placement.ts); all by default. */
+  only?: readonly string[];
 }) {
-  const fields = presentFields(ctx, typeName, prefix, value).filter(
-    (f) => !only || only.has(f.name),
-  );
-  if (depth === 0 && !prefix) {
-    // Friendly classifications first, raw codes and numbers after (stable otherwise).
-    const rank = (e: CatalogEntry) =>
-      e.kind === "enum" && typeof value[e.name] === "string" ? 0 : e.kind === "number" ? 2 : 1;
-    fields.sort((a, b) => rank(a.entry) - rank(b.entry));
+  let fields = presentFields(ctx, typeName, prefix, value);
+  if (only) {
+    const order = new Map(only.map((name, i) => [name, i]));
+    fields = fields
+      .filter((f) => order.has(f.name))
+      .sort((a, b) => (order.get(a.name) ?? 0) - (order.get(b.name) ?? 0));
   }
   const concrete = (name: string) => (concretePrefix ? `${concretePrefix}.${name}` : name);
-  const stepOf = (e: CatalogEntry) => {
-    const step = e.step ? value[e.step.field] : undefined;
-    return typeof step === "number" ? step : (e.step?.fallback ?? 0);
-  };
 
   const scalars: ReactNode[] = [];
   const wide: ReactNode[] = [];
@@ -165,7 +165,7 @@ export function RecordGroup({
           value={v}
           ctx={ctx.fctx}
           vctx={ctx.vctx}
-          body={<StringList entry={entry} values={Array.isArray(v) ? v : [v]} vctx={ctx.vctx} />}
+          body={<ProvenanceValue value={v} />}
         />,
       );
     } else if (
@@ -184,14 +184,15 @@ export function RecordGroup({
           notes={fieldNotes(entry, value)}
         />,
       );
-    } else if (entry.kind === "numbers" && entry.axis === "mach" && Array.isArray(v)) {
+    } else if (entry.kind === "numbers" && entry.axis?.kind === "sampled" && Array.isArray(v)) {
+      const step = value[entry.axis.step.field];
       charts.push(
         <MachCard
           key={key}
           entry={entry}
           path={path}
           values={v as number[]}
-          step={stepOf(entry)}
+          step={typeof step === "number" ? step : entry.axis.step.fallback}
           ctx={ctx}
         />,
       );
@@ -236,11 +237,7 @@ export function RecordGroup({
     } else if (entry.kind === "record" && isRecord(v) && entry.recordType) {
       const Heading = depth === 0 ? "h3" : "h4";
       nested.push(
-        <div
-          className={`subgroup depth-${depth}`}
-          key={key}
-          id={depth === 0 ? undefined : undefined}
-        >
+        <div className={`subgroup depth-${depth}`} key={key}>
           <Heading
             className="subgroup-title"
             title={ctx.catalog.types[entry.recordType]?.description}

@@ -45,11 +45,14 @@ describe("catalog from every entity schema", () => {
     expect(aircraft.entries.kind).toMatchObject({ kind: "enum", enumType: "Entity.AircraftKind" });
     expect(aircraft.enums["Entity.AircraftKind"]?.values.ROTARY).toBe("rotary");
     // The companion series' tables chart against Mach and compare as curves.
-    expect(aircraft.entries["flight.aerodynamics.table"]?.axis).toBe("mach");
+    const mach = { kind: "column", field: "mach", label: "Mach" };
+    expect(aircraft.entries["flight.aerodynamics.table"]?.axis).toEqual(mach);
     expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
       comparable: true,
-      axis: "mach",
+      axis: mach,
     });
+    // The axis column itself is no curve.
+    expect(aircraft.entries["flight.aerodynamics.table[].mach"]?.axis).toBeUndefined();
   });
 
   it("gives a record field's unit to its unsuffixed members", () => {
@@ -62,6 +65,7 @@ describe("catalog from every entity schema", () => {
     expect(vehicles.entries["weaponSystems[].sectorsRad"]).toMatchObject({
       kind: "matrix",
       unit: "rad",
+      layout: "sectors",
     });
     // Members with their own suffix, or under an unsuffixed record, keep their own.
     expect(vehicles.entries["detection.sensor.beamWidthRad"]?.unit).toBe("rad");
@@ -72,7 +76,7 @@ describe("catalog from every entity schema", () => {
     const weapons = catalogOf("weapons");
     expect(weapons.entries["flight.aerodynamics.cx0"]).toMatchObject({
       kind: "numbers",
-      axis: "mach",
+      axis: { kind: "sampled", step: { field: "machStep", fallback: 0.2 }, label: "Mach" },
       label: "Zero-lift drag coefficient",
       dcsKey: "Cx0",
     });
@@ -83,8 +87,12 @@ describe("catalog from every entity schema", () => {
     expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]).toMatchObject({
       kind: "grid",
       comparable: true,
-      axis: "grid:altitudesM,speedsMs",
+      axis: { kind: "surface", rows: "altitudesM", cols: "speedsMs" },
     });
+    // Stored once, on the envelope table and each of its grids.
+    expect(weapons.entries["flight.launchEnvelopes"]?.axis).toBe(
+      weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.axis,
+    );
     expect(weapons.entries.categoryName?.kind).toBe("enum");
   });
 
@@ -96,11 +104,11 @@ describe("catalog from every entity schema", () => {
     expect(weapons.entries["flight.launchEnvelopes"]?.layout).toBe("envelope");
     expect(weapons.entries["flight.motorStages"]).toMatchObject({ keyField: "stage" });
     expect(weapons.entries["flight.motorStages"]?.layout).toBeUndefined();
-    expect(weapons.entries["flight.aerodynamics.cx0"]?.step).toEqual({
-      field: "machStep",
-      fallback: 0.2,
+    expect(weapons.entries["flight.aerodynamics.cx0"]?.axis).toMatchObject({
+      kind: "sampled",
+      step: { field: "machStep", fallback: 0.2 },
     });
-    expect(weapons.entries["flight.aerodynamics.cxCoeff"]?.step).toBeUndefined();
+    expect(weapons.entries["flight.aerodynamics.cxCoeff"]?.axis).toBeUndefined();
     const aircraft = catalogOf("aircraft");
     expect(aircraft.entries["flight.aerodynamics.table"]?.layout).toBe("axis-table");
     const vehicles = catalogOf("ground_vehicles");
@@ -121,6 +129,54 @@ describe("catalog from every entity schema", () => {
       metric: null,
       imperial: { to: "lb" },
     });
+  });
+
+  it("marks lists of ranges and the range record that bounds them", () => {
+    const radios = catalogOf("radios");
+    expect(radios.entries.segments).toMatchObject({
+      layout: "ranges",
+      rangePair: { min: "segments[].minMHz", max: "segments[].maxMHz" },
+    });
+    expect(radios.entries.range?.bounds).toBe("segments");
+    expect(radios.entries.segments?.bounds).toBeUndefined();
+    // Tables with more columns, keyed arrays and axis tables are no range lists.
+    for (const catalog of [catalogOf("aircraft"), catalogOf("weapons"), catalogOf("airbases")]) {
+      for (const e of Object.values(catalog.entries)) {
+        if (e.layout === "ranges") expect(e.keyField ?? e.axis, e.path).toBeUndefined();
+      }
+    }
+  });
+
+  it("names a record by its root title fields", () => {
+    expect(catalogOf("weapons").titleFields).toEqual(["displayName"]);
+    expect(catalogOf("radios").titleFields).toEqual(["name"]);
+    // `displayName` is a title, not the constant name of a `display` code.
+    expect(catalogOf("weapons").entries.displayName?.codeField).toBeUndefined();
+  });
+
+  it("marks the link of a list of records, and its lists of links", () => {
+    const aircraft = catalogOf("aircraft");
+    expect(aircraft.entries["stations[].accepts"]).toMatchObject({ linkField: "clsid" });
+    const payloads = catalogOf("ground_vehicles").entries["weaponSystems[].payloads"];
+    expect(payloads?.linkField).toBe("weapon");
+    expect(payloads?.linkListFields).toContain("gunAmmo");
+    expect(aircraft.entries.stations?.linkField).toBeUndefined();
+  });
+
+  it("marks asset paths and cleans descriptions", () => {
+    expect(catalogOf("stores").entries.picture).toMatchObject({
+      role: "asset",
+      comparable: true,
+    });
+    expect(catalogOf("liveries").entries.path?.role).toBe("asset");
+    expect(catalogOf("stores").entries.displayName?.role).toBeUndefined();
+    const all = SERIES.flatMap((s) => Object.values(catalogOf(s.id).entries));
+    expect(all.filter((e) => /^Optional\s+\w/.test(e.description))).toEqual([]);
+    expect(catalogOf("weapons").entries["flight.aerodynamics.cx0"]?.dcsKey).toBe("Cx0");
+  });
+
+  it("labels the companion's fields once", () => {
+    expect(catalogOf("weapons").entries.flight?.label).toBe("Flight model");
   });
 
   it("reads values along paths, keyed arrays and axis tables", () => {

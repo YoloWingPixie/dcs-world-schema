@@ -4,9 +4,16 @@
  * files, facets) and the client renderer (labels, units, descriptions, kinds).
  */
 import { isRecord, type Json } from "./json";
+import { findRangePair, isRangeList } from "./record-tables";
 import { seriesForRef } from "./series";
 import { capitalise } from "./text";
-import type { CatalogEntry, EnumInfo, FieldKind, SeriesCatalog } from "./types";
+import {
+  type CatalogEntry,
+  type EnumInfo,
+  type FieldKind,
+  SCALAR_KINDS,
+  type SeriesCatalog,
+} from "./types";
 import { resolveConversions, stripUnitSuffix, unitFor } from "./units";
 
 /** The subset of a schema YAML file the catalog reads. */
@@ -23,13 +30,19 @@ export type SchemaTypes = Record<string, SchemaType>;
 /** The prefix companion-series fields take on the parent's page and in field paths. */
 export const COMPANION_PREFIX = "flight";
 
+/** What the companion's fields are called on the parent's page: `entries[COMPANION_PREFIX].label`. */
+const COMPANION_LABEL = "Flight model";
+
 /** Bookkeeping, not reference data: the per-field provenance map (read as data, for tooltips). */
 const SKIP = new Set(["_source"]);
 
 /**
  * The schema does not mark these; the names below are the only input to the catalog's
- * marks (`role`, `keyField`, `axis`, `step`, `titleFields`, `countFields`), which renderers read.
+ * marks (`role`, `keyField`, `axis`, `layout`, `titleFields`, `countFields`), which renderers read.
  */
+
+/** Root fields that name a record, the first present winning (catalog `titleFields`). */
+const RECORD_TITLES = ["displayName", "name"];
 
 /** Where the record was read from in the DCS Lua dump: the `provenance` role. */
 const PROVENANCE = new Set(["sourcePaths", "sourcePath"]);
@@ -42,6 +55,14 @@ const AXIS_COLUMNS = ["mach"];
 
 /** A Mach-sampled coefficient's step: its record's `machStep`, else DCS's default. */
 const MACH_STEP = { field: "machStep", fallback: 0.2 };
+const MACH_LABEL = "Mach";
+
+/** Record types holding traverse sectors (`layout: "sectors"`). */
+const SECTOR_TYPES = new Set(["Entity.AngleSector"]);
+
+/** Descriptions of string fields holding a game asset's path (`role: "asset"`). */
+const ASSET =
+  /\b(?:image|texture|model) (?:file|path)\b|^(?:Optional\s+)?(?:script path|path of\b.*`[^`]+\.\w+`)/i;
 
 /** Item fields that name a list item (`ammoName`), and counts shown beside it (`ammoCapacity`). */
 const TITLE_FIELD = /Name$/;
@@ -133,6 +154,11 @@ export function humanize(name: string): string {
   return capitalise(words.join(" ") || name);
 }
 
+/** A schema description as shown: `Optional x` reads `X` (optional is the norm). */
+export function cleanDescription(description: string): string {
+  return description.replace(/^Optional\s+(\w)/, (_, c: string) => c.toUpperCase());
+}
+
 /** `Optional zero-lift drag coefficient per Mach sample (`Cx0`).` -> `Zero-lift drag coefficient`. */
 export function labelFromDescription(description: string): string {
   const text = description
@@ -191,7 +217,7 @@ function enumTypesOf(types: SchemaTypes, type: string): string[] {
  * the enum type(s) of `x` ("" when `x` is a plain number), else null.
  */
 function constantSibling(types: SchemaTypes, owner: string, name: string): string | null {
-  if (!name.endsWith("Name") || name === "displayName") return null;
+  if (!name.endsWith("Name") || RECORD_TITLES.includes(name)) return null;
   const own = types[owner]?.fields?.[name]?.type.trim();
   const sibling = types[owner]?.fields?.[name.slice(0, -4)];
   if (!sibling || sibling.ref || sibling.type.startsWith("country.id")) return null;
@@ -208,6 +234,10 @@ type Walk = {
   types: SchemaTypes;
   resolveRef: (ref: string) => string[];
   entries: Record<string, CatalogEntry>;
+  /** The catalog's `types`, filled as the walk reaches each type. */
+  outTypes: SeriesCatalog["types"];
+  /** The catalog so far, for lib/record-tables (a subtree is complete once walked). */
+  shapes: Pick<SeriesCatalog, "types" | "entries">;
   usedTypes: Set<string>;
   usedEnums: Set<string>;
 };
@@ -250,13 +280,17 @@ function addField(
     const keyField = KEYED_ARRAYS[name];
     if (keyField) extra.keyField = keyField;
     const fields = Object.entries(types[base]?.fields ?? {});
-    const axis = AXIS_COLUMNS.find((c) => fields.some(([n]) => n === c));
-    if (axis) extra.axis = axis;
+    const column = AXIS_COLUMNS.find((c) => fields.some(([n]) => n === c));
     // Envelopes: two number[] axes and number[][] grids per item.
-    const axes = fields.filter(([, f]) => f.type === "number[]");
+    const axes = fields.filter(([, f]) => f.type === "number[]").map(([n]) => n);
     const grids = fields.filter(([, f]) => f.type === "number[][]");
-    if (axes.length >= 2 && grids.length) extra.layout = "envelope";
-    else if (axis && !keyField) extra.layout = "axis-table";
+    if (axes.length >= 2 && grids.length) {
+      extra.layout = "envelope";
+      extra.axis = { kind: "surface", rows: axes[0] as string, cols: axes[1] as string };
+    } else if (column) {
+      extra.axis = { kind: "column", field: column, label: LABELS[column] ?? humanize(column) };
+      if (!keyField) extra.layout = "axis-table";
+    }
   } else if (types[base]?.kind === "array" || (depth >= 1 && isRecordType(types, base))) {
     kind = "matrix";
   } else if (enumTypesOf(types, type).length && depth === 0) {
@@ -281,28 +315,25 @@ function addField(
   else if (type === "number[]") {
     kind = "numbers";
     if (/per Mach sample/i.test(description)) {
-      extra.axis = "mach";
-      extra.step = { ...MACH_STEP };
+      extra.axis = { kind: "sampled", step: { ...MACH_STEP }, label: MACH_LABEL };
     }
   } else if (type === "string[]") kind = "strings";
   else if (type === "number[][]") kind = "grid";
   else kind = "any";
 
+  if (SECTOR_TYPES.has(type.replace(/\[\]$/, ""))) extra.layout = "sectors";
   if (PROVENANCE.has(name)) extra.role = "provenance";
+  else if ((kind === "string" || kind === "strings") && ASSET.test(description)) {
+    extra.role = "asset";
+  }
   const comparable =
     !insideArray &&
-    !extra.role &&
-    (kind === "number" ||
-      kind === "string" ||
-      kind === "boolean" ||
-      kind === "enum" ||
-      kind === "ref" ||
-      kind === "numbers" ||
-      (kind === "strings" && Boolean(extra.ref)));
+    extra.role !== "provenance" &&
+    (SCALAR_KINDS.has(kind) || kind === "numbers" || (kind === "strings" && Boolean(extra.ref)));
 
   const withUnit = kind === "number" || kind === "numbers" || kind === "grid" || kind === "matrix";
   const label =
-    kind === "numbers" && extra.axis === "mach"
+    kind === "numbers" && extra.axis?.kind === "sampled"
       ? labelFromDescription(description)
       : (LABELS[name] ?? humanize(extra.codeField ?? name));
 
@@ -315,7 +346,7 @@ function addField(
     unit: withUnit ? unit : null,
     ...(withUnit && unit ? { conversions: resolveConversions(unit, name) } : {}),
     unitNotStated,
-    description,
+    description: cleanDescription(description),
     dcsKey: dcsKeyFromDescription(description),
     owner,
     comparable,
@@ -326,38 +357,55 @@ function addField(
   if (kind === "records") {
     const item = extra.keyField ? `${path}.*` : `${path}[]`;
     walkType(w, base, item, insideArray || !extra.keyField);
-    const fields = Object.entries(types[base]?.fields ?? {});
+    const names = w.outTypes[base]?.fields ?? [];
     const entry = w.entries[path] as CatalogEntry;
     const itemEntry = (n: string) => w.entries[`${item}.${n}`];
-    const titles = fields
-      .map(([n]) => n)
-      .filter((n) => TITLE_FIELD.test(n) && itemEntry(n)?.kind === "string");
-    const counts = fields
-      .map(([n]) => n)
-      .filter((n) => COUNT_FIELD.test(n) && itemEntry(n)?.kind === "number");
+    const titles = names.filter((n) => TITLE_FIELD.test(n) && itemEntry(n)?.kind === "string");
+    const counts = names.filter((n) => COUNT_FIELD.test(n) && itemEntry(n)?.kind === "number");
     if (titles.length) entry.titleFields = titles;
     if (counts.length) entry.countFields = counts;
-    // Envelopes: each grid compares as a surface.
-    if (extra.layout === "envelope" && !insideArray && !extra.keyField) {
-      const axes = fields.filter(([, f]) => f.type === "number[]").map(([n]) => n);
-      const grids = fields.filter(([, f]) => f.type === "number[][]").map(([n]) => n);
-      for (const g of grids) {
-        const entry = w.entries[`${path}[].${g}`];
-        if (!entry) continue;
-        entry.comparable = true;
-        entry.axis = `grid:${axes[0]},${axes[1]}`;
-      }
+    // Lists of links (station accepts: `clsid`), read item by item.
+    const link = extra.keyField ? undefined : names.find((n) => itemEntry(n)?.kind === "ref");
+    if (link) {
+      entry.linkField = link;
+      const lists = names.filter((n) => itemEntry(n)?.kind === "strings" && itemEntry(n)?.ref);
+      if (lists.length) entry.linkListFields = lists;
     }
-    // Axis tables: each numeric column compares as a curve over the axis.
-    if (extra.axis && !insideArray && !extra.keyField) {
-      for (const [col, f] of Object.entries(types[base]?.fields ?? {})) {
-        const entry = w.entries[`${path}[].${col}`];
-        if (entry && col !== extra.axis && f.type === "number") {
-          entry.comparable = true;
-          entry.axis = extra.axis;
+    const pair = findRangePair(w.shapes, base, item);
+    if (pair && isRangeList(w.shapes, entry, path)) {
+      entry.layout = "ranges";
+      entry.rangePair = { min: pair.min.path, max: pair.max.path };
+    }
+    // Envelopes compare each grid as a surface; axis tables each numeric column as a curve.
+    if (extra.axis && extra.axis.kind !== "sampled" && !insideArray && !extra.keyField) {
+      const fields = types[base]?.fields ?? {};
+      for (const [n, f] of Object.entries(fields)) {
+        const column = itemEntry(n);
+        if (!column) continue;
+        const compares =
+          extra.axis.kind === "surface"
+            ? f.type === "number[][]"
+            : n !== extra.axis.field && f.type === "number";
+        if (compares) {
+          column.comparable = true;
+          column.axis = extra.axis;
         }
       }
     }
+  }
+}
+
+/** A min/max record beside a `ranges` list only bounds it (a radio's `range`): `bounds`. */
+function markBounds(w: Walk, typeName: string, prefix: string) {
+  const at = (name: string) => w.entries[prefix ? `${prefix}.${name}` : name];
+  const fields = w.outTypes[typeName]?.fields ?? [];
+  const list = fields.map(at).find((e) => e?.layout === "ranges");
+  if (!list) return;
+  for (const name of fields) {
+    const e = at(name);
+    if (e?.kind !== "record" || !e.recordType) continue;
+    if (w.outTypes[e.recordType]?.fields.length !== 2) continue;
+    if (findRangePair(w.shapes, e.recordType, e.path)) e.bounds = list.path;
   }
 }
 
@@ -372,11 +420,16 @@ function walkType(
   if (!type?.fields) return;
   if (w.usedTypes.has(`${typeName}@${prefix}`)) return;
   w.usedTypes.add(`${typeName}@${prefix}`);
+  w.outTypes[typeName] ??= {
+    description: type.description ?? "",
+    fields: Object.keys(type.fields).filter((f) => !SKIP.has(f)),
+  };
   for (const [name, field] of Object.entries(type.fields)) {
     if (SKIP.has(name)) continue;
     const path = prefix ? `${prefix}.${name}` : name;
     addField(w, typeName, name, field, path, insideArray, parentUnit);
   }
+  markBounds(w, typeName, prefix);
 }
 
 /** The catalog of a series, with its companion's fields under `flight.` when it has one. */
@@ -388,7 +441,17 @@ export function buildSeriesCatalog(
   /** Series a schema `ref` names; by default the site's known series. */
   resolveRef: (ref: string) => string[] = seriesForRef,
 ): SeriesCatalog {
-  const w: Walk = { types, resolveRef, entries: {}, usedTypes: new Set(), usedEnums: new Set() };
+  const entries: Record<string, CatalogEntry> = {};
+  const outTypes: SeriesCatalog["types"] = {};
+  const w: Walk = {
+    types,
+    resolveRef,
+    entries,
+    outTypes,
+    shapes: { types: outTypes, entries },
+    usedTypes: new Set(),
+    usedEnums: new Set(),
+  };
   if (!types[rootType]) throw new Error(`Schema has no type ${rootType} (series ${series})`);
   walkType(w, rootType, "", false);
   if (companion) {
@@ -396,12 +459,12 @@ export function buildSeriesCatalog(
     w.entries[COMPANION_PREFIX] = {
       path: COMPANION_PREFIX,
       name: COMPANION_PREFIX,
-      label: "Flight model",
+      label: COMPANION_LABEL,
       type: companion.type,
       kind: "record",
       unit: null,
       unitNotStated: false,
-      description: types[companion.type]?.description ?? "",
+      description: cleanDescription(types[companion.type]?.description ?? ""),
       dcsKey: null,
       owner: rootType,
       comparable: false,
@@ -409,25 +472,16 @@ export function buildSeriesCatalog(
     };
     walkType(w, companion.type, COMPANION_PREFIX, false);
   }
-  const typeNames = new Set([...w.usedTypes].map((t) => t.split("@")[0] ?? t));
-  const outTypes: SeriesCatalog["types"] = {};
-  for (const t of typeNames) {
-    outTypes[t] = {
-      description: types[t]?.description ?? "",
-      fields: Object.keys(types[t]?.fields ?? {}).filter((f) => !SKIP.has(f)),
-    };
-  }
   const enums: Record<string, EnumInfo> = {};
   for (const e of w.usedEnums) {
     enums[e] = { description: types[e]?.description ?? "", values: types[e]?.values ?? {} };
   }
-  return { series, rootType, entries: w.entries, types: outTypes, enums, fieldPaths: [] };
+  const titleFields = RECORD_TITLES.filter((n) => entries[n]);
+  return { series, rootType, entries, types: outTypes, enums, titleFields };
 }
 
 // ---------------------------------------------------------------------------
 // Paths and values
-
-export { isRecord };
 
 /**
  * `flight.motorStages.march.impulseS` -> `flight.motorStages.*.impulseS` (the catalog key),
@@ -447,7 +501,7 @@ export function catalogKeyFor(
 }
 
 /** The root a path reads from: the record, or its companion for `flight.` paths. */
-function rootFor(path: string, data: Json, companion: Json | undefined) {
+export function rootFor<T>(path: string, data: T, companion: T | undefined) {
   if (path === COMPANION_PREFIX || path.startsWith(`${COMPANION_PREFIX}.`)) {
     return { root: companion, rest: path.slice(COMPANION_PREFIX.length + 1) };
   }
@@ -467,27 +521,26 @@ export function valuesAt(
   const { root, rest } = rootFor(entry.path, data, companion);
   if (!root) return [];
   const prefix = entry.path.slice(0, entry.path.length - rest.length);
-  if (entry.axis?.startsWith("grid:") && entry.path.includes("[].")) {
+  const axis = entry.path.includes("[].") ? entry.axis : undefined;
+  if (axis?.kind === "surface") {
     const [tablePath, column] = entry.path.split("[].") as [string, string];
-    const [rowField, colField] = entry.axis.slice(5).split(",") as [string, string];
     const items = getPath(root, tablePath.slice(prefix.length));
     if (!Array.isArray(items)) return [];
     const surfaces = items
       .filter(isRecord)
       .filter((it) => Array.isArray(it[column]))
-      .map((it) => ({ rows: it[rowField], cols: it[colField], z: it[column] }));
+      .map((it) => ({ rows: it[axis.rows], cols: it[axis.cols], z: it[column] }));
     return surfaces.length ? [{ path: entry.path, value: surfaces }] : [];
   }
-  if (entry.axis && entry.path.includes("[].")) {
+  if (axis?.kind === "column") {
     const [tablePath, column] = entry.path.split("[].") as [string, string];
-    const tableEntry = catalog.entries[tablePath];
     const rows = getPath(root, tablePath.slice(prefix.length));
-    if (!Array.isArray(rows) || !tableEntry?.axis) return [];
+    if (!Array.isArray(rows)) return [];
     const x: number[] = [];
     const y: number[] = [];
     for (const row of rows) {
       if (!isRecord(row)) continue;
-      const xv = row[tableEntry.axis];
+      const xv = row[axis.field];
       const yv = row[column];
       if (typeof xv === "number" && typeof yv === "number") {
         x.push(xv);

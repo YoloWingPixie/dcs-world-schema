@@ -3,6 +3,8 @@
  * laid out for the virtualised table as one list of fixed-height items.
  */
 
+import { naturalCompareBase } from "./text";
+
 /** Where a row belongs: `key` identifies the group, `label` names it. */
 export type GroupOf = {
   key: string;
@@ -18,8 +20,6 @@ export type Group<R> = GroupOf & { rows: R[] };
 export type Item<R> =
   | { kind: "group"; group: Group<R>; number: number }
   | { kind: "row"; row: R; group?: Group<R> };
-
-const collator = new Intl.Collator("en", { numeric: true, sensitivity: "base" });
 
 /**
  * Rows (already in display order) into groups sorted by label; rows keep their order
@@ -43,7 +43,7 @@ export function groupRows<R>(
   const rank = (g: Group<R>) => (last?.(g.key) ? 1 : 0);
   return [...byKey.values()].sort(
     (a, b) =>
-      rank(a) - rank(b) || collator.compare(a.label, b.label) || collator.compare(a.key, b.key),
+      rank(a) - rank(b) || naturalCompareBase(a.label, b.label) || naturalCompareBase(a.key, b.key),
   );
 }
 

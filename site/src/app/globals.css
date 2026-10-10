@@ -171,7 +171,13 @@ select {
   outline-offset: 2px;
 }
 
-.visually-hidden {
+/* Also API signature parts that go without saying in context (the owner under its section,
+   parameter types above a PARAMETERS list): kept in the text, so a heading copies and reads
+   as the full typed call, but not shown. */
+.visually-hidden,
+.api-member-head .api-sig-owner,
+.api-sig-brief .api-sig-ptype,
+.api-sig-rcolon {
   position: absolute !important;
   width: 1px;
   height: 1px;
@@ -1456,7 +1462,9 @@ select.input {
   counter-reset: sub fig;
 }
 
-.section-head {
+/* A numbered section's head: record and API sections, and compare panels (overrides below). */
+.section-head,
+.panel-head {
   display: flex;
   align-items: baseline;
   gap: 12px;
@@ -1466,17 +1474,22 @@ select.input {
   border-bottom: 2px solid var(--rule);
 }
 
-.section-head h2 {
+.section-head h2,
+.panel-head h3 {
   display: flex;
   align-items: baseline;
-  flex-wrap: wrap;
   font-size: 17px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
-.section-head h2::before {
+.section-head h2 {
+  flex-wrap: wrap;
+}
+
+.section-head h2::before,
+.panel-head h3::before {
   content: counter(chapter);
   min-width: 2.4em;
 }
@@ -2283,27 +2296,9 @@ details.exact summary:hover {
 }
 
 .panel-head {
-  display: flex;
-  flex-wrap: wrap;
   gap: 8px 16px;
-  align-items: baseline;
   justify-content: space-between;
-  padding-bottom: 6px;
   margin-bottom: 14px;
-  border-bottom: 2px solid var(--rule);
-}
-
-.panel-head h3 {
-  display: flex;
-  align-items: baseline;
-  font-size: 17px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.panel-head h3::before {
-  content: counter(chapter);
-  min-width: 2.4em;
 }
 
 .bar-cell {
@@ -2339,9 +2334,11 @@ details.exact summary:hover {
 }
 
 .matrix td {
-  white-space: normal;
+  white-space: nowrap;
   overflow-wrap: anywhere;
   min-width: 140px;
+  max-width: 320px;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
 .empty-state {

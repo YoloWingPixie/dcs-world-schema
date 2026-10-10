@@ -75,11 +75,16 @@ function useProviderResults(query: string, enabled: boolean, limit: number) {
   useEffect(() => {
     const q = query.trim();
     if (!enabled || q.length < MIN_QUERY) {
-      setState({ query: q, groups: [], pending: false });
+      // The same object when nothing changed, so React skips the render.
+      setState((s) =>
+        s.query === q && !s.groups.length && !s.pending
+          ? s
+          : { query: q, groups: [], pending: false },
+      );
       return;
     }
     let live = true;
-    setState((s) => ({ ...s, pending: true }));
+    setState((s) => (s.pending ? s : { ...s, pending: true }));
     const timer = window.setTimeout(() => {
       Promise.all(SEARCH_PROVIDERS.map((p) => p.search(q, limit).catch(() => [])))
         .then((lists) => {

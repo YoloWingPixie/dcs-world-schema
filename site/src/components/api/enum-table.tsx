@@ -1,6 +1,7 @@
 "use client";
 
 import { useDeferredValue, useId, useMemo, useState } from "react";
+import { enumValueId } from "@/lib/api/scripting";
 import type { EnumValue } from "@/lib/api/types";
 import { squash } from "@/lib/text";
 import { RefLink } from "../ref-link";
@@ -77,7 +78,7 @@ export function EnumTable({
           </thead>
           <tbody>
             {rows.map((v) => (
-              <tr key={v.key} id={`v-${encodeURIComponent(v.key)}`}>
+              <tr key={v.key} id={enumValueId(v.key)}>
                 <td className="api-name-cell">
                   <code>{v.key}</code>
                 </td>
@@ -87,7 +88,9 @@ export function EnumTable({
                   </td>
                 )}
                 {anyLinked ? (
-                  <td>
+                  <td
+                    className={v.href && !v.refLabel ? "api-ref-cell api-ref-page" : "api-ref-cell"}
+                  >
                     {v.href ? (
                       <RefLink
                         href={v.href}

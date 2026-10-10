@@ -349,20 +349,6 @@
   color: var(--ink-3);
 }
 
-/* Under its section the owner (`Object:`) goes without saying, and with a PARAMETERS list
-   below, so do the parameter types: both stay in the text, so the heading copies and reads
-   as the full typed call, but are not shown. */
-.api-member-head .api-sig-owner,
-.api-sig-brief .api-sig-ptype,
-.api-sig-rcolon {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
 .api-sig-name {
   font-weight: 600;
   color: var(--ink);
@@ -951,7 +937,8 @@
   overflow-wrap: normal;
 }
 
-.api-table td:has(> a[aria-label$="page"]) {
+/* A link to a series page (not a record count) stays on one line. */
+.api-table td.api-ref-page {
   white-space: nowrap;
 }
 
@@ -1057,8 +1044,8 @@
   .api-enum .api-table td:not(:first-child) {
     padding-left: 1.2em;
   }
-  /* The reference link (any cell after the key without a value's code) hangs right. */
-  .api-enum .api-table td:not(:first-child):not(:has(> code)) {
+  /* The reference link hangs right. */
+  .api-enum .api-table td.api-ref-cell {
     grid-column: 2;
     padding-left: 0;
     text-align: right;

@@ -1,12 +1,12 @@
 "use client";
 
-import { BASE_PATH } from "../base-path";
 /**
  * What the API pages load: rows of the reference database (range requests, db/browser.ts)
  * merged with the hand-written overlays shipped with the site (public/overlays/api.json).
  */
-import { loadModel } from "../client-data";
-import { browserQuery } from "../db/browser";
+import { BASE_PATH } from "../base-path";
+import { humanize } from "../catalog";
+import { browserQuery, transientQuery } from "../db/browser";
 import { qi } from "../db/reference";
 import { fetchJsonOr, once } from "../once";
 import { recordHref, SERIES_BY_ID, seriesHref } from "../series";
@@ -26,8 +26,10 @@ export const loadApiPages = () =>
 /** A reference series an API page's objects or values are records of. */
 export type DataLink = { label: string; href: string; count: number };
 
-export type LoadedApiPage = {
-  page: ApiPage;
+export type LoadedApiPage = { page: ApiPage };
+
+/** What an API page shows once it is on screen: links into the reference data. */
+export type ApiPageExtras = {
   /** Enum values with the reference record pages that exist (or their browse filter). */
   values?: Array<EnumValue & { href?: string; refLabel?: string }>;
   /** Reference series of the page (lib/api/scripting.ts, an enum's `valuesSeries`). */
@@ -46,13 +48,19 @@ function dataSeries(page: ApiPage): string[] {
   return field ? [field.series] : [];
 }
 
+/** The page's series that hold records, with their counts (the `series` table's). */
 async function dataLinks(page: ApiPage): Promise<DataLink[]> {
   const series = dataSeries(page);
   if (!series.length) return [];
-  const model = await loadModel();
+  const rows = await transientQuery(
+    `SELECT name, records FROM series WHERE name IN (${series.map(() => "?").join(", ")})`,
+    series,
+  );
+  const counts = new Map(rows.map((r) => [String(r.name), Number(r.records ?? 0)]));
   return series.flatMap((id) => {
-    const s = model.byId.get(id);
-    return s && s.count > 0 ? [{ label: s.label, href: seriesHref(id), count: s.count }] : [];
+    const count = counts.get(id) ?? 0;
+    const label = SERIES_BY_ID.get(id)?.label ?? humanize(id);
+    return count > 0 ? [{ label, href: seriesHref(id), count }] : [];
   });
 }
 
@@ -62,7 +70,7 @@ async function dataLinks(page: ApiPage): Promise<DataLink[]> {
  * that value (one GROUP BY over the series' table, which holds both; lib/api/scripting.ts
  * `namesKey`).
  */
-async function facetValues(page: ApiPage): Promise<LoadedApiPage["values"]> {
+async function facetValues(page: ApiPage): Promise<ApiPageExtras["values"]> {
   const found = enumField(page.name);
   const facet = found?.field.facet;
   if (!found || !facet || !page.values) return undefined;
@@ -93,30 +101,45 @@ async function facetValues(page: ApiPage): Promise<LoadedApiPage["values"]> {
   });
 }
 
+/** Enum values whose reference record exists, linked to it (`valuesSeries`). */
+async function recordValues(page: ApiPage): Promise<ApiPageExtras["values"]> {
+  const series = page.valuesSeries;
+  if (!page.values || !series) return undefined;
+  const refs = page.values.map((v) => v.ref).filter((r): r is string => Boolean(r));
+  const found = await existingRecords(transientQuery, series, refs);
+  return page.values.map((v) =>
+    v.ref && found.has(v.ref) ? { ...v, href: recordHref(series, v.ref) } : v,
+  );
+}
+
+/** An API page with its overlays and see-also links: what renders first. */
 export const loadApiPage = (section: ApiSection, name: string) =>
   once(`api:${section}:${name}`, async (): Promise<LoadedApiPage | null> => {
     const [raw, overlays] = await Promise.all([
-      getApiPage(browserQuery, section, name),
+      getApiPage(transientQuery, section, name),
       loadApiOverlays(),
     ]);
     if (!raw) return null;
     const page = applyOverlays(raw, overlays);
-    const [seeAlso, data, facets] = await Promise.all([
-      overlayLinks(browserQuery, page),
+    for (const [path, href] of await overlayLinks(transientQuery, page)) page.links[path] ??= href;
+    return { page };
+  });
+
+/**
+ * A page's links into the reference data, filled in once the page is on screen: its series
+ * and their counts, and its enum values' facet filters (or, without them, their records).
+ * Failures leave the page without them.
+ */
+export const loadApiPageExtras = (section: ApiSection, name: string) =>
+  once(`api-extras:${section}:${name}`, async (): Promise<ApiPageExtras> => {
+    const loaded = await loadApiPage(section, name);
+    if (!loaded) return {};
+    const { page } = loaded;
+    const [data, facets, records] = await Promise.all([
       dataLinks(page).catch(() => []),
       facetValues(page).catch(() => undefined),
+      recordValues(page).catch(() => undefined),
     ]);
-    for (const [path, href] of seeAlso) page.links[path] ??= href;
-    const out: LoadedApiPage = data.length ? { page, data } : { page };
-    if (facets) return { ...out, values: facets };
-    if (!page.values || !page.valuesSeries) return out;
-    const series = page.valuesSeries;
-    const refs = page.values.map((v) => v.ref).filter((r): r is string => Boolean(r));
-    const found = await existingRecords(browserQuery, series, refs);
-    return {
-      ...out,
-      values: page.values.map((v) =>
-        v.ref && found.has(v.ref) ? { ...v, href: recordHref(series, v.ref) } : v,
-      ),
-    };
+    const values = facets ?? records;
+    return { ...(data.length ? { data } : {}), ...(values ? { values } : {}) };
   });

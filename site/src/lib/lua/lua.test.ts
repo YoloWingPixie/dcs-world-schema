@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
+import type { SeriesCatalog } from "../types";
 import { lineAt, lineStarts, locate, locateIn, parseLua, parsePointer } from "./locate";
 import { dumpFile, recordSources, shortLabels, splitSourcePath } from "./source";
 import { tokenize } from "./tokenize";
@@ -126,16 +127,35 @@ describe("source", () => {
   });
 
   it("collects a record's files and blocks", () => {
+    // The catalog's provenance fields: lists of paths and blocks' single paths.
+    const provenance = (path: string, kind: "strings" | "string") =>
+      [path, { path, kind, role: "provenance" }] as const;
+    const catalog = {
+      entries: Object.fromEntries([
+        provenance("sourcePaths", "strings"),
+        provenance("radar.sourcePath", "string"),
+        provenance("flight.sourcePaths", "strings"),
+        provenance("flight.stages.*.sourcePath", "string"),
+        provenance("flight.seekers[].sourcePath", "string"),
+      ]),
+    } as unknown as SeriesCatalog;
     const got = recordSources(
+      catalog,
       { sourcePaths: ["_G/a/x"], radar: { sourcePath: "_G/a/x#/radar" } },
-      { sourcePaths: ["_G/b/y"], stages: [{ sourcePath: "_G/c/z#/s" }] },
+      {
+        sourcePaths: ["_G/b/y"],
+        stages: [{ sourcePath: "_G/c/z#/s" }],
+        seekers: [{}, { sourcePath: "_G/b/y#/k" }],
+        other: { sourcePath: "_G/d/w#/o" },
+      },
     );
     expect(got.files).toEqual(["_G/a/x", "_G/b/y", "_G/c/z"]);
     expect(got.blocks).toEqual([
       { label: "radar", sourcePath: "_G/a/x#/radar" },
       { label: "flight.stages[0]", sourcePath: "_G/c/z#/s" },
+      { label: "flight.seekers[1]", sourcePath: "_G/b/y#/k" },
     ]);
-    expect(recordSources({ radar: { sourcePath: "_G/a/x#/r" } }).files).toEqual([]);
+    expect(recordSources(catalog, { radar: { sourcePath: "_G/a/x#/r" } }).files).toEqual([]);
   });
 });
 

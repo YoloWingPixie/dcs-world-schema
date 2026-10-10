@@ -12,7 +12,8 @@
  *
  *   node scripts/split-sqlite.ts <site-dir> [--mode=full|chunked] [--part-size=bytes] [--db=path]
  *
- * The database is --db, else SITE_SQLITE, else the newest ../dist/dcs-world-reference-*.sqlite.
+ * The database is --db, else SITE_SQLITE or DCS_REF_SQLITE, else the newest
+ * ../dist/dcs-world-reference-*.sqlite.
  * Runs under plain Node (type stripping): node: imports only.
  */
 import { createHash } from "node:crypto";
@@ -149,8 +150,13 @@ export function bootParts(path: string, partSize: number): NonNullable<Reference
 
 const siteRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
-/** SITE_SQLITE, else the newest ../dist/dcs-world-reference-*.sqlite, else null. */
-export function findDatabase(given = process.env.SITE_SQLITE): string | null {
+/**
+ * SITE_SQLITE, else DCS_REF_SQLITE, else the newest ../dist/dcs-world-reference-*.sqlite,
+ * else null. Here, not in lib/, as this file runs under plain Node (no extensionless imports).
+ */
+export function findDatabase(
+  given = process.env.SITE_SQLITE || process.env.DCS_REF_SQLITE,
+): string | null {
   if (given) return resolve(given);
   const dist = resolve(siteRoot, "../dist");
   return (

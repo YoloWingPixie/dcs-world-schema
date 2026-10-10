@@ -1,5 +1,4 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { valuesAt } from "../../src/lib/catalog";
 import {
   catalogFor,
   getFieldValues,
@@ -9,6 +8,7 @@ import {
   keyedFieldPaths,
   loadModel,
   type Model,
+  referencedByGroup,
   searchReference,
 } from "../../src/lib/db/reference";
 import { nodeQuery } from "./db";
@@ -41,16 +41,19 @@ describe("model from the database's own description", () => {
     expect(aircraft.entries.kind?.kind).toBe("enum");
     expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
       comparable: true,
-      axis: "mach",
+      axis: { kind: "column", field: "mach", label: "Mach" },
     });
     const weapons = catalogFor(model, "weapons");
     expect(weapons.entries["flight.aerodynamics.cx0"]).toMatchObject({
       kind: "numbers",
-      axis: "mach",
+      axis: { kind: "sampled", label: "Mach" },
     });
-    expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.axis).toBe(
-      "grid:altitudesM,speedsMs",
-    );
+    expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.axis).toEqual({
+      kind: "surface",
+      rows: "altitudesM",
+      cols: "speedsMs",
+    });
+    expect(weapons.titleFields).toEqual(["displayName"]);
     const liveries = catalogFor(model, "liveries");
     expect(liveries.entries.unitTypes?.ref).toEqual(
       expect.arrayContaining(["aircraft", "ground_vehicles", "ships"]),
@@ -73,6 +76,20 @@ describe("records", () => {
     expect(via?.records.map((r) => r[0])).toContain("F-16C_50");
     // A weapon is not "referenced by" its own flight model.
     expect(doc?.referencedBy.some((g) => g.series === "weapon_flight")).toBe(false);
+  });
+
+  it("lists one whole referenced-by group, direct or second hop, named as on the page", async () => {
+    const doc = await getRecord(q, model, "weapons", "AIM_120C");
+    for (const [from, path] of [
+      ["stores", "delivers[].weapon"],
+      ["aircraft", "via:stores"],
+    ] as const) {
+      const shown = doc?.referencedBy.find((g) => g.series === from && g.path === path);
+      const all = await referencedByGroup(q, model, "weapons", "AIM_120C", from, path);
+      expect(all.length).toBe(shown?.total ?? shown?.records.length);
+      const names = new Map(all);
+      for (const [id, name] of shown?.records ?? []) expect(names.get(id)).toBe(name);
+    }
   });
 
   it("resolves refs on an aircraft and finds the aircraft from a store", async () => {
@@ -131,7 +148,6 @@ describe("browse, compare and search", () => {
     expect(Object.keys(stage.values).length).toBeGreaterThan(0);
     const env = await getFieldValues(q, model, "weapons", "flight.launchEnvelopes[].maxRangeM");
     expect(Object.keys(env.values).length).toBeGreaterThan(10);
-    expect(valuesAt).toBeTypeOf("function");
   });
 
   it("searches across series with FTS5", async () => {

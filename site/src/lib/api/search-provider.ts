@@ -1,10 +1,20 @@
 "use client";
 
 import { searchQuery, transientQuery } from "../db/browser";
+import { once } from "../once";
 import type { SearchProvider, SourceHits } from "../search/types";
 import { squash } from "../text";
 import { loadApiOverlays } from "./client";
 import { resolveSymbols, searchApi } from "./db";
+
+/** Each overlay symbol's text, lowercased once the overlays load. */
+const loadOverlayTexts = () =>
+  once("api-overlay-texts", async () =>
+    Object.entries((await loadApiOverlays()).symbols).map(([symbol, o]) => ({
+      symbol,
+      text: `${o.text ?? ""} ${o.summary ?? ""} ${o.description ?? ""}`.toLowerCase(),
+    })),
+  );
 
 /**
  * The Lua API in the palette: the `search` rows of series `api` (FTS5, the same index as
@@ -14,22 +24,19 @@ export const API_PROVIDER: SearchProvider = {
   id: "api",
   label: "Lua API",
   warm: () => {
-    loadApiOverlays().catch(() => {});
+    loadOverlayTexts().catch(() => {});
   },
   search: async (query, limit) => {
-    const [hits, overlays] = await Promise.all([
+    const [hits, texts] = await Promise.all([
       searchApi(searchQuery, query, Math.max(limit * 2, 20)),
-      loadApiOverlays(),
+      loadOverlayTexts(),
     ]);
     const group: SourceHits = { source: { id: "api", label: "Lua API", weight: 1.2 }, results: [] };
     const seen = new Set<string>();
     const words = query.toLowerCase().split(/\s+/).filter(Boolean);
-    const overlayHits = Object.entries(overlays.symbols)
-      .filter(([, o]) => {
-        const text = `${o.text ?? ""} ${o.summary ?? ""} ${o.description ?? ""}`.toLowerCase();
-        return words.length > 0 && words.every((w) => text.includes(w));
-      })
-      .map(([symbol]) => symbol);
+    const overlayHits = words.length
+      ? texts.filter(({ text }) => words.every((w) => text.includes(w))).map((t) => t.symbol)
+      : [];
     const top = hits[0]?.score ?? 1;
     if (overlayHits.length) {
       const hrefs = await resolveSymbols(transientQuery, overlayHits);

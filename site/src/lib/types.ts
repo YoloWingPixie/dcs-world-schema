@@ -33,6 +33,15 @@ export const SCALAR_KINDS: ReadonlySet<FieldKind> = new Set([
   "ref",
 ]);
 
+/** How a field's values are indexed (CatalogEntry `axis`). */
+export type FieldAxis =
+  /** number[] sampled from 0 at a step: the sibling field holding it, and the step without one. */
+  | { kind: "sampled"; step: { field: string; fallback: number }; label: string }
+  /** The table column holding the x values (`table[].mach`). */
+  | { kind: "column"; field: string; label: string }
+  /** number[][] over two number[] siblings: `rows` (altitudes) by `cols` (speeds). */
+  | { kind: "surface"; rows: string; cols: string };
+
 /** One schema field at a path of a series' records. */
 export type CatalogEntry = {
   /**
@@ -62,11 +71,10 @@ export type CatalogEntry = {
   /** Record type of `record` / `records` fields. */
   recordType?: string;
   /**
-   * How a `numbers` field is indexed: `mach` (sampled from Mach 0 by the sibling `machStep`)
-   * or the path of a sibling array holding the axis values. `records` tables with a numeric
-   * axis column name it here (`mach`).
+   * How a field's values are indexed: a Mach-sampled `numbers` field (`sampled`), an axis
+   * table and its numeric columns (`column`), an envelope table and its grids (`surface`).
    */
-  axis?: string;
+  axis?: FieldAxis;
   /**
    * On an `xName` constant-name field: `x`, the code it names. A record shows the name in
    * the code's place (one row), the code staying in the raw line.
@@ -74,19 +82,36 @@ export type CatalogEntry = {
   codeField?: string;
   /** Keyed arrays (`*` in paths): the field naming each element. */
   keyField?: string;
-  /** What the field is for, when it is not reference data: `provenance` (`sourcePaths`, `sourcePath`). */
-  role?: "provenance";
   /**
-   * How a `records` array lays out: `envelope` (two number[] axes and number[][] grids per
-   * item), `axis-table` (rows indexed by the `axis` column).
+   * What the field is for, beyond its value: `provenance` (`sourcePaths`, `sourcePath`: not
+   * reference data), `asset` (a file path into the game's assets: an image, a model, a Lua file).
    */
-  layout?: "envelope" | "axis-table";
-  /** On a Mach-indexed `numbers` field: the sibling field holding the step, and the step without it. */
-  step?: { field: string; fallback: number };
+  role?: "provenance" | "asset";
+  /**
+   * How the field lays out. `records` arrays: `envelope` (two number[] axes and number[][]
+   * grids per item), `axis-table` (rows indexed by the `axis` column), `ranges` (a list of
+   * `rangePair` ranges with at most two other columns: radio segments). `sectors`: traverse
+   * sectors (`Entity.AngleSector[]`).
+   */
+  layout?: "envelope" | "axis-table" | "ranges" | "sectors";
+  /** On a `ranges` list: the catalog paths of each item's lower and upper bound. */
+  rangePair?: { min: string; max: string };
+  /**
+   * On a min/max record that only bounds a sibling `ranges` list (a radio's `range` beside
+   * its `segments`): that list's catalog path.
+   */
+  bounds?: string;
   /** On a `records` field: item fields that name an item without a link, in order. */
   titleFields?: string[];
   /** On a `records` field: item counts shown beside each item in a list (`ammoCapacity`). */
   countFields?: string[];
+  /** On a `records` field: the item field linking each item (`weapon`), when items have one. */
+  linkField?: string;
+  /**
+   * On a `records` field with a `linkField`: item fields holding lists of links, in order; an
+   * item without its link leads with the first one it fills (a payload's gun ammo).
+   */
+  linkListFields?: string[];
   /** Can be compared across records (its values read with getFieldValues, lib/db/reference.ts). */
   comparable: boolean;
   /** Hand-written field note (content/reference/<series>/_fields/<path>.md), as HTML. */
@@ -102,9 +127,12 @@ export type SeriesCatalog = {
   /** Field order of each record type the series uses (schema order). */
   types: Record<string, { description: string; fields: string[] }>;
   enums: Record<string, EnumInfo>;
-  /** Comparable concrete paths (keyed `*` filled in) and how many records carry each. */
-  fieldPaths: Array<{ path: string; key: string; count: number }>;
+  /** Root fields that name a record (`displayName`, `name`), in the order they win. */
+  titleFields: string[];
 };
+
+/** A comparable concrete path (keyed `*` filled in) and its catalog key. */
+export type FieldPath = { path: string; key: string };
 
 /** `[slug, display name]` of a linked record. */
 export type LinkTarget = [slug: string, name: string];
@@ -144,7 +172,7 @@ export type RecordDoc = {
   overlay?: Overlay;
 };
 
-/** One browse-table row: slug, name, meta, then the series' column values in order. */
+/** One browse-table row: slug, name, id, then the series' column values in order. */
 export type BrowseRow = [slug: string, name: string, id: string, ...values: unknown[]];
 
 export type Facet = {

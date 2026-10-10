@@ -4,7 +4,10 @@
  */
 
 import { BASE_PATH } from "../base-path";
-import { once } from "../once";
+import { rootFor } from "../catalog";
+import { isRecord } from "../json";
+import { boundedCache, once } from "../once";
+import type { SeriesCatalog } from "../types";
 
 /** One dump path the drawer can show: the file and, for a block, the pointer into it. */
 export type LuaSource = {
@@ -40,48 +43,70 @@ export type LuaBlock = {
 };
 
 /**
- * The dump paths of a record: its `sourcePaths` (data first, then the companion's) and the
- * `sourcePath` of every block, by file in first-seen order.
+ * The concrete values at a catalog path (`stations[].sourcePath`, `flight.motorStages.*.x`),
+ * each with the concrete path of the record holding it (`stations[2]`; "" for the root).
+ */
+function valuesAt(
+  path: string,
+  data: Record<string, unknown> | undefined,
+  companion: Record<string, unknown> | undefined,
+): Array<{ holder: string; value: unknown }> {
+  const { root, rest } = rootFor(path, data, companion);
+  const segments = rest.split(".");
+  const name = segments.pop() ?? "";
+  const out: Array<{ holder: string; value: unknown }> = [];
+  const walk = (node: unknown, i: number, at: string) => {
+    if (i === segments.length) {
+      if (isRecord(node) && node[name] !== undefined) out.push({ holder: at, value: node[name] });
+      return;
+    }
+    const seg = segments[i] ?? "";
+    // `*` (keyed) and `x[]` both step into an array's items.
+    const field = seg === "*" ? null : seg.replace(/\[\]$/, "");
+    const next = field === null ? node : isRecord(node) ? node[field] : undefined;
+    const label = field === null ? at : at ? `${at}.${field}` : field;
+    if (field !== null && field === seg) return walk(next, i + 1, label);
+    if (!Array.isArray(next)) return;
+    next.forEach((item, j) => {
+      walk(item, i + 1, `${label}[${j}]`);
+    });
+  };
+  const start = path === rest ? "" : path.slice(0, path.length - rest.length - 1);
+  walk(root, 0, start);
+  return out;
+}
+
+/**
+ * The dump paths of a record, from its catalog's `provenance` fields: its lists of paths
+ * (`sourcePaths`, data first, then the companion's) and each block's single path
+ * (`sourcePath`), by file in first-seen order.
  */
 export function recordSources(
+  catalog: Pick<SeriesCatalog, "entries">,
   data: Record<string, unknown> | undefined,
   companion?: Record<string, unknown> | undefined,
-  companionPrefix = "flight",
 ): { files: string[]; blocks: LuaBlock[] } {
   const files: string[] = [];
   const blocks: LuaBlock[] = [];
   const addFile = (p: string) => {
     if (dumpFile(p) && !files.includes(p)) files.push(p);
   };
-  const roots: Array<[Record<string, unknown> | undefined, string]> = [
-    [data, ""],
-    [companion, companionPrefix],
-  ];
-  for (const [root] of roots) {
-    const paths = root?.sourcePaths;
-    if (Array.isArray(paths)) for (const p of paths) if (typeof p === "string") addFile(p);
+  const provenance = Object.values(catalog.entries).filter((e) => e.role === "provenance");
+  for (const e of provenance.filter((e) => e.kind === "strings")) {
+    for (const { value } of valuesAt(e.path, data, companion)) {
+      if (Array.isArray(value)) for (const p of value) if (typeof p === "string") addFile(p);
+    }
   }
   if (!files.length) return { files, blocks };
-  const walk = (node: unknown, label: string) => {
-    if (Array.isArray(node)) {
-      node.forEach((v, i) => {
-        walk(v, `${label}[${i}]`);
-      });
-    } else if (node && typeof node === "object") {
-      for (const [k, v] of Object.entries(node)) {
-        if (k === "sourcePath" && typeof v === "string") {
-          const { path, pointer } = splitSourcePath(v);
-          if (dumpFile(path)) {
-            if (pointer) blocks.push({ label: label || "(record)", sourcePath: v });
-            addFile(path);
-          }
-        } else if (k !== "sourcePaths") {
-          walk(v, label ? `${label}.${k}` : k);
-        }
-      }
+  for (const e of provenance.filter((e) => e.kind !== "strings")) {
+    for (const { holder, value } of valuesAt(e.path, data, companion)) {
+      if (typeof value !== "string") continue;
+      const { path, pointer } = splitSourcePath(value);
+      if (!dumpFile(path)) continue;
+      if (pointer) blocks.push({ label: holder || "(record)", sourcePath: value });
+      addFile(path);
     }
-  };
-  for (const [root, prefix] of roots) if (root) walk(root, prefix);
+  }
   return { files, blocks };
 }
 
@@ -103,28 +128,11 @@ const loadConfig = () =>
 /** Whether this build has Lua files to show. */
 export const luaAvailable = () => loadConfig().then((c) => c !== null);
 
-/** Dump files kept in memory: the last few opened (some run to megabytes). */
-const KEEP_TEXTS = 4;
-const texts = new Map<string, Promise<string>>();
-
-/** The text of the dump file of `path` (`_G/a/b`); LuaMissing when the build lacks it. */
-export function loadLua(path: string): Promise<string> {
-  const hit = texts.get(path);
-  if (hit) {
-    // Most recently used last.
-    texts.delete(path);
-    texts.set(path, hit);
-    return hit;
-  }
-  const text = fetchLua(path);
-  text.catch(() => texts.delete(path));
-  texts.set(path, text);
-  for (const old of texts.keys()) {
-    if (texts.size <= KEEP_TEXTS) break;
-    texts.delete(old);
-  }
-  return text;
-}
+/**
+ * The text of the dump file of `path` (`_G/a/b`); LuaMissing when the build lacks it. The
+ * last few files opened stay in memory (some run to megabytes).
+ */
+export const loadLua: (path: string) => Promise<string> = boundedCache(4, (path) => fetchLua(path));
 
 async function fetchLua(path: string): Promise<string> {
   const file = dumpFile(path);

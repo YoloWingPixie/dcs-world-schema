@@ -1,7 +1,7 @@
 "use client";
 
-import { type ReactNode, useMemo, useState } from "react";
-import { getPath, isRecord } from "@/lib/catalog";
+import { Fragment, type ReactNode, useMemo, useState } from "react";
+import { getPath } from "@/lib/catalog";
 import {
   isAngleSectors,
   machAxis,
@@ -11,10 +11,11 @@ import {
   type ValueContext,
 } from "@/lib/format-field";
 import { isGeoField, LOCATION_ID } from "@/lib/geo";
+import { isRecord } from "@/lib/json";
 import { enumDisplay } from "@/lib/names";
 import { complexFields, type RangeList as RangeListSpec, tableColumns } from "@/lib/record-tables";
 import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
-import { convertValue, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
+import { convertNumber, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import {
   Description,
@@ -35,9 +36,6 @@ export type RenderCtx = {
   fctx: FieldContext;
 };
 
-const conv = (entry: CatalogEntry, v: number, vctx: ValueContext) =>
-  convertValue(v, entry, vctx.system).value;
-
 /** A Mach-indexed coefficient: small chart, exact values on demand. */
 export function MachCard({
   entry,
@@ -54,7 +52,8 @@ export function MachCard({
 }) {
   const axis = machAxis(values.length, step);
   const tipId = tipIdFor(ctx.fctx, path);
-  const shown = values.map((v) => conv(entry, v, ctx.vctx));
+  const shown = values.map((v) => convertNumber(v, entry, ctx.vctx.system));
+  const axisLabel = entry.axis?.kind === "sampled" ? entry.axis.label : "x";
   return (
     <figure
       className="mach-card"
@@ -91,7 +90,7 @@ export function MachCard({
           <table className="exact-table">
             <thead>
               <tr>
-                <th scope="col">Mach</th>
+                <th scope="col">{axisLabel}</th>
                 <th scope="col">{entry.dcsKey ?? entry.label}</th>
               </tr>
             </thead>
@@ -146,7 +145,7 @@ export function NumberList({
     <div className="field-value value-list">
       {values.map((v, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: positional values
-        <span key={i}>{formatNumber(conv(entry, v, vctx))}</span>
+        <span key={i}>{formatNumber(convertNumber(v, entry, vctx.system))}</span>
       ))}
       {unit ? <span className="unit">{unit}</span> : null}
     </div>
@@ -253,26 +252,43 @@ export function StringList({
       />
     );
   }
-  if (entry.codeField) {
-    return <>{values.map((v) => enumDisplay(entry, v, vctx.enums).label).join(", ")}</>;
-  }
-  if (entry.role === "provenance") {
-    return (
-      <ul className="path-list">
-        {values.map((v) => (
-          <li key={String(v)}>
-            {String(v)}
-            <LuaLink path={String(v)} />
-          </li>
-        ))}
-      </ul>
-    );
-  }
+  if (entry.codeField) return <>{plainValue(entry, values, vctx)}</>;
+  if (entry.role === "provenance") return <ProvenanceValue value={values} />;
   return (
     <ul className="tag-list">
       {values.map((v, i) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: lists may repeat
         <li key={i}>{String(v)}</li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * A `provenance` field's dump paths (`sourcePaths`, a block's `sourcePath`), each with its
+ * "View Lua" link: a list, or `inline` for one path in a table cell.
+ */
+export function ProvenanceValue({ value, inline = false }: { value: unknown; inline?: boolean }) {
+  const paths = (Array.isArray(value) ? value : [value]).map(String);
+  if (inline) {
+    return (
+      <>
+        {paths.map((p) => (
+          <Fragment key={p}>
+            {p}
+            <LuaLink path={p} />
+          </Fragment>
+        ))}
+      </>
+    );
+  }
+  return (
+    <ul className="path-list">
+      {paths.map((p) => (
+        <li key={p}>
+          {p}
+          <LuaLink path={p} />
+        </li>
       ))}
     </ul>
   );
@@ -324,7 +340,7 @@ export function HeatGrid({
   const unit = displayUnit(entry, vctx.system);
   const axisText = (axis: { entry: CatalogEntry; values: number[] } | undefined, i: number) =>
     axis?.values[i] !== undefined
-      ? formatNumber(conv(axis.entry, axis.values[i] as number, vctx))
+      ? formatNumber(convertNumber(axis.values[i] as number, axis.entry, vctx.system))
       : String(i + 1);
   const rowUnit = rowAxis ? displayUnit(rowAxis.entry, vctx.system) : null;
   const colUnit = colAxis ? displayUnit(colAxis.entry, vctx.system) : null;
@@ -356,7 +372,7 @@ export function HeatGrid({
             <tr key={r}>
               <th scope="row">{axisText(rowAxis, r)}</th>
               {row.map((c, i) => {
-                const v = conv(entry, c, vctx);
+                const v = convertNumber(c, entry, vctx.system);
                 const label = `${rowLabel} ${withUnit(axisText(rowAxis, r), rowUnit)}, ${colLabel} ${withUnit(axisText(colAxis, i), colUnit)}: ${withUnit(formatNumber(v), unit)}`;
                 return (
                   // biome-ignore lint/suspicious/noArrayIndexKey: cells are positional
@@ -404,45 +420,43 @@ function InlineArray({
   if (entry.kind === "numbers")
     return <NumberList entry={entry} values={value as number[]} vctx={ctx.vctx} />;
   if (entry.kind === "records" && entry.recordType) {
-    // A list of records with one ref (station accepts: clsid): the links, plus rule counts.
     const sub = `${prefix}[]`;
-    const refName = (ctx.catalog.types[entry.recordType]?.fields ?? []).find(
-      (f) => ctx.catalog.entries[`${sub}.${f}`]?.kind === "ref",
-    );
-    if (refName) {
-      const refEntry = ctx.catalog.entries[`${sub}.${refName}`] as CatalogEntry;
-      const fieldsOf = ctx.catalog.types[entry.recordType]?.fields ?? [];
-      const at = (f: string) => ctx.catalog.entries[`${sub}.${f}`];
+    const fieldsOf = ctx.catalog.types[entry.recordType]?.fields ?? [];
+    const at = (f: string) => ctx.catalog.entries[`${sub}.${f}`];
+    const link = entry.linkField;
+    const linkEntry = link ? at(link) : undefined;
+    // A list of records with a link (station accepts: clsid): the links, plus rule counts.
+    if (link && linkEntry) {
       const labelOf = (f: string) => at(f)?.label.toLowerCase() ?? f;
       return (
         <LimitedList
           className="link-list"
           items={value.map((item, i) => {
             const rec = isRecord(item) ? item : {};
-            // Without its ref (a payload firing gun ammo, no weapon): the item's other
+            const filled = (f: string) => Array.isArray(rec[f]) && rec[f].length > 0;
+            // Without its link (a payload firing gun ammo, no weapon): the item's lists of
             // links, else its own name, else its position.
-            const missing = rec[refName] === undefined || rec[refName] === null;
-            const links = missing
-              ? fieldsOf.find((f) => at(f)?.ref && Array.isArray(rec[f]) && rec[f].length)
-              : undefined;
+            const missing = rec[link] === undefined || rec[link] === null;
+            const links = missing ? entry.linkListFields?.find(filled) : undefined;
+            const linksEntry = links ? at(links) : undefined;
             const named = missing
               ? entry.titleFields?.find((f) => typeof rec[f] === "string" && rec[f])
               : undefined;
             const extras = [
-              ...Object.entries(rec)
-                .filter(([k, v]) => k !== refName && k !== links && Array.isArray(v) && v.length)
-                .map(([k, v]) => `${(v as unknown[]).length} ${labelOf(k)}`),
+              ...fieldsOf
+                .filter((f) => f !== link && f !== links && filled(f))
+                .map((f) => `${(rec[f] as unknown[]).length} ${labelOf(f)}`),
               ...(entry.countFields ?? [])
                 .filter((k) => typeof rec[k] === "number")
                 .map((k) => `${labelOf(k)} ${rec[k]}`),
             ];
             const lead = !missing ? (
-              <RecordLink entry={refEntry} raw={rec[refName]} vctx={ctx.vctx} />
-            ) : links ? (
+              <RecordLink entry={linkEntry} raw={rec[link]} vctx={ctx.vctx} />
+            ) : links && linksEntry ? (
               (rec[links] as unknown[]).map((v, j) => (
                 <span key={String(v)}>
                   {j ? ", " : ""}
-                  <RecordLink entry={at(links) as CatalogEntry} raw={v} vctx={ctx.vctx} />
+                  <RecordLink entry={linksEntry} raw={v} vctx={ctx.vctx} />
                 </span>
               ))
             ) : named ? (
@@ -462,10 +476,9 @@ function InlineArray({
       );
     }
     // One list field per item (gun belts): one numbered line of links per item.
-    const only = ctx.catalog.types[entry.recordType]?.fields ?? [];
-    const single = only.length === 1 ? ctx.catalog.entries[`${sub}.${only[0]}`] : undefined;
-    if (single?.kind === "strings" && only[0]) {
-      const field = only[0];
+    const single = fieldsOf.length === 1 ? at(fieldsOf[0] ?? "") : undefined;
+    if (single?.kind === "strings" && fieldsOf[0]) {
+      const field = fieldsOf[0];
       return (
         <ol className="inline-rows">
           {value.map((item, i) => (
@@ -555,7 +568,7 @@ export function RecordsTable({
                 .filter((c) => getPath(row, c.path) !== undefined)
                 .map((c) => (
                   <div key={c.path}>
-                    <dt>{c.parts.length > 1 ? `${c.entry.label}` : c.entry.label}</dt>
+                    <dt>{c.entry.label}</dt>
                     <dd>
                       <ScalarValue entry={c.entry} value={getPath(row, c.path)} vctx={ctx.vctx} />
                     </dd>
@@ -664,18 +677,15 @@ export function RecordsTable({
                           ctx.fctx.hasLocation && isGeoField(c.entry.name) ? (
                             // Runway thresholds, stand positions: on the Location figure.
                             <a className="geo-link" href={`#${LOCATION_ID}`}>
-                              {formatNumber(conv(c.entry, v, ctx.vctx))}
+                              {formatNumber(convertNumber(v, c.entry, ctx.vctx.system))}
                             </a>
                           ) : (
-                            formatNumber(conv(c.entry, v, ctx.vctx))
+                            formatNumber(convertNumber(v, c.entry, ctx.vctx.system))
                           )
                         ) : c.entry.kind === "enum" ? (
                           enumDisplay(c.entry, v, ctx.vctx.enums).label
                         ) : c.entry.role === "provenance" && typeof v === "string" ? (
-                          <>
-                            <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
-                            <LuaLink path={v} />
-                          </>
+                          <ProvenanceValue value={v} inline />
                         ) : (
                           <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
                         )}
@@ -717,31 +727,38 @@ export function AxisTableChart({
   ctx: RenderCtx;
   prefix: string;
 }) {
-  const axis = entry.axis ?? "mach";
-  const columns = tableColumns(ctx.catalog, entry.recordType ?? "", `${prefix}[]`).filter(
-    (c) => c.parts.length === 1 && c.path !== axis && c.entry.kind === "number",
+  const axis = entry.axis?.kind === "column" ? entry.axis : null;
+  const { catalog, vctx, fctx } = ctx;
+  const columns = useMemo(
+    () =>
+      tableColumns(catalog, entry.recordType ?? "", `${prefix}[]`).filter(
+        (c) => c.parts.length === 1 && c.path !== axis?.field && c.entry.kind === "number",
+      ),
+    [catalog, entry.recordType, prefix, axis],
   );
-  const items = rows.filter(isRecord);
+  const items = useMemo(() => rows.filter(isRecord), [rows]);
   const [picked, setPicked] = useState<string | null>(columns[0]?.path ?? null);
   const column = columns.find((c) => c.path === picked) ?? columns[0];
+  const columnPath = column?.path;
   const series = useMemo(() => {
-    if (!column) return [];
+    const entryOf = columns.find((c) => c.path === columnPath)?.entry;
+    if (!axis || !columnPath || !entryOf) return [];
     const pts = items
-      .map((r) => [r[axis], r[column.path]] as const)
+      .map((r) => [r[axis.field], r[columnPath]] as const)
       .filter(
         (p): p is readonly [number, number] => typeof p[0] === "number" && typeof p[1] === "number",
       );
     return [
       {
-        id: ctx.fctx.slug,
-        label: ctx.fctx.recordName,
+        id: fctx.slug,
+        label: fctx.recordName,
         color: SERIES_COLORS[0] ?? "var(--s1)",
         x: pts.map((p) => p[0]),
-        values: pts.map((p) => conv(column.entry, p[1], ctx.vctx)),
+        values: pts.map((p) => convertNumber(p[1], entryOf, vctx.system)),
       },
     ];
-  }, [items, axis, column, ctx]);
-  if (!column) return null;
+  }, [items, axis, columns, columnPath, fctx, vctx.system]);
+  if (!column || !axis) return null;
   const path = `${prefix}[].${column.path}`;
   const xy = { x: series[0]?.x ?? [], y: items.map((r) => r[column.path]) };
   return (
@@ -770,15 +787,15 @@ export function AxisTableChart({
             xy,
             ctx.fctx,
             ctx.vctx,
-            `${column.entry.label} by ${axis}`,
+            `${column.entry.label} by ${axis.field}`,
           )}
         >
-          <MoreButton label={`${column.entry.label} by ${axis}`} />
+          <MoreButton label={`${column.entry.label} by ${axis.field}`} />
         </span>
       </div>
       <LineChart
-        title={`${column.entry.label} by ${axis}`}
-        xLabel={axis === "mach" ? "Mach" : axis}
+        title={`${column.entry.label} by ${axis.field}`}
+        xLabel={axis.label}
         yUnit={displayUnit(column.entry, ctx.vctx.system)}
         series={series}
         height={260}

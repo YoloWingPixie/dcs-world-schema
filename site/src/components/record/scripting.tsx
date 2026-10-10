@@ -3,7 +3,7 @@
 import { Fragment, useEffect, useState } from "react";
 import type { ScriptingRow, ScriptingText } from "@/lib/api/record-scripting";
 import { SCRIPTING } from "@/lib/api/scripting";
-import { browserQuery } from "@/lib/db/browser";
+import { transientQuery } from "@/lib/db/browser";
 import type { RecordDoc } from "@/lib/types";
 import { RefLink } from "../ref-link";
 
@@ -37,11 +37,11 @@ export function useScripting(doc: RecordDoc | null): ScriptingRow[] | "loading" 
     // record's first load should not wait behind them.
     const start = () =>
       loadScriptingCode()
-        .then((m) => m.loadScripting(browserQuery, doc.series, doc.id, doc.data))
+        .then((m) => m.loadScripting(transientQuery, doc.series, doc.id, doc.data))
         // No API data: the record reads the same without the block.
         .then(done, () => done([]));
     // Rows another record of the series already read: no database pages to wait for.
-    if (scriptingCode?.scriptingWarm(browserQuery, doc.series, doc.data)) {
+    if (scriptingCode?.scriptingWarm(transientQuery, doc.series, doc.data)) {
       start();
       return () => {
         live = false;

@@ -3,6 +3,8 @@
 import { useEffect, useId, useMemo, useState } from "react";
 import { ENV_LABEL, SECTION_LABEL } from "@/lib/api/routes";
 import type { ApiSection, PageSummary } from "@/lib/api/types";
+import { replaceUrl } from "@/lib/history";
+import { naturalCompare, naturalCompareBase } from "@/lib/text";
 import { RefLink } from "../ref-link";
 
 type Filter = "all" | "mission" | "hooks" | "export" | "server";
@@ -55,7 +57,7 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
       list.sort(
         (a, b) =>
           (KIND_ORDER[a.kind] ?? 9) - (KIND_ORDER[b.kind] ?? 9) ||
-          a.name.localeCompare(b.name, "en", { sensitivity: "base" }),
+          naturalCompareBase(a.name, b.name),
       );
     }
     return m;
@@ -70,7 +72,7 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
     for (const p of list)
       groups.set(typeGroup(p.name), [...(groups.get(typeGroup(p.name)) ?? []), p]);
     return [...groups.entries()].sort(([a], [b]) =>
-      a.startsWith("Records") ? -1 : b.startsWith("Records") ? 1 : a.localeCompare(b),
+      a.startsWith("Records") ? -1 : b.startsWith("Records") ? 1 : naturalCompare(a, b),
     );
   }, [bySection, typeQuery]);
 
@@ -108,7 +110,7 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
             onClick={() => {
               setEnv(e.id);
               try {
-                window.history.replaceState(null, "", e.id === "all" ? "#" : `#${e.id}`);
+                replaceUrl(e.id === "all" ? "#" : `#${e.id}`);
               } catch {
                 // History blocked: the filter still applies.
               }

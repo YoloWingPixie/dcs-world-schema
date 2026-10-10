@@ -5,7 +5,7 @@
  */
 import type { Query } from "../db/reference";
 import { apiHref } from "./routes";
-import { enumMemberText, enumValueHash, namesKey, SCRIPTING } from "./scripting";
+import { enumMemberText, enumValueId, namesKey, SCRIPTING } from "./scripting";
 import type { EnumValue, Member } from "./types";
 
 type Json = Record<string, unknown>;
@@ -135,7 +135,7 @@ const literal = (v: unknown) => (typeof v === "string" ? JSON.stringify(v) : Str
 
 const enumLink = (page: string, key: string): ScriptingText => ({
   text: enumMemberText(page, key),
-  href: `${apiHref("types", page)}${enumValueHash(key)}`,
+  href: `${apiHref("types", page)}#${encodeURIComponent(enumValueId(key))}`,
   code: true,
 });
 

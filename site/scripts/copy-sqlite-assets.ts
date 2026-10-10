@@ -5,7 +5,7 @@
  *   public/data/reference.json + the database       scripts/split-sqlite.ts
  *   public/_redirects                               deep links serve the shell (Cloudflare Pages)
  *
- * The database comes from SITE_SQLITE (a path), else the newest
+ * The database comes from SITE_SQLITE (a path), else DCS_REF_SQLITE, else the newest
  * ../dist/dcs-world-reference-*.sqlite; SITE_DB_MODE=chunked splits it as deployed
  * (default: one file). SITE_SQLITE=none skips it: the deploy adds the database next to
  * the built shell (.github/workflows/site.yml).

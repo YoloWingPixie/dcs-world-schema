@@ -35,6 +35,16 @@ function preloadApi(path: string) {
     .catch(() => {});
 }
 
+/** The page shown when the reference data fails to load. */
+export function Failed() {
+  return (
+    <div className="empty-state">
+      <h1>Failed to load data</h1>
+      <p>Reload the page.</p>
+    </div>
+  );
+}
+
 /** A page placeholder while its view or data loads. */
 export function Skeleton() {
   return (
@@ -106,14 +116,7 @@ export function ReferenceShell() {
   }
   const route = parseReferencePath(path);
   if (!route) return <NotFound />;
-  if (failed) {
-    return (
-      <div className="empty-state">
-        <h1>Failed to load data</h1>
-        <p>Reload the page.</p>
-      </div>
-    );
-  }
+  if (failed) return <Failed />;
   if (route.id !== null) {
     const view = (
       <Suspense fallback={<RecordSkeleton series={route.series} slug={route.id} hint={hint} />}>

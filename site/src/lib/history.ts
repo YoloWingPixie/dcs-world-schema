@@ -4,6 +4,11 @@
  * (useSearchParams, usePathname); the record page is memoised and does not re-render.
  */
 
+/** Pushes a new history entry (an in-page link the Back button should undo). */
+export function pushUrl(url: string): void {
+  window.history.pushState(null, "", url);
+}
+
 /** Replaces the address (a reference page's own path change, `?query` and `#hash` included). */
 export function replaceUrl(url: string): void {
   window.history.replaceState(null, "", url);

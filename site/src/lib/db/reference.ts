@@ -7,14 +7,24 @@
  */
 
 import type { SchemaTypes } from "../catalog";
-import { buildSeriesCatalog, COMPANION_PREFIX, humanize, isRecord, valuesAt } from "../catalog";
+import {
+  buildSeriesCatalog,
+  COMPANION_PREFIX,
+  catalogKeyFor,
+  humanize,
+  rootFor,
+  valuesAt,
+} from "../catalog";
+import { isRecord } from "../json";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
+import { withoutNamedCodes } from "../record-tables";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
 import { displayFor } from "../series-display";
 import { naturalCompare } from "../text";
 import {
   type CatalogEntry,
   type Facet,
+  type FieldPath,
   type FieldValues,
   type LinkTarget,
   type RecordDoc,
@@ -135,11 +145,17 @@ export async function loadModel(q: Query): Promise<Model> {
   return { meta, series, byId: new Map(series.map((s) => [s.id, s])), types, refPaths };
 }
 
-/** Series a schema `ref` names (a union of unit types names every unit series). */
+/**
+ * Series a schema `ref` names (a union of unit types names every unit series); a companion's
+ * records live on their parent's pages, so it names the parent.
+ */
 export function refResolver(model: Model) {
   return (ref: string): string[] => {
     const names = ref.split("|").map((t) => t.trim());
-    return names.flatMap((t) => model.series.filter((s) => s.typeName === t).map((s) => s.id));
+    const ids = names.flatMap((t) =>
+      model.series.filter((s) => s.typeName === t).map((s) => s.parent ?? s.id),
+    );
+    return [...new Set(ids)];
   };
 }
 
@@ -180,11 +196,8 @@ export function catalogFor(model: Model, series: string): SeriesCatalog {
     );
   } catch {
     // A type the database does not describe: an empty catalog renders raw JSON.
-    catalog = { series, rootType: s.typeName, entries: {}, types: {}, enums: {}, fieldPaths: [] };
+    catalog = { series, rootType: s.typeName, entries: {}, types: {}, enums: {}, titleFields: [] };
   }
-  catalog.fieldPaths = Object.values(catalog.entries)
-    .filter((e) => e.comparable && !e.path.includes("*"))
-    .map((e) => ({ path: e.path, key: e.path, count: 0 }));
   cache.set(series, catalog);
   return catalog;
 }
@@ -192,21 +205,23 @@ export function catalogFor(model: Model, series: string): SeriesCatalog {
 // ---------------------------------------------------------------------------
 // Rows
 
+/** A stored value as the record holds it: booleans restored, JSON text of non-scalars parsed. */
+function decodeValue(entry: CatalogEntry | undefined, raw: unknown): unknown {
+  if (entry?.kind === "boolean") return raw === 1 || raw === true || raw === "1";
+  if ((entry && SCALAR_KINDS.has(entry.kind)) || typeof raw !== "string") return raw;
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return raw;
+  }
+}
+
 /** A database row as the record it was built from: JSON columns parsed, booleans restored. */
 export function decodeRow(row: Row, catalog: SeriesCatalog, prefix = ""): Record<string, unknown> {
   const out: Record<string, unknown> = {};
   for (const [name, raw] of Object.entries(row)) {
     if (raw === null || raw === undefined) continue;
-    const entry = catalog.entries[prefix ? `${prefix}.${name}` : name];
-    if (entry?.kind === "boolean") out[name] = raw === 1 || raw === true || raw === "1";
-    else if (entry && SCALAR_KINDS.has(entry.kind)) out[name] = raw;
-    else if (typeof raw === "string") {
-      try {
-        out[name] = JSON.parse(raw);
-      } catch {
-        out[name] = raw;
-      }
-    } else out[name] = raw;
+    out[name] = decodeValue(catalog.entries[prefix ? `${prefix}.${name}` : name], raw);
   }
   return out;
 }
@@ -344,46 +359,96 @@ export async function getRecord(
 
 /**
  * Same-named records in one list of links ("KERMAN" three times) get a short detail
- * each (lib/link-details.ts): one query per series with collisions and a detail rule.
+ * each (lib/link-details.ts). Mutates `links` and `groups`: one query per series with a
+ * detail rule, for the colliding ids of every list together.
  */
-async function distinguishLinks(q: Query, model: Model, doc: RecordDoc): Promise<RecordDoc> {
-  const details = async (series: string, ids: string[]) => {
-    const rule = LINK_DETAILS[series];
-    const s = model.byId.get(series);
-    const out = new Map<string, string>();
-    if (!rule || !s || !ids.length) return out;
-    const columns = [s.keyColumn, ...rule.columns.filter((c) => c !== s.keyColumn)];
-    const rows = await q(
-      `SELECT ${columns.map(qi).join(", ")} FROM ${qi(series)} WHERE ${qi(s.keyColumn)} IN (${ids.map(() => "?").join(",")})`,
-      ids,
-    );
-    for (const row of rows) {
-      const detail = rule.detail(row);
-      if (detail) out.set(String(row[s.keyColumn]), detail);
-    }
-    return out;
-  };
+async function addLinkDetails(
+  q: Query,
+  model: Model,
+  links: RecordDoc["links"],
+  groups: Array<{ series: string; records: LinkTarget[] }>,
+): Promise<void> {
   const nameOf = (v: LinkTarget | string) => (typeof v === "string" ? v : v[1]);
-  const links = Object.entries(doc.links).map(async ([series, map]) => {
-    const found = await details(
+  // Each list's colliding ids and how to rename them, by series.
+  const lists: Array<{
+    series: string;
+    ids: Set<string>;
+    apply: (found: Map<string, string>) => void;
+  }> = [];
+  for (const [series, map] of Object.entries(links)) {
+    const ids = new Set(collidingIds(Object.entries(map).map(([id, v]) => [id, nameOf(v)])));
+    lists.push({
       series,
-      collidingIds(Object.entries(map).map(([id, v]) => [id, nameOf(v)])),
-    );
-    for (const [id, detail] of found) {
-      const v = map[id];
-      if (v === undefined) continue;
-      map[id] = typeof v === "string" ? withDetail(v, detail) : [v[0], withDetail(v[1], detail)];
-    }
-  });
-  const groups = doc.referencedBy.map(async (group) => {
-    const found = await details(group.series, collidingIds(group.records));
-    if (!found.size) return;
-    group.records = group.records.map(([id, name]) => [
-      id,
-      withDetail(name, found.get(id) ?? null),
-    ]);
-  });
-  await Promise.all([...links, ...groups]);
+      ids,
+      apply: (found) => {
+        for (const id of ids) {
+          const v = map[id];
+          const detail = found.get(id);
+          if (v === undefined || !detail) continue;
+          map[id] =
+            typeof v === "string" ? withDetail(v, detail) : [v[0], withDetail(v[1], detail)];
+        }
+      },
+    });
+  }
+  for (const group of groups) {
+    const ids = new Set(collidingIds(group.records));
+    lists.push({
+      series: group.series,
+      ids,
+      apply: (found) => {
+        group.records = group.records.map(([id, name]) => [
+          id,
+          withDetail(name, ids.has(id) ? (found.get(id) ?? null) : null),
+        ]);
+      },
+    });
+  }
+  const wanted = new Map<string, Set<string>>();
+  for (const list of lists) {
+    if (!list.ids.size || !LINK_DETAILS[list.series]) continue;
+    const set = wanted.get(list.series) ?? new Set<string>();
+    for (const id of list.ids) set.add(id);
+    wanted.set(list.series, set);
+  }
+  const found = new Map(
+    await Promise.all(
+      [...wanted].map(
+        async ([series, ids]) => [series, await linkDetails(q, model, series, [...ids])] as const,
+      ),
+    ),
+  );
+  for (const list of lists) {
+    const details = found.get(list.series);
+    if (details?.size) list.apply(details);
+  }
+}
+
+/** The detail (lib/link-details.ts) of each of `ids` in `series`, by id. */
+async function linkDetails(
+  q: Query,
+  model: Model,
+  series: string,
+  ids: string[],
+): Promise<Map<string, string>> {
+  const rule = LINK_DETAILS[series];
+  const s = model.byId.get(series);
+  const out = new Map<string, string>();
+  if (!rule || !s || !ids.length) return out;
+  const columns = [s.keyColumn, ...rule.columns.filter((c) => c !== s.keyColumn)];
+  const rows = await q(
+    `SELECT ${columns.map(qi).join(", ")} FROM ${qi(series)} WHERE ${qi(s.keyColumn)} IN (${ids.map(() => "?").join(",")})`,
+    ids,
+  );
+  for (const row of rows) {
+    const detail = rule.detail(row);
+    if (detail) out.set(String(row[s.keyColumn]), detail);
+  }
+  return out;
+}
+
+async function distinguishLinks(q: Query, model: Model, doc: RecordDoc): Promise<RecordDoc> {
+  await addLinkDetails(q, model, doc.links, doc.referencedBy);
   return doc;
 }
 
@@ -433,10 +498,7 @@ async function getRecordByQueries(
   const byTargets = new Map<string, Set<string>>();
   for (const entry of Object.values(catalog.entries)) {
     if (!entry.ref?.length) continue;
-    const root = entry.path.startsWith(`${COMPANION_PREFIX}.`) ? companion : data;
-    const path = entry.path.startsWith(`${COMPANION_PREFIX}.`)
-      ? entry.path.slice(COMPANION_PREFIX.length + 1)
-      : entry.path;
+    const { root, rest: path } = rootFor(entry.path, data, companion);
     if (!root) continue;
     const key = entry.ref.join(",");
     const set = byTargets.get(key) ?? new Set<string>();
@@ -467,41 +529,60 @@ async function getRecordByQueries(
   };
 }
 
-/** Who points at record `id`: one indexed lookup per reference path that targets it. */
-export async function referencedBy(
+/** Records of one series pointing at a record, under one path (`via` for a second hop). */
+type RefGroup = { series: string; path: string; via?: string; ids: Set<string> };
+
+/**
+ * Who points at record `id` directly: one indexed lookup per reference path that targets
+ * it, grouped by referring series and path. `keep` limits the paths read.
+ */
+async function directReferences(
   q: Query,
   model: Model,
   series: string,
   id: string,
-): Promise<ReferencedBy[]> {
+  keep: (owner: string, path: string) => boolean = () => true,
+): Promise<RefGroup[]> {
   const s = model.byId.get(series);
   if (!s) return [];
   const targets = new Set([series, ...(s.unit ? [UNITS] : [])]);
-  const groups = new Map<string, { series: string; path: string; ids: Set<string> }>();
+  const groups = new Map<string, RefGroup>();
   for (const rp of model.refPaths) {
     if (!targets.has(rp.target)) continue;
     const from = model.byId.get(rp.series);
     if (!from || from.parent === series) continue; // a record's own companion
+    const owner = from.parent ?? from.id;
+    const path = from.parent ? `${COMPANION_PREFIX}.${rp.path}` : rp.path;
+    if (!keep(owner, path)) continue;
     const rows = await q(
       `SELECT DISTINCT ${qi(rp.source)} AS src FROM ${qi(rp.table)} WHERE ${qi(rp.targetColumn)} = ?`,
       [id],
     );
     if (!rows.length) continue;
-    const owner = from.parent ?? from.id;
-    const path = from.parent ? `${COMPANION_PREFIX}.${rp.path}` : rp.path;
     const key = `${owner}|${path}`;
     const g = groups.get(key) ?? { series: owner, path, ids: new Set<string>() };
     for (const r of rows) g.ids.add(String(r.src));
     groups.set(key, g);
   }
+  return [...groups.values()];
+}
 
-  // Second hop: units that reach it through a non-unit record (a weapon through stores).
-  const hops = new Map<string, { series: string; path: string; via: string; ids: Set<string> }>();
-  for (const g of groups.values()) {
+/**
+ * Second hop: units that reach the record through a non-unit record of `direct` (a
+ * weapon through stores), as `via:<series>` groups. `only` limits it to one unit series.
+ */
+async function hopReferences(
+  q: Query,
+  model: Model,
+  direct: RefGroup[],
+  only?: string,
+): Promise<RefGroup[]> {
+  const hops = new Map<string, RefGroup>();
+  for (const g of direct) {
     const gs = model.byId.get(g.series);
     if (!gs || gs.unit || g.ids.size > 400) continue;
     for (const rp of model.refPaths) {
-      if (rp.target !== g.series) continue;
+      if (rp.target !== g.series || (only && rp.series !== only)) continue;
       const from = model.byId.get(rp.series);
       if (!from?.unit) continue;
       const ids = [...g.ids];
@@ -526,37 +607,48 @@ export async function referencedBy(
       hops.set(key, h);
     }
   }
+  return [...hops.values()];
+}
 
+/** Groups as "referenced by" lists: records named (one `namesOf`) and sorted by name. */
+async function namedReferences(
+  q: Query,
+  model: Model,
+  groups: RefGroup[],
+): Promise<ReferencedBy[]> {
   const wanted = new Map<string, Set<string>>();
-  for (const g of [...groups.values(), ...hops.values()]) {
+  for (const g of groups) {
     const set = wanted.get(g.series) ?? new Set();
     for (const i of g.ids) set.add(i);
     wanted.set(g.series, set);
   }
   const names = await namesOf(q, model, wanted);
-  const toRecords = (series: string, ids: Set<string>) =>
-    [...ids]
-      .map((i) => [i, names.get(series)?.get(i) ?? i] as [string, string])
-      .sort((a, b) => naturalCompare(a[1], b[1]));
-
-  return [
-    ...[...groups.values()].map((g) => ({
-      series: g.series,
-      path: g.path,
-      label: referencedLabel(model, g.series, g.path),
-      records: toRecords(g.series, g.ids),
-    })),
-    ...[...hops.values()].map((h) => ({
-      series: h.series,
-      path: `via:${h.via}`,
-      label: referencedLabel(model, h.series, h.path, h.via),
-      records: toRecords(h.series, h.ids),
-      via: h.via,
-    })),
-  ];
+  return groups.map((g) => ({
+    series: g.series,
+    path: g.via ? `via:${g.via}` : g.path,
+    label: referencedLabel(model, g.series, g.path, g.via),
+    records: [...g.ids].map((i): LinkTarget => [i, names.get(g.series)?.get(i) ?? i]).sort(byName),
+    ...(g.via ? { via: g.via } : {}),
+  }));
 }
 
-/** Every record of one "referenced by" group (`from`, `path`), uncapped. */
+/** Who points at record `id`: one indexed lookup per reference path that targets it. */
+export async function referencedBy(
+  q: Query,
+  model: Model,
+  series: string,
+  id: string,
+): Promise<ReferencedBy[]> {
+  const direct = await directReferences(q, model, series, id);
+  const hops = await hopReferences(q, model, direct);
+  return namedReferences(q, model, [...direct, ...hops]);
+}
+
+/**
+ * Every record of one "referenced by" group (`from`, `path`), uncapped and with link
+ * details: only that group's reference path is read (for a `via:` group, the paths into
+ * the series it goes through, and the one hop from there).
+ */
 export async function referencedByGroup(
   q: Query,
   model: Model,
@@ -565,8 +657,15 @@ export async function referencedByGroup(
   from: string,
   path: string,
 ): Promise<LinkTarget[]> {
-  const groups = await referencedBy(q, model, series, id);
-  return groups.find((g) => g.series === from && g.path === path)?.records ?? [];
+  const via = path.startsWith("via:") ? path.slice(4) : null;
+  const direct = await directReferences(q, model, series, id, (owner, p) =>
+    via ? owner === via : owner === from && p === path,
+  );
+  const groups = via ? await hopReferences(q, model, direct, from) : direct;
+  const [group] = await namedReferences(q, model, groups);
+  if (!group) return [];
+  await addLinkDetails(q, model, {}, [group]);
+  return group.records;
 }
 
 // ---------------------------------------------------------------------------
@@ -643,14 +742,10 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   }
 
   const count = rows.length;
-  // A numeric code beside its constant name (`category` / `categoryName`) shows once.
-  const names_ = new Set(columns.map((c) => c.name));
-  const redundant = (c: CatalogEntry) =>
-    names_.has(`${c.name}Name`) ||
-    rows.some(
-      (r) =>
-        typeof r[c.name] === "string" && /\.(png|dds|lua|edm|jpg|tga)$/i.test(String(r[c.name])),
-    );
+  // A numeric code beside its constant name (`category` / `categoryName`) shows once; a
+  // game asset's file path says little in a table.
+  const kept = new Set(withoutNamedCodes(columns, (c) => ({ path: c.name, entry: c })));
+  const redundant = (c: CatalogEntry) => !kept.has(c) || c.role === "asset";
   // Filled and distinct values per column, counted once.
   const stats = new Map<string, { filled: number; distinct: number }>();
   for (const c of columns) {
@@ -666,7 +761,9 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   }
   const coverage = (c: CatalogEntry) => stats.get(c.name)?.filled ?? 0;
   const distinct = (c: CatalogEntry) => stats.get(c.name)?.distinct ?? 0;
-  const skipNames = /^(displayName|name|id)$/;
+  // The name and id head every row already.
+  const skipped = (c: CatalogEntry) =>
+    c.name === s.keyColumn || catalog.titleFields.includes(c.path);
   // Configured paths (lib/series-display) win over the heuristics below.
   const display = displayFor(series);
   const configured = (paths: string[] | undefined) => {
@@ -679,9 +776,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     configured(display.facets)?.filter((c) => distinct(c) >= 2) ??
     columns
       .filter(
-        (c) =>
-          (c.kind === "enum" || c.kind === "boolean" || c.kind === "string") &&
-          !skipNames.test(c.name),
+        (c) => (c.kind === "enum" || c.kind === "boolean" || c.kind === "string") && !skipped(c),
       )
       .filter((c) => {
         const d = distinct(c);
@@ -692,9 +787,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   const visible =
     configured(display.columns) ??
     columns
-      .filter(
-        (c) => !skipNames.test(c.name) && !redundant(c) && coverage(c) >= Math.max(1, count * 0.3),
-      )
+      .filter((c) => !skipped(c) && !redundant(c) && coverage(c) >= Math.max(1, count * 0.3))
       .filter((c) => !(c.kind === "string" && distinct(c) > count * 0.6))
       .sort((a, b) => coverage(b) - coverage(a))
       .slice(0, 4);
@@ -787,23 +880,26 @@ export async function getFieldValues(
   const s = model.byId.get(series);
   if (!s) return { path, values: {} };
   const catalog = catalogFor(model, series);
-  const key = Object.keys(catalog.entries).find((k) => k === path) ?? starKey(catalog, path);
+  const key = catalogKeyFor(path, catalog);
   const entry = key ? catalog.entries[key] : undefined;
   if (!entry) return { path, values: {} };
-  const inCompanion = path.startsWith(`${COMPANION_PREFIX}.`);
-  const table = inCompanion ? model.byId.get(s.companion ?? "") : s;
+  const { root: table, rest } = rootFor(
+    path,
+    s,
+    s.companion ? model.byId.get(s.companion) : undefined,
+  );
   if (!table) return { path, values: {} };
-  const rest = inCompanion ? path.slice(COMPANION_PREFIX.length + 1) : path;
+  const prefix = path.slice(0, path.length - rest.length);
   const [column, ...inner] = rest.replace(/\[\].*$/, "").split(".") as [string, ...string[]];
   const values: Record<string, unknown> = {};
   const simple = !entry.path.includes("*") && !entry.path.includes("[]");
-
-  if (simple && inner.length === 0) {
-    const rows = await q(
+  const columnRows = () =>
+    q(
       `SELECT ${qi(table.keyColumn)} AS k, ${qi(column)} AS v FROM ${qi(table.id)} WHERE ${qi(column)} IS NOT NULL`,
     );
-    const asV = { ...catalog, entries: { v: { ...entry, name: "v", path: "v" } } };
-    for (const r of rows) values[String(r.k)] = decodeRow({ v: r.v }, asV).v;
+
+  if (simple && inner.length === 0) {
+    for (const r of await columnRows()) values[String(r.k)] = decodeValue(entry, r.v);
     return { path, values };
   }
   if (simple) {
@@ -812,71 +908,51 @@ export async function getFieldValues(
       [`$.${inner.join(".")}`],
     );
     for (const r of rows) {
-      let v: unknown = r.v;
-      if (entry.kind === "boolean") v = v === 1 || v === true;
-      else if (!SCALAR_KINDS.has(entry.kind) && typeof v === "string") {
-        try {
-          v = JSON.parse(v);
-        } catch {
-          // keep text
-        }
-      }
+      const v = decodeValue(entry, r.v);
       if (Array.isArray(v) && v.length === 0) continue;
       values[String(r.k)] = v;
     }
     return { path, values };
   }
   // Keyed stages, axis tables, envelopes: read the column and walk it.
-  const rows = await q(
-    `SELECT ${qi(table.keyColumn)} AS k, ${qi(column)} AS v FROM ${qi(table.id)} WHERE ${qi(column)} IS NOT NULL`,
-  );
-  for (const r of rows) {
-    let parsed: unknown;
-    try {
-      parsed = typeof r.v === "string" ? JSON.parse(r.v) : r.v;
-    } catch {
-      continue;
-    }
-    const root = { [column]: parsed };
-    const found = valuesAt(
-      entry,
-      catalog,
-      inCompanion ? {} : root,
-      inCompanion ? root : undefined,
-    ).find((v) => v.path === path);
+  const columnEntry = catalog.entries[prefix + column];
+  for (const r of await columnRows()) {
+    const root = { [column]: decodeValue(columnEntry, r.v) };
+    const found = valuesAt(entry, catalog, prefix ? {} : root, prefix ? root : undefined).find(
+      (v) => v.path === path,
+    );
     if (found) values[String(r.k)] = found.value;
   }
   return { path, values };
 }
 
-function starKey(catalog: SeriesCatalog, path: string): string | undefined {
-  const parts = path.split(".");
-  for (let i = 0; i < parts.length; i++) {
-    const candidate = [...parts.slice(0, i), "*", ...parts.slice(i + 1)].join(".");
-    if (catalog.entries[candidate]) return candidate;
-  }
-  return undefined;
+/** Comparable concrete paths of a catalog's plain fields (keyed ones: `keyedFieldPaths`). */
+export function fieldPaths(catalog: SeriesCatalog): FieldPath[] {
+  return Object.values(catalog.entries)
+    .filter((e) => e.comparable && !e.path.includes("*"))
+    .map((e) => ({ path: e.path, key: e.path }));
 }
 
-/** Concrete paths of keyed-array fields (`flight.motorStages.march.impulseS`). */
+/**
+ * Concrete paths of keyed-array fields (`flight.motorStages.march.impulseS`), keys most
+ * common first: one `json_each` scan of the column per keyed array.
+ */
 export async function keyedFieldPaths(
   q: Query,
   model: Model,
   series: string,
-): Promise<Array<{ path: string; key: string; count: number }>> {
+): Promise<FieldPath[]> {
   const s = model.byId.get(series);
   if (!s) return [];
   const catalog = catalogFor(model, series);
-  const out: Array<{ path: string; key: string; count: number }> = [];
+  const companion = s.companion ? model.byId.get(s.companion) : undefined;
+  const out: FieldPath[] = [];
   for (const arr of Object.values(catalog.entries).filter((e) => e.keyField)) {
-    const inCompanion = arr.path.startsWith(`${COMPANION_PREFIX}.`);
-    const table = inCompanion ? model.byId.get(s.companion ?? "") : s;
-    const column = (inCompanion ? arr.path.slice(COMPANION_PREFIX.length + 1) : arr.path).split(
-      ".",
-    )[0];
-    if (!table || !column || arr.path.split(".").length > (inCompanion ? 2 : 1)) continue;
+    const { root: table, rest } = rootFor(arr.path, s, companion);
+    // Only arrays that are a whole column.
+    if (!table || !rest || rest.includes(".")) continue;
     const rows = await q(
-      `SELECT json_extract(j.value, ?) AS key, count(*) AS n FROM ${qi(table.id)}, json_each(${qi(table.id)}.${qi(column)}) AS j GROUP BY key ORDER BY n DESC`,
+      `SELECT json_extract(j.value, ?) AS key, count(*) AS n FROM ${qi(table.id)}, json_each(${qi(table.id)}.${qi(rest)}) AS j GROUP BY key ORDER BY n DESC`,
       [`$.${arr.keyField}`],
     );
     for (const r of rows) {
@@ -886,7 +962,6 @@ export async function keyedFieldPaths(
         out.push({
           path: e.path.replace(`${arr.path}.*.`, `${arr.path}.${String(r.key)}.`),
           key: e.path,
-          count: Number(r.n ?? 0),
         });
       }
     }
@@ -954,6 +1029,10 @@ export async function searchTop(q: Query, query: string): Promise<SearchHit[]> {
 }
 
 /** Reference records among the top search rows (API symbols left out). */
-export async function searchReference(q: Query, query: string, limit = 120): Promise<SearchHit[]> {
+export async function searchReference(
+  q: Query,
+  query: string,
+  limit?: number,
+): Promise<SearchHit[]> {
   return (await searchTop(q, query)).filter((h) => h.series !== "api").slice(0, limit);
 }

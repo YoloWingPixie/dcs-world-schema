@@ -5,7 +5,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { addRecords, compareHref, getCompare, removeRecord, setCompare } from "@/lib/compare-store";
 import { SERIES_BY_ID } from "@/lib/series";
 import { CompareIcon, CopyIcon, PlusIcon } from "@/ui/icons";
-import { showToast } from "./toast";
+import { copy, showToast } from "./toast";
 
 type Target = {
   el: HTMLElement;
@@ -35,15 +35,6 @@ function readTarget(el: HTMLElement, x: number, y: number): Target {
     x,
     y,
   };
-}
-
-async function copy(text: string, what: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-    showToast(`Copied ${what}.`);
-  } catch {
-    showToast("Copy failed.");
-  }
 }
 
 /** Starts a field comparison; shared by the menu, the C shortcut and the compare page. */

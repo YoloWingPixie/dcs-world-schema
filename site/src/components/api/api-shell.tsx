@@ -4,11 +4,17 @@
 import "@fontsource/ibm-plex-mono/latin-600.css";
 import "./api.css";
 import { useEffect, useState } from "react";
-import { type LoadedApiPage, loadApiPage, loadApiPages } from "@/lib/api/client";
+import {
+  type ApiPageExtras,
+  type LoadedApiPage,
+  loadApiPage,
+  loadApiPageExtras,
+  loadApiPages,
+} from "@/lib/api/client";
 import { parseApiPath, SECTION_LABEL } from "@/lib/api/routes";
 import type { PageSummary } from "@/lib/api/types";
 import { RefLink, scrollToHash } from "../ref-link";
-import { Skeleton } from "../reference-shell";
+import { Failed, Skeleton } from "../reference-shell";
 import { ApiHome } from "./api-home";
 import { ApiPageView } from "./api-page-view";
 
@@ -26,15 +32,6 @@ function Missing({ what }: { what: string }) {
   );
 }
 
-function Failed() {
-  return (
-    <div className="empty-state">
-      <h1>Failed to load data</h1>
-      <p>Reload the page.</p>
-    </div>
-  );
-}
-
 /**
  * Every `/api/...` page, rendered client side from the reference database (served by the
  * shell in app/not-found.tsx, like the reference pages): the home listing or one page.
@@ -43,6 +40,8 @@ export function ApiShell({ path }: { path: string }) {
   const route = parseApiPath(path);
   const [home, setHome] = useState<PageSummary[] | null>(null);
   const [loaded, setLoaded] = useState<{ key: string; data: LoadedApiPage | null } | null>(null);
+  // Links into the reference data, which arrive after the page renders.
+  const [extras, setExtras] = useState<{ key: string; data: ApiPageExtras } | null>(null);
   const [failed, setFailed] = useState(false);
   const key = route && !route.home ? `${route.section}:${route.name}` : "";
 
@@ -56,16 +55,21 @@ export function ApiShell({ path }: { path: string }) {
       return;
     }
     let live = true;
+    const key = `${route.section}:${route.name}`;
     loadApiPage(route.section, route.name).then(
       (data) => {
         if (!live) return;
-        setLoaded({ key: `${route.section}:${route.name}`, data });
+        setLoaded({ key, data });
         if (data) {
           const where = route.section === "mission" ? "" : ` (${SECTION_LABEL[route.section]})`;
           document.title = `${route.name}${where} · Lua API · DCS World Reference`;
         }
       },
       () => live && setFailed(true),
+    );
+    loadApiPageExtras(route.section, route.name).then(
+      (data) => live && setExtras({ key, data }),
+      () => {},
     );
     return () => {
       live = false;
@@ -85,12 +89,6 @@ export function ApiShell({ path }: { path: string }) {
   }
   if (loaded?.key !== key) return <Skeleton />;
   if (!loaded.data) return <Missing what={route.name} />;
-  return (
-    <ApiPageView
-      key={key}
-      page={loaded.data.page}
-      values={loaded.data.values}
-      data={loaded.data.data}
-    />
-  );
+  const more = extras?.key === key ? extras.data : undefined;
+  return <ApiPageView key={key} page={loaded.data.page} values={more?.values} data={more?.data} />;
 }

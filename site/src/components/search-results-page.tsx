@@ -1,7 +1,8 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { replaceQuery } from "@/lib/history";
 import { GlobalSearch } from "./global-search";
 import { openHref } from "./ref-link";
 
@@ -9,7 +10,6 @@ import { openHref } from "./ref-link";
 export function SearchResultsPage() {
   const params = useSearchParams();
   const router = useRouter();
-  const pathname = usePathname();
   const initial = params.get("q") ?? "";
   const [query, setQuery] = useState(initial);
   // A `?q=` this page did not write (a link, back/forward) restarts the search box with it.
@@ -26,10 +26,10 @@ export function SearchResultsPage() {
     const timer = window.setTimeout(() => {
       const q = query.trim();
       if (q === (params.get("q") ?? "")) return;
-      router.replace(q ? `${pathname}?q=${encodeURIComponent(q)}` : pathname, { scroll: false });
+      replaceQuery(q ? `q=${encodeURIComponent(q)}` : "");
     }, 300);
     return () => window.clearTimeout(timer);
-  }, [query, params, pathname, router]);
+  }, [query, params]);
   return (
     <GlobalSearch
       key={generation}
