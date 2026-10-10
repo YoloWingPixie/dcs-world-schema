@@ -1,7 +1,8 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Markdown } from "@/components/Markdown";
 import type { ApiEnv, ApiOverlay, Example, FieldEntry, Member } from "@/lib/api/types";
 import { ApiLink } from "./api-link";
+import { tokenText } from "./signature";
 import { LeadName, type Links, RichText, type SigLead, Signature, TypeRef } from "./type-ref";
 
 export const ENV_LABEL: Record<ApiEnv, string> = {
@@ -82,9 +83,14 @@ export function Examples({ examples, bare }: { examples: Example[]; bare?: boole
   );
 }
 
+/** Column caps, in characters of mono: longer names and types wrap in their cell. */
+const NAME_CAP = 22;
+const TYPE_CAP = 28;
+
 /**
- * Named, typed items (parameters, record fields) in the record pages' row idiom:
- * `name . . . . type`, "optional" as a quiet mark, the description underneath.
+ * Named, typed items (parameters, record fields) as a ruled definition table: name, type
+ * and description columns, the first two sized from this list's longest entries (capped).
+ * A header row only from four rows up; below that the columns explain themselves.
  */
 export function ParamList({
   items,
@@ -96,30 +102,52 @@ export function ParamList({
     name: string;
     optional?: boolean | undefined;
     type: ReactNode;
+    /** The type as plain text, to size its column. */
+    typeText: string;
     extra?: ReactNode;
     description?: ReactNode;
   }>;
   label: string;
 }) {
+  const nameCh = Math.min(NAME_CAP, Math.max(4, ...items.map((it) => it.name.length)));
+  const typeCh = Math.min(TYPE_CAP, Math.max(4, ...items.map((it) => it.typeText.length)));
+  const header = items.length >= 4;
   return (
-    <ul className="api-params" aria-label={label}>
-      {items.map((it) => (
-        <li key={it.key} id={it.id} className="api-param">
-          <div className="api-param-head">
-            <code className="api-param-name">{it.name}</code>
-            {it.optional ? <span className="api-opt">optional</span> : null}
-            <span className="api-leader" aria-hidden="true" />
-            <span className="api-param-type">{it.type}</span>
-          </div>
-          {it.extra || it.description ? (
-            <div className="api-param-desc">
+    <table
+      className="api-ptable"
+      aria-label={label}
+      style={{ "--pn": nameCh, "--pt": typeCh } as CSSProperties}
+    >
+      <colgroup>
+        <col className="api-pcol-name" />
+        <col className="api-pcol-type" />
+        <col />
+      </colgroup>
+      {header ? (
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+      ) : null}
+      <tbody>
+        {items.map((it) => (
+          <tr key={it.key} id={it.id} className="api-param">
+            <th scope="row" className="api-param-name">
+              <code>{it.name}</code>
+              {it.optional ? <span className="api-opt">optional</span> : null}
+            </th>
+            <td className="api-param-type">{it.type}</td>
+            <td className="api-param-desc">
               {it.description}
               {it.extra}
-            </div>
-          ) : null}
-        </li>
-      ))}
-    </ul>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -140,6 +168,7 @@ export function FieldsTable({
         id: "anchor" in f ? f.anchor : undefined,
         name: f.name,
         optional: showRequired && f.required === false,
+        typeText: tokenText(f.sig ?? f.type ?? ["any"]),
         type: f.sig ? (
           <Signature tokens={f.sig} links={links} />
         ) : (
@@ -292,6 +321,7 @@ export function MemberEntry({
                   name: p.name,
                   optional: p.optional,
                   type: <TypeRef tokens={p.t} links={links} />,
+                  typeText: tokenText(p.t),
                   description: p.description ? (
                     <RichText text={p.description} links={links} />
                   ) : null,
