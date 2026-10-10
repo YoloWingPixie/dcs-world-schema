@@ -2,10 +2,20 @@
 
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { loadCatalog, loadFieldValues, loadSeriesIndex } from "@/lib/client-data";
+import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  columnWidth,
+  type Group,
+  type GroupOf,
+  groupRows,
+  layoutItems,
+  visibleRange,
+} from "@/lib/browse-groups";
+import { loadCatalog, loadFieldValues, loadGroupTargets, loadSeriesIndex } from "@/lib/client-data";
+import type { GroupTarget } from "@/lib/db/reference";
 import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
+import { displayFor } from "@/lib/series-display";
 import type { CatalogEntry, Facet, SeriesCatalog, SeriesIndex } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import { convertValue, displayUnit, formatNumber, type UnitSystem } from "@/lib/units";
@@ -14,6 +24,9 @@ import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
 
 const ROW_H = 44;
+const GROUP_H = 56;
+/** Group key of rows with neither a group target nor a fallback value. */
+const NO_GROUP = "\u0000none";
 const OVERSCAN = 12;
 const SCALAR = new Set(["number", "enum", "string", "boolean", "ref"]);
 
@@ -21,6 +34,8 @@ type Row = { slug: string; name: string; id: string; values: Map<string, unknown
 type SortState = { key: string; dir: 1 | -1 };
 
 const facetParam = (path: string) => `f.${path}`;
+/** `?group=flat` lists a grouped series flat. */
+const GROUP_PARAM = "group";
 
 /** Display text of a cell value. */
 function cellText(
@@ -71,6 +86,9 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [sort, setSort] = useState<SortState>({ key: "name", dir: 1 });
   const [filtersOpen, setFiltersOpen] = useState(true);
+  const groupBy = displayFor(series).groupBy;
+  const [targets, setTargets] = useState<Record<string, GroupTarget> | null>(null);
+  const grouped = Boolean(groupBy) && params.get(GROUP_PARAM) !== "flat";
 
   useEffect(() => {
     let live = true;
@@ -84,6 +102,14 @@ export function BrowseView({ series, count }: { series: string; count: number })
       (c) => live && setCatalog(c),
       () => undefined,
     );
+    setTargets(null);
+    const path = displayFor(series).groupBy?.path;
+    if (path) {
+      loadGroupTargets(series, path).then(
+        (t) => live && setTargets(t),
+        () => live && setTargets({}),
+      );
+    }
     return () => {
       live = false;
     };
@@ -125,8 +151,21 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const columns = useMemo(() => {
     const fromUrl = params.get("cols");
     if (fromUrl !== null) return fromUrl.split(",").filter(Boolean);
+    if (grouped && groupBy?.columns) return groupBy.columns;
     return index?.visible ?? [];
-  }, [params, index]);
+  }, [params, index, grouped, groupBy]);
+
+  // Phones show the name and the first column only; the rest are not rendered at all
+  // (a hidden <col> still takes its width in a fixed-layout table).
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 560px)");
+    const update = () => setNarrow(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  const visibleCols = useMemo(() => (narrow ? columns.slice(0, 1) : columns), [narrow, columns]);
 
   // Lazily load values of picked columns the index does not carry.
   useEffect(() => {
@@ -153,6 +192,26 @@ export function BrowseView({ series, count }: { series: string; count: number })
     });
   }, [index, extra]);
 
+  // Each row's group: the record its group-by ref names, else its fallback column.
+  const groupOf = useMemo(() => {
+    const cache = new Map<string, GroupOf>();
+    return (row: Row): GroupOf => {
+      const hit = cache.get(row.slug);
+      if (hit) return hit;
+      const t = targets?.[row.id];
+      const fallback = groupBy?.fallback ? row.values.get(groupBy.fallback) : undefined;
+      const folder = fallback === undefined || fallback === null ? "" : String(fallback);
+      let g: GroupOf;
+      if (t) {
+        g = { key: `${t[0]}:${t[1]}`, label: t[2], href: recordHref(t[0], t[1]) };
+        if (t[1] !== t[2]) g.sub = t[1];
+      } else if (folder) g = { key: `~${folder.toLowerCase()}`, label: folder };
+      else g = { key: NO_GROUP, label: `No ${groupBy?.label ?? "group"}` };
+      cache.set(row.slug, g);
+      return g;
+    };
+  }, [targets, groupBy]);
+
   const facets = index?.facets ?? [];
   const selected = useMemo(() => {
     const out: Record<string, string[]> = {};
@@ -177,13 +236,14 @@ export function BrowseView({ series, count }: { series: string; count: number })
       const hay = [
         row.name,
         row.id,
+        groupBy ? groupOf(row).label : "",
         ...columns.map((c) => cellText(catalog?.entries[c], row.values.get(c), catalog, system)),
       ]
         .join(" ")
         .toLowerCase();
       return tokens.every((t) => hay.includes(t));
     });
-  }, [rows, query, columns, catalog, system]);
+  }, [rows, query, columns, catalog, system, groupBy, groupOf]);
 
   const filtered = useMemo(
     () => textMatched.filter((row) => facets.every((f) => matchesFacet(row, f))),
@@ -288,10 +348,26 @@ export function BrowseView({ series, count }: { series: string; count: number })
     setScrollTop(0);
   }, [query, params]);
 
-  const start = Math.max(0, Math.floor(scrollTop / ROW_H) - OVERSCAN);
-  const end = Math.min(sorted.length, Math.ceil((scrollTop + viewH) / ROW_H) + OVERSCAN);
-  const visibleRows = sorted.slice(start, end);
-  const colSpan = columns.length + 1;
+  const ready = Boolean(index) && (!grouped || targets !== null);
+  const groups = useMemo<Group<Row>[] | null>(
+    () => (grouped && targets ? groupRows(sorted, groupOf, (k) => k === NO_GROUP) : null),
+    [grouped, targets, sorted, groupOf],
+  );
+  const layout = useMemo(
+    () => layoutItems<Row>(groups ? { groups } : { rows: sorted }, ROW_H, GROUP_H),
+    [groups, sorted],
+  );
+  const [start, end] = visibleRange(layout.tops, scrollTop, viewH, OVERSCAN);
+  const visibleItems = layout.items.slice(start, end);
+  const totalH = layout.tops[layout.items.length] ?? 0;
+  const colSpan = visibleCols.length + 1;
+
+  const setGrouped = (on: boolean) => {
+    const next = new URLSearchParams(params.toString());
+    if (on) next.delete(GROUP_PARAM);
+    else next.set(GROUP_PARAM, "flat");
+    replaceParams(next);
+  };
 
   const headerLabel = (path: string) => {
     const entry = catalog?.entries[path];
@@ -299,6 +375,18 @@ export function BrowseView({ series, count }: { series: string; count: number })
     const unit = entry ? displayUnit(entry.unit, system, entry.name) : null;
     return unit && entry?.kind === "number" ? `${label} (${unit})` : label;
   };
+
+  // Column widths from every row (not the rendered slice), so scrolling never reflows.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: headerLabel reads catalog and system
+  const widths = useMemo(
+    () =>
+      visibleCols.map((c) => {
+        const entry = catalog?.entries[c];
+        const texts = rows.map((r) => cellText(entry, r.values.get(c), catalog, system).length);
+        return columnWidth(texts, headerLabel(c).length);
+      }),
+    [visibleCols, rows, catalog, system],
+  );
 
   const sortHeader = (key: string, label: string, num: boolean, className?: string) => (
     <th
@@ -449,7 +537,38 @@ export function BrowseView({ series, count }: { series: string; count: number })
             <span aria-live="polite">
               <strong>{index ? sorted.length.toLocaleString("en-US") : "…"}</strong> of{" "}
               {total.toLocaleString("en-US")} {plural}
+              {groups ? (
+                <span className="muted">
+                  {" "}
+                  in {groups.length.toLocaleString("en-US")}{" "}
+                  {groups.length === 1 ? groupBy?.label : `${groupBy?.label}s`}
+                </span>
+              ) : null}
             </span>
+            {groupBy ? (
+              <fieldset className="group-toggle">
+                <legend className="visually-hidden">List layout</legend>
+                <button
+                  type="button"
+                  className="group-opt"
+                  aria-pressed={grouped}
+                  onClick={() => setGrouped(true)}
+                >
+                  Group by {groupBy.label}
+                </button>
+                <span className="group-sep" aria-hidden="true">
+                  /
+                </span>
+                <button
+                  type="button"
+                  className="group-opt"
+                  aria-pressed={!grouped}
+                  onClick={() => setGrouped(false)}
+                >
+                  Flat list
+                </button>
+              </fieldset>
+            ) : null}
             {anyFilter ? (
               <button type="button" className="btn btn-compact btn-quiet" onClick={clearFilters}>
                 Clear filters
@@ -469,11 +588,30 @@ export function BrowseView({ series, count }: { series: string; count: number })
               aria-label={`${info?.label ?? series} table`}
               onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
             >
-              <table className="table" aria-rowcount={sorted.length + 1}>
+              <table
+                className="table"
+                aria-rowcount={layout.items.length + 1}
+                style={
+                  {
+                    // Room for every column plus a usable name column; the box scrolls past it.
+                    "--table-min": `calc(${widths.reduce((n, w) => n + w, 0)}ch + ${visibleCols.length * 24 + 180}px)`,
+                  } as CSSProperties
+                }
+              >
+                <colgroup>
+                  <col className="col-name" />
+                  {visibleCols.map((c, i) => (
+                    <col
+                      key={c}
+                      className={i === 0 ? "col-keep" : "col-opt"}
+                      style={{ "--col-w": `calc(${widths[i]}ch + 24px)` } as CSSProperties}
+                    />
+                  ))}
+                </colgroup>
                 <thead>
                   <tr>
                     {sortHeader("name", info?.singular ? capitalise(info.singular) : "Name", false)}
-                    {columns.map((c, i) =>
+                    {visibleCols.map((c, i) =>
                       sortHeader(
                         c,
                         headerLabel(c),
@@ -484,7 +622,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                   </tr>
                 </thead>
                 <tbody>
-                  {!index ? (
+                  {!ready ? (
                     Array.from({ length: 10 }, (_, i) => (
                       // biome-ignore lint/suspicious/noArrayIndexKey: placeholder rows
                       <tr key={i} className="vrow">
@@ -503,42 +641,86 @@ export function BrowseView({ series, count }: { series: string; count: number })
                     <>
                       {start > 0 ? (
                         <tr className="vspacer">
-                          <td colSpan={colSpan} style={{ height: start * ROW_H }} />
+                          <td colSpan={colSpan} style={{ height: layout.tops[start] }} />
                         </tr>
                       ) : null}
-                      {visibleRows.map((row, i) => (
-                        <tr key={row.slug} className="vrow" aria-rowindex={start + i + 2}>
-                          <td className="name-cell">
-                            <RefLink href={recordHref(series, row.slug)} title={row.name}>
-                              {row.name}
-                            </RefLink>
-                            {row.id !== row.name ? (
-                              <span className="sub mono">{row.id}</span>
-                            ) : null}
-                          </td>
-                          {columns.map((c, ci) => {
-                            const entry = catalog?.entries[c];
-                            const text = cellText(entry, row.values.get(c), catalog, system);
-                            return (
-                              <td
-                                key={c}
-                                className={[
-                                  entry?.kind === "number" ? "num" : "",
-                                  ci === 0 ? "col-keep" : "col-opt",
-                                ]
-                                  .filter(Boolean)
-                                  .join(" ")}
-                                title={text}
+                      {visibleItems.map((item, i) =>
+                        item.kind === "group" ? (
+                          <tr
+                            key={`g:${item.group.key}`}
+                            className="vgroup"
+                            aria-rowindex={start + i + 2}
+                          >
+                            <th colSpan={colSpan} scope="colgroup">
+                              <span className="vgroup-head">
+                                <span className="contents-num">{item.number}</span>
+                                <span className="vgroup-name">
+                                  {item.group.href ? (
+                                    <RefLink href={item.group.href} title={item.group.label}>
+                                      {item.group.label}
+                                    </RefLink>
+                                  ) : (
+                                    item.group.label
+                                  )}
+                                  {item.group.sub ? (
+                                    <span className="vgroup-sub">{item.group.sub}</span>
+                                  ) : null}
+                                </span>
+                                <span className="contents-leader" aria-hidden="true" />
+                                <span className="vgroup-count">
+                                  {item.group.rows.length.toLocaleString("en-US")}
+                                  <span className="visually-hidden">
+                                    {" "}
+                                    {item.group.rows.length === 1 ? info?.singular : plural}
+                                  </span>
+                                </span>
+                              </span>
+                            </th>
+                          </tr>
+                        ) : (
+                          <tr
+                            key={item.row.slug}
+                            className={item.group ? "vrow vrow-grouped" : "vrow"}
+                            aria-rowindex={start + i + 2}
+                          >
+                            <td className="name-cell">
+                              <RefLink
+                                href={recordHref(series, item.row.slug)}
+                                title={item.row.name}
                               >
-                                {text || <span className="muted">—</span>}
-                              </td>
-                            );
-                          })}
-                        </tr>
-                      ))}
-                      {end < sorted.length ? (
+                                {item.row.name}
+                              </RefLink>
+                              {item.row.id !== item.row.name ? (
+                                <span className="sub mono">{item.row.id}</span>
+                              ) : null}
+                            </td>
+                            {visibleCols.map((c, ci) => {
+                              const entry = catalog?.entries[c];
+                              const text = cellText(entry, item.row.values.get(c), catalog, system);
+                              return (
+                                <td
+                                  key={c}
+                                  className={[
+                                    entry?.kind === "number" ? "num" : "",
+                                    ci === 0 ? "col-keep" : "col-opt",
+                                  ]
+                                    .filter(Boolean)
+                                    .join(" ")}
+                                  title={text}
+                                >
+                                  {text || <span className="muted">—</span>}
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        ),
+                      )}
+                      {end < layout.items.length ? (
                         <tr className="vspacer">
-                          <td colSpan={colSpan} style={{ height: (sorted.length - end) * ROW_H }} />
+                          <td
+                            colSpan={colSpan}
+                            style={{ height: totalH - (layout.tops[end] ?? 0) }}
+                          />
                         </tr>
                       ) : null}
                     </>

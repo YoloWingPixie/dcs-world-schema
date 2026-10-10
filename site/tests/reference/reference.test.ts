@@ -3,6 +3,7 @@ import { valuesAt } from "../../src/lib/catalog";
 import {
   catalogFor,
   getFieldValues,
+  getGroupTargets,
   getRecord,
   getSeriesIndex,
   keyedFieldPaths,
@@ -106,6 +107,12 @@ describe("browse, compare and search", () => {
     expect(row?.[1]).toBe("AIM-9X Sidewinder IR AAM");
   });
 
+  it("uses the facets and columns configured for a series", async () => {
+    const index = await getSeriesIndex(q, model, "beacons");
+    expect(index.facets.map((f) => f.path)).toEqual(["typeName", "theatre"]);
+    expect(index.visible).toEqual(["typeName", "theatre", "callsign", "frequencyHz", "channel"]);
+  });
+
   it("reads one field across records: columns, nested JSON, keyed and axis paths", async () => {
     expect((await getFieldValues(q, model, "weapons", "massKg")).values.AIM_120C).toBeCloseTo(
       161.48,
@@ -133,5 +140,23 @@ describe("browse, compare and search", () => {
     const batumi = await searchReference(q, "batumi");
     expect(batumi[0]).toMatchObject({ series: "airbases", name: "Batumi" });
     expect(await searchReference(q, "  ")).toEqual([]);
+  });
+});
+
+describe("group targets", () => {
+  it("resolves each livery's airframe through the unitTypes join table", async () => {
+    const targets = await getGroupTargets(q, model, "liveries", "unitTypes");
+    const [id, target] =
+      Object.entries(targets).find(([, t]) => t[0] === "aircraft" && t[1] === "F-16C_50") ?? [];
+    expect(id).toMatch(/F-16C_50/);
+    expect(target?.[2]).not.toBe("");
+    expect(Object.values(targets).some((t) => t[0] === "ground_vehicles")).toBe(true);
+    expect(Object.keys(targets).length).toBeGreaterThan(1000);
+  });
+
+  it("resolves a scalar ref and ignores a non-ref path", async () => {
+    const beacons = await getGroupTargets(q, model, "beacons", "theatre");
+    expect(Object.values(beacons)[0]?.[0]).toBe("theatres");
+    expect(await getGroupTargets(q, model, "liveries", "entryPoint")).toEqual({});
   });
 });

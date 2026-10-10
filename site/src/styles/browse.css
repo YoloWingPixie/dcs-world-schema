@@ -5,15 +5,16 @@
 }
 
 .browse-intro {
-  margin-top: 12px;
-  max-width: 72ch;
+  margin: -12px 0 28px;
+  max-width: var(--measure);
+  color: var(--ink-2);
 }
 
 .browse-tools {
   display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin-bottom: 14px;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 18px;
 }
 
 .browse-tools .combo {
@@ -27,9 +28,9 @@
 }
 
 .facet-more {
-  font-family: var(--font-ui);
-  font-size: 14px;
-  padding: 2px 6px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  padding: 2px 0;
 }
 
 /* Column picker */
@@ -58,10 +59,9 @@
   padding: 8px;
   display: grid;
   gap: 2px;
-  background: var(--surface);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius-m);
-  box-shadow: var(--shadow);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-top-width: 2px;
 }
 
 .col-picker-label {
@@ -84,7 +84,7 @@
 }
 
 .vtable:focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -92,18 +92,38 @@
   z-index: 2;
 }
 
-.vtable .vrow td {
+/* Widths come from the <colgroup> (sized from every row), never from the rows on screen. */
+.vtable .table {
+  table-layout: fixed;
+}
+
+.vtable col {
+  width: var(--col-w, auto);
+}
+
+@media (min-width: 561px) {
+  .vtable .table {
+    min-width: var(--table-min, 0);
+  }
+}
+
+.vtable thead th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vrow td,
+.vtable .vrow th {
   height: 44px;
+  vertical-align: middle;
   padding-top: 0;
   padding-bottom: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 280px;
 }
 
 .vtable .vrow .name-cell {
-  max-width: 360px;
   line-height: 1.15;
 }
 
@@ -132,8 +152,7 @@
   display: block;
   height: 12px;
   width: 60%;
-  border-radius: 6px;
-  background: linear-gradient(90deg, var(--surface-3), var(--surface-2), var(--surface-3));
+  background: linear-gradient(90deg, var(--paper-3), var(--paper-2), var(--paper-3));
   background-size: 200% 100%;
   animation: browse-shimmer 1.2s linear infinite;
 }
@@ -157,8 +176,8 @@
   .vtable .col-opt {
     display: none;
   }
-  .vtable .vrow .name-cell {
-    max-width: 62vw;
+  .vtable col.col-keep {
+    width: min(var(--col-w, auto), 42vw);
   }
   .browse-tools {
     flex-wrap: wrap;
@@ -168,4 +187,138 @@
 fieldset.col-picker-menu {
   margin: 0;
   min-width: 0;
+}
+
+/* Grouped list (series-display `groupBy`): a numbered head per group, as in the contents. */
+.group-toggle {
+  order: 1;
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.group-sep {
+  color: var(--ink-3);
+}
+
+.group-opt {
+  font: 400 14px var(--font-head);
+  padding: 4px 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+
+.group-opt:hover {
+  color: var(--ink);
+}
+
+.group-opt[aria-pressed="true"] {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.group-opt:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.vtable .vgroup th {
+  height: 56px;
+  padding: 0 0 0 2px;
+  vertical-align: bottom;
+  border-bottom: 2px solid var(--rule);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15.5px;
+  white-space: nowrap;
+}
+
+.table tbody tr.vgroup:hover th {
+  background: transparent;
+}
+
+.vgroup-head {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  padding-bottom: 5px;
+}
+
+.vgroup-name {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vgroup-name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.vgroup-name a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.vgroup-sub {
+  margin-left: 10px;
+  font: 400 12px var(--font-mono);
+  color: var(--ink-3);
+}
+
+.vgroup-head .contents-leader {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.vgroup-count {
+  flex: none;
+  padding-right: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rows under a head sit in from its number, like contents entries. */
+.vtable .vrow-grouped .name-cell {
+  padding-left: 3em;
+}
+
+@media (max-width: 560px) {
+  .group-toggle {
+    margin-left: 0;
+  }
+  .vtable .vrow-grouped .name-cell {
+    padding-left: 1.4em;
+  }
+}
+
+/* Wide heads outrun the dot string: anchor the dots at the count, clip on the left. */
+.vgroup-head .contents-leader {
+  direction: rtl;
+  text-align: right;
+}
+
+/* A head spans the whole table: a second run of dots so wide screens stay filled. */
+.vgroup-head .contents-leader::after {
+  content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
+  letter-spacing: 0.08em;
+}
+
+/* Narrow screens: the table can scroll sideways; keep each head's name and count in view. */
+@media (max-width: 860px) {
+  .vgroup-head {
+    position: sticky;
+    left: 0;
+    max-width: calc(100vw - 2 * var(--gutter));
+  }
 }
