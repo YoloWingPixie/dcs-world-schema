@@ -4,7 +4,7 @@
  * files, facets) and the client renderer (labels, units, descriptions, kinds).
  */
 import { isRecord, type Json } from "./json";
-import { complexFields, curveOf, surfacesOf, tableColumns } from "./record-tables";
+import { complexFields, curveOf, recordFields, surfacesOf, tableColumns } from "./record-tables";
 import { capitalise } from "./text";
 import {
   type CatalogEntry,
@@ -237,6 +237,10 @@ function constantSibling(types: SchemaTypes, owner: string, name: string): strin
 // ---------------------------------------------------------------------------
 // The walk: one bare entry per schema field, nothing that depends on other fields
 
+/** A field too rich for a table cell: a nested table (`records`, `matrix`). */
+export const holdsTable = (entry: CatalogEntry) =>
+  entry.kind === "records" || entry.kind === "matrix";
+
 /** What the walk knew of an entry that the catalog does not keep, for the mark passes. */
 type Found = {
   /** Schema type as written (`number[]`, `Entity.Station[]`). */
@@ -329,7 +333,6 @@ function addField(
     unitNotStated: /unit not stated/.test(description),
     description: cleanDescription(description),
     dcsKey: dcsKeyFromDescription(description),
-    comparable: false,
     ...extra,
   };
   w.found.set(path, { type, insideArray });
@@ -486,7 +489,10 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
     }
   },
 
-  /** `layout`: envelopes, axis tables, traverse sectors, lists of ranges, one list per item. */
+  /**
+   * `layout`: envelopes, axis tables, traverse sectors, lists of ranges, one list per item,
+   * cards for items holding nested tables.
+   */
   function layout(b, e) {
     const found = b.found.get(e.path);
     if (SECTOR_TYPES.has(found?.type.replace(/\[\]$/, "") ?? "")) e.layout = "sectors";
@@ -502,6 +508,7 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
     if (!e.layout && fields.length === 1 && fields[0]?.entry?.kind === "strings") {
       e.layout = "list-per-item";
     }
+    if (!e.layout && fields.some((f) => f.entry && holdsTable(f.entry))) e.layout = "cards";
   },
 
   /** `titleFields`, `countFields`, `linkField`, `linkListFields`: how a list names its items. */
@@ -524,10 +531,10 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
   },
 
   /**
-   * `comparable` and `compareAs`: one value per record (`value`, or a Mach-sampled list:
+   * `compareAs`: one value per record (`value`, or a Mach-sampled list:
    * `samples`), or a table's column as one curve or its grids as surfaces, by its axis.
    */
-  function comparable(b, e) {
+  function compareShape(b, e) {
     const found = b.found.get(e.path);
     if (e.kind !== "records" && e.axis?.kind === "column") e.compareAs = "curve";
     else if (e.kind !== "records" && e.axis?.kind === "surface") e.compareAs = "surfaces";
@@ -538,7 +545,6 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
     ) {
       e.compareAs = e.axis?.kind === "sampled" ? "samples" : "value";
     }
-    e.comparable = e.compareAs !== undefined;
   },
 
   /** A Mach-sampled list is named by its description ("Zero-lift drag coefficient"). */
@@ -608,7 +614,6 @@ export function buildSeriesCatalog(
       unitNotStated: false,
       description: cleanDescription(types[companion.type]?.description ?? ""),
       dcsKey: null,
-      comparable: false,
       recordType: companion.type,
     };
     walkType(b, companion.type, COMPANION_PREFIX, false, null);
@@ -643,20 +648,19 @@ export function catalogKeyFor(
   return null;
 }
 
-/** The entries of a record type's fields at catalog path `prefix` ("" at the root), in schema order. */
-export function recordFields(
-  catalog: Pick<SeriesCatalog, "types" | "entries">,
-  typeName: string,
-  prefix: string,
-): CatalogEntry[] {
-  return (catalog.types[typeName]?.fields ?? [])
-    .map((name) => catalog.entries[prefix ? `${prefix}.${name}` : name])
-    .filter((e): e is CatalogEntry => e !== undefined);
-}
-
 /** The entries of a series' top-level fields (its root type's; the companion's apart), in schema order. */
 export const rootFields = (catalog: Pick<SeriesCatalog, "rootType" | "types" | "entries">) =>
   recordFields(catalog, catalog.rootType, "");
+
+/**
+ * A field's label where it stands alone, as a browse column or facet: a nested record's
+ * `name` reads as that record (`defaultTask.name`: "Default task", not "Name").
+ */
+export function browseLabel(catalog: Pick<SeriesCatalog, "entries">, entry: CatalogEntry): string {
+  const dot = entry.path.lastIndexOf(".");
+  if (entry.name !== "name" || dot < 0) return entry.label;
+  return catalog.entries[entry.path.slice(0, dot)]?.label ?? entry.label;
+}
 
 /** A companion path's path in the companion (`flight.aerodynamics` -> `aerodynamics`, `flight` -> ""); null for the record's own. */
 export function companionRest(path: string): string | null {
@@ -792,7 +796,7 @@ export function comparableValues(
 ): Array<{ path: string; key: string; value: unknown }> {
   const out: Array<{ path: string; key: string; value: unknown }> = [];
   for (const entry of Object.values(catalog.entries)) {
-    if (!entry.comparable) continue;
+    if (entry.compareAs === undefined) continue;
     for (const v of valuesAt(entry, catalog, data, companion)) {
       out.push({ path: v.path, key: entry.path, value: v.value });
     }

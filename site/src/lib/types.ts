@@ -122,9 +122,11 @@ export type CatalogEntry = {
    * grids per item), `axis-table` (rows indexed by the `axis` column), `ranges` (a list of
    * `rangePair` ranges with at most two other columns: radio segments). `sectors`: traverse
    * sectors (`Entity.AngleSector[]`). `list-per-item`: `records` whose items hold one list
-   * each (gun belts), read as one line per item.
+   * each (gun belts), read as one line per item. `cards`: other `records` whose items hold
+   * nested tables (`records` or `matrix` fields, lib/catalog `holdsTable`), one card per item
+   * when an item fills one.
    */
-  layout?: "envelope" | "axis-table" | "ranges" | "sectors" | "list-per-item";
+  layout?: "envelope" | "axis-table" | "ranges" | "sectors" | "list-per-item" | "cards";
   /** On a `ranges` list: the catalog paths of each item's lower and upper bound. */
   rangePair?: { min: string; max: string };
   /**
@@ -143,10 +145,9 @@ export type CatalogEntry = {
    * item without its link leads with the first one it fills (a payload's gun ammo).
    */
   linkListFields?: string[];
-  /** Can be compared across records (its values read with getFieldValues, lib/db/reference.ts). */
-  comparable: boolean;
   /**
-   * On a comparable entry: the shape of one record's value. `value` (one value, or a plain
+   * Set on an entry that compares across records (its values read with getFieldValues,
+   * lib/db/reference.ts): the shape of one record's value. `value` (one value, or a plain
    * list), `samples` (a Mach-sampled list, by its `axis`), `curve` (an axis table's column:
    * one `{x, y}` curve over the table), `surfaces` (an envelope's grid: every item's surface).
    */
@@ -221,10 +222,11 @@ export type Facet = {
 export type SeriesIndex = {
   series: string;
   count: number;
-  /** Column paths after the fixed slug, name, id (visible ones and facet-only ones). */
+  /** Column paths after the fixed slug, name, id: the series' top-level scalars. */
   columns: string[];
-  /** Columns shown by default. */
+  /** Columns shown by default; a path outside `columns` loads lazily (`loadFieldValues`). */
   visible: string[];
+  /** Facets; a path outside `columns` loads lazily, and a list-valued one offers each item. */
   facets: Facet[];
   rows: BrowseRow[];
   intro?: Overlay;

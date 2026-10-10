@@ -11,7 +11,7 @@ const entry = {
   unitNotStated: false,
   description: "",
   dcsKey: null,
-  comparable: true,
+  compareAs: "value",
 } as CatalogEntry;
 
 /** The element dataset the attributes give (`data-field-label` -> `fieldLabel`). */
@@ -41,7 +41,8 @@ describe("field data attributes", () => {
       record: "AIM_120C",
       recordName: "AIM-120C",
     });
-    const off = fieldDataAttrs({ ...entry, comparable: false }, "massKg", 1, ctx, vctx, "Weight");
+    const { compareAs: _compareAs, ...notCompared } = entry;
+    const off = fieldDataAttrs(notCompared, "massKg", 1, ctx, vctx, "Weight");
     expect(readFieldTarget(datasetOf(off))).toMatchObject({ comparable: false, label: "Weight" });
   });
 

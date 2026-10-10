@@ -42,7 +42,7 @@ export const SERIES_DISPLAY: Record<string, SeriesDisplay> = {
     facets: ["kind", "flyable", "defaultTask.name", "countryOfOrigin", "attributes"],
   },
   ground_vehicles: {
-    readouts: ["mobility.maxSpeedKmh", "detection.detectionRangeMax", "detection.threatRange"],
+    readouts: ["mobility.maxSpeedKmh", "detection.detectionRangeMax", "detection.threatRangeM"],
     facets: ["attributes"],
   },
   ships: { readouts: ["mobility.maxSpeedKmh", "detection.rcsM2"], facets: ["attributes"] },

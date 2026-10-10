@@ -11,16 +11,22 @@ import {
   layoutItems,
   visibleRange,
 } from "@/lib/browse-groups";
+import { browseLabel } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
-import { loadCatalog, loadFieldValues, loadGroupTargets, loadSeriesIndex } from "@/lib/client-data";
-import { fieldPaths, type GroupTarget } from "@/lib/db/reference";
+import {
+  loadBrowseColumn,
+  loadCatalog,
+  loadGroupTargets,
+  loadSeriesIndex,
+} from "@/lib/client-data";
+import { browseEntry, fieldPaths, type GroupTarget } from "@/lib/db/reference";
 import { sortableValue, type ValueContext } from "@/lib/format-field";
 import { updateQuery } from "@/lib/history";
 import { enumDisplay } from "@/lib/names";
 import { facetParam, recordHref, SERIES_BY_ID } from "@/lib/series";
 import { displayFor } from "@/lib/series-display";
 import { capitalise, compareSortKeys, naturalCompare } from "@/lib/text";
-import { type CatalogEntry, type Facet, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
+import type { CatalogEntry, Facet, SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import { unitLabel } from "@/lib/units";
 import { useLoaded } from "@/lib/use-loaded";
@@ -53,9 +59,10 @@ function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueCont
   return cellText(entry, value, ctx);
 }
 
-/** The value a facet sees for one row, as text: none for an empty cell (facets are scalar columns). */
+/** The values a facet sees in one row, as text: none for an empty cell, each item of a list. */
 function facetValues(facet: Facet, value: unknown): string[] {
   if (value === undefined || value === null) return [];
+  if (Array.isArray(value)) return value.map(String);
   if (facet.kind === "boolean") return [value ? "true" : "false"];
   return [String(value)];
 }
@@ -114,13 +121,14 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return index?.visible ?? [];
   }, [colsParam, index, grouped, groupBy]);
 
-  // Lazily load values of picked columns the index does not carry.
+  // Lazily load the shown columns and the facets the index does not carry (nested or
+  // list-valued fields, picked columns).
   useEffect(() => {
     if (!index) return;
-    for (const path of columns) {
+    for (const path of [...columns, ...index.facets.map((f) => f.path)]) {
       if (index.columns.includes(path) || extra[path]) continue;
-      loadFieldValues(series, path).then(
-        (fv) => setExtra((e) => ({ ...e, [path]: fv.values })),
+      loadBrowseColumn(series, path).then(
+        (values) => setExtra((e) => ({ ...e, [path]: values })),
         () => setExtra((e) => ({ ...e, [path]: {} })),
       );
     }
@@ -159,7 +167,16 @@ export function BrowseView({ series, count }: { series: string; count: number })
     };
   }, [targets, groupBy]);
 
-  const facets = useMemo(() => index?.facets ?? [], [index]);
+  // A facet outside the index is offered once its loaded values hold at least two values,
+  // as the index's own facets do.
+  const facets = useMemo(() => {
+    if (!index) return [];
+    return index.facets.filter((f) => {
+      const values = extra[f.path];
+      if (index.columns.includes(f.path) || !values) return true;
+      return new Set(Object.values(values).flatMap((v) => facetValues(f, v))).size >= 2;
+    });
+  }, [index, extra]);
   // The facet selections as one string: `selected` changes only when they do.
   const facetQuery = JSON.stringify(facets.map((f) => params.getAll(facetParam(f.path))));
   const selected = useMemo(() => {
@@ -275,10 +292,9 @@ export function BrowseView({ series, count }: { series: string; count: number })
     if (!catalog) return [];
     const out: Array<{ path: string; entry: CatalogEntry }> = [];
     for (const fp of fieldPaths(catalog)) {
-      const entry = catalog.entries[fp.key];
       // One value per record: a table column's curve is no browse column.
-      if (entry?.compareAs !== "value" || !SCALAR_KINDS.has(entry.kind)) continue;
-      out.push({ path: fp.path, entry });
+      const entry = browseEntry(catalog, fp.path, "column");
+      if (entry) out.push({ path: fp.path, entry });
     }
     return out.sort((a, b) => naturalCompare(a.path, b.path));
   }, [catalog]);
@@ -338,8 +354,9 @@ export function BrowseView({ series, count }: { series: string; count: number })
 
   const headerLabel = (path: string) => {
     const entry = catalog?.entries[path];
-    const label = entry?.label ?? path;
-    return entry?.kind === "number" ? unitLabel(label, entry, system) : label;
+    if (!catalog || !entry) return path;
+    const label = browseLabel(catalog, entry);
+    return entry.kind === "number" ? unitLabel(label, entry, system) : label;
   };
 
   // Column widths from every row (not the rendered slice), so scrolling never reflows.

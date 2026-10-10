@@ -1,12 +1,18 @@
 "use client";
 
 import { type ReactNode, useState } from "react";
-import { getPath } from "@/lib/catalog";
+import { getPath, holdsTable } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
 import { isAngleSectors, pathLabel } from "@/lib/format-field";
 import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { isRecord, type Json } from "@/lib/json";
-import { complexFields, rangeListOf, tableColumns, withoutNamedCodes } from "@/lib/record-tables";
+import {
+  complexFields,
+  rangeListOf,
+  recordFields,
+  tableColumns,
+  withoutNamedCodes,
+} from "@/lib/record-tables";
 import { type CatalogEntry, SCALAR_KINDS } from "@/lib/types";
 import { unitLabel } from "@/lib/units";
 import { FieldRow, fieldDataAttrs, RecordLink, ScalarValue } from "../field-view";
@@ -37,14 +43,9 @@ const present = (v: unknown) =>
  * constant name beside it (`modulation`, `modulationName`) shows once, as the name.
  */
 export function presentFields(ctx: RenderCtx, typeName: string, prefix: string, value: Json) {
-  const fields = (ctx.catalog.types[typeName]?.fields ?? [])
-    .map((name) => ({
-      name,
-      key: prefix ? `${prefix}.${name}` : name,
-      value: value[name],
-    }))
-    .map((f) => ({ ...f, entry: ctx.catalog.entries[f.key] }))
-    .filter((f): f is typeof f & { entry: CatalogEntry } => Boolean(f.entry) && present(f.value));
+  const fields = recordFields(ctx.catalog, typeName, prefix)
+    .map((entry) => ({ name: entry.name, key: entry.path, value: value[entry.name], entry }))
+    .filter((f) => present(f.value));
   return withoutNamedCodes(fields, (f) => ({ path: f.name, entry: f.entry }));
 }
 
@@ -68,6 +69,7 @@ export type RecordsLayout =
   | "axis-table"
   | "linked"
   | "table"
+  | "cards"
   | "json";
 
 /**
@@ -80,7 +82,7 @@ export function recordsLayoutFor(entry: CatalogEntry, place: BlockPlace["in"]): 
   if (place === "group") {
     if (entry.layout === "envelope" || entry.layout === "ranges") return entry.layout;
     if (entry.layout === "list-per-item" || entry.layout === "axis-table") return entry.layout;
-    return "table";
+    return entry.layout === "cards" ? "cards" : "table";
   }
   if (entry.linkField) return "linked";
   if (entry.layout === "list-per-item") return "list-per-item";
@@ -104,7 +106,14 @@ export function RecordsBlock({
 }) {
   const layout = recordsLayoutFor(entry, place);
   const table = (
-    <RecordsTable entry={entry} rows={rows} ctx={ctx} prefix={prefix} compact={place === "cell"} />
+    <RecordsTable
+      entry={entry}
+      rows={rows}
+      ctx={ctx}
+      prefix={prefix}
+      compact={place === "cell"}
+      cards={layout === "cards"}
+    />
   );
   switch (layout) {
     case "envelope":
@@ -139,6 +148,7 @@ export function RecordsBlock({
     case "linked":
       return <LinkedItems entry={entry} items={rows} ctx={ctx} />;
     case "table":
+    case "cards":
       return table;
     case "json":
       return <JsonValue value={rows} />;
@@ -341,6 +351,9 @@ export function RecordGroup({
   );
 }
 
+/** Items in a list longer than this read as one card per item, not table rows. */
+const LONG_LIST = 6;
+
 /**
  * An array of records: a table when every field fits a cell, else one card per item.
  * Keyed arrays (motor stages) give each cell its concrete path for compare; tables with
@@ -352,6 +365,7 @@ export function RecordsTable({
   ctx,
   prefix,
   compact,
+  cards,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
@@ -359,6 +373,8 @@ export function RecordsTable({
   /** Catalog path of the array (`stations`, `flight.motorStages`). */
   prefix: string;
   compact?: boolean;
+  /** Laid out as cards (`recordsLayoutFor`): its items hold nested tables. */
+  cards?: boolean;
 }) {
   const typeName = entry.recordType ?? "";
   const itemPrefix = entry.itemPath ?? "";
@@ -369,17 +385,15 @@ export function RecordsTable({
     rows.some((r) => isRecord(r) && present(r[f.name])),
   );
   const items = rows.filter(isRecord);
-  // Cards when some item carries a long list or nested records; else complex fields fit cells.
-  const heavy = complex.some((f) =>
+  // One card per item when an item fills a nested table (an array the catalog lays out as
+  // cards) or carries a long list; else complex fields fit cells.
+  const fillsCard = complex.some((f) =>
     items.some((r) => {
       const v = r[f.name];
-      return (
-        Array.isArray(v) &&
-        (v.length > 6 || f.entry.kind === "records" || f.entry.kind === "matrix")
-      );
+      return Array.isArray(v) && ((cards && holdsTable(f.entry)) || v.length > LONG_LIST);
     }),
   );
-  const inline = compact || !heavy;
+  const inline = compact || !fillsCard;
   const [showAll, setShowAll] = useState(false);
   const cardLimit = 12;
 

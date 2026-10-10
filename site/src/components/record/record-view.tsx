@@ -3,7 +3,7 @@
 import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
 import { companionLabel } from "@/lib/catalog";
 import { loadReferencedByGroup, useRecord } from "@/lib/client-data";
-import { plainValue, type ValueContext } from "@/lib/format-field";
+import { storedValue, type ValueContext } from "@/lib/format-field";
 import { LOCATION_ID, locationOf } from "@/lib/geo";
 import type { NavHint } from "@/lib/nav-hints";
 import { headerChips, type PlacedSection, placeRecord, type StripItem } from "@/lib/placement";
@@ -16,13 +16,12 @@ import type {
   SeriesCatalog,
 } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { formatStored } from "@/lib/units";
 import {
   Description,
   type FieldContext,
   FieldRow,
   fieldDataAttrs,
-  NumberWithUnit,
+  ScalarValue,
   tipIdFor,
 } from "../field-view";
 import { LocationFigure } from "../location-map";
@@ -205,12 +204,9 @@ function readoutOf(item: StripItem, vctx: ValueContext): Readout {
   if (item.show === "coverage") {
     return { path, label: "Coverage", entry: null, value, text: item.text };
   }
-  if (typeof value === "number") {
-    const text = <NumberWithUnit entry={entry} value={value} system={vctx.system} />;
-    const stored = formatStored(value, entry, vctx.system);
-    return { path, label: entry.label, entry, value, text, stored };
-  }
-  return { path, label: entry.label, entry, value, text: plainValue(entry, value, vctx) };
+  const text = <ScalarValue entry={entry} value={value} vctx={vctx} />;
+  const stored = storedValue(entry, value, vctx.system, vctx.enums);
+  return { path, label: entry.label, entry, value, text, stored };
 }
 
 const Readouts = memo(function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
