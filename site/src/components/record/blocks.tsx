@@ -26,6 +26,7 @@ import {
   tipIdFor,
 } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
+import { openLua, useLuaAvailable } from "../lua-button";
 
 export type RenderCtx = {
   catalog: SeriesCatalog;
@@ -275,7 +276,10 @@ export function StringList({
     return (
       <ul className="path-list">
         {values.map((v) => (
-          <li key={String(v)}>{String(v)}</li>
+          <li key={String(v)}>
+            {String(v)}
+            <LuaLink path={String(v)} />
+          </li>
         ))}
       </ul>
     );
@@ -287,6 +291,22 @@ export function StringList({
         <li key={i}>{String(v)}</li>
       ))}
     </ul>
+  );
+}
+
+/** "View Lua" beside a `_G` dump path or block `sourcePath`: the record's Lua drawer, there. */
+export function LuaLink({ path }: { path: string }) {
+  const available = useLuaAvailable();
+  if (!available || !path.startsWith("_G/")) return null;
+  return (
+    <button
+      type="button"
+      className="lua-link"
+      onClick={() => openLua(path)}
+      aria-label={`View Lua: ${path}`}
+    >
+      View Lua
+    </button>
   );
 }
 
@@ -718,6 +738,11 @@ export function RecordsTable({
                           formatNumber(conv(c.entry, v, ctx.vctx))
                         ) : c.entry.kind === "enum" ? (
                           enumDisplay(c.entry, v, ctx.vctx.enums).label
+                        ) : c.entry.name === "sourcePath" && typeof v === "string" ? (
+                          <>
+                            <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
+                            <LuaLink path={v} />
+                          </>
                         ) : (
                           <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
                         )}

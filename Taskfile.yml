@@ -285,6 +285,15 @@ tasks:
     cmds:
       - "uv run python -m tools.datamine.extract {{.CLI_ARGS}}"
 
+  "datamine:dump-asset":
+    desc: |
+      Pack a _G dump (default .datamine/_G) as its release asset, dist/dcs-g-dump-<DCS version>.tar.gz,
+      which the site's View Lua reads (tools/datamine/dump_lua.py). Publish it with
+      gh release create dcs-dump-<DCS version> dist/dcs-g-dump-<DCS version>.tar.gz --latest=false
+      Usage: task datamine:dump-asset -- [G_DIR] [--out FILE]
+    cmds:
+      - "uv run python -m tools.datamine.dump_lua pack {{.CLI_ARGS}}"
+
   "datamine:coverage":
     desc: >-
       Coverage of DCS object configuration in Lua _G dumps: diff a dump against a
