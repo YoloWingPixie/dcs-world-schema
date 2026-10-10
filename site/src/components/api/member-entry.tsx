@@ -239,6 +239,84 @@ export function MemberEntry({
     envs?.length ? envs.map((e) => ENV_LABEL[e]).join(", ") : null,
     since && since !== pageSince ? `since ${since}` : null,
   ].filter(Boolean);
+  // The entry's rows, each only when it has something to show.
+  const rows = [
+    m.deprecated && (
+      <Row key="deprecated" label="Deprecated" warn>
+        <p className="api-deprecated">
+          {typeof m.deprecated === "string" ? m.deprecated : "Do not use in new scripts."}
+        </p>
+      </Row>
+    ),
+    isFn && params.length && (
+      <Row key="parameters" label="Parameters">
+        <ParamList
+          label={`Parameters of ${m.qualified}`}
+          items={params.map((p) => ({
+            key: p.name,
+            name: p.name,
+            optional: p.optional,
+            type: <TypeRef tokens={p.t} links={links} />,
+            typeText: tokenText(p.t),
+            description: p.description ? <RichText text={p.description} links={links} /> : null,
+            extra:
+              p.default !== undefined ? (
+                <span className="api-default">
+                  Default <code>{p.default}</code>.
+                </span>
+              ) : null,
+          }))}
+        />
+      </Row>
+    ),
+    // The heading already ends in the return type: a row only when it adds to it.
+    isFn && m.returns?.length && m.returnValueExample && (
+      <Row key="returns" label="Returns">
+        <p className="api-returns">
+          {m.returns.map((r, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: return values are positional
+            <span key={i}>
+              {i ? ", " : null}
+              <TypeRef tokens={r} links={links} />
+            </span>
+          ))}
+          <span className="api-default">
+            For example <code>{m.returnValueExample}</code>.
+          </span>
+        </p>
+      </Row>
+    ),
+    !isFn && m.fields?.length && (
+      <Row key="fields" label="Fields">
+        <FieldsTable fields={m.fields} links={links} />
+      </Row>
+    ),
+    m.examples?.length && (
+      <Row key="examples" label={m.examples.length > 1 ? "Examples" : "Example"}>
+        <Examples examples={m.examples} bare />
+      </Row>
+    ),
+    m.overlay?.html && (
+      <Row key="note" label="Note">
+        <OverlayBlock overlay={m.overlay} />
+      </Row>
+    ),
+    related.length && (
+      <Row key="related" label="See also">
+        <p className="api-related">
+          {related.map((r, i) => (
+            <span key={r.href}>
+              {i ? ", " : null}
+              <RefLink href={r.href}>
+                <code>{r.label}</code>
+              </RefLink>
+            </span>
+          ))}
+        </p>
+      </Row>
+    ),
+  ].filter(Boolean);
+
   return (
     <article className="api-member" id={m.anchor} aria-labelledby={`${m.anchor}-h`}>
       <h3 id={`${m.anchor}-h`} className="api-member-head">
@@ -290,98 +368,7 @@ export function MemberEntry({
         </div>
       ) : null}
 
-      {m.deprecated ||
-      (isFn && params.length) ||
-      (isFn && m.returns?.length && m.returnValueExample) ||
-      (!isFn && m.fields?.length) ||
-      m.examples?.length ||
-      m.overlay?.html ||
-      related.length ? (
-        <dl className="api-entry">
-          {m.deprecated ? (
-            <Row label="Deprecated" warn>
-              <p className="api-deprecated">
-                {typeof m.deprecated === "string" ? m.deprecated : "Do not use in new scripts."}
-              </p>
-            </Row>
-          ) : null}
-
-          {isFn && params.length ? (
-            <Row label="Parameters">
-              <ParamList
-                label={`Parameters of ${m.qualified}`}
-                items={params.map((p) => ({
-                  key: p.name,
-                  name: p.name,
-                  optional: p.optional,
-                  type: <TypeRef tokens={p.t} links={links} />,
-                  typeText: tokenText(p.t),
-                  description: p.description ? (
-                    <RichText text={p.description} links={links} />
-                  ) : null,
-                  extra:
-                    p.default !== undefined ? (
-                      <span className="api-default">
-                        Default <code>{p.default}</code>.
-                      </span>
-                    ) : null,
-                }))}
-              />
-            </Row>
-          ) : null}
-
-          {/* The heading already ends in the return type: a row only when it adds to it. */}
-          {isFn && m.returns?.length && m.returnValueExample ? (
-            <Row label="Returns">
-              <p className="api-returns">
-                {m.returns.map((r, i) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: return values are positional
-                  <span key={i}>
-                    {i ? ", " : null}
-                    <TypeRef tokens={r} links={links} />
-                  </span>
-                ))}
-                <span className="api-default">
-                  For example <code>{m.returnValueExample}</code>.
-                </span>
-              </p>
-            </Row>
-          ) : null}
-
-          {!isFn && m.fields?.length ? (
-            <Row label="Fields">
-              <FieldsTable fields={m.fields} links={links} />
-            </Row>
-          ) : null}
-
-          {m.examples?.length ? (
-            <Row label={m.examples.length > 1 ? "Examples" : "Example"}>
-              <Examples examples={m.examples} bare />
-            </Row>
-          ) : null}
-
-          {m.overlay?.html ? (
-            <Row label="Note">
-              <OverlayBlock overlay={m.overlay} />
-            </Row>
-          ) : null}
-
-          {related.length ? (
-            <Row label="See also">
-              <p className="api-related">
-                {related.map((r, i) => (
-                  <span key={r.href}>
-                    {i ? ", " : null}
-                    <RefLink href={r.href}>
-                      <code>{r.label}</code>
-                    </RefLink>
-                  </span>
-                ))}
-              </p>
-            </Row>
-          ) : null}
-        </dl>
-      ) : null}
+      {rows.length ? <dl className="api-entry">{rows}</dl> : null}
     </article>
   );
 }

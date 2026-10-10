@@ -459,6 +459,7 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
       const label = (n: string) => singular(b.entries[`${item}.${n}`]?.label ?? n);
       e.axis = {
         kind: "surface",
+        table: e.path,
         rows,
         cols,
         paths: { rows: `${item}.${rows}`, cols: `${item}.${cols}` },
@@ -468,6 +469,7 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
     } else if (column) {
       e.axis = {
         kind: "column",
+        table: e.path,
         field: column,
         label: LABELS[column] ?? humanize(column),
         path: `${item}.${column}`,
@@ -521,17 +523,22 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
     }
   },
 
-  /** `comparable`: one value per record (or a table's curve or grid, by its axis). */
+  /**
+   * `comparable` and `compareAs`: one value per record (`value`, or a Mach-sampled list:
+   * `samples`), or a table's column as one curve or its grids as surfaces, by its axis.
+   */
   function comparable(b, e) {
     const found = b.found.get(e.path);
-    const curve = e.kind !== "records" && (e.axis?.kind === "column" || e.axis?.kind === "surface");
-    e.comparable =
-      curve ||
-      (!found?.insideArray &&
-        e.role !== "provenance" &&
-        (SCALAR_KINDS.has(e.kind) ||
-          e.kind === "numbers" ||
-          (e.kind === "strings" && Boolean(e.ref))));
+    if (e.kind !== "records" && e.axis?.kind === "column") e.compareAs = "curve";
+    else if (e.kind !== "records" && e.axis?.kind === "surface") e.compareAs = "surfaces";
+    else if (
+      !found?.insideArray &&
+      e.role !== "provenance" &&
+      (SCALAR_KINDS.has(e.kind) || e.kind === "numbers" || (e.kind === "strings" && e.ref))
+    ) {
+      e.compareAs = e.axis?.kind === "sampled" ? "samples" : "value";
+    }
+    e.comparable = e.compareAs !== undefined;
   },
 
   /** A Mach-sampled list is named by its description ("Zero-lift drag coefficient"). */
@@ -636,12 +643,41 @@ export function catalogKeyFor(
   return null;
 }
 
+/** The entries of a record type's fields at catalog path `prefix` ("" at the root), in schema order. */
+export function recordFields(
+  catalog: Pick<SeriesCatalog, "types" | "entries">,
+  typeName: string,
+  prefix: string,
+): CatalogEntry[] {
+  return (catalog.types[typeName]?.fields ?? [])
+    .map((name) => catalog.entries[prefix ? `${prefix}.${name}` : name])
+    .filter((e): e is CatalogEntry => e !== undefined);
+}
+
+/** The entries of a series' top-level fields (its root type's; the companion's apart), in schema order. */
+export const rootFields = (catalog: Pick<SeriesCatalog, "rootType" | "types" | "entries">) =>
+  recordFields(catalog, catalog.rootType, "");
+
+/** A companion path's path in the companion (`flight.aerodynamics` -> `aerodynamics`, `flight` -> ""); null for the record's own. */
+export function companionRest(path: string): string | null {
+  if (path === COMPANION_PREFIX) return "";
+  return path.startsWith(`${COMPANION_PREFIX}.`) ? path.slice(COMPANION_PREFIX.length + 1) : null;
+}
+
 /** The root a path reads from: the record, or its companion for `flight.` paths. */
 export function rootFor<T>(path: string, data: T, companion: T | undefined) {
-  if (path === COMPANION_PREFIX || path.startsWith(`${COMPANION_PREFIX}.`)) {
-    return { root: companion, rest: path.slice(COMPANION_PREFIX.length + 1) };
-  }
-  return { root: data, rest: path };
+  const rest = companionRest(path);
+  return rest === null ? { root: data, rest: path } : { root: companion, rest };
+}
+
+/**
+ * The axis of a table a curve or surfaces is read from (`axis.table`), for a comparable
+ * table column or grid (`compareAs` `curve` or `surfaces`); null for any other entry.
+ */
+export function tableAxis(entry: CatalogEntry) {
+  const { axis, compareAs } = entry;
+  if (compareAs !== "curve" && compareAs !== "surfaces") return null;
+  return axis?.kind === "column" || axis?.kind === "surface" ? axis : null;
 }
 
 /**
@@ -658,15 +694,14 @@ export function valuesAt(
   const { root, rest } = rootFor(entry.path, data, companion);
   if (!root) return [];
   const prefix = entry.path.slice(0, entry.path.length - rest.length);
-  const axis = entry.path.includes("[].") ? entry.axis : undefined;
-  if (axis?.kind === "surface" || axis?.kind === "column") {
-    const [tablePath, column] = entry.path.split("[].") as [string, string];
-    const rows = getPath(root, tablePath.slice(prefix.length));
+  const axis = tableAxis(entry);
+  if (axis) {
+    const rows = getPath(root, axis.table.slice(prefix.length));
     if (axis.kind === "surface") {
-      const surfaces = surfacesOf(rows, axis, column);
+      const surfaces = surfacesOf(rows, axis, entry.name);
       return surfaces.length ? [{ path: entry.path, value: surfaces }] : [];
     }
-    const curve = curveOf(rows, axis.field, column);
+    const curve = curveOf(rows, axis.field, entry.name);
     return curve ? [{ path: entry.path, value: curve }] : [];
   }
   return walkPath(catalog, entry.path, data, companion).map((v) => ({

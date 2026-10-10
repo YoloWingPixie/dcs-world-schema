@@ -2,7 +2,7 @@
 
 import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
 import { companionLabel } from "@/lib/catalog";
-import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
+import { loadReferencedByGroup, useRecord } from "@/lib/client-data";
 import { plainValue, type ValueContext } from "@/lib/format-field";
 import { LOCATION_ID, locationOf } from "@/lib/geo";
 import type { NavHint } from "@/lib/nav-hints";
@@ -17,7 +17,6 @@ import type {
 } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import { formatStored } from "@/lib/units";
-import { useLoaded } from "@/lib/use-loaded";
 import {
   Description,
   type FieldContext,
@@ -34,25 +33,6 @@ import { ProvenanceValue, type RenderCtx } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { RecordHeader, RecordSkeleton } from "./record-header";
 import { SCRIPTING_ID, ScriptingBlock, useScripting } from "./scripting";
-
-type RecordState = {
-  catalog: SeriesCatalog | null;
-  doc: RecordDoc | null;
-  error: string | null;
-};
-const NOT_LOADED: RecordState = { catalog: null, doc: null, error: null };
-
-function useRecord(series: string, slug: string) {
-  const state = useLoaded(
-    (): Promise<RecordState> =>
-      Promise.all([loadCatalog(series), loadRecord(series, slug)]).then(
-        ([catalog, doc]) => ({ catalog, doc, error: null }),
-        (error: unknown) => ({ catalog: null, doc: null, error: String(error) }),
-      ),
-    `${series}/${slug}`,
-  );
-  return state ?? NOT_LOADED;
-}
 
 /** The tag beside a section's title: "flight model" on the companion's own sections, a table's row count. */
 function sectionTag(section: PlacedSection, catalog: SeriesCatalog): string | null {
@@ -139,7 +119,7 @@ function RefByGroup({ doc, group: g }: { doc: RecordDoc; group: RefGroup }) {
 
   const showAll = () => {
     setStatus("loading");
-    loadReferencedByGroup(doc.series, doc.id, g.series, g.path).then(
+    loadReferencedByGroup(doc.series, doc.id, g.series, g.path, g.via).then(
       (list) => {
         setAll(list);
         setStatus("idle");

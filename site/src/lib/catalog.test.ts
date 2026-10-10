@@ -5,13 +5,16 @@ import { nodeQuery } from "../../tests/reference/db";
 import {
   buildSeriesCatalog,
   catalogKeyFor,
+  companionRest,
   comparableValues,
   dcsKeyFromDescription,
   enumConstantLabel,
+  rootFields,
   valuesAt,
   walkPath,
 } from "./catalog";
 import { loadModel, type Model, refResolver } from "./db/reference";
+import { displayedNumber, plainValue, valuesDiffer } from "./format-field";
 import { curveOf, surfacesOf } from "./record-tables";
 
 /** The schema as written (types/entities), over the series the database lists. */
@@ -113,6 +116,7 @@ describe("catalog from every entity schema", () => {
     const table = catalogOf("aircraft").entries["flight.engine.table"]?.axis;
     expect(table).toEqual({
       kind: "column",
+      table: "flight.engine.table",
       field: "mach",
       label: "Mach",
       path: "flight.engine.table[].mach",
@@ -121,6 +125,7 @@ describe("catalog from every entity schema", () => {
     const envelope = catalogOf("weapons").entries["flight.launchEnvelopes"]?.axis;
     expect(envelope).toEqual({
       kind: "surface",
+      table: "flight.launchEnvelopes",
       rows: "altitudesM",
       cols: "speedsMs",
       paths: {
@@ -403,8 +408,88 @@ describe("table curves and envelope surfaces", () => {
       { rows: [1, 2], cols: [3], z: [[5], [6]] },
       { rows: [4], cols: [3, 4], z: [[7, 8]] },
     ]);
-    const [list] = grid.path.split("[].") as [string];
-    const flight = { [list.slice("flight.".length)]: items };
+    const flight = { [grid.axis.table.slice("flight.".length)]: items };
     expect(valuesAt(grid, weapons, {}, flight)).toEqual([{ path: grid.path, value: surfaces }]);
+  });
+});
+
+describe("compare shapes", () => {
+  it("marks each comparable entry with the shape of its value, and only those", () => {
+    const aircraft = catalogOf("aircraft");
+    const weapons = catalogOf("weapons");
+    expect(aircraft.entries["aero.maxTakeoffKg"]?.compareAs).toBe("value");
+    // A plain number list is one value; a ref list too.
+    expect(weapons.entries["flight.aerodynamics.cxCoeff"]?.compareAs).toBe("value");
+    expect(aircraft.entries.sensors?.compareAs).toBe("value");
+    expect(weapons.entries["flight.aerodynamics.cx0"]?.compareAs).toBe("samples");
+    // A table column is a number per row, but compares as one curve over the table.
+    expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
+      kind: "number",
+      compareAs: "curve",
+    });
+    expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.compareAs).toBe("surfaces");
+    // Tables, axis columns, provenance and list items do not compare.
+    expect(aircraft.entries["flight.aerodynamics.table"]?.compareAs).toBeUndefined();
+    expect(aircraft.entries["flight.aerodynamics.table[].mach"]?.compareAs).toBeUndefined();
+    expect(weapons.entries.sourcePaths?.compareAs).toBeUndefined();
+    expect(aircraft.entries["stations[].accepts[].clsid"]?.compareAs).toBeUndefined();
+    for (const s of model.series) {
+      for (const e of Object.values(catalogOf(s.id).entries)) {
+        expect(e.compareAs !== undefined, e.path).toBe(e.comparable);
+      }
+    }
+  });
+
+  it("tells apart curves whose summaries match", () => {
+    const aircraft = catalogOf("aircraft");
+    const path = "flight.aerodynamics.table[].cx0";
+    const entry = aircraft.entries[path];
+    if (!entry) throw new Error(path);
+    const curve = (mid: number) => ({
+      aerodynamics: {
+        table: [
+          { mach: 0, cx0: 0.2 },
+          { mach: 0.5, cx0: mid },
+          { mach: 1, cx0: 0.9 },
+        ],
+      },
+    });
+    const curveValue = (companion: object) =>
+      comparableValues(aircraft, {}, companion as Record<string, unknown>).find(
+        (v) => v.path === path,
+      )?.value;
+    const [a, b, c] = [curveValue(curve(0.3)), curveValue(curve(0.4)), curveValue(curve(0.3))];
+    const vctx = { enums: {}, system: "metric" as const };
+    // Same count and range: the same text, but different curves.
+    expect(plainValue(entry, a, vctx)).toBe(plainValue(entry, b, vctx));
+    const number = displayedNumber(entry, "metric");
+    expect(valuesDiffer([a, b], number)).toBe(true);
+    expect(valuesDiffer([a, c], number)).toBe(false);
+    // A missing value differs from a present one; two missing ones do not.
+    expect(valuesDiffer([a, undefined])).toBe(true);
+    expect(valuesDiffer([undefined, undefined])).toBe(false);
+  });
+});
+
+describe("root fields", () => {
+  it("are the root type's fields in schema order, without the companion's", () => {
+    for (const s of model.series) {
+      const catalog = catalogOf(s.id);
+      const fields = rootFields(catalog);
+      expect(fields.map((e) => e.name)).toEqual(
+        (types[s.typeName]?.fields ? Object.keys(types[s.typeName]?.fields ?? {}) : []).filter(
+          (n) => n !== "_source",
+        ),
+      );
+      for (const e of fields) expect(e.path).toBe(e.name);
+    }
+    expect(rootFields(catalogOf("weapons")).some((e) => e.path.startsWith("flight"))).toBe(false);
+  });
+
+  it("splits companion paths from the record's own", () => {
+    expect(companionRest("flight")).toBe("");
+    expect(companionRest("flight.aerodynamics.cx0")).toBe("aerodynamics.cx0");
+    expect(companionRest("flightCeiling")).toBeNull();
+    expect(companionRest("aero.massKg")).toBeNull();
   });
 });

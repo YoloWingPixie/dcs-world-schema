@@ -1,13 +1,24 @@
 /** Promises shared by key for the page's lifetime; a rejected one is dropped so the next call retries. */
 const memo = new Map<string, Promise<unknown>>();
 
+/** Each key's resolved value, once its promise has resolved (failures are not kept). */
+const resolved = new Map<string, unknown>();
+
 export function once<T>(key: string, load: () => Promise<T>): Promise<T> {
   const hit = memo.get(key);
   if (hit) return hit as Promise<T>;
   const promise = load();
-  promise.catch(() => memo.delete(key));
+  promise.then(
+    (value) => resolved.set(key, value),
+    () => memo.delete(key),
+  );
   memo.set(key, promise);
   return promise;
+}
+
+/** The value `once(key, …)` resolved to, if it has; undefined while loading, after a failure, or never asked. */
+export function settled<T>(key: string): T | undefined {
+  return resolved.get(key) as T | undefined;
 }
 
 /**

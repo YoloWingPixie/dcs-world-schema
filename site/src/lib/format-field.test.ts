@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 import {
+  compareKey,
   coverageText,
+  displayedNumber,
   isAngleSectors,
   plainValue,
   rangeText,
   sectorRanges,
   storedValue,
+  valuesDiffer,
 } from "./format-field";
 import { enumDisplay } from "./names";
 import type { CatalogEntry } from "./types";
@@ -128,5 +131,35 @@ describe("enum labels", () => {
   it("lists constant names by their labels", () => {
     const names = entry({ name: "modulationName", kind: "strings", codeField: "modulation" });
     expect(plainValue(names, ["MODULATION_AM", "MODULATION_FM"], vctx("metric"))).toBe("AM, FM");
+  });
+});
+
+describe("compare keys", () => {
+  it("compare deep values, object keys in any order, numbers as the display rounds them", () => {
+    expect(compareKey({ x: [0, 0.5], y: [0.123456, 2] })).toBe(
+      compareKey({ y: [0.12346, 2], x: [0, 0.5] }),
+    );
+    expect(compareKey({ x: [0, 0.5], y: [0.1234, 2] })).not.toBe(
+      compareKey({ x: [0, 0.5], y: [0.1244, 2] }),
+    );
+    // A number and its text are not the same value.
+    expect(compareKey(1)).not.toBe(compareKey("1"));
+    expect(compareKey([[1, 2]])).not.toBe(compareKey([[2, 1]]));
+  });
+
+  it("round numbers as the display shows them", () => {
+    const angle = entry({ name: "fovRad", unit: "rad" });
+    const deg = displayedNumber(angle, "metric");
+    // 0.349 rad and 0.3491 rad both read "20°".
+    expect(deg(0.349)).toBe(deg(0.3491));
+    expect(valuesDiffer([0.349, 0.3491], deg)).toBe(false);
+    expect(valuesDiffer([0.349, 0.3491])).toBe(true);
+  });
+
+  it("flag values that differ, a missing one among them", () => {
+    expect(valuesDiffer([1, 1.00001])).toBe(false);
+    expect(valuesDiffer([1, 2])).toBe(true);
+    expect(valuesDiffer([1, undefined])).toBe(true);
+    expect(valuesDiffer([[1, 2]])).toBe(false);
   });
 });

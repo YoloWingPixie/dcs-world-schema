@@ -249,7 +249,6 @@ export function StringList({
     );
   }
   if (entry.codeField) return <>{plainValue(entry, values, vctx)}</>;
-  if (entry.role === "provenance") return <ProvenanceValue value={values} />;
   return (
     <ul className="tag-list">
       {values.map((v, i) => (

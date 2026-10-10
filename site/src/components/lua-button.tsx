@@ -1,7 +1,7 @@
 "use client";
 
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { loadCatalog, loadRecord } from "@/lib/client-data";
+import { useRecord } from "@/lib/client-data";
 import { updateQuery } from "@/lib/history";
 import { knownLuaAvailable, luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
 import { useLoaded } from "@/lib/use-loaded";
@@ -39,25 +39,20 @@ export function useLuaAvailable(): boolean {
  * left the button hides.
  */
 export function LuaButton({ series, slug }: { series: string; slug: string }) {
-  const loaded = useLoaded(
-    () => Promise.all([loadCatalog(series), loadRecord(series, slug)]),
-    `${series}/${slug}`,
-  );
-  const doc = loaded?.[1];
+  const { catalog, doc } = useRecord(series, slug);
   const [open, setOpen] = useState<string | null>(null);
   const available = useLuaAvailable();
   const [missing, setMissing] = useState<ReadonlySet<string>>(new Set());
   const button = useRef<HTMLButtonElement>(null);
 
   const sources = useMemo(() => {
-    if (!loaded || !available) return { files: [], blocks: [] };
-    const [catalog, record] = loaded;
-    const all = recordSources(catalog, record.data, record.companion);
+    if (!catalog || !doc || !available) return { files: [], blocks: [] };
+    const all = recordSources(catalog, doc.data, doc.companion);
     return {
       files: all.files.filter((f) => !missing.has(f)),
       blocks: all.blocks.filter((b) => !missing.has(splitSourcePath(b.sourcePath).path)),
     };
-  }, [loaded, available, missing]);
+  }, [catalog, doc, available, missing]);
 
   /** A dump path the record has (its file, else its first), as the drawer opens it. */
   const pick = useCallback(

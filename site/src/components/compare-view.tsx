@@ -23,12 +23,14 @@ import {
 } from "@/lib/compare-store";
 import { fieldPaths } from "@/lib/db/reference";
 import {
+  displayedNumber,
   isXY,
   machAxis,
   pathLabel,
   plainValue,
   sortableValue,
   type ValueContext,
+  valuesDiffer,
 } from "@/lib/format-field";
 import { replaceQuery } from "@/lib/history";
 import { perObject } from "@/lib/once";
@@ -507,7 +509,8 @@ function FieldCompare(props: FieldProps) {
   const { series, path, entry, catalog, selected, records, color, system } = props;
   const values = useLoaded<FieldValues | null>(() => loadFieldValues(series, path), path);
   // A Mach-sampled field's step: its sibling step field per record (catalog `axis.step`).
-  const sampled = entry.axis?.kind === "sampled" ? entry.axis : null;
+  const sampled =
+    entry.compareAs === "samples" && entry.axis?.kind === "sampled" ? entry.axis : null;
   const stepPath = sampled ? path.replace(/[^.]+$/, sampled.step.field) : "";
   const stepKey = stepPath ? catalogKeyFor(stepPath, catalog) : null;
   const hasStep = Boolean(stepKey && catalog.entries[stepKey]?.comparable);
@@ -543,7 +546,7 @@ function FieldCompare(props: FieldProps) {
         system={system}
       />
     );
-  } else if (entry.axis?.kind === "surface") {
+  } else if (entry.compareAs === "surfaces") {
     selection = (
       <EnvelopeCompare
         slugs={have}
@@ -556,7 +559,7 @@ function FieldCompare(props: FieldProps) {
         system={system}
       />
     );
-  } else if (entry.axis?.kind === "column") {
+  } else if (entry.compareAs === "curve") {
     selection = (
       <CurveCompare
         slugs={have}
@@ -969,8 +972,9 @@ function AllRecordsTable({
   });
   const info = SERIES_BY_ID.get(series);
   const plural = info?.label.toLowerCase() ?? "records";
-  const curve = entry.kind === "numbers" || entry.axis !== undefined;
-  const surface = entry.axis?.kind === "surface";
+  // Lists, curves and surfaces sort and show by their peak (lib/format-field `sortableValue`).
+  const curve = entry.compareAs !== "value" || entry.kind === "numbers";
+  const surface = entry.compareAs === "surfaces";
   const valueLabel = surface ? "Largest value" : curve ? "Peak" : "Value";
 
   const rows = useMemo(() => {
@@ -1173,7 +1177,8 @@ function Matrix({
                   const texts = values.map((v, i) =>
                     v === undefined ? null : plainValue(entry, v, vctxs[i] as ValueContext),
                   );
-                  const differs = new Set(texts).size > 1;
+                  // The raw values, not their text: a curve's summary hides its points.
+                  const differs = valuesDiffer(values, displayedNumber(entry, system));
                   if (diffOnly && !differs) return null;
                   const label = pathLabel(entry, path);
                   return (

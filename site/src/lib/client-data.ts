@@ -24,7 +24,7 @@ import {
   namesOf,
   referencedByGroup,
 } from "./db/reference";
-import { fetchJsonOr, once } from "./once";
+import { fetchJsonOr, once, settled } from "./once";
 import { slugify } from "./series-display";
 import type {
   FieldPath,
@@ -61,22 +61,16 @@ export const loadMeta = () => once("meta", () => getMeta(browserQuery));
 
 type ModelState = { model: Model | null; failed: boolean };
 
-/** The loaded model's state, kept so later mounts render it at once (a failure retries). */
-let modelLoaded: ModelState | undefined;
-
+/** The loaded model's state, kept (`settled`) so later mounts render it at once; a failure retries. */
 const loadModelState = () =>
-  loadModel().then(
-    (model): ModelState => {
-      modelLoaded ??= { model, failed: false };
-      return modelLoaded;
-    },
-    (): ModelState => ({ model: null, failed: true }),
-  );
+  once("model-state", () =>
+    loadModel().then((model): ModelState => ({ model, failed: false })),
+  ).catch((): ModelState => ({ model: null, failed: true }));
 
 /** The model once loaded, and whether it failed; `enabled` false leaves it unread. */
 export function useModel(enabled = true): ModelState {
   return (
-    useLoaded(loadModelState, enabled ? "" : null, () => modelLoaded) ?? {
+    useLoaded(loadModelState, enabled ? "" : null, () => settled<ModelState>("model-state")) ?? {
       model: null,
       failed: false,
     }
@@ -152,15 +146,44 @@ export const loadRecord = (series: string, id: string) =>
     return overlay ? { ...doc, overlay } : doc;
   });
 
+type RecordState = {
+  catalog: SeriesCatalog | null;
+  doc: RecordDoc | null;
+  error: string | null;
+};
+const NOT_LOADED: RecordState = { catalog: null, doc: null, error: null };
+
+/** A record and its series' catalog (`loadRecord`, `loadCatalog`), or why they failed to load. */
+export function useRecord(series: string, slug: string): RecordState {
+  const state = useLoaded(
+    (): Promise<RecordState> =>
+      Promise.all([loadCatalog(series), loadRecord(series, slug)]).then(
+        ([catalog, doc]) => ({ catalog, doc, error: null }),
+        (error: unknown) => ({ catalog: null, doc: null, error: String(error) }),
+      ),
+    `${series}/${slug}`,
+  );
+  return state ?? NOT_LOADED;
+}
+
 /** Beacon rows by id, for map points (components/location-map). */
 export const loadBeaconRows = (ids: string[]) =>
   once(`beacons:${ids.join("\u0000")}`, () => getBeaconRows(transientQuery, ids));
 
-/** The full list of a capped "referenced by" group (`total` > `records.length`). */
-export const loadReferencedByGroup = (series: string, id: string, from: string, path: string) =>
-  once(`refby:${series}:${id}:${from}:${path}`, async (): Promise<LinkTarget[]> => {
+/**
+ * The full list of a capped "referenced by" group (`total` > `records.length`); `via` names
+ * the series a derived group goes through (`ReferencedBy.via`).
+ */
+export const loadReferencedByGroup = (
+  series: string,
+  id: string,
+  from: string,
+  path: string,
+  via?: string,
+) =>
+  once(`refby:${series}:${id}:${from}:${path}:${via ?? ""}`, async (): Promise<LinkTarget[]> => {
     const model = await loadModel();
-    return referencedByGroup(transientQuery, model, series, id, from, path);
+    return referencedByGroup(transientQuery, model, series, id, from, path, via);
   });
 
 export const loadFieldValues = (series: string, path: string) =>

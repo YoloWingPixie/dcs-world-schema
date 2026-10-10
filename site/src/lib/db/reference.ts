@@ -12,7 +12,9 @@ import {
   COMPANION_PREFIX,
   catalogKeyFor,
   humanize,
+  rootFields,
   rootFor,
+  tableAxis,
   valuesAt,
 } from "../catalog";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
@@ -542,7 +544,7 @@ async function namedReferences(
 
 /**
  * Every record of one "referenced by" group (`from`, `path`), uncapped and with link
- * details: only that group's reference path is read (for a `via:` group, the paths into
+ * details: only that group's reference path is read (for a `via` group, the paths into
  * the series it goes through, and the one hop from there).
  */
 export async function referencedByGroup(
@@ -552,8 +554,9 @@ export async function referencedByGroup(
   id: string,
   from: string,
   path: string,
+  /** A derived group's series it goes through (`ReferencedBy.via`). */
+  via?: string,
 ): Promise<LinkTarget[]> {
-  const via = path.startsWith("via:") ? path.slice(4) : null;
   const direct = await directReferences(q, model, series, id, (owner, p) =>
     via ? owner === via : owner === from && p === path,
   );
@@ -568,13 +571,7 @@ export async function referencedByGroup(
 // Browse
 
 const topLevelScalars = (catalog: SeriesCatalog) =>
-  Object.values(catalog.entries).filter(
-    (e) =>
-      !e.path.includes(".") &&
-      !e.path.includes("[") &&
-      SCALAR_KINDS.has(e.kind) &&
-      e.role !== "key",
-  );
+  rootFields(catalog).filter((e) => SCALAR_KINDS.has(e.kind) && e.role !== "key");
 
 /** A `series_views` row (tools/package/sqlite.py): a browse table in one read. */
 type SeriesView = {
@@ -689,7 +686,6 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     path: c.path,
     label: c.label,
     kind: c.kind === "enum" ? "enum" : c.kind === "boolean" ? "boolean" : "string",
-    column: columns.indexOf(c),
   }));
   return {
     series,
@@ -759,16 +755,20 @@ export async function getFieldValues(
   const key = catalogKeyFor(path, catalog);
   const entry = key ? catalog.entries[key] : undefined;
   if (!entry) return { path, values: {} };
+  // A curve or surfaces reads its table; any other value its own path.
+  const read = tableAxis(entry)?.table ?? path;
   const { root: table, rest } = rootFor(
-    path,
+    read,
     s,
     s.companion ? model.byId.get(s.companion) : undefined,
   );
   if (!table) return { path, values: {} };
-  const prefix = path.slice(0, path.length - rest.length);
-  const [column, ...inner] = rest.replace(/\[\].*$/, "").split(".") as [string, ...string[]];
+  const prefix = read.slice(0, read.length - rest.length);
+  const [column, ...inner] = rest.split(".") as [string, ...string[]];
   const values: Record<string, unknown> = {};
-  const simple = !entry.path.includes("*") && !entry.path.includes("[]");
+  // One value (or list) at a plain path; a keyed path names its key, so is not its catalog key.
+  const simple =
+    (entry.compareAs === "value" || entry.compareAs === "samples") && path === entry.path;
   const columnRows = () =>
     q(
       `SELECT ${qi(table.keyColumn)} AS k, ${qi(column)} AS v FROM ${qi(table.id)} WHERE ${qi(column)} IS NOT NULL`,
