@@ -1,4 +1,21 @@
-import type { ApiSection } from "./types";
+import type { ApiEnv, ApiSection } from "./types";
+
+/** A section's heading (breadcrumbs, the API home and the contents chapter). */
+export const SECTION_LABEL: Record<ApiSection, string> = {
+  mission: "Mission scripting",
+  hooks: "Hooks (GameGUI)",
+  export: "Export",
+  server: "Server",
+  types: "Types",
+};
+
+/** The short name of an environment (badges, filter buttons). */
+export const ENV_LABEL: Record<ApiEnv, string> = {
+  mission: "Mission",
+  hooks: "Hooks",
+  export: "Export",
+  server: "Server",
+};
 
 const PREFIXED: ApiSection[] = ["types", "hooks", "export", "server"];
 
@@ -33,5 +50,3 @@ export function parseApiPath(
     return null;
   }
 }
-
-export const isApiPath = (pathname: string) => /^\/api(\/|$)/.test(pathname);

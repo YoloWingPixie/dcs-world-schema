@@ -2,12 +2,11 @@
 
 import type MiniSearch from "minisearch";
 import { useEffect, useMemo, useState } from "react";
+import { BASE_PATH } from "../base-path";
 import type * as Engine from "./engine";
 import { mergeHits } from "./merge";
 import { SEARCH_PROVIDERS, SEARCH_SOURCES } from "./sources";
 import type { SearchGroup, SearchSource, SourceHits, StoredDoc } from "./types";
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const indexes = new Map<string, MiniSearch<StoredDoc>>();
 const pending = new Map<string, Promise<MiniSearch<StoredDoc>>>();

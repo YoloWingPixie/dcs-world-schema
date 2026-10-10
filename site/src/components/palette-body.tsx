@@ -1,8 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 import { GlobalSearch } from "./global-search";
 import { openHref } from "./ref-link";
+import { useModalDialog } from "./use-modal-dialog";
 
 /** The palette dialog; loaded on first open (see command-palette.tsx). */
 export default function PaletteBody({
@@ -15,18 +17,27 @@ export default function PaletteBody({
   dismiss: () => void;
 }) {
   const router = useRouter();
+  const dialog = useRef<HTMLDivElement>(null);
+  // Escape is handled by the combobox; the page keeps its scrollbar.
+  const onKeyDown = useModalDialog(dialog, close, { closeOnEscape: false, lockScroll: false });
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: Escape is handled by the combobox
     // biome-ignore lint/a11y/noStaticElementInteractions: backdrop click closes the dialog
     <div
-      className="palette-backdrop"
+      className="modal-backdrop palette-backdrop"
       onClick={(event) => {
         if (event.target === event.currentTarget) close();
       }}
     >
-      <div className="palette" role="dialog" aria-modal="true" aria-label="Search">
+      <div
+        ref={dialog}
+        className="palette"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Search"
+        onKeyDown={onKeyDown}
+      >
         <GlobalSearch
-          label="Search"
           variant="palette"
           autoFocus
           onEscape={close}

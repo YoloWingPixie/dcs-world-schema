@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { isRecord } from "@/lib/catalog";
-import type { CatalogEntry } from "@/lib/types";
+import { type CatalogEntry, SCALAR_KINDS } from "@/lib/types";
 import { FieldRow } from "../field-view";
 import {
   AxisTableChart,
@@ -14,7 +14,6 @@ import {
   RecordsTable,
   type RenderCtx,
   rangeListOf,
-  SCALAR_KINDS,
   StringList,
 } from "./blocks";
 import { EnvelopeBlock, isEnvelope } from "./envelope";

@@ -6,6 +6,7 @@ import { searchReference } from "../db/reference";
 import { constantLabel } from "../names";
 import { recordHref } from "../series";
 import { slugify } from "../series-display";
+import { squash } from "../text";
 import type { SearchProvider, SourceHits } from "./types";
 
 /** Series that matter most in a mixed result list rank a little higher. */
@@ -22,8 +23,6 @@ const WEIGHT: Record<string, number> = {
   beacons: 0.7,
   navaids: 0.7,
 };
-
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
 
 /**
  * The reference database's `search` table (FTS5), one group per series, plus the
@@ -42,14 +41,14 @@ export const REFERENCE_PROVIDER: SearchProvider = {
       loadOverlays(),
       searchReference(browserQuery, query, 150),
     ]);
-    const wanted = norm(query);
+    const wanted = squash(query);
     // Overlay aliases: an exact or prefix alias match names a record directly.
     const aliasHits = [];
     if (wanted.length >= 2) {
       for (const [series, o] of Object.entries(overlays.series)) {
         const owner = model.byId.get(series)?.parent ?? series;
         for (const [stem, overlay] of Object.entries(o.records)) {
-          if (!overlay.aliases?.some((a) => norm(a).startsWith(wanted))) continue;
+          if (!overlay.aliases?.some((a) => squash(a).startsWith(wanted))) continue;
           aliasHits.push({ series: owner, stem });
         }
       }
@@ -64,7 +63,7 @@ export const REFERENCE_PROVIDER: SearchProvider = {
         groups.set(series, g);
       }
       if (g.results.some((r) => r.key === id) || g.results.length >= limit) return;
-      const exact = norm(name) === wanted || norm(id) === wanted;
+      const exact = squash(name) === wanted || squash(id) === wanted;
       const meta = subtitle
         .split(" · ")
         .filter(Boolean)

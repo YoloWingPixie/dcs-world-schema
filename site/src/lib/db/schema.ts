@@ -5,22 +5,19 @@
  * `number[][]`, `A | B`) so lib/catalog.ts reads both.
  */
 import type { SchemaField, SchemaType, SchemaTypes } from "../catalog";
-
-type Node = Record<string, unknown>;
-
-const isNode = (v: unknown): v is Node => typeof v === "object" && v !== null && !Array.isArray(v);
+import { isRecord, type Json } from "../json";
 
 const refName = (ref: string) => ref.slice(ref.lastIndexOf("/") + 1);
 
 /** `x-ref` targets anywhere in a property node (through arrays and unions). */
-function xRefOf(node: Node): string[] | null {
+function xRefOf(node: Json): string[] | null {
   const own = node["x-ref"];
   if (Array.isArray(own)) return own.map(String);
   if (typeof own === "string") return [own];
-  if (isNode(node.items)) return xRefOf(node.items);
+  if (isRecord(node.items)) return xRefOf(node.items);
   if (Array.isArray(node.anyOf)) {
     for (const sub of node.anyOf) {
-      if (isNode(sub)) {
+      if (isRecord(sub)) {
         const found = xRefOf(sub);
         if (found) return found;
       }
@@ -30,16 +27,16 @@ function xRefOf(node: Node): string[] | null {
 }
 
 /** The type string of a property node. */
-export function typeString(node: Node): string {
+export function typeString(node: Json): string {
   if (typeof node.$ref === "string") return refName(node.$ref);
   if (Array.isArray(node.anyOf)) {
     const parts = node.anyOf
-      .filter(isNode)
+      .filter(isRecord)
       .filter((n) => n.type !== "null")
       .map(typeString);
     return [...new Set(parts)].join(" | ") || "any";
   }
-  if (node.type === "array") return `${isNode(node.items) ? typeString(node.items) : "any"}[]`;
+  if (node.type === "array") return `${isRecord(node.items) ? typeString(node.items) : "any"}[]`;
   if (Array.isArray(node.enum)) {
     const values = node.enum;
     if (values.every((v) => typeof v === "string")) return "string";
@@ -57,12 +54,12 @@ export function typeString(node: Node): string {
   return "any";
 }
 
-export function schemaTypeFromDefinition(def: Node): SchemaType {
+export function schemaTypeFromDefinition(def: Json): SchemaType {
   const description = typeof def.description === "string" ? def.description : "";
-  if (isNode(def.properties)) {
+  if (isRecord(def.properties)) {
     const fields: Record<string, SchemaField> = {};
     for (const [name, prop] of Object.entries(def.properties)) {
-      if (!isNode(prop)) continue;
+      if (!isRecord(prop)) continue;
       const field: SchemaField = { type: typeString(prop) };
       if (typeof prop.description === "string") field.description = prop.description;
       const ref = xRefOf(prop);
@@ -72,7 +69,7 @@ export function schemaTypeFromDefinition(def: Node): SchemaType {
     return { kind: "record", description, fields };
   }
   if (Array.isArray(def.enum)) {
-    const xValues = isNode(def["x-values"])
+    const xValues = isRecord(def["x-values"])
       ? (def["x-values"] as Record<string, string | number>)
       : null;
     const values: Record<string, string | number> = {};
@@ -86,7 +83,7 @@ export function schemaTypeFromDefinition(def: Node): SchemaType {
     return {
       kind: "array",
       description,
-      arrayOf: isNode(def.items) ? typeString(def.items) : "any",
+      arrayOf: isRecord(def.items) ? typeString(def.items) : "any",
     };
   }
   return { kind: "other", description };
@@ -99,7 +96,7 @@ export function schemaTypesFromRows(
   for (const row of rows) {
     try {
       const def = JSON.parse(row.definition) as unknown;
-      if (isNode(def)) out[row.name] = schemaTypeFromDefinition(def);
+      if (isRecord(def)) out[row.name] = schemaTypeFromDefinition(def);
     } catch {
       // A definition the client cannot read renders as untyped fields.
     }

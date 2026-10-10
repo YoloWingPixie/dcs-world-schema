@@ -134,6 +134,16 @@ export function displayUnit(unit: string | null, system: UnitSystem, name?: stri
   return conversionFor(unit, system, name)?.to ?? unit;
 }
 
+/** A column or axis label with its display unit: `Mass (lb)`; `label` alone without a unit. */
+export function unitLabel(
+  label: string,
+  entry: { unit: string | null; name?: string } | undefined,
+  system: UnitSystem,
+): string {
+  const unit = entry ? displayUnit(entry.unit, system, entry.name) : null;
+  return unit ? `${label} (${unit})` : label;
+}
+
 const groupFormat = new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 });
 
 /** Compact, honest number formatting: keeps up to `digits` significant decimals, no trailing zeros. */
@@ -207,10 +217,11 @@ export function formatPlain(
 // ---------------------------------------------------------------------------
 // The site-wide choice lives in unit-system.ts (client); this script applies it before paint.
 
-const KEY = "dcs-ref:units";
+/** localStorage key of the Metric / Imperial choice. */
+export const UNITS_KEY = "dcs-ref:units";
 
 /**
  * Inline script for <head>: applies `?units=` (and remembers it) or the stored choice
  * before first paint, so the toggle renders in its final state.
  */
-export const UNITS_BOOTSTRAP = `try{var u=new URLSearchParams(location.search).get("units");if(u==="metric"||u==="imperial")localStorage.setItem("${KEY}",u);else u=localStorage.getItem("${KEY}");if(u==="imperial")document.documentElement.dataset.units=u}catch(e){}`;
+export const UNITS_BOOTSTRAP = `try{var u=new URLSearchParams(location.search).get("units");if(u==="metric"||u==="imperial")localStorage.setItem("${UNITS_KEY}",u);else u=localStorage.getItem("${UNITS_KEY}");if(u==="imperial")document.documentElement.dataset.units=u}catch(e){}`;

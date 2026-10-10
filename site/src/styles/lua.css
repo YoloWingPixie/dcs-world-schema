@@ -1,48 +1,32 @@
 /* "View Lua" drawer (components/lua-drawer.tsx): loaded with the drawer. */
 
 :root {
+  --lua-key: var(--ink);
+  --lua-comment: var(--ink-3);
+  --lua-number: var(--accent);
+  --lua-focus: var(--accent-wash);
+  --lua-focus-edge: var(--accent);
   --lua-string: #1f6a3a;
-  --lua-number: #1c4fa0;
   --lua-literal: #8a4a00;
-  --lua-key: #161616;
-  --lua-comment: #696969;
   --lua-marker: #9a9a97;
-  --lua-focus: rgb(28 79 160 / 0.08);
-  --lua-focus-edge: #1c4fa0;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --lua-string: #8fcf9f;
-    --lua-number: #8fb4f0;
     --lua-literal: #e2b46d;
-    --lua-key: #e9e7e3;
-    --lua-comment: #96948f;
     --lua-marker: #6b6b69;
-    --lua-focus: rgb(143 180 240 / 0.12);
-    --lua-focus-edge: #8fb4f0;
   }
 }
 
 :root[data-theme="dark"] {
   --lua-string: #8fcf9f;
-  --lua-number: #8fb4f0;
   --lua-literal: #e2b46d;
-  --lua-key: #e9e7e3;
-  --lua-comment: #96948f;
   --lua-marker: #6b6b69;
-  --lua-focus: rgb(143 180 240 / 0.12);
-  --lua-focus-edge: #8fb4f0;
 }
 
 .lua-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  background: rgb(0 0 0 / 0.45);
-  display: flex;
   justify-content: flex-end;
-  animation: fade-in 120ms ease-out;
 }
 
 .lua-drawer {

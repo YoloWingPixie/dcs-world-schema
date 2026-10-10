@@ -5,9 +5,8 @@
  * (applied before paint by UNITS_BOOTSTRAP in units.ts).
  */
 import { useSyncExternalStore } from "react";
-import type { UnitSystem } from "./units";
+import { UNITS_KEY as KEY, type UnitSystem } from "./units";
 
-const KEY = "dcs-ref:units";
 const listeners = new Set<() => void>();
 let current: UnitSystem | null = null;
 

@@ -11,15 +11,16 @@ import { buildSeriesCatalog, COMPANION_PREFIX, humanize, isRecord, valuesAt } fr
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
 import { displayFor } from "../series-display";
-import type {
-  CatalogEntry,
-  Facet,
-  FieldValues,
-  LinkTarget,
-  RecordDoc,
-  ReferencedBy,
-  SeriesCatalog,
-  SeriesIndex,
+import {
+  type CatalogEntry,
+  type Facet,
+  type FieldValues,
+  type LinkTarget,
+  type RecordDoc,
+  type ReferencedBy,
+  SCALAR_KINDS,
+  type SeriesCatalog,
+  type SeriesIndex,
 } from "../types";
 import { schemaTypesFromRows } from "./schema";
 
@@ -62,7 +63,6 @@ export type Model = {
 };
 
 export const UNITS = "units";
-const SCALAR = new Set(["number", "string", "boolean", "enum", "ref"]);
 
 export const qi = (name: string) => `"${name.replace(/"/g, '""')}"`;
 
@@ -198,7 +198,7 @@ export function decodeRow(row: Row, catalog: SeriesCatalog, prefix = ""): Record
     if (raw === null || raw === undefined) continue;
     const entry = catalog.entries[prefix ? `${prefix}.${name}` : name];
     if (entry?.kind === "boolean") out[name] = raw === 1 || raw === true || raw === "1";
-    else if (entry && SCALAR.has(entry.kind)) out[name] = raw;
+    else if (entry && SCALAR_KINDS.has(entry.kind)) out[name] = raw;
     else if (typeof raw === "string") {
       try {
         out[name] = JSON.parse(raw);
@@ -554,7 +554,8 @@ export async function referencedByGroup(
 
 const topLevelScalars = (catalog: SeriesCatalog, key: string) =>
   Object.values(catalog.entries).filter(
-    (e) => !e.path.includes(".") && !e.path.includes("[") && SCALAR.has(e.kind) && e.name !== key,
+    (e) =>
+      !e.path.includes(".") && !e.path.includes("[") && SCALAR_KINDS.has(e.kind) && e.name !== key,
   );
 
 /** A `series_views` row (tools/package/sqlite.py): a browse table in one read. */
@@ -786,7 +787,7 @@ export async function getFieldValues(
     for (const r of rows) {
       let v: unknown = r.v;
       if (entry.kind === "boolean") v = v === 1 || v === true;
-      else if (!SCALAR.has(entry.kind) && typeof v === "string") {
+      else if (!SCALAR_KINDS.has(entry.kind) && typeof v === "string") {
         try {
           v = JSON.parse(v);
         } catch {

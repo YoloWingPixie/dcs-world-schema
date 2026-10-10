@@ -5,22 +5,20 @@
  * `null` cells mean "absent"; unpack restores the original shape minus explicit nulls.
  */
 
-type Json = Record<string, unknown>;
+import { isRecord, type Json } from "./json";
+
 type Column = string | [string, string];
 export type Packed = { $c: Column[]; $r: unknown[][] };
-
-const isObject = (v: unknown): v is Json =>
-  typeof v === "object" && v !== null && !Array.isArray(v);
 
 const isScalar = (v: unknown) => v === null || typeof v !== "object";
 
 function isPacked(v: unknown): v is Packed {
-  return isObject(v) && Array.isArray(v.$c) && Array.isArray(v.$r) && Object.keys(v).length === 2;
+  return isRecord(v) && Array.isArray(v.$c) && Array.isArray(v.$r) && Object.keys(v).length === 2;
 }
 
 export function pack(value: unknown): unknown {
   if (Array.isArray(value)) {
-    if (value.length >= 3 && value.every(isObject)) {
+    if (value.length >= 3 && value.every(isRecord)) {
       const columns: Column[] = [];
       const seen = new Set<string>();
       const add = (c: Column) => {
@@ -35,7 +33,7 @@ export function pack(value: unknown): unknown {
       const nested = new Set<string>();
       for (const row of value as Json[]) {
         for (const [k, v] of Object.entries(row)) {
-          if (isObject(v) && Object.values(v).every(isScalar) && Object.keys(v).length) {
+          if (isRecord(v) && Object.values(v).every(isScalar) && Object.keys(v).length) {
             flatten.add(k);
           } else if (v !== undefined) nested.add(k);
         }
@@ -43,7 +41,7 @@ export function pack(value: unknown): unknown {
       for (const k of nested) flatten.delete(k);
       for (const row of value as Json[]) {
         for (const [k, v] of Object.entries(row)) {
-          if (flatten.has(k) && isObject(v)) for (const k2 of Object.keys(v)) add([k, k2]);
+          if (flatten.has(k) && isRecord(v)) for (const k2 of Object.keys(v)) add([k, k2]);
           else add(k);
         }
       }
@@ -57,7 +55,7 @@ export function pack(value: unknown): unknown {
     }
     return value.map(pack);
   }
-  if (isObject(value)) {
+  if (isRecord(value)) {
     const out: Json = {};
     for (const [k, v] of Object.entries(value)) out[k] = pack(v);
     return out;
@@ -75,7 +73,7 @@ export function unpack(value: unknown): unknown {
         if (cell === null || cell === undefined) return;
         if (typeof c === "string") out[c] = unpack(cell);
         else {
-          const parent = isObject(out[c[0]]) ? (out[c[0]] as Json) : {};
+          const parent = isRecord(out[c[0]]) ? (out[c[0]] as Json) : {};
           parent[c[1]] = cell;
           out[c[0]] = parent;
         }
@@ -83,7 +81,7 @@ export function unpack(value: unknown): unknown {
       return out;
     });
   }
-  if (isObject(value)) {
+  if (isRecord(value)) {
     const out: Json = {};
     for (const [k, v] of Object.entries(value)) out[k] = unpack(v);
     return out;

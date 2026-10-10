@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { BASE_PATH } from "@/lib/base-path";
 import {
   columnWidth,
   type Group,
@@ -16,9 +17,11 @@ import type { GroupTarget } from "@/lib/db/reference";
 import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { displayFor } from "@/lib/series-display";
-import type { CatalogEntry, Facet, SeriesCatalog, SeriesIndex } from "@/lib/types";
+import { capitalise } from "@/lib/text";
+import { type CatalogEntry, type Facet, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { convertValue, displayUnit, formatNumber, type UnitSystem } from "@/lib/units";
+import { convertValue, formatNumber, type UnitSystem, unitLabel } from "@/lib/units";
+import { useLoaded } from "@/lib/use-loaded";
 import { SearchIcon, TableIcon } from "@/ui/icons";
 import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
@@ -30,7 +33,6 @@ const NO_GROUP = "\u0000none";
 const OVERSCAN = 12;
 /** Narrowest name column before trailing columns are left out. */
 const NAME_MIN = 180;
-const SCALAR = new Set(["number", "enum", "string", "boolean", "ref"]);
 
 type Row = { slug: string; name: string; id: string; values: Map<string, unknown> };
 type SortState = { key: string; dir: 1 | -1 };
@@ -81,41 +83,27 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const pathname = usePathname();
   const system = useUnitSystem();
 
-  const [index, setIndex] = useState<SeriesIndex | null>(null);
-  const [catalog, setCatalog] = useState<SeriesCatalog | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const loaded = useLoaded(
+    (s) =>
+      loadSeriesIndex(s).then(
+        (index) => ({ index, error: null }),
+        () => ({ index: null, error: "Failed to load data." }),
+      ),
+    series,
+  );
+  const index = loaded?.index ?? null;
+  const error = loaded?.error ?? null;
+  const catalog = useLoaded(loadCatalog, series);
   const [extra, setExtra] = useState<Record<string, Record<string, unknown>>>({});
   const [query, setQuery] = useState(params.get("q") ?? "");
   const [sort, setSort] = useState<SortState>({ key: "name", dir: 1 });
   const [filtersOpen, setFiltersOpen] = useState(true);
   const groupBy = displayFor(series).groupBy;
-  const [targets, setTargets] = useState<Record<string, GroupTarget> | null>(null);
+  const targets = useLoaded((s): Promise<Record<string, GroupTarget> | null> => {
+    const path = displayFor(s).groupBy?.path;
+    return path ? loadGroupTargets(s, path).catch(() => ({})) : Promise.resolve(null);
+  }, series);
   const grouped = Boolean(groupBy) && params.get(GROUP_PARAM) !== "flat";
-
-  useEffect(() => {
-    let live = true;
-    setIndex(null);
-    setError(null);
-    loadSeriesIndex(series).then(
-      (i) => live && setIndex(i),
-      () => live && setError("Failed to load data."),
-    );
-    loadCatalog(series).then(
-      (c) => live && setCatalog(c),
-      () => undefined,
-    );
-    setTargets(null);
-    const path = displayFor(series).groupBy?.path;
-    if (path) {
-      loadGroupTargets(series, path).then(
-        (t) => live && setTargets(t),
-        () => live && setTargets({}),
-      );
-    }
-    return () => {
-      live = false;
-    };
-  }, [series]);
 
   useEffect(() => {
     const narrow = window.matchMedia("(max-width: 860px)");
@@ -129,11 +117,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
     (next: URLSearchParams) => {
       const qs = next.toString();
       // Native history: Next.js syncs useSearchParams, and the shell route has no RSC payload.
-      window.history.replaceState(
-        null,
-        "",
-        `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${pathname}${qs ? `?${qs}` : ""}`,
-      );
+      window.history.replaceState(null, "", `${BASE_PATH}${pathname}${qs ? `?${qs}` : ""}`);
     },
     [pathname],
   );
@@ -312,7 +296,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
     for (const fp of catalog.fieldPaths) {
       if (fp.path.includes("*") || fp.path.includes("[]") || seen.has(fp.path)) continue;
       const entry = catalog.entries[fp.key];
-      if (!entry?.comparable || !SCALAR.has(entry.kind)) continue;
+      if (!entry?.comparable || !SCALAR_KINDS.has(entry.kind)) continue;
       seen.add(fp.path);
       out.push({ path: fp.path, entry, count: fp.count });
     }
@@ -408,8 +392,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const headerLabel = (path: string) => {
     const entry = catalog?.entries[path];
     const label = entry?.label ?? path;
-    const unit = entry ? displayUnit(entry.unit, system, entry.name) : null;
-    return unit && entry?.kind === "number" ? `${label} (${unit})` : label;
+    return entry?.kind === "number" ? unitLabel(label, entry, system) : label;
   };
 
   // Column widths from every row (not the rendered slice), so scrolling never reflows.
@@ -598,22 +581,22 @@ export function BrowseView({ series, count }: { series: string; count: number })
                 ) : null}
               </span>
               {groupBy ? (
-                <fieldset className="group-toggle">
+                <fieldset className="seg-slash group-toggle">
                   <legend className="visually-hidden">List layout</legend>
                   <button
                     type="button"
-                    className="group-opt"
+                    className="seg-btn"
                     aria-pressed={grouped}
                     onClick={() => setGrouped(true)}
                   >
                     Group by {groupBy.label}
                   </button>
-                  <span className="group-sep" aria-hidden="true">
+                  <span className="seg-sep" aria-hidden="true">
                     /
                   </span>
                   <button
                     type="button"
-                    className="group-opt"
+                    className="seg-btn"
                     aria-pressed={!grouped}
                     onClick={() => setGrouped(false)}
                   >
@@ -778,8 +761,4 @@ export function BrowseView({ series, count }: { series: string; count: number })
       </div>
     </div>
   );
-}
-
-function capitalise(s: string) {
-  return s.charAt(0).toUpperCase() + s.slice(1);
 }

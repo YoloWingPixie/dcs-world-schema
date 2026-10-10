@@ -65,22 +65,22 @@ function UnitsToggle() {
         <span className="units-compact-imperial">lb·ft</span>
       </button>
       {/* biome-ignore lint/a11y/useSemanticElements: a two-state segmented switch */}
-      <div className="units-toggle" role="group" aria-label="Units">
+      <div className="seg-slash units-toggle" role="group" aria-label="Units">
         <button
           type="button"
-          className="units-opt units-metric"
+          className="seg-btn units-metric"
           aria-pressed={!imperial}
           onClick={() => setUnitSystem("metric")}
           title="m, km, km/h, kg"
         >
           Metric
         </button>
-        <span className="units-sep" aria-hidden="true">
+        <span className="seg-sep" aria-hidden="true">
           /
         </span>
         <button
           type="button"
-          className="units-opt units-imperial"
+          className="seg-btn units-imperial"
           aria-pressed={imperial}
           onClick={() => setUnitSystem("imperial")}
           title="ft, nm, kt, lb"

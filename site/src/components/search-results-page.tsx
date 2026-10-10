@@ -12,6 +12,16 @@ export function SearchResultsPage() {
   const pathname = usePathname();
   const initial = params.get("q") ?? "";
   const [query, setQuery] = useState(initial);
+  // A `?q=` this page did not write (a link, back/forward) restarts the search box with it.
+  const [seen, setSeen] = useState(initial);
+  const [generation, setGeneration] = useState(0);
+  if (initial !== seen) {
+    setSeen(initial);
+    if (initial !== query.trim()) {
+      setQuery(initial);
+      setGeneration((g) => g + 1);
+    }
+  }
   useEffect(() => {
     const timer = window.setTimeout(() => {
       const q = query.trim();
@@ -22,7 +32,7 @@ export function SearchResultsPage() {
   }, [query, params, pathname, router]);
   return (
     <GlobalSearch
-      label="Search"
+      key={generation}
       variant="page"
       autoFocus
       initialQuery={initial}

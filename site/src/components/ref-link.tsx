@@ -1,9 +1,8 @@
 "use client";
 
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
+import { BASE_PATH } from "@/lib/base-path";
 import { type NavHint, setNavHint } from "@/lib/nav-hints";
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 let shellMounted = 0;
 
@@ -39,7 +38,18 @@ type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   hint?: NavHint;
 };
 
-/** A link to a reference record or series page (plain <a>, client-side inside the shell). */
+/** Scrolls to the element the URL's hash names (after a client-side page change). */
+export function scrollToHash() {
+  const id = decodeURIComponent(window.location.hash.slice(1));
+  if (!id) return;
+  document.getElementById(id)?.scrollIntoView();
+}
+
+/**
+ * A link to a site path (a reference record or series page, an API page): plain <a>,
+ * client-side inside the shell (which scrolls to a hash once the page renders), and a plain
+ * hash jump within the same page.
+ */
 export function RefLink({ href, onClick, children, hint, ...rest }: Props) {
   return (
     <a
@@ -59,6 +69,8 @@ export function RefLink({ href, onClick, children, hint, ...rest }: Props) {
         ) {
           return;
         }
+        const [path, hash] = href.split("#");
+        if (hash !== undefined && path === window.location.pathname.slice(BASE_PATH.length)) return;
         event.preventDefault();
         navigateReference(href);
       }}

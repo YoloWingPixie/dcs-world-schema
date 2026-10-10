@@ -4,8 +4,10 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import { COMPANION_PREFIX } from "@/lib/catalog";
 import { loadRecord } from "@/lib/client-data";
 import { luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
-import type { RecordDoc } from "@/lib/types";
+import { useLoaded } from "@/lib/use-loaded";
+import { CodeIcon } from "@/ui/icons";
 import { showToast } from "./toast";
+import { focusLater } from "./use-modal-dialog";
 
 // The drawer, its tokenizer and its styles load on first open.
 const LuaDrawer = lazy(() => import("./lua-drawer"));
@@ -40,34 +42,8 @@ function setParam(value: string | null) {
 
 /** Whether this build has Lua files (data/lua.json); false until known. */
 export function useLuaAvailable(): boolean {
-  const [available, setAvailable] = useState(false);
-  useEffect(() => {
-    let live = true;
-    luaAvailable().then(
-      (ok) => live && setAvailable(ok),
-      () => {},
-    );
-    return () => {
-      live = false;
-    };
-  }, []);
-  return available;
+  return useLoaded(luaAvailable) ?? false;
 }
-
-const CodeIcon = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth={1.8}
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    aria-hidden="true"
-    focusable="false"
-  >
-    <path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" />
-  </svg>
-);
 
 /**
  * "View Lua" in the record plate: shown once the record is loaded and has sourcePaths, and
@@ -75,23 +51,11 @@ const CodeIcon = () => (
  * left the button hides.
  */
 export function LuaButton({ series, slug }: { series: string; slug: string }) {
-  const [doc, setDoc] = useState<RecordDoc | null>(null);
+  const doc = useLoaded(() => loadRecord(series, slug), `${series}/${slug}`);
   const [open, setOpen] = useState<string | null>(null);
   const available = useLuaAvailable();
   const [missing, setMissing] = useState<ReadonlySet<string>>(new Set());
   const button = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    let live = true;
-    setDoc(null);
-    loadRecord(series, slug).then(
-      (d) => live && setDoc(d),
-      () => {},
-    );
-    return () => {
-      live = false;
-    };
-  }, [series, slug]);
 
   const sources = useMemo(() => {
     if (!doc || !available) return { files: [], blocks: [] };
@@ -171,7 +135,7 @@ export function LuaButton({ series, slug }: { series: string; slug: string }) {
             }}
             onClose={() => {
               show(null);
-              window.setTimeout(() => button.current?.focus(), 0);
+              focusLater(button.current);
             }}
           />
         </Suspense>

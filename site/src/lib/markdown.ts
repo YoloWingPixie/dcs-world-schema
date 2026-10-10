@@ -7,7 +7,7 @@
  *   markdownToText(body)                        ->  plain text for search indexes
  *
  * Render the HTML with components/Markdown.tsx (`<Markdown html={...} />`), or from a
- * server component with components/MarkdownSource.tsx (`<MarkdownSource source={...} />`).
+ * server component as `<Markdown html={renderMarkdown(source)} />`.
  * Internal links are written site-relative (`/weapons/?id=AIM_120C`); the component
  * applies basePath and routes them client-side.
  */

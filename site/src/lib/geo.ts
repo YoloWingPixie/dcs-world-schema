@@ -1,3 +1,4 @@
+import { isRecord, type Json } from "./json";
 /**
  * Where a record sits on the Earth, for the location figure (components/location-map).
  * Only WGS84 latitude/longitude the data already carries is plotted; DCS map x/z metres are
@@ -30,13 +31,9 @@ export type Location = {
 /** The section id the figure carries; coordinate fields link here. */
 export const LOCATION_ID = "location";
 
-type Json = Record<string, unknown>;
-
-const isObj = (v: unknown): v is Json => typeof v === "object" && v !== null && !Array.isArray(v);
-
 /** `{latitude, longitude}` in degrees, else null (x/z alone is not a location). */
 export function latLonOf(v: unknown): LatLon | null {
-  if (!isObj(v)) return null;
+  if (!isRecord(v)) return null;
   const { latitude: lat, longitude: lon } = v;
   if (typeof lat !== "number" || typeof lon !== "number") return null;
   if (!Number.isFinite(lat) || !Number.isFinite(lon)) return null;
@@ -69,9 +66,9 @@ export function locationOf(series: string, data: Json, name: string): Location |
     if (!ref) return null;
     const lines: GeoLine[] = [];
     for (const rw of Array.isArray(data.runways) ? data.runways : []) {
-      if (!isObj(rw) || !Array.isArray(rw.directions)) continue;
+      if (!isRecord(rw) || !Array.isArray(rw.directions)) continue;
       const ends = rw.directions
-        .map((d) => (isObj(d) ? latLonOf(d.threshold) : null))
+        .map((d) => (isRecord(d) ? latLonOf(d.threshold) : null))
         .filter((p): p is LatLon => p !== null);
       const [from, to] = ends;
       if (from && to) {
@@ -80,7 +77,7 @@ export function locationOf(series: string, data: Json, name: string): Location |
     }
     const extras: GeoPoint[] = [];
     for (const st of Array.isArray(data.stands) ? data.stands : []) {
-      if (!isObj(st)) continue;
+      if (!isRecord(st)) continue;
       const p = latLonOf(st.position);
       if (p) extras.push({ ...p, kind: "stand", label: `Stand ${String(st.name ?? "")}`.trim() });
     }

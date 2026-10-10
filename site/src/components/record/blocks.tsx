@@ -1,7 +1,7 @@
 "use client";
 
 import { type ReactNode, useMemo, useState } from "react";
-import { isRecord } from "@/lib/catalog";
+import { getPath, isRecord } from "@/lib/catalog";
 import {
   isAngleSectors,
   machAxis,
@@ -13,8 +13,8 @@ import {
 } from "@/lib/format-field";
 import { isGeoField, LOCATED_SERIES, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
-import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
-import { convertValue, displayUnit, formatNumber, withUnit } from "@/lib/units";
+import { type CatalogEntry, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
+import { convertValue, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import {
   Description,
@@ -34,8 +34,6 @@ export type RenderCtx = {
   vctx: ValueContext;
   fctx: FieldContext;
 };
-
-export const SCALAR_KINDS = new Set(["number", "string", "boolean", "enum", "ref"]);
 
 const conv = (entry: CatalogEntry, v: number, vctx: ValueContext) =>
   convertValue(v, entry.unit, vctx.system, entry.name).value;
@@ -184,7 +182,7 @@ export function RangeList({
     <div className="fields range-list">
       {rows.filter(isRecord).map((row, i) => {
         const label = rangeText(list.pair, row, ctx.vctx.system) ?? "—";
-        const [first, ...rest] = list.others.filter((c) => cellOf(row, c.parts) !== undefined);
+        const [first, ...rest] = list.others.filter((c) => getPath(row, c.path) !== undefined);
         const entry = first?.entry ?? list.pair.min;
         return (
           <FieldRow
@@ -192,13 +190,13 @@ export function RangeList({
             key={i}
             entry={entry}
             path={first?.key ?? entry.path}
-            value={first ? cellOf(row, first.parts) : undefined}
+            value={first ? getPath(row, first.path) : undefined}
             ctx={ctx.fctx}
             vctx={ctx.vctx}
             label={label}
             after={rest.map((c) => (
               <span className="secondary" key={c.path}>
-                {c.entry.label}: {plainValue(c.entry, cellOf(row, c.parts), ctx.vctx)}
+                {c.entry.label}: {plainValue(c.entry, getPath(row, c.path), ctx.vctx)}
               </span>
             ))}
           />
@@ -356,9 +354,8 @@ export function HeatGrid({
         <thead>
           <tr>
             <th scope="col" className="corner">
-              {rowLabel}
-              {rowUnit ? ` (${rowUnit})` : ""} \ {colLabel}
-              {colUnit ? ` (${colUnit})` : ""}
+              {unitLabel(rowLabel, rowAxis?.entry, vctx.system)} \{" "}
+              {unitLabel(colLabel, colAxis?.entry, vctx.system)}
             </th>
             {Array.from({ length: columns }, (_, i) => (
               // biome-ignore lint/suspicious/noArrayIndexKey: positional headers
@@ -448,14 +445,6 @@ function complexFields(catalog: SeriesCatalog, typeName: string, prefix: string)
   return fields.filter(
     (f) => !named.has(f.name) && !SCALAR_KINDS.has(f.entry.kind) && f.entry.kind !== "record",
   );
-}
-
-const cellOf = (row: Record<string, unknown>, parts: string[]) =>
-  parts.reduce<unknown>((node, p) => (isRecord(node) ? node[p] : undefined), row);
-
-function columnUnit(entry: CatalogEntry, vctx: ValueContext) {
-  const u = displayUnit(entry.unit, vctx.system, entry.name);
-  return u ? ` (${u})` : "";
 }
 
 /** Short inline rendering of an array value inside a table cell or card. */
@@ -596,7 +585,7 @@ export function RecordsTable({
   const typeName = entry.recordType ?? "";
   const itemPrefix = entry.keyField ? `${prefix}.*` : `${prefix}[]`;
   const columns = tableColumns(ctx.catalog, typeName, itemPrefix).filter((c) =>
-    rows.some((r) => isRecord(r) && cellOf(r, c.parts) !== undefined),
+    rows.some((r) => isRecord(r) && getPath(r, c.path) !== undefined),
   );
   const complex = complexFields(ctx.catalog, typeName, itemPrefix).filter((f) =>
     rows.some((r) => isRecord(r) && r[f.name] !== undefined && r[f.name] !== null),
@@ -625,12 +614,12 @@ export function RecordsTable({
           <div className="record-card" key={i}>
             <dl className="record-card-head">
               {columns
-                .filter((c) => cellOf(row, c.parts) !== undefined)
+                .filter((c) => getPath(row, c.path) !== undefined)
                 .map((c) => (
                   <div key={c.path}>
                     <dt>{c.parts.length > 1 ? `${c.entry.label}` : c.entry.label}</dt>
                     <dd>
-                      <ScalarValue entry={c.entry} value={cellOf(row, c.parts)} vctx={ctx.vctx} />
+                      <ScalarValue entry={c.entry} value={getPath(row, c.path)} vctx={ctx.vctx} />
                     </dd>
                   </div>
                 ))}
@@ -685,8 +674,7 @@ export function RecordsTable({
                   className={c.entry.kind === "number" ? "num" : undefined}
                   title={c.entry.description}
                 >
-                  {c.entry.label}
-                  {columnUnit(c.entry, ctx.vctx)}
+                  {unitLabel(c.entry.label, c.entry, ctx.vctx.system)}
                 </th>
               ))}
             {inline
@@ -711,7 +699,7 @@ export function RecordsTable({
                 {columns
                   .filter((c) => c.path !== entry.keyField)
                   .map((c) => {
-                    const v = cellOf(row, c.parts);
+                    const v = getPath(row, c.path);
                     const concrete = key !== null ? `${concretePrefix}.${key}.${c.path}` : null;
                     const attrs =
                       concrete && v !== undefined
@@ -860,8 +848,4 @@ export function AxisTableChart({
       />
     </div>
   );
-}
-
-export function plainOf(entry: CatalogEntry, value: unknown, vctx: ValueContext): ReactNode {
-  return plainValue(entry, value, vctx);
 }

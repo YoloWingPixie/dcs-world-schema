@@ -175,7 +175,7 @@ h4.subgroup-title {
 }
 
 :is(.record-card, .field-wide, .refby-group) .link-list .list-more {
-  padding-left: 0;
+  padding: 0;
   text-indent: 0;
 }
 
@@ -308,35 +308,6 @@ pre.json-block {
   color: var(--ink);
 }
 
-/* Segmented buttons (chart column, envelope table, altitude picks) */
-/* Segmented choices as a run of text: the chosen one bold and underlined. */
-.seg {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 2px 16px;
-}
-
-.seg-btn {
-  font: 500 13.5px var(--font-head);
-  padding: 3px 0;
-  border: 0;
-  background: none;
-  color: var(--ink-3);
-  cursor: pointer;
-}
-
-.seg-btn:hover {
-  color: var(--ink);
-}
-
-.seg-btn[aria-pressed="true"] {
-  color: var(--ink);
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 5px;
-}
-
 .axis-chart {
   margin: 10px 0;
 }
@@ -453,35 +424,21 @@ pre.json-block {
   font-style: normal;
 }
 
-/* Units toggle as text, "Metric / Imperial": CSS reads <html data-units> so the active
-   one is bold before hydration. */
-.units-toggle {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-  white-space: nowrap;
-}
-
-.units-sep {
+/* Units toggle, "Metric / Imperial" (.seg-slash): the active one comes from <html
+   data-units>, set before hydration, not from aria-pressed. */
+.units-toggle .seg-btn[aria-pressed] {
   color: var(--ink-3);
+  font-weight: 400;
 }
 
-.units-opt {
-  font: 400 14px var(--font-head);
-  padding: 4px 0;
-  border: 0;
-  background: transparent;
-  color: var(--ink-3);
-  cursor: pointer;
-}
-
-.units-opt:hover {
+.units-toggle .seg-btn:hover,
+:root:not([data-units="imperial"]) .units-metric,
+:root[data-units="imperial"] .units-imperial {
   color: var(--ink);
 }
 
 :root:not([data-units="imperial"]) .units-metric,
 :root[data-units="imperial"] .units-imperial {
-  color: var(--ink);
   font-weight: 700;
 }
 
@@ -549,12 +506,6 @@ pre.json-block {
   .sk {
     animation: none;
   }
-}
-
-.list-more {
-  border: 0 !important;
-  background: transparent !important;
-  padding: 0 !important;
 }
 
 /* Phone header: sections in a menu, units as one text button. */

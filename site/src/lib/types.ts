@@ -1,4 +1,4 @@
-/** Shapes of the generated JSON under public/data (see scripts/build-data.ts). */
+/** Shapes of the reference data the pages read (lib/db/reference.ts builds them from SQLite). */
 
 export type FieldKind =
   /** Scalars. */
@@ -22,6 +22,15 @@ export type FieldKind =
   | "records"
   /** Untyped (`any`): shown as JSON. */
   | "any";
+
+/** The kinds holding one value (a table cell, a browse column). */
+export const SCALAR_KINDS: ReadonlySet<FieldKind> = new Set([
+  "number",
+  "string",
+  "boolean",
+  "enum",
+  "ref",
+]);
 
 /** One schema field at a path of a series' records. */
 export type CatalogEntry = {
@@ -62,7 +71,7 @@ export type CatalogEntry = {
   codeField?: string;
   /** Keyed arrays (`*` in paths): the field naming each element. */
   keyField?: string;
-  /** Can be compared across records (values file under data/<series>/f/). */
+  /** Can be compared across records (its values read with getFieldValues, lib/db/reference.ts). */
   comparable: boolean;
   /** Hand-written field note (content/reference/<series>/_fields/<path>.md), as HTML. */
   note?: string;
@@ -140,11 +149,5 @@ export type SeriesIndex = {
   intro?: Overlay;
 };
 
-/** One comparable field across every record of a series (data/<series>/f/<path>.json). */
+/** One comparable field across every record of a series (getFieldValues, lib/db/reference.ts). */
 export type FieldValues = { path: string; values: Record<string, unknown> };
-
-export type SiteManifest = {
-  dcsVersion: string;
-  extractedAt: string;
-  series: Array<{ id: string; count: number; fields: number }>;
-};

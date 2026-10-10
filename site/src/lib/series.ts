@@ -290,16 +290,8 @@ export const SERIES: SeriesInfo[] = [
 
 export const SERIES_BY_ID: ReadonlyMap<string, SeriesInfo> = new Map(SERIES.map((s) => [s.id, s]));
 
-export const UNIT_SERIES = SERIES.filter((s) => s.unit).map((s) => s.id);
-
 /** Series that get their own browse page (companions render inside their parent). */
 export const BROWSABLE_SERIES = SERIES.filter((s) => !s.parent);
-
-export function seriesInfo(id: string): SeriesInfo {
-  const info = SERIES_BY_ID.get(id);
-  if (!info) throw new Error(`Unknown series: ${id}`);
-  return info;
-}
 
 /** Ids of the series a schema `ref` names (`Entity.Store`, or a `A | B` union of unit types). */
 export function seriesForRef(ref: string): string[] {

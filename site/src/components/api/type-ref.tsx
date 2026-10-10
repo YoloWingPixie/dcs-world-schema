@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import type { Token } from "@/lib/api/types";
-import { ApiLink } from "./api-link";
+import { RefLink } from "../ref-link";
 import { signatureParams, splitReturn, splitSignature, tokenText, WRAP_AT } from "./signature";
 
 export type Links = Record<string, string>;
@@ -23,14 +23,14 @@ export function Tokens({
         if (typeof t === "string") return <Fragment key={key}>{t}</Fragment>;
         const href = links[t.r];
         return href ? (
-          <ApiLink
+          <RefLink
             key={key}
             href={href}
             className="api-type"
             tabIndex={unfocusable ? -1 : undefined}
           >
             {t.r}
-          </ApiLink>
+          </RefLink>
         ) : (
           <span key={key} className="api-type api-type-unresolved">
             {t.r}
@@ -217,9 +217,9 @@ export function RichText({ text, links }: { text: string; links: Links }) {
           const inner = part.slice(1, -1);
           const href = links[inner];
           return href ? (
-            <ApiLink key={key} href={href} className="api-code-link">
+            <RefLink key={key} href={href} className="api-code-link">
               <code>{inner}</code>
-            </ApiLink>
+            </RefLink>
           ) : (
             <code key={key}>{inner}</code>
           );
