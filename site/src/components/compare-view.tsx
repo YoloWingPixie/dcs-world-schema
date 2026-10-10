@@ -1,5 +1,6 @@
 "use client";
 
+import { useSearchParams } from "next/navigation";
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
 import { catalogKeyFor, companionLabel, comparableValues, entryFor } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
@@ -13,6 +14,7 @@ import {
 } from "@/lib/client-data";
 import {
   addRecords,
+  adoptCompareAddress,
   type CompareState,
   compareQuery,
   getCompare,
@@ -78,8 +80,9 @@ function sectionOf(catalog: SeriesCatalog, key: string): { id: string; label: st
 }
 
 export function CompareView() {
-  // The store has already read a comparison the address names (lib/compare-store.ts);
-  // from here on the store's state is written to the address.
+  // A comparison the address names replaces the stored one before the store is read
+  // (lib/compare-store.ts); from here on the store's state is written to the address.
+  adoptCompareAddress(useSearchParams().toString());
   const state = useCompareOnClient();
   useEffect(() => {
     if (state) replaceQuery(compareQuery(state));
