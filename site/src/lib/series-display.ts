@@ -5,6 +5,8 @@
  * refine. Record names and the meta line under them come from the database's `search` table.
  */
 
+import display from "./series-display.json";
+
 export type SeriesDisplay = {
   /**
    * Headline values on the record page (up to four): paths, `#path` for an array's count;
@@ -30,78 +32,14 @@ export type GroupBy = {
   columns?: string[];
 };
 
-export const SERIES_DISPLAY: Record<string, SeriesDisplay> = {
-  aircraft: {
-    readouts: [
-      "aero.maxTakeoffKg",
-      "performance.machMax",
-      "performance.hMaxM",
-      "performance.rangeKm",
-    ],
-    columns: ["kind", "defaultTask.name", "aero.maxTakeoffKg", "performance.machMax", "flyable"],
-    facets: ["kind", "flyable", "defaultTask.name", "countryOfOrigin", "attributes"],
-  },
-  ground_vehicles: {
-    readouts: ["mobility.maxSpeedKmh", "detection.detectionRangeMax", "detection.threatRangeM"],
-    facets: ["attributes"],
-  },
-  ships: { readouts: ["mobility.maxSpeedKmh", "detection.rcsM2"], facets: ["attributes"] },
-  structures: { facets: ["attributes"] },
-  personnel: { facets: ["attributes"] },
-  weapons: {
-    readouts: ["massKg", "rangeKm", "flight.machMax", "flight.autopilot.gLoadLimit"],
-    columns: ["subcategoryName", "seekerTypeName", "massKg", "rangeKm", "flight.machMax"],
-    facets: ["categoryName", "subcategoryName", "seekerTypeName"],
-  },
-  stores: {
-    readouts: ["aero.massKg", "aero.dragIndex"],
-    columns: ["kind", "categoryName", "aero.massKg", "aero.dragIndex", "rack"],
-    facets: ["kind", "categoryName"],
-  },
-  sensors: {
-    readouts: ["detectionRangeKm"],
-    facets: ["kind", "categoryName"],
-  },
-  gun_ammo: {
-    readouts: ["caliberMm", "v0Ms", "massKg", "explosiveKg"],
-    columns: ["caliberMm", "type", "v0Ms", "massKg", "explosiveKg"],
-  },
-  warheads: { readouts: ["massKg", "explosiveMassKg"] },
-  radios: {
-    readouts: ["segments", "stepKHz", "presets", "guard"],
-  },
-  airbases: {
-    readouts: ["longestRunwayM", "referencePoint.elevationM", "#runways", "#stands"],
-    columns: ["theatre", "categoryName", "longestRunwayM"],
-    facets: ["theatre", "categoryName"],
-  },
-  beacons: {
-    columns: ["typeName", "theatre", "callsign", "frequencyHz", "channel"],
-    facets: ["typeName", "theatre"],
-  },
-  navaids: {
-    facets: ["type", "theatre"],
-  },
-  liveries: {
-    columns: ["entryPoint", "module"],
-    // The unit type a livery's folder is the entry point of; folders no unit uses
-    // (asset-pack props, weapon models) group by the folder name.
-    groupBy: {
-      path: "unitTypes",
-      fallback: "entryPoint",
-      label: "airframe",
-      columns: ["module"],
-    },
-  },
-  callsigns: { facets: ["numeric"] },
-  countries: {
-    columns: ["shortName", "idName", "internationalName"],
-  },
-  actions: { facets: ["kind"] },
-  threats: {
-    facets: ["kind"],
-  },
-};
+/**
+ * The entries, in series-display.json: tools/package/sqlite.py reads the same file to
+ * precompute every configured browse column, facet and group into the series views, so
+ * browse loads only the columns a reader picks. Liveries group by the unit type their
+ * folder is the entry point of; folders no unit uses (asset-pack props, weapon models)
+ * group by the folder name.
+ */
+export const SERIES_DISPLAY = display as Record<string, SeriesDisplay>;
 
 export function displayFor(series: string): SeriesDisplay {
   return SERIES_DISPLAY[series] ?? {};

@@ -7,7 +7,7 @@
  */
 import { COMPANION_PREFIX, entryFor } from "./catalog";
 import { OVERLAYS_URL } from "./db/boot";
-import { browserQuery, transientQuery } from "./db/browser";
+import { browserQuery, modelTables, transientQuery } from "./db/browser";
 import {
   catalogFor,
   fieldPaths,
@@ -15,12 +15,11 @@ import {
   getBeaconRows,
   getFieldValues,
   getGroupTargets,
-  getMeta,
   getRecord,
   getSeriesIndex,
   keyedFieldPaths,
-  loadModel as loadModelFrom,
   type Model,
+  modelFrom,
   namesOf,
   referencedByGroup,
 } from "./db/reference";
@@ -47,15 +46,16 @@ export type OverlayFile = {
 };
 
 /*
- * Model and series-wide reads go through `browserQuery`, which keeps each statement's rows
+ * Series-wide reads go through `browserQuery`, which keeps each statement's rows
  * for the page's lifetime. Reads whose callers keep the parsed result themselves (a record,
  * names, beacons, one referenced-by group) use the bounded `transientQuery`.
  */
 
-export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
+/** The model, from its static file (no database read). */
+export const loadModel = () => once("model", () => modelTables().then(modelFrom));
 
-/** The database's meta alone (the footer's revision): the model's first statement, shared with it. */
-export const loadMeta = () => once("meta", () => getMeta(browserQuery));
+/** The database's meta (the footer's revision). */
+export const loadMeta = () => loadModel().then((m) => m.meta);
 
 type ModelState = { model: Model | null; failed: boolean };
 

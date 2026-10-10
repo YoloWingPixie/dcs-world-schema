@@ -1,153 +1,91 @@
 "use client";
 
-import type MiniSearch from "minisearch";
 import { useEffect, useMemo, useState } from "react";
-import { BASE_PATH } from "../base-path";
+import { loadApiOverlays } from "../api/client";
+import { loadModel, loadOverlays } from "../client-data";
+import { nameIndexFile } from "../db/browser";
+import { once, settled } from "../once";
 import type * as Engine from "./engine";
-import { mergeHits } from "./merge";
-import { SEARCH_PROVIDERS, SEARCH_SOURCES } from "./sources";
-import type { SearchGroup, SearchSource, SourceHits, StoredDoc } from "./types";
+import type { SourceHits } from "./types";
 
-const indexes = new Map<string, MiniSearch<StoredDoc>>();
-const pending = new Map<string, Promise<MiniSearch<StoredDoc>>>();
-const listeners = new Set<() => void>();
-const failed = new Set<string>();
+export { MIN_QUERY } from "./types";
 
-// MiniSearch loads with the first index, not with the page.
-let engine: typeof Engine | null = null;
-const loadEngine = () =>
-  import("./engine").then((m) => {
-    engine = m;
-    return m;
-  });
+type Loaded = { engine: typeof Engine; index: Engine.NameIndex };
 
-/** Fetch and deserialise one source's prebuilt index (once per page view). */
-export function loadSource(source: SearchSource): Promise<MiniSearch<StoredDoc>> {
-  const ready = indexes.get(source.id);
-  if (ready) return Promise.resolve(ready);
-  let promise = pending.get(source.id);
-  if (!promise) {
-    promise = Promise.all([
-      fetch(`${BASE_PATH}${source.indexUrl}`).then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.text();
-      }),
-      loadEngine(),
-    ])
-      .then(([json, e]) => {
-        const index = e.deserializeIndex(json, source.options);
-        indexes.set(source.id, index);
-        failed.delete(source.id);
-        return index;
-      })
-      .catch((error: unknown) => {
-        pending.delete(source.id);
-        failed.add(source.id);
-        throw error;
-      })
-      .finally(() => {
-        for (const l of listeners) l();
-      });
-    pending.set(source.id, promise);
-  }
-  return promise;
-}
+const INDEX = "search-index";
 
-/** Start loading every source, most important first (idempotent). */
-export function warmSearch(sources: SearchSource[] = SEARCH_SOURCES) {
-  const ordered = [...sources].sort((a, b) => (a.priority ?? 100) - (b.priority ?? 100));
-  for (const s of ordered) loadSource(s).catch(() => {});
-  for (const p of SEARCH_PROVIDERS) p.warm?.();
-}
-
-/** Shorter queries match thousands of rows: too slow over HTTP, too broad to read. */
-export const MIN_QUERY = 3;
-/** Typing pause before a query runs: the worker runs one statement at a time. */
-const DEBOUNCE_MS = 200;
-
-/** Provider results of the latest query (older answers are dropped). */
-function useProviderResults(query: string, enabled: boolean, limit: number) {
-  const [state, setState] = useState<{ query: string; groups: SourceHits[]; pending: boolean }>({
-    query: "",
-    groups: [],
-    pending: false,
-  });
-  useEffect(() => {
-    const q = query.trim();
-    if (!enabled || q.length < MIN_QUERY) {
-      // The same object when nothing changed, so React skips the render.
-      setState((s) =>
-        s.query === q && !s.groups.length && !s.pending
-          ? s
-          : { query: q, groups: [], pending: false },
-      );
-      return;
+/**
+ * The search index: the name index file, MiniSearch (its own chunk) and the overlays'
+ * aliases and API notes, indexed once per page.
+ */
+export const loadSearch = () =>
+  once(INDEX, async (): Promise<Loaded> => {
+    const [file, engine, model, overlays, api] = await Promise.all([
+      nameIndexFile(),
+      import("./engine"),
+      loadModel(),
+      loadOverlays(),
+      loadApiOverlays(),
+    ]);
+    const aliases = new Map<string, string[]>();
+    for (const [series, o] of Object.entries(overlays.series)) {
+      // A companion's overlay (weapon_flight) names its parent's record.
+      const owner = model.byId.get(series)?.parent ?? series;
+      for (const [id, overlay] of Object.entries(o.records)) {
+        if (!overlay.aliases?.length) continue;
+        const key = engine.recordKey(owner, id);
+        aliases.set(key, [...(aliases.get(key) ?? []), ...overlay.aliases]);
+      }
     }
-    let live = true;
-    setState((s) => (s.pending ? s : { ...s, pending: true }));
-    const timer = window.setTimeout(() => {
-      Promise.all(SEARCH_PROVIDERS.map((p) => p.search(q, limit).catch(() => [])))
-        .then((lists) => {
-          if (live) setState({ query: q, groups: lists.flat(), pending: false });
-        })
-        .catch(() => live && setState({ query: q, groups: [], pending: false }));
-    }, DEBOUNCE_MS);
-    return () => {
-      live = false;
-      window.clearTimeout(timer);
-    };
-  }, [query, enabled, limit]);
-  return state;
+    const notes = new Map<string, string>();
+    for (const [symbol, o] of Object.entries(api.symbols)) {
+      notes.set(symbol, `${o.text ?? ""} ${o.summary ?? ""} ${o.description ?? ""}`);
+    }
+    return { engine, index: await engine.buildNameIndex(file, model, { aliases, notes }) };
+  });
+
+/** Start loading the index (idempotent): the palette opening, the search box in focus. */
+export function warmSearch() {
+  loadSearch().catch(() => {});
 }
 
 export type GlobalResults = {
   groups: SourceHits[];
-  /** Sources still loading. */
-  loading: SearchGroup[];
-  failed: SearchGroup[];
-  ready: boolean;
+  /** The index is still loading. */
+  loading: boolean;
+  /** The index failed to load. */
+  failed: boolean;
 };
 
 /**
- * Results of `query` across every loaded source, re-run as more indexes arrive.
- * `only` restricts to some source ids. Loading starts when `enabled` turns true.
+ * Results of `query`, `limit` per group, from the in-memory index; loading starts when
+ * `enabled` turns true. Each keystroke searches at once: no round trip, no debounce.
  */
 export function useGlobalSearch(
   query: string,
-  { enabled = true, only, limit = 8 }: { enabled?: boolean; only?: string[]; limit?: number } = {},
+  { enabled = true, limit = 8 }: { enabled?: boolean; limit?: number } = {},
 ): GlobalResults {
-  const [version, setVersion] = useState(0);
+  const [loaded, setLoaded] = useState<Loaded | null>(() => settled<Loaded>(INDEX) ?? null);
+  const [failed, setFailed] = useState(false);
   useEffect(() => {
-    const listener = () => setVersion((v) => v + 1);
-    listeners.add(listener);
+    if (!enabled || loaded) return;
+    let live = true;
+    setFailed(false);
+    loadSearch().then(
+      (l) => live && setLoaded(l),
+      () => live && setFailed(true),
+    );
     return () => {
-      listeners.delete(listener);
+      live = false;
     };
-  }, []);
-  useEffect(() => {
-    if (enabled) warmSearch();
-  }, [enabled]);
+  }, [enabled, loaded]);
 
-  const provided = useProviderResults(query, enabled, limit);
-  const onlyKey = only?.join(",") ?? "";
-  // biome-ignore lint/correctness/useExhaustiveDependencies: version re-runs as indexes load
-  return useMemo(() => {
-    const wanted = onlyKey ? new Set(onlyKey.split(",")) : null;
-    const sources = SEARCH_SOURCES.filter((s) => !wanted || wanted.has(s.id));
-    const groups: SourceHits[] = [];
-    for (const source of sources) {
-      const index = indexes.get(source.id);
-      if (!index || !engine || !query.trim()) continue;
-      groups.push({ source, results: engine.searchIndex(index, source, query, limit) });
-    }
-    const fromProviders = provided.groups.filter((g) => !wanted || wanted.has(g.source.id));
-    const loading = sources.filter((s) => !indexes.has(s.id) && !failed.has(s.id));
-    return {
-      groups: mergeHits([...groups, ...fromProviders]),
-      loading: provided.pending ? [...loading, { id: "reference", label: "Reference" }] : loading,
-      failed: sources.filter((s) => failed.has(s.id)),
-      ready:
-        sources.some((s) => indexes.has(s.id)) || provided.groups.length > 0 || !provided.pending,
-    };
-  }, [query, onlyKey, limit, version, provided]);
+  return useMemo(
+    () => ({
+      groups: loaded ? loaded.engine.searchNames(loaded.index, query, limit) : [],
+      loading: enabled && !loaded && !failed,
+      failed,
+    }),
+    [loaded, failed, enabled, query, limit],
+  );
 }

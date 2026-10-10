@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reference site in `site/`: search, record pages, compare and the Lua API, read live from the SQLite in the browser.
 
 ### Changed
+- SQLite: `record_views.view` and `series_views.view` are BLOBs of raw-deflate compressed JSON (`zlib.decompress(view, -15)`), no longer TEXT. Record views gain `scripting` (the record's Lua class, member and enum rows); series views gain `fields` (the reference site's default browse paths beyond the scalar columns) and `groups` (each row's group-by target). These views are new since 0.5.0, so no released consumer reads them; code written against the unreleased TEXT views must inflate them.
 - Breaking: `weapon_flight.launchTables` is replaced by `launchEnvelopes`: maximum and minimum launch range (m) and aspect (deg) by launch altitude (m) and true airspeed (m/s).
 - Breaking: angle fields whose unit was not stated now carry it in their name (values unchanged):
   - `ground_vehicles`, `ships` `weaponSystems[]`: `reloadAngleY` → `reloadAngleYRad`, `reloadAngleZ` → `reloadAngleZRad`, `minLaunchAngle` → `minLaunchAngleRad`, `inclinationCorrectionBias` → `inclinationCorrectionBiasRad`, `inclinationCorrectionUpperLimit` → `inclinationCorrectionUpperLimitRad`.

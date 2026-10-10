@@ -9,7 +9,6 @@ import {
   loadModel,
   type Model,
   referencedByGroup,
-  searchReference,
   storageOf,
 } from "../../src/lib/db/reference";
 import { refName } from "../../src/lib/format-field";
@@ -117,7 +116,7 @@ describe("records", () => {
   });
 });
 
-describe("browse, compare and search", () => {
+describe("browse and compare", () => {
   it("browses a series from its scalar columns with facets", async () => {
     const index = await getSeriesIndex(q, model, "stores");
     expect(index.count).toBe(model.byId.get("stores")?.count);
@@ -188,12 +187,25 @@ describe("browse, compare and search", () => {
     expect(values["F-16C_50"]).toEqual(doc?.data.attributes);
   });
 
-  it("searches across series with FTS5", async () => {
-    const hits = await searchReference(q, "aim120c");
-    expect(hits.some((h) => h.series === "weapons" && h.id === "AIM_120C")).toBe(true);
-    const batumi = await searchReference(q, "batumi");
-    expect(batumi[0]).toMatchObject({ series: "airbases", name: "Batumi" });
-    expect(await searchReference(q, "  ")).toEqual([]);
+  it("carries the configured paths outside its columns, as one field's read gives them", async () => {
+    for (const [series, paths] of [
+      ["aircraft", ["aero.maxTakeoffKg", "attributes", "defaultTask.name", "performance.machMax"]],
+      ["weapons", ["flight.machMax"]],
+      ["stores", ["aero.dragIndex", "aero.massKg"]],
+    ] as const) {
+      const index = await getSeriesIndex(q, model, series);
+      expect(Object.keys(index.fields).sort()).toEqual([...paths]);
+      for (const path of paths) {
+        expect(index.fields[path]?.values, `${series} ${path}`).toEqual(
+          await getFieldValues(q, model, series, path),
+        );
+      }
+    }
+    const aircraft = await getSeriesIndex(q, model, "aircraft");
+    const attributes = aircraft.fields.attributes;
+    const ids = attributes?.values["F-16C_50"] as string[];
+    expect(ids).toEqual((await getRecord(q, model, "aircraft", "F-16C_50"))?.data.attributes);
+    for (const id of ids) expect(attributes?.links.attributes?.[id], id).toBeTruthy();
   });
 });
 

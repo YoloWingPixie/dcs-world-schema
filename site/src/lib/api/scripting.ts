@@ -3,10 +3,12 @@
  * gets for its records, the member whose value names a record, and the enum pages that
  * list the records (each such page's `valuesSeries` is the series: tests/api checks it).
  *
- * Record pages render these lazily (record-scripting.ts) and keep only what the API data
- * confirms: an enum row only when the enum lists the record, a member only when it exists.
- * API pages read the same table backwards to link a class or an enum to the data.
+ * The SQLite package builds each record's Scripting rows from these (tools/package/
+ * site_views.py) and keeps only what the API data confirms: an enum row only when the enum
+ * lists the record, a member only when it exists. Record pages render the rows with the
+ * record; API pages read the same table backwards to link a class or an enum to the data.
  */
+import spec from "./scripting.json";
 
 /** A numeric field whose value is a member of a small API enum. */
 export type EnumField = {
@@ -38,77 +40,11 @@ export type Scripting = {
   values?: EnumField[];
 };
 
-export const SCRIPTING: Record<string, Scripting> = {
-  aircraft: {
-    class: "Unit",
-    member: "Unit.getTypeName",
-    enums: ["DcsId.AircraftType", "DcsId.HelicopterType"],
-    attributes: true,
-  },
-  ground_vehicles: {
-    class: "Unit",
-    member: "Unit.getTypeName",
-    enums: ["DcsId.GroundUnitType"],
-    attributes: true,
-  },
-  ships: {
-    class: "Unit",
-    member: "Unit.getTypeName",
-    enums: ["DcsId.ShipType"],
-    attributes: true,
-  },
-  structures: {
-    class: "StaticObject",
-    member: "Object.getTypeName",
-    enums: ["DcsId.StructureType"],
-    attributes: true,
-  },
-  personnel: {
-    class: "StaticObject",
-    member: "Object.getTypeName",
-    enums: ["DcsId.PersonnelType"],
-    attributes: true,
-  },
-  weapons: { class: "Weapon", member: "Weapon.getTypeName", enums: ["DcsId.WeaponType"] },
-  airbases: {
-    class: "Airbase",
-    enums: ["DcsId.Theatre.{theatre}.AirbaseName", "DcsId.Theatre.{theatre}.AirdromeId"],
-    fields: [
-      { path: "name", member: "Airbase.getName" },
-      { path: "airdromeId", member: "Airbase.getID" },
-    ],
-    values: [
-      {
-        path: "category",
-        label: "Category",
-        name: "categoryName",
-        enums: ["Airbase.Category"],
-        facet: "categoryName",
-      },
-    ],
-  },
-  attributes: { member: "Object.hasAttribute", memberRole: "takes", enums: ["DcsId.Attribute"] },
-  sensors: {
-    enums: ["DcsId.SensorName"],
-    values: [
-      {
-        path: "category",
-        label: "Category",
-        name: "categoryName",
-        enums: ["Unit.SensorType"],
-        facet: "categoryName",
-      },
-      {
-        path: "type",
-        label: "Type",
-        name: "typeName",
-        enums: ["Unit.RadarType", "Unit.OpticType"],
-      },
-    ],
-  },
-  skills: { enums: ["DcsId.Skill"] },
-  formations: { enums: ["DcsId.FormationId"] },
-};
+/**
+ * The entries, in scripting.json: tools/package/sqlite.py reads the same file to build each
+ * record's Scripting rows into its record view.
+ */
+export const SCRIPTING = spec as Record<string, Scripting>;
 
 /** Whether a DCS constant name (`SENSOR_OPTICAL`, `RADAR_AS`) names an enum key (`OPTIC`, `AS`). */
 export function namesKey(constant: string, key: string): boolean {

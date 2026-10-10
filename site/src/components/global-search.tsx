@@ -32,8 +32,8 @@ type Props = {
 type Row = SearchResultItem & { source: string; sourceLabel: string };
 
 /**
- * The global search: every registered provider (lib/search/sources.ts), grouped by source,
- * with source filter chips and arrow-key navigation across groups.
+ * The global search (lib/search): reference records grouped by series and the Lua API,
+ * with filter chips per group and arrow-key navigation across groups.
  */
 export function GlobalSearch({
   autoFocus,
@@ -227,24 +227,13 @@ export function GlobalSearch({
               </div>
             ))}
           </div>
-          {q && results.loading.length && !results.ready ? (
-            <div className="results-empty">Loading…</div>
-          ) : null}
+          {q && results.loading ? <div className="results-empty">Loading…</div> : null}
           {q && q.length < MIN_QUERY && rows.length === 0 ? (
             <div className="results-empty">Type {MIN_QUERY} characters or more.</div>
-          ) : q && results.ready && rows.length === 0 && results.loading.length === 0 ? (
+          ) : q && !results.loading && !results.failed && rows.length === 0 ? (
             <div className="results-empty">No results for “{query}”.</div>
           ) : null}
-          {q && results.loading.length > 0 && results.ready ? (
-            <div className="results-loading" aria-live="polite">
-              Loading…
-            </div>
-          ) : null}
-          {results.failed.length ? (
-            <div className="results-empty">
-              Failed to load: {results.failed.map((s) => s.label).join(", ")}.
-            </div>
-          ) : null}
+          {results.failed ? <div className="results-empty">Search failed to load.</div> : null}
           {q && variant !== "page" ? (
             <div className="results-all">
               <Link href={`/search/?q=${encodeURIComponent(q)}`} onClick={() => onEscape?.()}>

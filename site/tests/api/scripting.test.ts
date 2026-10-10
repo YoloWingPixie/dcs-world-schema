@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { apiContents, apiPageCounts } from "../../src/lib/api/contents";
 import { getApiPage, listApiPages } from "../../src/lib/api/db";
-import { loadScripting } from "../../src/lib/api/record-scripting";
 import { enumField, namesKey, SCRIPTING, seriesOfClass } from "../../src/lib/api/scripting";
 import type { Token } from "../../src/lib/api/types";
 import { getRecord, loadModel } from "../../src/lib/db/reference";
@@ -76,11 +75,10 @@ describe("the data and the API", () => {
     expect(enumField("Weapon.Category")).toBeNull();
   });
 
-  it("builds a record's Scripting rows from the API data", async () => {
+  it("reads a record's Scripting rows, built with its view from the API data", async () => {
     const model = await loadModel(q);
     const f16 = await getRecord(q, model, "aircraft", "F-16C_50");
-    if (!f16) throw new Error("no F-16C_50");
-    const rows = await loadScripting(q, "aircraft", f16.id, f16.data);
+    const rows = f16?.scripting ?? [];
     expect(rows.map((r) => r.id)).toEqual([
       "class",
       "member",
@@ -94,13 +92,21 @@ describe("the data and the API", () => {
     expect(rows[2]?.value.href).toBe("/api/types/DcsId/AircraftType/#v-F-16CM%2520bl.50");
 
     const batumi = await getRecord(q, model, "airbases", "Caucasus.22");
-    if (!batumi) throw new Error("no Caucasus.22");
-    const ab = await loadScripting(q, "airbases", batumi.id, batumi.data);
+    const ab = batumi?.scripting ?? [];
     expect(ab.find((r) => r.id === "field-airdromeId")?.value.text).toBe("22");
     expect(ab.find((r) => r.id === "value-category")?.value.text).toBe("Airbase.Category.AIRDROME");
     expect(ab.map((r) => r.id)).toContain("enum-DcsId.Theatre.Caucasus.AirdromeId");
 
-    // A record no enum lists keeps only what the API confirms.
-    expect(await loadScripting(q, "aircraft", "no-such-type", {})).toEqual(rows.slice(0, 1));
+    // Every href a row links to is an API page the database holds.
+    for (const row of [...rows, ...ab]) {
+      for (const href of [row.label.href, row.value.href]) {
+        if (!href) continue;
+        const [path] = href.split("#") as [string];
+        const parts = path.split("/").filter(Boolean).slice(1).map(decodeURIComponent);
+        const section = parts[0] === "types" ? "types" : "mission";
+        const name = (section === "types" ? parts.slice(1) : parts).join(".");
+        expect(await getApiPage(q, section, name), href).toBeTruthy();
+      }
+    }
   });
 });
