@@ -1,6 +1,7 @@
 "use client";
 
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { nameIndexFile } from "@/lib/db/browser";
 import { focusLater } from "./use-modal-dialog";
 
 // The dialog and the search engine behind it load on first open.
@@ -10,6 +11,13 @@ const OPEN_EVENT = "dcs-ref:open-palette";
 
 export function openPalette() {
   window.dispatchEvent(new Event(OPEN_EVENT));
+}
+
+/** Fetch the palette's code and the search rows ahead of a likely open (the search button). */
+export function warmPalette() {
+  import("./palette-body").catch(() => {});
+  import("@/lib/search/engine").catch(() => {});
+  nameIndexFile().catch(() => {});
 }
 
 function isTyping(target: EventTarget | null) {

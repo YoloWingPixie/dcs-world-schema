@@ -40,16 +40,20 @@ the database also describes itself and indexes what such a client queries:
   rows of ``series = 'api'`` (``id`` the site path), from the merged API
   schema and the per-environment schemas (``task merge:json build:envs``);
 * ``record_views``: one row per record (``series``, ``id``, ``view``), the
-  whole record page as compact JSON : the record, its
+  whole record page as compact JSON: the record, its
   companion's record (``weapon_flight`` on a weapon), display names of every
-  record it references and the records referencing it (at most ``REF_CAP``
-  per group, with the full count); ``series_views``: one row per browsable
-  series, its browse table. Rows are stored in key order, so a page is one
-  index lookup and one contiguous read;
+  record it references, the records referencing it (at most ``REF_CAP``
+  per group, with the full count) and its Lua scripting rows;
+  ``series_views``: one row per browsable series, its browse table with the
+  columns, facets and groups the site shows by default
+  (``tools.package.site_views``). Each ``view`` is a BLOB: the UTF-8 JSON,
+  raw-deflate compressed (``zlib.decompress(view, -15)``). Rows are stored in
+  key order, so a page is one index lookup and one contiguous read;
 * an index on every scalar ref column and one covering each series' scalar
   columns (browse tables read it instead of whole rows);
-* the pages a client reads first (``BOOT_GROUPS``) moved
-  together near the start (``tools.package.page_order``);
+* the pages a client reads first (``BOOT_GROUPS``: the upper levels of the
+  per-page views and of the API docs) moved together near the start
+  (``tools.package.page_order``);
 * pages of ``PAGE_SIZE`` bytes, small enough that one range request fetches
   little beyond what a lookup needs.
 
@@ -80,7 +84,7 @@ from tools.datamine.common import (
     fail,
     load_json,
 )
-from tools.package import page_order
+from tools.package import page_order, site_views
 from tools.package.api_docs import ApiRows, build_rows
 from tools.package.bundles import BUNDLE_DIR
 
@@ -93,27 +97,18 @@ API_ENVS = ("hooks", "export", "server")  # env schemas besides the mission one
 SQL_TYPES = {"string": "TEXT", "number": "NUMERIC", "integer": "INTEGER"}
 # Pages a client reads first, laid out together in this order
 # (tools.package.page_order; site/scripts/split-sqlite.ts lists the same):
-# ``(whole tables, tables or indexes whose interior pages)`` for every page,
-# then for search, then for the API docs.
+# ``(whole tables, tables or indexes whose interior pages)`` for every page (the
+# per-page views: the site reads its model and search names from static files,
+# not from ``meta``, ``series``, ``ref_paths``, ``schema_types`` or the search
+# index), then for the API docs. Page 1 and ``sqlite_schema`` always lead.
 BOOT_GROUPS: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = (
     (
-        ("meta", "series", "ref_paths", "schema_types"),
+        (),
         (
             "record_views",
             "sqlite_autoindex_record_views_1",
             "series_views",
             "sqlite_autoindex_series_views_1",
-        ),
-    ),
-    (
-        ("search_fts_config",),
-        (
-            "search",
-            "sqlite_autoindex_search_1",
-            "search__names",
-            "search_fts_data",
-            "search_fts_idx",
-            "search_fts_docsize",
         ),
     ),
     (
@@ -306,16 +301,40 @@ def _strip_nulls(record: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in record.items() if v is not None}
 
 
+def _schema_has(document: dict[str, Any], type_name: str, path: str) -> bool:
+    """Whether a dotted path names a field of a record type (through refs,
+    nullable unions and records)."""
+    node: dict[str, Any] = {"$ref": f"#/definitions/{type_name}"}
+    for step in path.split("."):
+        node = _deref(document, node)
+        options = [_deref(document, n) for n in node.get("anyOf", [node])]
+        found = [
+            o["properties"][step] for o in options if step in o.get("properties", {})
+        ]
+        if not found:
+            return False
+        node = found[0]
+    return True
+
+
 def views(
     series: dict[str, dict[str, Any]],
     all_rules: list[Rule],
     titles: dict[tuple[str, str], tuple[str, str]],
     scalars: dict[str, list[str]],
+    document: dict[str, Any] | None = None,
+    display: dict[str, dict[str, Any]] | None = None,
+    scripting: dict[str, dict[str, Any]] | None = None,
+    api: site_views.ApiIndex | None = None,
 ) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]]]:
     """``record_views`` rows ``(series, id, view)`` and ``series_views`` rows
-    ``(series, view)``, both as compact JSON in key order.
+    ``(series, view)``, both as compact JSON in key order (``build`` stores
+    them compressed).
 
-    ``titles`` are the ``(name, subtitle)`` of each ``(series, id)``.
+    ``titles`` are the ``(name, subtitle)`` of each ``(series, id)``; ``display``
+    and ``scripting`` the site's specs (``tools.package.site_views``), checked
+    against ``document``; ``api`` the Lua API the Scripting rows are checked
+    against (none: no Scripting rows).
 
     A record view: ``name``, ``subtitle``, ``record`` (null fields dropped),
     ``companion`` (the companion series' record, if any), ``links`` (``{series:
@@ -323,11 +342,19 @@ def views(
     ``referencedBy``: groups ``{series, path, total, records: [[id, name]]}``
     (``path`` of a companion's reference prefixed ``flight.``; ``via`` set on
     unit series reaching the record through a non-unit series' records), at
-    most ``REF_CAP`` records each.
+    most ``REF_CAP`` records each, and ``scripting``: the record's Scripting rows
+    (``site_views.scripting_rows``), when it has any.
 
     A series view: ``columns`` (scalar fields but the key, schema order),
     ``rows`` (``[id, name, *values]``) and ``labels`` (``{column: {id: name}}``
-    of reference columns)."""
+    of reference columns); ``fields``, every other path the site's browse shows
+    by default (``site_views.browse_paths``): ``{path: {values, links}}``,
+    ``values`` one per row (null for none, a list of references only those that
+    resolve), ``links`` (``{series: {id: name}}``) naming the records they
+    reference; ``groups``, for the site's group-by reference: ``{path: {id:
+    [series, id, name]}}``, the first record each row's reference names."""
+    display = display or {}
+    scripting = scripting or {}
     names = {k: v[0] for k, v in titles.items()}
     scalar_refs = {
         (r.series, r.path[0]): r.target for r in all_rules if len(r.path) == 1
@@ -433,7 +460,77 @@ def views(
                 o: dict(sorted(m.items())) for o, m in sorted(links.items())
             }
             view["referencedBy"] = referenced_by(name, k)
+            if api is not None and (
+                script := site_views.scripting_rows(
+                    scripting.get(name), name, k, view["record"], api
+                )
+            ):
+                view["scripting"] = script
             record_rows.append((name, k, json_value(view)))
+
+    rules_at = {(r.series, r.label): r for r in all_rules}
+
+    def path_ref(table: str, rel: str) -> Rule | None:
+        """The reference rule of a path (a list of references: its items')."""
+        return rules_at.get((table, rel)) or rules_at.get((table, f"{rel}[]"))
+
+    def field_view(name: str, path: str) -> dict[str, Any]:
+        """A path's values over a series' records and the names of the records
+        they reference (the site's ``getFieldValues`` and ``loadLinkedField``)."""
+        in_comp, rel = site_views.split_companion(path)
+        comp = companion.get(name) if in_comp else None
+        table = comp or name
+        if document is not None and not _schema_has(
+            document, SERIES[table].type_name, rel
+        ):
+            fail(f"site series display: {name} has no field {path}")
+        rule = path_ref(table, rel)
+        whole_list = rule is not None and rule.label == f"{rel}[]" and "." not in rel
+        values: list[Any] = []
+        links: dict[str, dict[str, str]] = {}
+        for key, record in series[name].items():
+            source = series[comp].get(key) if comp else record
+            value = site_views.value_at(source, rel) if source is not None else None
+            if whole_list and rule is not None:
+                # As the join table holds them: resolved references only.
+                value = [
+                    v
+                    for v in (value if isinstance(value, list) else [])
+                    if v is not None and resolve(rule.target, v)
+                ]
+            if not site_views.present(value):
+                values.append(None)
+                continue
+            values.append(value)
+            if rule is None:
+                continue
+            for v in value if isinstance(value, list) else [value]:
+                if isinstance(v, str | int) and (hit := resolve(rule.target, v)):
+                    links.setdefault(hit[0], {})[str(v)] = hit[1]
+        return {"values": values, "links": links}
+
+    def group_targets(name: str, path: str) -> dict[str, list[str]]:
+        """The first record a reference field names per record id, as
+        ``[series, id, name]`` (the site's ``getGroupTargets``)."""
+        rule = path_ref(name, path)
+        if rule is None or "." in path:
+            return {}
+        out: dict[str, list[str]] = {}
+        for key, record in series[name].items():
+            value = record.get(path)
+            if isinstance(value, list):
+                # Its join table's ordinal 0: the first reference, if it resolves.
+                value = next((v for v in value if v is not None), None)
+            if value is None:
+                continue
+            k = str(value)
+            if rule.target == UNITS:
+                ser = next((u for u in UNIT_SERIES if k in keys[u]), None)
+            else:
+                ser = owner(rule.target) if k in keys[rule.target] else None
+            if ser is not None:
+                out[str(key)] = [ser, k, names.get((ser, k), k)]
+        return out
 
     series_rows: list[tuple[str, str]] = []
     for name in sorted(SERIES):
@@ -458,6 +555,17 @@ def views(
             "rows": rows,
             "labels": {c: dict(sorted(m.items())) for c, m in sorted(labels.items())},
         }
+        shown = display.get(name, {})
+        fields = {
+            p: field_view(name, p)
+            for p in site_views.browse_paths(shown)
+            if p not in columns and p != SERIES[name].id_field
+        }
+        if fields:
+            view["fields"] = fields
+        group = (shown.get("groupBy") or {}).get("path")
+        if group and (grouped := group_targets(name, group)):
+            view["groups"] = {group: grouped}
         series_rows.append((name, json_value(view)))
     return sorted(record_rows), series_rows
 
@@ -733,27 +841,42 @@ def build(
             ]
         )
     record_views, series_views = views(
-        series, all_rules, {(r[0], r[1]): (r[2], r[3]) for r in records_search}, scalars
+        series,
+        all_rules,
+        {(r[0], r[1]): (r[2], r[3]) for r in records_search},
+        scalars,
+        document,
+        site_views.load_display(),
+        site_views.load_scripting(),
+        site_views.ApiIndex(api.symbols) if api else None,
     )
     create(
         "record_views",
         [
             "series TEXT NOT NULL",
             "id TEXT NOT NULL",
-            "view TEXT NOT NULL",
+            "view BLOB NOT NULL",
             "PRIMARY KEY (series, id)",
         ],
-        record_views,
+        [(s, i, site_views.compress(v)) for s, i, v in record_views],
     )
     create(
         "series_views",
-        ["series TEXT PRIMARY KEY", "view TEXT NOT NULL"],
-        series_views,
+        ["series TEXT PRIMARY KEY", "view BLOB NOT NULL"],
+        [(s, site_views.compress(v)) for s, v in series_views],
     )
     docs.extend(
         [
-            ("record_views", "", "Each record page as one JSON document."),
-            ("series_views", "", "Each series' browse table as one JSON document."),
+            (
+                "record_views",
+                "",
+                "Each record page as one JSON document, raw-deflate compressed.",
+            ),
+            (
+                "series_views",
+                "",
+                "Each series' browse table as one JSON document, raw-deflate compressed.",
+            ),
         ]
     )
     create(

@@ -10,11 +10,16 @@
  *   /data/reference.json                              how the database is served:
  *     "full"     one file read with Range requests (local dev, e2e)
  *     "chunked"  parts under a content-hashed path, each fetched whole (Cloudflare Pages)
+ *   /data/db/<hash>/model.<hash>.json                 the model's tables (`model`), read
+ *                                                     without the worker
+ *   /data/db/<hash>/names.<hash>.json                 the search rows (`names`), searched
+ *                                                     in memory (lib/search)
  */
 import { createDbWorker, type WorkerHttpvfs } from "sql.js-httpvfs";
 import { boundedCache, once } from "../once";
-import { CONFIG_URL, prefetchParts, WASM_URL, WORKER_URL } from "./boot";
-import type { Query, Row } from "./reference";
+import type { NameIndexFile } from "../search/engine";
+import { CONFIG_URL, DB_FREE_PATHS, WASM_URL, WORKER_URL } from "./boot";
+import type { ModelTables, Query, Row } from "./reference";
 
 /** /data/reference.json (scripts/split-sqlite.ts). */
 export type ReferenceConfig = {
@@ -26,7 +31,11 @@ export type ReferenceConfig = {
   requestChunkSize: number;
   maxReadSpeed?: number;
   databaseLengthBytes: number;
-  boot?: { core: number[]; search: number[]; api: number[] };
+  boot?: { core: number[]; api: number[] };
+  /** The model's tables (lib/db/reference.ts `ModelTables`), relative to this file. */
+  model: string;
+  /** The search rows (lib/search/engine.ts `NameIndexFile`), relative to this file. */
+  names: string;
   file: string;
   version: string | null;
   sha256: string;
@@ -53,6 +62,35 @@ export function referenceConfig(): Promise<ReferenceConfig> {
     );
   });
 }
+
+/** A static file reference.json names (its URLs are relative to it), parsed. */
+function fetchReferenceFile<T>(url: string): Promise<T> {
+  const full = absolute(url, absolute(CONFIG_URL));
+  return fetch(full).then((res) => {
+    if (!res.ok) throw new Error(`${full}: HTTP ${res.status}`);
+    return res.json() as Promise<T>;
+  });
+}
+
+/**
+ * A static file reference.json names under `key`, once per page; the boot script may have
+ * started it (`window[global]`). A failed early fetch gets one more try.
+ */
+function referenceFile<T>(key: "model" | "names", global: string): Promise<T> {
+  return once(`reference-file:${key}`, () => {
+    const w = window as unknown as Record<string, Promise<T> | undefined>;
+    const early = w[global];
+    w[global] = undefined;
+    const load = () => referenceConfig().then((c) => fetchReferenceFile<T>(c[key]));
+    return early ? early.catch(load) : load();
+  });
+}
+
+/** The model's tables (lib/client-data.ts `loadModel`). */
+export const modelTables = () => referenceFile<ModelTables>("model", "__dcsModel");
+
+/** The search rows (lib/search/client.ts), also fetched ahead of the palette. */
+export const nameIndexFile = () => referenceFile<NameIndexFile>("names", "__dcsNames");
 
 function open(): Promise<WorkerHttpvfs> {
   return once("reference-worker", () =>
@@ -94,19 +132,11 @@ const keyOf = (sql: string, params: unknown[]) => JSON.stringify([sql, params]);
 
 /**
  * Statements run one at a time in the worker; results are cached per statement for the
- * page's lifetime. For stable reads (views, a record, a series' names); per-keystroke
- * statements go through `searchQuery` or `transientQuery`, whose caches are bounded.
+ * page's lifetime. For stable reads (views, a record, a series' names); statements that
+ * change with the input go through `transientQuery`, whose cache is bounded.
  */
 export const browserQuery: Query = (sql, params = []) =>
   once(`sql:${keyOf(sql, params)}`, () => run(sql, params));
-
-/** A superseded search, dropped before it reached the worker. */
-export class StaleQueryError extends Error {
-  constructor() {
-    super("Superseded by a newer search");
-    this.name = "StaleQueryError";
-  }
-}
 
 /** The last `size` statements' results (in-flight ones included); failures are not kept. */
 function boundedQuery(size: number, load: Query): Query {
@@ -114,31 +144,8 @@ function boundedQuery(size: number, load: Query): Query {
   return (sql, params = []) => cached(keyOf(sql, params));
 }
 
-/** Parameterised lookups that change with the input (alias rows, symbol paths). */
+/** Parameterised lookups that change with the input (names, symbol paths). */
 export const transientQuery: Query = boundedQuery(32, run);
-
-// Full-text searches wait for the one before them; one superseded while it waits is
-// dropped, so a slow short query never queues a stale one ahead of the newest.
-let latestSearch = 0;
-let searchTail: Promise<unknown> = Promise.resolve();
-
-/** FTS searches: bounded cache, newest first (identical statements share one run). */
-export const searchQuery: Query = boundedQuery(16, (sql, params = []) => {
-  const ticket = ++latestSearch;
-  const result = searchTail.then(() => {
-    if (ticket !== latestSearch) throw new StaleQueryError();
-    return run(sql, params);
-  });
-  searchTail = result.catch(() => undefined);
-  return result;
-});
-
-/** Fetch the search index's database parts (`boot.search`), as /search does at startup. */
-export function prefetchSearchParts(): Promise<void> {
-  return once("prefetch:search", () =>
-    referenceConfig().then((c) => prefetchParts(c, absolute(CONFIG_URL), c.boot?.search ?? [])),
-  );
-}
 
 /** Bytes and requests so far (diagnostics, e2e measurements). */
 export async function databaseStats() {
@@ -146,8 +153,33 @@ export async function databaseStats() {
   return w.worker.getStats();
 }
 
+/** Start the worker and fetch the startup parts (chunked), which the boot script skipped. */
+function warmDatabase() {
+  open().catch(() => undefined);
+  referenceConfig()
+    .then((c) => {
+      if (c.serverMode !== "chunked" || !c.urlPrefix) return;
+      for (const i of c.boot?.core ?? []) {
+        const part = c.urlPrefix + String(i).padStart(c.suffixLength ?? 5, "0");
+        fetch(absolute(part, absolute(CONFIG_URL)), { priority: "low" }).catch(() => {});
+      }
+    })
+    .catch(() => undefined);
+}
+
 if (typeof window !== "undefined") {
   Object.assign(window, { __dcsRefStats: databaseStats, __dcsRefQuery: browserQuery });
-  // Start the worker (and its wasm) as soon as this code runs, not on the first query.
-  open().catch(() => undefined);
+  if (!new RegExp(DB_FREE_PATHS).test(window.location.pathname)) {
+    // Start the worker (and its wasm) as soon as this code runs, not on the first query.
+    open().catch(() => undefined);
+  } else {
+    // A page without database reads warms it once loaded and idle, for the next page; a
+    // query before then (a client-side navigation) starts the worker itself.
+    const idle = () =>
+      typeof window.requestIdleCallback === "function"
+        ? window.requestIdleCallback(warmDatabase, { timeout: 2000 })
+        : setTimeout(warmDatabase, 500);
+    if (document.readyState === "complete") idle();
+    else window.addEventListener("load", idle, { once: true });
+  }
 }

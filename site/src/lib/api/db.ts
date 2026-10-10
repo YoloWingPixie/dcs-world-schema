@@ -3,8 +3,7 @@
  * and the `search` rows of series `api`; see tools/package/api_docs.py), with any `Query`:
  * the browser's range-request worker or node:sqlite in tests.
  */
-import { type Query, searchTop } from "../db/reference";
-import { squash } from "../text";
+import type { Query } from "../db/reference";
 import { apiHref } from "./routes";
 import type { ApiOverlay, ApiOverlayFile, ApiPage, ApiSection, Member, PageSummary } from "./types";
 
@@ -147,20 +146,4 @@ export async function overlayLinks(q: Query, page: ApiPage): Promise<Map<string,
     ...page.groups.flatMap((g) => g.members.flatMap((m) => m.overlay?.seeAlso ?? [])),
   ];
   return resolveSymbols(q, all);
-}
-
-export type ApiSearchHit = { href: string; path: string; subtitle: string; score: number };
-
-/** FTS over the `search` rows of the API (one MATCH with the reference rows, `searchTop`). */
-export async function searchApi(q: Query, query: string, limit = 40): Promise<ApiSearchHit[]> {
-  const rows = (await searchTop(q, query)).filter((h) => h.series === API_SERIES).slice(0, limit);
-  const wanted = squash(query);
-  return rows
-    .map((r) => {
-      const path = r.name;
-      const last = path.split(/[.:]/).pop() ?? path;
-      const exact = squash(path) === wanted || squash(last) === wanted;
-      return { href: r.id, path, subtitle: r.subtitle, score: r.score * (exact ? 3 : 1) };
-    })
-    .sort((a, b) => b.score - a.score);
 }

@@ -30,7 +30,7 @@ from tools.datamine.common import (
 )
 from tools.export_jsonschema import export
 from tools.merge import merge_tree
-from tools.package import api_docs, bundles, page_order
+from tools.package import api_docs, bundles, page_order, site_views
 from tools.package import sqlite as sqlite_db
 from tools.package.cookbook import snippets
 
@@ -413,7 +413,33 @@ def _view(db: sqlite3.Connection, series: str, key: str) -> dict[str, Any]:
         "SELECT view FROM record_views WHERE series = ? AND id = ?", (series, key)
     ).fetchone()
     assert row, f"{series}/{key}"
-    return json.loads(row[0])
+    view: dict[str, Any] = json.loads(site_views.decompress(row[0]))
+    return view
+
+
+def _series_view(db: sqlite3.Connection, series: str) -> dict[str, Any]:
+    row = db.execute(
+        "SELECT view FROM series_views WHERE series = ?", (series,)
+    ).fetchone()
+    assert row, series
+    view: dict[str, Any] = json.loads(site_views.decompress(row[0]))
+    return view
+
+
+def test_views_are_raw_deflated_json(db: sqlite3.Connection) -> None:
+    for table in ("record_views", "series_views"):
+        kinds = {r[0] for r in db.execute(f"SELECT DISTINCT typeof(view) FROM {table}")}
+        assert kinds == {"blob"}, table
+        for (blob,) in db.execute(f"SELECT view FROM {table} LIMIT 20"):
+            text = site_views.decompress(blob)
+            # Compact JSON with sorted keys, as json_value writes it, and back.
+            assert sqlite_db.json_value(json.loads(text)) == text
+            assert site_views.compress(text) == blob
+    packed = raw = 0
+    for (blob,) in db.execute("SELECT view FROM record_views"):
+        packed += len(blob)
+        raw += len(site_views.decompress(blob).encode("utf-8"))
+    assert packed * 2 < raw
 
 
 def test_record_views(db: sqlite3.Connection, built: Built) -> None:
@@ -446,7 +472,7 @@ def test_record_views(db: sqlite3.Connection, built: Built) -> None:
     by = {(g["series"], g["path"]) for g in store["referencedBy"]}
     assert any(s == "aircraft" for s, _ in by)
     for (view,) in db.execute("SELECT view FROM record_views"):
-        for g in json.loads(view)["referencedBy"]:
+        for g in json.loads(site_views.decompress(view))["referencedBy"]:
             assert len(g["records"]) == min(g["total"], sqlite_db.REF_CAP)
 
 
@@ -468,11 +494,7 @@ def test_record_view_is_one_index_lookup(db: sqlite3.Connection) -> None:
 
 
 def test_series_views(db: sqlite3.Connection, built: Built) -> None:
-    view = json.loads(
-        db.execute("SELECT view FROM series_views WHERE series = 'weapons'").fetchone()[
-            0
-        ]
-    )
+    view = _series_view(db, "weapons")
     assert len(view["rows"]) == len(built.series["weapons"])
     columns = [r[2] for r in db.execute("PRAGMA index_info('weapons__scalars')")][1:]
     assert view["columns"] == columns
@@ -482,6 +504,105 @@ def test_series_views(db: sqlite3.Connection, built: Built) -> None:
     assert row[2:] == [record.get(c) for c in columns]
     if "warhead" in columns:
         assert view["labels"]["warhead"]
+
+
+def test_record_view_scripting(db: sqlite3.Connection, built: Built) -> None:
+    jet = _view(db, "aircraft", "F-16C_50")
+    rows = {r["id"]: r for r in jet["scripting"]}
+    assert list(rows) == ["class", "member", "enum-DcsId.AircraftType", "attributes"]
+    assert rows["class"]["value"] == {
+        "text": "Unit",
+        "href": "/api/Unit/",
+        "code": True,
+    }
+    assert rows["member"]["label"]["text"] == "Unit:getTypeName()"
+    assert rows["member"]["value"]["text"] == '"F-16C_50"'
+    assert rows["enum-DcsId.AircraftType"]["value"]["href"] == (
+        "/api/types/DcsId/AircraftType/#v-F-16CM%2520bl.50"
+    )
+    attrs = len(built.series["aircraft"]["F-16C_50"]["attributes"])
+    assert rows["attributes"]["note"] == f"true for this type's {attrs} attributes"
+
+    base = _view(db, "airbases", "Caucasus.22")
+    by_id = {r["id"]: r for r in base["scripting"]}
+    assert by_id["field-airdromeId"]["value"]["text"] == "22"
+    assert by_id["value-category"]["value"]["text"] == "Airbase.Category.AIRDROME"
+    assert "enum-DcsId.Theatre.Caucasus.AirdromeId" in by_id
+
+    # Only series the site's spec names carry rows; a link names an API page.
+    spec = site_views.load_scripting()
+    pages = {
+        sqlite_db.json_value([s, p])
+        for s, p in db.execute("SELECT section, page FROM api_symbols WHERE name = ''")
+    }
+    for series, key, blob in db.execute("SELECT series, id, view FROM record_views"):
+        rows = json.loads(site_views.decompress(blob)).get("scripting")
+        if not rows:
+            continue
+        assert series in spec, series
+        assert rows, (series, key)
+        for row in rows:
+            for text in (row["label"], row["value"]):
+                href = text.get("href")
+                if not href:
+                    continue
+                parts = [p for p in href.split("#")[0].split("/") if p and p != "api"]
+                section = "types" if parts[0] == "types" else "mission"
+                name = ".".join(parts[1:] if section == "types" else parts)
+                assert sqlite_db.json_value([section, name]) in pages, href
+
+
+def test_series_view_fields(db: sqlite3.Connection, built: Built) -> None:
+    display = site_views.load_display()
+    aircraft = _series_view(db, "aircraft")
+    assert sorted(aircraft["fields"]) == [
+        "aero.maxTakeoffKg",
+        "attributes",
+        "defaultTask.name",
+        "performance.machMax",
+    ]
+    ids = [r[0] for r in aircraft["rows"]]
+    for path, field in aircraft["fields"].items():
+        assert len(field["values"]) == len(ids), path
+    f16 = ids.index("F-16C_50")
+    record = built.series["aircraft"]["F-16C_50"]
+    fields = aircraft["fields"]
+    assert fields["aero.maxTakeoffKg"]["values"][f16] == record["aero"]["maxTakeoffKg"]
+    assert fields["defaultTask.name"]["values"][f16] == record["defaultTask"]["name"]
+    assert fields["attributes"]["values"][f16] == record["attributes"]
+    names = fields["attributes"]["links"]["attributes"]
+    assert all(names[a] for a in record["attributes"])
+
+    # A companion's path reads the companion's record.
+    weapons = _series_view(db, "weapons")
+    at = [r[0] for r in weapons["rows"]].index("AIM_120C")
+    flight = built.series["weapon_flight"]["AIM_120C"]
+    assert weapons["fields"]["flight.machMax"]["values"][at] == flight["machMax"]
+
+    # Every configured path is in the columns or the fields.
+    for series, shown in display.items():
+        view = _series_view(db, series)
+        for path in site_views.browse_paths(shown):
+            assert path in view["columns"] or path in view.get("fields", {}), (
+                series,
+                path,
+            )
+
+
+def test_series_view_groups(db: sqlite3.Connection) -> None:
+    groups = _series_view(db, "liveries")["groups"]["unitTypes"]
+    expected = {
+        str(k): [s, str(i), n if n is not None else str(i)]
+        for k, i, s, n in db.execute(
+            """SELECT j.liveries_id, j.units_id, json_extract(u.series, '$[0]'), n.name
+            FROM liveries__unitTypes j JOIN units u ON u.id = j.units_id
+            LEFT JOIN search n ON n.series = json_extract(u.series, '$[0]')
+              AND n.id = j.units_id
+            WHERE j.ordinal = 0"""
+        )
+    }
+    assert groups == expected
+    assert len(groups) > 1000
 
 
 def test_boot_pages_are_together(built: Built) -> None:

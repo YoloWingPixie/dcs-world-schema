@@ -1,34 +1,26 @@
 # Shared site contracts
 
-## Global search sources (`sources.ts`)
+## Global search (`engine.ts`, `client.ts`)
 
-The palette (Ctrl K) merges every entry of `SEARCH_SOURCES`. A source is:
+The palette (Ctrl K), the home search box and `/search` search every row of the database's
+`search` table (reference records and Lua API symbols) in memory:
 
-```ts
-{ id, label, indexUrl, options, docToResult, weight?, priority? }   // types.ts
-```
-
-- `indexUrl`: site path without basePath (`/data/search/api.json`), fetched lazily the first
-  time the palette opens; lower `priority` loads first.
-- The file is `serializeIndex(options, docs)` (engine.ts) written at build time; `options`
-  are the MiniSearch options used to build it and must be the same object at runtime.
-- `docToResult(stored)` maps a stored document (its `storeFields` + `id`) to
-  `{ key, title, subtitle?, detail?, href }`; `href` is a site path without basePath.
-- `id`/`label` become the group heading and the filter chip. Results are grouped per source
-  and groups are ordered by their best score times `weight`.
-
-To add one, export a `SearchSource` from your own module and append it to `SEARCH_SOURCES`.
-
-`SEARCH_PROVIDERS` holds searches that run their own query per keystroke instead of a
-prebuilt index: `{ id, label, search(query, limitPerGroup) => Promise<SourceHits[]>, warm? }`.
-The reference is one (`reference-sources.ts`): FTS5 over the SQLite database, one group per
-series. Groups from sources and providers are merged and ranked together.
+- `scripts/split-sqlite.ts` (`nameIndex`) writes the rows to a content-hashed file next to the
+  database parts, named by `names` in `/data/reference.json`: `[series, id, name, subtitle,
+  keywords]`, keywords trimmed to the words the name's own terms do not cover.
+- `client.ts` `loadSearch` fetches it on first use (the search button prefetches it on hover
+  or focus), joins the overlays' record aliases and API notes, and indexes it with MiniSearch
+  (`engine.ts` `buildNameIndex`). `useGlobalSearch` then answers each keystroke at once.
+- `engine.ts` `searchNames` ranks (prefix words, AND; the words run together; typos only when
+  nothing matches) and groups the hits: one group per series, the Lua API as its own; an
+  exact name, id or alias comes first.
 
 ## Reference data (`../db/`)
 
 The browser queries the released `.sqlite` over HTTP range requests (`db/browser.ts`,
-sql.js-httpvfs); `db/reference.ts` reads the model, records, browse rows, field values and
-search from it with any `Query` (node:sqlite in tests). Record URLs are `/<series>/<id>/`,
+sql.js-httpvfs); `db/reference.ts` reads records, browse rows and field values from it with
+any `Query` (node:sqlite in tests). The model (series, schema types, reference paths) comes
+from a static file `split-sqlite.ts` writes (`model` in reference.json; `modelFrom`). Record URLs are `/<series>/<id>/`,
 served by the shell in `app/not-found.tsx`; link to them with `RefLink` / `openHref`
 (`components/ref-link.tsx`) and `recordHref` (`../series.ts`).
 

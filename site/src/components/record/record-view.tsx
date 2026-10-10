@@ -31,7 +31,7 @@ import { SeeAlso } from "../see-also";
 import { ProvenanceValue, type RenderCtx } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { RecordHeader, RecordSkeleton } from "./record-header";
-import { SCRIPTING_ID, ScriptingBlock, useScripting } from "./scripting";
+import { SCRIPTING_ID, ScriptingBlock } from "./scripting";
 
 /** The tag beside a section's title: "flight model" on the companion's own sections, a table's row count. */
 function sectionTag(section: PlacedSection, catalog: SeriesCatalog): string | null {
@@ -288,7 +288,8 @@ export const RecordView = memo(function RecordView({
     () => (placement && ctx ? placement.strip.map((item) => readoutOf(item, ctx.vctx)) : []),
     [placement, ctx],
   );
-  const scripting = useScripting(doc);
+  // Built with the record (tools/package/site_views.py): no API read on a record page.
+  const scripting = doc?.scripting ?? null;
 
   if (error) {
     return (

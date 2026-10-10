@@ -8,7 +8,7 @@ import { currentSection, NAV_SECTIONS, type NavSection } from "@/lib/nav";
 import { THEME_KEY } from "@/lib/theme";
 import { setUnitSystem, useUnitSystem } from "@/lib/unit-system";
 import { GitHubIcon, MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
-import { openPalette } from "./command-palette";
+import { openPalette, warmPalette } from "./command-palette";
 
 const GITHUB_URL = "https://github.com/YoloWingPixie/dcs-world-schema";
 
@@ -160,7 +160,14 @@ export function SiteHeader() {
           </nav>
         </details>
         <span className="header-spacer" />
-        <button type="button" className="search-trigger" onClick={openPalette} aria-label="Search">
+        <button
+          type="button"
+          className="search-trigger"
+          onClick={openPalette}
+          onPointerEnter={warmPalette}
+          onFocus={warmPalette}
+          aria-label="Search"
+        >
           <SearchIcon width={16} height={16} />
           <span className="search-trigger-text">Search</span>
           <span className="kbd">{mac ? "⌘K" : "Ctrl K"}</span>

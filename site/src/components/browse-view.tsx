@@ -148,17 +148,23 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return index?.visible ?? [];
   }, [colsParam, index, grouped, groupBy]);
 
-  // Lazily load what the index does not carry (nested or list-valued fields, picked
-  // columns): the shown columns, and a facet once the filters show or the address
-  // selects in it (the filters start closed on phones).
+  // Lazily load what the index does not carry (its columns, and the configured paths the
+  // package precomputed into `fields`): columns a reader picks, and a facet of theirs once
+  // the filters show or the address selects in it (the filters start closed on phones).
   const lazyPaths = useMemo(() => {
     if (!index) return [];
     const facetPaths = index.facets
       .map((f) => f.path)
       .filter((p) => filtersOpen || params.has(facetParam(p)));
-    return [...new Set([...columns, ...facetPaths])].filter((p) => !index.columns.includes(p));
+    return [...new Set([...columns, ...facetPaths])].filter(
+      (p) => !index.columns.includes(p) && !(p in index.fields),
+    );
   }, [index, columns, filtersOpen, params]);
-  const extra = useLoadedFields(series, lazyPaths);
+  const loadedFields = useLoadedFields(series, lazyPaths);
+  const extra = useMemo(
+    () => (index ? { ...index.fields, ...loadedFields } : loadedFields),
+    [index, loadedFields],
+  );
 
   const rows = useMemo<Row[]>(() => {
     if (!index) return [];

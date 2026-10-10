@@ -10,7 +10,6 @@ import {
   getApiPage,
   listApiPages,
   resolveSymbols,
-  searchApi,
 } from "../../src/lib/api/db";
 import { OverlayError, parseOverlay } from "../../src/lib/api/overlays";
 import { apiHref, parseApiPath } from "../../src/lib/api/routes";
@@ -92,15 +91,6 @@ describe("API pages from the database", () => {
     expect(hrefs.get("Group.getByName")).toBe("/api/Group/#getByName");
     expect(hrefs.get("DcsTask.Task.Orbit")).toBe("/api/types/DcsTask/Task/Orbit/");
     expect(hrefs.has("Nope.nope")).toBe(false);
-  });
-
-  it("searches the API rows of the shared FTS index", async () => {
-    expect((await searchApi(q, "outText"))[0]?.path).toBe("trigger.action.outText");
-    expect((await searchApi(q, "trigger.action.outText"))[0]?.href).toBe(
-      "/api/trigger/action/#outText",
-    );
-    expect((await searchApi(q, "Controller.setTask"))[0]?.path).toBe("Controller:setTask");
-    expect((await searchApi(q, "getByName")).map((h) => h.path)).toContain("Unit.getByName");
   });
 });
 

@@ -215,8 +215,31 @@ export type RecordDoc = {
   /** Every ref in the record: series -> raw id -> [slug, name], or the name when slug = id. */
   links: Record<string, Record<string, LinkTarget | string>>;
   referencedBy: ReferencedBy[];
+  /**
+   * The Lua class, member and enum values naming the record (lib/api/scripting.json), as the
+   * SQLite package built and checked them against the Lua API; absent when none hold.
+   */
+  scripting?: ScriptingRow[];
   overlay?: Overlay;
 };
+
+/** Text, linked when `href` is set; `code` sets it in mono. */
+export type ScriptingText = { text: string; href?: string; code?: boolean };
+
+/** One row of a record's Scripting section (tools/package/site_views.py `scripting_rows`). */
+export type ScriptingRow = {
+  /** Stable key (and test hook). */
+  id: string;
+  label: ScriptingText;
+  /** Muted after the label: what the member does with the value (`returns`). */
+  verb?: string;
+  value: ScriptingText;
+  /** A second line under the value. */
+  note?: string;
+};
+
+/** A field's values per record id and the link table its refs read from. */
+export type PathValues = { values: Record<string, unknown>; links: RecordDoc["links"] };
 
 /** One browse-table row: id (also its slug), name, then the series' column values in order. */
 export type BrowseRow = [id: string, name: string, ...values: unknown[]];
@@ -232,12 +255,20 @@ export type SeriesIndex = {
   count: number;
   /** Column paths after a row's id and name: the series' top-level scalars. */
   columns: string[];
-  /** Columns shown by default; a path outside `columns` loads lazily (lib/client-data `loadLinkedField`). */
+  /**
+   * Columns shown by default; a path outside `columns` and `fields` loads lazily (lib/client-data
+   * `loadLinkedField`).
+   */
   visible: string[];
-  /** Facets; a path outside `columns` loads lazily, and a list-valued one offers each item. */
+  /**
+   * Facets; a path outside `columns` and `fields` loads lazily, and a list-valued one offers
+   * each item.
+   */
   facets: Facet[];
   rows: BrowseRow[];
   /** Per ref column: the records its ids name, as a record's link table (`RecordDoc["links"]`). */
   links: Record<string, RecordDoc["links"]>;
+  /** The configured paths outside `columns` (lib/series-display.json), precomputed by the package. */
+  fields: Record<string, PathValues>;
   intro?: Overlay;
 };

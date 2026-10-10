@@ -32,6 +32,7 @@ import {
   type LinkTarget,
   type RecordDoc,
   SCALAR_KINDS,
+  type ScriptingRow,
   type SeriesCatalog,
   type SeriesIndex,
 } from "../types";
@@ -88,23 +89,46 @@ function firstSentence(text: string): string {
 // ---------------------------------------------------------------------------
 // Model
 
-/** The database's `meta` table: its DCS revision (`dcsVersion`), when it was extracted. */
-export async function getMeta(q: Query): Promise<Record<string, string>> {
-  const rows = await q("SELECT key, value FROM meta");
-  return Object.fromEntries(rows.map((r) => [String(r.key), String(r.value)]));
+/**
+ * The rows the model is built from, one statement per table. scripts/split-sqlite.ts writes
+ * the same statements' rows to a static file (`model` in reference.json), which the browser
+ * reads instead of the database (lib/client-data.ts `loadModel`).
+ */
+export type ModelTables = {
+  /** The database's `meta` table: its DCS revision (`dcsVersion`), when it was extracted. */
+  meta: Row[];
+  series: Row[];
+  schema_types: Row[];
+  ref_paths: Row[];
+};
+
+export const MODEL_SQL: Record<keyof ModelTables, string> = {
+  meta: "SELECT key, value FROM meta",
+  series: "SELECT name, type_name, key_column, records FROM series ORDER BY rowid",
+  schema_types: "SELECT name, definition FROM schema_types",
+  ref_paths: "SELECT table_name, series, path, target, source_column, target_column FROM ref_paths",
+};
+
+export async function readModelTables(q: Query): Promise<ModelTables> {
+  const [meta, series, schema_types, ref_paths] = await Promise.all([
+    q(MODEL_SQL.meta),
+    q(MODEL_SQL.series),
+    q(MODEL_SQL.schema_types),
+    q(MODEL_SQL.ref_paths),
+  ]);
+  return { meta, series, schema_types, ref_paths };
 }
 
 export async function loadModel(q: Query): Promise<Model> {
-  const [meta, seriesRows, typeRows, refRows] = await Promise.all([
-    getMeta(q),
-    q("SELECT name, type_name, key_column, records FROM series ORDER BY rowid"),
-    q("SELECT name, definition FROM schema_types"),
-    q("SELECT table_name, series, path, target, source_column, target_column FROM ref_paths"),
-  ]);
+  return modelFrom(await readModelTables(q));
+}
+
+export function modelFrom(tables: ModelTables): Model {
+  const meta = Object.fromEntries(tables.meta.map((r) => [String(r.key), String(r.value)]));
   const types = schemaTypesFromRows(
-    typeRows.map((r) => ({ name: String(r.name), definition: String(r.definition) })),
+    tables.schema_types.map((r) => ({ name: String(r.name), definition: String(r.definition) })),
   );
-  const refPaths: RefPath[] = refRows.map((r) => ({
+  const refPaths: RefPath[] = tables.ref_paths.map((r) => ({
     table: String(r.table_name),
     series: String(r.series),
     path: String(r.path),
@@ -120,7 +144,7 @@ export async function loadModel(q: Query): Promise<Model> {
       if (parts.length > 1) for (const p of parts) unitTypes.add(p);
     }
   }
-  const series: SeriesModel[] = seriesRows.map((r) => {
+  const series: SeriesModel[] = tables.series.map((r) => {
     const id = String(r.name);
     const typeName = String(r.type_name);
     const hint = SERIES_BY_ID.get(id);
@@ -263,15 +287,40 @@ type RecordView = {
     total: number;
     records: [string, string][];
   }>;
+  /** The record's Scripting rows, checked against the Lua API when the database was built. */
+  scripting?: ScriptingRow[];
 };
 
 /**
- * A read of the per-page views tools/package/sqlite.py writes (`record_views`,
- * `series_views`): a database without them is too old for this site.
+ * A view's JSON from its stored `view` BLOB: raw-deflated UTF-8 (tools/package/site_views.py),
+ * inflated by the browser's own `DecompressionStream`.
  */
-async function viewQuery(q: Query, table: string, sql: string, params: unknown[]): Promise<Row[]> {
+async function inflateView<T>(table: string, blob: unknown): Promise<T> {
+  if (!(blob instanceof Uint8Array)) {
+    throw new Error(
+      `The database's ${table} are not compressed: rebuild it with \`task package:sqlite\`.`,
+    );
+  }
+  const stream = new Blob([blob as Uint8Array<ArrayBuffer>])
+    .stream()
+    .pipeThrough(new DecompressionStream("deflate-raw"));
+  return JSON.parse(await new Response(stream).text()) as T;
+}
+
+/**
+ * The one view a statement selects from the per-page views tools/package/sqlite.py writes
+ * (`record_views`, `series_views`), or null when there is none: a database without them
+ * is too old for this site.
+ */
+async function readView<T>(
+  q: Query,
+  table: string,
+  sql: string,
+  params: unknown[],
+): Promise<T | null> {
+  let rows: Row[];
   try {
-    return await q(sql, params);
+    rows = await q(sql, params);
   } catch (error) {
     if (/no such table/i.test(String(error))) {
       throw new Error(
@@ -280,6 +329,8 @@ async function viewQuery(q: Query, table: string, sql: string, params: unknown[]
     }
     throw error;
   }
+  const [row] = rows;
+  return row ? inflateView<T>(table, row.view) : null;
 }
 
 const byName = (a: LinkTarget, b: LinkTarget) => naturalCompare(a[1], b[1]);
@@ -298,14 +349,13 @@ export async function getRecord(
 ): Promise<RecordDoc | null> {
   const s = model.byId.get(series);
   if (!s) return null;
-  const [row] = await viewQuery(
+  const view = await readView<RecordView>(
     q,
     "record_views",
     "SELECT view FROM record_views WHERE series = ? AND id = ?",
     [series, id],
   );
-  if (!row) return null;
-  const view = JSON.parse(String(row.view)) as RecordView;
+  if (!view) return null;
   const key = view.record[s.keyColumn];
   return distinguishLinks(q, model, {
     series,
@@ -324,6 +374,7 @@ export async function getRecord(
       ...(g.via ? { via: g.via } : {}),
       ...(g.total > g.records.length ? { total: g.total } : {}),
     })),
+    ...(view.scripting?.length ? { scripting: view.scripting } : {}),
   });
 }
 
@@ -577,16 +628,30 @@ type SeriesView = {
   columns: string[];
   rows: unknown[][];
   labels: Record<string, Record<string, string>>;
+  /**
+   * The other paths lib/series-display.json shows by default: one value per row (null for
+   * none) and the names of the records they reference, by series.
+   */
+  fields?: Record<string, { values: unknown[]; links: Record<string, Record<string, string>> }>;
+  /** Per group-by ref path, each row's first target: `[series, id, name]` by row id. */
+  groups?: Record<string, Record<string, GroupTarget>>;
 };
 
-async function seriesView(q: Query, series: string): Promise<SeriesView | null> {
-  const [row] = await viewQuery(
-    q,
-    "series_views",
-    "SELECT view FROM series_views WHERE series = ?",
-    [series],
-  );
-  return row ? (JSON.parse(String(row.view)) as SeriesView) : null;
+// The index and the group targets of a browse page read the same view: one read and one
+// inflate per series.
+const seriesViews = perObject<Query, Promise<SeriesView | null>>();
+
+function seriesView(q: Query, series: string): Promise<SeriesView | null> {
+  return seriesViews.cachedBy(q, series, () => {
+    const view = readView<SeriesView>(
+      q,
+      "series_views",
+      "SELECT view FROM series_views WHERE series = ?",
+      [series],
+    );
+    view.catch(() => seriesViews.drop(q, series));
+    return view;
+  });
 }
 
 /** Every record of a series with its top-level scalar columns (one `series_views` row). */
@@ -691,6 +756,17 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     path,
     label: pathLabel(entry, path),
   }));
+  // The configured paths outside the columns, as `getFieldValues` reads them.
+  const fields: SeriesIndex["fields"] = {};
+  for (const [path, field] of Object.entries(view.fields ?? {})) {
+    const entry = entryFor(catalog, path) ?? undefined;
+    const values: Record<string, unknown> = {};
+    field.values.forEach((v, i) => {
+      const value = v === null ? null : decodeValue(entry, v);
+      if (present(value)) values[String(view.rows[i]?.[0])] = value;
+    });
+    fields[path] = { values, links: field.links };
+  }
   return {
     series,
     count,
@@ -699,6 +775,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     facets: facetList,
     rows: decoded,
     links,
+    fields,
   };
 }
 
@@ -707,9 +784,10 @@ export type GroupTarget = [series: string, id: string, name: string];
 
 /**
  * The first record a ref field points at, per row id (`liveries.unitTypes` -> the
- * livery's airframe), with that record's series and display name: one statement over
- * the field's join table (or the series' own column for a scalar ref). Empty when the
- * field is not a ref of the series.
+ * livery's airframe), with that record's series and display name: the series view's
+ * precomputed groups for a configured `groupBy` path, else one statement over the field's
+ * join table (or the series' own column for a scalar ref). Empty when the field is not a
+ * ref of the series.
  */
 export async function getGroupTargets(
   q: Query,
@@ -717,6 +795,10 @@ export async function getGroupTargets(
   series: string,
   path: string,
 ): Promise<Record<string, GroupTarget>> {
+  if (displayFor(series).groupBy?.path === path) {
+    const groups = (await seriesView(q, series))?.groups?.[path];
+    if (groups) return groups;
+  }
   const ref = storageOf(model, series, path)?.ref;
   if (!ref) return {};
   const target = `j.${qi(ref.targetColumn)}`;
@@ -897,72 +979,4 @@ export async function keyedFieldPaths(
     }
   }
   return out;
-}
-
-// ---------------------------------------------------------------------------
-// Search
-
-export type SearchHit = {
-  series: string;
-  id: string;
-  name: string;
-  subtitle: string;
-  score: number;
-};
-
-/** FTS5 match expression: every word as a prefix, or the squashed query as one. */
-export function ftsQuery(query: string): string | null {
-  const words = query
-    .toLowerCase()
-    .split(/[^\p{L}\p{N}]+/u)
-    .filter(Boolean)
-    .slice(0, 6);
-  if (!words.length) return null;
-  const all = words.map((w) => `"${w}"*`).join(" ");
-  const squashed = words.join("");
-  return words.length > 1 ? `(${all}) OR "${squashed}"*` : all;
-}
-
-/** Rows read per search and side: records, and API symbols (`api` rows of `search`). */
-export const SEARCH_TOP = { records: 150, api: 40 };
-
-/**
- * The best rows of the `search` table, ranked per side (records, API symbols) so neither
- * crowds out the other, best first. Ranking reads only the FTS index and the API rows'
- * entries in the (series, id, name) index; the `search` rows are joined for the kept ones
- * only. The reference and API providers filter the same statement, so with a shared
- * cache one MATCH serves both.
- */
-export async function searchTop(q: Query, query: string): Promise<SearchHit[]> {
-  const match = ftsQuery(query);
-  if (!match) return [];
-  const rows = await q(
-    `WITH hits AS (
-       SELECT rowid AS r, bm25(search_fts, 8.0, 2.0, 1.0) AS score,
-              rowid IN (SELECT rowid FROM search WHERE series = 'api') AS api
-         FROM search_fts WHERE search_fts MATCH ?),
-     ranked AS (
-       SELECT r, score, api, ROW_NUMBER() OVER (PARTITION BY api ORDER BY score) AS n FROM hits)
-     SELECT s.series AS series, s.id AS id, s.name AS name, s.subtitle AS subtitle, h.score AS score
-       FROM ranked h JOIN search s ON s.rowid = h.r
-      WHERE h.n <= CASE WHEN h.api THEN ? ELSE ? END
-      ORDER BY h.score`,
-    [match, SEARCH_TOP.api, SEARCH_TOP.records],
-  );
-  return rows.map((r) => ({
-    series: String(r.series),
-    id: String(r.id),
-    name: String(r.name),
-    subtitle: String(r.subtitle ?? ""),
-    score: -Number(r.score ?? 0),
-  }));
-}
-
-/** Reference records among the top search rows (API symbols left out). */
-export async function searchReference(
-  q: Query,
-  query: string,
-  limit?: number,
-): Promise<SearchHit[]> {
-  return (await searchTop(q, query)).filter((h) => h.series !== "api").slice(0, limit);
 }

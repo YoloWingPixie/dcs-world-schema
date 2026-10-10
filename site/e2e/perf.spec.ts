@@ -3,10 +3,12 @@ import { type Browser, expect, type Page, test } from "@playwright/test";
 
 // Cold loads over a throttled 4G link (~9 Mbps down, ~85 ms RTT), each in a fresh context.
 // Budgets apply to the deployed layout (SITE_DB_MODE=chunked: parts, no Range support).
-// A cold record page moves ~1.3 MB (wasm ~440 KB, startup parts ~420 KB, JS, fonts), so
-// ~1.2 s is the floor at 9 Mbps; measured ~2.0 s and 15-17 part requests.
-const BUDGET_MS = 2500;
-const BUDGET_PARTS = 18;
+// A cold record page moves ~1.1 MB (wasm ~440 KB, startup parts ~230 KB, JS, fonts), so
+// ~1.0 s is the floor at 9 Mbps; measured 1.5-2.1 s and 8-9 part requests.
+const BUDGET_MS = 2300;
+const BUDGET_PARTS = 12;
+// Search runs on the static name index; measured 1.1-1.5 s.
+const BUDGET_SEARCH_MS = 2000;
 const chunked = process.env.SITE_DB_MODE === "chunked";
 const PROFILE = {
   offline: false,
@@ -100,7 +102,7 @@ test("cold loads stay within the speed budget", async ({ browser }) => {
       timeout: 20_000,
     });
   });
-  await cold(browser, "search amraam", "/search/?q=amraam", async (page) => {
+  const search = await cold(browser, "search amraam", "/search/?q=amraam", async (page) => {
     await expect(page.getByRole("option", { name: /^AIM-120C\b/ }).first()).toBeVisible({
       timeout: 20_000,
     });
@@ -124,5 +126,6 @@ test("cold loads stay within the speed budget", async ({ browser }) => {
         .soft(r.dbRequests, `${r.page}: database part requests`)
         .toBeLessThanOrEqual(BUDGET_PARTS);
     }
+    expect.soft(search.ms, `${search.page}: time to results`).toBeLessThanOrEqual(BUDGET_SEARCH_MS);
   }
 });

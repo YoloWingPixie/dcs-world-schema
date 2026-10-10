@@ -1,9 +1,11 @@
 /**
  * Publishes the reference database into a site folder:
  *
- *   <site>/data/reference.json        what the browser opens (lib/db/browser.ts)
- *   <site>/data/reference.sqlite      single-file mode (local dev, e2e)
- *   <site>/data/db/<hash>/part.NNNNN  chunked mode (Cloudflare Pages)
+ *   <site>/data/reference.json                 what the browser opens (lib/db/browser.ts)
+ *   <site>/data/reference.sqlite               single-file mode (local dev, e2e)
+ *   <site>/data/db/<hash>/part.NNNNN           chunked mode (Cloudflare Pages)
+ *   <site>/data/db/<hash>/model.<hash>.json    the model's tables, read without the database
+ *   <site>/data/db/<hash>/names.<hash>.json    the search rows, searched in memory
  *   <site>/_redirects                 deep links under each series and /api/ serve the shell
  *
  * Chunked: Cloudflare Pages answers Range requests with the whole file (200), so each part
@@ -54,9 +56,16 @@ export type ReferenceConfig = {
   databaseLengthBytes: number;
   /**
    * Chunked: the parts each page reads first, fetched in parallel at startup (see
-   * BOOT_GROUPS): every page, search, the API docs. Indexes into the part files.
+   * BOOT_GROUPS): every page, the API docs. Indexes into the part files.
    */
-  boot?: { core: number[]; search: number[]; api: number[] };
+  boot?: { core: number[]; api: number[] };
+  /**
+   * The model's tables (`modelTables`), content-hashed: every page reads them at startup,
+   * so they come as one small file rather than the database pages that hold them.
+   */
+  model: string;
+  /** Every `search` row (`nameIndex`), content-hashed: the palette searches it in memory. */
+  names: string;
   /** The released file and its hash, for display. */
   file: string;
   version: string | null;
@@ -72,25 +81,14 @@ export type ReferenceConfig = {
  * The pages a client reads first: [whole tables, tables or indexes whose interior pages].
  * Mirrors BOOT_GROUPS in tools/package/sqlite.py, which lays these pages out together.
  */
-const BOOT_GROUPS: Record<"core" | "search" | "api", [string[], string[]]> = {
+const BOOT_GROUPS: Record<"core" | "api", [string[], string[]]> = {
   core: [
-    ["sqlite_schema", "sqlite_master", "meta", "series", "ref_paths", "schema_types"],
+    ["sqlite_schema", "sqlite_master"],
     [
       "record_views",
       "sqlite_autoindex_record_views_1",
       "series_views",
       "sqlite_autoindex_series_views_1",
-    ],
-  ],
-  search: [
-    ["search_fts_config"],
-    [
-      "search",
-      "sqlite_autoindex_search_1",
-      "search__names",
-      "search_fts_data",
-      "search_fts_idx",
-      "search_fts_docsize",
     ],
   ],
   api: [
@@ -140,7 +138,6 @@ export function bootParts(path: string, partSize: number): NonNullable<Reference
     };
     return {
       core: pick(BOOT_GROUPS.core),
-      search: pick(BOOT_GROUPS.search),
       api: pick(BOOT_GROUPS.api),
     };
   } finally {
@@ -167,8 +164,93 @@ export function findDatabase(
   );
 }
 
-function sha256(path: string): string {
-  return createHash("sha256").update(readFileSync(path)).digest("hex");
+function sha256(data: string | Buffer): string {
+  return createHash("sha256").update(data).digest("hex");
+}
+
+/**
+ * The statements lib/db/reference.ts `readModelTables` runs (MODEL_SQL there; a test checks
+ * they agree), so the browser builds the model from this file's rows without the database.
+ */
+const MODEL_SQL = {
+  meta: "SELECT key, value FROM meta",
+  series: "SELECT name, type_name, key_column, records FROM series ORDER BY rowid",
+  schema_types: "SELECT name, definition FROM schema_types",
+  ref_paths: "SELECT table_name, series, path, target, source_column, target_column FROM ref_paths",
+};
+
+/** The model's tables as rows (lib/db/reference.ts `ModelTables`). */
+export function modelTables(
+  path: string,
+): Record<keyof typeof MODEL_SQL, Record<string, unknown>[]> {
+  const db = new DatabaseSync(path, { readOnly: true });
+  try {
+    const read = (sql: string) =>
+      db
+        .prepare(sql)
+        .all()
+        .map((r) => ({ ...r }));
+    return {
+      meta: read(MODEL_SQL.meta),
+      series: read(MODEL_SQL.series),
+      schema_types: read(MODEL_SQL.schema_types),
+      ref_paths: read(MODEL_SQL.ref_paths),
+    };
+  } finally {
+    db.close();
+  }
+}
+
+/** Words: runs of letters and digits, lowercased (lib/search/engine.ts `words`). */
+const words = (text: string) =>
+  text
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter(Boolean);
+
+/**
+ * The `search` table for the in-memory search (lib/search/engine.ts `NameIndexFile`):
+ * `[series index, id, name, subtitle, keywords]` per row, `id` empty when it is the name.
+ * Most keywords are spellings of the name, which the search derives itself (engine.ts
+ * `nameTerms`); `keywords` keeps the words none of those terms, nor a subtitle word, starts
+ * with, as a prefix search finds the rest anyway.
+ */
+export function nameIndex(path: string): { series: string[]; rows: unknown[][] } {
+  const db = new DatabaseSync(path, { readOnly: true });
+  try {
+    const rows = db
+      .prepare("SELECT series, id, name, subtitle, keywords FROM search ORDER BY rowid")
+      .all() as { series: string; id: string; name: string; subtitle: string; keywords: string }[];
+    const series: string[] = [];
+    const at = new Map<string, number>();
+    const split = (w: string) =>
+      w
+        .replace(/(\p{L})(\p{N})/gu, "$1 $2")
+        .replace(/(\p{N})(\p{L})/gu, "$1 $2")
+        .split(" ");
+    const out = rows.map((r) => {
+      let s = at.get(r.series);
+      if (s === undefined) {
+        s = series.push(r.series) - 1;
+        at.set(r.series, s);
+      }
+      const named = [...words(r.name), ...words(r.id)];
+      const have = new Set([
+        ...named,
+        ...named.flatMap(split),
+        words(r.name).join(""),
+        words(r.id).join(""),
+        ...words(r.subtitle),
+      ]);
+      const extra = [...new Set(words(r.keywords))].filter(
+        (w) => ![...have].some((h) => h.startsWith(w)),
+      );
+      return [s, r.id === r.name ? "" : r.id, r.name, r.subtitle, extra.join(" ")];
+    });
+    return { series, rows: out };
+  } finally {
+    db.close();
+  }
 }
 
 /** Lua API pages per section and kind; {} for a database without the API docs. */
@@ -223,9 +305,14 @@ export function publish(
   const dataDir = join(siteDir, "data");
   const configPath = join(dataDir, "reference.json");
   const size = statSync(source).size;
-  const hash = sha256(source);
+  const hash = sha256(readFileSync(source));
   const file = basename(source);
+  const dir = `db/${hash.slice(0, 16)}`;
+  const model = JSON.stringify(modelTables(source));
+  const names = JSON.stringify(nameIndex(source));
   const base = {
+    model: `${dir}/model.${sha256(model).slice(0, 16)}.json`,
+    names: `${dir}/names.${sha256(names).slice(0, 16)}.json`,
     databaseLengthBytes: size,
     file,
     version: /^dcs-world-reference-(.+)\.sqlite$/.exec(file)?.[1] ?? null,
@@ -239,7 +326,6 @@ export function publish(
   } else {
     const parts = Math.ceil(size / partSize);
     const suffixLength = Math.max(5, String(parts - 1).length);
-    const dir = `db/${hash.slice(0, 16)}`;
     config = {
       serverMode: "chunked",
       urlPrefix: `${dir}/part.`,
@@ -262,12 +348,16 @@ export function publish(
   const unchanged =
     previous !== null &&
     JSON.stringify(previous) === JSON.stringify(config) &&
-    existsSync(join(dataDir, firstFile));
+    existsSync(join(dataDir, firstFile)) &&
+    existsSync(join(dataDir, config.model)) &&
+    existsSync(join(dataDir, config.names));
 
   if (!unchanged) {
     rmSync(join(dataDir, "db"), { recursive: true, force: true });
     rmSync(join(dataDir, "reference.sqlite"), { force: true });
-    mkdirSync(dataDir, { recursive: true });
+    mkdirSync(join(dataDir, dir), { recursive: true });
+    writeFileSync(join(dataDir, config.model), model);
+    writeFileSync(join(dataDir, config.names), names);
     if (mode === "full") {
       copyFileSync(source, join(dataDir, "reference.sqlite"));
     } else {
