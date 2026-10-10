@@ -24,3 +24,16 @@ export function replaceQuery(query: URLSearchParams | string): void {
   const next = `${pathname}${qs ? `?${qs}` : ""}${hash}`;
   if (next !== `${pathname}${search}${hash}`) replaceUrl(next);
 }
+
+/**
+ * Edits the current address's query in place (`edit` gets its params): other parameters
+ * (`?units=`, filters) are kept, slashes stay readable (`lua=_G/a/b`), and nothing happens
+ * when the edit changes nothing.
+ */
+export function updateQuery(edit: (params: URLSearchParams) => void): void {
+  const params = new URLSearchParams(window.location.search);
+  const before = params.toString();
+  edit(params);
+  const after = params.toString();
+  if (after !== before) replaceQuery(after.replace(/%2F/gi, "/"));
+}

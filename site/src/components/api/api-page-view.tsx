@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { Fragment } from "react";
 import type { DataLink } from "@/lib/api/client";
 import { SECTION_LABEL } from "@/lib/api/routes";
 import type { ApiPage, EnumValue, Member } from "@/lib/api/types";
-import { isShellHref, RefLink } from "../ref-link";
+import { SERIES_BY_ID } from "@/lib/series";
+import { RefLink, SiteLink } from "../ref-link";
 import { EnumTable } from "./enum-table";
 import {
   EnvBadges,
@@ -25,20 +25,6 @@ const KIND_LABEL: Record<ApiPage["kind"], string> = {
   table: "Table type",
   union: "Union type",
   array: "Array type",
-};
-
-const SERIES_LABEL: Record<string, string> = {
-  aircraft: "aircraft",
-  ground_vehicles: "ground unit",
-  ships: "ship",
-  structures: "structure",
-  personnel: "personnel",
-  weapons: "weapon",
-  sensors: "sensor",
-  attributes: "attribute",
-  skills: "skill",
-  formations: "formation",
-  airbases: "airbase",
 };
 
 /** Pages past this many members list them compactly (the hooks `_G` has 1300). */
@@ -131,11 +117,7 @@ export function ApiPageView({
       <nav className="crumbs" aria-label="Breadcrumb">
         {crumbs.map((c) => (
           <span key={c.label} className="api-crumb">
-            {isShellHref(c.href) ? (
-              <RefLink href={c.href}>{c.label}</RefLink>
-            ) : (
-              <Link href={c.href}>{c.label}</Link>
-            )}
+            <SiteLink href={c.href}>{c.label}</SiteLink>
             <span aria-hidden="true"> /</span>
           </span>
         ))}
@@ -258,7 +240,9 @@ export function ApiPageView({
               <EnumTable
                 name={page.name}
                 values={values ?? page.values}
-                seriesLabel={page.valuesSeries ? SERIES_LABEL[page.valuesSeries] : undefined}
+                seriesLabel={
+                  page.valuesSeries ? SERIES_BY_ID.get(page.valuesSeries)?.singular : undefined
+                }
               />
             </section>
           ) : null}

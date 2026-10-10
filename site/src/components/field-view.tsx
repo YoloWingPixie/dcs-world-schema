@@ -6,7 +6,7 @@ import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
 import { recordHref } from "@/lib/series";
 import type { CatalogEntry } from "@/lib/types";
-import { formatWithUnit, isSentinelAngle, unitGap } from "@/lib/units";
+import { formatWithUnit, isSentinelAngle, type UnitSystem, unitGap } from "@/lib/units";
 import { MoreIcon } from "@/ui/icons";
 import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
@@ -124,6 +124,45 @@ export function RecordLink({
   );
 }
 
+/**
+ * A number in the display system with its unit, and a note when the value is a sentinel
+ * rather than an angle or its unit is not stated (a field row's value, a header readout).
+ */
+export function NumberWithUnit({
+  entry,
+  value,
+  system,
+}: {
+  entry: CatalogEntry;
+  value: number;
+  system: UnitSystem;
+}) {
+  const f = formatWithUnit(value, entry, system);
+  return (
+    <>
+      {f.text}
+      {f.unit ? (
+        <>
+          {unitGap(f.unit)}
+          <span className="unit">{f.unit}</span>
+        </>
+      ) : null}
+      {isSentinelAngle(value, entry.unit) ? (
+        <>
+          {" "}
+          <span className="secondary unit-note">raw, not an angle</span>
+        </>
+      ) : null}
+      {entry.unitNotStated ? (
+        <>
+          {" "}
+          <span className="secondary unit-note">unit not stated</span>
+        </>
+      ) : null}
+    </>
+  );
+}
+
 /** A scalar value with its unit (converted for display), enum label or record link. */
 export function ScalarValue({
   entry,
@@ -150,30 +189,7 @@ export function ScalarValue({
     return <>{d.label}</>;
   }
   if (typeof value === "number") {
-    const f = formatWithUnit(value, entry, vctx.system);
-    return (
-      <>
-        {f.text}
-        {f.unit ? (
-          <>
-            {unitGap(f.unit)}
-            <span className="unit">{f.unit}</span>
-          </>
-        ) : null}
-        {isSentinelAngle(value, entry.unit) ? (
-          <>
-            {" "}
-            <span className="secondary unit-note">raw, not an angle</span>
-          </>
-        ) : null}
-        {entry.unitNotStated ? (
-          <>
-            {" "}
-            <span className="secondary unit-note">unit not stated</span>
-          </>
-        ) : null}
-      </>
-    );
+    return <NumberWithUnit entry={entry} value={value} system={vctx.system} />;
   }
   if (typeof value === "boolean") return <>{value ? "Yes" : "No"}</>;
   if (typeof value === "string") return <>{value}</>;

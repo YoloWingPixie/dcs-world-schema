@@ -34,6 +34,7 @@ import type {
   SeriesCatalog,
   SeriesIndex,
 } from "./types";
+import { useLoaded } from "./use-loaded";
 
 export type OverlayFile = {
   series: Record<
@@ -53,6 +54,17 @@ export type OverlayFile = {
  */
 
 export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
+
+const loadModelState = () =>
+  loadModel().then(
+    (model): { model: Model | null; failed: boolean } => ({ model, failed: false }),
+    () => ({ model: null, failed: true }),
+  );
+
+/** The model once loaded, and whether it failed; `enabled` false leaves it unread. */
+export function useModel(enabled = true): { model: Model | null; failed: boolean } {
+  return useLoaded(loadModelState, enabled ? "" : null) ?? { model: null, failed: false };
+}
 
 const NO_OVERLAYS: OverlayFile = { series: {} };
 

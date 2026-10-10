@@ -1,17 +1,15 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import { replaceQuery } from "@/lib/history";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useQueryParam } from "@/lib/use-query-param";
 import { GlobalSearch } from "./global-search";
 import { openHref } from "./ref-link";
 
 /** `/search/?q=`: every source's results on one page. */
 export function SearchResultsPage() {
-  const params = useSearchParams();
   const router = useRouter();
-  const initial = params.get("q") ?? "";
-  const [query, setQuery] = useState(initial);
+  const [query, setQuery, initial] = useQueryParam("q", 300);
   // A `?q=` this page did not write (a link, back/forward) restarts the search box with it.
   const [seen, setSeen] = useState(initial);
   const [generation, setGeneration] = useState(0);
@@ -22,14 +20,6 @@ export function SearchResultsPage() {
       setGeneration((g) => g + 1);
     }
   }
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      const q = query.trim();
-      if (q === (params.get("q") ?? "")) return;
-      replaceQuery(q ? `q=${encodeURIComponent(q)}` : "");
-    }, 300);
-    return () => window.clearTimeout(timer);
-  }, [query, params]);
   return (
     <GlobalSearch
       key={generation}

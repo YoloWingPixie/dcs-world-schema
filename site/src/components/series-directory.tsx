@@ -1,22 +1,12 @@
 "use client";
 
 import { type ApiContentsEntry, apiContents, apiPageCounts } from "@/lib/api/contents";
-import { loadModel } from "@/lib/client-data";
+import { useModel } from "@/lib/client-data";
 import { browserQuery, referenceConfig } from "@/lib/db/browser";
-import { type Model, seriesGroups } from "@/lib/db/reference";
+import { seriesGroups } from "@/lib/db/reference";
 import { seriesHref } from "@/lib/series";
 import { useLoaded } from "@/lib/use-loaded";
 import { RefLink } from "./ref-link";
-
-const loadModelState = () =>
-  loadModel().then(
-    (model): { model: Model | null; failed: boolean } => ({ model, failed: false }),
-    () => ({ model: null, failed: true }),
-  );
-
-export function useModel() {
-  return useLoaded(loadModelState) ?? { model: null, failed: false };
-}
 
 /**
  * The API chapter's sections and page counts: from /data/reference.json (already fetched at

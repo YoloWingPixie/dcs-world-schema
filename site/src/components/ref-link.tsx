@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { BASE_PATH } from "@/lib/base-path";
 import { pushUrl, replaceUrl } from "@/lib/history";
@@ -87,6 +88,30 @@ const PAGE_ROOTS = new Set(["", "compare", "reference", "search"]);
 export function isShellHref(href: string): boolean {
   const first = href.split(/[/?#]/).filter(Boolean)[0] ?? "";
   return !PAGE_ROOTS.has(first);
+}
+
+/**
+ * A link to any site path: RefLink for the reference shell's pages (client-side, so the
+ * database worker survives), next/link for the Next.js pages.
+ */
+export function SiteLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  return isShellHref(href) ? (
+    <RefLink href={href} className={className}>
+      {children}
+    </RefLink>
+  ) : (
+    <Link href={href} className={className}>
+      {children}
+    </Link>
+  );
 }
 
 /** Opens any site path: the shell for reference pages, the Next.js router otherwise. */

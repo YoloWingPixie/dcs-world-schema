@@ -4,8 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { lazy, Suspense, useEffect, useMemo, useState } from "react";
 import { parseApiPath } from "@/lib/api/routes";
-import { loadModel, loadRecord, loadSeriesIndex } from "@/lib/client-data";
-import type { Model } from "@/lib/db/reference";
+import { loadRecord, loadSeriesIndex, useModel } from "@/lib/client-data";
 import { getNavHint } from "@/lib/nav-hints";
 import { parseReferencePath } from "@/lib/series";
 import { RecordSkeleton } from "./record/record-header";
@@ -80,8 +79,6 @@ function NotFound() {
  */
 export function ReferenceShell() {
   const pathname = usePathname();
-  const [model, setModel] = useState<Model | null>(null);
-  const [failed, setFailed] = useState(false);
   const [path, setPath] = useState<string | null>(null);
 
   useEffect(() => registerShell(), []);
@@ -100,10 +97,7 @@ export function ReferenceShell() {
     else if (route) loadSeriesIndex(route.series).catch(() => {});
   }, [pathname]);
   // The model, once a reference page needs it (API pages load it themselves, when they do).
-  const needsModel = !isApiPath(pathname);
-  useEffect(() => {
-    if (needsModel) loadModel().then(setModel, () => setFailed(true));
-  }, [needsModel]);
+  const { model, failed } = useModel(!isApiPath(pathname));
   const hint = useMemo(() => (path ? getNavHint(path) : null), [path]);
 
   if (path === null) return null;

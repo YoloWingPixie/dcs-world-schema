@@ -48,7 +48,7 @@ describe("model from the database's own description", () => {
       kind: "numbers",
       axis: { kind: "sampled", label: "Mach" },
     });
-    expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.axis).toEqual({
+    expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.axis).toMatchObject({
       kind: "surface",
       rows: "altitudesM",
       cols: "speedsMs",

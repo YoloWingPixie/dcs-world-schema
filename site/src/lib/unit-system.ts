@@ -5,7 +5,7 @@
  * (applied before paint by UNITS_BOOTSTRAP in units.ts).
  */
 import { useSyncExternalStore } from "react";
-import { replaceQuery } from "./history";
+import { updateQuery } from "./history";
 import { UNITS_KEY as KEY, type UnitSystem } from "./units";
 
 const listeners = new Set<() => void>();
@@ -31,12 +31,11 @@ export function setUnitSystem(system: UnitSystem) {
     // Storage blocked: the choice holds for this page view.
   }
   // A shared link's `?units=` should not override the toggle on reload.
-  const params = new URLSearchParams(window.location.search);
-  if (params.has("units")) {
+  updateQuery((params) => {
+    if (!params.has("units")) return;
     if (system === "imperial") params.set("units", system);
     else params.delete("units");
-    replaceQuery(params);
-  }
+  });
   for (const listener of listeners) listener();
 }
 

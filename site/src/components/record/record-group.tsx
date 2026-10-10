@@ -1,20 +1,27 @@
 "use client";
 
 import { type ReactNode, useState } from "react";
+import { getPath } from "@/lib/catalog";
+import { isAngleSectors } from "@/lib/format-field";
+import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { isRecord, type Json } from "@/lib/json";
-import { rangeListOf, withoutNamedCodes } from "@/lib/record-tables";
+import { enumDisplay } from "@/lib/names";
+import { complexFields, rangeListOf, tableColumns, withoutNamedCodes } from "@/lib/record-tables";
 import { type CatalogEntry, SCALAR_KINDS } from "@/lib/types";
-import { FieldRow } from "../field-view";
+import { convertNumber, formatNumber, unitLabel } from "@/lib/units";
+import { FieldRow, fieldDataAttrs, ScalarValue } from "../field-view";
 import {
   AxisTableChart,
   HeatGrid,
   JsonValue,
+  LinkedItems,
+  ListPerItem,
   MachCard,
   NumberList,
   ProvenanceValue,
   RangeList,
-  RecordsTable,
   type RenderCtx,
+  SectorTable,
   StringList,
 } from "./blocks";
 import { EnvelopeBlock } from "./envelope";
@@ -59,13 +66,11 @@ export function RecordsBlock({
   rows,
   ctx,
   prefix,
-  concretePrefix,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
   ctx: RenderCtx;
   prefix: string;
-  concretePrefix: string;
 }) {
   if (entry.layout === "envelope") {
     return (
@@ -79,7 +84,6 @@ export function RecordsBlock({
             index={i}
             total={rows.length}
             ctx={ctx}
-            prefix={prefix}
           />
         ))}
       </div>
@@ -87,19 +91,14 @@ export function RecordsBlock({
   }
   const ranges = rangeListOf(ctx.catalog, entry);
   if (ranges) return <RangeList rows={rows} ctx={ctx} list={ranges} />;
-  const table = (
-    <RecordsTable
-      entry={entry}
-      rows={rows}
-      ctx={ctx}
-      prefix={prefix}
-      concretePrefix={concretePrefix}
-    />
-  );
+  if (entry.layout === "list-per-item") {
+    return <ListPerItem entry={entry} items={rows} ctx={ctx} path={prefix} />;
+  }
+  const table = <RecordsTable entry={entry} rows={rows} ctx={ctx} prefix={prefix} />;
   if (entry.layout !== "axis-table") return table;
   return (
     <>
-      <AxisTableChart entry={entry} rows={rows} ctx={ctx} prefix={prefix} />
+      <AxisTableChart entry={entry} rows={rows} ctx={ctx} />
       <ExactTable rows={rows.length}>{table}</ExactTable>
     </>
   );
@@ -117,13 +116,155 @@ function ExactTable({ rows, children }: { rows: number; children: ReactNode }) {
 }
 
 /**
- * The fields of one record value: scalars as rows, Mach tables as chart cards, lists and
- * grids full width, nested records as sub-groups and arrays of records as tables.
+ * Where a field's block goes in a record group: its line (`row`), full width (`wide`), the
+ * chart cards (`chart`) or a sub-group under its own heading (`nested`).
  */
+export type Block = { slot: "row" | "wide" | "chart" | "nested"; node: ReactNode };
+
+/** Where a block renders: a record group's field, or an array in a table cell or record card. */
+export type BlockPlace =
+  | {
+      in: "group";
+      /** Catalog path of the field (`aero.massKg`); also the block's React key. */
+      path: string;
+      /** The record holding the field: a Mach list's step, a constant name's code. */
+      holder: Json;
+      depth: number;
+    }
+  | { in: "cell"; path: string };
+
+/**
+ * The one block dispatcher of record pages, by the catalog's kind, layout and role: a
+ * group's fields as rows, chart cards, full-width lists and sub-groups; a cell's arrays as
+ * short lists and compact tables. Arrays of records read by their link, or one line per
+ * item, in a cell; under their own heading in a group (RecordsBlock).
+ */
+export function blockFor(
+  entry: CatalogEntry,
+  value: unknown,
+  ctx: RenderCtx,
+  at: BlockPlace,
+): Block {
+  const { path } = at;
+  const group = at.in === "group" ? at : null;
+  const list = Array.isArray(value) ? value : null;
+  /** A group's row (or full-width row, with a body); a cell's bare body. */
+  const field = (body: ReactNode, slot: "row" | "wide" = "wide", props: object = {}): Block =>
+    group
+      ? {
+          slot,
+          node: (
+            <FieldRow
+              key={path}
+              entry={entry}
+              path={path}
+              value={value}
+              ctx={ctx.fctx}
+              vctx={ctx.vctx}
+              {...(body === null ? {} : { body })}
+              {...props}
+            />
+          ),
+        }
+      : { slot, node: body ?? <ScalarValue entry={entry} value={value} vctx={ctx.vctx} /> };
+
+  if (entry.role === "provenance") return field(<ProvenanceValue value={value} />);
+  if (
+    SCALAR_KINDS.has(entry.kind) ||
+    (entry.kind === "any" && typeof value !== "object") ||
+    (entry.kind === "strings" && entry.codeField)
+  ) {
+    if (!group && list) return field(<StringList entry={entry} values={list} vctx={ctx.vctx} />);
+    return field(null, "row", group ? { notes: fieldNotes(entry, group.holder) } : {});
+  }
+  if (entry.kind === "numbers" && list) {
+    const numbers = list as number[];
+    if (entry.axis?.kind === "sampled") {
+      const step = group?.holder[entry.axis.step.field];
+      return {
+        slot: "chart",
+        node: (
+          <MachCard
+            key={path}
+            entry={entry}
+            path={path}
+            values={numbers}
+            step={typeof step === "number" ? step : entry.axis.step.fallback}
+            ctx={ctx}
+          />
+        ),
+      };
+    }
+    return field(<NumberList entry={entry} values={numbers} vctx={ctx.vctx} />, "wide", {
+      wide: list.length > INLINE_NUMBERS,
+    });
+  }
+  if (entry.kind === "strings" && list) {
+    return field(<StringList entry={entry} values={list} vctx={ctx.vctx} />, "wide", {
+      label: `${entry.label} (${list.length})`,
+    });
+  }
+  if (entry.kind === "grid" && list) {
+    return field(<HeatGrid entry={entry} grid={list as number[][]} vctx={ctx.vctx} />);
+  }
+  if (isAngleSectors(entry, value)) {
+    return field(<SectorTable entry={entry} path={path} sectors={value} ctx={ctx} />);
+  }
+  if (group && entry.kind === "record" && isRecord(value) && entry.recordType) {
+    const Heading = group.depth === 0 ? "h3" : "h4";
+    return {
+      slot: "nested",
+      node: (
+        <div className={`subgroup depth-${group.depth}`} key={path}>
+          <Heading
+            className="subgroup-title"
+            title={ctx.catalog.types[entry.recordType]?.description}
+          >
+            {entry.label}
+          </Heading>
+          <RecordGroup
+            typeName={entry.recordType}
+            prefix={path}
+            value={value}
+            ctx={ctx}
+            depth={group.depth + 1}
+          />
+        </div>
+      ),
+    };
+  }
+  if (entry.kind === "records" && list) {
+    if (group) {
+      const Heading = group.depth === 0 ? "h3" : "h4";
+      return {
+        slot: "nested",
+        node: (
+          <div className={`subgroup depth-${group.depth}`} key={path}>
+            <Heading className="subgroup-title" title={entry.description}>
+              {entry.label} <span className="muted">({list.length})</span>
+            </Heading>
+            <RecordsBlock entry={entry} rows={list} ctx={ctx} prefix={path} />
+          </div>
+        ),
+      };
+    }
+    if (entry.linkField) {
+      return field(<LinkedItems entry={entry} items={list} ctx={ctx} path={path} />);
+    }
+    if (entry.layout === "list-per-item") {
+      return field(<ListPerItem entry={entry} items={list} ctx={ctx} path={path} />);
+    }
+    if (entry.recordType) {
+      return field(<RecordsTable entry={entry} rows={list} ctx={ctx} prefix={path} compact />);
+    }
+  }
+  return field(<JsonValue value={value} />);
+}
+
+/** The fields of one record value, each where `blockFor` puts it. */
 export function RecordGroup({
   typeName,
   prefix,
-  concretePrefix,
   value,
   ctx,
   depth,
@@ -132,8 +273,6 @@ export function RecordGroup({
   typeName: string;
   /** Catalog path of this value (`aero`, `flight.motorStages.*`), "" at the root. */
   prefix: string;
-  /** Concrete path (`flight.motorStages.march`). */
-  concretePrefix: string;
   value: Json;
   ctx: RenderCtx;
   depth: number;
@@ -147,137 +286,13 @@ export function RecordGroup({
       .filter((f) => order.has(f.name))
       .sort((a, b) => (order.get(a.name) ?? 0) - (order.get(b.name) ?? 0));
   }
-  const concrete = (name: string) => (concretePrefix ? `${concretePrefix}.${name}` : name);
 
-  const scalars: ReactNode[] = [];
-  const wide: ReactNode[] = [];
-  const charts: ReactNode[] = [];
-  const nested: ReactNode[] = [];
-
-  for (const { name, key, value: v, entry } of fields) {
-    const path = concrete(name);
-    if (entry.role === "provenance") {
-      wide.push(
-        <FieldRow
-          key={key}
-          entry={entry}
-          path={path}
-          value={v}
-          ctx={ctx.fctx}
-          vctx={ctx.vctx}
-          body={<ProvenanceValue value={v} />}
-        />,
-      );
-    } else if (
-      SCALAR_KINDS.has(entry.kind) ||
-      (entry.kind === "any" && typeof v !== "object") ||
-      (entry.kind === "strings" && entry.codeField)
-    ) {
-      scalars.push(
-        <FieldRow
-          key={key}
-          entry={entry}
-          path={path}
-          value={v}
-          ctx={ctx.fctx}
-          vctx={ctx.vctx}
-          notes={fieldNotes(entry, value)}
-        />,
-      );
-    } else if (entry.kind === "numbers" && entry.axis?.kind === "sampled" && Array.isArray(v)) {
-      const step = value[entry.axis.step.field];
-      charts.push(
-        <MachCard
-          key={key}
-          entry={entry}
-          path={path}
-          values={v as number[]}
-          step={typeof step === "number" ? step : entry.axis.step.fallback}
-          ctx={ctx}
-        />,
-      );
-    } else if (entry.kind === "numbers" && Array.isArray(v)) {
-      wide.push(
-        <FieldRow
-          key={key}
-          entry={entry}
-          path={path}
-          value={v}
-          ctx={ctx.fctx}
-          vctx={ctx.vctx}
-          wide={v.length > INLINE_NUMBERS}
-          body={<NumberList entry={entry} values={v as number[]} vctx={ctx.vctx} />}
-        />,
-      );
-    } else if (entry.kind === "strings" && Array.isArray(v)) {
-      wide.push(
-        <FieldRow
-          key={key}
-          entry={entry}
-          path={path}
-          value={v}
-          ctx={ctx.fctx}
-          vctx={ctx.vctx}
-          label={`${entry.label} (${v.length})`}
-          body={<StringList entry={entry} values={v} vctx={ctx.vctx} />}
-        />,
-      );
-    } else if (entry.kind === "grid" && Array.isArray(v)) {
-      wide.push(
-        <FieldRow
-          key={key}
-          entry={entry}
-          path={path}
-          value={v}
-          ctx={ctx.fctx}
-          vctx={ctx.vctx}
-          body={<HeatGrid entry={entry} grid={v as number[][]} vctx={ctx.vctx} />}
-        />,
-      );
-    } else if (entry.kind === "record" && isRecord(v) && entry.recordType) {
-      const Heading = depth === 0 ? "h3" : "h4";
-      nested.push(
-        <div className={`subgroup depth-${depth}`} key={key}>
-          <Heading
-            className="subgroup-title"
-            title={ctx.catalog.types[entry.recordType]?.description}
-          >
-            {entry.label}
-          </Heading>
-          <RecordGroup
-            typeName={entry.recordType}
-            prefix={key}
-            concretePrefix={path}
-            value={v}
-            ctx={ctx}
-            depth={depth + 1}
-          />
-        </div>,
-      );
-    } else if (entry.kind === "records" && Array.isArray(v)) {
-      const Heading = depth === 0 ? "h3" : "h4";
-      nested.push(
-        <div className={`subgroup depth-${depth}`} key={key}>
-          <Heading className="subgroup-title" title={entry.description}>
-            {entry.label} <span className="muted">({v.length})</span>
-          </Heading>
-          <RecordsBlock entry={entry} rows={v} ctx={ctx} prefix={key} concretePrefix={path} />
-        </div>,
-      );
-    } else {
-      wide.push(
-        <FieldRow
-          key={key}
-          entry={entry}
-          path={path}
-          value={v}
-          ctx={ctx.fctx}
-          vctx={ctx.vctx}
-          body={<JsonValue value={v} />}
-        />,
-      );
-    }
+  const slots: Record<Block["slot"], ReactNode[]> = { row: [], wide: [], chart: [], nested: [] };
+  for (const { key, value: v, entry } of fields) {
+    const block = blockFor(entry, v, ctx, { in: "group", path: key, holder: value, depth });
+    slots[block.slot].push(block.node);
   }
+  const { row: scalars, wide, chart: charts, nested } = slots;
 
   return (
     <>
@@ -290,5 +305,204 @@ export function RecordGroup({
       {charts.length ? <div className="mach-grid">{charts}</div> : null}
       {nested}
     </>
+  );
+}
+
+/**
+ * An array of records: a table when every field fits a cell, else one card per item.
+ * Keyed arrays (motor stages) give each cell its concrete path for compare; tables with
+ * an axis column (`mach`) get a chart of the other columns.
+ */
+export function RecordsTable({
+  entry,
+  rows,
+  ctx,
+  prefix,
+  compact,
+}: {
+  entry: CatalogEntry;
+  rows: unknown[];
+  ctx: RenderCtx;
+  /** Catalog path of the array (`stations`, `flight.motorStages`). */
+  prefix: string;
+  compact?: boolean;
+}) {
+  const typeName = entry.recordType ?? "";
+  const itemPrefix = entry.keyField ? `${prefix}.*` : `${prefix}[]`;
+  const columns = tableColumns(ctx.catalog, typeName, itemPrefix).filter((c) =>
+    rows.some((r) => isRecord(r) && getPath(r, c.path) !== undefined),
+  );
+  const complex = complexFields(ctx.catalog, typeName, itemPrefix).filter((f) =>
+    rows.some((r) => isRecord(r) && r[f.name] !== undefined && r[f.name] !== null),
+  );
+  const items = rows.filter(isRecord);
+  // Cards when some item carries a long list or nested records; else complex fields fit cells.
+  const heavy = complex.some((f) =>
+    items.some((r) => {
+      const v = r[f.name];
+      return (
+        Array.isArray(v) &&
+        (v.length > 6 || f.entry.kind === "records" || f.entry.kind === "matrix")
+      );
+    }),
+  );
+  const inline = compact || !heavy;
+  const [showAll, setShowAll] = useState(false);
+  const cardLimit = 12;
+
+  if (complex.length && !inline) {
+    const shown = showAll ? items : items.slice(0, cardLimit);
+    return (
+      <div className="record-cards">
+        {shown.map((row, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: positional
+          <div className="record-card" key={i}>
+            <dl className="record-card-head">
+              {columns
+                .filter((c) => getPath(row, c.path) !== undefined)
+                .map((c) => (
+                  <div key={c.path}>
+                    <dt>{c.entry.label}</dt>
+                    <dd>
+                      <ScalarValue entry={c.entry} value={getPath(row, c.path)} vctx={ctx.vctx} />
+                    </dd>
+                  </div>
+                ))}
+            </dl>
+            {complex.map(({ name, entry: e }) => {
+              const v = row[name];
+              if (v === undefined || v === null || (Array.isArray(v) && v.length === 0))
+                return null;
+              return (
+                <div className="record-card-field" key={name}>
+                  <span className="record-card-label">
+                    {e.label}
+                    {Array.isArray(v) ? <span className="muted"> ({v.length})</span> : null}
+                  </span>
+                  {Array.isArray(v) ? (
+                    blockFor(e, v, ctx, { in: "cell", path: `${itemPrefix}.${name}` }).node
+                  ) : (
+                    <JsonValue value={v} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+        {items.length > shown.length ? (
+          <button type="button" className="btn btn-compact" onClick={() => setShowAll(true)}>
+            Show all {items.length}
+          </button>
+        ) : null}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="table-wrap"
+      style={rows.length > 25 ? { maxHeight: 520, overflow: "auto" } : undefined}
+    >
+      <table className={compact ? "mini-table" : "table data-table"}>
+        {/* A heading with the table's label sits right above: the caption is for screen readers. */}
+        {compact ? null : <caption className="visually-hidden">{entry.label}</caption>}
+        <thead>
+          <tr>
+            {entry.keyField ? <th scope="col">{entry.keyField}</th> : null}
+            {columns
+              .filter((c) => c.path !== entry.keyField)
+              .map((c) => (
+                <th
+                  scope="col"
+                  key={c.path}
+                  className={c.entry.kind === "number" ? "num" : undefined}
+                  title={c.entry.description}
+                >
+                  {unitLabel(c.entry.label, c.entry, ctx.vctx.system)}
+                </th>
+              ))}
+            {inline
+              ? complex.map((f) => (
+                  <th scope="col" key={f.name}>
+                    {f.entry.label}
+                  </th>
+                ))
+              : null}
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((row, i) => {
+            const key = entry.keyField ? String(row[entry.keyField]) : null;
+            return (
+              <tr key={key ?? i}>
+                {key !== null ? (
+                  <th scope="row">
+                    <span className="chip">{key}</span>
+                  </th>
+                ) : null}
+                {columns
+                  .filter((c) => c.path !== entry.keyField)
+                  .map((c) => {
+                    const v = getPath(row, c.path);
+                    const concrete = key !== null ? `${prefix}.${key}.${c.path}` : null;
+                    const attrs =
+                      concrete && v !== undefined
+                        ? {
+                            ...fieldDataAttrs(
+                              c.entry,
+                              concrete,
+                              v,
+                              ctx.fctx,
+                              ctx.vctx,
+                              `${c.entry.label} (${key})`,
+                            ),
+                            tabIndex: 0,
+                          }
+                        : {};
+                    return (
+                      <td
+                        key={c.path}
+                        className={c.entry.kind === "number" ? "num" : undefined}
+                        {...attrs}
+                      >
+                        {v === undefined ? (
+                          <span className="muted">—</span>
+                        ) : c.entry.kind === "number" && typeof v === "number" ? (
+                          ctx.fctx.hasLocation && isGeoField(c.entry.name) ? (
+                            // Runway thresholds, stand positions: on the Location figure.
+                            <a className="geo-link" href={`#${LOCATION_ID}`}>
+                              {formatNumber(convertNumber(v, c.entry, ctx.vctx.system))}
+                            </a>
+                          ) : (
+                            formatNumber(convertNumber(v, c.entry, ctx.vctx.system))
+                          )
+                        ) : c.entry.kind === "enum" ? (
+                          enumDisplay(c.entry, v, ctx.vctx.enums).label
+                        ) : c.entry.role === "provenance" && typeof v === "string" ? (
+                          <ProvenanceValue value={v} inline />
+                        ) : (
+                          <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
+                        )}
+                      </td>
+                    );
+                  })}
+                {inline
+                  ? complex.map((f) => (
+                      <td key={f.name}>
+                        {Array.isArray(row[f.name])
+                          ? blockFor(f.entry, row[f.name], ctx, {
+                              in: "cell",
+                              path: `${itemPrefix}.${f.name}`,
+                            }).node
+                          : null}
+                      </td>
+                    ))
+                  : null}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }
