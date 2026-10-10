@@ -2,7 +2,20 @@ name: Site
 
 on:
   # The site itself, this workflow, and the inputs its database and Lua are built from.
+  # Pull requests run the checks only; pushes to main also deploy.
   push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/site.yml'
+      - 'dcs-world-reference/latest/**'
+      - 'dcs-world-schema/**'
+      - 'tools/**'
+      - 'VERSION'
+      - 'Taskfile.yml'
+      - 'pyproject.toml'
+      - 'uv.lock'
+  pull_request:
     branches: [main]
     paths:
       - 'site/**'
@@ -20,12 +33,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: site
+  group: site-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   shell:
     name: Build shell
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -121,6 +135,7 @@ jobs:
   # (tools/datamine/dump_lua.py: tag dcs-dump-<DCS version>, asset dcs-g-dump-<version>.tar.gz).
   lua:
     name: Collect Lua
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -163,9 +178,66 @@ jobs:
           path: dist/site-lua
           retention-days: 1
 
+  # Lint, types, unit tests and overlays against the database built above, then the
+  # Playwright suite (both database layouts) on a build of the site with that database.
+  checks:
+    name: Site checks
+    needs: database
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-db
+          path: dist/site-db
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          echo "SITE_SQLITE=$(ls "$GITHUB_WORKSPACE"/dist/site-db/*.sqlite)" >> "$GITHUB_ENV"
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Overlays
+        run: pnpm check:overlays "$SITE_SQLITE"
+
+      - name: Build
+        env:
+          SITE_LUA: none
+        run: pnpm build
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # The speed budgets (perf.spec.ts) measure throttled loads; shared runners are too
+      # noisy for them, so they run locally only.
+      - name: End-to-end
+        run: |
+          pnpm exec playwright test --grep-invert "speed budget"
+          SITE_DB_MODE=chunked pnpm exec playwright test --grep-invert "speed budget"
+
   deploy:
     name: Deploy
-    needs: [shell, database, lua]
+    if: github.event_name != 'pull_request'
+    needs: [shell, database, lua, checks]
     runs-on: ubuntu-latest
     environment:
       name: cloudflare-pages
