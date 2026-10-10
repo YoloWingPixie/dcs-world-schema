@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
-import { locate, parsePointer } from "./locate";
+import { lineAt, lineStarts, locate, locateIn, parseLua, parsePointer } from "./locate";
 import { dumpFile, recordSources, shortLabels, splitSourcePath } from "./source";
 import { tokenize } from "./tokenize";
 
@@ -84,6 +84,18 @@ describe("locate", () => {
   it("follows anchors and refs", () => {
     expect(at("/client/a~1b/z")?.text).toBe("z = 1");
     expect(at("/other/z")?.text).toBe("z = 1");
+  });
+
+  it("looks up many pointers in one parse", () => {
+    const parsed = parseLua(text);
+    expect(locateIn(parsed, "/client/fm")).toEqual(locate(text, "/client/fm"));
+    expect(locateIn(parsed, "/other/z")).toEqual(locate(text, "/other/z"));
+  });
+
+  it("maps offsets to lines", () => {
+    const starts = lineStarts("a\nbc\n\nd");
+    expect(starts).toEqual([0, 2, 5, 6]);
+    expect([0, 1, 2, 4, 5, 6, 7].map((p) => lineAt(starts, p))).toEqual([0, 0, 1, 1, 2, 3, 3]);
   });
 
   it("marks the deepest table when a key is missing", () => {

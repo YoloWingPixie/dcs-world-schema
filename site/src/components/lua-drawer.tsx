@@ -2,6 +2,7 @@
 
 import "../styles/lua.css";
 import {
+  memo,
   type ReactNode,
   useEffect,
   useId,
@@ -10,7 +11,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { locate } from "@/lib/lua/locate";
+import { lineAt, lineStarts, locateIn, parseLua } from "@/lib/lua/locate";
 import {
   fileStem,
   type LuaBlock,
@@ -51,15 +52,6 @@ const formatSize = (n: number) =>
       ? `${(n / 1024).toFixed(1)} KB`
       : `${(n / 1048576).toFixed(2)} MB`;
 
-function lineStart(text: string, i: number) {
-  return text.lastIndexOf("\n", i - 1) + 1;
-}
-
-function lineEnd(text: string, i: number) {
-  const nl = text.indexOf("\n", i);
-  return nl < 0 ? text.length : nl;
-}
-
 /** Index of the first token ending after `pos`. */
 function firstToken(tokens: Tokens, pos: number) {
   let lo = 0;
@@ -93,14 +85,32 @@ function renderRange(text: string, tokens: Tokens | null, from: number, to: numb
   return out;
 }
 
-const lineNumbers = (from: number, to: number) =>
-  Array.from({ length: to - from + 1 }, (_, i) => from + i).join("\n");
+const lineNumbers = (count: number) => Array.from({ length: count }, (_, i) => i + 1).join("\n");
 
-function countLines(text: string, end = text.length) {
-  let n = 1;
-  for (let i = text.indexOf("\n"); i >= 0 && i < end; i = text.indexOf("\n", i + 1)) n++;
-  return n;
-}
+/** The gutter and code of one file: rendered once per file, never on a block change. */
+const CodeBody = memo(function CodeBody({
+  text,
+  tokens,
+  lines,
+}: {
+  text: string;
+  tokens: Tokens | null;
+  lines: number;
+}) {
+  return (
+    <>
+      <pre className="lua-gutter" aria-hidden="true">
+        {lineNumbers(lines)}
+      </pre>
+      <pre className="lua-text">
+        <code>{renderRange(text, tokens, 0, text.length)}</code>
+      </pre>
+    </>
+  );
+});
+
+/** Top padding of the code (px; .lua-text in lua.css). */
+const CODE_PAD = 12;
 
 function safeName(s: string) {
   return s.replace(/[\\/:*?"<>|\s]+/g, "_");
@@ -119,7 +129,7 @@ export default function LuaDrawer({
   const titleId = useId();
   const dialog = useRef<HTMLDivElement>(null);
   const scroller = useRef<HTMLElement>(null);
-  const focusRef = useRef<HTMLSpanElement>(null);
+  const codeRef = useRef<HTMLDivElement>(null);
   const missingRef = useRef(onMissing);
   missingRef.current = onMissing;
   const { path, pointer } = splitSourcePath(sourcePath);
@@ -146,13 +156,22 @@ export default function LuaDrawer({
     () => (text !== null && text.length <= HIGHLIGHT_LIMIT ? tokenize(text) : null),
     [text],
   );
+  // Once per file: the parse tree (for pointers) and the line starts.
+  const parsed = useMemo(() => (text === null ? null : parseLua(text)), [text]);
+  const starts = useMemo(() => (text === null ? [0] : lineStarts(text)), [text]);
+  const lines = text === null ? 0 : starts.length;
+  /** The block's lines (0-based, inclusive). */
   const focus = useMemo(() => {
-    if (text === null || !pointer) return null;
-    const hit = locate(text, pointer);
+    if (!parsed || !pointer) return null;
+    const hit = locateIn(parsed, pointer);
     if (!hit) return null;
-    return { ...hit, start: lineStart(text, hit.start), end: lineEnd(text, hit.end - 1) };
-  }, [text, pointer]);
-  const lines = useMemo(() => (text === null ? 0 : countLines(text)), [text]);
+    return {
+      partial: hit.partial,
+      first: lineAt(starts, hit.start),
+      last: lineAt(starts, Math.max(hit.start, hit.end - 1)),
+    };
+  }, [parsed, starts, pointer]);
+  const [lineHeight, setLineHeight] = useState(0);
   const bytes = useMemo(() => (text === null ? 0 : new TextEncoder().encode(text).length), [text]);
 
   // Modal: lock the page, trap focus, Esc closes.
@@ -166,17 +185,14 @@ export default function LuaDrawer({
     };
   }, []);
 
-  // Bring the block into view (or the top for a whole file).
+  // Bring the block into view (or the top for a whole file): arithmetic, no layout reads.
   useLayoutEffect(() => {
     const box = scroller.current;
-    if (!box || text === null) return;
-    const el = focusRef.current;
-    if (el && focus) {
-      box.scrollTop =
-        el.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 24;
-    } else {
-      box.scrollTop = 0;
-    }
+    const code = codeRef.current;
+    if (!box || !code || text === null) return;
+    const lh = parseFloat(getComputedStyle(code).getPropertyValue("--lua-lh")) || 19;
+    setLineHeight(lh);
+    box.scrollTop = focus ? Math.max(0, CODE_PAD + focus.first * lh - 24) : 0;
   }, [text, focus]);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
@@ -237,42 +253,20 @@ export default function LuaDrawer({
   } else if ("error" in current) {
     body = <p className="lua-status lua-error">{current.error}</p>;
   } else if (text !== null) {
-    const n = text.length;
-    let code: ReactNode;
-    let gutter: ReactNode;
-    if (focus) {
-      const firstLine = countLines(text, focus.start);
-      const lastLine = firstLine + countLines(text.slice(focus.start, focus.end)) - 1;
-      const before = Math.max(0, focus.start - 1);
-      code = (
-        <>
-          {renderRange(text, tokens, 0, before)}
-          <span className="lua-focus" ref={focusRef}>
-            {renderRange(text, tokens, focus.start, focus.end)}
-          </span>
-          {renderRange(text, tokens, Math.min(n, focus.end + 1), n)}
-        </>
-      );
-      gutter = (
-        <>
-          {firstLine > 1 ? lineNumbers(1, firstLine - 1) : null}
-          <span className="lua-focus">{lineNumbers(firstLine, lastLine)}</span>
-          {lastLine < lines ? lineNumbers(lastLine + 1, lines) : null}
-        </>
-      );
-    } else {
-      code = renderRange(text, tokens, 0, n);
-      gutter = lineNumbers(1, lines);
-    }
     body = (
       <section className="lua-scroll" ref={scroller} tabIndex={0} aria-label={`${fileName} source`}>
-        <div className="lua-code">
-          <pre className="lua-gutter" aria-hidden="true">
-            {gutter}
-          </pre>
-          <pre className="lua-text">
-            <code>{code}</code>
-          </pre>
+        <div className="lua-code" ref={codeRef}>
+          <CodeBody text={text} tokens={tokens} lines={lines} />
+          {focus && lineHeight ? (
+            <div
+              className="lua-focus"
+              aria-hidden="true"
+              style={{
+                top: CODE_PAD + focus.first * lineHeight,
+                height: (focus.last - focus.first + 1) * lineHeight,
+              }}
+            />
+          ) : null}
         </div>
       </section>
     );

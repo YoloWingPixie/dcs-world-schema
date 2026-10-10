@@ -32,8 +32,10 @@ function setParam(value: string | null) {
   const next = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
   if (next === `${window.location.pathname}${window.location.search}${window.location.hash}`)
     return;
-  // Native history: Next.js syncs it, and the shell route has no RSC payload.
-  window.history.replaceState(null, "", next);
+  // The unpatched History method, keeping Next.js's history state: Next.js's own
+  // replaceState would sync its router and re-render the whole record page, and nothing
+  // reads this parameter but the drawer.
+  History.prototype.replaceState.call(window.history, window.history.state, "", next);
 }
 
 /** Whether this build has Lua files (data/lua.json); false until known. */

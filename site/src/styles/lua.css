@@ -214,6 +214,8 @@
 }
 
 .lua-code {
+  --lua-lh: 19px;
+  position: relative;
   display: flex;
   min-width: max-content;
   min-height: 100%;
@@ -223,7 +225,7 @@
 .lua-text {
   margin: 0;
   padding: 12px 0 24px;
-  font: 400 12.5px / 1.55 var(--font-mono);
+  font: 400 12.5px / var(--lua-lh) var(--font-mono);
   tab-size: 4;
   white-space: pre;
 }
@@ -249,19 +251,15 @@
   font: inherit;
 }
 
+/* The chosen block: one box over its lines (lua-drawer.tsx sets top and height). */
 .lua-focus {
-  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
   background: var(--lua-focus);
-}
-
-.lua-text .lua-focus {
-  margin-left: -14px;
-  padding-left: 12px;
-  border-left: 2px solid var(--lua-focus-edge);
-}
-
-.lua-gutter .lua-focus {
-  color: var(--ink);
+  box-shadow: inset 2px 0 0 var(--lua-focus-edge);
+  pointer-events: none;
 }
 
 .lt-string {
