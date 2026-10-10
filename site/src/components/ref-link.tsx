@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { BASE_PATH } from "@/lib/base-path";
-import { pushUrl, replaceUrl } from "@/lib/history";
+import { pushUrl } from "@/lib/history";
 import { type NavHint, setNavHint } from "@/lib/nav-hints";
 
 let shellMounted = 0;
@@ -22,14 +22,12 @@ export function registerShell(): () => void {
  * worker and its page cache survive; elsewhere it is a normal page load, which the host
  * answers with the shell (404.html).
  */
-export function navigateReference(href: string, { replace = false } = {}) {
+export function navigateReference(href: string) {
   const url = `${BASE_PATH}${href}`;
   if (shellMounted > 0) {
-    if (replace) replaceUrl(url);
-    else pushUrl(url);
+    pushUrl(url);
     window.scrollTo(0, 0);
-  } else if (replace) window.location.replace(url);
-  else window.location.assign(url);
+  } else window.location.assign(url);
 }
 
 type Props = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {

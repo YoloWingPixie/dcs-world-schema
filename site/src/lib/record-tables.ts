@@ -5,10 +5,11 @@
  * (components/record) and the placement pass (lib/placement.ts). Each answer is computed
  * once per catalog.
  */
+import { isRecord } from "./json";
 import { perObject } from "./once";
 import { type CatalogEntry, SCALAR_KINDS, type SeriesCatalog } from "./types";
 
-export type Column = { path: string; key: string; entry: CatalogEntry; parts: string[] };
+export type Column = { path: string; key: string; entry: CatalogEntry };
 
 type Shapes = Pick<SeriesCatalog, "types" | "entries">;
 
@@ -43,17 +44,12 @@ export function tableColumns(catalog: Shapes, typeName: string, prefix: string):
       const key = `${prefix}.${name}`;
       const entry = catalog.entries[key];
       if (!entry) continue;
-      if (SCALAR_KINDS.has(entry.kind)) out.push({ path: name, key, entry, parts: [name] });
+      if (SCALAR_KINDS.has(entry.kind)) out.push({ path: name, key, entry });
       else if (entry.kind === "record" && entry.recordType) {
         for (const sub of catalog.types[entry.recordType]?.fields ?? []) {
           const subEntry = catalog.entries[`${key}.${sub}`];
           if (subEntry && SCALAR_KINDS.has(subEntry.kind)) {
-            out.push({
-              path: `${name}.${sub}`,
-              key: `${key}.${sub}`,
-              entry: subEntry,
-              parts: [name, sub],
-            });
+            out.push({ path: `${name}.${sub}`, key: `${key}.${sub}`, entry: subEntry });
           }
         }
       }
@@ -86,14 +82,72 @@ export type RangeList = {
 /** The range pair and other columns of a `ranges` list (catalog `layout`), else null. */
 export function rangeListOf(catalog: Shapes, entry: CatalogEntry): RangeList | null {
   if (entry.layout !== "ranges" || !entry.rangePair || !entry.recordType) return null;
-  const { rangePair, recordType, path } = entry;
+  const { rangePair, recordType, path, itemPath } = entry;
+  if (!itemPath) return null;
   return cache.cachedBy(catalog, `ranges\n${path}`, () => {
     const min = catalog.entries[rangePair.min];
     const max = catalog.entries[rangePair.max];
     if (!min || !max) return null;
-    const others = tableColumns(catalog, recordType, `${path}[]`).filter(
+    const others = tableColumns(catalog, recordType, itemPath).filter(
       (c) => c.entry !== min && c.entry !== max,
     );
     return { pair: { min, max }, others };
   });
+}
+
+/** A table's curve over its axis column (catalog `axis.kind: "column"`). */
+export type Curve = { x: number[]; y: number[] };
+
+/** One envelope item's grid over its two axes (catalog `axis.kind: "surface"`). */
+export type Surface = { rows: number[]; cols: number[]; z: number[][] };
+
+/**
+ * The curve of `column` over the `axis` column of a table's rows: the rows holding a number
+ * in both, in order; null when none does. A record's value of the column (lib/catalog.ts
+ * `valuesAt`) and its chart (components/record/blocks.tsx `AxisTableChart`).
+ */
+export function curveOf(rows: unknown, axis: string, column: string): Curve | null {
+  if (!Array.isArray(rows)) return null;
+  const x: number[] = [];
+  const y: number[] = [];
+  for (const row of rows) {
+    if (!isRecord(row)) continue;
+    const xv = row[axis];
+    const yv = row[column];
+    if (typeof xv === "number" && typeof yv === "number") {
+      x.push(xv);
+      y.push(yv);
+    }
+  }
+  return x.length ? { x, y } : null;
+}
+
+/**
+ * The surfaces of the grid `column` in a list of envelope items: one per item holding it,
+ * with the item's `rows` and `cols` axes. A record's value of the grid (lib/catalog.ts
+ * `valuesAt`) and of its envelope blocks (components/record/envelope.tsx).
+ */
+export function surfacesOf(
+  items: unknown,
+  axis: { rows: string; cols: string },
+  column: string,
+): Surface[] {
+  if (!Array.isArray(items)) return [];
+  return items
+    .filter(isRecord)
+    .filter((it) => Array.isArray(it[column]))
+    .map((it) => ({
+      rows: it[axis.rows] as number[],
+      cols: it[axis.cols] as number[],
+      z: it[column] as number[][],
+    }));
+}
+
+/** The surfaces of a compare value (`flight.launchEnvelopes[].maxRangeM`). */
+export function asSurfaces(value: unknown): Surface[] {
+  if (!Array.isArray(value)) return [];
+  return value.filter(
+    (s): s is Surface =>
+      isRecord(s) && Array.isArray(s.rows) && Array.isArray(s.cols) && Array.isArray(s.z),
+  );
 }

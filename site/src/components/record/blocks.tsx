@@ -10,7 +10,8 @@ import {
   type ValueContext,
 } from "@/lib/format-field";
 import { isRecord } from "@/lib/json";
-import type { RangeList as RangeListSpec } from "@/lib/record-tables";
+import { isDumpPath } from "@/lib/lua/source";
+import { type Curve, curveOf, type RangeList as RangeListSpec } from "@/lib/record-tables";
 import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
 import { convertNumber, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
@@ -56,7 +57,6 @@ export function MachCard({
       tabIndex={0}
       aria-describedby={tipId}
       aria-keyshortcuts="Shift+F10 C"
-      style={{ margin: 0 }}
       {...fieldDataAttrs(entry, path, values, ctx.fctx, ctx.vctx)}
     >
       <figcaption className="mach-card-head">
@@ -293,7 +293,7 @@ export function ProvenanceValue({ value, inline = false }: { value: unknown; inl
 /** "View Lua" beside a `_G` dump path or block `sourcePath`: the record's Lua drawer, there. */
 export function LuaLink({ path }: { path: string }) {
   const available = useLuaAvailable();
-  if (!available || !path.startsWith("_G/")) return null;
+  if (!available || !isDumpPath(path)) return null;
   return (
     <button
       type="button"
@@ -312,20 +312,17 @@ export function HeatGrid({
   grid,
   rowAxis,
   colAxis,
-  rowLabel = "row",
-  colLabel = "col",
   vctx,
-  caption,
 }: {
   entry: CatalogEntry;
   grid: number[][];
+  /** The row axis: its entry (labelled for one value: "Altitude") and values. */
   rowAxis?: { entry: CatalogEntry; values: number[] } | undefined;
   colAxis?: { entry: CatalogEntry; values: number[] } | undefined;
-  rowLabel?: string;
-  colLabel?: string;
   vctx: ValueContext;
-  caption?: string;
 }) {
+  const rowLabel = rowAxis?.entry.label ?? "row";
+  const colLabel = colAxis?.entry.label ?? "col";
   const cells = grid.flat().filter((v) => typeof v === "number");
   const max = Math.max(...cells);
   const min = Math.min(...cells);
@@ -345,7 +342,7 @@ export function HeatGrid({
     <div className="table-wrap">
       <table className="launch-grid">
         <caption className="visually-hidden">
-          {caption ?? entry.label}: rows by {rowLabel}, columns by {colLabel}
+          {entry.label}: rows by {rowLabel}, columns by {colLabel}
           {unit ? `, values in ${unit}` : ""}.
         </caption>
         <thead>
@@ -408,17 +405,14 @@ export function LinkedItems({
   entry,
   items,
   ctx,
-  path,
 }: {
   entry: CatalogEntry;
   items: unknown[];
   ctx: RenderCtx;
-  /** Catalog path of the array. */
-  path: string;
 }) {
   const link = entry.linkField ?? "";
   const fieldsOf = ctx.catalog.types[entry.recordType ?? ""]?.fields ?? [];
-  const at = (f: string) => ctx.catalog.entries[`${path}[].${f}`];
+  const at = (f: string) => ctx.catalog.entries[`${entry.itemPath}.${f}`];
   const linkEntry = at(link);
   if (!linkEntry) return null;
   const labelOf = (f: string) => at(f)?.label.toLowerCase() ?? f;
@@ -475,16 +469,13 @@ export function ListPerItem({
   entry,
   items,
   ctx,
-  path,
 }: {
   entry: CatalogEntry;
   items: unknown[];
   ctx: RenderCtx;
-  /** Catalog path of the array. */
-  path: string;
 }) {
   const field = ctx.catalog.types[entry.recordType ?? ""]?.fields[0] ?? "";
-  const list = ctx.catalog.entries[`${path}[].${field}`];
+  const list = ctx.catalog.entries[`${entry.itemPath}.${field}`];
   if (!list) return null;
   return (
     <ol className="inline-rows">
@@ -501,6 +492,8 @@ export function ListPerItem({
     </ol>
   );
 }
+
+const NO_CURVE: Curve = { x: [], y: [] };
 
 /** A table with a numeric axis column (`mach`): chart one of its curves (catalog `axis.columns`) over it. */
 export function AxisTableChart({
@@ -522,28 +515,29 @@ export function AxisTableChart({
       }),
     [catalog, axis],
   );
-  const items = useMemo(() => rows.filter(isRecord), [rows]);
   const [picked, setPicked] = useState<string | null>(columns[0]?.path ?? null);
   const column = columns.find((c) => c.path === picked) ?? columns[0];
-  const series = useMemo(() => {
-    if (!axis || !column) return [];
-    const pts = items
-      .map((r) => [r[axis.field], r[column.entry.name]] as const)
-      .filter(
-        (p): p is readonly [number, number] => typeof p[0] === "number" && typeof p[1] === "number",
-      );
-    return [
-      {
-        id: fctx.slug,
-        label: fctx.recordName,
-        color: SERIES_COLORS[0] ?? "var(--s1)",
-        x: pts.map((p) => p[0]),
-        values: pts.map((p) => convertNumber(p[1], column.entry, vctx.system)),
-      },
-    ];
-  }, [items, axis, column, fctx, vctx.system]);
+  // The column's curve, as the record's compare value of it (lib/catalog.ts `valuesAt`).
+  const xy = useMemo(
+    () => (axis && column ? curveOf(rows, axis.field, column.entry.name) : null) ?? NO_CURVE,
+    [rows, axis, column],
+  );
+  const series = useMemo(
+    () =>
+      column
+        ? [
+            {
+              id: fctx.slug,
+              label: fctx.recordName,
+              color: SERIES_COLORS[0] ?? "var(--s1)",
+              x: xy.x,
+              values: xy.y.map((v) => convertNumber(v, column.entry, vctx.system)),
+            },
+          ]
+        : [],
+    [xy, column, fctx, vctx.system],
+  );
   if (!column || !axis) return null;
-  const xy = { x: series[0]?.x ?? [], y: items.map((r) => r[column.entry.name]) };
   const title = `${column.entry.label} by ${axis.label}`;
   return (
     <div className="axis-chart">

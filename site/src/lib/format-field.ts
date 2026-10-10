@@ -1,4 +1,5 @@
 import { enumDisplay } from "./names";
+import { asSurfaces } from "./record-tables";
 import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc } from "./types";
 import {
   convertNumber,
@@ -48,6 +49,17 @@ export function isXY(value: unknown): value is { x: number[]; y: number[] } {
 
 const numbers = (v: unknown): number[] =>
   Array.isArray(v) ? v.filter((x): x is number => typeof x === "number") : [];
+
+/**
+ * The cells of an envelope grid's value (lib/record-tables.ts `surfacesOf`), in the display
+ * system; null when the value is no surfaces.
+ */
+function surfaceCells(entry: CatalogEntry, value: unknown, system: UnitSystem) {
+  const surfaces = entry.axis?.kind === "surface" ? asSurfaces(value) : [];
+  if (!surfaces.length) return null;
+  const cells = surfaces.flatMap((s) => numbers(s.z.flat()));
+  return { count: surfaces.length, cells: cells.map((v) => convertNumber(v, entry, system)) };
+}
 
 /**
  * Traverse sectors (catalog `layout: "sectors"`, DCS `WS[i].angles`): per sector
@@ -131,6 +143,14 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
     const ys = value.y.map((v) => convertNumber(v, entry, ctx.system));
     return `${ys.length} points, ${formatNumber(Math.min(...ys))} to ${formatNumber(Math.max(...ys))}`;
   }
+  const surfaces = surfaceCells(entry, value, ctx.system);
+  if (surfaces) {
+    const { count, cells } = surfaces;
+    const tables = `${count} ${count === 1 ? "table" : "tables"}`;
+    return cells.length
+      ? `${tables}, ${formatNumber(Math.min(...cells))} to ${formatNumber(Math.max(...cells))}`
+      : tables;
+  }
   if (entry.kind === "numbers") {
     const nums = numbers(value).map((v) => convertNumber(v, entry, ctx.system));
     if (entry.axis?.kind === "sampled" || nums.length > 8) {
@@ -189,6 +209,9 @@ export function sortableValue(
     return value;
   }
   if (isXY(value)) return Math.max(...value.y.map((v) => convertNumber(v, entry, ctx.system)));
+  // An envelope grid sorts by its largest cell.
+  const surfaces = surfaceCells(entry, value, ctx.system);
+  if (surfaces) return surfaces.cells.length ? Math.max(...surfaces.cells) : null;
   if (entry.kind === "numbers") {
     const nums = numbers(value);
     return nums.length ? Math.max(...nums.map((v) => convertNumber(v, entry, ctx.system))) : null;

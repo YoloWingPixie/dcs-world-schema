@@ -3,7 +3,7 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { loadCatalog, loadRecord } from "@/lib/client-data";
 import { updateQuery } from "@/lib/history";
-import { luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
+import { knownLuaAvailable, luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
 import { useLoaded } from "@/lib/use-loaded";
 import { CodeIcon } from "@/ui/icons";
 import { showToast } from "./toast";
@@ -28,9 +28,9 @@ function setParam(value: string | null) {
   });
 }
 
-/** Whether this build has Lua files (data/lua.json); false until known. */
+/** Whether this build has Lua files (data/lua.json); false until first known. */
 export function useLuaAvailable(): boolean {
-  return useLoaded(luaAvailable) ?? false;
+  return useLoaded(luaAvailable, "", knownLuaAvailable) ?? false;
 }
 
 /**

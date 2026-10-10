@@ -7,8 +7,6 @@ import { FieldRow, ScalarValue } from "../field-view";
 import {
   HeatGrid,
   JsonValue,
-  LinkedItems,
-  ListPerItem,
   MachCard,
   NumberList,
   ProvenanceValue,
@@ -16,7 +14,7 @@ import {
   SectorTable,
   StringList,
 } from "./blocks";
-import { blockFor, RecordsTable } from "./record-group";
+import { blockFor, RecordsBlock, recordsLayoutFor } from "./record-group";
 
 let model: Model;
 beforeAll(async () => {
@@ -75,8 +73,7 @@ describe("blockFor", () => {
       if (!entry) throw new Error(path);
       return shape(blockFor(entry, value, ctxOf(catalog), { in: "cell", path }).node).type;
     };
-    expect(cell(aircraft, "stations[].accepts", [{ clsid: "{X}" }])).toBe(LinkedItems);
-    expect(cell(aircraft, "gun.mounts[].mixes", [{ ammo: ["a"] }])).toBe(ListPerItem);
+    expect(cell(aircraft, "stations[].accepts", [{ clsid: "{X}" }])).toBe(RecordsBlock);
     expect(cell(vehicles, "weaponSystems[].sectorsRad", [[0, 1]])).toBe(SectorTable);
     expect(cell(aircraft, "stations[].accepts[].clsid", "{X}")).toBe(ScalarValue);
     const strings = Object.values(aircraft.entries).find(
@@ -87,8 +84,32 @@ describe("blockFor", () => {
       (e) => e.kind === "numbers" && e.path.includes("[]") && !e.axis,
     );
     if (numbers) expect(cell(vehicles, numbers.path, [1, 2])).toBe(NumberList);
-    expect(cell(aircraft, "stations", [{}])).toBe(RecordsTable);
+    expect(cell(aircraft, "stations", [{}])).toBe(RecordsBlock);
     const any = Object.values(aircraft.entries).find((e) => e.kind === "any");
     if (any) expect(cell(aircraft, any.path, { a: 1 })).toBe(JsonValue);
+  });
+});
+
+describe("recordsLayoutFor", () => {
+  it("lays out arrays of records by their catalog layout, for their place", () => {
+    const aircraft = catalogFor(model, "aircraft");
+    const weapons = catalogFor(model, "weapons");
+    const radios = catalogFor(model, "radios");
+    const layout = (catalog: SeriesCatalog, path: string, place: "group" | "cell") => {
+      const entry = catalog.entries[path];
+      if (!entry) throw new Error(path);
+      return recordsLayoutFor(entry, place);
+    };
+    expect(layout(weapons, "flight.launchEnvelopes", "group")).toBe("envelope");
+    expect(layout(aircraft, "flight.aerodynamics.table", "group")).toBe("axis-table");
+    expect(layout(aircraft, "stations", "group")).toBe("table");
+    expect(layout(aircraft, "gun.mounts[].mixes", "group")).toBe("list-per-item");
+    const ranges = Object.values(radios.entries).find((e) => e.layout === "ranges");
+    if (ranges) expect(layout(radios, ranges.path, "group")).toBe("ranges");
+    // In a cell: items by their link, one line per item, else a compact table.
+    expect(layout(aircraft, "stations[].accepts", "cell")).toBe("linked");
+    expect(layout(aircraft, "gun.mounts[].mixes", "cell")).toBe("list-per-item");
+    expect(layout(aircraft, "stations", "cell")).toBe("table");
+    expect(layout(weapons, "flight.launchEnvelopes", "cell")).toBe("table");
   });
 });

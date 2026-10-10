@@ -2,14 +2,14 @@
 
 import { type ReactNode, useState } from "react";
 import { getPath } from "@/lib/catalog";
+import { cellText } from "@/lib/cell-text";
 import { isAngleSectors } from "@/lib/format-field";
 import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { isRecord, type Json } from "@/lib/json";
-import { enumDisplay } from "@/lib/names";
 import { complexFields, rangeListOf, tableColumns, withoutNamedCodes } from "@/lib/record-tables";
 import { type CatalogEntry, SCALAR_KINDS } from "@/lib/types";
-import { convertNumber, formatNumber, unitLabel } from "@/lib/units";
-import { FieldRow, fieldDataAttrs, ScalarValue } from "../field-view";
+import { unitLabel } from "@/lib/units";
+import { FieldRow, fieldDataAttrs, RecordLink, ScalarValue } from "../field-view";
 import {
   AxisTableChart,
   HeatGrid,
@@ -60,48 +60,89 @@ export function fieldNotes(entry: CatalogEntry, value: Json): string[] | undefin
   return notes.length ? notes : undefined;
 }
 
-/** One array of records under its own heading: envelopes, axis tables, tables or cards. */
+/** How an array of records reads (`RecordsBlock`). */
+export type RecordsLayout =
+  | "envelope"
+  | "ranges"
+  | "list-per-item"
+  | "axis-table"
+  | "linked"
+  | "table"
+  | "json";
+
+/**
+ * How an array of records reads where it is, by the catalog's layout: in a record group
+ * (under its own heading) envelopes, lists of ranges, one line per item, an axis table's
+ * chart above its table, else a table or cards; in a table cell or record card, items by
+ * their link, one line per item, else a compact table.
+ */
+export function recordsLayoutFor(entry: CatalogEntry, place: BlockPlace["in"]): RecordsLayout {
+  if (place === "group") {
+    if (entry.layout === "envelope" || entry.layout === "ranges") return entry.layout;
+    if (entry.layout === "list-per-item" || entry.layout === "axis-table") return entry.layout;
+    return "table";
+  }
+  if (entry.linkField) return "linked";
+  if (entry.layout === "list-per-item") return "list-per-item";
+  return entry.recordType ? "table" : "json";
+}
+
+/** One array of records, laid out for its place (`recordsLayoutFor`). */
 export function RecordsBlock({
   entry,
   rows,
   ctx,
   prefix,
+  place,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
   ctx: RenderCtx;
+  /** Catalog path of the array. */
   prefix: string;
+  place: BlockPlace["in"];
 }) {
-  if (entry.layout === "envelope") {
-    return (
-      <div className="envelopes">
-        {rows.filter(isRecord).map((item, i) => (
-          <EnvelopeBlock
-            // biome-ignore lint/suspicious/noArrayIndexKey: envelopes are positional
-            key={i}
-            entry={entry}
-            item={item}
-            index={i}
-            total={rows.length}
-            ctx={ctx}
-          />
-        ))}
-      </div>
-    );
-  }
-  const ranges = rangeListOf(ctx.catalog, entry);
-  if (ranges) return <RangeList rows={rows} ctx={ctx} list={ranges} />;
-  if (entry.layout === "list-per-item") {
-    return <ListPerItem entry={entry} items={rows} ctx={ctx} path={prefix} />;
-  }
-  const table = <RecordsTable entry={entry} rows={rows} ctx={ctx} prefix={prefix} />;
-  if (entry.layout !== "axis-table") return table;
-  return (
-    <>
-      <AxisTableChart entry={entry} rows={rows} ctx={ctx} />
-      <ExactTable rows={rows.length}>{table}</ExactTable>
-    </>
+  const layout = recordsLayoutFor(entry, place);
+  const table = (
+    <RecordsTable entry={entry} rows={rows} ctx={ctx} prefix={prefix} compact={place === "cell"} />
   );
+  switch (layout) {
+    case "envelope":
+      return (
+        <div className="envelopes">
+          {rows.filter(isRecord).map((item, i) => (
+            <EnvelopeBlock
+              // biome-ignore lint/suspicious/noArrayIndexKey: envelopes are positional
+              key={i}
+              entry={entry}
+              items={rows}
+              item={item}
+              index={i}
+              ctx={ctx}
+            />
+          ))}
+        </div>
+      );
+    case "ranges": {
+      const ranges = rangeListOf(ctx.catalog, entry);
+      return ranges ? <RangeList rows={rows} ctx={ctx} list={ranges} /> : table;
+    }
+    case "list-per-item":
+      return <ListPerItem entry={entry} items={rows} ctx={ctx} />;
+    case "axis-table":
+      return (
+        <>
+          <AxisTableChart entry={entry} rows={rows} ctx={ctx} />
+          <ExactTable rows={rows.length}>{table}</ExactTable>
+        </>
+      );
+    case "linked":
+      return <LinkedItems entry={entry} items={rows} ctx={ctx} />;
+    case "table":
+      return table;
+    case "json":
+      return <JsonValue value={rows} />;
+  }
 }
 
 /** A table under a collapsed "Table (n rows)": rendered once first opened. */
@@ -136,8 +177,8 @@ export type BlockPlace =
 /**
  * The one block dispatcher of record pages, by the catalog's kind, layout and role: a
  * group's fields as rows, chart cards, full-width lists and sub-groups; a cell's arrays as
- * short lists and compact tables. Arrays of records read by their link, or one line per
- * item, in a cell; under their own heading in a group (RecordsBlock).
+ * short lists and compact tables. Arrays of records lay out by `recordsLayoutFor` in both
+ * places: under their own heading in a group, in place in a cell.
  */
 export function blockFor(
   entry: CatalogEntry,
@@ -210,53 +251,45 @@ export function blockFor(
   if (isAngleSectors(entry, value)) {
     return field(<SectorTable entry={entry} path={path} sectors={value} ctx={ctx} />);
   }
-  if (group && entry.kind === "record" && isRecord(value) && entry.recordType) {
-    const Heading = group.depth === 0 ? "h3" : "h4";
+  /** A group's sub-group: its heading (`tip` on hover) over its body. */
+  const subgroup = (title: ReactNode, tip: string | undefined, body: ReactNode): Block => {
+    const depth = group?.depth ?? 0;
+    const Heading = depth === 0 ? "h3" : "h4";
     return {
       slot: "nested",
       node: (
-        <div className={`subgroup depth-${group.depth}`} key={path}>
-          <Heading
-            className="subgroup-title"
-            title={ctx.catalog.types[entry.recordType]?.description}
-          >
-            {entry.label}
+        <div className={`subgroup depth-${depth}`} key={path}>
+          <Heading className="subgroup-title" title={tip}>
+            {title}
           </Heading>
-          <RecordGroup
-            typeName={entry.recordType}
-            prefix={path}
-            value={value}
-            ctx={ctx}
-            depth={group.depth + 1}
-          />
+          {body}
         </div>
       ),
     };
+  };
+  if (group && entry.kind === "record" && isRecord(value) && entry.recordType) {
+    return subgroup(
+      entry.label,
+      ctx.catalog.types[entry.recordType]?.description,
+      <RecordGroup
+        typeName={entry.recordType}
+        prefix={path}
+        value={value}
+        ctx={ctx}
+        depth={group.depth + 1}
+      />,
+    );
   }
   if (entry.kind === "records" && list) {
-    if (group) {
-      const Heading = group.depth === 0 ? "h3" : "h4";
-      return {
-        slot: "nested",
-        node: (
-          <div className={`subgroup depth-${group.depth}`} key={path}>
-            <Heading className="subgroup-title" title={entry.description}>
-              {entry.label} <span className="muted">({list.length})</span>
-            </Heading>
-            <RecordsBlock entry={entry} rows={list} ctx={ctx} prefix={path} />
-          </div>
-        ),
-      };
-    }
-    if (entry.linkField) {
-      return field(<LinkedItems entry={entry} items={list} ctx={ctx} path={path} />);
-    }
-    if (entry.layout === "list-per-item") {
-      return field(<ListPerItem entry={entry} items={list} ctx={ctx} path={path} />);
-    }
-    if (entry.recordType) {
-      return field(<RecordsTable entry={entry} rows={list} ctx={ctx} prefix={path} compact />);
-    }
+    const body = <RecordsBlock entry={entry} rows={list} ctx={ctx} prefix={path} place={at.in} />;
+    if (!group) return field(body);
+    return subgroup(
+      <>
+        {entry.label} <span className="muted">({list.length})</span>
+      </>,
+      entry.description,
+      body,
+    );
   }
   return field(<JsonValue value={value} />);
 }
@@ -328,12 +361,12 @@ export function RecordsTable({
   compact?: boolean;
 }) {
   const typeName = entry.recordType ?? "";
-  const itemPrefix = entry.keyField ? `${prefix}.*` : `${prefix}[]`;
+  const itemPrefix = entry.itemPath ?? "";
   const columns = tableColumns(ctx.catalog, typeName, itemPrefix).filter((c) =>
     rows.some((r) => isRecord(r) && getPath(r, c.path) !== undefined),
   );
   const complex = complexFields(ctx.catalog, typeName, itemPrefix).filter((f) =>
-    rows.some((r) => isRecord(r) && r[f.name] !== undefined && r[f.name] !== null),
+    rows.some((r) => isRecord(r) && present(r[f.name])),
   );
   const items = rows.filter(isRecord);
   // Cards when some item carries a long list or nested records; else complex fields fit cells.
@@ -371,8 +404,7 @@ export function RecordsTable({
             </dl>
             {complex.map(({ name, entry: e }) => {
               const v = row[name];
-              if (v === undefined || v === null || (Array.isArray(v) && v.length === 0))
-                return null;
+              if (!present(v)) return null;
               return (
                 <div className="record-card-field" key={name}>
                   <span className="record-card-label">
@@ -465,24 +497,7 @@ export function RecordsTable({
                         className={c.entry.kind === "number" ? "num" : undefined}
                         {...attrs}
                       >
-                        {v === undefined ? (
-                          <span className="muted">—</span>
-                        ) : c.entry.kind === "number" && typeof v === "number" ? (
-                          ctx.fctx.hasLocation && isGeoField(c.entry.name) ? (
-                            // Runway thresholds, stand positions: on the Location figure.
-                            <a className="geo-link" href={`#${LOCATION_ID}`}>
-                              {formatNumber(convertNumber(v, c.entry, ctx.vctx.system))}
-                            </a>
-                          ) : (
-                            formatNumber(convertNumber(v, c.entry, ctx.vctx.system))
-                          )
-                        ) : c.entry.kind === "enum" ? (
-                          enumDisplay(c.entry, v, ctx.vctx.enums).label
-                        ) : c.entry.role === "provenance" && typeof v === "string" ? (
-                          <ProvenanceValue value={v} inline />
-                        ) : (
-                          <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
-                        )}
+                        <CellValue entry={c.entry} value={v} ctx={ctx} />
                       </td>
                     );
                   })}
@@ -505,4 +520,26 @@ export function RecordsTable({
       </table>
     </div>
   );
+}
+
+/**
+ * A table cell's value: a link for a ref, source paths with their Lua links, else the shared
+ * cell text (lib/cell-text.ts: numbers without their unit, which the column head shows).
+ */
+function CellValue({ entry, value, ctx }: { entry: CatalogEntry; value: unknown; ctx: RenderCtx }) {
+  if (value === undefined || value === null) return <span className="muted">—</span>;
+  if (entry.kind === "ref") return <RecordLink entry={entry} raw={value} vctx={ctx.vctx} />;
+  if (entry.role === "provenance" && typeof value === "string") {
+    return <ProvenanceValue value={value} inline />;
+  }
+  const text = cellText(entry, value, ctx.vctx);
+  // Runway thresholds, stand positions: on the Location figure.
+  if (typeof value === "number" && ctx.fctx.hasLocation && isGeoField(entry.name)) {
+    return (
+      <a className="geo-link" href={`#${LOCATION_ID}`}>
+        {text}
+      </a>
+    );
+  }
+  return <>{text}</>;
 }

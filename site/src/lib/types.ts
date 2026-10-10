@@ -99,6 +99,11 @@ export type CatalogEntry = {
   /** Keyed arrays (`*` in paths): the field naming each element. */
   keyField?: string;
   /**
+   * On a `records` field: the catalog path of its items, which its item fields extend
+   * (`stations[]`; `flight.motorStages.*` for a keyed array).
+   */
+  itemPath?: string;
+  /**
    * What the field is for, beyond its value: `key` (the column a series' records are keyed by:
    * the header shows the root's, and a companion's links back to its parent), `provenance`
    * (`sourcePaths`, `sourcePath`: not reference data), `asset` (a file path into the game's
