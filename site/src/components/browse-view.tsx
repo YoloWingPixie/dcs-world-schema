@@ -28,6 +28,8 @@ const GROUP_H = 56;
 /** Group key of rows with neither a group target nor a fallback value. */
 const NO_GROUP = "\u0000none";
 const OVERSCAN = 12;
+/** Narrowest name column before trailing columns are left out. */
+const NAME_MIN = 180;
 const SCALAR = new Set(["number", "enum", "string", "boolean", "ref"]);
 
 type Row = { slug: string; name: string; id: string; values: Map<string, unknown> };
@@ -154,18 +156,6 @@ export function BrowseView({ series, count }: { series: string; count: number })
     if (grouped && groupBy?.columns) return groupBy.columns;
     return index?.visible ?? [];
   }, [params, index, grouped, groupBy]);
-
-  // Phones show the name and the first column only; the rest are not rendered at all
-  // (a hidden <col> still takes its width in a fixed-layout table).
-  const [narrow, setNarrow] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 560px)");
-    const update = () => setNarrow(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-  const visibleCols = useMemo(() => (narrow ? columns.slice(0, 1) : columns), [narrow, columns]);
 
   // Lazily load values of picked columns the index does not carry.
   useEffect(() => {
@@ -329,23 +319,67 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return out.sort((a, b) => a.path.localeCompare(b.path));
   }, [catalog]);
 
-  // ---- virtualization
-  const scrollRef = useRef<HTMLElement>(null);
+  // ---- virtualization: the page scrolls; rows render for the window's view of the body.
+  const wrapRef = useRef<HTMLElement>(null);
+  const bodyRef = useRef<HTMLTableSectionElement>(null);
+  const headRef = useRef<HTMLDivElement>(null);
+  const chRef = useRef<HTMLSpanElement>(null);
   const [scrollTop, setScrollTop] = useState(0);
-  const [viewH, setViewH] = useState(600);
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const update = () => setViewH(el.clientHeight || 600);
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => observer.disconnect();
+  const [viewH, setViewH] = useState(800);
+  const [headH, setHeadH] = useState(0);
+  const [tableW, setTableW] = useState(0);
+  const [chPx, setChPx] = useState(8);
+  const measure = useCallback(() => {
+    const body = bodyRef.current;
+    if (!body) return;
+    // Whole rows only, so a few pixels of scroll do not re-render.
+    const past = Math.max(0, -body.getBoundingClientRect().top);
+    setScrollTop(Math.floor(past / ROW_H) * ROW_H);
+    setViewH(window.innerHeight);
   }, []);
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reset scroll when the result set changes
   useEffect(() => {
-    if (scrollRef.current) scrollRef.current.scrollTop = 0;
-    setScrollTop(0);
+    let frame = 0;
+    const schedule = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        measure();
+      });
+    };
+    const resized = () => {
+      schedule();
+      if (wrapRef.current) setTableW(wrapRef.current.clientWidth);
+      if (chRef.current) setChPx(chRef.current.getBoundingClientRect().width || 8);
+      if (headRef.current) setHeadH(headRef.current.offsetHeight);
+    };
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    // Anything above the table changing height (filters panel, intro) moves the body.
+    const observer = new ResizeObserver(resized);
+    observer.observe(document.body);
+    if (wrapRef.current) observer.observe(wrapRef.current);
+    if (headRef.current) observer.observe(headRef.current);
+    resized();
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      observer.disconnect();
+      cancelAnimationFrame(frame);
+    };
+  }, [measure]);
+  // A new result set starts at its top: bring the table head back under the sticky bars.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset when the result set changes
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const head = headRef.current;
+    if (!wrap) return;
+    const header = Number.parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue("--header-h"),
+    );
+    const stuck = head && getComputedStyle(head).position === "sticky" ? head.offsetHeight : 0;
+    const offset = (Number.isFinite(header) ? header : 0) + stuck;
+    const top = wrap.getBoundingClientRect().top;
+    if (top < offset) window.scrollTo({ top: window.scrollY + top - offset });
   }, [query, params]);
 
   const ready = Boolean(index) && (!grouped || targets !== null);
@@ -360,7 +394,9 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const [start, end] = visibleRange(layout.tops, scrollTop, viewH, OVERSCAN);
   const visibleItems = layout.items.slice(start, end);
   const totalH = layout.tops[layout.items.length] ?? 0;
-  const colSpan = visibleCols.length + 1;
+  // The body's position or contents changed without a scroll: re-read the view.
+  // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure when the layout changes
+  useEffect(() => measure(), [layout, ready, measure]);
 
   const setGrouped = (on: boolean) => {
     const next = new URLSearchParams(params.toString());
@@ -378,15 +414,30 @@ export function BrowseView({ series, count }: { series: string; count: number })
 
   // Column widths from every row (not the rendered slice), so scrolling never reflows.
   // biome-ignore lint/correctness/useExhaustiveDependencies: headerLabel reads catalog and system
-  const widths = useMemo(
+  const allWidths = useMemo(
     () =>
-      visibleCols.map((c) => {
+      columns.map((c) => {
         const entry = catalog?.entries[c];
         const texts = rows.map((r) => cellText(entry, r.values.get(c), catalog, system).length);
         return columnWidth(texts, headerLabel(c).length);
       }),
-    [visibleCols, rows, catalog, system],
+    [columns, rows, catalog, system],
   );
+  // The columns that fit beside a usable name column (the first always shows), so the
+  // table never scrolls sideways; the rest stay in the Columns menu.
+  const visibleCols = useMemo(() => {
+    if (!tableW) return columns;
+    let used = NAME_MIN;
+    const out: string[] = [];
+    for (const [i, c] of columns.entries()) {
+      const w = (allWidths[i] ?? 6) * chPx + 24;
+      if (i > 0 && used + w > tableW) break;
+      used += w;
+      out.push(c);
+    }
+    return out;
+  }, [columns, allWidths, tableW, chPx]);
+  const colSpan = visibleCols.length + 1;
 
   const sortHeader = (key: string, label: string, num: boolean, className?: string) => (
     <th
@@ -485,95 +536,97 @@ export function BrowseView({ series, count }: { series: string; count: number })
           </details>
         ) : null}
 
-        <div className="browse-main">
-          <div className="browse-tools">
-            <div className="combo combo-compact">
-              <div className="combo-field">
-                <SearchIcon />
-                <input
-                  className="combo-input"
-                  type="search"
-                  aria-label={`Filter ${plural}`}
-                  placeholder="Filter"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                />
+        <div className="browse-main" style={{ "--browse-head-h": `${headH}px` } as CSSProperties}>
+          <div className="browse-head" ref={headRef}>
+            <div className="browse-tools">
+              <div className="combo combo-compact">
+                <div className="combo-field">
+                  <SearchIcon />
+                  <input
+                    className="combo-input"
+                    type="search"
+                    aria-label={`Filter ${plural}`}
+                    placeholder="Filter"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
               </div>
-            </div>
-            {pickable.length ? (
-              <details className="col-picker">
-                <summary className="btn btn-compact">
-                  <TableIcon />
-                  Columns
-                </summary>
-                <fieldset className="col-picker-menu">
-                  <legend className="visually-hidden">Visible columns</legend>
-                  {pickable.map(({ path, entry, count: n }) => (
-                    <label className="facet-option" key={path} title={entry.description}>
-                      <input
-                        type="checkbox"
-                        checked={columns.includes(path)}
-                        onChange={() =>
-                          setColumns(
-                            columns.includes(path)
-                              ? columns.filter((c) => c !== path)
-                              : [...columns, path],
-                          )
-                        }
-                      />
-                      <span className="col-picker-label">
-                        {entry.label}
-                        <span className="col-picker-path">{path}</span>
-                      </span>
-                      <span className="facet-count">{n}</span>
-                    </label>
-                  ))}
-                </fieldset>
-              </details>
-            ) : null}
-          </div>
-
-          <div className="browse-bar">
-            <span aria-live="polite">
-              <strong>{index ? sorted.length.toLocaleString("en-US") : "…"}</strong> of{" "}
-              {total.toLocaleString("en-US")} {plural}
-              {groups ? (
-                <span className="muted">
-                  {" "}
-                  in {groups.length.toLocaleString("en-US")}{" "}
-                  {groups.length === 1 ? groupBy?.label : `${groupBy?.label}s`}
-                </span>
+              {pickable.length ? (
+                <details className="col-picker">
+                  <summary className="btn btn-compact">
+                    <TableIcon />
+                    Columns
+                  </summary>
+                  <fieldset className="col-picker-menu">
+                    <legend className="visually-hidden">Visible columns</legend>
+                    {pickable.map(({ path, entry, count: n }) => (
+                      <label className="facet-option" key={path} title={entry.description}>
+                        <input
+                          type="checkbox"
+                          checked={columns.includes(path)}
+                          onChange={() =>
+                            setColumns(
+                              columns.includes(path)
+                                ? columns.filter((c) => c !== path)
+                                : [...columns, path],
+                            )
+                          }
+                        />
+                        <span className="col-picker-label">
+                          {entry.label}
+                          <span className="col-picker-path">{path}</span>
+                        </span>
+                        <span className="facet-count">{n}</span>
+                      </label>
+                    ))}
+                  </fieldset>
+                </details>
               ) : null}
-            </span>
-            {groupBy ? (
-              <fieldset className="group-toggle">
-                <legend className="visually-hidden">List layout</legend>
-                <button
-                  type="button"
-                  className="group-opt"
-                  aria-pressed={grouped}
-                  onClick={() => setGrouped(true)}
-                >
-                  Group by {groupBy.label}
+            </div>
+
+            <div className="browse-bar">
+              <span aria-live="polite">
+                <strong>{index ? sorted.length.toLocaleString("en-US") : "…"}</strong> of{" "}
+                {total.toLocaleString("en-US")} {plural}
+                {groups ? (
+                  <span className="muted">
+                    {" "}
+                    in {groups.length.toLocaleString("en-US")}{" "}
+                    {groups.length === 1 ? groupBy?.label : `${groupBy?.label}s`}
+                  </span>
+                ) : null}
+              </span>
+              {groupBy ? (
+                <fieldset className="group-toggle">
+                  <legend className="visually-hidden">List layout</legend>
+                  <button
+                    type="button"
+                    className="group-opt"
+                    aria-pressed={grouped}
+                    onClick={() => setGrouped(true)}
+                  >
+                    Group by {groupBy.label}
+                  </button>
+                  <span className="group-sep" aria-hidden="true">
+                    /
+                  </span>
+                  <button
+                    type="button"
+                    className="group-opt"
+                    aria-pressed={!grouped}
+                    onClick={() => setGrouped(false)}
+                  >
+                    Flat list
+                  </button>
+                </fieldset>
+              ) : null}
+              {anyFilter ? (
+                <button type="button" className="btn btn-compact btn-quiet" onClick={clearFilters}>
+                  Clear filters
                 </button>
-                <span className="group-sep" aria-hidden="true">
-                  /
-                </span>
-                <button
-                  type="button"
-                  className="group-opt"
-                  aria-pressed={!grouped}
-                  onClick={() => setGrouped(false)}
-                >
-                  Flat list
-                </button>
-              </fieldset>
-            ) : null}
-            {anyFilter ? (
-              <button type="button" className="btn btn-compact btn-quiet" onClick={clearFilters}>
-                Clear filters
-              </button>
-            ) : null}
+              ) : null}
+            </div>
           </div>
 
           {error ? (
@@ -583,28 +636,20 @@ export function BrowseView({ series, count }: { series: string; count: number })
           ) : (
             <section
               className="table-wrap vtable"
-              ref={scrollRef}
-              tabIndex={0}
+              ref={wrapRef}
               aria-label={`${info?.label ?? series} table`}
-              onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}
             >
-              <table
-                className="table"
-                aria-rowcount={layout.items.length + 1}
-                style={
-                  {
-                    // Room for every column plus a usable name column; the box scrolls past it.
-                    "--table-min": `calc(${widths.reduce((n, w) => n + w, 0)}ch + ${visibleCols.length * 24 + 180}px)`,
-                  } as CSSProperties
-                }
-              >
+              <span ref={chRef} className="ch-probe" aria-hidden="true">
+                0
+              </span>
+              <table className="table" aria-rowcount={layout.items.length + 1}>
                 <colgroup>
                   <col className="col-name" />
                   {visibleCols.map((c, i) => (
                     <col
                       key={c}
                       className={i === 0 ? "col-keep" : "col-opt"}
-                      style={{ "--col-w": `calc(${widths[i]}ch + 24px)` } as CSSProperties}
+                      style={{ "--col-w": `calc(${allWidths[i]}ch + 24px)` } as CSSProperties}
                     />
                   ))}
                 </colgroup>
@@ -621,7 +666,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                     )}
                   </tr>
                 </thead>
-                <tbody>
+                <tbody ref={bodyRef}>
                   {!ready ? (
                     Array.from({ length: 10 }, (_, i) => (
                       // biome-ignore lint/suspicious/noArrayIndexKey: placeholder rows
