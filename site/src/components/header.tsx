@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import { compareHref, useCompare } from "@/lib/compare-store";
 import { currentSection, NAV_SECTIONS } from "@/lib/nav";
 import { setUnitSystem, useUnitSystem } from "@/lib/unit-system";
-import { MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
+import { GitHubIcon, MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
 import { openPalette } from "./command-palette";
+
+const GITHUB_URL = "https://github.com/YoloWingPixie/dcs-world-schema";
 
 type Theme = "light" | "dark";
 
@@ -146,6 +148,9 @@ export function SiteHeader() {
                 {s.label}
               </Link>
             ))}
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+              GitHub ↗
+            </a>
           </nav>
         </details>
         <span className="header-spacer" />
@@ -155,6 +160,16 @@ export function SiteHeader() {
           <span className="kbd">{mac ? "⌘K" : "Ctrl K"}</span>
         </button>
         <UnitsToggle />
+        <a
+          className="icon-btn header-github"
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Source on GitHub"
+          title="Source on GitHub"
+        >
+          <GitHubIcon />
+        </a>
         <ThemeToggle />
       </div>
     </header>
