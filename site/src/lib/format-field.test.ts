@@ -6,10 +6,13 @@ import {
   isAngleSectors,
   plainValue,
   rangeText,
+  refName,
   sectorRanges,
   storedValue,
+  surfaceAxes,
   valuesDiffer,
 } from "./format-field";
+import { present } from "./json";
 import { enumDisplay } from "./names";
 import type { CatalogEntry } from "./types";
 
@@ -160,5 +163,64 @@ describe("compare keys", () => {
     expect(valuesDiffer([1, 2])).toBe(true);
     expect(valuesDiffer([1, undefined])).toBe(true);
     expect(valuesDiffer([[1, 2]])).toBe(false);
+  });
+});
+
+describe("ref names", () => {
+  const ref = entry({ kind: "ref", ref: ["theatres", "airbases"] });
+  const links = {
+    airbases: { "Caucasus.18": "Sochi-Adler" },
+    theatres: { Caucasus: ["Caucasus", "The Caucasus"] as [string, string] },
+  };
+  it("name the record a ref value points at, from the link table", () => {
+    expect(refName(ref, "Caucasus.18", links)).toBe("Sochi-Adler");
+    expect(refName(ref, "Caucasus", links)).toBe("The Caucasus");
+  });
+  it("fall back to the value as written", () => {
+    expect(refName(ref, "Nevada", links)).toBe("Nevada");
+    expect(refName(ref, 7, undefined)).toBe("7");
+    // A series the entry does not ref is not read.
+    expect(refName(entry({ kind: "ref", ref: ["aircraft"] }), "Caucasus.18", links)).toBe(
+      "Caucasus.18",
+    );
+  });
+});
+
+describe("present", () => {
+  it("counts any value but absent, null and an empty list", () => {
+    for (const v of [0, "", false, [0], {}]) expect(present(v)).toBe(true);
+    for (const v of [undefined, null, []]) expect(present(v)).toBe(false);
+  });
+});
+
+describe("surface axes", () => {
+  const catalog = {
+    entries: {
+      "env[].altitudesM": entry({ path: "env[].altitudesM", label: "Altitudes", unit: "m" }),
+      "env[].speedsMs": entry({ path: "env[].speedsMs", label: "Speeds", unit: "m/s" }),
+    },
+  };
+  const axis = {
+    kind: "surface" as const,
+    table: "env",
+    rows: "altitudesM",
+    cols: "speedsMs",
+    paths: { rows: "env[].altitudesM", cols: "env[].speedsMs" },
+    labels: { rows: "Altitude", cols: "Speed" },
+    columns: [],
+  };
+  it("label an envelope's axis entries for one value, keeping their units", () => {
+    const axes = surfaceAxes(catalog, axis);
+    expect(axes?.rows).toMatchObject({ label: "Altitude", unit: "m" });
+    expect(axes?.cols).toMatchObject({ label: "Speed", unit: "m/s" });
+    // The catalog's own entries keep their labels.
+    expect(catalog.entries["env[].altitudesM"].label).toBe("Altitudes");
+  });
+  it("are null for another axis, or without the axis fields", () => {
+    expect(surfaceAxes(catalog, undefined)).toBeNull();
+    expect(
+      surfaceAxes(catalog, { kind: "sampled", step: { field: "s", fallback: 0.2 }, label: "Mach" }),
+    ).toBeNull();
+    expect(surfaceAxes({ entries: {} }, axis)).toBeNull();
   });
 });

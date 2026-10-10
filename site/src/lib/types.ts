@@ -67,7 +67,7 @@ export type FieldAxis =
     };
 
 /** How a comparable field's value is shaped (CatalogEntry `compareAs`). */
-export type CompareAs = "value" | "samples" | "curve" | "surfaces";
+export type CompareAs = "value" | "curve" | "surfaces";
 
 /** One schema field at a path of a series' records. */
 export type CatalogEntry = {
@@ -155,8 +155,9 @@ export type CatalogEntry = {
   /**
    * Set on an entry that compares across records (its values read with getFieldValues,
    * lib/db/reference.ts): the shape of one record's value. `value` (one value, or a plain
-   * list), `samples` (a Mach-sampled list, by its `axis`), `curve` (an axis table's column:
-   * one `{x, y}` curve over the table), `surfaces` (an envelope's grid: every item's surface).
+   * list), `curve` (one `{x, y}` curve: an axis table's column over the table, or a
+   * Mach-sampled list over Mach; its `axis` says which), `surfaces` (an envelope's grid:
+   * every item's surface).
    */
   compareAs?: CompareAs;
   /** Hand-written field note (content/reference/<series>/_fields/<path>.md), as HTML. */
@@ -236,6 +237,8 @@ export type SeriesIndex = {
   /** Facets; a path outside `columns` loads lazily, and a list-valued one offers each item. */
   facets: Facet[];
   rows: BrowseRow[];
+  /** Per ref column: the records its ids name, as a record's link table (`RecordDoc["links"]`). */
+  links: Record<string, RecordDoc["links"]>;
   intro?: Overlay;
 };
 

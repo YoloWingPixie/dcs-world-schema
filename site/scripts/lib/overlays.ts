@@ -2,7 +2,7 @@
  * Hand-written overlays for the reference (content/reference/, see its README):
  *
  *   <series>/_index.md            intro on the browse page
- *   <series>/<id or slug>.md      note on a record page
+ *   <series>/<id>.md              note on a record page (`encodeURIComponent(id)`: `recordStem`)
  *   <series>/_fields/<path>.md    note on a field (tooltip, compare header)
  *
  * Every problem (unknown series, record or field; unknown frontmatter key; bad
@@ -10,7 +10,10 @@
  */
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { COMPANION_PREFIX } from "../../src/lib/catalog";
+import { catalogFor, loadModel, type Query, qi } from "../../src/lib/db/reference";
 import { markdownToText, parseFrontmatter, renderMarkdown } from "../../src/lib/markdown";
+import { slugify } from "../../src/lib/series-display";
 import type { Overlay } from "../../src/lib/types";
 
 export class OverlayError extends Error {
@@ -30,8 +33,10 @@ export type SeriesOverlays = {
 };
 
 export type OverlayTarget = {
-  /** Record id for a file stem (an id or a slug), or null. */
+  /** Record id for a file stem (the record's exact id), or null. */
   record(stem: string): string | null;
+  /** Why a stem names no record, when there is more to say (the id it should be). */
+  hint?(stem: string): string | undefined;
   /** Whether the catalog has this field path. */
   field(path: string): boolean;
 };
@@ -94,11 +99,58 @@ function readOverlay(
   return overlay;
 }
 
+/**
+ * Record file stems are their record's id as `encodeURIComponent` writes it (`BLU-49/B` ->
+ * `BLU-49%2FB.md`), so any id has a file name and no database is needed to read one; an
+ * id of letters, digits and `-_.!~*'()` is its own stem. Null for a malformed `%` escape.
+ */
+export function recordIdFromStem(stem: string): string | null {
+  try {
+    return decodeURIComponent(stem);
+  } catch {
+    return null;
+  }
+}
+
+/** The file stem of a record id (`recordIdFromStem` reads it back). */
+export const recordStem = (id: string) => encodeURIComponent(id);
+
 /** Field file stems are catalog paths; `*` (keyed arrays) may be written `+`. */
 export const fieldPathFromStem = (stem: string) => stem.replace(/\+/g, "*");
 
-/** Accepts every series, record stem and field (build time: no data to check against). */
+/** Accepts every series, record stem and field (no data to check against). */
 export const ANY_TARGET: OverlayTarget = { record: (stem) => stem, field: () => true };
+
+/**
+ * What overlays may name in a reference database: each series' records by exact id, and its
+ * catalog's field paths (a companion's in its parent's catalog). A stem that is a record's
+ * slug (lib/series-display `slugify`) rather than its id is refused, the hint naming the
+ * file the id takes (`recordStem`).
+ * Null for a series the database does not have.
+ */
+export async function overlayTargets(q: Query): Promise<(series: string) => OverlayTarget | null> {
+  const model = await loadModel(q);
+  const ids = new Map<string, { ids: Set<string>; bySlug: Map<string, string> }>();
+  for (const s of model.series) {
+    const rows = await q(`SELECT ${qi(s.keyColumn)} AS id FROM ${qi(s.id)}`);
+    const all = rows.map((r) => String(r.id));
+    ids.set(s.id, { ids: new Set(all), bySlug: new Map(all.map((id) => [slugify(id), id])) });
+  }
+  return (series) => {
+    const s = model.byId.get(series);
+    if (!s) return null;
+    const catalog = catalogFor(model, s.parent ?? s.id);
+    const own = ids.get(series);
+    return {
+      record: (stem) => (own?.ids.has(stem) ? stem : null),
+      hint: (stem) => {
+        const id = own?.bySlug.get(stem);
+        return id ? `name it by the record's id, "${id}": ${recordStem(id)}.md` : undefined;
+      },
+      field: (p) => Boolean(catalog.entries[s.parent ? `${COMPANION_PREFIX}.${p}` : p]),
+    };
+  };
+}
 
 export function loadOverlays(
   contentDir: string,
@@ -155,9 +207,15 @@ export function loadOverlays(
         if (overlay) series.intro = overlay;
         continue;
       }
-      const id = target.record(stem);
+      const named = recordIdFromStem(stem);
+      if (named === null) {
+        problems.push(`${file}: not a record id encoded as \`encodeURIComponent(id)\``);
+        continue;
+      }
+      const id = target.record(named);
       if (id === null) {
-        problems.push(`${file}: ${dir} has no record with id or slug "${stem}"`);
+        const hint = target.hint?.(named);
+        problems.push(`${file}: ${dir} has no record with id "${named}"${hint ? `; ${hint}` : ""}`);
         continue;
       }
       if (series.records.has(id)) {

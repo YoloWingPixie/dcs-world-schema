@@ -5,7 +5,7 @@
  * the hand-written overlays shipped with the site (public/overlays/reference.json).
  * Overlays naming a record or field the database no longer has are ignored.
  */
-import { COMPANION_PREFIX, catalogKeyFor } from "./catalog";
+import { COMPANION_PREFIX, entryFor } from "./catalog";
 import { OVERLAYS_URL } from "./db/boot";
 import { browserQuery, transientQuery } from "./db/browser";
 import {
@@ -25,7 +25,6 @@ import {
   referencedByGroup,
 } from "./db/reference";
 import { fetchJsonOr, once, settled } from "./once";
-import { slugify } from "./series-display";
 import type {
   FieldPath,
   FieldValues,
@@ -81,9 +80,9 @@ const NO_OVERLAYS: OverlayFile = { series: {} };
 
 export const loadOverlays = () => once("overlays", () => fetchJsonOr(OVERLAYS_URL, NO_OVERLAYS));
 
-/** The overlay of a record (and of its companion record), matched by id or slug. */
+/** The overlay of a record (and of its companion record): scripts/build-overlays.ts keys them by id. */
 export function recordOverlay(file: OverlayFile, model: Model, series: string, id: string) {
-  const pick = (s: string) => file.series[s]?.records[id] ?? file.series[s]?.records[slugify(id)];
+  const pick = (s: string) => file.series[s]?.records[id];
   const own = pick(series);
   const companion = model.byId.get(series)?.companion;
   const comp = companion ? pick(companion) : undefined;
@@ -211,7 +210,7 @@ export const loadLinkedField = (series: string, path: string) =>
       loadFieldValues(series, path),
       loadCatalog(series),
     ]);
-    const targets = catalog.entries[catalogKeyFor(path, catalog) ?? ""]?.ref ?? [];
+    const targets = entryFor(catalog, path)?.ref ?? [];
     const ids = new Set<string>();
     for (const v of Object.values(values)) {
       for (const x of Array.isArray(v) ? v : [v]) {

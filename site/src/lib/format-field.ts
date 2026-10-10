@@ -1,7 +1,14 @@
 import { isRecord } from "./json";
 import { enumDisplay } from "./names";
 import { asSurfaces, type Curve } from "./record-tables";
-import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc } from "./types";
+import type {
+  CatalogEntry,
+  EnumInfo,
+  FieldAxis,
+  LinkTarget,
+  RecordDoc,
+  SeriesCatalog,
+} from "./types";
 import {
   convertNumber,
   displayUnit,
@@ -40,6 +47,15 @@ export function resolveLink(
   return null;
 }
 
+/** The name of the record a ref value names (`resolveLink`), else the value as written. */
+export function refName(
+  entry: Pick<CatalogEntry, "ref">,
+  raw: unknown,
+  links: RecordDoc["links"] | undefined,
+): string {
+  return resolveLink(entry, raw, links)?.name ?? String(raw);
+}
+
 /**
  * An axis table column's curve as a chart draws it, in the display system: x through the
  * axis column's entry, y through the column's own, and the x label with its unit. Shared by
@@ -58,13 +74,35 @@ export function axisCurve(
   };
 }
 
-/** The x label of an axis table column's curve, with the axis column's unit ("Mach"). */
+/** The x label of a curve (an axis table column's, or a Mach-sampled list's), with the axis column's unit ("Mach"). */
 export function axisLabel(
   entry: CatalogEntry,
   axisEntry: CatalogEntry | undefined,
   system: UnitSystem,
 ): string {
-  return unitLabel(entry.axis?.kind === "column" ? entry.axis.label : "x", axisEntry, system);
+  const { axis } = entry;
+  const label = axis?.kind === "column" || axis?.kind === "sampled" ? axis.label : "x";
+  return unitLabel(label, axisEntry, system);
+}
+
+/**
+ * An envelope's two axes (catalog `axis.kind: "surface"`) as entries labelled for one value
+ * ("Altitude", "Speed": the axis' `labels`, not the fields' plural ones), for their units and
+ * headings; null for any other axis or a catalog without the axis fields. Shared by the
+ * record page's envelopes and compare.
+ */
+export function surfaceAxes(
+  catalog: Pick<SeriesCatalog, "entries">,
+  axis: FieldAxis | undefined,
+): { rows: CatalogEntry; cols: CatalogEntry } | null {
+  if (axis?.kind !== "surface") return null;
+  const rows = catalog.entries[axis.paths.rows];
+  const cols = catalog.entries[axis.paths.cols];
+  if (!rows || !cols) return null;
+  return {
+    rows: { ...rows, label: axis.labels.rows },
+    cols: { ...cols, label: axis.labels.cols },
+  };
 }
 
 export function isXY(value: unknown): value is { x: number[]; y: number[] } {
@@ -157,7 +195,7 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
     const d = enumDisplay(entry, value, ctx.enums);
     return d.rewrite ? `${d.label} (${d.raw})` : d.label;
   }
-  if (entry.kind === "ref") return resolveLink(entry, value, ctx.links)?.name ?? String(value);
+  if (entry.kind === "ref") return refName(entry, value, ctx.links);
   if (entry.codeField && Array.isArray(value)) {
     return value.map((v) => enumDisplay(entry, v, ctx.enums).label).join(", ");
   }
@@ -169,10 +207,12 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
   if (typeof value === "number") return formatPlain(value, entry, ctx.system);
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (typeof value === "string") return value;
-  // A table column's compared curve (one cell of it is a number, above).
+  // A compared curve (one cell of a table's is a number, above); a Mach-sampled list's
+  // points are its values.
   if (entry.compareAs === "curve" && isXY(value)) {
     const ys = value.y.map((v) => convertNumber(v, entry, ctx.system));
-    return `${ys.length} points, ${formatNumber(Math.min(...ys))} to ${formatNumber(Math.max(...ys))}`;
+    const noun = entry.axis?.kind === "sampled" ? "values" : "points";
+    return `${ys.length} ${noun}, ${formatNumber(Math.min(...ys))} to ${formatNumber(Math.max(...ys))}`;
   }
   const surfaces = surfaceCells(entry, value, ctx.system);
   if (surfaces) {
@@ -184,14 +224,13 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
   }
   if (entry.kind === "numbers") {
     const nums = numbers(value).map((v) => convertNumber(v, entry, ctx.system));
-    if (entry.compareAs === "samples" || nums.length > 8) {
+    if (nums.length > 8) {
       return `${nums.length} values, ${formatNumber(Math.min(...nums))} to ${formatNumber(Math.max(...nums))}`;
     }
     return nums.map((n) => formatNumber(n)).join(", ");
   }
   if (Array.isArray(value)) {
-    if (entry.ref)
-      return value.map((v) => resolveLink(entry, v, ctx.links)?.name ?? String(v)).join(", ");
+    if (entry.ref) return value.map((v) => refName(entry, v, ctx.links)).join(", ");
     if (value.every((v) => typeof v !== "object" || v === null)) {
       return value.map((v) => (typeof v === "number" ? formatNumber(v) : String(v))).join(", ");
     }
@@ -236,7 +275,7 @@ export function sortableValue(
   if (typeof value === "boolean") return value ? 1 : 0;
   if (typeof value === "string") {
     if (entry.kind === "enum") return enumDisplay(entry, value, ctx.enums).label;
-    if (entry.kind === "ref") return resolveLink(entry, value, ctx.links)?.name ?? value;
+    if (entry.kind === "ref") return refName(entry, value, ctx.links);
     return value;
   }
   if (entry.compareAs === "curve" && isXY(value))
@@ -258,7 +297,7 @@ export const displayedNumber = (entry: CatalogEntry, system: UnitSystem) => (n: 
 
 /**
  * A key two compared values share exactly when they hold the same data: deep (curves,
- * samples, lists, surfaces), object keys in order, and each number as `number` writes it
+ * lists, surfaces), object keys in order, and each number as `number` writes it
  * (`displayedNumber`: rounded and converted as the display shows it). Unlike `plainValue`,
  * which summarises a curve as its count and range, it tells apart any two values that differ.
  */
@@ -276,10 +315,6 @@ export function compareKey(value: unknown, number: (n: number) => string = forma
 export function valuesDiffer(values: readonly unknown[], number?: (n: number) => string): boolean {
   const keys = values.map((v) => (v === undefined ? undefined : compareKey(v, number)));
   return new Set(keys).size > 1;
-}
-
-export function machAxis(length: number, step: number): number[] {
-  return Array.from({ length }, (_, i) => Number((i * step).toFixed(4)));
 }
 
 /**

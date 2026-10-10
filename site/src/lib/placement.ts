@@ -12,7 +12,7 @@ import {
   rootFor,
 } from "./catalog";
 import { coverageText, plainValue, type ValueContext } from "./format-field";
-import { isRecord, type Json } from "./json";
+import { isRecord, type Json, present } from "./json";
 import { enumDisplay } from "./names";
 import { rangeListOf, recordFields } from "./record-tables";
 import { displayFor } from "./series-display";
@@ -158,8 +158,6 @@ export function sectionFor(catalog: SeriesCatalog, key: string): SectionRef {
   return overviewSection(catalog, companion);
 }
 
-const isEmpty = (v: unknown) => v === null || (Array.isArray(v) && v.length === 0);
-
 /** Overview order: enum names first, numbers last, schema order otherwise. */
 const overviewRank = (e: CatalogEntry, value: unknown) =>
   e.kind === "enum" && typeof value === "string" ? 0 : e.kind === "number" ? 2 : 1;
@@ -195,7 +193,7 @@ export function placeRecord(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueC
       // The header shows the record's key; a companion's (weapon_flight.weapon) is the record.
       if (entry.role === "key") continue;
       if (entry.kind === "record" || entry.kind === "records") {
-        if (isEmpty(value) || isBounds(entry)) continue;
+        if (!present(value) || isBounds(entry)) continue;
         const { id, title } = sectionFor(catalog, path);
         const base = { id, title, companion, entry };
         if (entry.kind === "record" && isRecord(value) && entry.recordType) {

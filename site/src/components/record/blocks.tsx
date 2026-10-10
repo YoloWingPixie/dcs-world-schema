@@ -4,7 +4,6 @@ import { Fragment, type ReactNode, useMemo, useState } from "react";
 import { getPath } from "@/lib/catalog";
 import {
   axisCurve,
-  machAxis,
   plainValue,
   rangeText,
   sectorRanges,
@@ -34,31 +33,31 @@ export type RenderCtx = {
   fctx: FieldContext;
 };
 
-/** A Mach-indexed coefficient: small chart, exact values on demand. */
+/** A Mach-sampled coefficient (lib/record-tables `samplesOf`): small chart, exact values on demand. */
 export function MachCard({
   entry,
   path,
-  values,
-  step,
+  samples,
   ctx,
 }: {
   entry: CatalogEntry;
   path: string;
-  values: number[];
-  step: number;
+  samples: Curve;
   ctx: RenderCtx;
 }) {
-  const axis = machAxis(values.length, step);
   const tipId = tipIdFor(ctx.fctx, path);
-  const shown = values.map((v) => convertNumber(v, entry, ctx.vctx.system));
+  const shown = samples.y.map((v) => convertNumber(v, entry, ctx.vctx.system));
   const axisLabel = entry.axis?.kind === "sampled" ? entry.axis.label : "x";
+  // The samples start at 0, so the second is the step.
+  const step =
+    samples.x[1] === undefined ? "" : `, ${axisLabel} step ${formatNumber(samples.x[1])}`;
   return (
     <figure
       className="mach-card"
       tabIndex={0}
       aria-describedby={tipId}
       aria-keyshortcuts="Shift+F10 C"
-      {...fieldDataAttrs(entry, path, values, ctx.fctx, ctx.vctx)}
+      {...fieldDataAttrs(entry, path, samples, ctx.fctx, ctx.vctx)}
     >
       <figcaption className="mach-card-head">
         <span className="mach-card-title">
@@ -75,14 +74,12 @@ export function MachCard({
             label: ctx.fctx.recordName,
             color: "var(--s1)",
             values: shown,
-            step,
+            x: samples.x,
           },
         ]}
       />
       <details className="exact">
-        <summary>
-          Table ({values.length} samples, {axisLabel} step {formatNumber(step)})
-        </summary>
+        <summary>{`Table (${shown.length} samples${step})`}</summary>
         <div className="exact-scroll">
           <table className="exact-table">
             <thead>
@@ -93,8 +90,8 @@ export function MachCard({
             </thead>
             <tbody>
               {shown.map((v, i) => (
-                <tr key={axis[i]}>
-                  <td>{formatNumber(axis[i] ?? 0)}</td>
+                <tr key={samples.x[i]}>
+                  <td>{formatNumber(samples.x[i] ?? 0)}</td>
                   <td>{formatNumber(v)}</td>
                 </tr>
               ))}

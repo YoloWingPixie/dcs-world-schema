@@ -3,8 +3,15 @@
  * built from dcs-world-schema/types/entities/*.yaml. Shared by the data build (values
  * files, facets) and the client renderer (labels, units, descriptions, kinds).
  */
-import { isRecord, type Json } from "./json";
-import { complexFields, curveOf, recordFields, surfacesOf, tableColumns } from "./record-tables";
+import { isRecord, type Json, present } from "./json";
+import {
+  complexFields,
+  curveOf,
+  recordFields,
+  samplesOf,
+  surfacesOf,
+  tableColumns,
+} from "./record-tables";
 import { capitalise } from "./text";
 import {
   type CatalogEntry,
@@ -531,8 +538,9 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
   },
 
   /**
-   * `compareAs`: one value per record (`value`, or a Mach-sampled list:
-   * `samples`), or a table's column as one curve or its grids as surfaces, by its axis.
+   * `compareAs`: one value per record (`value`), a curve (a table's column over its axis
+   * column, or a Mach-sampled list over Mach at its record's step), or a table's grids as
+   * surfaces.
    */
   function compareShape(b, e) {
     const found = b.found.get(e.path);
@@ -543,7 +551,7 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
       e.role !== "provenance" &&
       (SCALAR_KINDS.has(e.kind) || e.kind === "numbers" || (e.kind === "strings" && e.ref))
     ) {
-      e.compareAs = e.axis?.kind === "sampled" ? "samples" : "value";
+      e.compareAs = e.axis?.kind === "sampled" ? "curve" : "value";
     }
   },
 
@@ -657,6 +665,15 @@ export function catalogKeyFor(
   return null;
 }
 
+/** The catalog entry a concrete path reads (`catalogKeyFor`); null for a path outside the catalog. */
+export function entryFor(
+  catalog: Pick<SeriesCatalog, "entries">,
+  path: string,
+): CatalogEntry | null {
+  const key = catalogKeyFor(path, catalog);
+  return key ? (catalog.entries[key] ?? null) : null;
+}
+
 /** The entries of a series' top-level fields (its root type's; the companion's apart), in schema order. */
 export const rootFields = (catalog: Pick<SeriesCatalog, "rootType" | "types" | "entries">) =>
   recordFields(catalog, catalog.rootType, "");
@@ -675,7 +692,8 @@ export function rootFor<T>(path: string, data: T, companion: T | undefined) {
 
 /**
  * The axis of a table a curve or surfaces is read from (`axis.table`), for a comparable
- * table column or grid (`compareAs` `curve` or `surfaces`); null for any other entry.
+ * table column or grid (`compareAs` `curve` or `surfaces`); null for any other entry (a
+ * Mach-sampled list's curve reads its own path).
  */
 export function tableAxis(entry: CatalogEntry) {
   const { axis, compareAs } = entry;
@@ -685,8 +703,9 @@ export function tableAxis(entry: CatalogEntry) {
 
 /**
  * Every concrete value of a catalog key: plain paths give one, keyed paths one per key,
- * axis columns (`table[].cx0`) one `{ x, y }` curve (lib/record-tables.ts `curveOf`), an
- * envelope's grids one list of every item's surface (`surfacesOf`).
+ * axis columns (`table[].cx0`) one `{ x, y }` curve (lib/record-tables.ts `curveOf`), as
+ * do Mach-sampled lists (`samplesOf`: over Mach at their record's step), an envelope's
+ * grids one list of every item's surface (`surfacesOf`).
  */
 export function valuesAt(
   entry: CatalogEntry,
@@ -707,10 +726,14 @@ export function valuesAt(
     const curve = curveOf(rows, axis.field, entry.name);
     return curve ? [{ path: entry.path, value: curve }] : [];
   }
-  return walkPath(catalog, entry.path, data, companion).map((v) => ({
-    path: v.concretePath,
-    value: v.value,
-  }));
+  const found = walkPath(catalog, entry.path, data, companion);
+  if (entry.axis?.kind === "sampled") {
+    return found.flatMap((v) => {
+      const curve = samplesOf(v.parent, entry);
+      return curve ? [{ path: v.concretePath, value: curve }] : [];
+    });
+  }
+  return found.map((v) => ({ path: v.concretePath, value: v.value }));
 }
 
 /** One value a catalog path reaches in a record. */
@@ -723,6 +746,8 @@ export type PathValue = {
   /** The value's concrete path: keyed items by key (`flight.motorStages.march.impulseS`), list items by position (`stations[2].sourcePath`). */
   concretePath: string;
   value: unknown;
+  /** The record holding it (a Mach-sampled list's step sits beside the list). */
+  parent: Json;
 };
 
 /**
@@ -759,9 +784,8 @@ export function walkPath(
     const field = segment.replace(/\[\]$/, "");
     const next = node[field];
     if (i === segments.length - 1) {
-      if (next === undefined || next === null) return;
-      if (Array.isArray(next) && next.length === 0) return;
-      out.push({ holder, concretePath: join(concrete, field), value: next });
+      if (!present(next)) return;
+      out.push({ holder, concretePath: join(concrete, field), value: next, parent: node });
     } else if (field === segment) {
       walk(next, i + 1, join(keyed, segment), join(concrete, field), join(holder, field));
     } else if (Array.isArray(next)) {

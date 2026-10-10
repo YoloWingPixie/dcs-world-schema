@@ -1,7 +1,7 @@
 import { isValidElement, type ReactElement } from "react";
 import { beforeAll, describe, expect, it } from "vitest";
 import { catalogFor, loadModel, type Model } from "@/lib/db/reference";
-import type { SeriesCatalog } from "@/lib/types";
+import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
 import { nodeQuery } from "../../../tests/reference/db";
 import { FieldRow, ScalarValue } from "../field-view";
 import {
@@ -51,11 +51,25 @@ describe("blockFor", () => {
       type: FieldRow,
       body: ProvenanceValue,
     });
-    expect(group("flight.aerodynamics.cx0", [0.1, 0.2], { machStep: 0.1 })).toEqual({
+    const aero = { cx0: [0.1, 0.2], machStep: 0.1 };
+    expect(group("flight.aerodynamics.cx0", aero.cx0, aero)).toEqual({
       slot: "chart",
       type: MachCard,
       body: null,
     });
+    // The card charts the holder's samples at the holder's step.
+    const card = blockFor(
+      weapons.entries["flight.aerodynamics.cx0"] as CatalogEntry,
+      aero.cx0,
+      ctx,
+      {
+        in: "group",
+        path: "flight.aerodynamics.cx0",
+        holder: aero,
+        depth: 0,
+      },
+    ).node as ReactElement<{ samples: unknown }>;
+    expect(card.props.samples).toEqual({ x: [0, 0.1], y: [0.1, 0.2] });
     expect(group("flight.launchEnvelopes", [{}])).toMatchObject({ slot: "nested", type: "div" });
     expect(group("flight.aerodynamics", {})).toMatchObject({ slot: "nested", type: "div" });
     expect(group("flight.launchEnvelopes[].maxRangeM", [[1]])).toEqual({
