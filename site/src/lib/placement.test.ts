@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import { nodeQuery } from "../../tests/reference/db";
 import { catalogFor, getRecord, loadModel, type Model } from "./db/reference";
-import { headerChips, placeRecord } from "./placement";
+import { headerChips, placeRecord, sectionFor } from "./placement";
 import type { RecordDoc } from "./types";
 
 const q = nodeQuery();
@@ -42,5 +42,52 @@ describe("header chips", () => {
     expect(headerChips(catalog, doc)).toEqual(["Single", "Bombs"]);
     const sensor = await load("sensors", "AGM_65D");
     expect(headerChips(sensor.catalog, sensor.doc)).toEqual(["IR", "Optical", "Infrared"]);
+  });
+});
+
+describe("sectionFor", () => {
+  it("names the section each field shows in, as the record page places it", async () => {
+    const weapon = await load("weapons", "AIM_120C");
+    const placement = placeRecord(weapon.catalog, weapon.doc, {
+      enums: weapon.catalog.enums,
+      system: "metric",
+    });
+    for (const section of placement.sections) {
+      const keys =
+        section.kind === "overview"
+          ? section.fields.map((f) => (section.prefix ? `${section.prefix}.${f}` : f))
+          : section.kind === "source"
+            ? section.fields.map((f) => f.path)
+            : [section.path];
+      for (const key of keys) {
+        expect(sectionFor(weapon.catalog, key), key).toMatchObject({
+          id: section.id,
+          title: section.title,
+          companion: section.companion,
+        });
+      }
+    }
+  });
+
+  it("puts fields under a top-level record or list in its section", () => {
+    const aircraft = catalogFor(model, "aircraft");
+    expect(sectionFor(aircraft, "stations[].accepts[].clsid")).toMatchObject({
+      id: "stations",
+      kind: "field",
+      companion: false,
+    });
+    expect(sectionFor(aircraft, "flight.aerodynamics.table[].cx0")).toMatchObject({
+      id: "flight-aerodynamics",
+      companion: true,
+    });
+    expect(sectionFor(aircraft, "sourcePaths")).toMatchObject({ id: "provenance" });
+    const weapons = catalogFor(model, "weapons");
+    expect(sectionFor(weapons, "massKg")).toMatchObject({ id: "overview", title: "Overview" });
+    expect(sectionFor(weapons, "flight.launchEnvelopes[].maxRangeM")).toMatchObject({
+      id: "flight-launchEnvelopes",
+    });
+    expect(sectionFor(weapons, "flight.motorStages.*.impulseS")).toMatchObject({
+      id: "flight-motorStages",
+    });
   });
 });

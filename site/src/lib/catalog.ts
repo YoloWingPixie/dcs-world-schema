@@ -4,7 +4,7 @@
  * files, facets) and the client renderer (labels, units, descriptions, kinds).
  */
 import { isRecord, type Json } from "./json";
-import { complexFields, tableColumns } from "./record-tables";
+import { complexFields, curveOf, surfacesOf, tableColumns } from "./record-tables";
 import { capitalise } from "./text";
 import {
   type CatalogEntry,
@@ -31,6 +31,10 @@ export const COMPANION_PREFIX = "flight";
 
 /** What the companion's fields are called on the parent's page: `entries[COMPANION_PREFIX].label`. */
 const COMPANION_LABEL = "Flight model";
+
+/** What a catalog calls its companion's fields ("Flight model"). */
+export const companionLabel = (catalog: Pick<SeriesCatalog, "entries">) =>
+  catalog.entries[COMPANION_PREFIX]?.label ?? COMPANION_PREFIX;
 
 /** Bookkeeping, not reference data: the per-field provenance map (read as data, for tooltips). */
 const SKIP = new Set(["_source"]);
@@ -237,8 +241,6 @@ function constantSibling(types: SchemaTypes, owner: string, name: string): strin
 type Found = {
   /** Schema type as written (`number[]`, `Entity.Station[]`). */
   type: string;
-  /** The item path of a `records` field's children (`stations[]`, `motorStages.*`). */
-  item?: string;
   /** Inside an array of records: one value per item, so not one comparable value. */
   insideArray: boolean;
 };
@@ -296,6 +298,7 @@ function addField(
     extra.recordType = base;
     const keyField = KEYED_ARRAYS[name];
     if (keyField) extra.keyField = keyField;
+    extra.itemPath = keyField ? `${path}.*` : `${path}[]`;
   } else if (types[base]?.kind === "array" || (depth >= 1 && isRecordType(types, base))) {
     kind = "matrix";
   } else if (enums.length && depth === 0) {
@@ -329,13 +332,11 @@ function addField(
     comparable: false,
     ...extra,
   };
-  const found: Found = { type, insideArray };
-  w.found.set(path, found);
+  w.found.set(path, { type, insideArray });
 
   if (kind === "record") walkType(w, base, path, insideArray, unit);
-  if (kind === "records") {
-    found.item = extra.keyField ? `${path}.*` : `${path}[]`;
-    walkType(w, base, found.item, insideArray || !extra.keyField, null);
+  if (kind === "records" && extra.itemPath) {
+    walkType(w, base, extra.itemPath, insideArray || !extra.keyField, null);
   }
 }
 
@@ -373,7 +374,7 @@ type Build = Walk & {
 
 /** The fields of a `records` entry's items: name, schema type and entry. */
 function itemFields(b: Build, entry: CatalogEntry) {
-  const item = b.found.get(entry.path)?.item ?? `${entry.path}[]`;
+  const item = entry.itemPath ?? "";
   const schema = b.types[entry.recordType ?? ""]?.fields ?? {};
   return (b.outTypes[entry.recordType ?? ""]?.fields ?? []).map((name) => ({
     name,
@@ -446,8 +447,8 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
       e.axis = { kind: "sampled", step: { ...MACH_STEP }, label: MACH_LABEL };
       return;
     }
-    if (e.kind !== "records" || !found?.item) return;
-    const item = found.item;
+    if (e.kind !== "records" || !e.itemPath || !found) return;
+    const item = e.itemPath;
     const fields = itemFields(b, e).filter((f) => f.entry);
     const lists = fields.filter((f) => f.type === "number[]").map((f) => f.name);
     const grids = fields.filter((f) => f.type === "number[][]");
@@ -487,11 +488,11 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
   function layout(b, e) {
     const found = b.found.get(e.path);
     if (SECTOR_TYPES.has(found?.type.replace(/\[\]$/, "") ?? "")) e.layout = "sectors";
-    if (e.kind !== "records" || !e.recordType || !found?.item) return;
+    if (e.kind !== "records" || !e.recordType || !e.itemPath) return;
     if (e.axis?.kind === "surface") e.layout = "envelope";
     else if (e.axis?.kind === "column" && !e.keyField) e.layout = "axis-table";
-    const pair = findRangePair(b, e.recordType, found.item);
-    if (pair && isRangeList(b, e, found.item, pair)) {
+    const pair = findRangePair(b, e.recordType, e.itemPath);
+    if (pair && isRangeList(b, e, e.itemPath, pair)) {
       e.layout = "ranges";
       e.rangePair = { min: pair.min.path, max: pair.max.path };
     }
@@ -645,7 +646,8 @@ export function rootFor<T>(path: string, data: T, companion: T | undefined) {
 
 /**
  * Every concrete value of a catalog key: plain paths give one, keyed paths one per key,
- * axis columns (`table[].cx0`) one `{ x, y }` curve.
+ * axis columns (`table[].cx0`) one `{ x, y }` curve (lib/record-tables.ts `curveOf`), an
+ * envelope's grids one list of every item's surface (`surfacesOf`).
  */
 export function valuesAt(
   entry: CatalogEntry,
@@ -657,32 +659,15 @@ export function valuesAt(
   if (!root) return [];
   const prefix = entry.path.slice(0, entry.path.length - rest.length);
   const axis = entry.path.includes("[].") ? entry.axis : undefined;
-  if (axis?.kind === "surface") {
-    const [tablePath, column] = entry.path.split("[].") as [string, string];
-    const items = getPath(root, tablePath.slice(prefix.length));
-    if (!Array.isArray(items)) return [];
-    const surfaces = items
-      .filter(isRecord)
-      .filter((it) => Array.isArray(it[column]))
-      .map((it) => ({ rows: it[axis.rows], cols: it[axis.cols], z: it[column] }));
-    return surfaces.length ? [{ path: entry.path, value: surfaces }] : [];
-  }
-  if (axis?.kind === "column") {
+  if (axis?.kind === "surface" || axis?.kind === "column") {
     const [tablePath, column] = entry.path.split("[].") as [string, string];
     const rows = getPath(root, tablePath.slice(prefix.length));
-    if (!Array.isArray(rows)) return [];
-    const x: number[] = [];
-    const y: number[] = [];
-    for (const row of rows) {
-      if (!isRecord(row)) continue;
-      const xv = row[axis.field];
-      const yv = row[column];
-      if (typeof xv === "number" && typeof yv === "number") {
-        x.push(xv);
-        y.push(yv);
-      }
+    if (axis.kind === "surface") {
+      const surfaces = surfacesOf(rows, axis, column);
+      return surfaces.length ? [{ path: entry.path, value: surfaces }] : [];
     }
-    return x.length ? [{ path: entry.path, value: { x, y } }] : [];
+    const curve = curveOf(rows, axis.field, column);
+    return curve ? [{ path: entry.path, value: curve }] : [];
   }
   return walkPath(catalog, entry.path, data, companion).map((v) => ({
     path: v.concretePath,

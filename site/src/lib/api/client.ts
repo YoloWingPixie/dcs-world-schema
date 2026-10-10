@@ -6,11 +6,11 @@
  */
 import { BASE_PATH } from "../base-path";
 import { humanize } from "../catalog";
-import { loadSeriesIndex } from "../client-data";
 import { browserQuery, transientQuery } from "../db/browser";
 import { qi } from "../db/reference";
 import { fetchJsonOr, once } from "../once";
 import { facetParam, recordHref, SERIES_BY_ID, seriesHref } from "../series";
+import { offersConfiguredFacet } from "../series-display";
 import { applyOverlays, existingRecords, getApiPage, listApiPages, overlayLinks } from "./db";
 import { enumField, namesKey, seriesOfClass } from "./scripting";
 import type { ApiOverlayFile, ApiPage, ApiSection, EnumValue, PageSummary } from "./types";
@@ -75,20 +75,22 @@ async function facetValues(page: ApiPage): Promise<ApiPageExtras["values"]> {
   const facet = found?.field.facet;
   if (!found || !facet || !page.values) return undefined;
   const { series, field } = found;
-  // Only a facet the browse page offers (lib/db/reference.ts `getSeriesIndex`).
-  const index = await loadSeriesIndex(series);
-  if (!index.facets.some((f) => f.path === facet)) return undefined;
   const rows = await browserQuery(
     `SELECT ${qi(field.path)} AS v, ${qi(field.name)} AS n, count(*) AS c FROM ${qi(series)}
       WHERE n IS NOT NULL GROUP BY v, n`,
   );
   const names = new Map<unknown, Map<string, number>>();
+  const distinct = new Set<string>();
   for (const { v, n, c } of rows) {
     if (typeof n !== "string") continue;
     const counts = names.get(v) ?? new Map<string, number>();
     counts.set(n, Number(c ?? 0));
     names.set(v, counts);
+    distinct.add(n);
   }
+  // Only a facet the browse page offers; the facet is the name column, so its distinct
+  // values are the names above.
+  if (!offersConfiguredFacet(series, [facet], distinct.size)) return undefined;
   const label = SERIES_BY_ID.get(series)?.label.toLowerCase() ?? series;
   return page.values.map((v) => {
     const hits = [...(names.get(v.value)?.entries() ?? [])].filter(([n]) => namesKey(n, v.key));

@@ -12,7 +12,7 @@ import {
   walkPath,
 } from "./catalog";
 import { loadModel, type Model, refResolver } from "./db/reference";
-import { pack, unpack } from "./pack";
+import { curveOf, surfacesOf } from "./record-tables";
 
 /** The schema as written (types/entities), over the series the database lists. */
 const types = loadSchemaTypes(join(__dirname, "../../../dcs-world-schema/types/entities"));
@@ -364,18 +364,47 @@ describe("refs", () => {
   });
 });
 
-describe("transport packing", () => {
-  it("round-trips arrays of records, nested scalar objects included", () => {
-    const value = {
-      stands: [
-        { name: "1", limits: { maxHeightM: 18, shelter: false }, position: { x: 1, z: 2 } },
-        { name: "2", limits: { maxHeightM: 20, shelter: true } },
-        { name: "3", position: { x: 5, z: 6 }, tags: ["a"] },
-      ],
-      plain: [1, 2, 3],
-    };
-    const packed = pack(value) as { stands: { $c: unknown[] } };
-    expect(packed.stands.$c).toContainEqual(["limits", "maxHeightM"]);
-    expect(unpack(JSON.parse(JSON.stringify(packed)))).toEqual(value);
+describe("table curves and envelope surfaces", () => {
+  it("keep x and y aligned, skipping rows without a number in both", () => {
+    const rows = [
+      { mach: 0, cx0: 0.02 },
+      { mach: 0.5 },
+      { mach: 1, cx0: "x" },
+      7,
+      { mach: 2, cx0: 0.03 },
+    ];
+    expect(curveOf(rows, "mach", "cx0")).toEqual({ x: [0, 2], y: [0.02, 0.03] });
+    expect(curveOf([{ mach: 1 }], "mach", "cx0")).toBeNull();
+    expect(curveOf(undefined, "mach", "cx0")).toBeNull();
+  });
+
+  it("are what valuesAt gives a record for the column or grid", () => {
+    const aircraft = catalogOf("aircraft");
+    const cx0 = aircraft.entries["flight.aerodynamics.table[].cx0"];
+    if (cx0?.axis?.kind !== "column") throw new Error("no axis column");
+    const table = [{ mach: 0, cx0: 0.02 }, { mach: 0.5 }, { mach: 1, cx0: 0.04 }];
+    expect(valuesAt(cx0, aircraft, {}, { aerodynamics: { table } })).toEqual([
+      { path: cx0.path, value: curveOf(table, cx0.axis.field, cx0.name) },
+    ]);
+
+    const weapons = catalogOf("weapons");
+    const grid = Object.values(weapons.entries).find(
+      (e) => e.axis?.kind === "surface" && e.kind !== "records",
+    );
+    if (grid?.axis?.kind !== "surface") throw new Error("no surface grid");
+    const { rows, cols } = grid.axis;
+    const items = [
+      { [rows]: [1, 2], [cols]: [3], [grid.name]: [[5], [6]] },
+      { [rows]: [1], [cols]: [3] },
+      { [rows]: [4], [cols]: [3, 4], [grid.name]: [[7, 8]] },
+    ];
+    const surfaces = surfacesOf(items, grid.axis, grid.name);
+    expect(surfaces).toEqual([
+      { rows: [1, 2], cols: [3], z: [[5], [6]] },
+      { rows: [4], cols: [3, 4], z: [[7, 8]] },
+    ]);
+    const [list] = grid.path.split("[].") as [string];
+    const flight = { [list.slice("flight.".length)]: items };
+    expect(valuesAt(grid, weapons, {}, flight)).toEqual([{ path: grid.path, value: surfaces }]);
   });
 });

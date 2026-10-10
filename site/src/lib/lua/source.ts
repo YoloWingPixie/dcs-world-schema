@@ -24,9 +24,12 @@ export function splitSourcePath(sourcePath: string): LuaSource {
     : { path: sourcePath.slice(0, hash), pointer: sourcePath.slice(hash + 1) };
 }
 
+/** Whether `path` is a `_G` dump path (`_G/a/b`), one the Lua drawer can open. */
+export const isDumpPath = (path: string) => path.startsWith("_G/") && path.length > 3;
+
 /** The dump-relative file of a dump path (`_G/a/b` -> `a/b.lua`); null if it is none. */
 export function dumpFile(path: string): string | null {
-  if (!path.startsWith("_G/") || path.length === 3) return null;
+  if (!isDumpPath(path)) return null;
   const rel = path.slice(3);
   if (rel.split("/").some((s) => s === "" || s === "." || s === "..")) return null;
   return `${rel}.lua`;
@@ -90,8 +93,18 @@ const loadConfig = () =>
     }),
   );
 
+/** Whether this build has Lua files, once `luaAvailable()` has answered. */
+let luaKnown: boolean | undefined;
+
 /** Whether this build has Lua files to show. */
-export const luaAvailable = () => loadConfig().then((c) => c !== null);
+export const luaAvailable = () =>
+  loadConfig().then((c) => {
+    luaKnown = c !== null;
+    return luaKnown;
+  });
+
+/** `luaAvailable()`'s answer if it has come, else undefined. */
+export const knownLuaAvailable = () => luaKnown;
 
 /**
  * The text of the dump file of `path` (`_G/a/b`); LuaMissing when the build lacks it. The

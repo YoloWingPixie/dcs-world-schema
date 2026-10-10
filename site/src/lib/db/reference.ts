@@ -19,7 +19,7 @@ import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { perObject } from "../once";
 import { withoutNamedCodes } from "../record-tables";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
-import { displayFor } from "../series-display";
+import { displayFor, offersConfiguredFacet } from "../series-display";
 import { naturalCompare } from "../text";
 import {
   type CatalogEntry,
@@ -86,14 +86,19 @@ function firstSentence(text: string): string {
 // ---------------------------------------------------------------------------
 // Model
 
+/** The database's `meta` table: its DCS revision (`dcsVersion`), when it was extracted. */
+export async function getMeta(q: Query): Promise<Record<string, string>> {
+  const rows = await q("SELECT key, value FROM meta");
+  return Object.fromEntries(rows.map((r) => [String(r.key), String(r.value)]));
+}
+
 export async function loadModel(q: Query): Promise<Model> {
-  const [metaRows, seriesRows, typeRows, refRows] = await Promise.all([
-    q("SELECT key, value FROM meta"),
+  const [meta, seriesRows, typeRows, refRows] = await Promise.all([
+    getMeta(q),
     q("SELECT name, type_name, key_column, records FROM series ORDER BY rowid"),
     q("SELECT name, definition FROM schema_types"),
     q("SELECT table_name, series, path, target, source_column, target_column FROM ref_paths"),
   ]);
-  const meta = Object.fromEntries(metaRows.map((r) => [String(r.key), String(r.value)]));
   const types = schemaTypesFromRows(
     typeRows.map((r) => ({ name: String(r.name), definition: String(r.definition) })),
   );
@@ -631,8 +636,8 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   }
   const coverage = (c: CatalogEntry) => stats.get(c.name)?.filled ?? 0;
   const distinct = (c: CatalogEntry) => stats.get(c.name)?.distinct ?? 0;
-  // The name and id head every row already.
-  const skipped = (c: CatalogEntry) => c.role === "key" || catalog.titleFields.includes(c.path);
+  // The name and id head every row already (`columns` holds no key).
+  const skipped = (c: CatalogEntry) => catalog.titleFields.includes(c.path);
   // Configured paths (lib/series-display) win over the heuristics below.
   const display = displayFor(series);
   const configured = (paths: string[] | undefined) => {
@@ -642,7 +647,9 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     return found.length ? found : undefined;
   };
   const facets =
-    configured(display.facets)?.filter((c) => distinct(c) >= 2) ??
+    configured(display.facets)?.filter((c) =>
+      offersConfiguredFacet(series, [c.path, c.name], distinct(c)),
+    ) ??
     columns
       .filter(
         (c) => (c.kind === "enum" || c.kind === "boolean" || c.kind === "string") && !skipped(c),

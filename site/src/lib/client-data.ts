@@ -15,6 +15,7 @@ import {
   getBeaconRows,
   getFieldValues,
   getGroupTargets,
+  getMeta,
   getRecord,
   getSeriesIndex,
   keyedFieldPaths,
@@ -55,15 +56,31 @@ export type OverlayFile = {
 
 export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
 
+/** The database's meta alone (the footer's revision): the model's first statement, shared with it. */
+export const loadMeta = () => once("meta", () => getMeta(browserQuery));
+
+type ModelState = { model: Model | null; failed: boolean };
+
+/** The loaded model's state, kept so later mounts render it at once (a failure retries). */
+let modelLoaded: ModelState | undefined;
+
 const loadModelState = () =>
   loadModel().then(
-    (model): { model: Model | null; failed: boolean } => ({ model, failed: false }),
-    () => ({ model: null, failed: true }),
+    (model): ModelState => {
+      modelLoaded ??= { model, failed: false };
+      return modelLoaded;
+    },
+    (): ModelState => ({ model: null, failed: true }),
   );
 
 /** The model once loaded, and whether it failed; `enabled` false leaves it unread. */
-export function useModel(enabled = true): { model: Model | null; failed: boolean } {
-  return useLoaded(loadModelState, enabled ? "" : null) ?? { model: null, failed: false };
+export function useModel(enabled = true): ModelState {
+  return (
+    useLoaded(loadModelState, enabled ? "" : null, () => modelLoaded) ?? {
+      model: null,
+      failed: false,
+    }
+  );
 }
 
 const NO_OVERLAYS: OverlayFile = { series: {} };

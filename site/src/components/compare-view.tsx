@@ -1,7 +1,7 @@
 "use client";
 
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
-import { COMPANION_PREFIX, catalogKeyFor, comparableValues } from "@/lib/catalog";
+import { catalogKeyFor, companionLabel, comparableValues } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
 import {
   loadCatalog,
@@ -32,6 +32,8 @@ import {
 } from "@/lib/format-field";
 import { replaceQuery } from "@/lib/history";
 import { perObject } from "@/lib/once";
+import { sectionFor } from "@/lib/placement";
+import { asSurfaces } from "@/lib/record-tables";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { capitalise, compareSortKeys, naturalCompare, squash } from "@/lib/text";
 import type { CatalogEntry, FieldValues, RecordDoc, SeriesCatalog } from "@/lib/types";
@@ -50,7 +52,7 @@ import { SERIES_COLORS } from "./chart-colors";
 import { fieldDataAttrs, renderDescription } from "./field-view";
 import { type ChartSeries, LineChart } from "./line-chart";
 import { Markdown } from "./Markdown";
-import { asSurfaces, surfaceRow } from "./record/envelope";
+import { surfaceRow } from "./record/envelope";
 import { RefLink } from "./ref-link";
 import { SortHeader, type SortState } from "./sort-header";
 
@@ -58,18 +60,17 @@ const MAX_SERIES = SERIES_COLORS.length;
 
 type RecordInfo = { name: string; id: string; sub: string };
 
-/** "Overview", a top-level group's label, or "Flight model: <group>". */
-function sectionOf(catalog: SeriesCatalog, key: string): string {
-  const parts = key.split(".");
-  if (parts[0] === COMPANION_PREFIX) {
-    const label = catalog.entries[COMPANION_PREFIX]?.label ?? COMPANION_PREFIX;
-    const group = parts.length > 2 ? catalog.entries[`${COMPANION_PREFIX}.${parts[1]}`] : null;
-    return group && (group.kind === "record" || group.kind === "records")
-      ? `${label}: ${group.label}`
-      : label;
-  }
-  const head = parts.length > 1 ? catalog.entries[(parts[0] ?? "").replace(/\[\]$/, "")] : null;
-  return head && (head.kind === "record" || head.kind === "records") ? head.label : "Overview";
+/**
+ * A field's group: the record page's section of it (lib/placement.ts `sectionFor`), a
+ * companion section named with the companion ("Flight model: Aerodynamics").
+ */
+function sectionOf(catalog: SeriesCatalog, key: string): { id: string; label: string } {
+  const section = sectionFor(catalog, key);
+  const label =
+    section.companion && section.kind !== "overview"
+      ? `${companionLabel(catalog)}: ${section.title}`
+      : section.title;
+  return { id: section.id, label };
 }
 
 function entryFor(catalog: SeriesCatalog, path: string): CatalogEntry | null {
@@ -404,17 +405,23 @@ function FieldSelect({
   const groups = useMemo(() => {
     if (!catalog) return [];
     const order = new Map(Object.keys(catalog.entries).map((k, i) => [k, i]));
-    const map = new Map<string, Array<{ path: string; label: string; rank: number }>>();
+    type Option = { path: string; label: string; rank: number };
+    const map = new Map<string, { section: string; options: Option[] }>();
     for (const fp of paths) {
       const entry = catalog.entries[fp.key];
       if (!entry?.comparable) continue;
-      const section = sectionOf(catalog, fp.key);
-      const list = map.get(section) ?? [];
-      list.push({ path: fp.path, label: pathLabel(entry, fp.path), rank: order.get(fp.key) ?? 0 });
-      map.set(section, list);
+      const { id, label } = sectionOf(catalog, fp.key);
+      const group = map.get(id) ?? { section: label, options: [] };
+      group.options.push({
+        path: fp.path,
+        label: pathLabel(entry, fp.path),
+        rank: order.get(fp.key) ?? 0,
+      });
+      map.set(id, group);
     }
     return [...map.entries()]
-      .map(([section, options]) => ({
+      .map(([id, { section, options }]) => ({
+        id,
         section,
         options: options.sort((a, b) => a.rank - b.rank || naturalCompare(a.path, b.path)),
       }))
@@ -435,7 +442,7 @@ function FieldSelect({
         <option value={value}>{value}</option>
       ) : null}
       {groups.map((g) => (
-        <optgroup key={g.section} label={g.section}>
+        <optgroup key={g.id} label={g.section}>
           {g.options.map((o) => (
             <option key={o.path} value={o.path}>
               {o.label}
@@ -970,11 +977,7 @@ function AllRecordsTable({
     const f = filter.trim().toLowerCase();
     const list = Object.entries(all).map(([slug, value]) => {
       const r = records.get(slug);
-      let sortValue = sortableValue(entry, value, vctx);
-      if (surface) {
-        const cells = asSurfaces(value).flatMap((s) => s.z.flat());
-        sortValue = cells.length ? convertNumber(Math.max(...cells), entry, system) : null;
-      }
+      const sortValue = sortableValue(entry, value, vctx);
       const text =
         curve && typeof sortValue === "number"
           ? formatNumber(sortValue)
@@ -996,7 +999,7 @@ function AllRecordsTable({
       sort.key === "name" ? r.name : sort.key === "sub" ? r.sub : r.sort;
     visible.sort((a, b) => compareSortKeys(key(a), key(b), sort.dir));
     return visible;
-  }, [all, filter, sort, entry, records, vctx, system, curve, surface]);
+  }, [all, filter, sort, entry, records, vctx, curve]);
 
   const header = (key: "name" | "value" | "sub", label: string, num = false) => (
     <SortHeader sortKey={key} label={label} sort={sort} onSort={setSort} num={num} />
@@ -1131,8 +1134,9 @@ function Matrix({
   if (records.length === 0) return <p className="muted">Failed to load data. Reload the page.</p>;
 
   // Sections in the order their first field appears.
-  const sectionOrder: string[] = [];
-  for (const r of rows) if (!sectionOrder.includes(r.section)) sectionOrder.push(r.section);
+  const sectionOrder = new Map<string, string>();
+  for (const r of rows)
+    if (!sectionOrder.has(r.section.id)) sectionOrder.set(r.section.id, r.section.label);
 
   return (
     <section className="panel" aria-labelledby="matrix-h">
@@ -1161,9 +1165,9 @@ function Matrix({
             </tr>
           </thead>
           <tbody>
-            {sectionOrder.map((section) => {
+            {[...sectionOrder].map(([section, sectionLabel]) => {
               const body = rows
-                .filter((r) => r.section === section)
+                .filter((r) => r.section.id === section)
                 .map(({ path, entry }) => {
                   const values = maps.map((m) => m.get(path)?.value);
                   const texts = values.map((v, i) =>
@@ -1207,7 +1211,7 @@ function Matrix({
               return [
                 <tr key={`h-${section}`}>
                   <th colSpan={records.length + 1} scope="colgroup" className="matrix-section">
-                    {section}
+                    {sectionLabel}
                   </th>
                 </tr>,
                 ...body,

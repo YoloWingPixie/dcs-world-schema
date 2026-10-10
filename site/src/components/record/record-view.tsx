@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
-import { COMPANION_PREFIX } from "@/lib/catalog";
+import { companionLabel } from "@/lib/catalog";
 import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
 import { plainValue, type ValueContext } from "@/lib/format-field";
 import { LOCATION_ID, locationOf } from "@/lib/geo";
@@ -54,10 +54,6 @@ function useRecord(series: string, slug: string) {
   return state ?? NOT_LOADED;
 }
 
-/** What the companion's fields are called here ("Flight model"). */
-const companionLabel = (catalog: SeriesCatalog) =>
-  catalog.entries[COMPANION_PREFIX]?.label ?? COMPANION_PREFIX;
-
 /** The tag beside a section's title: "flight model" on the companion's own sections, a table's row count. */
 function sectionTag(section: PlacedSection, catalog: SeriesCatalog): string | null {
   if (section.companion) {
@@ -97,12 +93,18 @@ const SectionBody = memo(function SectionBody({
       );
     case "records":
       return (
-        <RecordsBlock entry={section.entry} rows={section.rows} ctx={ctx} prefix={section.path} />
+        <RecordsBlock
+          entry={section.entry}
+          rows={section.rows}
+          ctx={ctx}
+          prefix={section.path}
+          place="group"
+        />
       );
     case "source":
       return (
         <div className="fields">
-          {section.fields.map(({ entry, path, value }) => (
+          {section.fields.map(({ entry, path, value, companion }) => (
             <FieldRow
               key={path}
               entry={entry}
@@ -111,7 +113,7 @@ const SectionBody = memo(function SectionBody({
               ctx={ctx.fctx}
               vctx={ctx.vctx}
               label={
-                path.startsWith(`${COMPANION_PREFIX}.`)
+                companion
                   ? `${companionLabel(ctx.catalog)} ${entry.label.toLowerCase()}`
                   : entry.label
               }

@@ -32,11 +32,19 @@ function PageCard({ p }: { p: PageSummary }) {
   );
 }
 
-function typeGroup(name: string): string {
-  if (name.startsWith("DcsTask.")) return "DcsTask";
-  if (name.startsWith("DcsId.")) return "DcsId";
-  if (name.startsWith("AI.")) return "AI";
-  return "Records, enums and unions";
+/** A group of the type list: its namespace, or the shared first group. */
+type TypeGroup = { id: string; label: string };
+
+/** The types listed first, open: records, enums and unions outside the namespaces below. */
+const MAIN_TYPES: TypeGroup = { id: "", label: "Records, enums and unions" };
+
+/** Namespaces whose types (`DcsTask.Orbit`) list in a group of their own, after the main one. */
+const TYPE_NAMESPACES = new Set(["AI", "DcsId", "DcsTask"]);
+
+function typeGroup(name: string): TypeGroup {
+  const dot = name.indexOf(".");
+  const namespace = dot < 0 ? "" : name.slice(0, dot);
+  return TYPE_NAMESPACES.has(namespace) ? { id: namespace, label: namespace } : MAIN_TYPES;
 }
 
 /** API home lists: environment filter, globals per environment, then types. */
@@ -68,12 +76,15 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
     const list = (bySection.get("types") ?? []).filter(
       (p) => !q || p.name.toLowerCase().includes(q),
     );
-    const groups = new Map<string, PageSummary[]>();
-    for (const p of list)
-      groups.set(typeGroup(p.name), [...(groups.get(typeGroup(p.name)) ?? []), p]);
-    return [...groups.entries()].sort(([a], [b]) =>
-      a.startsWith("Records") ? -1 : b.startsWith("Records") ? 1 : naturalCompare(a, b),
-    );
+    const groups = new Map<string, { group: TypeGroup; list: PageSummary[] }>();
+    for (const p of list) {
+      const group = typeGroup(p.name);
+      const entry = groups.get(group.id) ?? { group, list: [] };
+      entry.list.push(p);
+      groups.set(group.id, entry);
+    }
+    // The main group first ("" sorts first), then the namespaces by name.
+    return [...groups.values()].sort((a, b) => naturalCompare(a.group.id, b.group.id));
   }, [bySection, typeQuery]);
 
   const show = (s: Filter) => env === "all" || env === s;
@@ -207,14 +218,14 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
               spellCheck={false}
             />
           </div>
-          {types.map(([group, list]) => (
+          {types.map(({ group, list }) => (
             <details
-              key={group}
+              key={group.id}
               className="api-typegroup"
-              open={group.startsWith("Records") || !!typeQuery}
+              open={group.id === MAIN_TYPES.id || !!typeQuery}
             >
               <summary>
-                <span>{group}</span> <span className="muted">{list.length}</span>
+                <span>{group.label}</span> <span className="muted">{list.length}</span>
               </summary>
               <ul className="api-typelist">
                 {list.map((p) => (

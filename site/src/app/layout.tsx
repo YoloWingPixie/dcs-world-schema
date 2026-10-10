@@ -20,6 +20,7 @@ import { SiteHeader } from "@/components/header";
 import { DataVersion } from "@/components/series-directory";
 import { Toaster } from "@/components/toast";
 import { bootScript, CONFIG_URL, WASM_URL, WORKER_URL } from "@/lib/db/boot";
+import { THEME_KEY } from "@/lib/theme";
 import { UNITS_BOOTSTRAP } from "@/lib/units";
 import { preloadFonts } from "./fonts";
 
@@ -36,7 +37,7 @@ export const viewport: Viewport = {
 };
 
 // Applies a stored theme before first paint; without one, the system preference rules.
-const themeScript = `try{var t=localStorage.getItem("dcs-ref:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}${UNITS_BOOTSTRAP}`;
+const themeScript = `try{var t=localStorage.getItem("${THEME_KEY}");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}${UNITS_BOOTSTRAP}`;
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   preloadFonts();

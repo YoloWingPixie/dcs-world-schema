@@ -5,36 +5,16 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 import { compareHref, getCompare, setCompare, toggleInCompare } from "@/lib/compare-store";
 import { SERIES_BY_ID } from "@/lib/series";
 import { CompareIcon, CopyIcon, PlusIcon } from "@/ui/icons";
+import { type FieldTarget, readFieldTarget } from "./field-view";
 import { copy } from "./toast";
 
-type Target = {
-  el: HTMLElement;
-  path: string;
-  label: string;
-  comparable: boolean;
-  text: string;
-  stored: string | null;
-  series: string;
-  record: string | null;
-  recordName: string | null;
-  x: number;
-  y: number;
-};
+/** A field the menu is open on, and where. */
+type Target = FieldTarget & { el: HTMLElement; x: number; y: number };
 
-function readTarget(el: HTMLElement, x: number, y: number): Target {
-  return {
-    el,
-    path: el.dataset.field ?? "",
-    label: el.dataset.fieldLabel ?? el.dataset.field ?? "",
-    comparable: el.dataset.fieldComparable !== "false",
-    text: el.dataset.fieldText ?? "",
-    stored: el.dataset.fieldStored ?? null,
-    series: el.dataset.series ?? "weapons",
-    record: el.dataset.record ?? null,
-    recordName: el.dataset.recordName ?? null,
-    x,
-    y,
-  };
+/** The menu's target at `el`; null (no menu) when its data attributes are incomplete. */
+function readTarget(el: HTMLElement, x: number, y: number): Target | null {
+  const field = readFieldTarget(el);
+  return field ? { ...field, el, x, y } : null;
 }
 
 /** Starts a field comparison (the menu item and the C shortcut); returns its address. */
@@ -67,9 +47,11 @@ export function FieldMenu() {
   }, []);
 
   const openAt = useCallback((el: HTMLElement, x: number, y: number) => {
+    const next = readTarget(el, x, y);
+    if (!next) return;
     setTarget((prev) => {
       prev?.el.removeAttribute("data-menu-open");
-      return readTarget(el, x, y);
+      return next;
     });
     el.setAttribute("data-menu-open", "true");
   }, []);
@@ -117,8 +99,8 @@ export function FieldMenu() {
         !event.metaKey &&
         !event.altKey
       ) {
-        const t = readTarget(el, 0, 0);
-        if (!t.comparable) return;
+        const t = readFieldTarget(el);
+        if (!t?.comparable) return;
         event.preventDefault();
         router.push(compareFieldHref(t.series, t.path, t.record));
       }

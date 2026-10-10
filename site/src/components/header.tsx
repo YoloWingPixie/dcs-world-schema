@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { compareHref, useCompare } from "@/lib/compare-store";
 import { currentSection, NAV_SECTIONS } from "@/lib/nav";
+import { THEME_KEY } from "@/lib/theme";
 import { setUnitSystem, useUnitSystem } from "@/lib/unit-system";
 import { GitHubIcon, MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
 import { openPalette } from "./command-palette";
@@ -32,7 +33,7 @@ function ThemeToggle() {
       onClick={() => {
         document.documentElement.dataset.theme = next;
         try {
-          window.localStorage.setItem("dcs-ref:theme", next);
+          window.localStorage.setItem(THEME_KEY, next);
         } catch {
           // Storage blocked: the theme holds for this page view.
         }

@@ -20,9 +20,38 @@ export type FieldContext = {
   hasLocation?: boolean;
 };
 
+/** What the field context menu acts on (components/field-menu.tsx): a field of a record. */
+export type FieldTarget = {
+  path: string;
+  label: string;
+  comparable: boolean;
+  /** The value as copied (lib/format-field `plainValue`). */
+  text: string;
+  /** Its stored form, when that differs from `text`. */
+  stored: string | null;
+  series: string;
+  record: string;
+  recordName: string;
+};
+
+/** The data attribute holding each part of a FieldTarget, as `dataset` names it. */
+const FIELD_DATA = {
+  path: "field",
+  label: "fieldLabel",
+  comparable: "fieldComparable",
+  text: "fieldText",
+  stored: "fieldStored",
+  series: "series",
+  record: "record",
+  recordName: "recordName",
+} as const satisfies Record<keyof FieldTarget, string>;
+
+/** `fieldLabel` -> `data-field-label`. */
+const attrName = (name: string) => `data-${name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)}`;
+
 /**
- * Data attributes the field context menu reads (components/field-menu.tsx):
- * any element with `data-field` gets compare / add / copy on right-click, ⋯, Shift+F10 or C.
+ * Data attributes the field context menu reads back (`readFieldTarget`): any element with
+ * `data-field` gets compare / add / copy on right-click, ⋯, Shift+F10 or C.
  */
 export function fieldDataAttrs(
   entry: CatalogEntry,
@@ -33,18 +62,58 @@ export function fieldDataAttrs(
   label = entry.label,
   /** `storedValue` of the value, when the caller has it already. */
   stored = storedValue(entry, value, vctx.system, vctx.enums),
-) {
+): Record<string, string> {
   const text = plainValue(entry, value, vctx);
+  const target: FieldTarget = {
+    path,
+    label,
+    comparable: entry.comparable,
+    text,
+    stored: stored && stored !== text ? stored : null,
+    series: ctx.series,
+    record: ctx.slug,
+    recordName: ctx.recordName,
+  };
+  const attrs: Record<string, string> = {};
+  for (const [key, name] of Object.entries(FIELD_DATA)) {
+    const v = target[key as keyof FieldTarget];
+    if (v !== null) attrs[attrName(name)] = String(v);
+  }
+  return attrs;
+}
+
+/** The field an element's `fieldDataAttrs` describe; null when any of them is missing. */
+export function readFieldTarget(el: { dataset: DOMStringMap }): FieldTarget | null {
+  const d = el.dataset;
+  const path = d[FIELD_DATA.path];
+  const label = d[FIELD_DATA.label];
+  const comparable = d[FIELD_DATA.comparable];
+  const text = d[FIELD_DATA.text];
+  const series = d[FIELD_DATA.series];
+  const record = d[FIELD_DATA.record];
+  const recordName = d[FIELD_DATA.recordName];
+  if (
+    path === undefined ||
+    label === undefined ||
+    text === undefined ||
+    series === undefined ||
+    record === undefined ||
+    recordName === undefined ||
+    (comparable !== "true" && comparable !== "false")
+  ) {
+    return null;
+  }
+  const stored = d[FIELD_DATA.stored] ?? null;
   return {
-    "data-field": path,
-    "data-field-label": label,
-    "data-field-comparable": entry.comparable ? "true" : "false",
-    "data-field-text": text,
-    ...(stored && stored !== text ? { "data-field-stored": stored } : {}),
-    "data-series": ctx.series,
-    "data-record": ctx.slug,
-    "data-record-name": ctx.recordName,
-  } as const;
+    path,
+    label,
+    comparable: comparable === "true",
+    text,
+    stored,
+    series,
+    record,
+    recordName,
+  };
 }
 
 /** Backticked spans in schema descriptions become <code>. */

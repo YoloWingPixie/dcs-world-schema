@@ -1,6 +1,6 @@
 "use client";
 
-import { useSyncExternalStore } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { showToast } from "@/components/toast";
 import { getUnitSystem } from "./unit-system";
 
@@ -161,13 +161,17 @@ export function useCompareOnClient(): CompareState | null {
   );
 }
 
-/** Whether a record is in its series' selection. */
-export function useInCompare(series: string, slug: string): boolean {
-  return useSyncExternalStore(
+/**
+ * A series' selected records. The store is read as one string (the slugs, one per line), so
+ * the snapshot is stable and a change elsewhere in the store does not re-render.
+ */
+export function useCompareRecords(series: string): string[] {
+  const joined = useSyncExternalStore(
     subscribe,
-    () => getCompare(series).records.includes(slug),
-    () => false,
+    () => getCompare(series).records.join("\n"),
+    () => "",
   );
+  return useMemo(() => (joined ? joined.split("\n") : []), [joined]);
 }
 
 /** `s=<series>&f=<path>&r=a,b` (commas kept readable), with the unit system when imperial. */

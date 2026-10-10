@@ -1,24 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { isRecord } from "@/lib/json";
+import { type Surface, surfacesOf } from "@/lib/record-tables";
 import type { CatalogEntry } from "@/lib/types";
 import { convertNumber, displayUnit, formatPlain, unitLabel } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import { fieldDataAttrs, MoreButton } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
 import { HeatGrid, type RenderCtx } from "./blocks";
-
-export type Surface = { rows: number[]; cols: number[]; z: number[][] };
-
-/** The envelope surfaces of a compare value (`flight.launchEnvelopes[].maxRangeM`). */
-export function asSurfaces(value: unknown): Surface[] {
-  if (!Array.isArray(value)) return [];
-  return value.filter(
-    (s): s is Surface =>
-      isRecord(s) && Array.isArray(s.rows) && Array.isArray(s.cols) && Array.isArray(s.z),
-  );
-}
 
 /** Rows of a surface nearest to `row` (an altitude), or null when none is within 1%. */
 export function surfaceRow(surfaces: Surface[], row: number): { x: number[]; y: number[] } | null {
@@ -36,21 +25,24 @@ export function surfaceRow(surfaces: Surface[], row: number): { x: number[]; y: 
 /**
  * One launch envelope (an `Entity.WeaponLaunchEnvelope`-shaped record: two number[] axes
  * and number[][] grids): heatmap of the chosen grid, and the grid by column axis with one
- * line per picked row (altitude).
+ * line per picked row (altitude). Its compare value is the grid's in every item, as
+ * the record's value of the grid (lib/catalog.ts `valuesAt`).
  */
 export function EnvelopeBlock({
   entry,
+  items,
   item,
   index,
-  total = 1,
   ctx,
 }: {
   entry: CatalogEntry;
+  /** Every item of the envelope list. */
+  items: unknown[];
   item: Record<string, unknown>;
   index: number;
-  total?: number;
   ctx: RenderCtx;
 }) {
+  const total = items.length;
   const { catalog, vctx } = ctx;
   const surface = entry.axis?.kind === "surface" ? entry.axis : null;
   // The grids this item holds, and its two axes labelled for one value ("Altitude").
@@ -121,7 +113,7 @@ export function EnvelopeBlock({
           {...fieldDataAttrs(
             gridEntry,
             gridEntry.path,
-            [{ rows, cols, z: grid }],
+            surface ? surfacesOf(items, surface, gridEntry.name) : [],
             ctx.fctx,
             vctx,
             gridEntry.label,
@@ -170,8 +162,6 @@ export function EnvelopeBlock({
             grid={grid}
             rowAxis={{ entry: rowEntry, values: rows }}
             colAxis={{ entry: colEntry, values: cols }}
-            rowLabel={rowEntry.label}
-            colLabel={colEntry.label}
             vctx={vctx}
           />
         </details>

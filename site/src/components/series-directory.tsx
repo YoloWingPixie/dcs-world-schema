@@ -1,7 +1,7 @@
 "use client";
 
 import { type ApiContentsEntry, apiContents, apiPageCounts } from "@/lib/api/contents";
-import { useModel } from "@/lib/client-data";
+import { loadMeta, useModel } from "@/lib/client-data";
 import { browserQuery, referenceConfig } from "@/lib/db/browser";
 import { seriesGroups } from "@/lib/db/reference";
 import { seriesHref } from "@/lib/series";
@@ -113,9 +113,11 @@ export function SeriesDirectory() {
 
 /** The data revision, from the database's meta: the home title block or the running footer. */
 export function DataVersion({ variant }: { variant: "footer" | "home" }) {
-  const { model } = useModel();
+  // The footer, on every page, reads the revision alone; the home page counts the records.
+  const meta = useLoaded(loadMeta);
+  const { model } = useModel(variant === "home");
   const total = model?.series.filter((s) => !s.parent).reduce((n, s) => n + s.count, 0) ?? 0;
-  const version = model?.meta.dcsVersion ?? "…";
+  const version = meta?.dcsVersion ?? "…";
   if (variant === "footer") {
     return (
       <>
@@ -130,10 +132,10 @@ export function DataVersion({ variant }: { variant: "footer" | "home" }) {
         <dt>Revision</dt>
         <dd>{version}</dd>
       </div>
-      {model?.meta.extractedAt ? (
+      {meta?.extractedAt ? (
         <div>
           <dt>Extracted</dt>
-          <dd>{model.meta.extractedAt.slice(0, 10)}</dd>
+          <dd>{meta.extractedAt.slice(0, 10)}</dd>
         </div>
       ) : null}
       <div>

@@ -1,13 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import {
-  compareHref,
-  getCompare,
-  toggleInCompare,
-  useCompare,
-  useInCompare,
-} from "@/lib/compare-store";
+import { compareHref, toggleInCompare, useCompareRecords } from "@/lib/compare-store";
 import { CompareIcon, PlusIcon } from "@/ui/icons";
 import { LuaButton } from "./lua-button";
 
@@ -20,9 +14,9 @@ export function RecordCompareActions({
   slug: string;
   name: string;
 }) {
-  useCompare();
-  const inCompare = useInCompare(series, slug);
-  const others = getCompare(series).records.filter((r) => r !== slug);
+  const records = useCompareRecords(series);
+  const inCompare = records.includes(slug);
+  const others = records.filter((r) => r !== slug);
   return (
     <div className="plate-actions">
       <button
