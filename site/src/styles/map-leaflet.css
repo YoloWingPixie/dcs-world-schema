@@ -1,0 +1,164 @@
+/* Leaflet restyled for the location figure: square, hairline, no shadows, quiet tiles.
+   Loaded with Leaflet (components/location-map-leaflet.tsx), after leaflet.css. */
+
+.map-canvas {
+  --map-tile-filter: grayscale(0.55) contrast(0.95);
+  height: 100%;
+  width: 100%;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .map-canvas {
+    --map-tile-filter: grayscale(0.7) brightness(0.62) contrast(1.08);
+  }
+}
+
+:root[data-theme="dark"] .map-canvas {
+  --map-tile-filter: grayscale(0.7) brightness(0.62) contrast(1.08);
+}
+
+.map-canvas.leaflet-container {
+  background: var(--paper-2);
+  font-family: var(--font-head);
+  font-size: 12px;
+  color: var(--ink);
+  outline-offset: 2px;
+}
+
+.map-canvas.leaflet-container:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.map-canvas .map-tiles {
+  filter: var(--map-tile-filter);
+}
+
+/* Zoom: two square keys, hairline frame, no shadow. */
+.map-canvas .leaflet-bar,
+.map-canvas.leaflet-touch .leaflet-bar {
+  border: 1px solid var(--hair-strong);
+  border-radius: 0;
+  box-shadow: none;
+  background-clip: padding-box;
+}
+
+.map-canvas .leaflet-bar a,
+.map-canvas.leaflet-touch .leaflet-bar a {
+  width: 28px;
+  height: 28px;
+  line-height: 26px;
+  border-radius: 0;
+  border-bottom: 1px solid var(--hair);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.map-canvas .leaflet-bar a:last-child {
+  border-bottom: 0;
+}
+
+.map-canvas .leaflet-bar a:hover,
+.map-canvas .leaflet-bar a:focus-visible {
+  background: var(--paper-3);
+  color: var(--accent);
+}
+
+.map-canvas .leaflet-bar a.leaflet-disabled {
+  background: var(--paper-2);
+  color: var(--ink-3);
+}
+
+.map-canvas .leaflet-control-zoom {
+  margin: 8px 0 0 8px;
+}
+
+/* Attribution: a plain line on the paper, in the head face. */
+.map-canvas .leaflet-control-attribution {
+  margin: 0;
+  padding: 1px 6px;
+  border-top: 1px solid var(--hair);
+  border-left: 1px solid var(--hair);
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  color: var(--ink-2);
+  font-family: var(--font-head);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.map-canvas .leaflet-control-attribution a {
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.map-canvas .leaflet-control-attribution a:hover {
+  color: var(--accent);
+}
+
+/* Marks: a square with crosshair ticks for the record, diamonds for beacons. */
+.map-mark {
+  box-sizing: border-box;
+  background: transparent;
+}
+
+/* 26 px icon: a 14 px square with 6 px ticks out from each side's middle. */
+.map-mark-record {
+  --tick: var(--ink);
+  background:
+    linear-gradient(var(--tick), var(--tick)) 50% 0 / 2px 6px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 50% 100% / 2px 6px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 0 50% / 6px 2px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) 100% 50% / 6px 2px no-repeat;
+}
+
+.map-mark-record::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 2px solid var(--ink);
+  background: color-mix(in srgb, var(--paper) 45%, transparent);
+  outline: 1px solid color-mix(in srgb, var(--paper) 70%, transparent);
+}
+
+/* Leaflet positions the icon with `transform`, so the diamond turns inside it. */
+.map-mark-beacon::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border: 1.5px solid var(--accent);
+  background: var(--paper);
+  transform: rotate(45deg);
+}
+
+.map-canvas path.map-runway {
+  stroke: var(--ink-2);
+  stroke-width: 5px;
+  stroke-linecap: butt;
+  stroke-opacity: 0.9;
+  fill: none;
+}
+
+.map-canvas path.map-stand {
+  stroke: none;
+  fill: var(--ink);
+  fill-opacity: 0.7;
+}
+
+/* Tooltips: square, hairline, no shadow or pointer. */
+.map-canvas .leaflet-tooltip {
+  padding: 2px 6px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-head);
+  font-size: 12px;
+}
+
+.map-canvas .leaflet-tooltip::before {
+  display: none;
+}

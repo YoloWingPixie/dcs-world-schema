@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { plainValue, resolveLink, storedValue, type ValueContext } from "@/lib/format-field";
+import { isGeoField, LOCATED_SERIES, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
 import { recordHref } from "@/lib/series";
 import type { CatalogEntry } from "@/lib/types";
@@ -224,7 +225,13 @@ export function FieldRow({
       </span>
       {body ? null : (
         <span className="field-value">
-          <ScalarValue entry={entry} value={value} vctx={vctx} />
+          {isGeoField(entry.name) && LOCATED_SERIES.has(ctx.series) ? (
+            <a className="geo-link" href={`#${LOCATION_ID}`}>
+              <ScalarValue entry={entry} value={value} vctx={vctx} />
+            </a>
+          ) : (
+            <ScalarValue entry={entry} value={value} vctx={vctx} />
+          )}
           {after}
         </span>
       )}

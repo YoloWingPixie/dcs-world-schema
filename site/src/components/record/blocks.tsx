@@ -11,6 +11,7 @@ import {
   sectorRanges,
   type ValueContext,
 } from "@/lib/format-field";
+import { isGeoField, LOCATED_SERIES, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
 import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
 import { convertValue, displayUnit, formatNumber, withUnit } from "@/lib/units";
@@ -735,7 +736,14 @@ export function RecordsTable({
                         {v === undefined ? (
                           <span className="muted">—</span>
                         ) : c.entry.kind === "number" && typeof v === "number" ? (
-                          formatNumber(conv(c.entry, v, ctx.vctx))
+                          isGeoField(c.entry.name) && LOCATED_SERIES.has(ctx.fctx.series) ? (
+                            // Runway thresholds, stand positions: on the Location figure.
+                            <a className="geo-link" href={`#${LOCATION_ID}`}>
+                              {formatNumber(conv(c.entry, v, ctx.vctx))}
+                            </a>
+                          ) : (
+                            formatNumber(conv(c.entry, v, ctx.vctx))
+                          )
                         ) : c.entry.kind === "enum" ? (
                           enumDisplay(c.entry, v, ctx.vctx.enums).label
                         ) : c.entry.name === "sourcePath" && typeof v === "string" ? (
