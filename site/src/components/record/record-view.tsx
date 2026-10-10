@@ -5,6 +5,7 @@ import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { COMPANION_PREFIX, getPath, isRecord } from "@/lib/catalog";
 import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
 import { coverageText, plainValue, rangePair, type ValueContext } from "@/lib/format-field";
+import { LOCATION_ID, locationOf } from "@/lib/geo";
 import { constantLabel } from "@/lib/names";
 import type { NavHint } from "@/lib/nav-hints";
 import { recordHref, SERIES_BY_ID, seriesHref } from "@/lib/series";
@@ -19,6 +20,7 @@ import type {
 import { useUnitSystem } from "@/lib/unit-system";
 import { formatWithUnit, unitGap } from "@/lib/units";
 import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../field-view";
+import { LocationFigure } from "../location-map";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
 import { LuaLink, type RenderCtx, rangeListOf } from "./blocks";
@@ -459,7 +461,11 @@ export function RecordView({
 
   const chips = metaChips(doc.meta, constantLabel);
   const refCount = doc.referencedBy.reduce((n, g) => n + groupSize(g), 0);
+  // The Location figure leads the body (a numbered section): first here too.
   const toc = [
+    ...(locationOf(series, doc.data, doc.name)
+      ? [{ id: LOCATION_ID, title: "Location", flight: false }]
+      : []),
     ...sections.map((s) => ({
       id: s.id,
       title: s.title,
@@ -513,6 +519,7 @@ export function RecordView({
           ))}
         </nav>
         <div className="record-body">
+          <LocationFigure doc={doc} />
           {sections.map((section) => (
             <section
               key={section.id}
