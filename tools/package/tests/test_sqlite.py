@@ -18,6 +18,7 @@ from typing import Any
 
 import pytest
 
+from tools.datamine.check_refs import rules
 from tools.datamine.common import (
     JSON_SCHEMA_PATH,
     LATEST,
@@ -660,7 +661,7 @@ def test_field_paths(db: sqlite3.Connection, built: Built) -> None:
 
 
 def test_field_views_fail_on_an_unknown_path(built: Built) -> None:
-    refs = sqlite_db.References(built.series, sqlite_db.rules(built.document), {})
+    refs = sqlite_db.References(built.series, rules(built.document), {})
     good = {"aircraft": {"fields": [{"path": "flight.aerodynamics.table[].cx0"}]}}
     sqlite_db.field_views(built.series, refs, good, built.document)
     for path in ("aero.nope", "flight.nope", "flight.motorStages.*.nope"):

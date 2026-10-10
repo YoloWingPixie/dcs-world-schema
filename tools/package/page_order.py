@@ -31,7 +31,7 @@ from pathlib import Path
 INTERIOR_INDEX, INTERIOR_TABLE, LEAF_INDEX, LEAF_TABLE = 2, 5, 10, 13
 
 
-def _varint(buf: bytes, at: int) -> tuple[int, int]:
+def _varint(buf: bytes | bytearray, at: int) -> tuple[int, int]:
     """``(value, length)`` of the SQLite varint at ``at``."""
     value = 0
     for i in range(8):
