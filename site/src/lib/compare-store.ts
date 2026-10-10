@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { showToast } from "@/components/toast";
 import { getUnitSystem } from "./unit-system";
 
 /**
@@ -110,6 +111,20 @@ export function removeRecord(series: string, slug: string) {
   setCompare({ ...state, records: state.records.filter((r) => r !== slug) });
 }
 
+/**
+ * Adds a record to its series' selection, or removes it when it is there, and says so in a
+ * toast; "Open compare" opens the selection with its field kept.
+ */
+export function toggleInCompare(series: string, slug: string, name: string) {
+  if (getCompare(series).records.includes(slug)) {
+    removeRecord(series, slug);
+    showToast(`Removed ${name} from compare.`);
+  } else {
+    addRecords(series, slug);
+    showToast(`Added ${name} to compare.`, compareHref(getCompare(series)), "Open compare");
+  }
+}
+
 function subscribe(listener: () => void) {
   listeners.add(listener);
   const onStorage = (event: StorageEvent) => {
@@ -173,11 +188,10 @@ export function compareHref(state: CompareState): string {
 }
 
 export function parseCompareParams(params: URLSearchParams): CompareState | null {
-  if (!params.has("s") && !params.has("f") && !params.has("r") && !params.has("w")) return null;
+  if (!params.has("s") && !params.has("f") && !params.has("r")) return null;
   return {
     series: params.get("s") || DEFAULT_SERIES,
     field: params.get("f") || null,
-    // `w` is the weapons-only prototype's parameter.
-    records: (params.get("r") ?? params.get("w") ?? "").split(",").filter(Boolean),
+    records: (params.get("r") ?? "").split(",").filter(Boolean),
   };
 }

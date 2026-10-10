@@ -1861,60 +1861,63 @@ details.exact summary:hover {
   color: var(--accent);
 }
 
-.exact-table {
+/* Tables of numbers: a chart's exact values (.exact-table) and short lists such as PN
+   coefficients, cluster elements and cx_coeff (.mini-table). */
+.exact-table,
+.mini-table {
   margin-top: 6px;
-  width: 100%;
   border-collapse: collapse;
-  font-size: 13.5px;
   font-variant-numeric: lining-nums tabular-nums;
 }
 
-.exact-table th,
-.exact-table td {
-  padding: 2px 6px;
+.exact-table :is(th, td),
+.mini-table :is(th, td) {
   text-align: right;
   border-bottom: 1px solid var(--hair);
 }
 
-.exact-table th {
+.exact-table th,
+.mini-table th {
   font-family: var(--font-head);
+  border-bottom-color: var(--rule);
+}
+
+.exact-table {
+  width: 100%;
+  font-size: 13.5px;
+}
+
+.exact-table :is(th, td) {
+  padding: 2px 6px;
+}
+
+.exact-table th {
   font-size: 12px;
   color: var(--ink-3);
   font-weight: 500;
-  border-bottom-color: var(--rule);
+}
+
+.mini-table {
+  font-size: 14.5px;
+}
+
+.mini-table :is(th, td) {
+  padding: 3px 16px 3px 0;
+}
+
+.mini-table th {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+.mini-table :is(th, td):first-child {
+  text-align: left;
 }
 
 .exact-scroll {
   max-height: 260px;
   overflow: auto;
-}
-
-/* Lists: PN coefficients, cluster elements, cx_coeff */
-.mini-table {
-  border-collapse: collapse;
-  font-size: 14.5px;
-  font-variant-numeric: lining-nums tabular-nums;
-  margin-top: 6px;
-}
-
-.mini-table th,
-.mini-table td {
-  padding: 3px 16px 3px 0;
-  text-align: right;
-  border-bottom: 1px solid var(--hair);
-}
-
-.mini-table th {
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 12.5px;
-  color: var(--ink);
-  border-bottom-color: var(--rule);
-}
-
-.mini-table th:first-child,
-.mini-table td:first-child {
-  text-align: left;
 }
 
 .value-list {
@@ -2299,6 +2302,51 @@ details.exact summary:hover {
   gap: 8px 16px;
   justify-content: space-between;
   margin-bottom: 14px;
+}
+
+.compare-field-head {
+  margin-bottom: 20px;
+}
+
+/* A compared series' table of values, under its chart. */
+details.series-table {
+  margin-top: 10px;
+}
+
+.series-table .exact-scroll {
+  max-height: 360px;
+}
+
+.envelope-pick {
+  margin-bottom: 10px;
+}
+
+.table-wrap.records-scroll {
+  max-height: 560px;
+  overflow: auto;
+}
+
+.table-wrap.matrix-scroll {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.check-col {
+  width: 44px;
+}
+
+.row-check {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+
+.name-cell > .swatch {
+  margin-right: 8px;
+}
+
+.matrix thead .swatch {
+  margin-right: 6px;
 }
 
 .bar-cell {

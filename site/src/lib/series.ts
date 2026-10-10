@@ -14,18 +14,7 @@ export type SeriesInfo = {
   /** Singular noun for one record ("ground vehicle"). */
   singular: string;
   group: SeriesGroupId;
-  /** Root schema record type. */
-  type: string;
   blurb: string;
-  /**
-   * A series whose records extend this one's, keyed by the same id
-   * (weapon_flight for weapons). Its fields render on the parent page under `flight.`.
-   */
-  companion?: string;
-  /** This series is rendered inside its parent's page (`companion` of `parent`). */
-  parent?: string;
-  /** Series that are unit types (targets of `Entity.Aircraft | ...` unit refs). */
-  unit?: boolean;
 };
 
 export const SERIES_GROUPS: Array<{ id: SeriesGroupId; label: string }> = [
@@ -42,80 +31,62 @@ export const SERIES: SeriesInfo[] = [
     label: "Aircraft",
     singular: "aircraft",
     group: "units",
-    type: "Entity.Aircraft",
     blurb: "Fixed-wing and rotary aircraft: stations, sensors, radios, performance.",
-    companion: "aircraft_flight",
-    unit: true,
   },
   {
     id: "ground_vehicles",
     label: "Ground vehicles",
     singular: "ground vehicle",
     group: "units",
-    type: "Entity.GroundVehicle",
     blurb: "Armour, air defence, artillery and soft-skinned vehicles.",
-    unit: true,
   },
   {
     id: "ships",
     label: "Ships",
     singular: "ship",
     group: "units",
-    type: "Entity.Ship",
     blurb: "Surface ships, carriers and submarines.",
-    unit: true,
   },
   {
     id: "personnel",
     label: "Personnel",
     singular: "personnel unit",
     group: "units",
-    type: "Entity.Personnel",
     blurb: "Infantry and deck crew.",
-    unit: true,
   },
   {
     id: "structures",
     label: "Structures",
     singular: "structure",
     group: "units",
-    type: "Entity.Structure",
     blurb: "Static objects: buildings, fortifications, cargo, FARP equipment.",
-    unit: true,
   },
   {
     id: "aircraft_flight",
     label: "Aircraft flight models",
     singular: "aircraft flight model",
     group: "units",
-    type: "Entity.AircraftFlight",
     blurb: "Simple flight model tables and engine data, one per aircraft.",
-    parent: "aircraft",
   },
   {
     id: "weapons",
     label: "Weapons",
     singular: "weapon",
     group: "weapons",
-    type: "Entity.Weapon",
     blurb: "Missiles, bombs, rockets and torpedoes.",
-    companion: "weapon_flight",
   },
   {
     id: "weapon_flight",
     label: "Weapon flight models",
     singular: "weapon flight model",
     group: "weapons",
-    type: "Entity.WeaponFlight",
     blurb: "Aerodynamics, motors, autopilot and seeker blocks of each weapon.",
-    parent: "weapons",
   },
   {
     id: "stores",
     label: "Stores",
     singular: "store",
     group: "weapons",
-    type: "Entity.Store",
     blurb: "Pylon loads by CLSID: payload, rack, mass, drag.",
   },
   {
@@ -123,7 +94,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Racks",
     singular: "rack",
     group: "weapons",
-    type: "Entity.Rack",
     blurb: "Multiple-ejector racks and launchers.",
   },
   {
@@ -131,7 +101,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Warheads",
     singular: "warhead",
     group: "weapons",
-    type: "Entity.Warhead",
     blurb: "Explosive mass and fragmentation of weapon warheads.",
   },
   {
@@ -139,7 +108,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Gun ammunition",
     singular: "gun ammunition",
     group: "weapons",
-    type: "Entity.GunAmmo",
     blurb: "Shells: calibre, muzzle velocity, mass and ballistics.",
   },
   {
@@ -147,7 +115,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Fuzes",
     singular: "fuze",
     group: "weapons",
-    type: "Entity.FuzeType",
     blurb: "Fuze types.",
   },
   {
@@ -155,7 +122,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Sensors",
     singular: "sensor",
     group: "systems",
-    type: "Entity.Sensor",
     blurb: "Radars, optics, IRST and RWR: detection ranges and scan volumes.",
   },
   {
@@ -163,7 +129,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Radios",
     singular: "radio",
     group: "systems",
-    type: "Entity.Radio",
     blurb: "Aircraft radios: bands, presets and guard channels.",
   },
   {
@@ -171,7 +136,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Datalink",
     singular: "datalink",
     group: "systems",
-    type: "Entity.Datalink",
     blurb: "Aircraft datalink capabilities.",
   },
   {
@@ -179,7 +143,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Threat systems",
     singular: "threat system",
     group: "systems",
-    type: "Entity.ThreatSystem",
     blurb: "Air-defence systems and their RWR symbols.",
   },
   {
@@ -187,7 +150,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Theatres",
     singular: "theatre",
     group: "world",
-    type: "Entity.Theatre",
     blurb: "Maps and their projections.",
   },
   {
@@ -195,7 +157,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Airbases",
     singular: "airbase",
     group: "world",
-    type: "Entity.Airbase",
     blurb: "Airfields, FARPs and helipads per theatre: runways, stands, beacons.",
   },
   {
@@ -203,7 +164,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Beacons",
     singular: "beacon",
     group: "world",
-    type: "Entity.Beacon",
     blurb: "TACAN, VOR, NDB and ILS beacons per theatre.",
   },
   {
@@ -211,7 +171,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Navaids",
     singular: "navaid",
     group: "world",
-    type: "Entity.Navaid",
     blurb: "Grouped landing aids (ILS, PRMG, RSBN) per runway.",
   },
   {
@@ -219,7 +178,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Countries",
     singular: "country",
     group: "mission",
-    type: "Entity.Country",
     blurb: "Country ids, names, ranks and awards.",
   },
   {
@@ -227,7 +185,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Callsigns",
     singular: "callsign set",
     group: "mission",
-    type: "Entity.CountryCallsigns",
     blurb: "Flight callsigns per country and category.",
   },
   {
@@ -235,7 +192,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Attributes",
     singular: "attribute",
     group: "mission",
-    type: "Entity.Attribute",
     blurb: "Unit attributes.",
   },
   {
@@ -243,7 +199,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Tasks",
     singular: "task",
     group: "mission",
-    type: "Entity.Task",
     blurb: "Mission-editor group tasks.",
   },
   {
@@ -251,7 +206,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Actions",
     singular: "action",
     group: "mission",
-    type: "Entity.Action",
     blurb: "Mission-editor actions.",
   },
   {
@@ -259,7 +213,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Options",
     singular: "option",
     group: "mission",
-    type: "Entity.ActionOption",
     blurb: "AI options: ROE, reaction to threat, formation.",
   },
   {
@@ -267,7 +220,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Formations",
     singular: "formation",
     group: "mission",
-    type: "Entity.Formation",
     blurb: "Flight formations.",
   },
   {
@@ -275,7 +227,6 @@ export const SERIES: SeriesInfo[] = [
     label: "Skills",
     singular: "skill",
     group: "mission",
-    type: "Entity.Skill",
     blurb: "AI skill levels.",
   },
   {
@@ -283,36 +234,20 @@ export const SERIES: SeriesInfo[] = [
     label: "Liveries",
     singular: "livery",
     group: "mission",
-    type: "Entity.Livery",
     blurb: "Paint schemes per unit type.",
   },
 ];
 
 export const SERIES_BY_ID: ReadonlyMap<string, SeriesInfo> = new Map(SERIES.map((s) => [s.id, s]));
 
-/** Series that get their own browse page (companions render inside their parent). */
-export const BROWSABLE_SERIES = SERIES.filter((s) => !s.parent);
-
 /**
- * Ids of the series a schema `ref` names (`Entity.Store`, or a `A | B` union of unit types);
- * a companion's records live on their parent's pages, so it names the parent.
- */
-export function seriesForRef(ref: string): string[] {
-  const ids = ref
-    .split("|")
-    .map((t) => t.trim())
-    .flatMap((t) => SERIES.filter((s) => s.type === t).map((s) => s.parent ?? s.id));
-  return [...new Set(ids)];
-}
-
-/**
- * The page a record lives on: `/<series>/<id>/`. Companion records (weapon_flight)
- * open their parent. Served by the client-side reference shell (app/not-found.tsx).
+ * The page a record lives on: `/<series>/<id>/`, served by the client-side reference shell
+ * (app/not-found.tsx). `series` is a page's series: a companion's records (weapon_flight)
+ * live on their parent's pages, and the references to them name the parent already
+ * (lib/db/reference `refResolver`).
  */
 export function recordHref(series: string, id: string): string {
-  const info = SERIES_BY_ID.get(series);
-  const target = info?.parent ?? series;
-  return `/${target}/${encodeURIComponent(id)}/`;
+  return `/${series}/${encodeURIComponent(id)}/`;
 }
 
 /** `/<series>/<id>/` (basePath removed) -> its parts, or null. */
@@ -328,7 +263,10 @@ export function parseReferencePath(pathname: string): { series: string; id: stri
   }
 }
 
+/** A series' browse page (a page's series, as for `recordHref`). */
 export function seriesHref(series: string): string {
-  const info = SERIES_BY_ID.get(series);
-  return `/${info?.parent ?? series}/`;
+  return `/${series}/`;
 }
+
+/** The browse page's query parameter of a facet (`?f.<path>=<value>`). */
+export const facetParam = (path: string) => `f.${path}`;

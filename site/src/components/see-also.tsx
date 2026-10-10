@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Overlay } from "@/lib/types";
+import { SiteLink } from "./ref-link";
 
 /** An overlay's "See also" line: site links route client-side, external ones open as links. */
 export function SeeAlso({ links }: { links: Overlay["seeAlso"] }) {
@@ -15,7 +15,7 @@ export function SeeAlso({ links }: { links: Overlay["seeAlso"] }) {
               {s.label}
             </a>
           ) : (
-            <Link href={s.href}>{s.label}</Link>
+            <SiteLink href={s.href}>{s.label}</SiteLink>
           )}
         </span>
       ))}

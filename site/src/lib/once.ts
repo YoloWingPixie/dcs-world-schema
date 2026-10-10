@@ -36,6 +36,38 @@ export function boundedCache<T>(size: number, load: (key: string) => Promise<T>)
   };
 }
 
+/** Values made once per object and key, kept as long as the object is. */
+export type PerObject<O extends object, V> = {
+  /** `make()` once per `obj` and `key`; later calls return the same value. */
+  cachedBy<T extends V>(obj: O, key: string, make: () => T): T;
+  /** The value made for `obj` and `key`, if any (none is made). */
+  peek(obj: O, key: string): V | undefined;
+  /** Forgets one value, so the next `cachedBy` makes it again. */
+  drop(obj: O, key: string): void;
+};
+
+/** A cache of values by object (a WeakMap) and then by key. */
+export function perObject<O extends object, V = unknown>(): PerObject<O, V> {
+  const caches = new WeakMap<O, Map<string, V>>();
+  return {
+    cachedBy<T extends V>(obj: O, key: string, make: () => T): T {
+      let byKey = caches.get(obj);
+      if (!byKey) {
+        byKey = new Map();
+        caches.set(obj, byKey);
+      }
+      if (byKey.has(key)) return byKey.get(key) as T;
+      const value = make();
+      byKey.set(key, value);
+      return value;
+    },
+    peek: (obj, key) => caches.get(obj)?.get(key),
+    drop: (obj, key) => {
+      caches.get(obj)?.delete(key);
+    },
+  };
+}
+
 /** `url`'s JSON, or `fallback` when the fetch fails or answers with an error status. */
 export function fetchJsonOr<T>(url: string, fallback: T): Promise<T> {
   return fetch(url)

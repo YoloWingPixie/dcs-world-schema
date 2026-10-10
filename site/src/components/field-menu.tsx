@@ -2,10 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { addRecords, compareHref, getCompare, removeRecord, setCompare } from "@/lib/compare-store";
+import { compareHref, getCompare, setCompare, toggleInCompare } from "@/lib/compare-store";
 import { SERIES_BY_ID } from "@/lib/series";
 import { CompareIcon, CopyIcon, PlusIcon } from "@/ui/icons";
-import { copy, showToast } from "./toast";
+import { copy } from "./toast";
 
 type Target = {
   el: HTMLElement;
@@ -37,8 +37,8 @@ function readTarget(el: HTMLElement, x: number, y: number): Target {
   };
 }
 
-/** Starts a field comparison; shared by the menu, the C shortcut and the compare page. */
-export function compareFieldHref(series: string, path: string, record: string | null): string {
+/** Starts a field comparison (the menu item and the C shortcut); returns its address. */
+function compareFieldHref(series: string, path: string, record: string | null): string {
   const state = getCompare(series);
   const records = record ? [record, ...state.records.filter((r) => r !== record)] : state.records;
   const next = { series, field: path, records };
@@ -222,32 +222,12 @@ export function FieldMenu() {
     const record = target.record;
     const name = target.recordName;
     const series = target.series;
-    items.push(
-      inCompare
-        ? {
-            key: "remove",
-            label: `Remove ${name} from compare`,
-            icon: <PlusIcon style={{ transform: "rotate(45deg)" }} />,
-            act: () => {
-              removeRecord(series, record);
-              showToast(`Removed ${name} from compare.`);
-            },
-          }
-        : {
-            key: "add",
-            label: `Add ${name} to compare`,
-            icon: <PlusIcon />,
-            act: () => {
-              addRecords(series, record);
-              const state = getCompare(series);
-              showToast(
-                `Added ${name} to compare.`,
-                compareHref({ ...state, field: null }),
-                "Open compare",
-              );
-            },
-          },
-    );
+    items.push({
+      key: inCompare ? "remove" : "add",
+      label: inCompare ? `Remove ${name} from compare` : `Add ${name} to compare`,
+      icon: <PlusIcon style={inCompare ? { transform: "rotate(45deg)" } : undefined} />,
+      act: () => toggleInCompare(series, record, name),
+    });
   }
   items.push("sep");
   items.push({

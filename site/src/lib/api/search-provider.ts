@@ -3,7 +3,6 @@
 import { searchQuery, transientQuery } from "../db/browser";
 import { once } from "../once";
 import type { SearchProvider, SourceHits } from "../search/types";
-import { squash } from "../text";
 import { loadApiOverlays } from "./client";
 import { resolveSymbols, searchApi } from "./db";
 
@@ -45,7 +44,6 @@ export const API_PROVIDER: SearchProvider = {
         hits.push({ href, path, subtitle: "Note", score: top * 0.5 });
       }
     }
-    const wanted = squash(query);
     for (const h of hits.sort((a, b) => b.score - a.score)) {
       if (seen.has(h.href) || group.results.length >= limit) continue;
       seen.add(h.href);
@@ -55,7 +53,7 @@ export const API_PROVIDER: SearchProvider = {
         title: h.path,
         subtitle: summary,
         href: h.href,
-        score: h.score * (squash(h.path) === wanted ? 2 : 1),
+        score: h.score,
       });
     }
     return group.results.length ? [group] : [];

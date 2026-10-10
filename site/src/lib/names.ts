@@ -1,5 +1,5 @@
 /** Friendly names for DCS constants. Presentation only: the raw constant is always shown beside it. */
-import { enumConstantLabel } from "./catalog";
+import { ACRONYMS, enumConstantLabel } from "./catalog";
 import { capitalise, squash } from "./text";
 import type { CatalogEntry, EnumInfo } from "./types";
 
@@ -134,7 +134,8 @@ function enumDisplayRaw(
   const text = String(value);
   // Value side of a string enum (`ROTARY: "rotary"`): label the value itself.
   if (/^[a-z][a-z0-9 -]*$/.test(text)) {
-    return { label: capitalise(text.replace(/-/g, " ")), raw: text };
+    const words = text.split(/[ -]+/).map((w) => ACRONYMS[w] ?? w);
+    return { label: capitalise(words.join(" ")), raw: text };
   }
   return { label: constantLabel(text), raw: text };
 }

@@ -1,6 +1,7 @@
 import { join } from "node:path";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
 import { loadSchemaTypes } from "../../scripts/lib/schema";
+import { nodeQuery } from "../../tests/reference/db";
 import {
   buildSeriesCatalog,
   catalogKeyFor,
@@ -8,22 +9,34 @@ import {
   dcsKeyFromDescription,
   enumConstantLabel,
   valuesAt,
+  walkPath,
 } from "./catalog";
+import { loadModel, type Model, refResolver } from "./db/reference";
 import { pack, unpack } from "./pack";
-import { BROWSABLE_SERIES, SERIES, SERIES_BY_ID, seriesForRef } from "./series";
 
+/** The schema as written (types/entities), over the series the database lists. */
 const types = loadSchemaTypes(join(__dirname, "../../../dcs-world-schema/types/entities"));
+let model: Model;
+beforeAll(async () => {
+  model = await loadModel(nodeQuery());
+});
 const catalogOf = (series: string) => {
-  const info = SERIES_BY_ID.get(series);
-  if (!info) throw new Error(series);
-  const comp = info.companion ? SERIES_BY_ID.get(info.companion) : undefined;
-  return buildSeriesCatalog(types, series, info.type, comp ? { type: comp.type } : undefined);
+  const s = model.byId.get(series);
+  if (!s) throw new Error(series);
+  const comp = s.companion ? model.byId.get(s.companion) : undefined;
+  return buildSeriesCatalog(
+    types,
+    series,
+    { type: s.typeName, keyColumn: s.keyColumn },
+    comp ? { type: comp.typeName, keyColumn: comp.keyColumn } : undefined,
+    refResolver(model),
+  );
 };
 
 describe("catalog from every entity schema", () => {
   it("has a root type for every series and catalogs each one", () => {
-    for (const s of SERIES) {
-      expect(types[s.type]?.kind, s.type).toBe("record");
+    for (const s of model.series) {
+      expect(types[s.typeName]?.kind, s.typeName).toBe("record");
       const catalog = catalogOf(s.id);
       expect(Object.keys(catalog.entries).length, s.id).toBeGreaterThan(1);
     }
@@ -45,7 +58,7 @@ describe("catalog from every entity schema", () => {
     expect(aircraft.entries.kind).toMatchObject({ kind: "enum", enumType: "Entity.AircraftKind" });
     expect(aircraft.enums["Entity.AircraftKind"]?.values.ROTARY).toBe("rotary");
     // The companion series' tables chart against Mach and compare as curves.
-    const mach = { kind: "column", field: "mach", label: "Mach" };
+    const mach = expect.objectContaining({ kind: "column", field: "mach", label: "Mach" });
     expect(aircraft.entries["flight.aerodynamics.table"]?.axis).toEqual(mach);
     expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
       comparable: true,
@@ -94,6 +107,49 @@ describe("catalog from every entity schema", () => {
       weapons.entries["flight.launchEnvelopes[].maxRangeM"]?.axis,
     );
     expect(weapons.entries.categoryName?.kind).toBe("enum");
+  });
+
+  it("gives an axis its curves or grids, its axis paths and its row and column labels", () => {
+    const table = catalogOf("aircraft").entries["flight.engine.table"]?.axis;
+    expect(table).toEqual({
+      kind: "column",
+      field: "mach",
+      label: "Mach",
+      path: "flight.engine.table[].mach",
+      columns: ["flight.engine.table[].thrustMilitary", "flight.engine.table[].thrustAfterburner"],
+    });
+    const envelope = catalogOf("weapons").entries["flight.launchEnvelopes"]?.axis;
+    expect(envelope).toEqual({
+      kind: "surface",
+      rows: "altitudesM",
+      cols: "speedsMs",
+      paths: {
+        rows: "flight.launchEnvelopes[].altitudesM",
+        cols: "flight.launchEnvelopes[].speedsMs",
+      },
+      labels: { rows: "Altitude", cols: "Speed" },
+      columns: [
+        "flight.launchEnvelopes[].maxRangeM",
+        "flight.launchEnvelopes[].minRangeM",
+        "flight.launchEnvelopes[].aspectDeg",
+      ],
+    });
+    expect(catalogOf("weapons").entries.flight?.axis).toBeUndefined();
+  });
+
+  it("marks each series' record key, and the companion's link back to its parent", () => {
+    expect(catalogOf("aircraft").entries.id?.role).toBe("key");
+    expect(catalogOf("stores").entries.clsid?.role).toBe("key");
+    expect(catalogOf("stores").entries.id).toBeUndefined();
+    expect(catalogOf("callsigns").entries.country?.role).toBe("key");
+    expect(catalogOf("weapons").entries["flight.weapon"]?.role).toBe("key");
+    // Only the key: other refs to the parent series are data.
+    expect(catalogOf("weapons").entries.warhead?.role).toBeUndefined();
+  });
+
+  it("marks arrays whose items are one list each", () => {
+    expect(catalogOf("aircraft").entries["gun.mounts[].mixes"]?.layout).toBe("list-per-item");
+    expect(catalogOf("aircraft").entries.stations?.layout).toBeUndefined();
   });
 
   it("marks roles, layouts, Mach steps, list titles and unit conversions once", () => {
@@ -170,7 +226,7 @@ describe("catalog from every entity schema", () => {
     });
     expect(catalogOf("liveries").entries.path?.role).toBe("asset");
     expect(catalogOf("stores").entries.displayName?.role).toBeUndefined();
-    const all = SERIES.flatMap((s) => Object.values(catalogOf(s.id).entries));
+    const all = model.series.flatMap((s) => Object.values(catalogOf(s.id).entries));
     expect(all.filter((e) => /^Optional\s+\w/.test(e.description))).toEqual([]);
     expect(catalogOf("weapons").entries["flight.aerodynamics.cx0"]?.dcsKey).toBe("Cx0");
   });
@@ -210,6 +266,51 @@ describe("catalog from every entity schema", () => {
       },
     );
     expect(curve).toEqual([{ path: entry.path, value: { x: [0, 0.5], y: [0.02, 0.021] } }]);
+  });
+
+  it("walks list items by position and keyed items by key, skipping empty values", () => {
+    const weapons = catalogOf("weapons");
+    const flight = {
+      sourcePath: "_G/a#/x",
+      motorStages: [
+        { stage: "boost", impulseS: 1, sourcePath: "_G/a#/b" },
+        { stage: "march", impulseS: 2 },
+      ],
+      launchEnvelopes: [
+        { sourcePath: "_G/a#/e1" },
+        { sourcePath: null },
+        { sourcePath: "_G/a#/e3" },
+      ],
+    };
+    expect(walkPath(weapons, "flight.motorStages.*.impulseS", {}, flight)).toEqual([
+      {
+        holder: "flight.motorStages[0]",
+        concretePath: "flight.motorStages.boost.impulseS",
+        value: 1,
+      },
+      {
+        holder: "flight.motorStages[1]",
+        concretePath: "flight.motorStages.march.impulseS",
+        value: 2,
+      },
+    ]);
+    expect(walkPath(weapons, "flight.launchEnvelopes[].sourcePath", {}, flight)).toEqual([
+      {
+        holder: "flight.launchEnvelopes[0]",
+        concretePath: "flight.launchEnvelopes[0].sourcePath",
+        value: "_G/a#/e1",
+      },
+      {
+        holder: "flight.launchEnvelopes[2]",
+        concretePath: "flight.launchEnvelopes[2].sourcePath",
+        value: "_G/a#/e3",
+      },
+    ]);
+    expect(walkPath(weapons, "flight.sourcePath", {}, flight)).toEqual([
+      { holder: "flight", concretePath: "flight.sourcePath", value: "_G/a#/x" },
+    ]);
+    expect(walkPath(weapons, "sourcePaths", { sourcePaths: [] }, flight)).toEqual([]);
+    expect(walkPath(weapons, "flight.sourcePath", {}, undefined)).toEqual([]);
   });
 });
 
@@ -251,17 +352,15 @@ describe("constant names and labels", () => {
 
 describe("refs", () => {
   it("resolves ref types to series, unit unions to every unit series", () => {
-    expect(seriesForRef("Entity.Store")).toEqual(["stores"]);
-    expect(seriesForRef("Entity.Aircraft | Entity.GroundVehicle | Entity.Ship")).toEqual([
+    const resolve = refResolver(model);
+    expect(resolve("Entity.Store")).toEqual(["stores"]);
+    expect(resolve("Entity.Aircraft | Entity.GroundVehicle | Entity.Ship")).toEqual([
       "aircraft",
       "ground_vehicles",
       "ships",
     ]);
-  });
-
-  it("every browsable series is a page; companions are not", () => {
-    expect(BROWSABLE_SERIES.map((s) => s.id)).not.toContain("weapon_flight");
-    expect(BROWSABLE_SERIES.map((s) => s.id)).toContain("airbases");
+    // A companion's records live on its parent's pages.
+    expect(resolve("Entity.WeaponFlight")).toEqual(["weapons"]);
   });
 });
 

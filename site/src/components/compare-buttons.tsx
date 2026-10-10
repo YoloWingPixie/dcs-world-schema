@@ -2,16 +2,14 @@
 
 import Link from "next/link";
 import {
-  addRecords,
   compareHref,
   getCompare,
-  removeRecord,
+  toggleInCompare,
   useCompare,
   useInCompare,
 } from "@/lib/compare-store";
 import { CompareIcon, PlusIcon } from "@/ui/icons";
 import { LuaButton } from "./lua-button";
-import { showToast } from "./toast";
 
 export function RecordCompareActions({
   series,
@@ -31,15 +29,7 @@ export function RecordCompareActions({
         type="button"
         className={inCompare ? "btn" : "btn btn-primary"}
         aria-pressed={inCompare}
-        onClick={() => {
-          if (inCompare) {
-            removeRecord(series, slug);
-            showToast(`Removed ${name} from compare.`);
-          } else {
-            addRecords(series, slug);
-            showToast(`Added ${name} to compare.`, compareHref(getCompare(series)), "Open compare");
-          }
-        }}
+        onClick={() => toggleInCompare(series, slug, name)}
       >
         <PlusIcon style={inCompare ? { transform: "rotate(45deg)" } : undefined} />
         {inCompare ? "In compare" : "Add to compare"}

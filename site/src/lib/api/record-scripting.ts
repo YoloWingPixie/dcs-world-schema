@@ -4,11 +4,11 @@
  * import this lazily, after the record has rendered.
  */
 import type { Query } from "../db/reference";
+import type { Json } from "../json";
+import { perObject } from "../once";
 import { apiHref } from "./routes";
 import { enumMemberText, enumValueId, namesKey, SCRIPTING } from "./scripting";
 import type { EnumValue, Member } from "./types";
-
-type Json = Record<string, unknown>;
 
 /** Text, linked when `href` is set; `code` sets it in mono. */
 export type ScriptingText = { text: string; href?: string; code?: boolean };
@@ -80,25 +80,19 @@ async function enumPages(q: Query, pages: string[]) {
 
 // The API rows a series reads do not depend on the record (but for a theatre's enums):
 // parsed once per page, so the next record of the series has them at hand.
-const memo = new WeakMap<Query, Map<string, { promise: Promise<unknown>; done: boolean }>>();
+const memo = perObject<Query, { promise: Promise<unknown>; done: boolean }>();
 
 function cached<T>(q: Query, key: string, load: () => Promise<T>): Promise<T> {
-  let map = memo.get(q);
-  if (!map) {
-    map = new Map();
-    memo.set(q, map);
-  }
-  const hit = map.get(key);
-  if (hit) return hit.promise as Promise<T>;
-  const slot = { promise: load() as Promise<unknown>, done: false };
-  slot.promise.then(
-    () => {
-      slot.done = true;
-    },
-    () => map.delete(key),
-  );
-  map.set(key, slot);
-  return slot.promise as Promise<T>;
+  return memo.cachedBy(q, key, () => {
+    const slot = { promise: load() as Promise<unknown>, done: false };
+    slot.promise.then(
+      () => {
+        slot.done = true;
+      },
+      () => memo.drop(q, key),
+    );
+    return slot;
+  }).promise as Promise<T>;
 }
 
 /** The API symbols and enum pages a record's Scripting rows read, as memo keys. */
@@ -126,9 +120,8 @@ const pagesKey = (pages: string[]) => `enums:${pages.join("|")}`;
 /** Whether a record's Scripting rows can be built without a database read. */
 export function scriptingWarm(q: Query, series: string, data: Json): boolean {
   const l = lookups(series, data);
-  const map = memo.get(q);
-  if (!l || !map) return false;
-  return Boolean(map.get(symbolsKey(l.paths))?.done && map.get(pagesKey(l.pages))?.done);
+  if (!l) return false;
+  return Boolean(memo.peek(q, symbolsKey(l.paths))?.done && memo.peek(q, pagesKey(l.pages))?.done);
 }
 
 const literal = (v: unknown) => (typeof v === "string" ? JSON.stringify(v) : String(v));

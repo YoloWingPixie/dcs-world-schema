@@ -8,20 +8,17 @@ import {
   storedValue,
 } from "./format-field";
 import { enumDisplay } from "./names";
-import { findRangePair } from "./record-tables";
 import type { CatalogEntry } from "./types";
 
 const entry = (over: Partial<CatalogEntry>): CatalogEntry => ({
   path: "x",
   name: "x",
   label: "X",
-  type: "number",
   kind: "number",
   unit: null,
   unitNotStated: false,
   description: "",
   dcsKey: null,
-  owner: "Entity.Test",
   comparable: false,
   ...over,
 });
@@ -32,7 +29,6 @@ const rad = (deg: number) => (deg * Math.PI) / 180;
 const sectors = entry({
   path: "weaponSystems[].sectorsRad",
   name: "sectorsRad",
-  type: "Entity.AngleSector[]",
   kind: "matrix",
   unit: "rad",
   layout: "sectors",
@@ -87,16 +83,6 @@ describe("stored values", () => {
 describe("ranges", () => {
   const min = entry({ path: "segments[].minMHz", name: "minMHz", unit: "MHz" });
   const max = entry({ path: "segments[].maxMHz", name: "maxMHz", unit: "MHz" });
-  const catalog = {
-    types: { "Entity.RadioSegment": { description: "", fields: ["minMHz", "maxMHz", "x"] } },
-    entries: { [min.path]: min, [max.path]: max },
-  };
-
-  it("finds a type's min/max pair", () => {
-    expect(findRangePair(catalog, "Entity.RadioSegment", "segments[]")).toEqual({ min, max });
-    expect(findRangePair(catalog, "Entity.Other", "segments[]")).toBeNull();
-  });
-
   it("writes one range or the coverage of several", () => {
     const pair = { min, max };
     expect(rangeText(pair, { minMHz: 100, maxMHz: 150 }, "metric")).toBe("100–150 MHz");

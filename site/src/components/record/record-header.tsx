@@ -57,10 +57,9 @@ export function RecordHeader({ series, slug, name, id, chips, aliases, readouts 
   );
 }
 
-/** Distinct chips of a " · " joined meta line. */
-export function metaChips(meta: string | undefined, label: (m: string) => string = (m) => m) {
-  return meta ? [...new Set(meta.split(" · ").filter(Boolean).map(label))] : [];
-}
+/** Distinct chips of a link's " · " joined meta line, as given (lib/placement `headerChips` once loaded). */
+const hintChips = (meta: string | undefined) =>
+  meta ? [...new Set(meta.split(" · ").filter(Boolean))] : [];
 
 function BodySkeleton() {
   return (
@@ -123,7 +122,7 @@ export function RecordSkeleton({
           slug={slug}
           name={hint.name}
           id={slug}
-          chips={metaChips(hint.meta)}
+          chips={hintChips(hint.meta)}
           readouts={readouts}
         />
       ) : (

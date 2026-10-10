@@ -44,31 +44,31 @@ export function EnvelopeBlock({
   index,
   total = 1,
   ctx,
-  prefix,
 }: {
   entry: CatalogEntry;
   item: Record<string, unknown>;
   index: number;
   total?: number;
   ctx: RenderCtx;
-  /** Catalog path of the array (`flight.launchEnvelopes`). */
-  prefix: string;
 }) {
   const { catalog, vctx } = ctx;
-  const fields = catalog.types[entry.recordType ?? ""]?.fields ?? [];
-  const at = (name: string) => catalog.entries[`${prefix}[].${name}`];
-  const grids = fields.filter((f) => at(f)?.kind === "grid" && Array.isArray(item[f]));
-  const [rowName, colName] =
-    entry.axis?.kind === "surface" ? [entry.axis.rows, entry.axis.cols] : ["", ""];
-  const rows = (item[rowName] as number[] | undefined) ?? [];
-  const cols = (item[colName] as number[] | undefined) ?? [];
-  const singular = (e: CatalogEntry | undefined) =>
-    e ? { ...e, label: e.label.replace(/s$/, "") } : undefined;
-  const rowEntry = singular(at(rowName));
-  const colEntry = singular(at(colName));
-  const [gridName, setGridName] = useState(grids[0] ?? "");
-  const gridEntry = at(gridName);
-  const grid = (item[gridName] as number[][] | undefined) ?? [];
+  const surface = entry.axis?.kind === "surface" ? entry.axis : null;
+  // The grids this item holds, and its two axes labelled for one value ("Altitude").
+  const grids = (surface?.columns ?? []).flatMap((path) => {
+    const e = catalog.entries[path];
+    return e && Array.isArray(item[e.name]) ? [e] : [];
+  });
+  const axisEntry = (path: string | undefined, label: string | undefined) => {
+    const e = path ? catalog.entries[path] : undefined;
+    return e && label ? { ...e, label } : undefined;
+  };
+  const rowEntry = axisEntry(surface?.paths.rows, surface?.labels.rows);
+  const colEntry = axisEntry(surface?.paths.cols, surface?.labels.cols);
+  const rows = (item[surface?.rows ?? ""] as number[] | undefined) ?? [];
+  const cols = (item[surface?.cols ?? ""] as number[] | undefined) ?? [];
+  const [gridPath, setGridPath] = useState(grids[0]?.path ?? "");
+  const gridEntry = grids.find((g) => g.path === gridPath);
+  const grid = (gridEntry ? (item[gridEntry.name] as number[][]) : undefined) ?? [];
   const [picked, setPicked] = useState<number[]>(() =>
     [0, Math.floor(rows.length / 2), rows.length - 1].filter(
       (v, i, a) => v >= 0 && a.indexOf(v) === i,
@@ -87,15 +87,13 @@ export function EnvelopeBlock({
       values: (grid[r] ?? []).map((v) => convertNumber(v, gridEntry, vctx.system)),
     }));
 
-  if (!rowEntry || !colEntry || !gridEntry || grids.length === 0) return null;
-  const comparePath = `${prefix}[].${gridName}`;
-  const compareEntry = catalog.entries[comparePath] ?? gridEntry;
+  if (!rowEntry || !colEntry || !gridEntry) return null;
 
   return (
     <div className="envelope">
       <div className="envelope-head">
         <h4>
-          {grids.map((g) => at(g)?.label ?? g).join(", ")}{" "}
+          {grids.map((g) => g.label).join(", ")}{" "}
           <span className="muted">
             {total > 1 ? `${index + 1} of ${total} · ` : ""}
             {rows.length} × {cols.length}
@@ -107,12 +105,12 @@ export function EnvelopeBlock({
             {grids.map((g) => (
               <button
                 type="button"
-                key={g}
+                key={g.path}
                 className="seg-btn"
-                aria-pressed={g === gridName}
-                onClick={() => setGridName(g)}
+                aria-pressed={g === gridEntry}
+                onClick={() => setGridPath(g.path)}
               >
-                {at(g)?.label ?? g}
+                {g.label}
               </button>
             ))}
           </div>
@@ -121,8 +119,8 @@ export function EnvelopeBlock({
           className="axis-chart-compare"
           tabIndex={0}
           {...fieldDataAttrs(
-            compareEntry,
-            comparePath,
+            gridEntry,
+            gridEntry.path,
             [{ rows, cols, z: grid }],
             ctx.fctx,
             vctx,

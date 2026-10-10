@@ -6,11 +6,11 @@
  */
 import { BASE_PATH } from "../base-path";
 import { humanize } from "../catalog";
+import { loadSeriesIndex } from "../client-data";
 import { browserQuery, transientQuery } from "../db/browser";
 import { qi } from "../db/reference";
 import { fetchJsonOr, once } from "../once";
-import { recordHref, SERIES_BY_ID, seriesHref } from "../series";
-import { displayFor } from "../series-display";
+import { facetParam, recordHref, SERIES_BY_ID, seriesHref } from "../series";
 import { applyOverlays, existingRecords, getApiPage, listApiPages, overlayLinks } from "./db";
 import { enumField, namesKey, seriesOfClass } from "./scripting";
 import type { ApiOverlayFile, ApiPage, ApiSection, EnumValue, PageSummary } from "./types";
@@ -75,14 +75,13 @@ async function facetValues(page: ApiPage): Promise<ApiPageExtras["values"]> {
   const facet = found?.field.facet;
   if (!found || !facet || !page.values) return undefined;
   const { series, field } = found;
-  // The browse page's facets: configured (lib/series-display), shown with two values or more.
-  if (!displayFor(series).facets?.includes(facet)) return undefined;
+  // Only a facet the browse page offers (lib/db/reference.ts `getSeriesIndex`).
+  const index = await loadSeriesIndex(series);
+  if (!index.facets.some((f) => f.path === facet)) return undefined;
   const rows = await browserQuery(
     `SELECT ${qi(field.path)} AS v, ${qi(field.name)} AS n, count(*) AS c FROM ${qi(series)}
       WHERE n IS NOT NULL GROUP BY v, n`,
   );
-  const facetKey = facet === field.name ? "n" : "v";
-  if (new Set(rows.map((r) => r[facetKey])).size < 2) return undefined;
   const names = new Map<unknown, Map<string, number>>();
   for (const { v, n, c } of rows) {
     if (typeof n !== "string") continue;
@@ -96,7 +95,7 @@ async function facetValues(page: ApiPage): Promise<ApiPageExtras["values"]> {
     const [hit] = hits;
     if (hits.length !== 1 || !hit) return v;
     const [name, count] = hit;
-    const qs = new URLSearchParams([[`f.${facet}`, name]]);
+    const qs = new URLSearchParams([[facetParam(facet), name]]);
     return { ...v, href: `${seriesHref(series)}?${qs}`, refLabel: `${count} ${label}` };
   });
 }

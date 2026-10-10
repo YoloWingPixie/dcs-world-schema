@@ -18,7 +18,7 @@ import type { ApiPage, Token } from "../../src/lib/api/types";
 import { nodeQuery } from "../reference/db";
 
 const q = nodeQuery();
-const text = (tokens: Token[] | undefined) =>
+const tokenText = (tokens: Token[] | undefined) =>
   (tokens ?? []).map((t) => (typeof t === "string" ? t : t.r)).join("");
 const member = (page: ApiPage | null, name: string) =>
   page?.groups.flatMap((g) => g.members).find((m) => m.name === name);
@@ -54,7 +54,7 @@ describe("API pages from the database", () => {
     const unit = await getApiPage(q, "mission", "Unit");
     expect(q.count - before).toBe(2);
     const getByName = member(unit, "getByName");
-    expect(text(getByName?.sig)).toBe("Unit.getByName(name: string): Unit?");
+    expect(tokenText(getByName?.sig)).toBe("Unit.getByName(name: string): Unit?");
     expect(getByName?.anchor).toBe("getByName");
     expect(unit?.links.Unit).toBe("/api/Unit/");
     expect(unit?.links["Unit.Category"]).toBe("/api/types/Unit/Category/");
@@ -68,7 +68,7 @@ describe("API pages from the database", () => {
   it("has namespaces, types and environments", async () => {
     const action = await getApiPage(q, "mission", "trigger.action");
     expect(action?.parent).toEqual({ name: "trigger", href: "/api/trigger/" });
-    expect(text(member(action, "outText")?.sig)).toBe(
+    expect(tokenText(member(action, "outText")?.sig)).toBe(
       "trigger.action.outText(text: string, displayTime: number, clearview?: boolean)",
     );
     const orbit = await getApiPage(q, "types", "DcsTask.Task.Orbit");

@@ -4,8 +4,7 @@
  * files, facets) and the client renderer (labels, units, descriptions, kinds).
  */
 import { isRecord, type Json } from "./json";
-import { findRangePair, isRangeList } from "./record-tables";
-import { seriesForRef } from "./series";
+import { complexFields, tableColumns } from "./record-tables";
 import { capitalise } from "./text";
 import {
   type CatalogEntry,
@@ -109,7 +108,8 @@ const LABELS: Record<string, string> = {
   idName: "Constant",
 };
 
-const ACRONYMS: Record<string, string> = {
+/** Words shown in capitals (or their own case), by their lower-case form. */
+export const ACRONYMS: Readonly<Record<string, string>> = {
   ir: "IR",
   pn: "PN",
   rwr: "RWR",
@@ -230,18 +230,33 @@ function constantSibling(types: SchemaTypes, owner: string, name: string): strin
   return base === "number" ? "" : null;
 }
 
+// ---------------------------------------------------------------------------
+// The walk: one bare entry per schema field, nothing that depends on other fields
+
+/** What the walk knew of an entry that the catalog does not keep, for the mark passes. */
+type Found = {
+  /** Schema type as written (`number[]`, `Entity.Station[]`). */
+  type: string;
+  /** The item path of a `records` field's children (`stations[]`, `motorStages.*`). */
+  item?: string;
+  /** Inside an array of records: one value per item, so not one comparable value. */
+  insideArray: boolean;
+};
+
 type Walk = {
   types: SchemaTypes;
   resolveRef: (ref: string) => string[];
   entries: Record<string, CatalogEntry>;
+  found: Map<string, Found>;
   /** The catalog's `types`, filled as the walk reaches each type. */
   outTypes: SeriesCatalog["types"];
-  /** The catalog so far, for lib/record-tables (a subtree is complete once walked). */
-  shapes: Pick<SeriesCatalog, "types" | "entries">;
+  /** Each record value walked: its type and catalog path ("" at the root). */
+  records: Array<{ typeName: string; prefix: string }>;
   usedTypes: Set<string>;
   usedEnums: Set<string>;
 };
 
+/** The entry of one field and the walk of its record type, if it has one. */
 function addField(
   w: Walk,
   owner: string,
@@ -249,7 +264,7 @@ function addField(
   field: SchemaField,
   path: string,
   insideArray: boolean,
-  parentUnit: string | null = null,
+  parentUnit: string | null,
 ) {
   const { types } = w;
   const type = field.type.trim();
@@ -258,7 +273,6 @@ function addField(
   const depth = (type.match(/\[\]/g) ?? []).length;
   // A unit on a record field (`slewRateRadS: {yaw, pitch}`) holds for its unsuffixed members.
   const unit = unitFor(name) ?? parentUnit;
-  const unitNotStated = /unit not stated/.test(description);
   let kind: FieldKind;
   const extra: Partial<CatalogEntry> = {};
 
@@ -267,6 +281,9 @@ function addField(
     : base === "country.id"
       ? ["countries"]
       : null;
+  const enums = enumTypesOf(types, type);
+  const constant =
+    type === "string" || type === "string[]" ? constantSibling(types, owner, name) : null;
 
   if (refSeries?.length) {
     kind = depth === 0 ? "ref" : "strings";
@@ -279,133 +296,46 @@ function addField(
     extra.recordType = base;
     const keyField = KEYED_ARRAYS[name];
     if (keyField) extra.keyField = keyField;
-    const fields = Object.entries(types[base]?.fields ?? {});
-    const column = AXIS_COLUMNS.find((c) => fields.some(([n]) => n === c));
-    // Envelopes: two number[] axes and number[][] grids per item.
-    const axes = fields.filter(([, f]) => f.type === "number[]").map(([n]) => n);
-    const grids = fields.filter(([, f]) => f.type === "number[][]");
-    if (axes.length >= 2 && grids.length) {
-      extra.layout = "envelope";
-      extra.axis = { kind: "surface", rows: axes[0] as string, cols: axes[1] as string };
-    } else if (column) {
-      extra.axis = { kind: "column", field: column, label: LABELS[column] ?? humanize(column) };
-      if (!keyField) extra.layout = "axis-table";
-    }
   } else if (types[base]?.kind === "array" || (depth >= 1 && isRecordType(types, base))) {
     kind = "matrix";
-  } else if (enumTypesOf(types, type).length && depth === 0) {
+  } else if (enums.length && depth === 0) {
     kind = "enum";
-    extra.enumType = enumTypesOf(types, type).join(" | ");
-    for (const e of enumTypesOf(types, type)) w.usedEnums.add(e);
+    extra.enumType = enums.join(" | ");
   } else if (type === "number") kind = "number";
-  else if (
-    (type === "string" || type === "string[]") &&
-    constantSibling(types, owner, name) !== null
-  ) {
+  else if (constant !== null) {
     // `categoryName` beside a numeric `category`: a DCS constant name, shown in its place.
     kind = type === "string" ? "enum" : "strings";
     extra.codeField = name.slice(0, -4);
-    const sibling = constantSibling(types, owner, name);
-    if (sibling) {
-      extra.enumType = sibling;
-      for (const e of sibling.split(" | ")) w.usedEnums.add(e);
-    }
+    if (constant) extra.enumType = constant;
   } else if (type === "string") kind = "string";
   else if (type === "boolean") kind = "boolean";
-  else if (type === "number[]") {
-    kind = "numbers";
-    if (/per Mach sample/i.test(description)) {
-      extra.axis = { kind: "sampled", step: { ...MACH_STEP }, label: MACH_LABEL };
-    }
-  } else if (type === "string[]") kind = "strings";
+  else if (type === "number[]") kind = "numbers";
+  else if (type === "string[]") kind = "strings";
   else if (type === "number[][]") kind = "grid";
   else kind = "any";
-
-  if (SECTOR_TYPES.has(type.replace(/\[\]$/, ""))) extra.layout = "sectors";
-  if (PROVENANCE.has(name)) extra.role = "provenance";
-  else if ((kind === "string" || kind === "strings") && ASSET.test(description)) {
-    extra.role = "asset";
-  }
-  const comparable =
-    !insideArray &&
-    extra.role !== "provenance" &&
-    (SCALAR_KINDS.has(kind) || kind === "numbers" || (kind === "strings" && Boolean(extra.ref)));
+  for (const e of extra.enumType?.split(" | ") ?? []) w.usedEnums.add(e);
 
   const withUnit = kind === "number" || kind === "numbers" || kind === "grid" || kind === "matrix";
-  const label =
-    kind === "numbers" && extra.axis?.kind === "sampled"
-      ? labelFromDescription(description)
-      : (LABELS[name] ?? humanize(extra.codeField ?? name));
-
   w.entries[path] = {
     path,
     name,
-    label,
-    type,
+    label: LABELS[name] ?? humanize(extra.codeField ?? name),
     kind,
     unit: withUnit ? unit : null,
     ...(withUnit && unit ? { conversions: resolveConversions(unit, name) } : {}),
-    unitNotStated,
+    unitNotStated: /unit not stated/.test(description),
     description: cleanDescription(description),
     dcsKey: dcsKeyFromDescription(description),
-    owner,
-    comparable,
+    comparable: false,
     ...extra,
   };
+  const found: Found = { type, insideArray };
+  w.found.set(path, found);
 
   if (kind === "record") walkType(w, base, path, insideArray, unit);
   if (kind === "records") {
-    const item = extra.keyField ? `${path}.*` : `${path}[]`;
-    walkType(w, base, item, insideArray || !extra.keyField);
-    const names = w.outTypes[base]?.fields ?? [];
-    const entry = w.entries[path] as CatalogEntry;
-    const itemEntry = (n: string) => w.entries[`${item}.${n}`];
-    const titles = names.filter((n) => TITLE_FIELD.test(n) && itemEntry(n)?.kind === "string");
-    const counts = names.filter((n) => COUNT_FIELD.test(n) && itemEntry(n)?.kind === "number");
-    if (titles.length) entry.titleFields = titles;
-    if (counts.length) entry.countFields = counts;
-    // Lists of links (station accepts: `clsid`), read item by item.
-    const link = extra.keyField ? undefined : names.find((n) => itemEntry(n)?.kind === "ref");
-    if (link) {
-      entry.linkField = link;
-      const lists = names.filter((n) => itemEntry(n)?.kind === "strings" && itemEntry(n)?.ref);
-      if (lists.length) entry.linkListFields = lists;
-    }
-    const pair = findRangePair(w.shapes, base, item);
-    if (pair && isRangeList(w.shapes, entry, path)) {
-      entry.layout = "ranges";
-      entry.rangePair = { min: pair.min.path, max: pair.max.path };
-    }
-    // Envelopes compare each grid as a surface; axis tables each numeric column as a curve.
-    if (extra.axis && extra.axis.kind !== "sampled" && !insideArray && !extra.keyField) {
-      const fields = types[base]?.fields ?? {};
-      for (const [n, f] of Object.entries(fields)) {
-        const column = itemEntry(n);
-        if (!column) continue;
-        const compares =
-          extra.axis.kind === "surface"
-            ? f.type === "number[][]"
-            : n !== extra.axis.field && f.type === "number";
-        if (compares) {
-          column.comparable = true;
-          column.axis = extra.axis;
-        }
-      }
-    }
-  }
-}
-
-/** A min/max record beside a `ranges` list only bounds it (a radio's `range`): `bounds`. */
-function markBounds(w: Walk, typeName: string, prefix: string) {
-  const at = (name: string) => w.entries[prefix ? `${prefix}.${name}` : name];
-  const fields = w.outTypes[typeName]?.fields ?? [];
-  const list = fields.map(at).find((e) => e?.layout === "ranges");
-  if (!list) return;
-  for (const name of fields) {
-    const e = at(name);
-    if (e?.kind !== "record" || !e.recordType) continue;
-    if (w.outTypes[e.recordType]?.fields.length !== 2) continue;
-    if (findRangePair(w.shapes, e.recordType, e.path)) e.bounds = list.path;
+    found.item = extra.keyField ? `${path}.*` : `${path}[]`;
+    walkType(w, base, found.item, insideArray || !extra.keyField, null);
   }
 }
 
@@ -414,7 +344,7 @@ function walkType(
   typeName: string,
   prefix: string,
   insideArray: boolean,
-  parentUnit: string | null = null,
+  parentUnit: string | null,
 ) {
   const type = w.types[typeName];
   if (!type?.fields) return;
@@ -424,58 +354,263 @@ function walkType(
     description: type.description ?? "",
     fields: Object.keys(type.fields).filter((f) => !SKIP.has(f)),
   };
+  w.records.push({ typeName, prefix });
   for (const [name, field] of Object.entries(type.fields)) {
     if (SKIP.has(name)) continue;
     const path = prefix ? `${prefix}.${name}` : name;
     addField(w, typeName, name, field, path, insideArray, parentUnit);
   }
-  markBounds(w, typeName, prefix);
 }
+
+// ---------------------------------------------------------------------------
+// Mark passes: each reads the whole walked catalog and the marks of the passes before it
+
+type Build = Walk & {
+  /** The catalog being marked, for lib/record-tables. */
+  shapes: Pick<SeriesCatalog, "types" | "entries">;
+  keys: string[];
+};
+
+/** The fields of a `records` entry's items: name, schema type and entry. */
+function itemFields(b: Build, entry: CatalogEntry) {
+  const item = b.found.get(entry.path)?.item ?? `${entry.path}[]`;
+  const schema = b.types[entry.recordType ?? ""]?.fields ?? {};
+  return (b.outTypes[entry.recordType ?? ""]?.fields ?? []).map((name) => ({
+    name,
+    type: schema[name]?.type.trim() ?? "",
+    entry: b.entries[`${item}.${name}`],
+  }));
+}
+
+/** The `minX` / `maxX` number pair of a record type's fields at `prefix`, if it has one. */
+function findRangePair(b: Build, typeName: string, prefix: string) {
+  const fields = b.outTypes[typeName]?.fields ?? [];
+  for (const name of fields) {
+    const rest = /^min([A-Z].*)$/.exec(name)?.[1];
+    if (!rest || !fields.includes(`max${rest}`)) continue;
+    const min = b.entries[`${prefix}.${name}`];
+    const max = b.entries[`${prefix}.max${rest}`];
+    if (min?.kind === "number" && max?.kind === "number" && min.unit === max.unit) {
+      return { min, max };
+    }
+  }
+  return null;
+}
+
+/** Most columns besides its range a list of ranges shows (more read better as a table). */
+const RANGE_LIST_OTHERS = 2;
+
+/**
+ * Whether an array of records with a range pair reads as a list of ranges (radio segments):
+ * no complex fields, and at most two other columns.
+ */
+function isRangeList(
+  b: Build,
+  entry: CatalogEntry,
+  item: string,
+  pair: { min: CatalogEntry; max: CatalogEntry },
+): boolean {
+  if (!entry.recordType || entry.keyField || entry.axis) return false;
+  if (complexFields(b.shapes, entry.recordType, item).length) return false;
+  const others = tableColumns(b.shapes, entry.recordType, item).filter(
+    (c) => c.entry !== pair.min && c.entry !== pair.max,
+  );
+  return others.length <= RANGE_LIST_OTHERS;
+}
+
+/** A singular label for one value of a list axis ("Altitudes" -> "Altitude"). */
+const singular = (label: string) => label.replace(/s$/, "");
+
+const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
+  /** `role`: the record key, provenance, game assets. */
+  function role(b, e) {
+    if (b.keys.includes(e.path)) e.role = "key";
+    else if (PROVENANCE.has(e.name)) e.role = "provenance";
+    else if ((e.kind === "string" || e.kind === "strings") && ASSET.test(e.description)) {
+      e.role = "asset";
+    }
+  },
+
+  /**
+   * `axis`: Mach-sampled lists; tables indexed by a column (`mach`); envelopes (two number[]
+   * axes and number[][] grids per item). Outside other arrays, a table's curves and grids
+   * carry its axis too: they compare as curves and surfaces.
+   */
+  function axis(b, e) {
+    const found = b.found.get(e.path);
+    if (
+      e.kind === "numbers" &&
+      found?.type === "number[]" &&
+      /per Mach sample/i.test(e.description)
+    ) {
+      e.axis = { kind: "sampled", step: { ...MACH_STEP }, label: MACH_LABEL };
+      return;
+    }
+    if (e.kind !== "records" || !found?.item) return;
+    const item = found.item;
+    const fields = itemFields(b, e).filter((f) => f.entry);
+    const lists = fields.filter((f) => f.type === "number[]").map((f) => f.name);
+    const grids = fields.filter((f) => f.type === "number[][]");
+    const column = AXIS_COLUMNS.find((c) => fields.some((f) => f.name === c));
+    const paths = (names: string[]) => names.map((n) => `${item}.${n}`);
+    if (lists.length >= 2 && grids.length) {
+      const [rows, cols] = lists as [string, string];
+      const label = (n: string) => singular(b.entries[`${item}.${n}`]?.label ?? n);
+      e.axis = {
+        kind: "surface",
+        rows,
+        cols,
+        paths: { rows: `${item}.${rows}`, cols: `${item}.${cols}` },
+        labels: { rows: label(rows), cols: label(cols) },
+        columns: paths(grids.map((f) => f.name)),
+      };
+    } else if (column) {
+      e.axis = {
+        kind: "column",
+        field: column,
+        label: LABELS[column] ?? humanize(column),
+        path: `${item}.${column}`,
+        columns: paths(
+          fields.filter((f) => f.name !== column && f.type === "number").map((f) => f.name),
+        ),
+      };
+    } else return;
+    if (found.insideArray || e.keyField) return;
+    const axis = e.axis;
+    for (const path of axis.columns) {
+      const curve = b.entries[path];
+      if (curve) curve.axis = axis;
+    }
+  },
+
+  /** `layout`: envelopes, axis tables, traverse sectors, lists of ranges, one list per item. */
+  function layout(b, e) {
+    const found = b.found.get(e.path);
+    if (SECTOR_TYPES.has(found?.type.replace(/\[\]$/, "") ?? "")) e.layout = "sectors";
+    if (e.kind !== "records" || !e.recordType || !found?.item) return;
+    if (e.axis?.kind === "surface") e.layout = "envelope";
+    else if (e.axis?.kind === "column" && !e.keyField) e.layout = "axis-table";
+    const pair = findRangePair(b, e.recordType, found.item);
+    if (pair && isRangeList(b, e, found.item, pair)) {
+      e.layout = "ranges";
+      e.rangePair = { min: pair.min.path, max: pair.max.path };
+    }
+    const fields = itemFields(b, e);
+    if (!e.layout && fields.length === 1 && fields[0]?.entry?.kind === "strings") {
+      e.layout = "list-per-item";
+    }
+  },
+
+  /** `titleFields`, `countFields`, `linkField`, `linkListFields`: how a list names its items. */
+  function itemNames(b, e) {
+    if (e.kind !== "records") return;
+    const fields = itemFields(b, e);
+    const names = (test: (f: (typeof fields)[number]) => boolean) =>
+      fields.filter(test).map((f) => f.name);
+    const titles = names((f) => TITLE_FIELD.test(f.name) && f.entry?.kind === "string");
+    const counts = names((f) => COUNT_FIELD.test(f.name) && f.entry?.kind === "number");
+    if (titles.length) e.titleFields = titles;
+    if (counts.length) e.countFields = counts;
+    // Lists of links (station accepts: `clsid`), read item by item.
+    const link = e.keyField ? undefined : fields.find((f) => f.entry?.kind === "ref")?.name;
+    if (link) {
+      e.linkField = link;
+      const lists = names((f) => f.entry?.kind === "strings" && Boolean(f.entry.ref));
+      if (lists.length) e.linkListFields = lists;
+    }
+  },
+
+  /** `comparable`: one value per record (or a table's curve or grid, by its axis). */
+  function comparable(b, e) {
+    const found = b.found.get(e.path);
+    const curve = e.kind !== "records" && (e.axis?.kind === "column" || e.axis?.kind === "surface");
+    e.comparable =
+      curve ||
+      (!found?.insideArray &&
+        e.role !== "provenance" &&
+        (SCALAR_KINDS.has(e.kind) ||
+          e.kind === "numbers" ||
+          (e.kind === "strings" && Boolean(e.ref))));
+  },
+
+  /** A Mach-sampled list is named by its description ("Zero-lift drag coefficient"). */
+  function label(_b, e) {
+    if (e.kind === "numbers" && e.axis?.kind === "sampled")
+      e.label = labelFromDescription(e.description);
+  },
+];
+
+/** `bounds`: a min/max record beside a `ranges` list only bounds it (a radio's `range`). */
+function markBounds(b: Build) {
+  for (const { typeName, prefix } of b.records) {
+    const at = (name: string) => b.entries[prefix ? `${prefix}.${name}` : name];
+    const fields = b.outTypes[typeName]?.fields ?? [];
+    const list = fields.map(at).find((e) => e?.layout === "ranges");
+    if (!list) continue;
+    for (const name of fields) {
+      const e = at(name);
+      if (e?.kind !== "record" || !e.recordType) continue;
+      if (b.outTypes[e.recordType]?.fields.length !== 2) continue;
+      if (findRangePair(b, e.recordType, e.path)) e.bounds = list.path;
+    }
+  }
+}
+
+/** A series' root record type and the column its records are keyed by (`id`, `clsid`). */
+export type CatalogRoot = { type: string; keyColumn?: string };
 
 /** The catalog of a series, with its companion's fields under `flight.` when it has one. */
 export function buildSeriesCatalog(
   types: SchemaTypes,
   series: string,
-  rootType: string,
-  companion?: { type: string },
-  /** Series a schema `ref` names; by default the site's known series. */
-  resolveRef: (ref: string) => string[] = seriesForRef,
+  root: CatalogRoot,
+  companion: CatalogRoot | undefined,
+  /** Series a schema `ref` names (lib/db/reference `refResolver`). */
+  resolveRef: (ref: string) => string[],
 ): SeriesCatalog {
   const entries: Record<string, CatalogEntry> = {};
   const outTypes: SeriesCatalog["types"] = {};
-  const w: Walk = {
+  const rootType = root.type;
+  if (!types[rootType]) throw new Error(`Schema has no type ${rootType} (series ${series})`);
+  if (companion && !types[companion.type]) throw new Error(`Schema has no type ${companion.type}`);
+  const b: Build = {
     types,
     resolveRef,
     entries,
+    found: new Map(),
     outTypes,
-    shapes: { types: outTypes, entries },
+    records: [],
     usedTypes: new Set(),
     usedEnums: new Set(),
+    shapes: { types: outTypes, entries },
+    // The record key heads the page (the root's) or links back to the parent (the companion's).
+    keys: [
+      ...(root.keyColumn ? [root.keyColumn] : []),
+      ...(companion?.keyColumn ? [`${COMPANION_PREFIX}.${companion.keyColumn}`] : []),
+    ],
   };
-  if (!types[rootType]) throw new Error(`Schema has no type ${rootType} (series ${series})`);
-  walkType(w, rootType, "", false);
+  walkType(b, rootType, "", false, null);
   if (companion) {
-    if (!types[companion.type]) throw new Error(`Schema has no type ${companion.type}`);
-    w.entries[COMPANION_PREFIX] = {
+    entries[COMPANION_PREFIX] = {
       path: COMPANION_PREFIX,
       name: COMPANION_PREFIX,
       label: COMPANION_LABEL,
-      type: companion.type,
       kind: "record",
       unit: null,
       unitNotStated: false,
       description: cleanDescription(types[companion.type]?.description ?? ""),
       dcsKey: null,
-      owner: rootType,
       comparable: false,
       recordType: companion.type,
     };
-    walkType(w, companion.type, COMPANION_PREFIX, false);
+    walkType(b, companion.type, COMPANION_PREFIX, false, null);
   }
+  const marked = Object.values(entries).filter((e) => b.found.has(e.path));
+  for (const pass of PASSES) for (const e of marked) pass(b, e);
+  markBounds(b);
+
   const enums: Record<string, EnumInfo> = {};
-  for (const e of w.usedEnums) {
-    enums[e] = { description: types[e]?.description ?? "", values: types[e]?.values ?? {} };
-  }
+  for (const e of b.usedEnums) enums[e] = { values: types[e]?.values ?? {} };
   const titleFields = RECORD_TITLES.filter((n) => entries[n]);
   return { series, rootType, entries, types: outTypes, enums, titleFields };
 }
@@ -549,31 +684,72 @@ export function valuesAt(
     }
     return x.length ? [{ path: entry.path, value: { x, y } }] : [];
   }
-  const out: Array<{ path: string; value: unknown }> = [];
-  // `keyed` is the catalog path walked so far: a `*` reads its array's `keyField`.
-  const walk = (node: unknown, segments: string[], concrete: string[], keyed: string) => {
-    if (segments.length === 0) {
-      if (node === undefined || node === null) return;
-      if (Array.isArray(node) && node.length === 0) return;
-      out.push({ path: concrete.join("."), value: node });
-      return;
-    }
-    const [head, ...tail] = segments as [string, ...string[]];
-    const here = keyed ? `${keyed}.${head}` : head;
-    if (head === "*") {
+  return walkPath(catalog, entry.path, data, companion).map((v) => ({
+    path: v.concretePath,
+    value: v.value,
+  }));
+}
+
+/** One value a catalog path reaches in a record. */
+export type PathValue = {
+  /**
+   * Where the record holds it, for people: the holding record's path with array positions
+   * (`stations[2]`, `flight.motorStages[0]`; "" for the root).
+   */
+  holder: string;
+  /** The value's concrete path: keyed items by key (`flight.motorStages.march.impulseS`), list items by position (`stations[2].sourcePath`). */
+  concretePath: string;
+  value: unknown;
+};
+
+/**
+ * Every value at a catalog path (`aero.massKg`, `stations[].sourcePath`,
+ * `flight.motorStages.*.impulseS`): `x[]` steps into each item of the list `x`, `*` into
+ * each item of a keyed array (its `keyField` naming it). Absent, null and empty values are
+ * skipped.
+ */
+export function walkPath(
+  catalog: Pick<SeriesCatalog, "entries">,
+  path: string,
+  data: Json | undefined,
+  companion?: Json,
+): PathValue[] {
+  const { root, rest } = rootFor(path, data, companion);
+  if (!root) return [];
+  const segments = rest.split(".");
+  const join = (a: string, b: string) => (a ? `${a}.${b}` : b);
+  const out: PathValue[] = [];
+  // `keyed`: the catalog path so far; `concrete`: the concrete one; `holder`: with positions.
+  const walk = (node: unknown, i: number, keyed: string, concrete: string, holder: string) => {
+    const segment = segments[i] ?? "";
+    if (segment === "*") {
       if (!Array.isArray(node)) return;
       const keyField = catalog.entries[keyed]?.keyField ?? "key";
-      for (const item of node) {
-        if (!isRecord(item)) continue;
-        walk(item, tail, [...concrete, String(item[keyField])], here);
-      }
+      node.forEach((item, j) => {
+        if (!isRecord(item)) return;
+        const key = String(item[keyField]);
+        walk(item, i + 1, join(keyed, "*"), join(concrete, key), `${holder}[${j}]`);
+      });
       return;
     }
     if (!isRecord(node)) return;
-    walk(node[head], tail, [...concrete, head], here);
+    const field = segment.replace(/\[\]$/, "");
+    const next = node[field];
+    if (i === segments.length - 1) {
+      if (next === undefined || next === null) return;
+      if (Array.isArray(next) && next.length === 0) return;
+      out.push({ holder, concretePath: join(concrete, field), value: next });
+    } else if (field === segment) {
+      walk(next, i + 1, join(keyed, segment), join(concrete, field), join(holder, field));
+    } else if (Array.isArray(next)) {
+      next.forEach((item, j) => {
+        const at = `${join(concrete, field)}[${j}]`;
+        walk(item, i + 1, join(keyed, segment), at, `${join(holder, field)}[${j}]`);
+      });
+    }
   };
-  const start = prefix ? [prefix.replace(/\.$/, "")] : [];
-  walk(root, rest.split("."), start, start.join("."));
+  const start = path === rest ? "" : COMPANION_PREFIX;
+  walk(root, 0, start, start, start);
   return out;
 }
 

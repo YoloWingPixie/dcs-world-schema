@@ -37,10 +37,30 @@ export const SCALAR_KINDS: ReadonlySet<FieldKind> = new Set([
 export type FieldAxis =
   /** number[] sampled from 0 at a step: the sibling field holding it, and the step without one. */
   | { kind: "sampled"; step: { field: string; fallback: number }; label: string }
-  /** The table column holding the x values (`table[].mach`). */
-  | { kind: "column"; field: string; label: string }
-  /** number[][] over two number[] siblings: `rows` (altitudes) by `cols` (speeds). */
-  | { kind: "surface"; rows: string; cols: string };
+  /** A table indexed by one of its columns (`table[].mach`). */
+  | {
+      kind: "column";
+      /** The item field holding the x values (`mach`). */
+      field: string;
+      /** The axis' name ("Mach"). */
+      label: string;
+      /** Catalog path of the x column (`flight.aerodynamics.table[].mach`). */
+      path: string;
+      /** Catalog paths of the numeric columns charted over it, in schema order. */
+      columns: string[];
+    }
+  /** Tables of number[][] grids over two number[] siblings: `rows` (altitudes) by `cols` (speeds). */
+  | {
+      kind: "surface";
+      rows: string;
+      cols: string;
+      /** Catalog paths of the two axis fields. */
+      paths: { rows: string; cols: string };
+      /** What one row and one column value is ("Altitude", "Speed"). */
+      labels: { rows: string; cols: string };
+      /** Catalog paths of the grids, in schema order. */
+      columns: string[];
+    };
 
 /** One schema field at a path of a series' records. */
 export type CatalogEntry = {
@@ -52,8 +72,6 @@ export type CatalogEntry = {
   path: string;
   name: string;
   label: string;
-  /** Schema type as written (`number`, `Entity.Seeker`, `string[]`). */
-  type: string;
   kind: FieldKind;
   unit: string | null;
   /** How `unit` displays in each system (lib/units.ts `resolveConversions`); set with a unit. */
@@ -62,8 +80,6 @@ export type CatalogEntry = {
   description: string;
   /** The DCS key the description names (`Cx0`), when it names one. */
   dcsKey: string | null;
-  /** Declaring schema type. */
-  owner: string;
   /** Target series of a `ref` (several for unit-type unions). */
   ref?: string[];
   /** Enum type name, for `enum` fields. */
@@ -83,17 +99,20 @@ export type CatalogEntry = {
   /** Keyed arrays (`*` in paths): the field naming each element. */
   keyField?: string;
   /**
-   * What the field is for, beyond its value: `provenance` (`sourcePaths`, `sourcePath`: not
-   * reference data), `asset` (a file path into the game's assets: an image, a model, a Lua file).
+   * What the field is for, beyond its value: `key` (the column a series' records are keyed by:
+   * the header shows the root's, and a companion's links back to its parent), `provenance`
+   * (`sourcePaths`, `sourcePath`: not reference data), `asset` (a file path into the game's
+   * assets: an image, a model, a Lua file).
    */
-  role?: "provenance" | "asset";
+  role?: "key" | "provenance" | "asset";
   /**
    * How the field lays out. `records` arrays: `envelope` (two number[] axes and number[][]
    * grids per item), `axis-table` (rows indexed by the `axis` column), `ranges` (a list of
    * `rangePair` ranges with at most two other columns: radio segments). `sectors`: traverse
-   * sectors (`Entity.AngleSector[]`).
+   * sectors (`Entity.AngleSector[]`). `list-per-item`: `records` whose items hold one list
+   * each (gun belts), read as one line per item.
    */
-  layout?: "envelope" | "axis-table" | "ranges" | "sectors";
+  layout?: "envelope" | "axis-table" | "ranges" | "sectors" | "list-per-item";
   /** On a `ranges` list: the catalog paths of each item's lower and upper bound. */
   rangePair?: { min: string; max: string };
   /**
@@ -118,7 +137,7 @@ export type CatalogEntry = {
   note?: string;
 };
 
-export type EnumInfo = { description: string; values: Record<string, string | number> };
+export type EnumInfo = { values: Record<string, string | number> };
 
 export type SeriesCatalog = {
   series: string;

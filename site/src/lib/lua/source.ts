@@ -4,8 +4,7 @@
  */
 
 import { BASE_PATH } from "../base-path";
-import { rootFor } from "../catalog";
-import { isRecord } from "../json";
+import { walkPath } from "../catalog";
 import { boundedCache, once } from "../once";
 import type { SeriesCatalog } from "../types";
 
@@ -43,40 +42,6 @@ export type LuaBlock = {
 };
 
 /**
- * The concrete values at a catalog path (`stations[].sourcePath`, `flight.motorStages.*.x`),
- * each with the concrete path of the record holding it (`stations[2]`; "" for the root).
- */
-function valuesAt(
-  path: string,
-  data: Record<string, unknown> | undefined,
-  companion: Record<string, unknown> | undefined,
-): Array<{ holder: string; value: unknown }> {
-  const { root, rest } = rootFor(path, data, companion);
-  const segments = rest.split(".");
-  const name = segments.pop() ?? "";
-  const out: Array<{ holder: string; value: unknown }> = [];
-  const walk = (node: unknown, i: number, at: string) => {
-    if (i === segments.length) {
-      if (isRecord(node) && node[name] !== undefined) out.push({ holder: at, value: node[name] });
-      return;
-    }
-    const seg = segments[i] ?? "";
-    // `*` (keyed) and `x[]` both step into an array's items.
-    const field = seg === "*" ? null : seg.replace(/\[\]$/, "");
-    const next = field === null ? node : isRecord(node) ? node[field] : undefined;
-    const label = field === null ? at : at ? `${at}.${field}` : field;
-    if (field !== null && field === seg) return walk(next, i + 1, label);
-    if (!Array.isArray(next)) return;
-    next.forEach((item, j) => {
-      walk(item, i + 1, `${label}[${j}]`);
-    });
-  };
-  const start = path === rest ? "" : path.slice(0, path.length - rest.length - 1);
-  walk(root, 0, start);
-  return out;
-}
-
-/**
  * The dump paths of a record, from its catalog's `provenance` fields: its lists of paths
  * (`sourcePaths`, data first, then the companion's) and each block's single path
  * (`sourcePath`), by file in first-seen order.
@@ -93,13 +58,13 @@ export function recordSources(
   };
   const provenance = Object.values(catalog.entries).filter((e) => e.role === "provenance");
   for (const e of provenance.filter((e) => e.kind === "strings")) {
-    for (const { value } of valuesAt(e.path, data, companion)) {
+    for (const { value } of walkPath(catalog, e.path, data, companion)) {
       if (Array.isArray(value)) for (const p of value) if (typeof p === "string") addFile(p);
     }
   }
   if (!files.length) return { files, blocks };
   for (const e of provenance.filter((e) => e.kind !== "strings")) {
-    for (const { holder, value } of valuesAt(e.path, data, companion)) {
+    for (const { holder, value } of walkPath(catalog, e.path, data, companion)) {
       if (typeof value !== "string") continue;
       const { path, pointer } = splitSourcePath(value);
       if (!dumpFile(path)) continue;

@@ -15,8 +15,8 @@ import {
   rootFor,
   valuesAt,
 } from "../catalog";
-import { isRecord } from "../json";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
+import { perObject } from "../once";
 import { withoutNamedCodes } from "../record-tables";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
 import { displayFor } from "../series-display";
@@ -171,35 +171,29 @@ export const seriesGroups = (model: Model) => {
   return [...groups, other].filter((g) => g.series.length);
 };
 
-const catalogs = new WeakMap<Model, Map<string, SeriesCatalog>>();
+const catalogs = perObject<Model, SeriesCatalog>();
 
 /** The field catalog of a browsable series (its companion's fields under `flight.`). */
 export function catalogFor(model: Model, series: string): SeriesCatalog {
-  let cache = catalogs.get(model);
-  if (!cache) {
-    cache = new Map();
-    catalogs.set(model, cache);
-  }
-  const hit = cache.get(series);
-  if (hit) return hit;
+  return catalogs.cachedBy(model, series, () => buildCatalog(model, series));
+}
+
+function buildCatalog(model: Model, series: string): SeriesCatalog {
   const s = model.byId.get(series);
   if (!s) throw new Error(`Unknown series: ${series}`);
   const companion = s.companion ? model.byId.get(s.companion) : undefined;
-  let catalog: SeriesCatalog;
   try {
-    catalog = buildSeriesCatalog(
+    return buildSeriesCatalog(
       model.types,
       series,
-      s.typeName,
-      companion ? { type: companion.typeName } : undefined,
+      { type: s.typeName, keyColumn: s.keyColumn },
+      companion ? { type: companion.typeName, keyColumn: companion.keyColumn } : undefined,
       refResolver(model),
     );
   } catch {
     // A type the database does not describe: an empty catalog renders raw JSON.
-    catalog = { series, rootType: s.typeName, entries: {}, types: {}, enums: {}, titleFields: [] };
+    return { series, rootType: s.typeName, entries: {}, types: {}, enums: {}, titleFields: [] };
   }
-  cache.set(series, catalog);
-  return catalog;
 }
 
 // ---------------------------------------------------------------------------
@@ -214,16 +208,6 @@ function decodeValue(entry: CatalogEntry | undefined, raw: unknown): unknown {
   } catch {
     return raw;
   }
-}
-
-/** A database row as the record it was built from: JSON columns parsed, booleans restored. */
-export function decodeRow(row: Row, catalog: SeriesCatalog, prefix = ""): Record<string, unknown> {
-  const out: Record<string, unknown> = {};
-  for (const [name, raw] of Object.entries(row)) {
-    if (raw === null || raw === undefined) continue;
-    out[name] = decodeValue(catalog.entries[prefix ? `${prefix}.${name}` : name], raw);
-  }
-  return out;
 }
 
 /** Names of records by series: `series -> id -> name`, from the search table. */
@@ -255,39 +239,6 @@ export async function namesOf(
   return out;
 }
 
-function collectAll(node: unknown, segments: string[]): unknown[] {
-  if (segments.length === 0) {
-    if (node === undefined || node === null) return [];
-    return Array.isArray(node) ? node.flat(4) : [node];
-  }
-  const [head, ...rest] = segments as [string, ...string[]];
-  if (head === "*") return Array.isArray(node) ? node.flatMap((n) => collectAll(n, rest)) : [];
-  const m = /^(.*?)((?:\[\])*)$/.exec(head);
-  const name = m?.[1] ?? head;
-  const depth = (m?.[2]?.length ?? 0) / 2;
-  let values: unknown[] = [isRecord(node) ? node[name] : undefined];
-  for (let i = 0; i < depth; i++) values = values.flatMap((v) => (Array.isArray(v) ? v : []));
-  return values.flatMap((v) => collectAll(v, rest));
-}
-
-/** Which of `series` (a ref's target list) holds each id: one query per series. */
-async function resolveIds(
-  q: Query,
-  model: Model,
-  series: string[],
-  ids: Set<string>,
-): Promise<Map<string, [string, string]>> {
-  const found = new Map<string, [string, string]>();
-  for (const s of series) {
-    const rest = new Set([...ids].filter((id) => !found.has(id)));
-    if (!rest.size) break;
-    const names = (await namesOf(q, model, new Map([[s, rest]]))).get(s) ?? new Map();
-    const owner = model.byId.get(s)?.parent ?? s;
-    for (const [id, name] of names) found.set(id, [owner, name]);
-  }
-  return found;
-}
-
 // ---------------------------------------------------------------------------
 // Records
 
@@ -307,7 +258,22 @@ type RecordView = {
   }>;
 };
 
-const missingTable = (error: unknown) => /no such table/i.test(String(error));
+/**
+ * A read of the per-page views tools/package/sqlite.py writes (`record_views`,
+ * `series_views`): a database without them is too old for this site.
+ */
+async function viewQuery(q: Query, table: string, sql: string, params: unknown[]): Promise<Row[]> {
+  try {
+    return await q(sql, params);
+  } catch (error) {
+    if (/no such table/i.test(String(error))) {
+      throw new Error(
+        `The database has no ${table} table: rebuild it with \`task package:sqlite\`.`,
+      );
+    }
+    throw error;
+  }
+}
 
 const byName = (a: LinkTarget, b: LinkTarget) => naturalCompare(a[1], b[1]);
 
@@ -316,7 +282,7 @@ function referencedLabel(model: Model, series: string, path: string, via?: strin
   return catalogFor(model, series).entries[path]?.label ?? humanize(path.split(".").pop() ?? path);
 }
 
-/** A record page: one `record_views` row, else (an older database) the record's own queries. */
+/** A record page: one `record_views` row. */
 export async function getRecord(
   q: Query,
   model: Model,
@@ -325,15 +291,12 @@ export async function getRecord(
 ): Promise<RecordDoc | null> {
   const s = model.byId.get(series);
   if (!s) return null;
-  let rows: Row[];
-  try {
-    rows = await q("SELECT view FROM record_views WHERE series = ? AND id = ?", [series, id]);
-  } catch (error) {
-    if (!missingTable(error)) throw error;
-    const doc = await getRecordByQueries(q, model, series, id);
-    return doc && distinguishLinks(q, model, doc);
-  }
-  const [row] = rows;
+  const [row] = await viewQuery(
+    q,
+    "record_views",
+    "SELECT view FROM record_views WHERE series = ? AND id = ?",
+    [series, id],
+  );
   if (!row) return null;
   const view = JSON.parse(String(row.view)) as RecordView;
   const key = view.record[s.keyColumn];
@@ -469,66 +432,6 @@ export async function getBeaconRows(q: Query, ids: string[]): Promise<Map<string
   return out;
 }
 
-async function getRecordByQueries(
-  q: Query,
-  model: Model,
-  series: string,
-  id: string,
-): Promise<RecordDoc | null> {
-  const s = model.byId.get(series);
-  if (!s) return null;
-  const catalog = catalogFor(model, series);
-  const [row] = await q(`SELECT * FROM ${qi(series)} WHERE ${qi(s.keyColumn)} = ?`, [id]);
-  if (!row) return null;
-  const data = decodeRow(row, catalog);
-  let companion: Record<string, unknown> | undefined;
-  const comp = s.companion ? model.byId.get(s.companion) : undefined;
-  if (comp) {
-    const [crow] = await q(`SELECT * FROM ${qi(comp.id)} WHERE ${qi(comp.keyColumn)} = ?`, [id]);
-    if (crow) companion = decodeRow(crow, catalog, COMPANION_PREFIX);
-  }
-
-  const [self] = await q("SELECT name, subtitle FROM search WHERE series = ? AND id = ?", [
-    series,
-    id,
-  ]);
-
-  // Links: every ref value in the record, resolved to the series holding it.
-  const links: RecordDoc["links"] = {};
-  const byTargets = new Map<string, Set<string>>();
-  for (const entry of Object.values(catalog.entries)) {
-    if (!entry.ref?.length) continue;
-    const { root, rest: path } = rootFor(entry.path, data, companion);
-    if (!root) continue;
-    const key = entry.ref.join(",");
-    const set = byTargets.get(key) ?? new Set<string>();
-    for (const v of collectAll(root, path.split("."))) {
-      if (typeof v === "string" || typeof v === "number") set.add(String(v));
-    }
-    byTargets.set(key, set);
-  }
-  for (const [key, ids] of byTargets) {
-    if (!ids.size) continue;
-    const found = await resolveIds(q, model, key.split(","), ids);
-    for (const [rawId, [owner, name]] of found) {
-      links[owner] ??= {};
-      (links[owner] as Record<string, string>)[rawId] = name;
-    }
-  }
-
-  return {
-    series,
-    id: String(row[s.keyColumn] ?? id),
-    slug: String(row[s.keyColumn] ?? id),
-    name: self ? String(self.name) : String(id),
-    meta: self ? String(self.subtitle ?? "") : "",
-    data,
-    ...(companion ? { companion } : {}),
-    links,
-    referencedBy: await referencedBy(q, model, series, id),
-  };
-}
-
 /** Records of one series pointing at a record, under one path (`via` for a second hop). */
 type RefGroup = { series: string; path: string; via?: string; ids: Set<string> };
 
@@ -632,18 +535,6 @@ async function namedReferences(
   }));
 }
 
-/** Who points at record `id`: one indexed lookup per reference path that targets it. */
-export async function referencedBy(
-  q: Query,
-  model: Model,
-  series: string,
-  id: string,
-): Promise<ReferencedBy[]> {
-  const direct = await directReferences(q, model, series, id);
-  const hops = await hopReferences(q, model, direct);
-  return namedReferences(q, model, [...direct, ...hops]);
-}
-
 /**
  * Every record of one "referenced by" group (`from`, `path`), uncapped and with link
  * details: only that group's reference path is read (for a `via:` group, the paths into
@@ -671,10 +562,13 @@ export async function referencedByGroup(
 // ---------------------------------------------------------------------------
 // Browse
 
-const topLevelScalars = (catalog: SeriesCatalog, key: string) =>
+const topLevelScalars = (catalog: SeriesCatalog) =>
   Object.values(catalog.entries).filter(
     (e) =>
-      !e.path.includes(".") && !e.path.includes("[") && SCALAR_KINDS.has(e.kind) && e.name !== key,
+      !e.path.includes(".") &&
+      !e.path.includes("[") &&
+      SCALAR_KINDS.has(e.kind) &&
+      e.role !== "key",
   );
 
 /** A `series_views` row (tools/package/sqlite.py): a browse table in one read. */
@@ -685,13 +579,13 @@ type SeriesView = {
 };
 
 async function seriesView(q: Query, series: string): Promise<SeriesView | null> {
-  try {
-    const [row] = await q("SELECT view FROM series_views WHERE series = ?", [series]);
-    return row ? (JSON.parse(String(row.view)) as SeriesView) : null;
-  } catch (error) {
-    if (missingTable(error)) return null;
-    throw error;
-  }
+  const [row] = await viewQuery(
+    q,
+    "series_views",
+    "SELECT view FROM series_views WHERE series = ?",
+    [series],
+  );
+  return row ? (JSON.parse(String(row.view)) as SeriesView) : null;
 }
 
 /** Every record of a series with its top-level scalar columns (one `series_views` row). */
@@ -699,47 +593,23 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   const s = model.byId.get(series);
   if (!s) throw new Error(`Unknown series: ${series}`);
   const catalog = catalogFor(model, series);
-  const columns = topLevelScalars(catalog, s.keyColumn);
+  const columns = topLevelScalars(catalog);
   const view = await seriesView(q, series);
-  let rows: Row[];
-  let names: Map<string, string>;
+  if (!view) throw new Error(`No series_views row for ${series}.`);
+  const at = new Map(view.columns.map((c, i) => [c, i + 2]));
+  const rows: Row[] = view.rows.map((r) => {
+    const out: Row = { __id: r[0] };
+    for (const c of columns) {
+      const i = at.get(c.name);
+      out[c.name] = i === undefined ? null : (r[i] ?? null);
+    }
+    return out;
+  });
+  const names = new Map(view.rows.map((r) => [String(r[0]), String(r[1])]));
   // Ref columns show the target's name.
-  const refNames = new Map<string, Map<string, [string, string]>>();
-  if (view) {
-    const at = new Map(view.columns.map((c, i) => [c, i + 2]));
-    rows = view.rows.map((r) => {
-      const out: Row = { __id: r[0] };
-      for (const c of columns) {
-        const i = at.get(c.name);
-        out[c.name] = i === undefined ? null : (r[i] ?? null);
-      }
-      return out;
-    });
-    names = new Map(view.rows.map((r) => [String(r[0]), String(r[1])]));
-    for (const [c, labels] of Object.entries(view.labels)) {
-      refNames.set(c, new Map(Object.entries(labels).map(([k, v]) => [k, [series, v]])));
-    }
-  } else {
-    const cols = columns.map((c) => qi(c.name)).join(", ");
-    rows = await q(
-      `SELECT ${qi(s.keyColumn)} AS __id${cols ? `, ${cols}` : ""} FROM ${qi(series)}`,
-    );
-    names = new Map(
-      (await q("SELECT id, name FROM search WHERE series = ?", [series])).map((r) => [
-        String(r.id),
-        String(r.name),
-      ]),
-    );
-    for (const c of columns.filter((c) => c.kind === "ref" && c.ref?.length)) {
-      const ids = new Set(
-        rows
-          .map((r) => r[c.name])
-          .filter((v) => v !== null)
-          .map(String),
-      );
-      refNames.set(c.name, await resolveIds(q, model, c.ref ?? [], ids));
-    }
-  }
+  const refNames = new Map(
+    Object.entries(view.labels).map(([c, labels]) => [c, new Map(Object.entries(labels))]),
+  );
 
   const count = rows.length;
   // A numeric code beside its constant name (`category` / `categoryName`) shows once; a
@@ -762,8 +632,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   const coverage = (c: CatalogEntry) => stats.get(c.name)?.filled ?? 0;
   const distinct = (c: CatalogEntry) => stats.get(c.name)?.distinct ?? 0;
   // The name and id head every row already.
-  const skipped = (c: CatalogEntry) =>
-    c.name === s.keyColumn || catalog.titleFields.includes(c.path);
+  const skipped = (c: CatalogEntry) => c.role === "key" || catalog.titleFields.includes(c.path);
   // Configured paths (lib/series-display) win over the heuristics below.
   const display = displayFor(series);
   const configured = (paths: string[] | undefined) => {
@@ -802,7 +671,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
         const v = r[c.name];
         if (v === null || v === undefined) return null;
         if (c.kind === "boolean") return v === 1 || v === true;
-        if (c.kind === "ref") return refNames.get(c.name)?.get(String(v))?.[1] ?? v;
+        if (c.kind === "ref") return refNames.get(c.name)?.get(String(v)) ?? v;
         return v;
       }),
     ] as SeriesIndex["rows"][number];

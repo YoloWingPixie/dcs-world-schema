@@ -11,18 +11,20 @@ import {
   layoutItems,
   visibleRange,
 } from "@/lib/browse-groups";
+import { cellText } from "@/lib/cell-text";
 import { loadCatalog, loadFieldValues, loadGroupTargets, loadSeriesIndex } from "@/lib/client-data";
 import { fieldPaths, type GroupTarget } from "@/lib/db/reference";
-import { plainValue, sortableValue, type ValueContext } from "@/lib/format-field";
-import { replaceQuery } from "@/lib/history";
+import { sortableValue, type ValueContext } from "@/lib/format-field";
+import { updateQuery } from "@/lib/history";
 import { enumDisplay } from "@/lib/names";
-import { recordHref, SERIES_BY_ID } from "@/lib/series";
+import { facetParam, recordHref, SERIES_BY_ID } from "@/lib/series";
 import { displayFor } from "@/lib/series-display";
 import { capitalise, compareSortKeys, naturalCompare } from "@/lib/text";
 import { type CatalogEntry, type Facet, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { convertValue, formatNumber, unitLabel } from "@/lib/units";
+import { unitLabel } from "@/lib/units";
 import { useLoaded } from "@/lib/use-loaded";
+import { useQueryParam } from "@/lib/use-query-param";
 import { SearchIcon, TableIcon } from "@/ui/icons";
 import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
@@ -39,29 +41,8 @@ const NAME_MIN = 180;
 
 type Row = { slug: string; name: string; id: string; values: Map<string, unknown> };
 
-const facetParam = (path: string) => `f.${path}`;
 /** `?group=flat` lists a grouped series flat. */
 const GROUP_PARAM = "group";
-
-/**
- * Display text of a cell value: lib/format-field `plainValue`, except that numbers leave
- * their unit to the column head and enums show their label alone.
- */
-function cellText(entry: CatalogEntry | undefined, value: unknown, ctx: ValueContext): string {
-  if (value === undefined || value === null) return "";
-  if (!entry) {
-    // Catalog still loading: the raw value.
-    if (typeof value === "number") return formatNumber(value);
-    if (typeof value === "boolean") return value ? "Yes" : "No";
-    if (Array.isArray(value)) return value.map(String).join(", ");
-    return typeof value === "object" ? JSON.stringify(value) : String(value);
-  }
-  if (entry.kind === "enum") return enumDisplay(entry, value, ctx.enums).label;
-  if (typeof value === "number") {
-    return formatNumber(convertValue(value, entry, ctx.system).value);
-  }
-  return plainValue(entry, value, ctx);
-}
 
 /** A cell's sort key: lib/format-field `sortableValue`, or its text before the catalog loads. */
 function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueContext) {
@@ -107,7 +88,8 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const error = loaded?.error ?? null;
   const catalog = useLoaded(loadCatalog, series);
   const [extra, setExtra] = useState<Record<string, Record<string, unknown>>>({});
-  const [query, setQuery] = useState(params.get("q") ?? "");
+  // The text filter, kept in the URL (debounced) so a filtered list is shareable.
+  const [query, setQuery] = useQueryParam("q");
   const [sort, setSort] = useState<SortState>({ key: "name", dir: 1 });
   const [filtersOpen, setFiltersOpen] = useState(true);
   const groupBy = displayFor(series).groupBy;
@@ -124,17 +106,6 @@ export function BrowseView({ series, count }: { series: string; count: number })
     narrow.addEventListener("change", onChange);
     return () => narrow.removeEventListener("change", onChange);
   }, []);
-
-  // Keep the text filter in the URL (debounced) so a filtered list is shareable.
-  useEffect(() => {
-    const timer = window.setTimeout(() => {
-      const next = new URLSearchParams(params.toString());
-      if (query.trim()) next.set("q", query.trim());
-      else next.delete("q");
-      replaceQuery(next);
-    }, 250);
-    return () => window.clearTimeout(timer);
-  }, [query, params]);
 
   // Columns: URL `cols`, else the series default.
   const colsParam = params.get("cols");
@@ -190,7 +161,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
   }, [targets, groupBy]);
 
   const facets = useMemo(() => index?.facets ?? [], [index]);
-  // The facet selections as one string, so other URL writes (the debounced `?q=`) keep them.
+  // The facet selections as one string: `selected` changes only when they do.
   const facetQuery = JSON.stringify(facets.map((f) => params.getAll(facetParam(f.path))));
   const selected = useMemo(() => {
     const values = JSON.parse(facetQuery) as string[][];
@@ -281,31 +252,25 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return order.map((i) => filtered[i] as Row);
   }, [filtered, sort, catalog, ctx]);
 
-  const toggle = (path: string, value: string) => {
-    const next = new URLSearchParams(params.toString());
-    const key = facetParam(path);
-    const current = next.getAll(key);
-    next.delete(key);
-    for (const v of current.includes(value)
-      ? current.filter((c) => c !== value)
-      : [...current, value]) {
-      next.append(key, v);
-    }
-    replaceQuery(next);
-  };
+  const toggle = (path: string, value: string) =>
+    updateQuery((next) => {
+      const key = facetParam(path);
+      const current = next.getAll(key);
+      next.delete(key);
+      for (const v of current.includes(value)
+        ? current.filter((c) => c !== value)
+        : [...current, value]) {
+        next.append(key, v);
+      }
+    });
 
   const anyFilter = facets.some((f) => (selected[f.path] ?? []).length > 0);
-  const clearFilters = () => {
-    const next = new URLSearchParams(params.toString());
-    for (const f of facets) next.delete(facetParam(f.path));
-    replaceQuery(next);
-  };
+  const clearFilters = () =>
+    updateQuery((next) => {
+      for (const f of facets) next.delete(facetParam(f.path));
+    });
 
-  const setColumns = (cols: string[]) => {
-    const next = new URLSearchParams(params.toString());
-    next.set("cols", cols.join(","));
-    replaceQuery(next);
-  };
+  const setColumns = (cols: string[]) => updateQuery((next) => next.set("cols", cols.join(",")));
 
   const pickable = useMemo(() => {
     if (!catalog) return [];
@@ -365,12 +330,11 @@ export function BrowseView({ series, count }: { series: string; count: number })
     [groups, sorted],
   );
 
-  const setGrouped = (on: boolean) => {
-    const next = new URLSearchParams(params.toString());
-    if (on) next.delete(GROUP_PARAM);
-    else next.set(GROUP_PARAM, "flat");
-    replaceQuery(next);
-  };
+  const setGrouped = (on: boolean) =>
+    updateQuery((next) => {
+      if (on) next.delete(GROUP_PARAM);
+      else next.set(GROUP_PARAM, "flat");
+    });
 
   const headerLabel = (path: string) => {
     const entry = catalog?.entries[path];

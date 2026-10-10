@@ -6,12 +6,10 @@
 import { COMPANION_PREFIX, getPath, rootFor } from "./catalog";
 import { coverageText, plainValue, type ValueContext } from "./format-field";
 import { isRecord, type Json } from "./json";
+import { enumDisplay } from "./names";
 import { rangeListOf } from "./record-tables";
 import { displayFor } from "./series-display";
 import type { CatalogEntry, RecordDoc, SeriesCatalog } from "./types";
-
-/** Fields the record header shows. */
-const HEADER_FIELDS = new Set(["id"]);
 
 /** One key figure under the title: a field's value, an array's length, a range list's coverage. */
 export type StripItem =
@@ -100,6 +98,23 @@ export function stripFor(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueCont
   return items.length >= 2 ? items : [];
 }
 
+/**
+ * The classification chips under a record's title: its top-level enum values (string ones
+ * first, then the constant names beside codes, `categoryName`), each label shown once. The
+ * same fields, in the same order, as the subtitle the search table holds.
+ */
+export function headerChips(catalog: SeriesCatalog, doc: RecordDoc): string[] {
+  const fields = catalog.types[catalog.rootType]?.fields ?? [];
+  const enums = fields
+    .map((name) => catalog.entries[name])
+    .filter((e): e is CatalogEntry => e?.kind === "enum");
+  const chips = [
+    ...enums.filter((e) => !e.codeField && typeof doc.data[e.name] === "string"),
+    ...enums.filter((e) => e.codeField && typeof doc.data[e.name] === "string"),
+  ].map((e) => enumDisplay(e, doc.data[e.name], catalog.enums).label);
+  return [...new Set(chips)];
+}
+
 const isEmpty = (v: unknown) => v === null || (Array.isArray(v) && v.length === 0);
 
 /** Overview order: enum names first, numbers last, schema order otherwise. */
@@ -134,9 +149,8 @@ export function placeRecord(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueC
         source.push({ entry, path: key(name), value });
         continue;
       }
-      if (!companion && HEADER_FIELDS.has(name)) continue;
-      // A companion's link back to its parent (weapon_flight.weapon) says nothing here.
-      if (companion && entry.ref?.includes(doc.series)) continue;
+      // The header shows the record's key; a companion's (weapon_flight.weapon) is the record.
+      if (entry.role === "key") continue;
       if (entry.kind === "record" || entry.kind === "records") {
         if (isEmpty(value) || isBounds(entry)) continue;
         const base = { id: key(name).replace(/\./g, "-"), title: entry.label, companion, entry };

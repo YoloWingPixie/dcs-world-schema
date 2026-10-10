@@ -1,7 +1,7 @@
 "use client";
 
 import "@/styles/map.css";
-import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { lazy, memo, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { loadBeaconRows } from "@/lib/client-data";
 import {
   beaconPoint,
@@ -44,15 +44,19 @@ function useNear<T extends Element>() {
 
 type Beacons = { state: "idle" | "loading" | "done"; points: GeoPoint[] };
 
+/** One shared value for "no beacons", so the map's inputs keep their identity across renders. */
+const NO_POINTS: GeoPoint[] = [];
+const NO_BEACONS: Beacons = { state: "done", points: NO_POINTS };
+
 /** The positions of the beacons a location names (navaid equipment, airbase beacons). */
 function useBeacons(loc: Location, near: boolean): Beacons {
-  const [b, setB] = useState<Beacons>({ state: "idle", points: [] });
+  const [b, setB] = useState<Beacons>({ state: "idle", points: NO_POINTS });
   const ids = loc.beaconIds;
   const kind = loc.beaconsArePoints ? "equipment" : "beacon";
   useEffect(() => {
     if (!near || !ids.length) return;
     let live = true;
-    setB({ state: "loading", points: [] });
+    setB({ state: "loading", points: NO_POINTS });
     loadBeaconRows(ids).then(
       (rows) => {
         if (!live) return;
@@ -62,13 +66,13 @@ function useBeacons(loc: Location, near: boolean): Beacons {
         });
         setB({ state: "done", points });
       },
-      () => live && setB({ state: "done", points: [] }),
+      () => live && setB(NO_BEACONS),
     );
     return () => {
       live = false;
     };
   }, [near, ids, kind]);
-  return ids.length ? b : { state: "done", points: [] };
+  return ids.length ? b : NO_BEACONS;
 }
 
 function Coordinates({ points }: { points: GeoPoint[] }) {
@@ -124,11 +128,21 @@ function Legend({ loc, beacons }: { loc: Location; beacons: GeoPoint[] }) {
  * out. record-view renders it for a record with a location (lib/geo `locationOf`). Leaflet
  * and the tiles load on approach.
  */
-export function LocationFigure({ location: loc }: { location: Location }) {
+export const LocationFigure = memo(function LocationFigure({
+  location: loc,
+}: {
+  location: Location;
+}) {
   const [ref, near] = useNear<HTMLDivElement>();
   const beacons = useBeacons(loc, near);
-  const own = loc.beaconsArePoints ? [...loc.points, ...beacons.points] : loc.points;
-  const context = loc.beaconsArePoints ? loc.extras : [...loc.extras, ...beacons.points];
+  // Stable while the location and its beacons are: LeafletMap rebuilds the map on a new array.
+  const { own, context } = useMemo(
+    () =>
+      loc.beaconsArePoints
+        ? { own: [...loc.points, ...beacons.points], context: loc.extras }
+        : { own: loc.points, context: [...loc.extras, ...beacons.points] },
+    [loc, beacons.points],
+  );
   const ready = near && beacons.state === "done";
   const empty = ready && !own.length;
 
@@ -160,7 +174,7 @@ export function LocationFigure({ location: loc }: { location: Location }) {
       )}
     </section>
   );
-}
+});
 
 function MapPending({ text }: { text?: string | undefined }) {
   return (

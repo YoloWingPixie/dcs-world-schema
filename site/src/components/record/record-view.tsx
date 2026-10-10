@@ -5,9 +5,8 @@ import { COMPANION_PREFIX } from "@/lib/catalog";
 import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
 import { plainValue, type ValueContext } from "@/lib/format-field";
 import { LOCATION_ID, locationOf } from "@/lib/geo";
-import { constantLabel } from "@/lib/names";
 import type { NavHint } from "@/lib/nav-hints";
-import { type PlacedSection, placeRecord, type StripItem } from "@/lib/placement";
+import { headerChips, type PlacedSection, placeRecord, type StripItem } from "@/lib/placement";
 import { recordHref, SERIES_BY_ID, seriesHref } from "@/lib/series";
 import type {
   CatalogEntry,
@@ -17,16 +16,23 @@ import type {
   SeriesCatalog,
 } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { formatWithUnit, unitGap } from "@/lib/units";
+import { formatStored } from "@/lib/units";
 import { useLoaded } from "@/lib/use-loaded";
-import { Description, type FieldContext, FieldRow, fieldDataAttrs } from "../field-view";
+import {
+  Description,
+  type FieldContext,
+  FieldRow,
+  fieldDataAttrs,
+  NumberWithUnit,
+  tipIdFor,
+} from "../field-view";
 import { LocationFigure } from "../location-map";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
 import { SeeAlso } from "../see-also";
 import { ProvenanceValue, type RenderCtx } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
-import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
+import { RecordHeader, RecordSkeleton } from "./record-header";
 import { SCRIPTING_ID, ScriptingBlock, useScripting } from "./scripting";
 
 type RecordState = {
@@ -73,7 +79,6 @@ const SectionBody = memo(function SectionBody({
         <RecordGroup
           typeName={section.typeName}
           prefix={section.prefix}
-          concretePrefix={section.prefix}
           value={section.value}
           ctx={ctx}
           depth={0}
@@ -85,7 +90,6 @@ const SectionBody = memo(function SectionBody({
         <RecordGroup
           typeName={section.typeName}
           prefix={section.path}
-          concretePrefix={section.path}
           value={section.value}
           ctx={ctx}
           depth={0}
@@ -93,13 +97,7 @@ const SectionBody = memo(function SectionBody({
       );
     case "records":
       return (
-        <RecordsBlock
-          entry={section.entry}
-          rows={section.rows}
-          ctx={ctx}
-          prefix={section.path}
-          concretePrefix={section.path}
-        />
+        <RecordsBlock entry={section.entry} rows={section.rows} ctx={ctx} prefix={section.path} />
       );
     case "source":
       return (
@@ -226,19 +224,9 @@ function readoutOf(item: StripItem, vctx: ValueContext): Readout {
     return { path, label: "Coverage", entry: null, value, text: item.text };
   }
   if (typeof value === "number") {
-    const f = formatWithUnit(value, entry, vctx.system);
-    const text = (
-      <>
-        {f.text}
-        {f.unit ? (
-          <span className="unit">
-            {unitGap(f.unit)}
-            {f.unit}
-          </span>
-        ) : null}
-      </>
-    );
-    return { path, label: entry.label, entry, value, text, stored: f.stored };
+    const text = <NumberWithUnit entry={entry} value={value} system={vctx.system} />;
+    const stored = formatStored(value, entry, vctx.system);
+    return { path, label: entry.label, entry, value, text, stored };
   }
   return { path, label: entry.label, entry, value, text: plainValue(entry, value, vctx) };
 }
@@ -248,7 +236,8 @@ const Readouts = memo(function Readouts({ items, ctx }: { items: Readout[]; ctx:
   return (
     <div className="readouts">
       {items.map(({ path, label, entry, value, text, stored }) => {
-        const tipId = `tip-readout-${path.replace(/\W/g, "_")}`;
+        // Apart from the same field's row further down the page.
+        const tipId = tipIdFor(ctx.fctx, `readout.${path}`);
         return entry ? (
           <div
             key={path}
@@ -360,7 +349,7 @@ export const RecordView = memo(function RecordView({
         ]
       : placed;
 
-  const chips = metaChips(doc.meta, constantLabel);
+  const chips = headerChips(catalog, doc);
   const refCount = doc.referencedBy.reduce((n, g) => n + groupSize(g), 0);
   // The Location figure leads the body (a numbered section): first here too.
   const toc = [

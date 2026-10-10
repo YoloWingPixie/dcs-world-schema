@@ -142,7 +142,8 @@ export function GlobalSearch({
             setOpen(true);
           }}
           onPointerEnter={() => warmSearch()}
-          onBlur={() => variant === "inline" && window.setTimeout(() => setOpen(false), 150)}
+          // The popup keeps focus here (its mousedowns are prevented), so a blur leaves it.
+          onBlur={() => variant === "inline" && setOpen(false)}
           onChange={(event) => {
             setQuery(event.target.value);
             onQueryChange?.(event.target.value);
@@ -152,7 +153,8 @@ export function GlobalSearch({
         />
       </div>
       {showList ? (
-        <div className="combo-popup">
+        // biome-ignore lint/a11y/noStaticElementInteractions: keeps focus in the input; keyboard is handled there
+        <div className="combo-popup" onMouseDown={(e) => e.preventDefault()}>
           {q && results.groups.length > 0 ? (
             // biome-ignore lint/a11y/useSemanticElements: a toolbar of toggle chips
             <div className="gsearch-chips" role="group" aria-label="Filter results">
@@ -160,7 +162,6 @@ export function GlobalSearch({
                 type="button"
                 className="seg-btn gchip"
                 aria-pressed={filter === null}
-                onMouseDown={(e) => e.preventDefault()}
                 onClick={() => setFilter(null)}
               >
                 All
@@ -171,7 +172,6 @@ export function GlobalSearch({
                   key={g.source.id}
                   className="seg-btn gchip"
                   aria-pressed={filter === g.source.id}
-                  onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setFilter(filter === g.source.id ? null : g.source.id)}
                 >
                   {g.source.label}
@@ -193,7 +193,6 @@ export function GlobalSearch({
                       type="button"
                       className="result-group-more"
                       tabIndex={-1}
-                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setFilter(g.source.id)}
                     >
                       More {g.source.label.toLowerCase()}
@@ -216,7 +215,6 @@ export function GlobalSearch({
                         .join(", ")}
                       className="result"
                       data-source={g.source.id}
-                      onMouseDown={(event) => event.preventDefault()}
                       onMouseMove={() => setActive(i)}
                       onClick={() => pick(rows[i])}
                     >

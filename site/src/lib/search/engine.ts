@@ -21,7 +21,7 @@ export function nameVariants(...names: string[]): string[] {
   const out = new Set<string>();
   for (const name of names) {
     const lower = name.toLowerCase();
-    out.add(lower.replace(/[^a-z0-9]+/g, ""));
+    out.add(squash(lower));
     out.add(lower.replace(/[^a-z0-9]+/g, " ").trim());
     // "aim120c" -> "aim 120 c" so "120" alone also hits.
     out.add(lower.replace(/([a-z])(\d)/g, "$1 $2").replace(/(\d)([a-z])/g, "$1 $2"));

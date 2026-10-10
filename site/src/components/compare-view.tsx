@@ -2,6 +2,7 @@
 
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
 import { COMPANION_PREFIX, catalogKeyFor, comparableValues } from "@/lib/catalog";
+import { cellText } from "@/lib/cell-text";
 import {
   loadCatalog,
   loadFieldPaths,
@@ -9,11 +10,14 @@ import {
   loadNames,
   loadRecord,
   loadSeriesIndex,
+  useModel,
 } from "@/lib/client-data";
 import {
+  addRecords,
   type CompareState,
   compareQuery,
   getCompare,
+  removeRecord,
   setCompare,
   useCompareOnClient,
 } from "@/lib/compare-store";
@@ -27,7 +31,7 @@ import {
   type ValueContext,
 } from "@/lib/format-field";
 import { replaceQuery } from "@/lib/history";
-import { enumDisplay } from "@/lib/names";
+import { perObject } from "@/lib/once";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { capitalise, compareSortKeys, naturalCompare, squash } from "@/lib/text";
 import type { CatalogEntry, FieldValues, RecordDoc, SeriesCatalog } from "@/lib/types";
@@ -48,7 +52,6 @@ import { type ChartSeries, LineChart } from "./line-chart";
 import { Markdown } from "./Markdown";
 import { asSurfaces, surfaceRow } from "./record/envelope";
 import { RefLink } from "./ref-link";
-import { useModel } from "./series-directory";
 import { SortHeader, type SortState } from "./sort-header";
 
 const MAX_SERIES = SERIES_COLORS.length;
@@ -92,37 +95,29 @@ function Comparison({ state }: { state: CompareState }) {
   const { model } = useModel();
   const index = useLoaded(loadSeriesIndex, series);
 
+  // Each record's name, id and subtitle (its first browse column, as browse shows it).
   const records = useMemo(() => {
     const map = new Map<string, RecordInfo>();
     if (!index || !catalog) return map;
     const firstCol = index.visible[0];
     const col = firstCol ? index.columns.indexOf(firstCol) : -1;
     const colEntry = firstCol ? catalog.entries[firstCol] : undefined;
+    const ctx: ValueContext = { enums: catalog.enums, system };
     for (const row of index.rows) {
       const [slug, name, id] = row;
-      const raw = col >= 0 ? row[3 + col] : null;
-      let sub = "";
-      if (raw !== null && raw !== undefined && colEntry) {
-        sub =
-          colEntry.kind === "enum"
-            ? enumDisplay(colEntry, raw, catalog.enums).label
-            : typeof raw === "number"
-              ? formatNumber(raw)
-              : String(raw);
-      }
+      const sub = col >= 0 && colEntry ? cellText(colEntry, row[3 + col], ctx) : "";
       map.set(slug, { name, id, sub });
     }
     return map;
-  }, [index, catalog]);
+  }, [index, catalog, system]);
 
   const color = (slug: string) => {
     const i = state.records.indexOf(slug);
     return i >= 0 && i < MAX_SERIES ? SERIES_COLORS[i] : "var(--ink-3)";
   };
   const update = (patch: Partial<CompareState>) => setCompare({ ...getCompare(series), ...patch });
-  const add = (slug: string) => update({ records: [...getCompare(series).records, slug] });
-  const remove = (slug: string) =>
-    update({ records: getCompare(series).records.filter((r) => r !== slug) });
+  const add = (slug: string) => addRecords(series, slug);
+  const remove = (slug: string) => removeRecord(series, slug);
   const toggle = (slug: string) => (state.records.includes(slug) ? remove(slug) : add(slug));
   const name = (slug: string) => records.get(slug)?.name ?? slug;
 
@@ -401,10 +396,7 @@ function FieldSelect({
   // the list opens, or when the address names one.
   const [opened, setOpened] = useState(false);
   const keyedValue = Boolean(value && catalog && catalogKeyFor(value, catalog)?.includes("*"));
-  const allPaths = useLoaded(
-    (s) => (s ? loadFieldPaths(s) : Promise.resolve(null)),
-    opened || keyedValue ? series : "",
-  );
+  const allPaths = useLoaded(() => loadFieldPaths(series), opened || keyedValue ? series : null);
   const paths = useMemo(
     () => allPaths ?? (catalog ? fieldPaths(catalog) : []),
     [allPaths, catalog],
@@ -478,46 +470,46 @@ function useRefLinks(
   entry: CatalogEntry,
   all: Record<string, unknown>,
 ): RecordDoc["links"] | undefined {
-  const targets = (entry.ref ?? []).filter((t) => !SERIES_BY_ID.get(t)?.parent).join(",");
-  const key = useMemo(() => {
-    if (!targets) return "";
-    const ids = new Set<string>();
+  const targets = entry.ref ?? [];
+  const ids = useMemo(() => {
+    const found = new Set<string>();
     for (const v of Object.values(all)) {
       for (const x of Array.isArray(v) ? v : [v]) {
-        if (typeof x === "string" || typeof x === "number") ids.add(String(x));
+        if (typeof x === "string" || typeof x === "number") found.add(String(x));
       }
     }
-    return ids.size ? `${targets}\n${[...ids].sort().join("\n")}` : "";
-  }, [targets, all]);
-  const links = useLoaded(async (k) => {
-    if (!k) return null;
-    const [list = "", ...ids] = k.split("\n");
-    const wanted = new Set(ids);
-    const names = await loadNames(new Map(list.split(",").map((t) => [t, wanted])));
-    const out: RecordDoc["links"] = {};
-    for (const [t, byId] of names) {
-      // Browse slugs are record ids.
-      out[t] = Object.fromEntries([...byId].map(([id, name]) => [id, [id, name]]));
-    }
-    return out;
-  }, key);
+    return [...found].sort();
+  }, [all]);
+  const links = useLoaded(
+    async () => {
+      const wanted = new Set(ids);
+      const names = await loadNames(new Map(targets.map((t) => [t, wanted])));
+      const out: RecordDoc["links"] = {};
+      for (const [t, byId] of names) {
+        // Browse slugs are record ids.
+        out[t] = Object.fromEntries([...byId].map(([id, name]) => [id, [id, name]]));
+      }
+      return out;
+    },
+    targets.length && ids.length ? `${targets.join(",")}:${ids.join(",")}` : null,
+  );
   return links ?? undefined;
 }
 
 function FieldCompare(props: FieldProps) {
   const { series, path, entry, catalog, selected, records, color, system } = props;
-  const values = useLoaded<FieldValues | null>((p) => loadFieldValues(series, p), path);
-  // A Mach-sampled field's step: its sibling step field per record (catalog `step`).
+  const values = useLoaded<FieldValues | null>(() => loadFieldValues(series, path), path);
+  // A Mach-sampled field's step: its sibling step field per record (catalog `axis.step`).
   const sampled = entry.axis?.kind === "sampled" ? entry.axis : null;
   const stepPath = sampled ? path.replace(/[^.]+$/, sampled.step.field) : "";
   const stepKey = stepPath ? catalogKeyFor(stepPath, catalog) : null;
   const hasStep = Boolean(stepKey && catalog.entries[stepKey]?.comparable);
   const steps = useLoaded<FieldValues | null>(
     (p) => (p ? loadFieldValues(series, p) : Promise.resolve(null)),
-    hasStep ? stepPath : "",
+    hasStep ? stepPath : null,
   );
-  const all = values?.values ?? {};
-  const have = selected.filter((s) => all[s] !== undefined);
+  const all = useMemo(() => values?.values ?? {}, [values]);
+  const have = useMemo(() => selected.filter((s) => all[s] !== undefined), [selected, all]);
   const missing = selected.filter((s) => all[s] === undefined);
   const name = (slug: string) => records.get(slug)?.name ?? slug;
   const label = pathLabel(entry, path);
@@ -557,7 +549,7 @@ function FieldCompare(props: FieldProps) {
         system={system}
       />
     );
-  } else if (have.some((s) => isXY(all[s]))) {
+  } else if (entry.axis?.kind === "column") {
     selection = (
       <CurveCompare
         slugs={have}
@@ -586,7 +578,7 @@ function FieldCompare(props: FieldProps) {
 
   return (
     <div>
-      <div className="panel" style={{ marginBottom: 20 }}>
+      <div className="panel compare-field-head">
         <div className="compare-field-title">
           <h2>{label}</h2>
           {entry.dcsKey ? <span className="field-key">{entry.dcsKey}</span> : null}
@@ -651,7 +643,7 @@ function MachCompare({
 }: {
   slugs: string[];
   all: Record<string, unknown>;
-  /** Each record's step (catalog `step.field`), else `fallback`. */
+  /** Each record's step (catalog `axis.step.field`), else `fallback`. */
   steps: Record<string, unknown>;
   fallback: number;
   /** The axis' name ("Mach"). */
@@ -706,9 +698,8 @@ function CurveCompare({
   path: string;
   system: UnitSystem;
 }) {
-  const tablePath = path.split("[].")[0] ?? "";
   const axis = entry.axis?.kind === "column" ? entry.axis : null;
-  const axisEntry = axis ? catalog.entries[`${tablePath}[].${axis.field}`] : undefined;
+  const axisEntry = axis ? catalog.entries[axis.path] : undefined;
   const xLabel = axis ? unitLabel(axis.label, axisEntry, system) : "x";
   const series = slugs.flatMap((slug): ChartSeries[] => {
     const v = all[slug];
@@ -762,9 +753,9 @@ function SeriesCompare({
       <ChartLegend series={charted} />
       <LineChart title={title} series={charted} xLabel={xLabel} yUnit={yUnit} />
       <TooMany slugs={series.map((s) => s.id)} />
-      <details className="exact" style={{ marginTop: 10 }}>
+      <details className="exact series-table">
         <summary>Table</summary>
-        <div className="exact-scroll" style={{ maxHeight: 360 }}>
+        <div className="exact-scroll">
           <table className="exact-table">
             <thead>
               <tr>
@@ -814,17 +805,15 @@ function EnvelopeCompare({
   path: string;
   system: UnitSystem;
 }) {
-  const tablePath = path.split("[].")[0] ?? "";
   const surface = entry.axis?.kind === "surface" ? entry.axis : null;
-  const rowEntry = surface ? catalog.entries[`${tablePath}[].${surface.rows}`] : undefined;
-  const colEntry = surface ? catalog.entries[`${tablePath}[].${surface.cols}`] : undefined;
-  const pool = slugs.length ? slugs : Object.keys(all);
+  const rowEntry = surface ? catalog.entries[surface.paths.rows] : undefined;
+  const colEntry = surface ? catalog.entries[surface.paths.cols] : undefined;
   const rows = useMemo(() => {
     const set = new Set<number>();
-    for (const s of pool)
+    for (const s of slugs.length ? slugs : Object.keys(all))
       for (const surface of asSurfaces(all[s])) for (const r of surface.rows) set.add(r);
     return [...set].sort((a, b) => a - b);
-  }, [pool, all]);
+  }, [slugs, all]);
   const [row, setRow] = useState<number | null>(null);
   const chosen = row !== null && rows.includes(row) ? row : (rows[0] ?? null);
 
@@ -849,7 +838,7 @@ function EnvelopeCompare({
   }
   return (
     <div>
-      <div className="toolbar" style={{ marginBottom: 10 }}>
+      <div className="toolbar envelope-pick">
         <label className="control-label" htmlFor="envelope-row">
           {rowEntry?.label ?? "Row"}
         </label>
@@ -930,7 +919,7 @@ function SelectedTable({
             return (
               <tr key={s}>
                 <td className="name-cell">
-                  <span className="swatch" style={{ background: color(s), marginRight: 8 }} />
+                  <span className="swatch" style={{ background: color(s) }} />
                   <RefLink href={recordHref(series, s)}>{name(s)}</RefLink>
                 </td>
                 <td className="num">
@@ -1029,11 +1018,11 @@ function AllRecordsTable({
           />
         </div>
       </div>
-      <div className="table-wrap" style={{ maxHeight: 560, overflow: "auto" }}>
+      <div className="table-wrap records-scroll">
         <table className="table">
           <thead>
             <tr>
-              <th scope="col" style={{ width: 44 }}>
+              <th scope="col" className="check-col">
                 <span className="visually-hidden">In compare</span>
               </th>
               {header("name", info?.singular ? capitalise(info.singular) : "Record")}
@@ -1053,7 +1042,6 @@ function AllRecordsTable({
                       checked={checked}
                       onChange={() => toggle(r.slug)}
                       aria-label={`${checked ? "Remove" : "Add"} ${r.name} ${checked ? "from" : "to"} compare`}
-                      style={{ accentColor: "var(--accent)", width: 16, height: 16 }}
                     />
                   </td>
                   <td className="name-cell">
@@ -1078,16 +1066,14 @@ function AllRecordsTable({
 type ComparableValue = ReturnType<typeof comparableValues>[number];
 
 /** A record's comparable values by path, built once per loaded record (its series' catalog). */
-const valueMaps = new WeakMap<RecordDoc, Map<string, ComparableValue>>();
+const valueMaps = perObject<RecordDoc, Map<string, ComparableValue>>();
 
-function valueMapOf(catalog: SeriesCatalog, doc: RecordDoc): Map<string, ComparableValue> {
-  let map = valueMaps.get(doc);
-  if (!map) {
-    map = new Map(comparableValues(catalog, doc.data, doc.companion).map((v) => [v.path, v]));
-    valueMaps.set(doc, map);
-  }
-  return map;
-}
+const valueMapOf = (catalog: SeriesCatalog, doc: RecordDoc) =>
+  valueMaps.cachedBy(
+    doc,
+    catalog.series,
+    () => new Map(comparableValues(catalog, doc.data, doc.companion).map((v) => [v.path, v])),
+  );
 
 function Matrix({
   series,
@@ -1106,14 +1092,8 @@ function Matrix({
 }) {
   const [diffOnly, setDiffOnly] = useState(false);
   const loaded = useLoaded<Array<RecordDoc | null>>(
-    (key) =>
-      Promise.all(
-        key
-          .split(",")
-          .filter(Boolean)
-          .map((s) => loadRecord(series, s).catch(() => null)),
-      ),
-    slugs.join(","),
+    () => Promise.all(slugs.map((s) => loadRecord(series, s).catch(() => null))),
+    `${series}:${slugs.join(",")}`,
   );
   // While a changed selection loads, the previous records stay (minus any removed).
   const [kept, setKept] = useState(loaded);
@@ -1124,6 +1104,10 @@ function Matrix({
     [docs, slugs],
   );
   const maps = useMemo(() => records.map((r) => valueMapOf(catalog, r)), [records, catalog]);
+  const vctxs = useMemo(
+    () => records.map((rec): ValueContext => ({ enums: catalog.enums, system, links: rec.links })),
+    [records, catalog, system],
+  );
 
   const rows = useMemo(() => {
     const order = new Map(Object.keys(catalog.entries).map((k, i) => [k, i]));
@@ -1163,14 +1147,14 @@ function Matrix({
           Differences only
         </label>
       </div>
-      <div className="table-wrap" style={{ maxHeight: "70vh", overflow: "auto" }}>
+      <div className="table-wrap matrix-scroll">
         <table className="table matrix">
           <thead>
             <tr>
               <th scope="col">Field</th>
               {records.map((r) => (
                 <th scope="col" key={r.slug}>
-                  <span className="swatch" style={{ background: color(r.slug), marginRight: 6 }} />
+                  <span className="swatch" style={{ background: color(r.slug) }} />
                   <RefLink href={recordHref(series, r.slug)}>{r.name}</RefLink>
                 </th>
               ))}
@@ -1181,9 +1165,6 @@ function Matrix({
               const body = rows
                 .filter((r) => r.section === section)
                 .map(({ path, entry }) => {
-                  const vctxs = records.map(
-                    (rec): ValueContext => ({ enums: catalog.enums, system, links: rec.links }),
-                  );
                   const values = maps.map((m) => m.get(path)?.value);
                   const texts = values.map((v, i) =>
                     v === undefined ? null : plainValue(entry, v, vctxs[i] as ValueContext),

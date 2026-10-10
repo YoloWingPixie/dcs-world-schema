@@ -3,17 +3,14 @@
 import { Fragment, type ReactNode, useMemo, useState } from "react";
 import { getPath } from "@/lib/catalog";
 import {
-  isAngleSectors,
   machAxis,
   plainValue,
   rangeText,
   sectorRanges,
   type ValueContext,
 } from "@/lib/format-field";
-import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { isRecord } from "@/lib/json";
-import { enumDisplay } from "@/lib/names";
-import { complexFields, type RangeList as RangeListSpec, tableColumns } from "@/lib/record-tables";
+import type { RangeList as RangeListSpec } from "@/lib/record-tables";
 import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
 import { convertNumber, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
@@ -24,7 +21,6 @@ import {
   fieldDataAttrs,
   MoreButton,
   RecordLink,
-  ScalarValue,
   tipIdFor,
 } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
@@ -84,7 +80,7 @@ export function MachCard({
       />
       <details className="exact">
         <summary>
-          Table ({values.length} samples, Mach step {formatNumber(step)})
+          Table ({values.length} samples, {axisLabel} step {formatNumber(step)})
         </summary>
         <div className="exact-scroll">
           <table className="exact-table">
@@ -402,349 +398,137 @@ export function JsonValue({ value }: { value: unknown }) {
 }
 
 // ---------------------------------------------------------------------------
-// Arrays of records
-
-/** Short inline rendering of an array value inside a table cell or card. */
-function InlineArray({
-  entry,
-  value,
-  ctx,
-  prefix,
-}: {
-  entry: CatalogEntry;
-  value: unknown[];
-  ctx: RenderCtx;
-  prefix: string;
-}) {
-  if (entry.kind === "strings") return <StringList entry={entry} values={value} vctx={ctx.vctx} />;
-  if (entry.kind === "numbers")
-    return <NumberList entry={entry} values={value as number[]} vctx={ctx.vctx} />;
-  if (entry.kind === "records" && entry.recordType) {
-    const sub = `${prefix}[]`;
-    const fieldsOf = ctx.catalog.types[entry.recordType]?.fields ?? [];
-    const at = (f: string) => ctx.catalog.entries[`${sub}.${f}`];
-    const link = entry.linkField;
-    const linkEntry = link ? at(link) : undefined;
-    // A list of records with a link (station accepts: clsid): the links, plus rule counts.
-    if (link && linkEntry) {
-      const labelOf = (f: string) => at(f)?.label.toLowerCase() ?? f;
-      return (
-        <LimitedList
-          className="link-list"
-          items={value.map((item, i) => {
-            const rec = isRecord(item) ? item : {};
-            const filled = (f: string) => Array.isArray(rec[f]) && rec[f].length > 0;
-            // Without its link (a payload firing gun ammo, no weapon): the item's lists of
-            // links, else its own name, else its position.
-            const missing = rec[link] === undefined || rec[link] === null;
-            const links = missing ? entry.linkListFields?.find(filled) : undefined;
-            const linksEntry = links ? at(links) : undefined;
-            const named = missing
-              ? entry.titleFields?.find((f) => typeof rec[f] === "string" && rec[f])
-              : undefined;
-            const extras = [
-              ...fieldsOf
-                .filter((f) => f !== link && f !== links && filled(f))
-                .map((f) => `${(rec[f] as unknown[]).length} ${labelOf(f)}`),
-              ...(entry.countFields ?? [])
-                .filter((k) => typeof rec[k] === "number")
-                .map((k) => `${labelOf(k)} ${rec[k]}`),
-            ];
-            const lead = !missing ? (
-              <RecordLink entry={linkEntry} raw={rec[link]} vctx={ctx.vctx} />
-            ) : links && linksEntry ? (
-              (rec[links] as unknown[]).map((v, j) => (
-                <span key={String(v)}>
-                  {j ? ", " : ""}
-                  <RecordLink entry={linksEntry} raw={v} vctx={ctx.vctx} />
-                </span>
-              ))
-            ) : named ? (
-              String(rec[named])
-            ) : (
-              `${entry.label} ${i + 1}`
-            );
-            return (
-              // biome-ignore lint/suspicious/noArrayIndexKey: positional
-              <li key={i}>
-                {lead}
-                {extras.length ? <span className="muted"> ({extras.join(", ")})</span> : null}
-              </li>
-            );
-          })}
-        />
-      );
-    }
-    // One list field per item (gun belts): one numbered line of links per item.
-    const single = fieldsOf.length === 1 ? at(fieldsOf[0] ?? "") : undefined;
-    if (single?.kind === "strings" && fieldsOf[0]) {
-      const field = fieldsOf[0];
-      return (
-        <ol className="inline-rows">
-          {value.map((item, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: positional
-            <li key={i}>
-              <StringList
-                entry={single}
-                values={
-                  isRecord(item) && Array.isArray(item[field]) ? (item[field] as unknown[]) : []
-                }
-                vctx={ctx.vctx}
-              />
-            </li>
-          ))}
-        </ol>
-      );
-    }
-    return (
-      <RecordsTable
-        entry={entry}
-        rows={value}
-        ctx={ctx}
-        prefix={prefix}
-        concretePrefix={prefix}
-        compact
-      />
-    );
-  }
-  if (isAngleSectors(entry, value))
-    return <SectorTable entry={entry} path={prefix} sectors={value} ctx={ctx} />;
-  return <JsonValue value={value} />;
-}
+// Arrays of records read as lists (record-group `blockFor` picks them)
 
 /**
- * An array of records: a table when every field fits a cell, else one card per item.
- * Keyed arrays (motor stages) give each cell its concrete path for compare; tables with
- * an axis column (`mach`) get a chart of the other columns.
+ * Items read by their link (station accepts: `clsid`, catalog `linkField`), each with the
+ * sizes of its other lists and its counts (`countFields`).
  */
-export function RecordsTable({
+export function LinkedItems({
   entry,
-  rows,
+  items,
   ctx,
-  prefix,
-  concretePrefix,
-  compact,
+  path,
 }: {
   entry: CatalogEntry;
-  rows: unknown[];
+  items: unknown[];
   ctx: RenderCtx;
-  /** Catalog path of the array (`stations`, `flight.motorStages`). */
-  prefix: string;
-  concretePrefix: string;
-  compact?: boolean;
+  /** Catalog path of the array. */
+  path: string;
 }) {
-  const typeName = entry.recordType ?? "";
-  const itemPrefix = entry.keyField ? `${prefix}.*` : `${prefix}[]`;
-  const columns = tableColumns(ctx.catalog, typeName, itemPrefix).filter((c) =>
-    rows.some((r) => isRecord(r) && getPath(r, c.path) !== undefined),
-  );
-  const complex = complexFields(ctx.catalog, typeName, itemPrefix).filter((f) =>
-    rows.some((r) => isRecord(r) && r[f.name] !== undefined && r[f.name] !== null),
-  );
-  const items = rows.filter(isRecord);
-  // Cards when some item carries a long list or nested records; else complex fields fit cells.
-  const heavy = complex.some((f) =>
-    items.some((r) => {
-      const v = r[f.name];
-      return (
-        Array.isArray(v) &&
-        (v.length > 6 || f.entry.kind === "records" || f.entry.kind === "matrix")
-      );
-    }),
-  );
-  const inline = compact || !heavy;
-  const [showAll, setShowAll] = useState(false);
-  const cardLimit = 12;
-
-  if (complex.length && !inline) {
-    const shown = showAll ? items : items.slice(0, cardLimit);
-    return (
-      <div className="record-cards">
-        {shown.map((row, i) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: positional
-          <div className="record-card" key={i}>
-            <dl className="record-card-head">
-              {columns
-                .filter((c) => getPath(row, c.path) !== undefined)
-                .map((c) => (
-                  <div key={c.path}>
-                    <dt>{c.entry.label}</dt>
-                    <dd>
-                      <ScalarValue entry={c.entry} value={getPath(row, c.path)} vctx={ctx.vctx} />
-                    </dd>
-                  </div>
-                ))}
-            </dl>
-            {complex.map(({ name, entry: e }) => {
-              const v = row[name];
-              if (v === undefined || v === null || (Array.isArray(v) && v.length === 0))
-                return null;
-              return (
-                <div className="record-card-field" key={name}>
-                  <span className="record-card-label">
-                    {e.label}
-                    {Array.isArray(v) ? <span className="muted"> ({v.length})</span> : null}
-                  </span>
-                  {Array.isArray(v) ? (
-                    <InlineArray entry={e} value={v} ctx={ctx} prefix={`${itemPrefix}.${name}`} />
-                  ) : (
-                    <JsonValue value={v} />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        ))}
-        {items.length > shown.length ? (
-          <button type="button" className="btn btn-compact" onClick={() => setShowAll(true)}>
-            Show all {items.length}
-          </button>
-        ) : null}
-      </div>
-    );
-  }
-
+  const link = entry.linkField ?? "";
+  const fieldsOf = ctx.catalog.types[entry.recordType ?? ""]?.fields ?? [];
+  const at = (f: string) => ctx.catalog.entries[`${path}[].${f}`];
+  const linkEntry = at(link);
+  if (!linkEntry) return null;
+  const labelOf = (f: string) => at(f)?.label.toLowerCase() ?? f;
   return (
-    <div
-      className="table-wrap"
-      style={rows.length > 25 ? { maxHeight: 520, overflow: "auto" } : undefined}
-    >
-      <table className={compact ? "mini-table" : "table data-table"}>
-        {/* A heading with the table's label sits right above: the caption is for screen readers. */}
-        {compact ? null : <caption className="visually-hidden">{entry.label}</caption>}
-        <thead>
-          <tr>
-            {entry.keyField ? <th scope="col">{entry.keyField}</th> : null}
-            {columns
-              .filter((c) => c.path !== entry.keyField)
-              .map((c) => (
-                <th
-                  scope="col"
-                  key={c.path}
-                  className={c.entry.kind === "number" ? "num" : undefined}
-                  title={c.entry.description}
-                >
-                  {unitLabel(c.entry.label, c.entry, ctx.vctx.system)}
-                </th>
-              ))}
-            {inline
-              ? complex.map((f) => (
-                  <th scope="col" key={f.name}>
-                    {f.entry.label}
-                  </th>
-                ))
-              : null}
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((row, i) => {
-            const key = entry.keyField ? String(row[entry.keyField]) : null;
-            return (
-              <tr key={key ?? i}>
-                {key !== null ? (
-                  <th scope="row">
-                    <span className="chip">{key}</span>
-                  </th>
-                ) : null}
-                {columns
-                  .filter((c) => c.path !== entry.keyField)
-                  .map((c) => {
-                    const v = getPath(row, c.path);
-                    const concrete = key !== null ? `${concretePrefix}.${key}.${c.path}` : null;
-                    const attrs =
-                      concrete && v !== undefined
-                        ? {
-                            ...fieldDataAttrs(
-                              c.entry,
-                              concrete,
-                              v,
-                              ctx.fctx,
-                              ctx.vctx,
-                              `${c.entry.label} (${key})`,
-                            ),
-                            tabIndex: 0,
-                          }
-                        : {};
-                    return (
-                      <td
-                        key={c.path}
-                        className={c.entry.kind === "number" ? "num" : undefined}
-                        {...attrs}
-                      >
-                        {v === undefined ? (
-                          <span className="muted">—</span>
-                        ) : c.entry.kind === "number" && typeof v === "number" ? (
-                          ctx.fctx.hasLocation && isGeoField(c.entry.name) ? (
-                            // Runway thresholds, stand positions: on the Location figure.
-                            <a className="geo-link" href={`#${LOCATION_ID}`}>
-                              {formatNumber(convertNumber(v, c.entry, ctx.vctx.system))}
-                            </a>
-                          ) : (
-                            formatNumber(convertNumber(v, c.entry, ctx.vctx.system))
-                          )
-                        ) : c.entry.kind === "enum" ? (
-                          enumDisplay(c.entry, v, ctx.vctx.enums).label
-                        ) : c.entry.role === "provenance" && typeof v === "string" ? (
-                          <ProvenanceValue value={v} inline />
-                        ) : (
-                          <ScalarValue entry={c.entry} value={v} vctx={ctx.vctx} />
-                        )}
-                      </td>
-                    );
-                  })}
-                {inline
-                  ? complex.map((f) => (
-                      <td key={f.name}>
-                        {Array.isArray(row[f.name]) ? (
-                          <InlineArray
-                            entry={f.entry}
-                            value={row[f.name] as unknown[]}
-                            ctx={ctx}
-                            prefix={`${itemPrefix}.${f.name}`}
-                          />
-                        ) : null}
-                      </td>
-                    ))
-                  : null}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    </div>
+    <LimitedList
+      className="link-list"
+      items={items.map((item, i) => {
+        const rec = isRecord(item) ? item : {};
+        const filled = (f: string) => Array.isArray(rec[f]) && rec[f].length > 0;
+        // Without its link (a payload firing gun ammo, no weapon): the item's lists of
+        // links, else its own name, else its position.
+        const missing = rec[link] === undefined || rec[link] === null;
+        const links = missing ? entry.linkListFields?.find(filled) : undefined;
+        const linksEntry = links ? at(links) : undefined;
+        const named = missing
+          ? entry.titleFields?.find((f) => typeof rec[f] === "string" && rec[f])
+          : undefined;
+        const extras = [
+          ...fieldsOf
+            .filter((f) => f !== link && f !== links && filled(f))
+            .map((f) => `${(rec[f] as unknown[]).length} ${labelOf(f)}`),
+          ...(entry.countFields ?? [])
+            .filter((k) => typeof rec[k] === "number")
+            .map((k) => `${labelOf(k)} ${rec[k]}`),
+        ];
+        const lead = !missing ? (
+          <RecordLink entry={linkEntry} raw={rec[link]} vctx={ctx.vctx} />
+        ) : links && linksEntry ? (
+          (rec[links] as unknown[]).map((v, j) => (
+            <span key={String(v)}>
+              {j ? ", " : ""}
+              <RecordLink entry={linksEntry} raw={v} vctx={ctx.vctx} />
+            </span>
+          ))
+        ) : named ? (
+          String(rec[named])
+        ) : (
+          `${entry.label} ${i + 1}`
+        );
+        return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: positional
+          <li key={i}>
+            {lead}
+            {extras.length ? <span className="muted"> ({extras.join(", ")})</span> : null}
+          </li>
+        );
+      })}
+    />
   );
 }
 
-/** A table with a numeric axis column (`mach`): chart one or more columns over it. */
+/** Items holding one list each (gun belts, catalog `layout: "list-per-item"`): one numbered line per item. */
+export function ListPerItem({
+  entry,
+  items,
+  ctx,
+  path,
+}: {
+  entry: CatalogEntry;
+  items: unknown[];
+  ctx: RenderCtx;
+  /** Catalog path of the array. */
+  path: string;
+}) {
+  const field = ctx.catalog.types[entry.recordType ?? ""]?.fields[0] ?? "";
+  const list = ctx.catalog.entries[`${path}[].${field}`];
+  if (!list) return null;
+  return (
+    <ol className="inline-rows">
+      {items.map((item, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: positional
+        <li key={i}>
+          <StringList
+            entry={list}
+            values={isRecord(item) && Array.isArray(item[field]) ? (item[field] as unknown[]) : []}
+            vctx={ctx.vctx}
+          />
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+/** A table with a numeric axis column (`mach`): chart one of its curves (catalog `axis.columns`) over it. */
 export function AxisTableChart({
   entry,
   rows,
   ctx,
-  prefix,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
   ctx: RenderCtx;
-  prefix: string;
 }) {
   const axis = entry.axis?.kind === "column" ? entry.axis : null;
   const { catalog, vctx, fctx } = ctx;
   const columns = useMemo(
     () =>
-      tableColumns(catalog, entry.recordType ?? "", `${prefix}[]`).filter(
-        (c) => c.parts.length === 1 && c.path !== axis?.field && c.entry.kind === "number",
-      ),
-    [catalog, entry.recordType, prefix, axis],
+      (axis?.columns ?? []).flatMap((path) => {
+        const e = catalog.entries[path];
+        return e ? [{ path, entry: e }] : [];
+      }),
+    [catalog, axis],
   );
   const items = useMemo(() => rows.filter(isRecord), [rows]);
   const [picked, setPicked] = useState<string | null>(columns[0]?.path ?? null);
   const column = columns.find((c) => c.path === picked) ?? columns[0];
-  const columnPath = column?.path;
   const series = useMemo(() => {
-    const entryOf = columns.find((c) => c.path === columnPath)?.entry;
-    if (!axis || !columnPath || !entryOf) return [];
+    if (!axis || !column) return [];
     const pts = items
-      .map((r) => [r[axis.field], r[columnPath]] as const)
+      .map((r) => [r[axis.field], r[column.entry.name]] as const)
       .filter(
         (p): p is readonly [number, number] => typeof p[0] === "number" && typeof p[1] === "number",
       );
@@ -754,13 +538,13 @@ export function AxisTableChart({
         label: fctx.recordName,
         color: SERIES_COLORS[0] ?? "var(--s1)",
         x: pts.map((p) => p[0]),
-        values: pts.map((p) => convertNumber(p[1], entryOf, vctx.system)),
+        values: pts.map((p) => convertNumber(p[1], column.entry, vctx.system)),
       },
     ];
-  }, [items, axis, columns, columnPath, fctx, vctx.system]);
+  }, [items, axis, column, fctx, vctx.system]);
   if (!column || !axis) return null;
-  const path = `${prefix}[].${column.path}`;
-  const xy = { x: series[0]?.x ?? [], y: items.map((r) => r[column.path]) };
+  const xy = { x: series[0]?.x ?? [], y: items.map((r) => r[column.entry.name]) };
+  const title = `${column.entry.label} by ${axis.label}`;
   return (
     <div className="axis-chart">
       <div className="axis-chart-head">
@@ -781,20 +565,13 @@ export function AxisTableChart({
         <span
           className="axis-chart-compare"
           tabIndex={0}
-          {...fieldDataAttrs(
-            ctx.catalog.entries[path] ?? column.entry,
-            path,
-            xy,
-            ctx.fctx,
-            ctx.vctx,
-            `${column.entry.label} by ${axis.field}`,
-          )}
+          {...fieldDataAttrs(column.entry, column.path, xy, ctx.fctx, ctx.vctx, title)}
         >
-          <MoreButton label={`${column.entry.label} by ${axis.field}`} />
+          <MoreButton label={title} />
         </span>
       </div>
       <LineChart
-        title={`${column.entry.label} by ${axis.field}`}
+        title={title}
         xLabel={axis.label}
         yUnit={displayUnit(column.entry, ctx.vctx.system)}
         series={series}

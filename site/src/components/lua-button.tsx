@@ -1,17 +1,8 @@
 "use client";
 
-import {
-  lazy,
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { loadCatalog, loadRecord } from "@/lib/client-data";
-import { replaceQuery } from "@/lib/history";
+import { updateQuery } from "@/lib/history";
 import { luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
 import { useLoaded } from "@/lib/use-loaded";
 import { CodeIcon } from "@/ui/icons";
@@ -31,45 +22,15 @@ export function openLua(sourcePath: string) {
 }
 
 function setParam(value: string | null) {
-  const params = new URLSearchParams(window.location.search);
-  params.delete(LUA_PARAM);
-  // Slashes stay readable: ?lua=_G/db/Units/Planes/Plane/F-16C_50%23/SFM_Data/engine
-  const query = [
-    params.toString(),
-    value === null ? "" : `${LUA_PARAM}=${encodeURIComponent(value).replace(/%2F/gi, "/")}`,
-  ]
-    .filter(Boolean)
-    .join("&");
-  replaceQuery(query);
-}
-
-// Whether this build has Lua files: one flag for the page, read by every "View Lua" link.
-let luaKnown: boolean | null = null;
-let luaAsked = false;
-const luaListeners = new Set<() => void>();
-
-function subscribeLua(listener: () => void) {
-  luaListeners.add(listener);
-  if (!luaAsked) {
-    luaAsked = true;
-    const settle = (v: boolean) => {
-      luaKnown = v;
-      for (const l of luaListeners) l();
-    };
-    luaAvailable().then(settle, () => settle(false));
-  }
-  return () => {
-    luaListeners.delete(listener);
-  };
+  updateQuery((params) => {
+    if (value === null) params.delete(LUA_PARAM);
+    else params.set(LUA_PARAM, value);
+  });
 }
 
 /** Whether this build has Lua files (data/lua.json); false until known. */
 export function useLuaAvailable(): boolean {
-  return useSyncExternalStore(
-    subscribeLua,
-    () => luaKnown ?? false,
-    () => false,
-  );
+  return useLoaded(luaAvailable) ?? false;
 }
 
 /**
