@@ -1,8 +1,19 @@
 name: Site
 
 on:
+  # The site itself, this workflow, and the inputs its database and Lua are built from.
   push:
     branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/site.yml'
+      - 'dcs-world-reference/latest/**'
+      - 'dcs-world-schema/**'
+      - 'tools/**'
+      - 'VERSION'
+      - 'Taskfile.yml'
+      - 'pyproject.toml'
+      - 'uv.lock'
   workflow_dispatch:
 
 permissions:
