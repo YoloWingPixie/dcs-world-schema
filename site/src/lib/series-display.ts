@@ -23,6 +23,19 @@ export type SeriesDisplay = {
   columns?: string[];
   /** Facet paths (default: enum, boolean and low-cardinality string fields). */
   facets?: string[];
+  /** Browse grouped under headings by default (lib/browse-groups); `?group=flat` lists flat. */
+  groupBy?: GroupBy;
+};
+
+export type GroupBy = {
+  /** A ref field (the group is its first target, linked from the heading) or a column. */
+  path: string;
+  /** Column whose value groups a row the ref leaves empty. */
+  fallback?: string;
+  /** What a group is, for the toggle and headings: "airframe". */
+  label: string;
+  /** Default columns while grouped (the heading already names the group). */
+  columns?: string[];
 };
 
 const str = (v: unknown) => (typeof v === "string" && v.trim() ? v : null);
@@ -98,7 +111,15 @@ export const SERIES_DISPLAY: Record<string, SeriesDisplay> = {
     name: (r, id) => `${str(r.entryPoint) ?? ""}: ${str(r.name) ?? id}`,
     slug: (_r, id) => id.replace(/^Bazar\/Liveries\//, "").replace(/\/description\.lua$/, ""),
     meta: ["entryPoint"],
-    columns: ["entryPoint", "name"],
+    columns: ["entryPoint", "module"],
+    // The unit type a livery's folder is the entry point of; folders no unit uses
+    // (asset-pack props, weapon models) group by the folder name.
+    groupBy: {
+      path: "unitTypes",
+      fallback: "entryPoint",
+      label: "airframe",
+      columns: ["module"],
+    },
   },
   callsigns: { name: (r, id) => `${str(r.countryName) ?? id} callsigns`, facets: ["numeric"] },
   countries: {

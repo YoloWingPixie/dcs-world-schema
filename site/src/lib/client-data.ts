@@ -9,7 +9,9 @@ import { COMPANION_PREFIX } from "./catalog";
 import { browserQuery } from "./db/browser";
 import {
   catalogFor,
+  type GroupTarget,
   getFieldValues,
+  getGroupTargets,
   getRecord,
   getSeriesIndex,
   keyedFieldPaths,
@@ -150,4 +152,11 @@ export const loadFieldValues = (series: string, path: string) =>
   once(`field:${series}:${path}`, async (): Promise<FieldValues> => {
     const model = await loadModel();
     return getFieldValues(browserQuery, model, series, path);
+  });
+
+/** Per row id, the record a group-by ref field points at (lib/series-display `groupBy`). */
+export const loadGroupTargets = (series: string, path: string) =>
+  once(`group:${series}:${path}`, async (): Promise<Record<string, GroupTarget>> => {
+    const model = await loadModel();
+    return getGroupTargets(browserQuery, model, series, path);
   });

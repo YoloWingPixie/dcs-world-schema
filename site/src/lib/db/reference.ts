@@ -10,6 +10,7 @@ import type { SchemaTypes } from "../catalog";
 import { buildSeriesCatalog, COMPANION_PREFIX, humanize, isRecord, valuesAt } from "../catalog";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
+import { displayFor } from "../series-display";
 import type {
   CatalogEntry,
   Facet,
@@ -633,25 +634,37 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   const distinct = (c: CatalogEntry) =>
     new Set(rows.map((r) => r[c.name]).filter((v) => v !== null)).size;
   const skipNames = /^(displayName|name|id)$/;
-  const facets = columns
-    .filter(
-      (c) =>
-        (c.kind === "enum" || c.kind === "boolean" || c.kind === "string") &&
-        !skipNames.test(c.name),
-    )
-    .filter((c) => {
-      const d = distinct(c);
-      return d >= 2 && d <= (c.kind === "string" ? 12 : 40) && coverage(c) >= count * 0.3;
-    })
-    .sort((a, b) => (a.kind === "boolean" ? 1 : 0) - (b.kind === "boolean" ? 1 : 0))
-    .slice(0, 5);
-  const visible = columns
-    .filter(
-      (c) => !skipNames.test(c.name) && !redundant(c) && coverage(c) >= Math.max(1, count * 0.3),
-    )
-    .filter((c) => !(c.kind === "string" && distinct(c) > count * 0.6))
-    .sort((a, b) => coverage(b) - coverage(a))
-    .slice(0, 4);
+  // Configured paths (lib/series-display) win over the heuristics below.
+  const display = displayFor(series);
+  const configured = (paths: string[] | undefined) => {
+    const found = (paths ?? [])
+      .map((p) => columns.find((c) => c.path === p || c.name === p))
+      .filter((c): c is CatalogEntry => c !== undefined);
+    return found.length ? found : undefined;
+  };
+  const facets =
+    configured(display.facets)?.filter((c) => distinct(c) >= 2) ??
+    columns
+      .filter(
+        (c) =>
+          (c.kind === "enum" || c.kind === "boolean" || c.kind === "string") &&
+          !skipNames.test(c.name),
+      )
+      .filter((c) => {
+        const d = distinct(c);
+        return d >= 2 && d <= (c.kind === "string" ? 12 : 40) && coverage(c) >= count * 0.3;
+      })
+      .sort((a, b) => (a.kind === "boolean" ? 1 : 0) - (b.kind === "boolean" ? 1 : 0))
+      .slice(0, 5);
+  const visible =
+    configured(display.columns) ??
+    columns
+      .filter(
+        (c) => !skipNames.test(c.name) && !redundant(c) && coverage(c) >= Math.max(1, count * 0.3),
+      )
+      .filter((c) => !(c.kind === "string" && distinct(c) > count * 0.6))
+      .sort((a, b) => coverage(b) - coverage(a))
+      .slice(0, 4);
 
   const decoded = rows.map((r) => {
     const rid = String(r.__id);
@@ -684,6 +697,48 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     facets: facetList,
     rows: decoded,
   };
+}
+
+/** The record a row's group heading names: `[series, id, display name]`. */
+export type GroupTarget = [series: string, id: string, name: string];
+
+/**
+ * The first record a ref field points at, per row id (`liveries.unitTypes` -> the
+ * livery's airframe), with that record's series and display name: one statement over
+ * the field's join table (or the series' own column for a scalar ref). Empty when the
+ * field is not a ref of the series.
+ */
+export async function getGroupTargets(
+  q: Query,
+  model: Model,
+  series: string,
+  path: string,
+): Promise<Record<string, GroupTarget>> {
+  const ref = model.refPaths.find(
+    (p) =>
+      p.series === series &&
+      ((p.table === series && p.path === path) || (p.table !== series && p.path === `${path}[]`)),
+  );
+  if (!ref) return {};
+  const target = `j.${qi(ref.targetColumn)}`;
+  // A `units` ref names a record of whichever unit series holds the id.
+  const owner = ref.target === UNITS ? "json_extract(u.series, '$[0]')" : "?";
+  const params = ref.target === UNITS ? [] : [model.byId.get(ref.target)?.parent ?? ref.target];
+  const rows = await q(
+    `SELECT j.${qi(ref.source)} AS k, ${target} AS id, ${owner} AS series, n.name AS name
+     FROM ${qi(ref.table)} j
+     ${ref.target === UNITS ? `LEFT JOIN ${qi(UNITS)} u ON u.id = ${target}` : ""}
+     LEFT JOIN search n ON n.series = ${owner} AND n.id = ${target}
+     WHERE ${ref.table === series ? `${target} IS NOT NULL` : "j.ordinal = 0"}`,
+    [...params, ...params],
+  );
+  const out: Record<string, GroupTarget> = {};
+  for (const r of rows) {
+    if (r.series === null || r.series === undefined) continue;
+    const id = String(r.id);
+    out[String(r.k)] = [String(r.series), id, r.name ? String(r.name) : id];
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------------------
