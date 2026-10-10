@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { compareHref, useCompare } from "@/lib/compare-store";
-import { currentSection, NAV_SECTIONS } from "@/lib/nav";
+import { currentSection, NAV_SECTIONS, type NavSection } from "@/lib/nav";
 import { THEME_KEY } from "@/lib/theme";
 import { setUnitSystem, useUnitSystem } from "@/lib/unit-system";
 import { GitHubIcon, MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
@@ -94,14 +94,21 @@ function UnitsToggle() {
 }
 
 /**
- * API pages are client-routed from the 404 shell (`/api/*` rewrites to it in _redirects):
- * a prefetch of `/api/`'s route tree gets that shell back, so the link does not prefetch.
+ * Each section's link: its href, or the compare selection's (`compareHref`) with its record
+ * count for the compare section. Shared by the header's nav and its phone menu.
  */
-const noPrefetch = (id: string) => (id === "api" ? false : null);
+function useNavLinks(): Array<{ section: NavSection; href: string; count: number }> {
+  const compare = useCompare();
+  return NAV_SECTIONS.map((section) =>
+    section.compare
+      ? { section, href: compareHref(compare), count: compare.records.length }
+      : { section, href: section.href, count: 0 },
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const compare = useCompare();
+  const links = useNavLinks();
   const section = currentSection(pathname);
   const [mac, setMac] = useState(false);
   useEffect(() => setMac(/Mac|iPhone|iPad/.test(navigator.platform)), []);
@@ -112,45 +119,35 @@ export function SiteHeader() {
           <span className="brand-name">DCS World Reference</span>
         </Link>
         <nav className="site-nav" aria-label="Main">
-          {NAV_SECTIONS.map((s) =>
-            s.id === "compare" ? (
-              <Link
-                key={s.id}
-                href={compareHref(compare)}
-                aria-current={section?.id === s.id ? "page" : undefined}
-              >
-                {s.label}
-                {compare.records.length ? (
-                  <span className="count-badge">
-                    {" "}
-                    ({compare.records.length}
-                    <span className="visually-hidden"> selected</span>)
-                  </span>
-                ) : null}
-              </Link>
-            ) : (
-              <Link
-                key={s.id}
-                href={s.href}
-                prefetch={noPrefetch(s.id)}
-                className={s.id === "reference" ? "nav-browse" : undefined}
-                aria-current={section?.id === s.id ? "page" : undefined}
-              >
-                {s.label}
-              </Link>
-            ),
-          )}
+          {links.map(({ section: s, href, count }) => (
+            <Link
+              key={s.id}
+              href={href}
+              prefetch={s.prefetch ?? null}
+              className={s.className}
+              aria-current={section?.id === s.id ? "page" : undefined}
+            >
+              {s.label}
+              {count ? (
+                <span className="count-badge">
+                  {" "}
+                  ({count}
+                  <span className="visually-hidden"> selected</span>)
+                </span>
+              ) : null}
+            </Link>
+          ))}
         </nav>
         <details className="nav-menu">
           <summary aria-label="Menu">
             <span aria-hidden="true">☰</span>
           </summary>
           <nav className="nav-menu-list" aria-label="Main">
-            {NAV_SECTIONS.map((s) => (
+            {links.map(({ section: s, href }) => (
               <Link
                 key={s.id}
-                href={s.id === "compare" ? compareHref(compare) : s.href}
-                prefetch={noPrefetch(s.id)}
+                href={href}
+                prefetch={s.prefetch ?? null}
                 aria-current={section?.id === s.id ? "page" : undefined}
                 onClick={(e) => e.currentTarget.closest("details")?.removeAttribute("open")}
               >

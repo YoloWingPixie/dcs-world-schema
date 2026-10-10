@@ -176,3 +176,24 @@ export function asSurfaces(value: unknown): Surface[] {
       isRecord(s) && Array.isArray(s.rows) && Array.isArray(s.cols) && Array.isArray(s.z),
   );
 }
+
+/**
+ * Row `i` of a surface over its column axis (as many points as both hold); null when the
+ * surface has no row `i`. A record's envelope lines (components/record/envelope.tsx) and
+ * compare's (`surfaceRow`).
+ */
+export function surfaceLine(surface: Surface, i: number): Curve | null {
+  const z = surface.z[i];
+  if (!z) return null;
+  const n = Math.min(z.length, surface.cols.length);
+  return { x: surface.cols.slice(0, n), y: z.slice(0, n) };
+}
+
+/** The line of the first surface with a row nearest to `row` (an altitude, within 1%), else null. */
+export function surfaceRow(surfaces: Surface[], row: number): Curve | null {
+  for (const s of surfaces) {
+    const i = s.rows.findIndex((r) => Math.abs(r - row) <= Math.max(1, Math.abs(row) * 0.01));
+    if (i >= 0) return surfaceLine(s, i) ?? { x: [], y: [] };
+  }
+  return null;
+}

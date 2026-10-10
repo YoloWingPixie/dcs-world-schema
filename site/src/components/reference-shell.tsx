@@ -19,7 +19,8 @@ const RecordView = lazy(() => loadRecordView().then((m) => ({ default: m.RecordV
 const BrowseView = lazy(() => loadBrowseView().then((m) => ({ default: m.BrowseView })));
 const ApiShell = lazy(() => loadApiShell().then((m) => ({ default: m.ApiShell })));
 
-const isApiPath = (path: string) => /^\/api(\/|$)/.test(path);
+/** An API page's path (lib/api/routes `parseApiPath`). */
+const isApiPath = (path: string) => parseApiPath(path) !== null;
 
 /** An API page's code and data, fetched together (the shell's chunk would otherwise wait for its own). */
 function preloadApi(path: string) {

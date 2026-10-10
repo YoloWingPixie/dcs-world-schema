@@ -1,4 +1,4 @@
-import { plainValue, type ValueContext } from "./format-field";
+import { plainValue, refName, type ValueContext } from "./format-field";
 import { enumDisplay } from "./names";
 import type { CatalogEntry } from "./types";
 import { convertNumber, formatNumber } from "./units";
@@ -23,4 +23,33 @@ export function cellText(
   if (entry.kind === "enum") return enumDisplay(entry, value, ctx.enums).label;
   if (typeof value === "number") return formatNumber(convertNumber(value, entry, ctx.system));
   return plainValue(entry, value, ctx);
+}
+
+/**
+ * The values a browse facet sees in one cell, as text: none for an empty cell, each item of
+ * a list, a ref by its raw id (so same-named records stay apart and a shared filter outlives
+ * a rename; `facetLabel` names it).
+ */
+export function facetValues(value: unknown): string[] {
+  if (value === undefined || value === null) return [];
+  return Array.isArray(value) ? value.map(String) : [String(value)];
+}
+
+/**
+ * How a facet value (`facetValues`) reads: "Yes"/"No", an enum's label, a ref's record
+ * name (from `ctx.links`, as `cellText`); without an entry, as written.
+ */
+export function facetLabel(
+  entry: CatalogEntry | undefined,
+  value: string,
+  ctx: ValueContext,
+): string {
+  if (!entry) return value;
+  if (entry.kind === "boolean") return value === "true" ? "Yes" : "No";
+  if (entry.kind === "enum") {
+    const raw = /^-?\d+(\.\d+)?$/.test(value) ? Number(value) : value;
+    return enumDisplay(entry, raw, ctx.enums).label;
+  }
+  if (entry.ref) return refName(entry, value, ctx.links);
+  return value;
 }

@@ -29,7 +29,6 @@ import {
   type CatalogEntry,
   type Facet,
   type FieldPath,
-  type FieldValues,
   type LinkTarget,
   type RecordDoc,
   SCALAR_KINDS,
@@ -691,7 +690,6 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   const facetList: Facet[] = facets.map(({ path, entry }) => ({
     path,
     label: pathLabel(entry, path),
-    kind: entry.kind === "enum" ? "enum" : entry.kind === "boolean" ? "boolean" : "string",
   }));
   return {
     series,
@@ -792,20 +790,20 @@ export function storageOf(model: Model, series: string, path: string): Storage |
   };
 }
 
-/** One field across every record of a series, keyed by id. */
+/** One field across every record of a series, by record id (a record without a value is left out). */
 export async function getFieldValues(
   q: Query,
   model: Model,
   series: string,
   path: string,
-): Promise<FieldValues> {
-  if (!model.byId.has(series)) return { path, values: {} };
+): Promise<Record<string, unknown>> {
+  if (!model.byId.has(series)) return {};
   const catalog = catalogFor(model, series);
   const entry = entryFor(catalog, path);
-  if (!entry) return { path, values: {} };
+  if (!entry) return {};
   // A curve or surfaces reads its table; any other value its own path.
   const at = storageOf(model, series, tableAxis(entry)?.table ?? path);
-  if (!at) return { path, values: {} };
+  if (!at) return {};
   const values: Record<string, unknown> = {};
   const keep = (k: unknown, v: unknown) => {
     if (present(v)) values[String(k)] = v;
@@ -832,7 +830,7 @@ export async function getFieldValues(
         k,
         list.sort((x, y) => x[0] - y[0]).map(([, v]) => v),
       );
-    return { path, values };
+    return values;
   }
   const read = (v: string, params: unknown[] = []) =>
     q(`SELECT ${qi(at.key)} AS k, ${v} AS v FROM ${qi(at.table)} WHERE v IS NOT NULL`, params);
@@ -841,7 +839,7 @@ export async function getFieldValues(
       ? await read(`json_extract(${qi(at.column)}, ?)`, [at.json])
       : await read(qi(at.column));
     for (const r of rows) keep(r.k, decodeValue(entry, r.v));
-    return { path, values };
+    return values;
   }
   // Keyed stages, curves (a Mach-sampled list's step sits beside it), envelopes: read the
   // column and walk it.
@@ -857,7 +855,7 @@ export async function getFieldValues(
     ).find((v) => v.path === path);
     if (found) keep(r.k, found.value);
   }
-  return { path, values };
+  return values;
 }
 
 /** Comparable concrete paths of a catalog's plain fields (keyed ones: `keyedFieldPaths`). */

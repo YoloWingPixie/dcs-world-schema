@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { BASE_PATH } from "@/lib/base-path";
 import { pushUrl } from "@/lib/history";
+import { PAGE_ROOTS, pathRoot } from "@/lib/nav";
 import { type NavHint, setNavHint } from "@/lib/nav-hints";
 
 let shellMounted = 0;
@@ -80,12 +81,9 @@ export function RefLink({ href, onClick, children, hint, ...rest }: Props) {
   );
 }
 
-/** Site sections that are Next.js pages (everything else is the reference shell). */
-const PAGE_ROOTS = new Set(["", "compare", "reference", "search"]);
-
+/** Whether a site path is the reference shell's, not a Next.js page's (lib/nav `PAGE_ROOTS`). */
 export function isShellHref(href: string): boolean {
-  const first = href.split(/[/?#]/).filter(Boolean)[0] ?? "";
-  return !PAGE_ROOTS.has(first);
+  return !PAGE_ROOTS.has(pathRoot(href));
 }
 
 /**

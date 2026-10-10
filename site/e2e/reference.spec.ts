@@ -185,3 +185,20 @@ test("airbase and sensor pages render with their links", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Batumi");
   await expect(page.locator("#runways")).toBeVisible();
 });
+
+test("a ref facet filters by record id and shows the record's name", async ({ page }) => {
+  await page.goto("/beacons/");
+  const theatre = page.locator("fieldset.facet", {
+    has: page.getByText("Theatre", { exact: true }),
+  });
+  const germany = theatre.locator("label.facet-option", { hasText: "Cold War Germany" });
+  await expect(germany.locator(".facet-count")).toHaveText("412");
+  await germany.getByRole("checkbox").check();
+  await expect(page).toHaveURL(/[?&]f\.theatre=GermanyCW(&|$)/);
+  // A shared address by id selects the same option, under its name.
+  await page.goto("/beacons/?f.theatre=GermanyCW");
+  await expect(
+    theatre.locator("label.facet-option", { hasText: "Cold War Germany" }).getByRole("checkbox"),
+  ).toBeChecked();
+  await expect(page.locator("main")).toContainText(/412 of [\d,]+ beacons/);
+});

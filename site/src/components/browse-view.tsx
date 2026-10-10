@@ -11,7 +11,7 @@ import {
   layoutItems,
   visibleRange,
 } from "@/lib/browse-groups";
-import { cellText } from "@/lib/cell-text";
+import { cellText, facetLabel, facetValues } from "@/lib/cell-text";
 import {
   type LinkedField,
   loadCatalog,
@@ -20,9 +20,8 @@ import {
   loadSeriesIndex,
 } from "@/lib/client-data";
 import { browseEntry, fieldPaths, type GroupTarget } from "@/lib/db/reference";
-import { pathLabel, refName, sortableValue, type ValueContext } from "@/lib/format-field";
+import { pathLabel, sortableValue, type ValueContext } from "@/lib/format-field";
 import { updateQuery } from "@/lib/history";
-import { enumDisplay } from "@/lib/names";
 import { facetParam, recordHref, SERIES_BY_ID } from "@/lib/series";
 import { displayFor, offersFacet } from "@/lib/series-display";
 import { capitalise, compareSortKeys, naturalCompare } from "@/lib/text";
@@ -78,57 +77,31 @@ function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueCont
 }
 
 /**
- * The values a facet sees in one row, as text: none for an empty cell, each item of a
- * list, a ref's record by name (`links`: the column's link table).
- */
-function facetValues(
-  value: unknown,
-  entry: CatalogEntry | undefined,
-  links: LinkedField["links"] | undefined,
-): string[] {
-  if (value === undefined || value === null) return [];
-  const text = (v: unknown) => (entry?.ref ? refName(entry, v, links) : String(v));
-  return Array.isArray(value) ? value.map(text) : [text(value)];
-}
-
-function facetLabel(
-  facet: Facet,
-  value: string,
-  entry: CatalogEntry | undefined,
-  ctx: ValueContext,
-): string {
-  if (facet.kind === "boolean") return value === "true" ? "Yes" : "No";
-  if (facet.kind === "enum" && entry) {
-    const raw = /^-?\d+(\.\d+)?$/.test(value) ? Number(value) : value;
-    return enumDisplay(entry, raw, ctx.enums).label;
-  }
-  return value;
-}
-
-/**
- * Fields browse loads beside its index (`loadLinkedField`, each asked for once per page),
- * by path: each set asked for joins the others once all of it has loaded, and a field
- * stays once loaded (a facet whose panel closes keeps its values). A field that fails to
- * load is left out.
+ * Fields browse loads beside its index (`loadLinkedField`), by path: each joins the others
+ * as it lands, and stays once loaded (a facet whose panel closes keeps its values). A
+ * path is asked for once per mount: one that fails to load is left out and not asked for
+ * again until the view remounts.
  */
 function useLoadedFields(series: string, paths: readonly string[]): Record<string, LinkedField> {
-  const loaded = useLoaded(
-    () =>
-      Promise.all(
-        paths.map((p) =>
-          loadLinkedField(series, p).then(
-            (field): Array<[string, LinkedField]> => [[p, field]],
-            () => [],
-          ),
-        ),
-      ).then((fields) => Object.fromEntries(fields.flat())),
-    JSON.stringify(paths),
-  );
-  const [fields, setFields] = useState({ from: loaded, all: NO_FIELDS });
-  if (loaded && loaded !== fields.from)
-    setFields({ from: loaded, all: { ...fields.all, ...loaded } });
-  return fields.all;
+  const [fields, setFields] = useState<Record<string, LinkedField>>(NO_FIELDS);
+  // Paths loaded, loading or failed: none is asked for twice.
+  const asked = useRef(new Set<string>());
+  const key = JSON.stringify(paths);
+  useEffect(() => {
+    for (const p of JSON.parse(key) as string[]) {
+      if (asked.current.has(p)) continue;
+      asked.current.add(p);
+      loadLinkedField(series, p).then(
+        (field) => setFields((f) => ({ ...f, [p]: field })),
+        () => {},
+      );
+    }
+  }, [series, key]);
+  return fields;
 }
+
+/** The values `facet` sees in a row (`facetValues`). */
+const valuesOf = (row: Row, facet: Facet) => facetValues(row.values.get(facet.path));
 
 const NO_FIELDS: Record<string, LinkedField> = {};
 
@@ -238,16 +211,6 @@ export function BrowseView({ series, count }: { series: string; count: number })
     };
   }, [targets, groupBy]);
 
-  // The values a facet sees in a row.
-  const valuesOf = useCallback(
-    (row: Row, facet: Facet) =>
-      facetValues(
-        row.values.get(facet.path),
-        facetFields.get(facet.path)?.entry,
-        linksOf(facet.path),
-      ),
-    [facetFields, linksOf],
-  );
   // A facet is offered when its values hold enough distinct ones (`offersFacet`); one
   // outside the index is kept until its values load.
   const facets = useMemo(() => {
@@ -256,7 +219,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       if (!index.columns.includes(f.path) && !extra[f.path]) return true;
       return offersFacet(new Set(rows.flatMap((r) => valuesOf(r, f))).size);
     });
-  }, [index, extra, rows, valuesOf]);
+  }, [index, extra, rows]);
   // The facet selections as one string: `selected` changes only when they do.
   const facetQuery = JSON.stringify(facets.map((f) => params.getAll(facetParam(f.path))));
   const selected = useMemo(() => {
@@ -270,7 +233,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       if (sel.length === 0) return true;
       return valuesOf(row, facet).some((v) => sel.includes(v));
     },
-    [selected, valuesOf],
+    [selected],
   );
 
   const ctx = useMemo<ValueContext>(
@@ -324,18 +287,33 @@ export function BrowseView({ series, count }: { series: string; count: number })
         }
       }
     }
+    // Options by count, then by label (a ref's record name, not its id).
     const options = new Map(
       facets.map((f) => {
         const c = counts.get(f.path) ?? new Map<string, number>();
+        const entry = facetFields.get(f.path)?.entry;
+        const labelCtx = ctxFor(f.path, ctx);
+        const labels = new Map<string, string>();
+        const labelOf = (v: string) => {
+          let label = labels.get(v);
+          if (label === undefined) {
+            label = facetLabel(entry, v, labelCtx);
+            labels.set(v, label);
+          }
+          return label;
+        };
         const list = [...c.keys()].sort(
-          (a, b) => (c.get(b) ?? 0) - (c.get(a) ?? 0) || naturalCompare(a, b),
+          (a, b) => (c.get(b) ?? 0) - (c.get(a) ?? 0) || naturalCompare(labelOf(a), labelOf(b)),
         );
         for (const v of selected[f.path] ?? []) if (!list.includes(v)) list.push(v);
-        return [f.path, { counts: c, options: list }] as const;
+        return [
+          f.path,
+          { counts: c, options: list.map((v) => ({ value: v, label: labelOf(v) })) },
+        ] as const;
       }),
     );
     return { filtered, options };
-  }, [textMatched, facets, matchesFacet, selected, valuesOf]);
+  }, [textMatched, facets, matchesFacet, selected, facetFields, ctxFor, ctx]);
   const filtered = facetOptions.filtered;
 
   // Sort keys computed once per row, then indices sorted with one shared collator.
@@ -524,17 +502,15 @@ export function BrowseView({ series, count }: { series: string; count: number })
                 return (
                   <fieldset className="facet" key={facet.path}>
                     <legend>{facet.label}</legend>
-                    {shown.map((v) => (
-                      <label className="facet-option" key={v}>
+                    {shown.map(({ value, label }) => (
+                      <label className="facet-option" key={value}>
                         <input
                           type="checkbox"
-                          checked={sel.includes(v)}
-                          onChange={() => toggle(facet.path, v)}
+                          checked={sel.includes(value)}
+                          onChange={() => toggle(facet.path, value)}
                         />
-                        <span className="facet-label">
-                          {facetLabel(facet, v, facetFields.get(facet.path)?.entry, ctx)}
-                        </span>
-                        <span className="facet-count">{c.get(v) ?? 0}</span>
+                        <span className="facet-label">{label}</span>
+                        <span className="facet-count">{c.get(value) ?? 0}</span>
                       </label>
                     ))}
                     {options.length > shown.length ? (

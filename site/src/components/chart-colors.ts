@@ -8,4 +8,4 @@ export const SERIES_COLORS = [
   "var(--s6)",
   "var(--s7)",
   "var(--s8)",
-];
+] as const;
