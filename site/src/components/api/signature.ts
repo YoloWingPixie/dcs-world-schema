@@ -7,11 +7,11 @@ const OPEN = new Set(["(", "[", "{", "<"]);
 const CLOSE = new Set([")", "]", "}", ">"]);
 
 /**
- * Splits signature tokens into the head (`coord.LLtoLO(`), one part per parameter and the
- * tail (`): Vec2`), cutting only at the outer parentheses and their top-level commas. The
- * parts join back to the same text. Null when there is nothing to split.
+ * Cuts signature tokens into the head (`coord.LLtoLO(`), one part per parameter and the
+ * tail (`): Vec2`), only at the outer parentheses and their top-level commas. The parts
+ * join back to the same text. Null without a parameter list.
  */
-export function splitSignature(tokens: Token[]): Token[][] | null {
+function cutSignature(tokens: Token[]): Token[][] | null {
   const parts: Token[][] = [[]];
   let depth = 0;
   let done = false;
@@ -53,8 +53,63 @@ export function splitSignature(tokens: Token[]): Token[][] | null {
     }
     push(t.slice(start));
   }
-  const filled = parts.filter((p) => p.length);
-  return done && filled.length > 3 ? filled : null;
+  return done ? parts.filter((p) => p.length) : null;
+}
+
+/** The signature cut for one parameter per line; null under two parameters. */
+export function splitSignature(tokens: Token[]): Token[][] | null {
+  const parts = cutSignature(tokens);
+  return parts && parts.length > 3 ? parts : null;
+}
+
+/** One parameter of a signature: its name, its `: type` annotation and the `, ` after it. */
+export type SigParam = { name: Token[]; type: Token[]; sep: Token[] };
+
+/**
+ * The signature as head, parameters (each split into name, annotation and separator) and
+ * tail. Everything joins back to the same text. Null without a parameter list.
+ */
+export function signatureParams(
+  tokens: Token[],
+): { head: Token[]; params: SigParam[]; tail: Token[] } | null {
+  const parts = cutSignature(tokens);
+  if (!parts || parts.length < 2) return null;
+  const head = parts[0] ?? [];
+  const tail = parts[parts.length - 1] ?? [];
+  const params = parts.slice(1, -1).map((part): SigParam => {
+    const out: SigParam = { name: [], type: [], sep: [] };
+    let inType = false;
+    part.forEach((t, i) => {
+      if (typeof t !== "string") {
+        (inType ? out.type : out.name).push(t);
+        return;
+      }
+      let text = t;
+      let sep = "";
+      if (i === part.length - 1) {
+        const m = /,\s*$/.exec(text);
+        if (m) {
+          sep = m[0];
+          text = text.slice(0, m.index);
+        }
+      }
+      if (!inType) {
+        const colon = text.indexOf(":");
+        if (colon >= 0) {
+          if (colon) out.name.push(text.slice(0, colon));
+          inType = true;
+          text = text.slice(colon);
+        } else {
+          if (text) out.name.push(text);
+          text = "";
+        }
+      }
+      if (text) out.type.push(text);
+      if (sep) out.sep.push(sep);
+    });
+    return out;
+  });
+  return { head, params, tail };
 }
 
 /** The plain text of display tokens. */

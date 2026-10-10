@@ -19,6 +19,10 @@ test("API home -> Unit -> getByName anchor", async ({ page }) => {
   const entry = page.locator("article#getByName");
   await expect(entry).toBeInViewport();
   await expect(entry.locator(".api-sig")).toHaveText("Unit.getByName(name: string): Unit?");
+  // On screen the heading drops the owner and the parameter types the list below gives.
+  await expect(entry.locator(".api-sig-name")).toBeVisible();
+  await expect(entry.locator(".api-sig-owner")).toHaveCSS("position", "absolute");
+  await expect(entry.locator(".api-sig-ptype")).toHaveCSS("position", "absolute");
   // Every type name links to its page.
   await expect(entry.locator(".api-sig a", { hasText: "Unit" })).toHaveAttribute(
     "href",
