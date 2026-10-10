@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Breaking: `weapon_flight.launchTables` is replaced by `launchEnvelopes`: maximum and minimum launch range (m) and aspect (deg) by launch altitude (m) and true airspeed (m/s).
+- Breaking: angle fields whose unit was not stated now carry it in their name (values unchanged):
+  - `ground_vehicles`, `ships` `weaponSystems[]`: `reloadAngleY` → `reloadAngleYRad`, `reloadAngleZ` → `reloadAngleZRad`, `minLaunchAngle` → `minLaunchAngleRad`, `inclinationCorrectionBias` → `inclinationCorrectionBiasRad`, `inclinationCorrectionUpperLimit` → `inclinationCorrectionUpperLimitRad`.
+  - `weapon_flight` `gimbal`: `trackingRateMax` → `trackingRateMaxRadS`.
+  - `aircraft_flight` `aerodynamics.table[]`: `aoaMax` → `aoaMaxDeg`.
+  - `gun_ammo` rebound blocks: `angle0` → `angle0Deg`, `angle100` → `angle100Deg`, `deviationAngle` → `deviationAngleDeg`.
 
 ## [0.5.0] - 2026-10-04
 

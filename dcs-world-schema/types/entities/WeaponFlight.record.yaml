@@ -252,9 +252,9 @@ types:
       pitchMaxRad:
         type: number
         description: "Optional pitch limit in radians (`pitch_max`)."
-      trackingRateMax:
+      trackingRateMaxRadS:
         type: number
-        description: "Optional maximum tracking rate (`max_tracking_rate`); unit not stated."
+        description: "Optional maximum tracking rate in rad/s (`max_tracking_rate`): DCS writes `math.rad(n)`, the per-second time unit implied by the rate."
       operatingTime:
         type: number
         description: "Optional operating time (`op_time`); unit not stated."

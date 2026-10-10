@@ -79,7 +79,7 @@ SEEKER: tuple[F, ...] = (
 GIMBAL: tuple[F, ...] = (
     F("yaw_max", "yawMaxRad", unit="rad"),
     F("pitch_max", "pitchMaxRad", unit="rad"),
-    F("max_tracking_rate", "trackingRateMax"),
+    F("max_tracking_rate", "trackingRateMaxRadS", unit="rad/s"),
     OP_TIME,
 )
 PROXIMITY_FUZE: tuple[F, ...] = (

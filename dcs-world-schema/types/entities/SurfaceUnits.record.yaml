@@ -179,12 +179,12 @@ types:
       referenceAngleZRad:
         type: number
         description: "Optional `WS[i].reference_angle_Z`, at-rest elevation angle of the mount, radians."
-      reloadAngleY:
+      reloadAngleYRad:
         type: number
-        description: "Optional `WS[i].reloadAngleY`, traverse angle the mount reloads at, unit not stated."
-      reloadAngleZ:
+        description: "Optional `WS[i].reloadAngleY`, traverse angle the mount reloads at, radians (DCS writes `math.rad(n)`). Some MANPADS store -100, apparently meaning no reload pose; it is kept as is."
+      reloadAngleZRad:
         type: number
-        description: "Optional `WS[i].reloadAngleZ`, elevation angle the mount reloads at, unit not stated."
+        description: "Optional `WS[i].reloadAngleZ`, elevation angle the mount reloads at, radians (DCS writes `math.rad(n)`)."
       maxLeft:
         type: number
         description: "Optional `WS[i].maxLeft`, left traverse limit, unit not stated."
@@ -236,18 +236,18 @@ types:
       sightMaxTanVel:
         type: number
         description: "Optional `sightMaxTanVel`, maximum target tangential velocity the sight follows, unit not stated."
-      minLaunchAngle:
+      minLaunchAngleRad:
         type: number
-        description: "Optional `min_launch_angle`, minimum launch elevation, unit not stated."
+        description: "Optional `min_launch_angle`, minimum launch elevation, radians (DCS writes `math.rad(n)`)."
       railLength:
         type: number
         description: "Optional `rail_length`, launch rail length, unit not stated."
-      inclinationCorrectionBias:
+      inclinationCorrectionBiasRad:
         type: number
-        description: "Optional `inclination_correction_bias`, elevation correction bias, unit not stated."
-      inclinationCorrectionUpperLimit:
+        description: "Optional `inclination_correction_bias`, elevation correction bias, radians (DCS writes `math.rad(n)`)."
+      inclinationCorrectionUpperLimitRad:
         type: number
-        description: "Optional `inclination_correction_upper_limit`, elevation correction upper limit, unit not stated."
+        description: "Optional `inclination_correction_upper_limit`, elevation correction upper limit, radians (DCS writes `math.rad(n)`)."
       dispertionReductionFactor:
         type: number
         description: "Optional `dispertionReductionFactor`, shot dispersion reduction factor, raw."
