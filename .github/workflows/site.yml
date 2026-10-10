@@ -47,6 +47,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         env:
           SITE_SQLITE: none
+          SITE_LUA: none
         run: |
           task uv:sync
           task merge
@@ -105,9 +106,55 @@ jobs:
           path: dist/site-db
           retention-days: 1
 
+  # The _G dump files the records point into ("View Lua"), from the dump's release asset
+  # (tools/datamine/dump_lua.py: tag dcs-dump-<DCS version>, asset dcs-g-dump-<version>.tar.gz).
+  lua:
+    name: Collect Lua
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dump release
+        id: dump
+        run: |
+          version="$(jq -r .dcsVersion dcs-world-reference/latest/manifest.json)"
+          {
+            echo "tag=dcs-dump-$version"
+            echo "asset=dcs-g-dump-$version.tar.gz"
+            echo "key=site-lua-$version-${{ hashFiles('dcs-world-reference/latest/**', 'tools/datamine/dump_lua.py', 'tools/datamine/dump_paths.py', 'tools/datamine/common.py', 'uv.lock') }}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Restore Lua
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: dist/site-lua
+          key: ${{ steps.dump.outputs.key }}
+
+      - name: Set up Python
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect Lua
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install uv
+          gh release download "${{ steps.dump.outputs.tag }}" --pattern "${{ steps.dump.outputs.asset }}" --dir .datamine
+          uv run python -m tools.datamine.dump_lua collect --archive ".datamine/${{ steps.dump.outputs.asset }}" --out dist/site-lua
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-lua
+          path: dist/site-lua
+          retention-days: 1
+
   deploy:
     name: Deploy
-    needs: [shell, database]
+    needs: [shell, database, lua]
     runs-on: ubuntu-latest
     environment:
       name: cloudflare-pages
@@ -131,8 +178,19 @@ jobs:
           name: site-db
           path: db
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-lua
+          path: lua
+
       - name: Split database
         run: node site/scripts/split-sqlite.ts public --mode=chunked --db="$(ls db/*.sqlite)"
+
+      - name: Add Lua
+        env:
+          SITE_LUA: lua
+          SITE_LUA_REQUIRED: "1"
+        run: node site/scripts/copy-lua-assets.ts public
 
       - name: Deploy
         id: deploy

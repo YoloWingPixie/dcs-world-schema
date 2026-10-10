@@ -10,6 +10,7 @@ import {
   useInCompare,
 } from "@/lib/compare-store";
 import { CompareIcon, PlusIcon } from "@/ui/icons";
+import { LuaButton } from "./lua-button";
 import { showToast } from "./toast";
 
 export function RecordCompareActions({
@@ -47,6 +48,7 @@ export function RecordCompareActions({
         <CompareIcon />
         {others.length ? `Compare (${others.length + 1})` : "Compare"}
       </Link>
+      <LuaButton series={series} slug={slug} />
     </div>
   );
 }

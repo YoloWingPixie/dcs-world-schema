@@ -21,7 +21,7 @@ import { formatWithUnit, unitGap } from "@/lib/units";
 import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../field-view";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
-import { type RenderCtx, rangeListOf } from "./blocks";
+import { LuaLink, type RenderCtx, rangeListOf } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
 
@@ -220,7 +220,10 @@ function ProvenanceRow({
       <div className="field-body">
         <ul className="path-list">
           {list.map((v) => (
-            <li key={v}>{v}</li>
+            <li key={v}>
+              {v}
+              <LuaLink path={v} />
+            </li>
           ))}
         </ul>
       </div>
