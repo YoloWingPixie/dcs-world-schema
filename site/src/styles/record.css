@@ -232,6 +232,9 @@ pre.json-block {
 }
 
 .record-card {
+  /* A grid item: without this a wide nested table stretches the card past the page
+     instead of scrolling inside its own .table-wrap. */
+  min-width: 0;
   padding: 14px 0 18px;
   border-top: 1px solid var(--rule);
 }
