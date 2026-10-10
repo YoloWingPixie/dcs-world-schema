@@ -1,10 +1,17 @@
 name: DCS World Schema CI
 
 on:
+  # The site has its own workflow (site.yml); changes only to it skip schema CI.
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'site/**'
+      - '.github/workflows/site.yml'
   pull_request:
     branches: [ main ]
+    paths-ignore:
+      - 'site/**'
+      - '.github/workflows/site.yml'
   workflow_dispatch:
 
 permissions:
