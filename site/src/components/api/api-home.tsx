@@ -127,7 +127,9 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
               Mission scripting <span className="section-tag">{mission.length}</span>
             </h2>
           </div>
-          <h3 className="api-sub">Classes</h3>
+          <h3 className="api-sub" id="classes">
+            Classes
+          </h3>
           <div className="api-cards">
             {mission
               .filter((p) => p.kind === "class")
@@ -135,7 +137,9 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
                 <PageCard key={p.href} p={p} />
               ))}
           </div>
-          <h3 className="api-sub">Global tables and namespaces</h3>
+          <h3 className="api-sub" id="globals">
+            Global tables and namespaces
+          </h3>
           <div className="api-cards">
             {mission
               .filter((p) => p.kind !== "class")

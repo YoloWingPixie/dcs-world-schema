@@ -96,5 +96,12 @@ export function ApiShell({ path }: { path: string }) {
   }
   if (loaded?.key !== key) return <Skeleton />;
   if (!loaded.data) return <Missing what={route.name} />;
-  return <ApiPageView key={key} page={loaded.data.page} values={loaded.data.values} />;
+  return (
+    <ApiPageView
+      key={key}
+      page={loaded.data.page}
+      values={loaded.data.values}
+      data={loaded.data.data}
+    />
+  );
 }
