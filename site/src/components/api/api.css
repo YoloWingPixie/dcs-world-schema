@@ -484,73 +484,83 @@
   }
 }
 
-/* Parameters and fields: `name . . . . type`, the description underneath. */
-.api-params {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* Parameters and fields: a ruled definition table. Name and type columns are sized per
+   list (--pn, --pt: characters of mono, capped in member-entry.tsx); the description takes
+   the rest. A top rule, hairlines between rows, first lines on one baseline. */
+.api-ptable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-top: 1px solid var(--rule);
 }
 
-.api-param {
-  padding: 0 0 8px;
+.api-pcol-name {
+  width: calc(var(--pn) * 0.6 * 14px + 24px);
 }
 
-.api-param + .api-param {
-  padding-top: 6px;
-  border-top: 1px solid var(--hair);
+.api-pcol-type {
+  width: calc(var(--pt) * 0.6 * 13.5px + 24px);
 }
 
-.api-param-head {
-  display: flex;
-  align-items: baseline;
-  gap: 0 8px;
-  min-width: 0;
+.api-ptable th,
+.api-ptable td {
+  padding: 6px 24px 7px 0;
+  text-align: left;
+  vertical-align: baseline;
+  border-bottom: 1px solid var(--hair);
 }
 
-.api-param-name {
-  flex: none;
-  max-width: 60%;
-  font-size: 14px;
-  font-weight: 500;
-  overflow-wrap: anywhere;
+.api-ptable td:last-child {
+  padding-right: 0;
 }
 
-.api-param-head .api-opt {
-  flex: none;
-  font-family: var(--font-body);
-  font-style: italic;
-  font-size: 14px;
+.api-ptable tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.api-ptable thead th {
+  padding-top: 7px;
+  padding-bottom: 5px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
   color: var(--ink-3);
 }
 
-.api-leader {
-  flex: 1 1 0;
-  min-width: 1.5em;
-  overflow: hidden;
-  white-space: nowrap;
-  font-size: 16px;
+.api-param-name {
+  font-weight: 400;
+  overflow-wrap: anywhere;
 }
 
-.api-leader::before {
-  content: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
-  letter-spacing: 0.08em;
+.api-param-name code {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.api-param-name .api-opt {
+  display: block;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13.5px;
   color: var(--ink-3);
 }
 
 .api-param-type {
-  flex: 0 1 auto;
-  max-width: 65%;
-  text-align: right;
+  overflow-wrap: anywhere;
 }
 
+.api-param-type .api-typeref,
 .api-param-type .api-sig {
   display: inline;
   font-size: 13.5px;
+  line-height: 1.5;
 }
 
 .api-param-desc {
-  margin-top: 2px;
-  font-size: 16px;
+  font-size: 15.5px;
   line-height: 1.5;
   color: var(--ink-2);
 }
@@ -559,19 +569,74 @@
   margin-top: 8px;
 }
 
-.api-param:target {
+/* Inside an entry the PARAMETERS label opens the table: no rule over it, and without a
+   header row the first row starts on the label's line. */
+.api-entry .api-ptable {
+  border-top: 0;
+}
+
+.api-entry .api-ptable colgroup + tbody tr:first-child > * {
+  padding-top: 0;
+}
+
+.api-entry .api-ptable thead th {
+  padding-top: 0;
+}
+
+.api-param:target > * {
   background: var(--accent-wash);
 }
 
-/* Field lists straight under a section head (type pages) take the entry's left edge. */
-.section-head + .api-params {
+/* Field tables straight under a section head (type pages) take the entries' left edge and
+   the section's width. */
+.section-head + .api-ptable {
+  width: calc(100% - var(--api-num));
   margin-left: var(--api-num);
-  max-width: calc(var(--api-label) + 46rem);
+  margin-top: -4px;
+  border-top: 0;
 }
 
+/* Phones: each row stacks, name and type on one line, the description under them. */
 @media (max-width: 640px) {
-  .section-head + .api-params {
+  .section-head + .api-ptable {
+    width: 100%;
     margin-left: 0;
+  }
+  .api-ptable,
+  .api-ptable tbody {
+    display: block;
+  }
+  .api-ptable colgroup,
+  .api-ptable thead {
+    display: none;
+  }
+  .api-ptable tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 12px;
+    padding: 6px 0 7px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .api-ptable tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .api-ptable th,
+  .api-ptable td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .api-param-name .api-opt {
+    display: inline;
+    margin-left: 6px;
+  }
+  .api-ptable .api-param-desc {
+    flex: 1 0 100%;
+    margin-top: 2px;
+  }
+  .api-ptable .api-param-desc:empty {
+    display: none;
   }
 }
 
