@@ -5,7 +5,7 @@
  * (components/record) and the placement pass (lib/placement.ts). Each answer is computed
  * once per catalog.
  */
-import { isRecord } from "./json";
+import { isRecord, type Json } from "./json";
 import { perObject } from "./once";
 import { type CatalogEntry, SCALAR_KINDS, type SeriesCatalog } from "./types";
 
@@ -99,7 +99,7 @@ export function rangeListOf(catalog: Shapes, entry: CatalogEntry): RangeList | n
   });
 }
 
-/** A table's curve over its axis column (catalog `axis.kind: "column"`). */
+/** A table's curve over its axis column, or a Mach-sampled list's over Mach (catalog `axis`). */
 export type Curve = { x: number[]; y: number[] };
 
 /** One envelope item's grid over its two axes (catalog `axis.kind: "surface"`). */
@@ -124,6 +124,27 @@ export function curveOf(rows: unknown, axis: string, column: string): Curve | nu
     }
   }
   return x.length ? { x, y } : null;
+}
+
+/** `length` samples from 0 at `step`, as DCS samples a Mach-indexed list (rounded to 4 places). */
+function machAxis(length: number, step: number): number[] {
+  return Array.from({ length }, (_, i) => Number((i * step).toFixed(4)));
+}
+
+/**
+ * The curve of a Mach-sampled list (catalog `axis.kind: "sampled"`) in the record holding it:
+ * its numbers over `machAxis` at the holder's step field, else the axis' fallback step; null
+ * for any other entry, or when the holder has no numbers there. A record's value of the list
+ * (lib/catalog.ts `valuesAt`) and its chart (components/record/blocks.tsx `MachCard`).
+ */
+export function samplesOf(holder: Json, entry: CatalogEntry): Curve | null {
+  const axis = entry.axis;
+  const list = holder[entry.name];
+  if (axis?.kind !== "sampled" || !Array.isArray(list)) return null;
+  const y = list.filter((v): v is number => typeof v === "number");
+  if (!y.length) return null;
+  const step = holder[axis.step.field];
+  return { x: machAxis(y.length, typeof step === "number" ? step : axis.step.fallback), y };
 }
 
 /**

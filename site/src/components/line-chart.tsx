@@ -16,10 +16,8 @@ export type ChartSeries = {
   /** CSS colour, normally a series token like var(--s1). */
   color: string;
   values: number[];
-  /** Spacing of an evenly sampled series starting at 0 (Mach tables). */
-  step?: number;
-  /** Explicit x of each value (axis columns, envelope speeds); wins over `step`. */
-  x?: number[];
+  /** The x of each value (Mach samples, axis columns, envelope speeds). */
+  x: number[];
 };
 
 type Props = {
@@ -31,8 +29,6 @@ type Props = {
   height?: number;
   compact?: boolean;
 };
-
-const xsOf = (s: ChartSeries) => s.x ?? s.values.map((_, i) => i * (s.step ?? 1));
 
 export function niceTicks(min: number, max: number, count: number): number[] {
   if (min === max) return [min];
@@ -82,10 +78,9 @@ export function LineChart({
 
   const { xMin, xMax, yMin, yMax, xTicks, yTicks, xGrid } = useMemo(() => {
     const all = series.flatMap((s) => s.values);
-    const xsAll = series.flatMap(xsOf);
-    // Evenly sampled series (Mach tables) start at 0; explicit axes start at their first value.
-    const x0 = series.some((s) => s.x) ? Math.min(...xsAll) : Math.min(0, ...xsAll);
-    const xm = Math.max(x0 + (series.some((s) => s.x) ? 1e-9 : 0.2), ...xsAll);
+    const xsAll = series.flatMap((s) => s.x);
+    const x0 = Math.min(...xsAll);
+    const xm = Math.max(x0 + 1e-9, ...xsAll);
     let lo = Math.min(...all);
     let hi = Math.max(...all);
     if (lo === hi) {
@@ -109,8 +104,7 @@ export function LineChart({
   const sy = (y: number) => pad.top + (1 - (y - yMin) / (yMax - yMin)) * innerH;
 
   const valueAt = (s: ChartSeries, x: number) => {
-    const xs = xsOf(s);
-    const i = xs.findIndex((v) => Math.abs(v - x) < 1e-6);
+    const i = s.x.findIndex((v) => Math.abs(v - x) < 1e-6);
     return i >= 0 ? (s.values[i] ?? null) : null;
   };
 
@@ -144,8 +138,7 @@ export function LineChart({
     const labels = series
       .map((s) => {
         const last = s.values[s.values.length - 1] ?? 0;
-        const xs = xsOf(s);
-        return { id: s.id, label: s.label, x: xs[xs.length - 1] ?? 0, y: last };
+        return { id: s.id, label: s.label, x: s.x[s.x.length - 1] ?? 0, y: last };
       })
       .map((l) => ({ ...l, py: pad.top + (1 - (l.y - yMin) / (yMax - yMin)) * innerH }))
       .sort((a, b) => a.py - b.py);
@@ -208,7 +201,7 @@ export function LineChart({
             className="series-line"
             stroke={s.color}
             data-series={s.id}
-            d={xsOf(s)
+            d={s.x
               .map(
                 (x, i) =>
                   `${i === 0 ? "M" : "L"}${sx(x).toFixed(1)},${sy(s.values[i] ?? 0).toFixed(1)}`,

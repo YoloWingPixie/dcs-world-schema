@@ -2,11 +2,15 @@
  * Compiles the hand-written reference overlays (content/reference, see its README) into
  * public/overlays/reference.json, shipped with the site shell:
  *
- *   { series: { <series>: { intro?, records: { <id or slug>: overlay }, fields: { <path>: overlay } } } }
+ *   { series: { <series>: { intro?, records: { <id>: overlay }, fields: { <path>: overlay } } } }
  *
- * Only the overlays themselves are checked here (Markdown, frontmatter keys). Whether
- * their series, records and fields still exist is a data question: the site ignores
- * stale ones at runtime and `pnpm check:overlays <sqlite>` reports them.
+ * Record files are named by their record's id, encoded (`encodeURIComponent`: scripts/lib/
+ * overlays.ts `recordStem`), so records are keyed by the decoded stem.
+ * Only the overlays themselves are checked here (Markdown, frontmatter keys), with or
+ * without a database, so every build writes the same file. Whether their series, records
+ * and fields exist is a data question: the site ignores stale ones at runtime, and
+ * `pnpm check:overlays <sqlite>` (and the overlay test against the test database)
+ * reports them, naming the id a slug-named file should use.
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";

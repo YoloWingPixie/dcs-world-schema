@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { surfaceAxes } from "@/lib/format-field";
 import { type Surface, surfacesOf } from "@/lib/record-tables";
 import type { CatalogEntry } from "@/lib/types";
 import { convertNumber, displayUnit, formatPlain, unitLabel } from "@/lib/units";
@@ -50,12 +51,9 @@ export function EnvelopeBlock({
     const e = catalog.entries[path];
     return e && Array.isArray(item[e.name]) ? [e] : [];
   });
-  const axisEntry = (path: string | undefined, label: string | undefined) => {
-    const e = path ? catalog.entries[path] : undefined;
-    return e && label ? { ...e, label } : undefined;
-  };
-  const rowEntry = axisEntry(surface?.paths.rows, surface?.labels.rows);
-  const colEntry = axisEntry(surface?.paths.cols, surface?.labels.cols);
+  const axes = surfaceAxes(catalog, surface ?? undefined);
+  const rowEntry = axes?.rows;
+  const colEntry = axes?.cols;
   const rows = (item[surface?.rows ?? ""] as number[] | undefined) ?? [];
   const cols = (item[surface?.cols ?? ""] as number[] | undefined) ?? [];
   const [gridPath, setGridPath] = useState(grids[0]?.path ?? "");

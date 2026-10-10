@@ -20,7 +20,7 @@ import {
   loadSeriesIndex,
 } from "@/lib/client-data";
 import { browseEntry, fieldPaths, type GroupTarget } from "@/lib/db/reference";
-import { pathLabel, resolveLink, sortableValue, type ValueContext } from "@/lib/format-field";
+import { pathLabel, refName, sortableValue, type ValueContext } from "@/lib/format-field";
 import { updateQuery } from "@/lib/history";
 import { enumDisplay } from "@/lib/names";
 import { facetParam, recordHref, SERIES_BY_ID } from "@/lib/series";
@@ -82,17 +82,13 @@ function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueCont
  * list, a ref's record by name (`links`: the column's link table).
  */
 function facetValues(
-  facet: Facet,
   value: unknown,
   entry: CatalogEntry | undefined,
   links: LinkedField["links"] | undefined,
 ): string[] {
   if (value === undefined || value === null) return [];
-  const text = (v: unknown) =>
-    (entry?.ref ? resolveLink(entry, v, links)?.name : undefined) ?? String(v);
-  if (Array.isArray(value)) return value.map(text);
-  if (facet.kind === "boolean") return [value ? "true" : "false"];
-  return [text(value)];
+  const text = (v: unknown) => (entry?.ref ? refName(entry, v, links) : String(v));
+  return Array.isArray(value) ? value.map(text) : [text(value)];
 }
 
 function facetLabel(
@@ -108,6 +104,33 @@ function facetLabel(
   }
   return value;
 }
+
+/**
+ * Fields browse loads beside its index (`loadLinkedField`, each asked for once per page),
+ * by path: each set asked for joins the others once all of it has loaded, and a field
+ * stays once loaded (a facet whose panel closes keeps its values). A field that fails to
+ * load is left out.
+ */
+function useLoadedFields(series: string, paths: readonly string[]): Record<string, LinkedField> {
+  const loaded = useLoaded(
+    () =>
+      Promise.all(
+        paths.map((p) =>
+          loadLinkedField(series, p).then(
+            (field): Array<[string, LinkedField]> => [[p, field]],
+            () => [],
+          ),
+        ),
+      ).then((fields) => Object.fromEntries(fields.flat())),
+    JSON.stringify(paths),
+  );
+  const [fields, setFields] = useState({ from: loaded, all: NO_FIELDS });
+  if (loaded && loaded !== fields.from)
+    setFields({ from: loaded, all: { ...fields.all, ...loaded } });
+  return fields.all;
+}
+
+const NO_FIELDS: Record<string, LinkedField> = {};
 
 export function BrowseView({ series, count }: { series: string; count: number }) {
   const info = SERIES_BY_ID.get(series);
@@ -125,7 +148,6 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const index = loaded?.index ?? null;
   const error = loaded?.error ?? null;
   const catalog = useLoaded(loadCatalog, series);
-  const [extra, setExtra] = useState<Record<string, LinkedField>>({});
   // The text filter, kept in the URL (debounced) so a filtered list is shareable.
   const [query, setQuery] = useQueryParam("q");
   const [sort, setSort] = useState<SortState>({ key: "name", dir: 1 });
@@ -155,31 +177,15 @@ export function BrowseView({ series, count }: { series: string; count: number })
 
   // Lazily load what the index does not carry (nested or list-valued fields, picked
   // columns): the shown columns, and a facet once the filters show or the address
-  // selects in it (the filters start closed on phones). Each path is asked for once.
-  const inAddress = (index?.facets ?? [])
-    .filter((f) => params.has(facetParam(f.path)))
-    .map((f) => f.path)
-    .join("\n");
-  const missing = useMemo(() => {
-    if (!index) return "";
+  // selects in it (the filters start closed on phones).
+  const lazyPaths = useMemo(() => {
+    if (!index) return [];
     const facetPaths = index.facets
       .map((f) => f.path)
-      .filter((p) => filtersOpen || inAddress.split("\n").includes(p));
-    const paths = new Set([...columns, ...facetPaths].filter((p) => !index.columns.includes(p)));
-    return [...paths].join("\n");
-  }, [index, columns, filtersOpen, inAddress]);
-  const requested = useRef(new Set<string>());
-  useEffect(() => {
-    for (const path of missing ? missing.split("\n") : []) {
-      const key = `${series}\n${path}`;
-      if (requested.current.has(key)) continue;
-      requested.current.add(key);
-      loadLinkedField(series, path).then(
-        (field) => setExtra((e) => ({ ...e, [path]: field })),
-        () => setExtra((e) => ({ ...e, [path]: { values: {}, links: {} } })),
-      );
-    }
-  }, [missing, series]);
+      .filter((p) => filtersOpen || params.has(facetParam(p)));
+    return [...new Set([...columns, ...facetPaths])].filter((p) => !index.columns.includes(p));
+  }, [index, columns, filtersOpen, params]);
+  const extra = useLoadedFields(series, lazyPaths);
 
   const rows = useMemo<Row[]>(() => {
     if (!index) return [];
@@ -198,13 +204,18 @@ export function BrowseView({ series, count }: { series: string; count: number })
     () => browseFields(catalog, index?.facets.map((f) => f.path) ?? [], "facet"),
     [catalog, index],
   );
-  /** The value context of a column or facet: a lazily loaded one's link table. */
+  /** The link table of a column or facet: a lazily loaded one's, or the index's for its ref columns. */
+  const linksOf = useCallback(
+    (path: string) => extra[path]?.links ?? index?.links[path],
+    [extra, index],
+  );
+  /** The value context of a column or facet (`linksOf`). */
   const ctxFor = useCallback(
     (path: string, ctx: ValueContext): ValueContext => {
-      const links = extra[path]?.links;
+      const links = linksOf(path);
       return links ? { ...ctx, links } : ctx;
     },
-    [extra],
+    [linksOf],
   );
 
   // Each row's group: the record its group-by ref names, else its fallback column.
@@ -231,12 +242,11 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const valuesOf = useCallback(
     (row: Row, facet: Facet) =>
       facetValues(
-        facet,
         row.values.get(facet.path),
         facetFields.get(facet.path)?.entry,
-        extra[facet.path]?.links,
+        linksOf(facet.path),
       ),
-    [facetFields, extra],
+    [facetFields, linksOf],
   );
   // A facet is offered when its values hold enough distinct ones (`offersFacet`); one
   // outside the index is kept until its values load.

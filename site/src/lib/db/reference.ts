@@ -10,7 +10,7 @@ import type { SchemaTypes } from "../catalog";
 import {
   buildSeriesCatalog,
   COMPANION_PREFIX,
-  catalogKeyFor,
+  entryFor,
   humanize,
   rootFields,
   rootFor,
@@ -18,6 +18,7 @@ import {
   valuesAt,
 } from "../catalog";
 import { pathLabel } from "../format-field";
+import { present } from "../json";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { perObject } from "../once";
 import { withoutNamedCodes } from "../record-tables";
@@ -566,8 +567,7 @@ export function browseEntry(
   path: string,
   use: "column" | "facet",
 ): CatalogEntry | null {
-  const key = catalogKeyFor(path, catalog);
-  const entry = key ? catalog.entries[key] : undefined;
+  const entry = entryFor(catalog, path);
   if (entry?.compareAs !== "value") return null;
   if (SCALAR_KINDS.has(entry.kind)) return entry;
   return use === "facet" && entry.kind === "strings" ? entry : null;
@@ -608,10 +608,16 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     return out;
   });
   const names = new Map(view.rows.map((r) => [String(r[0]), String(r[1])]));
-  // Ref columns show the target's name.
-  const refNames = new Map(
-    Object.entries(view.labels).map(([c, labels]) => [c, new Map(Object.entries(labels))]),
-  );
+  // Ref columns keep their ids; the view's labels name the records they point at, as each
+  // column's link table (lib/format-field `resolveLink`), the shape lazily loaded columns
+  // carry (lib/client-data `loadLinkedField`). The labels do not say which of a ref's
+  // series holds a record, so they go under its first: browse reads only the names.
+  const links: SeriesIndex["links"] = {};
+  for (const c of columns) {
+    const labels = view.labels[c.name];
+    const target = c.ref?.[0];
+    if (c.kind === "ref" && labels && target) links[c.path] = { [target]: labels };
+  }
 
   const count = rows.length;
   // A numeric code beside its constant name (`category` / `categoryName`) shows once; a
@@ -676,9 +682,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
       names.get(rid) ?? rid,
       ...columns.map((c) => {
         const v = r[c.name];
-        if (v === null || v === undefined) return null;
-        if (c.kind === "ref") return refNames.get(c.name)?.get(String(v)) ?? v;
-        return decodeValue(c, v);
+        return v === null || v === undefined ? null : decodeValue(c, v);
       }),
     ] as SeriesIndex["rows"][number];
   });
@@ -696,6 +700,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     visible,
     facets: facetList,
     rows: decoded,
+    links,
   };
 }
 
@@ -787,10 +792,6 @@ export function storageOf(model: Model, series: string, path: string): Storage |
   };
 }
 
-/** Whether a stored value counts as one: not null, not an empty list (as lib/catalog `walkPath`). */
-const present = (v: unknown) =>
-  v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0);
-
 /** One field across every record of a series, keyed by id. */
 export async function getFieldValues(
   q: Query,
@@ -800,8 +801,7 @@ export async function getFieldValues(
 ): Promise<FieldValues> {
   if (!model.byId.has(series)) return { path, values: {} };
   const catalog = catalogFor(model, series);
-  const key = catalogKeyFor(path, catalog);
-  const entry = key ? catalog.entries[key] : undefined;
+  const entry = entryFor(catalog, path);
   if (!entry) return { path, values: {} };
   // A curve or surfaces reads its table; any other value its own path.
   const at = storageOf(model, series, tableAxis(entry)?.table ?? path);
@@ -811,8 +811,7 @@ export async function getFieldValues(
     if (present(v)) values[String(k)] = v;
   };
   // One value (or list) at a plain path; a keyed path names its key, so is not its catalog key.
-  const simple =
-    (entry.compareAs === "value" || entry.compareAs === "samples") && path === entry.path;
+  const simple = entry.compareAs === "value" && path === entry.path;
 
   // A whole column listing refs reads its join table (a few pages), not the series' wide
   // rows; a record with an empty list has no join rows. Unordered, so the read stays on
@@ -844,7 +843,8 @@ export async function getFieldValues(
     for (const r of rows) keep(r.k, decodeValue(entry, r.v));
     return { path, values };
   }
-  // Keyed stages, axis tables, envelopes: read the column and walk it.
+  // Keyed stages, curves (a Mach-sampled list's step sits beside it), envelopes: read the
+  // column and walk it.
   const columnEntry = catalog.entries[at.field];
   const inCompanion = at.field !== at.column;
   for (const r of await read(qi(at.column))) {

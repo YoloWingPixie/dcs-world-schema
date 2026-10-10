@@ -15,7 +15,7 @@ import {
 } from "./catalog";
 import { loadModel, type Model, refResolver } from "./db/reference";
 import { displayedNumber, pathLabel, plainValue, valuesDiffer } from "./format-field";
-import { curveOf, surfacesOf } from "./record-tables";
+import { curveOf, samplesOf, surfacesOf } from "./record-tables";
 
 /** The schema as written (types/entities), over the series the database lists. */
 const types = loadSchemaTypes(join(__dirname, "../../../dcs-world-schema/types/entities"));
@@ -307,7 +307,11 @@ describe("catalog from every entity schema", () => {
         { sourcePath: "_G/a#/e3" },
       ],
     };
-    expect(walkPath(weapons, "flight.motorStages.*.impulseS", {}, flight)).toEqual([
+    const walk = (path: string, data: Record<string, unknown>, companion?: object) =>
+      walkPath(weapons, path, data, companion as Record<string, unknown> | undefined).map(
+        ({ parent: _, ...v }) => v,
+      );
+    expect(walk("flight.motorStages.*.impulseS", {}, flight)).toEqual([
       {
         holder: "flight.motorStages[0]",
         concretePath: "flight.motorStages.boost.impulseS",
@@ -319,7 +323,7 @@ describe("catalog from every entity schema", () => {
         value: 2,
       },
     ]);
-    expect(walkPath(weapons, "flight.launchEnvelopes[].sourcePath", {}, flight)).toEqual([
+    expect(walk("flight.launchEnvelopes[].sourcePath", {}, flight)).toEqual([
       {
         holder: "flight.launchEnvelopes[0]",
         concretePath: "flight.launchEnvelopes[0].sourcePath",
@@ -331,11 +335,15 @@ describe("catalog from every entity schema", () => {
         value: "_G/a#/e3",
       },
     ]);
-    expect(walkPath(weapons, "flight.sourcePath", {}, flight)).toEqual([
+    expect(walk("flight.sourcePath", {}, flight)).toEqual([
       { holder: "flight", concretePath: "flight.sourcePath", value: "_G/a#/x" },
     ]);
-    expect(walkPath(weapons, "sourcePaths", { sourcePaths: [] }, flight)).toEqual([]);
-    expect(walkPath(weapons, "flight.sourcePath", {}, undefined)).toEqual([]);
+    expect(walk("sourcePaths", { sourcePaths: [] }, flight)).toEqual([]);
+    expect(walk("flight.sourcePath", {}, undefined)).toEqual([]);
+    // Each value comes with the record holding it.
+    expect(walkPath(weapons, "flight.motorStages.*.impulseS", {}, flight)[1]?.parent).toBe(
+      flight.motorStages[1],
+    );
   });
 });
 
@@ -431,6 +439,46 @@ describe("table curves and envelope surfaces", () => {
     const flight = { [grid.axis.table.slice("flight.".length)]: items };
     expect(valuesAt(grid, weapons, {}, flight)).toEqual([{ path: grid.path, value: surfaces }]);
   });
+
+  it("read a Mach-sampled list as a curve over Mach at its record's step", () => {
+    const cx0 = catalogOf("weapons").entries["flight.aerodynamics.cx0"];
+    if (!cx0) throw new Error("no cx0");
+    expect(samplesOf({ cx0: [0.3, 0.4, 0.5], machStep: 0.1 }, cx0)).toEqual({
+      x: [0, 0.1, 0.2],
+      y: [0.3, 0.4, 0.5],
+    });
+    // No step field: the axis' fallback (DCS's 0.2).
+    expect(samplesOf({ cx0: [0.3, 0.4, 0.5] }, cx0)?.x).toEqual([0, 0.2, 0.4]);
+    expect(samplesOf({ cx0: [] }, cx0)).toBeNull();
+    expect(samplesOf({ machStep: 0.1 }, cx0)).toBeNull();
+    // Only a sampled entry has samples.
+    const massKg = catalogOf("weapons").entries.massKg;
+    if (!massKg) throw new Error("no massKg");
+    expect(samplesOf({ massKg: [1, 2] }, massKg)).toBeNull();
+  });
+
+  it("are what valuesAt gives a record for a Mach-sampled list, step included", () => {
+    const weapons = catalogOf("weapons");
+    const cx0 = weapons.entries["flight.aerodynamics.cx0"];
+    if (!cx0) throw new Error("no cx0");
+    const at = (aerodynamics: object) =>
+      valuesAt(cx0, weapons, {}, { aerodynamics } as Record<string, unknown>);
+    expect(at({ cx0: [0.3, 0.4], machStep: 0.1 })).toEqual([
+      { path: cx0.path, value: { x: [0, 0.1], y: [0.3, 0.4] } },
+    ]);
+    expect(at({ cx0: [] })).toEqual([]);
+    // Equal coefficients at different steps are different curves.
+    const vctx = { enums: {}, system: "metric" as const };
+    const [a] = at({ cx0: [0.3, 0.4], machStep: 0.1 });
+    const [b] = at({ cx0: [0.3, 0.4] });
+    expect(plainValue(cx0, a?.value, vctx)).toBe("2 values, 0.3 to 0.4");
+    expect(plainValue(cx0, a?.value, vctx)).toBe(plainValue(cx0, b?.value, vctx));
+    const number = displayedNumber(cx0, "metric");
+    expect(valuesDiffer([a?.value, b?.value], number)).toBe(true);
+    expect(valuesDiffer([a?.value, at({ cx0: [0.3, 0.4], machStep: 0.1 })[0]?.value], number)).toBe(
+      false,
+    );
+  });
 });
 
 describe("compare shapes", () => {
@@ -441,7 +489,8 @@ describe("compare shapes", () => {
     // A plain number list is one value; a ref list too.
     expect(weapons.entries["flight.aerodynamics.cxCoeff"]?.compareAs).toBe("value");
     expect(aircraft.entries.sensors?.compareAs).toBe("value");
-    expect(weapons.entries["flight.aerodynamics.cx0"]?.compareAs).toBe("samples");
+    // A Mach-sampled list compares as a curve over Mach.
+    expect(weapons.entries["flight.aerodynamics.cx0"]?.compareAs).toBe("curve");
     // A table column is a number per row, but compares as one curve over the table.
     expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
       kind: "number",

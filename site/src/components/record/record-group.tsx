@@ -5,11 +5,12 @@ import { getPath, holdsTable } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
 import { isAngleSectors, pathLabel } from "@/lib/format-field";
 import { isGeoField, LOCATION_ID } from "@/lib/geo";
-import { isRecord, type Json } from "@/lib/json";
+import { isRecord, type Json, present } from "@/lib/json";
 import {
   complexFields,
   rangeListOf,
   recordFields,
+  samplesOf,
   tableColumns,
   withoutNamedCodes,
 } from "@/lib/record-tables";
@@ -34,9 +35,6 @@ import { EnvelopeBlock } from "./envelope";
 
 /** A number list this long or shorter reads on its label's line, like any other value. */
 const INLINE_NUMBERS = 12;
-
-const present = (v: unknown) =>
-  v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0);
 
 /**
  * Fields a record type lists, in schema order, that this value carries. A code with its
@@ -257,24 +255,14 @@ export function blockFor(
     return field(null, "row", group ? { notes: fieldNotes(entry, group.holder) } : {});
   }
   if (entry.kind === "numbers" && list) {
-    const numbers = list as number[];
-    if (entry.axis?.kind === "sampled") {
-      const step = group?.holder[entry.axis.step.field];
+    const samples = group ? samplesOf(group.holder, entry) : null;
+    if (samples) {
       return {
         slot: "chart",
-        node: (
-          <MachCard
-            key={path}
-            entry={entry}
-            path={path}
-            values={numbers}
-            step={typeof step === "number" ? step : entry.axis.step.fallback}
-            ctx={ctx}
-          />
-        ),
+        node: <MachCard key={path} entry={entry} path={path} samples={samples} ctx={ctx} />,
       };
     }
-    return field(<NumberList entry={entry} values={numbers} vctx={ctx.vctx} />, "wide", {
+    return field(<NumberList entry={entry} values={list as number[]} vctx={ctx.vctx} />, "wide", {
       wide: list.length > INLINE_NUMBERS,
     });
   }

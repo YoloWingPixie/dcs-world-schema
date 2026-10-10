@@ -12,6 +12,7 @@ import {
   searchReference,
   storageOf,
 } from "../../src/lib/db/reference";
+import { refName } from "../../src/lib/format-field";
 import { nodeQuery } from "./db";
 
 const q = nodeQuery();
@@ -131,6 +132,18 @@ describe("browse, compare and search", () => {
     expect(index.visible).toEqual(["typeName", "theatre", "callsign", "frequencyHz", "channel"]);
   });
 
+  it("keeps ref columns' ids, naming their records in a link table per column", async () => {
+    const index = await getSeriesIndex(q, model, "beacons");
+    const catalog = catalogFor(model, "beacons");
+    const at = 2 + index.columns.indexOf("airbase");
+    const row = index.rows.find((r) => r[at] === "Afghanistan.10");
+    expect(row).toBeDefined();
+    const entry = catalog.entries.airbase;
+    if (!entry) throw new Error("no airbase");
+    expect(refName(entry, row?.[at], index.links.airbase)).toBe("Camp Bastion");
+    expect(index.links.callsign).toBeUndefined();
+  });
+
   it("reads one field across records: columns, nested JSON, keyed and axis paths", async () => {
     expect((await getFieldValues(q, model, "weapons", "massKg")).values.AIM_120C).toBeCloseTo(
       161.48,
@@ -138,8 +151,11 @@ describe("browse, compare and search", () => {
     expect(
       (await getFieldValues(q, model, "aircraft", "aero.maxTakeoffKg")).values["F-16C_50"],
     ).toBe(19187);
+    // A Mach-sampled list: a curve over Mach at the record's own step, else DCS's 0.2.
     const cx0 = await getFieldValues(q, model, "weapons", "flight.aerodynamics.cx0");
-    expect(Array.isArray(cx0.values.AIM_120C)).toBe(true);
+    const machs = (id: string) => (cx0.values[id] as { x: number[] }).x.slice(0, 3);
+    expect(machs("AIM_120C")).toEqual([0, 0.2, 0.4]);
+    expect(machs("AGM_84H")).toEqual([0, 0.1, 0.2]);
     const curve = await getFieldValues(q, model, "aircraft", "flight.aerodynamics.table[].cx0");
     expect((curve.values["F-16C_50"] as { x: number[] }).x.length).toBeGreaterThan(5);
     const keyed = await keyedFieldPaths(q, model, "weapons");

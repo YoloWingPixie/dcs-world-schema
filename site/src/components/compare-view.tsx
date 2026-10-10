@@ -1,12 +1,11 @@
 "use client";
 
 import { type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useState } from "react";
-import { catalogKeyFor, companionLabel, comparableValues } from "@/lib/catalog";
+import { catalogKeyFor, companionLabel, comparableValues, entryFor } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
 import {
   loadCatalog,
   loadFieldPaths,
-  loadFieldValues,
   loadLinkedField,
   loadRecord,
   loadSeriesIndex,
@@ -27,10 +26,10 @@ import {
   axisLabel,
   displayedNumber,
   isXY,
-  machAxis,
   pathLabel,
   plainValue,
   sortableValue,
+  surfaceAxes,
   type ValueContext,
   valuesDiffer,
 } from "@/lib/format-field";
@@ -40,7 +39,7 @@ import { sectionFor } from "@/lib/placement";
 import { asSurfaces } from "@/lib/record-tables";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { capitalise, compareSortKeys, naturalCompare, squash } from "@/lib/text";
-import type { CatalogEntry, FieldValues, RecordDoc, SeriesCatalog } from "@/lib/types";
+import type { CatalogEntry, RecordDoc, SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import {
   convertNumber,
@@ -62,7 +61,8 @@ import { SortHeader, type SortState } from "./sort-header";
 
 const MAX_SERIES = SERIES_COLORS.length;
 
-type RecordInfo = { name: string; id: string; sub: string };
+/** A record by its id (the map key): its name and subtitle. */
+type RecordInfo = { name: string; sub: string };
 
 /**
  * A field's group: the record page's section of it (lib/placement.ts `sectionFor`), a
@@ -75,11 +75,6 @@ function sectionOf(catalog: SeriesCatalog, key: string): { id: string; label: st
       ? `${companionLabel(catalog)}: ${section.title}`
       : section.title;
   return { id: section.id, label };
-}
-
-function entryFor(catalog: SeriesCatalog, path: string): CatalogEntry | null {
-  const key = catalogKeyFor(path, catalog);
-  return key ? (catalog.entries[key] ?? null) : null;
 }
 
 export function CompareView() {
@@ -100,18 +95,19 @@ function Comparison({ state }: { state: CompareState }) {
   const { model } = useModel();
   const index = useLoaded(loadSeriesIndex, series);
 
-  // Each record's name, id and subtitle (its first browse column, as browse shows it).
+  // Each record's name and subtitle (its first browse column, as browse shows it), by id.
   const records = useMemo(() => {
     const map = new Map<string, RecordInfo>();
     if (!index || !catalog) return map;
     const firstCol = index.visible[0];
     const col = firstCol ? index.columns.indexOf(firstCol) : -1;
     const colEntry = firstCol ? browseEntry(catalog, firstCol, "column") : null;
-    const ctx: ValueContext = { enums: catalog.enums, system };
+    const links = firstCol ? index.links[firstCol] : undefined;
+    const ctx: ValueContext = { enums: catalog.enums, system, ...(links ? { links } : {}) };
     for (const row of index.rows) {
       const [id, name] = row;
       const sub = col >= 0 && colEntry ? cellText(colEntry, row[2 + col], ctx) : "";
-      map.set(id, { name, id, sub });
+      map.set(id, { name, sub });
     }
     return map;
   }, [index, catalog, system]);
@@ -287,7 +283,7 @@ function AddPicker({
     for (const [slug, info] of records) {
       if (skip.has(slug)) continue;
       const n = info.name.toLowerCase();
-      const id = info.id.toLowerCase();
+      const id = slug.toLowerCase();
       let score = -1;
       if (n === q || id === q) score = 0;
       else if (n.startsWith(q) || id.startsWith(q)) score = 1;
@@ -364,7 +360,7 @@ function AddPicker({
                 role="option"
                 tabIndex={-1}
                 aria-selected={i === active}
-                aria-label={[hit.info.name, hit.info.sub, hit.info.id].filter(Boolean).join(", ")}
+                aria-label={[hit.info.name, hit.info.sub, hit.slug].filter(Boolean).join(", ")}
                 className="result"
                 onMouseDown={(e) => e.preventDefault()}
                 onMouseMove={() => setActive(i)}
@@ -372,7 +368,7 @@ function AddPicker({
               >
                 <span className="result-name">{hit.info.name}</span>
                 <span className="result-meta">{hit.info.sub}</span>
-                <span className="result-id">{hit.info.id}</span>
+                <span className="result-id">{hit.slug}</span>
               </div>
             ))}
           </div>
@@ -476,16 +472,6 @@ type FieldProps = {
 function FieldCompare(props: FieldProps) {
   const { series, path, entry, catalog, selected, records, color, system } = props;
   const values = useLoaded(() => loadLinkedField(series, path), path);
-  // A Mach-sampled field's step: its sibling step field per record (catalog `axis.step`).
-  const sampled =
-    entry.compareAs === "samples" && entry.axis?.kind === "sampled" ? entry.axis : null;
-  const stepPath = sampled ? path.replace(/[^.]+$/, sampled.step.field) : "";
-  const stepKey = stepPath ? catalogKeyFor(stepPath, catalog) : null;
-  const hasStep = Boolean(stepKey && catalog.entries[stepKey]?.compareAs !== undefined);
-  const steps = useLoaded<FieldValues | null>(
-    (p) => (p ? loadFieldValues(series, p) : Promise.resolve(null)),
-    hasStep ? stepPath : null,
-  );
   const all = useMemo(() => values?.values ?? {}, [values]);
   const have = useMemo(() => selected.filter((s) => all[s] !== undefined), [selected, all]);
   const missing = selected.filter((s) => all[s] === undefined);
@@ -499,22 +485,7 @@ function FieldCompare(props: FieldProps) {
 
   let selection: ReactNode;
   if (!values) selection = <p className="muted">Loading…</p>;
-  else if (sampled) {
-    selection = (
-      <MachCompare
-        slugs={have}
-        all={all}
-        steps={steps?.values ?? {}}
-        fallback={sampled.step.fallback}
-        xLabel={sampled.label}
-        name={name}
-        color={color}
-        label={label}
-        entry={entry}
-        system={system}
-      />
-    );
-  } else if (entry.compareAs === "surfaces") {
+  else if (entry.compareAs === "surfaces") {
     selection = (
       <EnvelopeCompare
         slugs={have}
@@ -606,57 +577,10 @@ function TooMany({ slugs }: { slugs: string[] }) {
   ) : null;
 }
 
-/** Mach-indexed lists (`numbers` on the Mach axis): each record's values at its own step. */
-function MachCompare({
-  slugs,
-  all,
-  steps,
-  fallback,
-  xLabel,
-  name,
-  color,
-  label,
-  entry,
-  system,
-}: {
-  slugs: string[];
-  all: Record<string, unknown>;
-  /** Each record's step (catalog `axis.step.field`), else `fallback`. */
-  steps: Record<string, unknown>;
-  fallback: number;
-  /** The axis' name ("Mach"). */
-  xLabel: string;
-  name: (s: string) => string;
-  color: (s: string) => string | undefined;
-  label: string;
-  entry: CatalogEntry;
-  system: UnitSystem;
-}) {
-  const series = slugs.map((slug): ChartSeries => {
-    const own = steps[slug];
-    const step = typeof own === "number" ? own : fallback;
-    const values = (Array.isArray(all[slug]) ? (all[slug] as unknown[]) : [])
-      .filter((v): v is number => typeof v === "number")
-      .map((v) => convertNumber(v, entry, system));
-    return {
-      id: slug,
-      label: name(slug),
-      color: color(slug) ?? "var(--ink-3)",
-      x: machAxis(values.length, step),
-      values,
-    };
-  });
-  return (
-    <SeriesCompare
-      series={series}
-      title={label}
-      xLabel={xLabel}
-      yUnit={displayUnit(entry, system)}
-    />
-  );
-}
-
-/** Axis-table columns (`flight.aerodynamics.table[].cx0`): `{x, y}` curves per record. */
+/**
+ * Curves (`compareAs: "curve"`): axis-table columns (`flight.aerodynamics.table[].cx0`) and
+ * Mach-sampled lists (`flight.aerodynamics.cx0`), one `{x, y}` per record.
+ */
 function CurveCompare({
   slugs,
   all,
@@ -704,7 +628,6 @@ function SeriesCompare({
   xLabel,
   yUnit,
 }: {
-  /** Each with explicit `x`. */
   series: ChartSeries[];
   title: string;
   xLabel: string;
@@ -712,9 +635,9 @@ function SeriesCompare({
 }) {
   if (series.length === 0) return <p className="muted">No data.</p>;
   const charted = series.slice(0, MAX_SERIES);
-  const xs = [...new Set(series.flatMap((s) => s.x ?? []))].sort((a, b) => a - b);
+  const xs = [...new Set(series.flatMap((s) => s.x))].sort((a, b) => a - b);
   const valueAt = (s: ChartSeries, x: number) => {
-    const i = (s.x ?? []).findIndex((v) => Math.abs(v - x) < 1e-9);
+    const i = s.x.findIndex((v) => Math.abs(v - x) < 1e-9);
     return i >= 0 ? s.values[i] : undefined;
   };
   return (
@@ -774,9 +697,10 @@ function EnvelopeCompare({
   path: string;
   system: UnitSystem;
 }) {
-  const surface = entry.axis?.kind === "surface" ? entry.axis : null;
-  const rowEntry = surface ? catalog.entries[surface.paths.rows] : undefined;
-  const colEntry = surface ? catalog.entries[surface.paths.cols] : undefined;
+  // The axes labelled for one value ("Altitude", "Speed"), as on the record page.
+  const axes = surfaceAxes(catalog, entry.axis);
+  const rowEntry = axes?.rows;
+  const colEntry = axes?.cols;
   const rows = useMemo(() => {
     const set = new Set<number>();
     for (const s of slugs.length ? slugs : Object.keys(all))
@@ -950,13 +874,12 @@ function AllRecordsTable({
         value,
         text,
         name: r?.name ?? slug,
-        id: r?.id ?? slug,
         sub: r?.sub ?? "",
         sort: sortValue,
       };
     });
     const visible = f
-      ? list.filter((r) => `${r.name} ${r.id} ${r.sub} ${r.text}`.toLowerCase().includes(f))
+      ? list.filter((r) => `${r.name} ${r.slug} ${r.sub} ${r.text}`.toLowerCase().includes(f))
       : list;
     const key = (r: (typeof list)[number]) =>
       sort.key === "name" ? r.name : sort.key === "sub" ? r.sub : r.sort;
@@ -1012,7 +935,7 @@ function AllRecordsTable({
                   </td>
                   <td className="name-cell">
                     <RefLink href={recordHref(series, r.slug)}>{r.name}</RefLink>
-                    <span className="sub mono">{r.id}</span>
+                    <span className="sub mono">{r.slug}</span>
                   </td>
                   <td>{r.sub || <span className="muted">—</span>}</td>
                   <td className="num">{r.text}</td>

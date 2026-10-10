@@ -12,6 +12,8 @@
 export type EnumField = {
   /** The record field holding the number (`category`). */
   path: string;
+  /** What the value is, as the scripting section's row reads ("Category"). */
+  label: string;
   /** The field holding DCS's constant name for it (`categoryName`): it must name the key. */
   name: string;
   /** Candidate enums; a value maps to the one whose key matches the constant name. */
@@ -78,6 +80,7 @@ export const SCRIPTING: Record<string, Scripting> = {
     values: [
       {
         path: "category",
+        label: "Category",
         name: "categoryName",
         enums: ["Airbase.Category"],
         facet: "categoryName",
@@ -88,8 +91,19 @@ export const SCRIPTING: Record<string, Scripting> = {
   sensors: {
     enums: ["DcsId.SensorName"],
     values: [
-      { path: "category", name: "categoryName", enums: ["Unit.SensorType"], facet: "categoryName" },
-      { path: "type", name: "typeName", enums: ["Unit.RadarType", "Unit.OpticType"] },
+      {
+        path: "category",
+        label: "Category",
+        name: "categoryName",
+        enums: ["Unit.SensorType"],
+        facet: "categoryName",
+      },
+      {
+        path: "type",
+        label: "Type",
+        name: "typeName",
+        enums: ["Unit.RadarType", "Unit.OpticType"],
+      },
     ],
   },
   skills: { enums: ["DcsId.Skill"] },

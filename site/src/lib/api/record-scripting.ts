@@ -192,7 +192,7 @@ export async function loadScripting(
       if (!hit) continue;
       rows.push({
         id: `value-${v.path}`,
-        label: { text: v.path === "type" ? "Type" : "Category" },
+        label: { text: v.label },
         value: enumLink(page, hit.key),
         note: `${name} = ${raw}`,
       });
