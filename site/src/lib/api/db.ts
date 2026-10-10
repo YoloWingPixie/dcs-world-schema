@@ -4,6 +4,7 @@
  * the browser's range-request worker or node:sqlite in tests.
  */
 import { ftsQuery, type Query } from "../db/reference";
+import { squash } from "../text";
 import { apiHref } from "./routes";
 import type { ApiOverlay, ApiOverlayFile, ApiPage, ApiSection, Member, PageSummary } from "./types";
 
@@ -161,16 +162,12 @@ export async function searchApi(q: Query, query: string, limit = 40): Promise<Ap
       WHERE search_fts MATCH ? AND s.series = ? ORDER BY score LIMIT ?`,
     [match, API_SERIES, limit],
   );
-  const wanted = query
-    .trim()
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "");
+  const wanted = squash(query);
   return rows
     .map((r) => {
       const path = String(r.name);
       const last = path.split(/[.:]/).pop() ?? path;
-      const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
-      const exact = norm(path) === wanted || norm(last) === wanted;
+      const exact = squash(path) === wanted || squash(last) === wanted;
       return {
         href: String(r.id),
         path,

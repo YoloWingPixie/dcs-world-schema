@@ -3,7 +3,9 @@
  * built from dcs-world-schema/types/entities/*.yaml. Shared by the data build (values
  * files, facets) and the client renderer (labels, units, descriptions, kinds).
  */
+import { isRecord, type Json } from "./json";
 import { seriesForRef } from "./series";
+import { capitalise } from "./text";
 import type { CatalogEntry, EnumInfo, FieldKind, SeriesCatalog } from "./types";
 import { stripUnitSuffix, unitFor } from "./units";
 
@@ -113,8 +115,7 @@ export function humanize(name: string): string {
     .split(/\s+/)
     .filter(Boolean)
     .map((w) => ACRONYMS[w.toLowerCase()] ?? w.toLowerCase());
-  const label = words.join(" ") || name;
-  return label.charAt(0).toUpperCase() + label.slice(1);
+  return capitalise(words.join(" ") || name);
 }
 
 /** `Optional zero-lift drag coefficient per Mach sample (`Cx0`).` -> `Zero-lift drag coefficient`. */
@@ -126,7 +127,7 @@ export function labelFromDescription(description: string): string {
     .replace(/\s+per Mach sample/, "")
     .replace(/;.*$/, "")
     .trim();
-  return text.charAt(0).toUpperCase() + text.slice(1);
+  return capitalise(text);
 }
 
 /** The DCS key a field reads: "... (`key`)." at the end, or "Optional `key`, ..." at the start. */
@@ -157,8 +158,7 @@ export function enumConstantLabel(constant: string): string {
       if (/^[A-Z0-9]{1,4}(\/[A-Z0-9]{1,4})+$/.test(w)) return w;
       return lower;
     });
-  const label = parts.join(" ") || constant;
-  return label.charAt(0).toUpperCase() + label.slice(1);
+  return capitalise(parts.join(" ") || constant);
 }
 
 const isRecordType = (types: SchemaTypes, t: string) => types[t]?.kind === "record";
@@ -392,11 +392,7 @@ export function buildSeriesCatalog(
 // ---------------------------------------------------------------------------
 // Paths and values
 
-type Json = Record<string, unknown>;
-
-export function isRecord(value: unknown): value is Json {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
+export { isRecord };
 
 /**
  * `flight.motorStages.march.impulseS` -> `flight.motorStages.*.impulseS` (the catalog key),
@@ -500,19 +496,6 @@ export function getPath(node: unknown, path: string): unknown {
     cur = cur[seg];
   }
   return cur;
-}
-
-/** Value of a concrete path (`flight.motorStages.march.impulseS`, `aero.massKg`). */
-export function valueAtConcrete(
-  path: string,
-  catalog: Pick<SeriesCatalog, "entries">,
-  data: Json,
-  companion?: Json,
-): unknown {
-  const key = catalogKeyFor(path, catalog);
-  const entry = key ? catalog.entries[key] : undefined;
-  if (!entry) return undefined;
-  return valuesAt(entry, catalog, data, companion).find((v) => v.path === path)?.value;
 }
 
 /** Comparable values of a record, by concrete path. */

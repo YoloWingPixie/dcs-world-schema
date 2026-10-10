@@ -1,5 +1,6 @@
 /** Friendly names for DCS constants. Presentation only: the raw constant is always shown beside it. */
 import { enumConstantLabel } from "./catalog";
+import { capitalise, squash } from "./text";
 import type { CatalogEntry, EnumInfo } from "./types";
 
 const CATEGORY: Record<string, string> = {
@@ -75,14 +76,6 @@ const CONSTANTS: Record<string, string> = {
   MODULATION_AM_AND_FM: "AM and FM",
 };
 
-export function categoryLabel(constant: string | null | undefined): string | null {
-  return constant ? (CATEGORY[constant] ?? constantLabel(constant)) : null;
-}
-
-export function kindLabel(constant: string | null | undefined): string | null {
-  return constant ? (KIND[constant] ?? constantLabel(constant)) : null;
-}
-
 export function guidanceLabel(constant: string | null | undefined): string | null {
   return constant ? (GUIDANCE[constant] ?? constant.replace(/([a-z])([A-Z])/g, "$1 $2")) : null;
 }
@@ -108,8 +101,6 @@ export function enumConstant(
   return hits.length === 1 ? (hits[0] ?? null) : null;
 }
 
-const letters = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
-
 /**
  * Friendly label and raw form of an enum value: `{ label: "Radar", raw: "SENSOR_RADAR = 1" }`.
  * String enums whose values are words (`fixedwing`) get a capitalised label. A raw form that
@@ -130,7 +121,7 @@ export function enumDisplay(
     return { label: d.label, raw: d.label, rewrite: false };
   }
   const code = d.raw.replace(/\s*=\s*-?\d+$/, "");
-  return { ...d, rewrite: !letters(code).includes(letters(d.label)) };
+  return { ...d, rewrite: !squash(code).includes(squash(d.label)) };
 }
 
 function enumDisplayRaw(
@@ -150,7 +141,7 @@ function enumDisplayRaw(
   const text = String(value);
   // Value side of a string enum (`ROTARY: "rotary"`): label the value itself.
   if (/^[a-z][a-z0-9 -]*$/.test(text)) {
-    return { label: text.charAt(0).toUpperCase() + text.slice(1).replace(/-/g, " "), raw: text };
+    return { label: capitalise(text.replace(/-/g, " ")), raw: text };
   }
   return { label: constantLabel(text), raw: text };
 }

@@ -19,6 +19,7 @@ import type {
 } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import { formatWithUnit, unitGap } from "@/lib/units";
+import { useLoaded } from "@/lib/use-loaded";
 import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../field-view";
 import { LocationFigure } from "../location-map";
 import { Markdown } from "../Markdown";
@@ -39,24 +40,23 @@ type Section = {
 const PROVENANCE = new Set(["sourcePaths", "sourcePath", "_source"]);
 const HEADER_FIELDS = new Set(["id"]);
 
+type RecordState = {
+  catalog: SeriesCatalog | null;
+  doc: RecordDoc | null;
+  error: string | null;
+};
+const NOT_LOADED: RecordState = { catalog: null, doc: null, error: null };
+
 function useRecord(series: string, slug: string) {
-  const [state, setState] = useState<{
-    catalog: SeriesCatalog | null;
-    doc: RecordDoc | null;
-    error: string | null;
-  }>({ catalog: null, doc: null, error: null });
-  useEffect(() => {
-    let live = true;
-    setState({ catalog: null, doc: null, error: null });
-    Promise.all([loadCatalog(series), loadRecord(series, slug)]).then(
-      ([catalog, doc]) => live && setState({ catalog, doc, error: null }),
-      (error: unknown) => live && setState({ catalog: null, doc: null, error: String(error) }),
-    );
-    return () => {
-      live = false;
-    };
-  }, [series, slug]);
-  return state;
+  const state = useLoaded(
+    (): Promise<RecordState> =>
+      Promise.all([loadCatalog(series), loadRecord(series, slug)]).then(
+        ([catalog, doc]) => ({ catalog, doc, error: null }),
+        (error: unknown) => ({ catalog: null, doc: null, error: String(error) }),
+      ),
+    `${series}/${slug}`,
+  );
+  return state ?? NOT_LOADED;
 }
 
 function sectionsFor(
@@ -214,7 +214,11 @@ function ProvenanceRow({
 }) {
   const list = Array.isArray(value) ? value.map(String) : [String(value)];
   return (
-    <div className="field field-wide" tabIndex={0} aria-describedby={tipIdFor(ctx.fctx, path)}>
+    <div
+      className="field field-interactive field-wide"
+      tabIndex={0}
+      aria-describedby={tipIdFor(ctx.fctx, path)}
+    >
       <span className="field-label">
         {path.startsWith(COMPANION_PREFIX)
           ? `Flight model ${entry.label.toLowerCase()}`

@@ -45,6 +45,12 @@ export const CloseIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const CodeIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="m8 7-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16" />
+  </Icon>
+);
+
 export const CopyIcon = (p: IconProps) => (
   <Icon {...p}>
     <rect x="8" y="8" width="12" height="12" rx="2" />

@@ -1,6 +1,5 @@
 import { preload } from "react-dom";
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { BASE_PATH } from "@/lib/base-path";
 
 // The faces the first screen needs: headings (Archivo 700) and body text (Source Serif 4
 // 400). Same files as the latin-*.css @font-face rules in layout.tsx, so the bundler gives

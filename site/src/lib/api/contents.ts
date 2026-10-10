@@ -3,6 +3,7 @@
  * groupings (components/api/api-home.tsx), each counted from the API page rows.
  */
 import type { Query } from "../db/reference";
+import { SECTION_LABEL } from "./routes";
 
 /** Pages per section and kind: `apiPages` in /data/reference.json, or `apiPageCounts`. */
 export type ApiPageCounts = Record<string, Record<string, number>>;
@@ -38,28 +39,28 @@ export function apiContents(counts: ApiPageCounts): ApiContentsEntry[] {
     },
     {
       id: "hooks",
-      label: "Hooks (GameGUI)",
+      label: SECTION_LABEL.hooks,
       href: "/api/#hooks",
       blurb: "The server and GUI hooks environment: DCS, net, Sim and their tables.",
       count: sum(counts.hooks),
     },
     {
       id: "export",
-      label: "Export",
+      label: SECTION_LABEL.export,
       href: "/api/#export",
       blurb: "Globals of the Export.lua environment.",
       count: sum(counts.export),
     },
     {
       id: "server",
-      label: "Server",
+      label: SECTION_LABEL.server,
       href: "/api/#server",
       blurb: "Globals of the dedicated server environment.",
       count: sum(counts.server),
     },
     {
       id: "types",
-      label: "Types",
+      label: SECTION_LABEL.types,
       href: "/api/#types",
       blurb: "Records, enums and unions the functions take and return: DcsTask, DcsId, AI.",
       count: sum(counts.types),

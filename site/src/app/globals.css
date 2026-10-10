@@ -4,6 +4,8 @@
    boxes: radius 0, no shadows. Tokens on :root; dark and light are both chosen. */
 
 :root {
+  /* The spaced-dot leader of the contents list and field rows (clipped to fit). */
+  --leader-dots: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
   --font-head: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --font-body: "Source Serif 4", "Source Serif Pro", Georgia, serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
@@ -336,8 +338,7 @@ select {
   height: 17px;
 }
 
-.search-trigger,
-.icon-btn {
+.search-trigger {
   flex-shrink: 0;
 }
 
@@ -400,13 +401,6 @@ main {
   padding-bottom: 12px;
   border-bottom: 3px solid var(--rule);
   margin-bottom: 28px;
-}
-
-.lede {
-  color: var(--ink-2);
-  font-size: 18px;
-  max-width: var(--measure);
-  margin-top: 8px;
 }
 
 .site-footer {
@@ -498,6 +492,58 @@ main {
 .btn svg {
   width: 15px;
   height: 15px;
+}
+
+/* Segmented choices as a run of text, the chosen one (aria-pressed) bold and underlined:
+   chart columns, envelope tables, search sources, API environments. `.seg-slash` sets two
+   choices as "A / B" (`.seg-sep` between), the chosen one bold only. */
+.seg {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px 16px;
+}
+
+.seg-btn {
+  font: 500 13.5px var(--font-head);
+  padding: 3px 0;
+  border: 0;
+  background: none;
+  color: var(--ink-3);
+  cursor: pointer;
+}
+
+.seg-btn:hover {
+  color: var(--ink);
+}
+
+.seg-btn[aria-pressed="true"] {
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+.seg-slash {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.seg-slash .seg-btn {
+  font-weight: 400;
+  font-size: 14px;
+  padding: 4px 0;
+  text-decoration: none;
+}
+
+.seg-slash .seg-btn[aria-pressed="true"] {
+  font-weight: 700;
+}
+
+.seg-sep {
+  color: var(--ink-3);
 }
 
 .chip {
@@ -612,11 +658,6 @@ select.input {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 16px;
-}
-
-.block-title {
-  font-size: 20px;
-  margin-bottom: 12px;
 }
 
 /* --------------------------------------------- contents (home, /reference) */
@@ -865,14 +906,6 @@ select.input {
   color: var(--ink-3);
 }
 
-.result-mark {
-  background: transparent;
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-}
-
 .results-empty {
   padding: 18px 16px;
   color: var(--ink-2);
@@ -891,16 +924,20 @@ select.input {
 
 /* --------------------------------------------------------------- palette */
 
-.palette-backdrop {
+/* A dialog's dimmed page (the palette, the Lua drawer). */
+.modal-backdrop {
   position: fixed;
   inset: 0;
   z-index: 60;
   background: rgb(0 0 0 / 0.45);
   display: flex;
+  animation: fade-in 120ms ease-out;
+}
+
+.palette-backdrop {
   justify-content: center;
   align-items: flex-start;
   padding: 12vh 16px 16px;
-  animation: fade-in 120ms ease-out;
 }
 
 .palette {
@@ -920,7 +957,7 @@ select.input {
 .palette .combo-popup {
   position: static;
   border: 0;
-  max-height: min(56vh, 480px);
+  max-height: min(64vh, 560px);
 }
 
 @keyframes fade-in {
@@ -1176,19 +1213,6 @@ select.input {
   text-underline-offset: 3px;
 }
 
-.flags {
-  display: flex;
-  gap: 4px 10px;
-  flex-wrap: wrap;
-}
-
-.flag {
-  font-family: var(--font-head);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink-2);
-}
-
 /* ---------------------------------------------------------------- record */
 
 .record-layout {
@@ -1409,10 +1433,6 @@ select.input {
   color: var(--ink-2);
 }
 
-.readout-empty {
-  color: var(--ink-3);
-}
-
 /* Phones: a readout's description opens from the strip's left edge, on screen. */
 @media (max-width: 640px) {
   .readouts {
@@ -1434,8 +1454,7 @@ select.input {
 /* Numbered sections. Pages that number their sections set `counter-reset: chapter`. */
 .record-body,
 .api-body,
-.api-home,
-.compare-body {
+.api-home {
   counter-reset: chapter;
 }
 
@@ -1470,24 +1489,6 @@ select.input {
   min-width: 2.4em;
 }
 
-.section-source {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--ink-3);
-  overflow-wrap: anywhere;
-}
-
-.stage-title {
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 15px;
-  margin: 18px 0 2px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
 /* Field rows: label, dot leader, value, as in a checklist. Two columns when wide. */
 .fields {
   display: grid;
@@ -1503,12 +1504,16 @@ select.input {
   gap: 2px 6px;
   align-items: baseline;
   padding: 5px 0;
+}
+
+/* Rows with a field menu (and its hover); scripting rows have none. */
+.field-interactive {
   cursor: context-menu;
 }
 
-.field:hover,
-.field:focus-visible,
-.field[data-menu-open="true"] {
+.field-interactive:hover,
+.field-interactive:focus-visible,
+.field-interactive[data-menu-open="true"] {
   background: var(--paper-2);
   box-shadow:
     -6px 0 0 var(--paper-2),
@@ -1528,7 +1533,7 @@ select.input {
 .field:not(.field-wide) > .field-label::after,
 .field-wide:has(> .field-body > .value-list) > .field-label::after,
 .contents-leader::before {
-  content: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
+  content: var(--leader-dots);
   letter-spacing: 0.08em;
   color: var(--ink-3);
 }
@@ -1559,9 +1564,9 @@ select.input {
   .field-wide > .field-actions {
     top: 9px;
   }
-  .field:hover,
-  .field:focus-visible,
-  .field[data-menu-open="true"] {
+  .field-interactive:hover,
+  .field-interactive:focus-visible,
+  .field-interactive[data-menu-open="true"] {
     box-shadow:
       -6px 0 0 var(--paper-2),
       32px 0 0 var(--paper-2);
@@ -1619,18 +1624,9 @@ select.input {
 }
 
 /* Scripting rows (record pages): the API member or role, a leader, the value. One column
-   for the long Lua names; no field menu, so no menu cursor or hover. */
+   for the long Lua names; no field menu (not .field-interactive). */
 .script-fields {
   grid-template-columns: minmax(0, 1fr);
-}
-
-.script-field {
-  cursor: auto;
-}
-
-.script-field:hover {
-  background: none;
-  box-shadow: none;
 }
 
 .script-label {
@@ -1944,23 +1940,6 @@ details.exact summary:hover {
 }
 
 /* Launch grid */
-.grid-block {
-  margin-top: 16px;
-}
-
-.grid-block-head {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-
-.grid-block-head h3 {
-  font-weight: 700;
-  font-size: 15px;
-}
-
 .launch-grid {
   border-collapse: collapse;
   font-size: 13px;

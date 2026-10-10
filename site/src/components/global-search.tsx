@@ -19,8 +19,6 @@ const PER_GROUP = 4;
 const PER_SOURCE = 50;
 
 type Props = {
-  label: string;
-  placeholder?: string;
   autoFocus?: boolean;
   /** Palette: the list is always open; inline: it opens while typing. */
   variant: "palette" | "inline" | "page";
@@ -28,26 +26,22 @@ type Props = {
   onPick: (item: SearchResultItem) => void;
   onEscape?: () => void;
   onQueryChange?: (q: string) => void;
-  emptyHint?: ReactNode;
   footer?: ReactNode;
 };
 
 type Row = SearchResultItem & { source: string; sourceLabel: string };
 
 /**
- * The global search: every registered source (lib/search/sources.ts), grouped by source,
+ * The global search: every registered provider (lib/search/sources.ts), grouped by source,
  * with source filter chips and arrow-key navigation across groups.
  */
 export function GlobalSearch({
-  label,
-  placeholder = "Search",
   autoFocus,
   variant,
   initialQuery = "",
   onPick,
   onEscape,
   onQueryChange,
-  emptyHint,
   footer,
 }: Props) {
   const [query, setQuery] = useState(initialQuery);
@@ -62,7 +56,6 @@ export function GlobalSearch({
   useEffect(() => {
     if (autoFocus) inputRef.current?.focus();
   }, [autoFocus]);
-  useEffect(() => setQuery(initialQuery), [initialQuery]);
 
   const visibleGroups = useMemo(() => {
     const groups = filter ? results.groups.filter((g) => g.source.id === filter) : results.groups;
@@ -135,14 +128,14 @@ export function GlobalSearch({
           ref={inputRef}
           className="combo-input"
           role="combobox"
-          aria-label={label}
+          aria-label="Search"
           aria-expanded={showList}
           aria-controls={listId}
           aria-activedescendant={showList ? activeId : undefined}
           aria-autocomplete="list"
           autoComplete="off"
           spellCheck={false}
-          placeholder={placeholder}
+          placeholder="Search"
           value={query}
           onFocus={() => {
             setEnabled(true);
@@ -165,7 +158,7 @@ export function GlobalSearch({
             <div className="gsearch-chips" role="group" aria-label="Filter results">
               <button
                 type="button"
-                className="gchip"
+                className="seg-btn gchip"
                 aria-pressed={filter === null}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => setFilter(null)}
@@ -176,7 +169,7 @@ export function GlobalSearch({
                 <button
                   type="button"
                   key={g.source.id}
-                  className="gchip"
+                  className="seg-btn gchip"
                   aria-pressed={filter === g.source.id}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => setFilter(filter === g.source.id ? null : g.source.id)}
@@ -189,7 +182,7 @@ export function GlobalSearch({
               ))}
             </div>
           ) : null}
-          <div className="results" id={listId} role="listbox" aria-label={`${label} results`}>
+          <div className="results" id={listId} role="listbox" aria-label="Search results">
             {visibleGroups.map((g) => (
               // biome-ignore lint/a11y/useSemanticElements: an option group inside a listbox
               <div role="group" aria-labelledby={`${listId}-g-${g.source.id}`} key={g.source.id}>
@@ -252,7 +245,6 @@ export function GlobalSearch({
               Failed to load: {results.failed.map((s) => s.label).join(", ")}.
             </div>
           ) : null}
-          {!q && emptyHint ? emptyHint : null}
           {q && variant !== "page" ? (
             <div className="results-all">
               <Link href={`/search/?q=${encodeURIComponent(q)}`} onClick={() => onEscape?.()}>

@@ -5,7 +5,7 @@ import type { ScriptingRow, ScriptingText } from "@/lib/api/record-scripting";
 import { SCRIPTING } from "@/lib/api/scripting";
 import { browserQuery } from "@/lib/db/browser";
 import type { RecordDoc } from "@/lib/types";
-import { ApiLink } from "../api/api-link";
+import { RefLink } from "../ref-link";
 
 export const SCRIPTING_ID = "scripting";
 
@@ -59,7 +59,7 @@ function breakable(text: string) {
 
 function Text({ t }: { t: ScriptingText }) {
   const body = t.code ? <code>{breakable(t.text)}</code> : t.text;
-  return t.href ? <ApiLink href={t.href}>{body}</ApiLink> : body;
+  return t.href ? <RefLink href={t.href}>{body}</RefLink> : body;
 }
 
 /** Labelled rows, as the record's own fields: the API member or role, a leader, the value. */

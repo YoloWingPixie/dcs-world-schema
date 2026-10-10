@@ -5,6 +5,7 @@
  * the hand-written overlays shipped with the site (public/overlays/reference.json).
  * Overlays naming a record or field the database no longer has are ignored.
  */
+import { BASE_PATH } from "./base-path";
 import { COMPANION_PREFIX } from "./catalog";
 import { browserQuery } from "./db/browser";
 import {
@@ -19,6 +20,7 @@ import {
   type Model,
   referencedByGroup,
 } from "./db/reference";
+import { fetchJsonOr, once } from "./once";
 import { slugify } from "./series-display";
 import type {
   FieldValues,
@@ -27,10 +29,7 @@ import type {
   RecordDoc,
   SeriesCatalog,
   SeriesIndex,
-  SiteManifest,
 } from "./types";
-
-export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export type OverlayFile = {
   series: Record<
@@ -43,29 +42,12 @@ export type OverlayFile = {
   >;
 };
 
-const memo = new Map<string, Promise<unknown>>();
-function once<T>(key: string, load: () => Promise<T>): Promise<T> {
-  const hit = memo.get(key);
-  if (hit) return hit as Promise<T>;
-  const promise = load();
-  promise.catch(() => memo.delete(key));
-  memo.set(key, promise);
-  return promise;
-}
-
 export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
 
 const NO_OVERLAYS: OverlayFile = { series: {} };
 const OVERLAYS_URL = `${BASE_PATH}/overlays/reference.json`;
 
-export const loadOverlays = () =>
-  once(
-    "overlays",
-    (): Promise<OverlayFile> =>
-      fetch(OVERLAYS_URL)
-        .then((r) => (r.ok ? (r.json() as Promise<OverlayFile>) : NO_OVERLAYS))
-        .catch(() => NO_OVERLAYS),
-  );
+export const loadOverlays = () => once("overlays", () => fetchJsonOr(OVERLAYS_URL, NO_OVERLAYS));
 
 /** The overlay of a record (and of its companion record), matched by id or slug. */
 export function recordOverlay(file: OverlayFile, model: Model, series: string, id: string) {
@@ -84,16 +66,6 @@ export function recordOverlay(file: OverlayFile, model: Model, series: string, i
   if (seeAlso.length) merged.seeAlso = seeAlso;
   return merged;
 }
-
-export const loadManifest = () =>
-  once("manifest", async (): Promise<SiteManifest> => {
-    const model = await loadModel();
-    return {
-      dcsVersion: model.meta.dcsVersion ?? "",
-      extractedAt: model.meta.extractedAt ?? "",
-      series: model.series.map((s) => ({ id: s.id, count: s.count, fields: 0 })),
-    };
-  });
 
 export const loadCatalog = (series: string) =>
   once(`catalog:${series}`, async (): Promise<SeriesCatalog> => {

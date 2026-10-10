@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import type { MouseEvent } from "react";
-
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { BASE_PATH } from "@/lib/base-path";
 
 /** Prefixes basePath onto site-relative links (`/x` but not `//x`). */
 export function withBasePath(html: string): string {

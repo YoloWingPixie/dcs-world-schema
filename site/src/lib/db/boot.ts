@@ -6,7 +6,8 @@
  * up the config promise from `window.__dcsRefConfig`.
  */
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { BASE_PATH } from "../base-path";
+
 /** Override with NEXT_PUBLIC_REFERENCE_CONFIG (absolute URL or site path) at build time. */
 export const CONFIG_URL =
   process.env.NEXT_PUBLIC_REFERENCE_CONFIG ?? `${BASE_PATH}/data/reference.json`;

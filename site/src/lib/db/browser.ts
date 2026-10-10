@@ -12,6 +12,7 @@
  *     "chunked"  parts under a content-hashed path, each fetched whole (Cloudflare Pages)
  */
 import { createDbWorker, type WorkerHttpvfs } from "sql.js-httpvfs";
+import { once } from "../once";
 import { CONFIG_URL, WASM_URL, WORKER_URL } from "./boot";
 import type { Query, Row } from "./reference";
 
@@ -35,34 +36,29 @@ export type ReferenceConfig = {
   apiPages?: Record<string, Record<string, number>>;
 };
 
-let config: Promise<ReferenceConfig> | null = null;
-let worker: Promise<WorkerHttpvfs> | null = null;
-
 function absolute(url: string, base = window.location.href) {
   return new URL(url, base).toString();
 }
 
 /** The served database's description (file name, version, layout). */
 export function referenceConfig(): Promise<ReferenceConfig> {
-  // Started by the inline boot script (lib/db/boot.ts) when the page loaded.
-  const early = (window as { __dcsRefConfig?: Promise<ReferenceConfig> }).__dcsRefConfig;
-  (window as { __dcsRefConfig?: unknown }).__dcsRefConfig = undefined;
-  config ??= (
-    early ??
-    fetch(absolute(CONFIG_URL)).then((res) => {
-      if (!res.ok) throw new Error(`${CONFIG_URL}: HTTP ${res.status}`);
-      return res.json() as Promise<ReferenceConfig>;
-    })
-  ).catch((error: unknown) => {
-    config = null;
-    throw error;
+  return once("reference-config", () => {
+    // Started by the inline boot script (lib/db/boot.ts) when the page loaded.
+    const early = (window as { __dcsRefConfig?: Promise<ReferenceConfig> }).__dcsRefConfig;
+    (window as { __dcsRefConfig?: unknown }).__dcsRefConfig = undefined;
+    return (
+      early ??
+      fetch(absolute(CONFIG_URL)).then((res) => {
+        if (!res.ok) throw new Error(`${CONFIG_URL}: HTTP ${res.status}`);
+        return res.json() as Promise<ReferenceConfig>;
+      })
+    );
   });
-  return config;
 }
 
 function open(): Promise<WorkerHttpvfs> {
-  worker ??= referenceConfig()
-    .then((c) => {
+  return once("reference-worker", () =>
+    referenceConfig().then((c) => {
       const base = absolute(CONFIG_URL);
       const inline =
         c.serverMode === "chunked"
@@ -86,29 +82,18 @@ function open(): Promise<WorkerHttpvfs> {
         absolute(WORKER_URL),
         absolute(WASM_URL),
       );
-    })
-    .catch((error: unknown) => {
-      worker = null;
-      throw error;
-    });
-  return worker;
+    }),
+  );
 }
 
 /** Statements run one at a time in the worker; results are cached per statement. */
-const cache = new Map<string, Promise<Row[]>>();
-
-export const browserQuery: Query = (sql, params = []) => {
-  const key = `${sql}\u0000${JSON.stringify(params)}`;
-  const hit = cache.get(key);
-  if (hit) return hit;
-  const promise = open().then(
-    // The worker's query(sql, params) is sql.js exec(sql, params): params as one array.
-    (w) => (w.db.query as (s: string, p: unknown[]) => unknown)(sql, params) as Promise<Row[]>,
+export const browserQuery: Query = (sql, params = []) =>
+  once(`sql:${sql}\u0000${JSON.stringify(params)}`, () =>
+    open().then(
+      // The worker's query(sql, params) is sql.js exec(sql, params): params as one array.
+      (w) => (w.db.query as (s: string, p: unknown[]) => unknown)(sql, params) as Promise<Row[]>,
+    ),
   );
-  promise.catch(() => cache.delete(key));
-  cache.set(key, promise);
-  return promise;
-};
 
 /** Bytes and requests so far (diagnostics, e2e measurements). */
 export async function databaseStats() {

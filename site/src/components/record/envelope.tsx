@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { isRecord } from "@/lib/catalog";
 import type { CatalogEntry } from "@/lib/types";
-import { convertValue, displayUnit, formatNumber, withUnit } from "@/lib/units";
+import { convertValue, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import { fieldDataAttrs, MoreButton } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
@@ -78,7 +78,6 @@ export function EnvelopeBlock({
   const conv = (e: CatalogEntry | undefined, v: number) =>
     e ? convertValue(v, e.unit, vctx.system, e.name).value : v;
   const rowUnit = rowEntry ? displayUnit(rowEntry.unit, vctx.system, rowEntry.name) : null;
-  const colUnit = colEntry ? displayUnit(colEntry.unit, vctx.system, colEntry.name) : null;
   const zUnit = gridEntry ? displayUnit(gridEntry.unit, vctx.system, gridEntry.name) : null;
 
   const series = picked
@@ -160,7 +159,7 @@ export function EnvelopeBlock({
           {series.length ? (
             <LineChart
               title={`${gridEntry.label} by ${colEntry.label}`}
-              xLabel={`${colEntry.label}${colUnit ? ` (${colUnit})` : ""}`}
+              xLabel={unitLabel(colEntry.label, colEntry, vctx.system)}
               yUnit={zUnit}
               series={series}
               height={280}
@@ -192,5 +191,3 @@ export function isEnvelope(entry: CatalogEntry, ctx: RenderCtx, prefix: string):
   const kinds = fields.map((f) => ctx.catalog.entries[`${prefix}[].${f}`]?.kind);
   return kinds.filter((k) => k === "numbers").length >= 2 && kinds.includes("grid");
 }
-
-export const envelopeItems = (rows: unknown[]) => rows.filter(isRecord);

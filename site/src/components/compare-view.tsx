@@ -36,9 +36,18 @@ import {
 } from "@/lib/format-field";
 import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
+import { capitalise, squash } from "@/lib/text";
 import type { CatalogEntry, FieldValues, RecordDoc, SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { convertValue, displayUnit, formatNumber, type UnitSystem, withUnit } from "@/lib/units";
+import {
+  convertValue,
+  displayUnit,
+  formatNumber,
+  type UnitSystem,
+  unitLabel,
+  withUnit,
+} from "@/lib/units";
+import { useLoaded } from "@/lib/use-loaded";
 import { CloseIcon, SearchIcon } from "@/ui/icons";
 import { renderDescription } from "./field-view";
 import { type ChartSeries, LineChart, SERIES_COLORS } from "./line-chart";
@@ -51,32 +60,8 @@ const MAX_SERIES = SERIES_COLORS.length;
 
 type RecordInfo = { name: string; id: string; sub: string };
 
-/** Loads `load(key)` whenever `key` changes; the loader itself is read from a ref. */
-function useLoaded<T>(load: (key: string) => Promise<T>, key = ""): T | null {
-  const [value, setValue] = useState<T | null>(null);
-  const loader = useRef(load);
-  loader.current = load;
-  useEffect(() => {
-    let live = true;
-    setValue(null);
-    loader.current(key).then(
-      (v) => live && setValue(v),
-      () => live && setValue(null),
-    );
-    return () => {
-      live = false;
-    };
-  }, [key]);
-  return value;
-}
-
 const conv = (entry: CatalogEntry, v: number, system: UnitSystem) =>
   convertValue(v, entry.unit, system, entry.name).value;
-
-const unitSuffix = (entry: CatalogEntry, system: UnitSystem) => {
-  const u = displayUnit(entry.unit, system, entry.name);
-  return u ? ` (${u})` : "";
-};
 
 /** "Overview", a top-level group's label, or "Flight model: <group>". */
 function sectionOf(catalog: SeriesCatalog, key: string): string {
@@ -320,7 +305,6 @@ function AddPicker({
     const q = query.trim().toLowerCase();
     if (!q) return [];
     const skip = new Set(exclude);
-    const squash = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
     const sq = squash(q);
     const scored: Array<{ slug: string; info: RecordInfo; score: number }> = [];
     for (const [slug, info] of records) {
@@ -508,26 +492,20 @@ type FieldProps = {
 /** Link table for a ref field's values, from the target series' browse indexes. */
 function useRefLinks(entry: CatalogEntry): RecordDoc["links"] | undefined {
   const targets = (entry.ref ?? []).filter((t) => !SERIES_BY_ID.get(t)?.parent).join(",");
-  const [links, setLinks] = useState<RecordDoc["links"] | undefined>(undefined);
-  useEffect(() => {
-    if (!targets) return;
-    let live = true;
-    Promise.all(targets.split(",").map((t) => loadSeriesIndex(t).then((ix) => [t, ix] as const)))
-      .then((list) => {
-        const out: RecordDoc["links"] = {};
-        for (const [t, ix] of list) {
-          const map: Record<string, [string, string]> = {};
-          for (const [slug, name, id] of ix.rows) map[id] = [slug, name];
-          out[t] = map;
-        }
-        if (live) setLinks(out);
-      })
-      .catch(() => {});
-    return () => {
-      live = false;
-    };
-  }, [targets]);
-  return links;
+  const links = useLoaded(async (key) => {
+    if (!key) return null;
+    const list = await Promise.all(
+      key.split(",").map((t) => loadSeriesIndex(t).then((ix) => [t, ix] as const)),
+    );
+    const out: RecordDoc["links"] = {};
+    for (const [t, ix] of list) {
+      const map: Record<string, [string, string]> = {};
+      for (const [slug, name, id] of ix.rows) map[id] = [slug, name];
+      out[t] = map;
+    }
+    return out;
+  }, targets);
+  return links ?? undefined;
 }
 
 function FieldCompare(props: FieldProps) {
@@ -764,9 +742,7 @@ function CurveCompare({
   const axisEntry = catalog.entries[`${tablePath}[].${axisName}`];
   const convX = (v: number) => (axisEntry ? conv(axisEntry, v, system) : v);
   const xLabel =
-    axisName === "mach"
-      ? "Mach"
-      : `${axisEntry?.label ?? axisName}${axisEntry ? unitSuffix(axisEntry, system) : ""}`;
+    axisName === "mach" ? "Mach" : unitLabel(axisEntry?.label ?? axisName, axisEntry, system);
   const curves = slugs
     .map((slug) => ({ slug, v: all[slug] }))
     .filter((c): c is { slug: string; v: { x: number[]; y: number[] } } => isXY(c.v));
@@ -907,7 +883,7 @@ function EnvelopeCompare({
           <LineChart
             title={`${pathLabel(entry, path)} at ${chosen === null ? "" : fmtAxis(rowEntry, chosen)}`}
             series={series}
-            xLabel={`${colEntry?.label ?? "Column"}${colEntry ? unitSuffix(colEntry, system) : ""}`}
+            xLabel={unitLabel(colEntry?.label ?? "Column", colEntry, system)}
             yUnit={displayUnit(entry.unit, system, entry.name)}
           />
         </>
@@ -1011,7 +987,6 @@ function AllRecordsTable({
   );
   const curve = entry.kind === "numbers" || entry.axis !== undefined;
   const valueLabel = entry.axis?.startsWith("grid:") ? "Largest value" : curve ? "Peak" : "Value";
-  const unit = displayUnit(entry.unit, system, entry.name);
 
   const rows = useMemo(() => {
     const f = filter.trim().toLowerCase();
@@ -1099,14 +1074,9 @@ function AllRecordsTable({
               <th scope="col" style={{ width: 44 }}>
                 <span className="visually-hidden">In compare</span>
               </th>
-              {header(
-                "name",
-                info?.singular
-                  ? info.singular.charAt(0).toUpperCase() + info.singular.slice(1)
-                  : "Record",
-              )}
+              {header("name", info?.singular ? capitalise(info.singular) : "Record")}
               {header("sub", "Kind")}
-              {header("value", curve && unit ? `${valueLabel} (${unit})` : valueLabel, true)}
+              {header("value", curve ? unitLabel(valueLabel, entry, system) : valueLabel, true)}
             </tr>
           </thead>
           <tbody>

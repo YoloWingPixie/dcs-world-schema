@@ -1,4 +1,5 @@
 import MiniSearch, { type Options, type SearchResult } from "minisearch";
+import { squash } from "../text";
 import type { SearchResultItem, SearchSource, SourceHits, StoredDoc } from "./types";
 
 /** Build time: the JSON a source's `indexUrl` serves. */
@@ -28,8 +29,6 @@ export function nameVariants(...names: string[]): string[] {
   return [...out].filter(Boolean);
 }
 
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
-
 /** AND first, OR as a fallback, then exact-title hits float to the top. */
 export function searchIndex(
   index: MiniSearch<StoredDoc>,
@@ -41,13 +40,13 @@ export function searchIndex(
   if (!q) return [];
   let raw: SearchResult[] = index.search(q);
   if (raw.length === 0) raw = index.search(q, { combineWith: "OR" });
-  const wanted = norm(q);
+  const wanted = squash(q);
   const weight = source.weight ?? 1;
   return raw
     .slice(0, limit * 2)
     .map((r) => {
       const item: SearchResultItem = source.docToResult(r as unknown as StoredDoc);
-      const exact = norm(item.title) === wanted || norm(item.detail ?? "") === wanted;
+      const exact = squash(item.title) === wanted || squash(item.detail ?? "") === wanted;
       return { ...item, score: r.score * weight * (exact ? 4 : 1) };
     })
     .sort((a, b) => b.score - a.score)

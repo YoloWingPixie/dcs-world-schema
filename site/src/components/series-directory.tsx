@@ -1,42 +1,34 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { type ApiContentsEntry, apiContents, apiPageCounts } from "@/lib/api/contents";
 import { loadModel } from "@/lib/client-data";
 import { browserQuery, referenceConfig } from "@/lib/db/browser";
 import { type Model, seriesGroups } from "@/lib/db/reference";
 import { seriesHref } from "@/lib/series";
-import { ApiLink } from "./api/api-link";
+import { useLoaded } from "@/lib/use-loaded";
 import { RefLink } from "./ref-link";
 
+const loadModelState = () =>
+  loadModel().then(
+    (model): { model: Model | null; failed: boolean } => ({ model, failed: false }),
+    () => ({ model: null, failed: true }),
+  );
+
 export function useModel() {
-  const [model, setModel] = useState<Model | null>(null);
-  const [failed, setFailed] = useState(false);
-  useEffect(() => {
-    loadModel().then(setModel, () => setFailed(true));
-  }, []);
-  return { model, failed };
+  return useLoaded(loadModelState) ?? { model: null, failed: false };
 }
 
 /**
  * The API chapter's sections and page counts: from /data/reference.json (already fetched at
  * startup), else, for a config without them, one read of the database's API page index.
  */
+const loadApiContents = () =>
+  referenceConfig()
+    .then((c) => c.apiPages ?? apiPageCounts(browserQuery))
+    .then(apiContents, (): ApiContentsEntry[] => []);
+
 function useApiContents(): ApiContentsEntry[] | null {
-  const [entries, setEntries] = useState<ApiContentsEntry[] | null>(null);
-  useEffect(() => {
-    let live = true;
-    referenceConfig()
-      .then((c) => c.apiPages ?? apiPageCounts(browserQuery))
-      .then(
-        (counts) => live && setEntries(apiContents(counts)),
-        () => live && setEntries([]),
-      );
-    return () => {
-      live = false;
-    };
-  }, []);
-  return entries;
+  return useLoaded(loadApiContents);
 }
 
 /** The Lua API as the chapter after the data: the API home's groupings, with page counts. */
@@ -46,14 +38,14 @@ function ApiChapter({ number, entries }: { number: number; entries: ApiContentsE
     <li className="contents-chapter">
       <h2 className="contents-chapter-title" id="group-api">
         <span className="contents-num">{number}</span>
-        <ApiLink href="/api/" className="contents-chapter-link">
+        <RefLink href="/api/" className="contents-chapter-link">
           Lua scripting API
-        </ApiLink>
+        </RefLink>
       </h2>
       <ol className="contents-entries" aria-labelledby="group-api">
         {entries.map((e, i) => (
           <li key={e.id} className="contents-entry">
-            <ApiLink href={e.href} className="contents-link">
+            <RefLink href={e.href} className="contents-link">
               <span className="contents-num">
                 {number}.{i + 1}
               </span>
@@ -63,7 +55,7 @@ function ApiChapter({ number, entries }: { number: number; entries: ApiContentsE
                 {e.count.toLocaleString("en-US")}
                 <span className="visually-hidden"> {e.count === 1 ? "page" : "pages"}</span>
               </span>
-            </ApiLink>
+            </RefLink>
             <p className="contents-blurb">{e.blurb}</p>
           </li>
         ))}

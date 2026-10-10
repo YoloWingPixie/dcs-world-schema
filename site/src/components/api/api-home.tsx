@@ -1,33 +1,32 @@
 "use client";
 
 import { useEffect, useId, useMemo, useState } from "react";
+import { ENV_LABEL, SECTION_LABEL } from "@/lib/api/routes";
 import type { ApiSection, PageSummary } from "@/lib/api/types";
-import { ApiLink } from "./api-link";
+import { RefLink } from "../ref-link";
 
 type Filter = "all" | "mission" | "hooks" | "export" | "server";
 
 const ENVS: Array<{ id: Filter; label: string }> = [
   { id: "all", label: "All" },
-  { id: "mission", label: "Mission" },
-  { id: "hooks", label: "Hooks" },
-  { id: "export", label: "Export" },
-  { id: "server", label: "Server" },
+  ...(["mission", "hooks", "export", "server"] as const).map((id) => ({
+    id,
+    label: ENV_LABEL[id],
+  })),
 ];
-
-const SECTION_TITLE = { hooks: "Hooks (GameGUI)", export: "Export", server: "Server" } as const;
 
 const KIND_ORDER: Record<string, number> = { class: 0, singleton: 1, namespace: 2 };
 
 function PageCard({ p }: { p: PageSummary }) {
   return (
-    <ApiLink href={p.href} className="api-card">
+    <RefLink href={p.href} className="api-card">
       <span className="api-card-name">{p.name}</span>
       <span className="api-card-meta">
         {p.kind === "singleton" ? "global" : p.kind}, {p.count}{" "}
         {p.count === 1 ? "member" : "members"}
       </span>
       {p.summary ? <span className="api-card-sum">{p.summary}</span> : null}
-    </ApiLink>
+    </RefLink>
   );
 }
 
@@ -104,7 +103,7 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
           <button
             key={e.id}
             type="button"
-            className="api-env-btn"
+            className="seg-btn api-env-btn"
             aria-pressed={env === e.id}
             onClick={() => {
               setEnv(e.id);
@@ -155,7 +154,7 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
           <section key={s} id={s} className="section" aria-labelledby={`${s}-h`}>
             <div className="section-head">
               <h2 id={`${s}-h`}>
-                {SECTION_TITLE[s]}{" "}
+                {SECTION_LABEL[s]}{" "}
                 <span className="section-tag">{bySection.get(s)?.length ?? 0}</span>
               </h2>
             </div>
@@ -176,9 +175,9 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
           <p className="api-note">
             Mission members tagged <span className="api-badge api-env api-env-server">Server</span>{" "}
             (most of{" "}
-            <ApiLink href="/api/net/">
+            <RefLink href="/api/net/">
               <code>net</code>
-            </ApiLink>
+            </RefLink>
             ) run here.
           </p>
         </section>
@@ -218,9 +217,9 @@ export function ApiHome({ pages }: { pages: PageSummary[] }) {
               <ul className="api-typelist">
                 {list.map((p) => (
                   <li key={p.href}>
-                    <ApiLink href={p.href}>
+                    <RefLink href={p.href}>
                       <code>{p.name}</code>
-                    </ApiLink>
+                    </RefLink>
                     <span className="api-typelist-kind">{p.kind}</span>
                   </li>
                 ))}

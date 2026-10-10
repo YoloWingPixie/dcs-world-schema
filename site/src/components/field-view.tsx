@@ -208,7 +208,7 @@ export function FieldRow({
   const stored = storedValue(entry, value, vctx.system, vctx.enums);
   return (
     <div
-      className={body ? "field field-wide" : "field"}
+      className={body ? "field field-interactive field-wide" : "field field-interactive"}
       tabIndex={0}
       aria-describedby={tipId}
       aria-keyshortcuts="Shift+F10 C"

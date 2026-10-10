@@ -1,16 +1,10 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Markdown } from "@/components/Markdown";
+import { ENV_LABEL } from "@/lib/api/routes";
 import type { ApiEnv, ApiOverlay, Example, FieldEntry, Member } from "@/lib/api/types";
-import { ApiLink } from "./api-link";
+import { RefLink } from "../ref-link";
 import { tokenText } from "./signature";
 import { LeadName, type Links, RichText, type SigLead, Signature, TypeRef } from "./type-ref";
-
-export const ENV_LABEL: Record<ApiEnv, string> = {
-  mission: "Mission",
-  hooks: "Hooks",
-  export: "Export",
-  server: "Server",
-};
 
 export function EnvBadges({ envs }: { envs?: ApiEnv[] | undefined }) {
   if (!envs?.length) return null;
@@ -57,9 +51,9 @@ export function SeeAlso({
       {items.map((r, i) => (
         <span key={r.href}>
           {i ? ", " : null}
-          <ApiLink href={r.href}>
+          <RefLink href={r.href}>
             <code>{r.label}</code>
-          </ApiLink>
+          </RefLink>
         </span>
       ))}
     </p>
@@ -270,9 +264,9 @@ export function MemberEntry({
         ) : m.kind === "namespace" ? (
           <code className="api-sig">
             {m.href ? (
-              <ApiLink href={m.href}>
+              <RefLink href={m.href}>
                 <LeadName lead={lead} />
-              </ApiLink>
+              </RefLink>
             ) : (
               <LeadName lead={lead} />
             )}
@@ -378,9 +372,9 @@ export function MemberEntry({
                 {related.map((r, i) => (
                   <span key={r.href}>
                     {i ? ", " : null}
-                    <ApiLink href={r.href}>
+                    <RefLink href={r.href}>
                       <code>{r.label}</code>
-                    </ApiLink>
+                    </RefLink>
                   </span>
                 ))}
               </p>

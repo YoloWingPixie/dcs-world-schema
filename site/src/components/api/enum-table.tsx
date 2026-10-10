@@ -2,9 +2,8 @@
 
 import { useDeferredValue, useId, useMemo, useState } from "react";
 import type { EnumValue } from "@/lib/api/types";
-import { ApiLink } from "./api-link";
-
-const fold = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "");
+import { squash } from "@/lib/text";
+import { RefLink } from "../ref-link";
 
 /** Enum values; past a handful, filterable by key or value. */
 export function EnumTable({
@@ -23,11 +22,11 @@ export function EnumTable({
   const filterable = values.length > 12;
   const anyLinked = values.some((v) => v.href);
   const rows = useMemo(() => {
-    const q = fold(deferred);
+    const q = squash(deferred);
     return values.filter(
       (v) =>
         (!linkedOnly || v.href) &&
-        (!q || fold(v.key).includes(q) || fold(String(v.value)).includes(q)),
+        (!q || squash(v.key).includes(q) || squash(String(v.value)).includes(q)),
     );
   }, [values, deferred, linkedOnly]);
   const sameKV = values.every((v) => v.key === String(v.value));
@@ -90,12 +89,12 @@ export function EnumTable({
                 {anyLinked ? (
                   <td>
                     {v.href ? (
-                      <ApiLink
+                      <RefLink
                         href={v.href}
                         aria-label={`${v.key}: ${v.refLabel ?? `${seriesLabel ?? "record"} page`}`}
                       >
                         {v.refLabel ?? seriesLabel ?? "record"}
-                      </ApiLink>
+                      </RefLink>
                     ) : (
                       <span className="muted">—</span>
                     )}

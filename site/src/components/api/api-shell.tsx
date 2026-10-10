@@ -5,23 +5,12 @@ import "@fontsource/ibm-plex-mono/latin-600.css";
 import "./api.css";
 import { useEffect, useState } from "react";
 import { type LoadedApiPage, loadApiPage, loadApiPages } from "@/lib/api/client";
-import { parseApiPath } from "@/lib/api/routes";
+import { parseApiPath, SECTION_LABEL } from "@/lib/api/routes";
 import type { PageSummary } from "@/lib/api/types";
+import { RefLink, scrollToHash } from "../ref-link";
+import { Skeleton } from "../reference-shell";
 import { ApiHome } from "./api-home";
-import { ApiLink, scrollToHash } from "./api-link";
-import { ApiPageView, SECTION_LABEL } from "./api-page-view";
-
-function Skeleton() {
-  return (
-    <div className="record-skeleton" aria-busy="true">
-      <span className="visually-hidden">Loading…</span>
-      <div className="sk sk-title" />
-      <div className="sk sk-line" />
-      <div className="sk sk-row" />
-      <div className="sk sk-row" />
-    </div>
-  );
-}
+import { ApiPageView } from "./api-page-view";
 
 function Missing({ what }: { what: string }) {
   useEffect(() => {
@@ -31,7 +20,7 @@ function Missing({ what }: { what: string }) {
     <div className="empty-state">
       <h1>No such API page</h1>
       <p>
-        <code>{what}</code> not found. <ApiLink href="/api/">Lua API</ApiLink>
+        <code>{what}</code> not found. <RefLink href="/api/">Lua API</RefLink>
       </p>
     </div>
   );

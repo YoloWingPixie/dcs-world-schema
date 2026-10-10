@@ -41,8 +41,8 @@ served by the shell in `app/not-found.tsx`; link to them with `RefLink` / `openH
 
 `parseFrontmatter(text, { file, allowed })` (throws on unknown keys), `renderMarkdown(md)`
 (raw HTML escaped) and `markdownToText(md)` for indexes. Render with `<Markdown html />`
-(client; pass `handWritten` to mark overlay content) or `<MarkdownSource source />` from a
-server component. Internal links are site-relative; the component adds basePath.
+(client; pass `handWritten` to mark overlay content), also from a server component with
+`html={renderMarkdown(source)}`. Internal links are site-relative; the component adds basePath.
 
 ## Units (`../units.ts`)
 

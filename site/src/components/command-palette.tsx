@@ -1,6 +1,7 @@
 "use client";
 
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
+import { focusLater } from "./use-modal-dialog";
 
 // The dialog and the search engine behind it load on first open.
 const PaletteBody = lazy(() => import("./palette-body"));
@@ -28,7 +29,7 @@ export function CommandPalette() {
 
   const close = useCallback(() => {
     setOpen(false);
-    window.setTimeout(() => returnFocus.current?.focus(), 0);
+    focusLater(returnFocus.current);
   }, []);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export function CommandPalette() {
   return (
     <Suspense
       fallback={
-        <div className="palette-backdrop">
+        <div className="modal-backdrop palette-backdrop">
           <div className="palette" role="dialog" aria-label="Search" aria-busy="true">
             <span className="visually-hidden">Loading…</span>
           </div>

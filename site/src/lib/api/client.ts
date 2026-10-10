@@ -1,37 +1,22 @@
 "use client";
 
+import { BASE_PATH } from "../base-path";
 /**
  * What the API pages load: rows of the reference database (range requests, db/browser.ts)
  * merged with the hand-written overlays shipped with the site (public/overlays/api.json).
  */
 import { loadModel, loadSeriesIndex } from "../client-data";
 import { browserQuery } from "../db/browser";
+import { fetchJsonOr, once } from "../once";
 import { recordHref, SERIES_BY_ID, seriesHref } from "../series";
 import { applyOverlays, existingRecords, getApiPage, listApiPages, overlayLinks } from "./db";
 import { enumField, namesKey, seriesOfClass } from "./scripting";
 import type { ApiOverlayFile, ApiPage, ApiSection, EnumValue, PageSummary } from "./types";
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const NO_OVERLAYS: ApiOverlayFile = { symbols: {} };
 
-const memo = new Map<string, Promise<unknown>>();
-function once<T>(key: string, load: () => Promise<T>): Promise<T> {
-  const hit = memo.get(key);
-  if (hit) return hit as Promise<T>;
-  const promise = load();
-  promise.catch(() => memo.delete(key));
-  memo.set(key, promise);
-  return promise;
-}
-
 export const loadApiOverlays = () =>
-  once(
-    "api-overlays",
-    (): Promise<ApiOverlayFile> =>
-      fetch(`${BASE_PATH}/overlays/api.json`)
-        .then((r) => (r.ok ? (r.json() as Promise<ApiOverlayFile>) : NO_OVERLAYS))
-        .catch(() => NO_OVERLAYS),
-  );
+  once("api-overlays", () => fetchJsonOr(`${BASE_PATH}/overlays/api.json`, NO_OVERLAYS));
 
 export const loadApiPages = () =>
   once("api-pages", (): Promise<PageSummary[]> => listApiPages(browserQuery));

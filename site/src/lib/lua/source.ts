@@ -3,7 +3,8 @@
  * under data/lua/<hash>/), fetched only when the "View Lua" drawer opens.
  */
 
-const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { BASE_PATH } from "../base-path";
+import { once } from "../once";
 
 /** One dump path the drawer can show: the file and, for a block, the pointer into it. */
 export type LuaSource = {
@@ -89,34 +90,23 @@ type LuaConfig = { base: string; files: number; bytes: number; sha256: string };
 /** A dump file this build does not have (its lua.json or the file is absent). */
 export class LuaMissing extends Error {}
 
-let config: Promise<LuaConfig | null> | null = null;
-const texts = new Map<string, Promise<string>>();
-
 /** data/lua.json; null when the build published no Lua (scripts/copy-lua-assets.ts). */
-function loadConfig(): Promise<LuaConfig | null> {
-  if (!config) {
-    const loading = fetch(`${BASE_PATH}/data/lua.json`).then(async (r) => {
+const loadConfig = () =>
+  once("lua-config", () =>
+    fetch(`${BASE_PATH}/data/lua.json`).then(async (r) => {
       if (r.status === 404) return null;
       if (!r.ok) throw new Error(`data/lua.json: HTTP ${r.status}`);
       return (await r.json()) as LuaConfig;
-    });
-    loading.catch(() => {
-      config = null;
-    });
-    config = loading;
-  }
-  return config;
-}
+    }),
+  );
 
 /** Whether this build has Lua files to show. */
 export const luaAvailable = () => loadConfig().then((c) => c !== null);
 
 /** The text of the dump file of `path` (`_G/a/b`); LuaMissing when the build lacks it. */
 export function loadLua(path: string): Promise<string> {
-  const hit = texts.get(path);
-  if (hit) return hit;
-  const file = dumpFile(path);
-  const promise = (async () => {
+  return once(`lua:${path}`, async () => {
+    const file = dumpFile(path);
     if (!file) throw new LuaMissing(`Not a dump path: ${path}`);
     const conf = await loadConfig();
     if (!conf) throw new LuaMissing("This build has no Lua files.");
@@ -125,10 +115,7 @@ export function loadLua(path: string): Promise<string> {
     if (r.status === 404) throw new LuaMissing(`No Lua file for ${path}.`);
     if (!r.ok) throw new Error(`No Lua file for ${path} (HTTP ${r.status}).`);
     return r.text();
-  })();
-  promise.catch(() => texts.delete(path));
-  texts.set(path, promise);
-  return promise;
+  });
 }
 
 /** Each path's shortest trailing segments that no other path in `paths` ends with. */

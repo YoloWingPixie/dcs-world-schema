@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import type { DataLink } from "@/lib/api/client";
-import type { ApiPage, ApiSection, EnumValue, Member } from "@/lib/api/types";
-import { isShellHref } from "../ref-link";
-import { ApiLink } from "./api-link";
+import { SECTION_LABEL } from "@/lib/api/routes";
+import type { ApiPage, EnumValue, Member } from "@/lib/api/types";
+import { isShellHref, RefLink } from "../ref-link";
 import { EnumTable } from "./enum-table";
 import {
   EnvBadges,
@@ -15,14 +15,6 @@ import {
   SeeAlso,
 } from "./member-entry";
 import { type Links, RichText, Signature, TypeRef } from "./type-ref";
-
-export const SECTION_LABEL: Record<ApiSection, string> = {
-  mission: "Mission scripting",
-  hooks: "Hooks (GameGUI)",
-  export: "Export",
-  server: "Server",
-  types: "Types",
-};
 
 const KIND_LABEL: Record<ApiPage["kind"], string> = {
   class: "Class",
@@ -140,7 +132,7 @@ export function ApiPageView({
         {crumbs.map((c) => (
           <span key={c.label} className="api-crumb">
             {isShellHref(c.href) ? (
-              <ApiLink href={c.href}>{c.label}</ApiLink>
+              <RefLink href={c.href}>{c.label}</RefLink>
             ) : (
               <Link href={c.href}>{c.label}</Link>
             )}
@@ -179,7 +171,7 @@ export function ApiPageView({
                   {page.inherits.map((p, i) => (
                     <span key={p.name}>
                       {i ? ", " : null}
-                      {p.href ? <ApiLink href={p.href}>{p.name}</ApiLink> : p.name}
+                      {p.href ? <RefLink href={p.href}>{p.name}</RefLink> : p.name}
                     </span>
                   ))}
                 </dd>
@@ -192,7 +184,7 @@ export function ApiPageView({
                   {page.subclasses.map((p, i) => (
                     <span key={p.name}>
                       {i ? ", " : null}
-                      <ApiLink href={p.href}>{p.name}</ApiLink>
+                      <RefLink href={p.href}>{p.name}</RefLink>
                     </span>
                   ))}
                 </dd>
@@ -205,7 +197,7 @@ export function ApiPageView({
                   {data.map((d, i) => (
                     <span key={d.href}>
                       {i ? ", " : null}
-                      <ApiLink href={d.href}>{d.label}</ApiLink>{" "}
+                      <RefLink href={d.href}>{d.label}</RefLink>{" "}
                       <span className="api-data-count">{d.count.toLocaleString("en-US")}</span>
                     </span>
                   ))}
@@ -340,14 +332,14 @@ export function ApiPageView({
               {inherited.map((g) => (
                 <div key={g.from} className="api-inherited">
                   <h3 className="api-sub">
-                    From <ApiLink href={g.href}>{g.from}</ApiLink>
+                    From <RefLink href={g.href}>{g.from}</RefLink>
                   </h3>
                   <ul className="api-inherited-list">
                     {g.members.map((m) => (
                       <li key={m.name}>
-                        <ApiLink href={`${g.href}#${m.anchor}`}>
+                        <RefLink href={`${g.href}#${m.anchor}`}>
                           <code>{m.qualified}</code>
-                        </ApiLink>
+                        </RefLink>
                         {m.summary ? (
                           <span className="api-inherited-sum">
                             <RichText text={m.summary} links={links} />
@@ -371,9 +363,9 @@ export function ApiPageView({
               <ul className="api-usedby">
                 {page.usedBy.map((u) => (
                   <li key={u.href + u.label}>
-                    <ApiLink href={u.href}>
+                    <RefLink href={u.href}>
                       <code>{u.label}</code>
-                    </ApiLink>
+                    </RefLink>
                   </li>
                 ))}
               </ul>

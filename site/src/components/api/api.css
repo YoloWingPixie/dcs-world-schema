@@ -28,25 +28,11 @@
 }
 
 .api-env-btn {
-  border: 0;
-  background: transparent;
   padding: 4px 0;
-  font-family: var(--font-head);
-  font-weight: 500;
   font-size: 14px;
-  color: var(--ink-3);
-  cursor: pointer;
-}
-
-.api-env-btn:hover {
-  color: var(--ink);
 }
 
 .api-env-btn[aria-pressed="true"] {
-  color: var(--ink);
-  font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
   text-underline-offset: 6px;
 }
 
@@ -196,11 +182,12 @@
   border-bottom: 4px solid var(--rule);
 }
 
-.api-title {
-  font-family: var(--font-mono) !important;
-  font-weight: 500 !important;
-  font-size: clamp(28px, 5vw, 46px) !important;
-  letter-spacing: -0.02em !important;
+/* Over `.plate h1`. */
+.api-plate .api-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(28px, 5vw, 46px);
+  letter-spacing: -0.02em;
   overflow-wrap: anywhere;
 }
 
@@ -297,16 +284,13 @@
   }
 }
 
-.api-body {
-  min-width: 0;
-}
-
 /* ------------------------------------------------------------ entries */
 
 /* One function, field or constant, set as a reference-manual entry: its number and its
    signature as the heading, the description under it, and hanging labels (PARAMETERS,
    NOTE…) only for structured extras. The number column matches the section heads'. */
 .api-body {
+  min-width: 0;
   --api-num: calc(17px * 2.4);
   --api-label: 7.5rem;
 }
@@ -741,9 +725,6 @@
 .api-table th,
 .api-table td {
   vertical-align: top;
-}
-
-.api-table td {
   font-size: 15px;
 }
 
@@ -963,16 +944,6 @@
   .api-desc-cell {
     min-width: 160px;
   }
-  .api-member-name {
-    font-size: 16px;
-  }
-}
-
-/* Palette rows for API hits */
-.api-hit-kind {
-  font-family: var(--font-head);
-  font-size: 12px;
-  color: var(--ink-3);
 }
 
 /* In tables, break type unions at their spaces only: "string" never splits. */

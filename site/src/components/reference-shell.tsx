@@ -18,7 +18,8 @@ const RecordView = lazy(() => loadRecordView().then((m) => ({ default: m.RecordV
 const BrowseView = lazy(() => loadBrowseView().then((m) => ({ default: m.BrowseView })));
 const ApiShell = lazy(() => import("./api/api-shell").then((m) => ({ default: m.ApiShell })));
 
-function Skeleton() {
+/** A page placeholder while its view or data loads. */
+export function Skeleton() {
   return (
     <div className="record-skeleton" aria-busy="true">
       <span className="visually-hidden">Loading…</span>

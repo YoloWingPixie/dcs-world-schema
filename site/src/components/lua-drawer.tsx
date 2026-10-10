@@ -21,13 +21,12 @@ import {
   splitSourcePath,
 } from "@/lib/lua/source";
 import { type Tokens, tokenize } from "@/lib/lua/tokenize";
+import { CloseIcon } from "@/ui/icons";
 import { showToast } from "./toast";
+import { useModalDialog } from "./use-modal-dialog";
 
 /** Above this many characters the text is shown plain (no token spans). */
 export const HIGHLIGHT_LIMIT = 200_000;
-
-const FOCUSABLE =
-  'a[href], button:not([disabled]), select:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 type Props = {
   recordId: string;
@@ -175,15 +174,7 @@ export default function LuaDrawer({
   const bytes = useMemo(() => (text === null ? 0 : new TextEncoder().encode(text).length), [text]);
 
   // Modal: lock the page, trap focus, Esc closes.
-  useEffect(() => {
-    const root = document.documentElement;
-    const overflow = root.style.overflow;
-    root.style.overflow = "hidden";
-    dialog.current?.focus();
-    return () => {
-      root.style.overflow = overflow;
-    };
-  }, []);
+  const onKeyDown = useModalDialog(dialog, onClose);
 
   // Bring the block into view (or the top for a whole file): arithmetic, no layout reads.
   useLayoutEffect(() => {
@@ -194,28 +185,6 @@ export default function LuaDrawer({
     setLineHeight(lh);
     box.scrollTop = focus ? Math.max(0, CODE_PAD + focus.first * lh - 24) : 0;
   }, [text, focus]);
-
-  const onKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === "Escape") {
-      event.stopPropagation();
-      onClose();
-    } else if (event.key === "Tab" && dialog.current) {
-      const items = [...dialog.current.querySelectorAll<HTMLElement>(FOCUSABLE)].filter(
-        (el) => el.offsetParent !== null,
-      );
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (!first || !last) return;
-      const active = document.activeElement;
-      if (event.shiftKey && (active === first || active === dialog.current)) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    }
-  };
 
   const fileBlocks = blocks.filter((b) => splitSourcePath(b.sourcePath).path === path);
   const fileName = `${fileStem(path)}.lua`;
@@ -276,7 +245,7 @@ export default function LuaDrawer({
     // biome-ignore lint/a11y/noStaticElementInteractions: backdrop click closes the dialog
     // biome-ignore lint/a11y/useKeyWithClickEvents: Escape is handled by the dialog
     <div
-      className="lua-backdrop"
+      className="modal-backdrop lua-backdrop"
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -297,15 +266,7 @@ export default function LuaDrawer({
             <p className="lua-path">{path}</p>
           </div>
           <button type="button" className="icon-btn lua-close" aria-label="Close" onClick={onClose}>
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.8}
-              aria-hidden="true"
-            >
-              <path d="M6 6l12 12M18 6 6 18" />
-            </svg>
+            <CloseIcon />
           </button>
         </header>
 
