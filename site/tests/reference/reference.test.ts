@@ -145,26 +145,24 @@ describe("browse, compare and search", () => {
   });
 
   it("reads one field across records: columns, nested JSON, keyed and axis paths", async () => {
-    expect((await getFieldValues(q, model, "weapons", "massKg")).values.AIM_120C).toBeCloseTo(
-      161.48,
+    expect((await getFieldValues(q, model, "weapons", "massKg")).AIM_120C).toBeCloseTo(161.48);
+    expect((await getFieldValues(q, model, "aircraft", "aero.maxTakeoffKg"))["F-16C_50"]).toBe(
+      19187,
     );
-    expect(
-      (await getFieldValues(q, model, "aircraft", "aero.maxTakeoffKg")).values["F-16C_50"],
-    ).toBe(19187);
     // A Mach-sampled list: a curve over Mach at the record's own step, else DCS's 0.2.
     const cx0 = await getFieldValues(q, model, "weapons", "flight.aerodynamics.cx0");
-    const machs = (id: string) => (cx0.values[id] as { x: number[] }).x.slice(0, 3);
+    const machs = (id: string) => (cx0[id] as { x: number[] }).x.slice(0, 3);
     expect(machs("AIM_120C")).toEqual([0, 0.2, 0.4]);
     expect(machs("AGM_84H")).toEqual([0, 0.1, 0.2]);
     const curve = await getFieldValues(q, model, "aircraft", "flight.aerodynamics.table[].cx0");
-    expect((curve.values["F-16C_50"] as { x: number[] }).x.length).toBeGreaterThan(5);
+    expect((curve["F-16C_50"] as { x: number[] }).x.length).toBeGreaterThan(5);
     const keyed = await keyedFieldPaths(q, model, "weapons");
     const impulse = keyed.find((k) => k.key === "flight.motorStages.*.impulseS");
     expect(impulse).toBeDefined();
     const stage = await getFieldValues(q, model, "weapons", impulse?.path ?? "");
-    expect(Object.keys(stage.values).length).toBeGreaterThan(0);
+    expect(Object.keys(stage).length).toBeGreaterThan(0);
     const env = await getFieldValues(q, model, "weapons", "flight.launchEnvelopes[].maxRangeM");
-    expect(Object.keys(env.values).length).toBeGreaterThan(10);
+    expect(Object.keys(env).length).toBeGreaterThan(10);
   });
 
   it("reads every storage alike: an empty list is no value, a join keeps list order", async () => {
@@ -182,10 +180,10 @@ describe("browse, compare and search", () => {
       ["aircraft", "attributes"],
       ["aircraft", "sensors"],
     ] as const) {
-      const { values } = await getFieldValues(q, model, series, path);
+      const values = await getFieldValues(q, model, series, path);
       expect(Object.values(values).some((v) => Array.isArray(v) && v.length === 0)).toBe(false);
     }
-    const { values } = await getFieldValues(q, model, "aircraft", "attributes");
+    const values = await getFieldValues(q, model, "aircraft", "attributes");
     const doc = await getRecord(q, model, "aircraft", "F-16C_50");
     expect(values["F-16C_50"]).toEqual(doc?.data.attributes);
   });

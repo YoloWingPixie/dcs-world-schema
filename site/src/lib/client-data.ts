@@ -27,7 +27,6 @@ import {
 import { fetchJsonOr, once, settled } from "./once";
 import type {
   FieldPath,
-  FieldValues,
   LinkTarget,
   Overlay,
   RecordDoc,
@@ -185,17 +184,11 @@ export const loadReferencedByGroup = (
     return referencedByGroup(transientQuery, model, series, id, from, path, via);
   });
 
-export const loadFieldValues = (series: string, path: string) =>
-  once(`field:${series}:${path}`, async (): Promise<FieldValues> => {
-    const model = await loadModel();
-    return getFieldValues(browserQuery, model, series, path);
-  });
-
 /** Record names by id per series (`series -> id -> name`), for the ids wanted only. */
 const loadNames = async (wanted: Map<string, Set<string>>) =>
   namesOf(transientQuery, await loadModel(), wanted);
 
-/** A field's values per record id (`loadFieldValues`) and the link table its refs read from. */
+/** A field's values per record id (lib/db/reference `getFieldValues`) and the link table its refs read from. */
 export type LinkedField = { values: Record<string, unknown>; links: RecordDoc["links"] };
 
 /**
@@ -206,8 +199,8 @@ export type LinkedField = { values: Record<string, unknown>; links: RecordDoc["l
  */
 export const loadLinkedField = (series: string, path: string) =>
   once(`linked:${series}:${path}`, async (): Promise<LinkedField> => {
-    const [{ values }, catalog] = await Promise.all([
-      loadFieldValues(series, path),
+    const [values, catalog] = await Promise.all([
+      loadModel().then((model) => getFieldValues(browserQuery, model, series, path)),
       loadCatalog(series),
     ]);
     const targets = entryFor(catalog, path)?.ref ?? [];

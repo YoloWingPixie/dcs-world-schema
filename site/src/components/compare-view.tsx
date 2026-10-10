@@ -28,7 +28,8 @@ import {
   isXY,
   pathLabel,
   plainValue,
-  sortableValue,
+  type SummaryBasis,
+  summaryValue,
   surfaceAxes,
   type ValueContext,
   valuesDiffer,
@@ -36,7 +37,7 @@ import {
 import { replaceQuery } from "@/lib/history";
 import { perObject } from "@/lib/once";
 import { sectionFor } from "@/lib/placement";
-import { asSurfaces } from "@/lib/record-tables";
+import { asSurfaces, surfaceRow } from "@/lib/record-tables";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { capitalise, compareSortKeys, naturalCompare, squash } from "@/lib/text";
 import type { CatalogEntry, RecordDoc, SeriesCatalog } from "@/lib/types";
@@ -55,7 +56,6 @@ import { SERIES_COLORS } from "./chart-colors";
 import { fieldDataAttrs, renderDescription } from "./field-view";
 import { type ChartSeries, LineChart } from "./line-chart";
 import { Markdown } from "./Markdown";
-import { surfaceRow } from "./record/envelope";
 import { RefLink } from "./ref-link";
 import { SortHeader, type SortState } from "./sort-header";
 
@@ -112,9 +112,9 @@ function Comparison({ state }: { state: CompareState }) {
     return map;
   }, [index, catalog, system]);
 
-  const color = (slug: string) => {
+  const color = (slug: string): string => {
     const i = state.records.indexOf(slug);
-    return i >= 0 && i < MAX_SERIES ? SERIES_COLORS[i] : "var(--ink-3)";
+    return (i >= 0 ? SERIES_COLORS[i] : undefined) ?? "var(--ink-3)";
   };
   const update = (patch: Partial<CompareState>) => setCompare({ ...getCompare(series), ...patch });
   const add = (slug: string) => addRecords(series, slug);
@@ -464,7 +464,7 @@ type FieldProps = {
   catalog: SeriesCatalog;
   selected: string[];
   records: Map<string, RecordInfo>;
-  color: (slug: string) => string | undefined;
+  color: (slug: string) => string;
   toggle: (slug: string) => void;
   system: UnitSystem;
 };
@@ -571,12 +571,6 @@ function ChartLegend({ series }: { series: ChartSeries[] }) {
   );
 }
 
-function TooMany({ slugs }: { slugs: string[] }) {
-  return slugs.length > MAX_SERIES ? (
-    <p className="muted">Chart shows the first {MAX_SERIES}.</p>
-  ) : null;
-}
-
 /**
  * Curves (`compareAs: "curve"`): axis-table columns (`flight.aerodynamics.table[].cx0`) and
  * Mach-sampled lists (`flight.aerodynamics.cx0`), one `{x, y}` per record.
@@ -594,7 +588,7 @@ function CurveCompare({
   slugs: string[];
   all: Record<string, unknown>;
   name: (s: string) => string;
-  color: (s: string) => string | undefined;
+  color: (s: string) => string;
   entry: CatalogEntry;
   catalog: SeriesCatalog;
   path: string;
@@ -606,34 +600,10 @@ function CurveCompare({
     const v = all[slug];
     if (!isXY(v)) return [];
     const { x, y } = axisCurve(v, entry, axisEntry, system);
-    return [{ id: slug, label: name(slug), color: color(slug) ?? "var(--ink-3)", x, values: y }];
+    return [{ id: slug, label: name(slug), color: color(slug), x, values: y }];
   });
-  return (
-    <SeriesCompare
-      series={series}
-      title={pathLabel(entry, path)}
-      xLabel={xLabel}
-      yUnit={displayUnit(entry, system)}
-    />
-  );
-}
-
-/**
- * Records' series over one x axis: a chart of the first `MAX_SERIES`, and a table of
- * every record with a row per x any of them has.
- */
-function SeriesCompare({
-  series,
-  title,
-  xLabel,
-  yUnit,
-}: {
-  series: ChartSeries[];
-  title: string;
-  xLabel: string;
-  yUnit: string | null;
-}) {
   if (series.length === 0) return <p className="muted">No data.</p>;
+  // A chart of the first MAX_SERIES, and a table of every record with a row per x any has.
   const charted = series.slice(0, MAX_SERIES);
   const xs = [...new Set(series.flatMap((s) => s.x))].sort((a, b) => a - b);
   const valueAt = (s: ChartSeries, x: number) => {
@@ -643,8 +613,15 @@ function SeriesCompare({
   return (
     <div>
       <ChartLegend series={charted} />
-      <LineChart title={title} series={charted} xLabel={xLabel} yUnit={yUnit} />
-      <TooMany slugs={series.map((s) => s.id)} />
+      <LineChart
+        title={pathLabel(entry, path)}
+        series={charted}
+        xLabel={xLabel}
+        yUnit={displayUnit(entry, system)}
+      />
+      {series.length > MAX_SERIES ? (
+        <p className="muted">Chart shows the first {MAX_SERIES}.</p>
+      ) : null}
       <details className="exact series-table">
         <summary>Table</summary>
         <div className="exact-scroll">
@@ -691,7 +668,7 @@ function EnvelopeCompare({
   slugs: string[];
   all: Record<string, unknown>;
   name: (s: string) => string;
-  color: (s: string) => string | undefined;
+  color: (s: string) => string;
   entry: CatalogEntry;
   catalog: SeriesCatalog;
   path: string;
@@ -723,7 +700,7 @@ function EnvelopeCompare({
       series.push({
         id: slug,
         label: name(slug),
-        color: color(slug) ?? "var(--ink-3)",
+        color: color(slug),
         x: line.x.map((x) => convertNumber(x, colEntry, system)),
         values: line.y.map((y) => convertNumber(y, entry, system)),
       });
@@ -782,7 +759,7 @@ function SelectedTable({
   all: Record<string, unknown>;
   entry: CatalogEntry;
   name: (s: string) => string;
-  color: (s: string) => string | undefined;
+  color: (s: string) => string;
   vctx: ValueContext;
 }) {
   const nums = slugs
@@ -837,6 +814,13 @@ function SelectedTable({
   );
 }
 
+/** The All-records value heading of each `SummaryBasis`. */
+const BASIS_LABELS: Record<SummaryBasis, string> = {
+  value: "Value",
+  peak: "Peak",
+  largest: "Largest value",
+};
+
 function AllRecordsTable({
   series,
   entry,
@@ -855,19 +839,20 @@ function AllRecordsTable({
   });
   const info = SERIES_BY_ID.get(series);
   const plural = info?.label.toLowerCase() ?? "records";
-  // Lists, curves and surfaces sort and show by their peak (lib/format-field `sortableValue`).
-  const curve = entry.compareAs !== "value" || entry.kind === "numbers";
-  const surface = entry.compareAs === "surfaces";
-  const valueLabel = surface ? "Largest value" : curve ? "Peak" : "Value";
+  // Each value sorts and shows by one summary: itself, a curve's or list's peak, or a grid's
+  // largest cell (lib/format-field `summaryValue`); a peak or largest cell is a bare number
+  // under a heading with its unit.
+  const { basis } = summaryValue(entry, undefined, vctx);
+  const valueLabel = BASIS_LABELS[basis];
 
   const rows = useMemo(() => {
     const f = filter.trim().toLowerCase();
     const list = Object.entries(all).map(([slug, value]) => {
       const r = records.get(slug);
-      const sortValue = sortableValue(entry, value, vctx);
+      const summary = summaryValue(entry, value, vctx);
       const text =
-        curve && typeof sortValue === "number"
-          ? formatNumber(sortValue)
+        summary.basis !== "value" && typeof summary.value === "number"
+          ? formatNumber(summary.value)
           : plainValue(entry, value, vctx);
       return {
         slug,
@@ -875,7 +860,7 @@ function AllRecordsTable({
         text,
         name: r?.name ?? slug,
         sub: r?.sub ?? "",
-        sort: sortValue,
+        sort: summary.value,
       };
     });
     const visible = f
@@ -885,7 +870,7 @@ function AllRecordsTable({
       sort.key === "name" ? r.name : sort.key === "sub" ? r.sub : r.sort;
     visible.sort((a, b) => compareSortKeys(key(a), key(b), sort.dir));
     return visible;
-  }, [all, filter, sort, entry, records, vctx, curve]);
+  }, [all, filter, sort, entry, records, vctx]);
 
   const header = (key: "name" | "value" | "sub", label: string, num = false) => (
     <SortHeader sortKey={key} label={label} sort={sort} onSort={setSort} num={num} />
@@ -916,7 +901,11 @@ function AllRecordsTable({
               </th>
               {header("name", info?.singular ? capitalise(info.singular) : "Record")}
               {header("sub", "Kind")}
-              {header("value", curve ? unitLabel(valueLabel, entry, system) : valueLabel, true)}
+              {header(
+                "value",
+                basis === "value" ? valueLabel : unitLabel(valueLabel, entry, system),
+                true,
+              )}
             </tr>
           </thead>
           <tbody>
@@ -976,7 +965,7 @@ function Matrix({
   catalog: SeriesCatalog;
   slugs: string[];
   onPickField: (path: string) => void;
-  color: (slug: string) => string | undefined;
+  color: (slug: string) => string;
   system: UnitSystem;
 }) {
   const [diffOnly, setDiffOnly] = useState(false);

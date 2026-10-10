@@ -221,10 +221,10 @@ export type RecordDoc = {
 /** One browse-table row: id (also its slug), name, then the series' column values in order. */
 export type BrowseRow = [id: string, name: string, ...values: unknown[]];
 
+/** A browse facet; its kind and labels come from its catalog entry (lib/db/reference `browseEntry`). */
 export type Facet = {
   path: string;
   label: string;
-  kind: "enum" | "boolean" | "string";
 };
 
 export type SeriesIndex = {
@@ -241,6 +241,3 @@ export type SeriesIndex = {
   links: Record<string, RecordDoc["links"]>;
   intro?: Overlay;
 };
-
-/** One comparable field across every record of a series (getFieldValues, lib/db/reference.ts). */
-export type FieldValues = { path: string; values: Record<string, unknown> };

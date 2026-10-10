@@ -57,9 +57,10 @@ export function refName(
 }
 
 /**
- * An axis table column's curve as a chart draws it, in the display system: x through the
- * axis column's entry, y through the column's own, and the x label with its unit. Shared by
- * the record page's table chart and compare.
+ * A curve as a chart draws it, in the display system: x through `axisEntry` (an axis table
+ * column's entry; none for a Mach-sampled list, whose Mach has no unit), y through the
+ * curve's own entry, and the x label with its unit (`axisLabel`). Shared by the record
+ * page's table chart and Mach cards, and compare.
  */
 export function axisCurve(
   curve: Curve,
@@ -261,8 +262,44 @@ export function storedValue(
   return formatStored(value, entry, system);
 }
 
-/** A value that sorts (and charts), in the display system. */
+/**
+ * What one value of `entry` stands for in a list of records: itself, a curve's or a list's
+ * peak, or an envelope grid's largest cell (`compareAs: "surfaces"`).
+ */
+export type SummaryBasis = "value" | "peak" | "largest";
+
+function summaryBasis(entry: CatalogEntry): SummaryBasis {
+  if (entry.compareAs === "surfaces") return "largest";
+  if (entry.compareAs === "curve" || entry.kind === "numbers") return "peak";
+  return "value";
+}
+
+/** A value that sorts (and charts), in the display system: a list, curve or grid by its `summaryBasis`. */
 export function sortableValue(
+  entry: CatalogEntry,
+  value: unknown,
+  ctx: ValueContext,
+): number | string | null {
+  return summaryValue(entry, value, ctx).value;
+}
+
+/**
+ * One value of `entry` as a list of records sorts and shows it, with what it stands for
+ * (`SummaryBasis`): a scalar as `sortableValue` sorts it, a curve or list of numbers by
+ * its peak, an envelope grid by its largest cell; in the display system. A list of
+ * other values sorts by its length (its basis is "value": it shows as written).
+ */
+export function summaryValue(
+  entry: CatalogEntry,
+  value: unknown,
+  ctx: ValueContext,
+): { basis: SummaryBasis; value: number | string | null } {
+  const basis = summaryBasis(entry);
+  return { basis, value: summaryOf(basis, entry, value, ctx) };
+}
+
+function summaryOf(
+  basis: SummaryBasis,
   entry: CatalogEntry,
   value: unknown,
   ctx: ValueContext,
@@ -278,14 +315,13 @@ export function sortableValue(
     if (entry.kind === "ref") return refName(entry, value, ctx.links);
     return value;
   }
-  if (entry.compareAs === "curve" && isXY(value))
-    return Math.max(...value.y.map((v) => convertNumber(v, entry, ctx.system)));
-  // An envelope grid sorts by its largest cell.
-  const surfaces = surfaceCells(entry, value, ctx.system);
-  if (surfaces) return surfaces.cells.length ? Math.max(...surfaces.cells) : null;
-  if (entry.kind === "numbers") {
-    const nums = numbers(value);
-    return nums.length ? Math.max(...nums.map((v) => convertNumber(v, entry, ctx.system))) : null;
+  if (basis === "largest") {
+    const cells = surfaceCells(entry, value, ctx.system)?.cells ?? [];
+    return cells.length ? Math.max(...cells) : null;
+  }
+  if (basis === "peak") {
+    const ys = isXY(value) ? value.y : numbers(value);
+    return ys.length ? Math.max(...ys.map((v) => convertNumber(v, entry, ctx.system))) : null;
   }
   if (Array.isArray(value)) return value.length;
   return null;

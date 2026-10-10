@@ -46,11 +46,10 @@ export function MachCard({
   ctx: RenderCtx;
 }) {
   const tipId = tipIdFor(ctx.fctx, path);
-  const shown = samples.y.map((v) => convertNumber(v, entry, ctx.vctx.system));
-  const axisLabel = entry.axis?.kind === "sampled" ? entry.axis.label : "x";
+  // Mach has no unit: the x axis stays as sampled.
+  const { y: shown, xLabel } = axisCurve(samples, entry, undefined, ctx.vctx.system);
   // The samples start at 0, so the second is the step.
-  const step =
-    samples.x[1] === undefined ? "" : `, ${axisLabel} step ${formatNumber(samples.x[1])}`;
+  const step = samples.x[1] === undefined ? "" : `, ${xLabel} step ${formatNumber(samples.x[1])}`;
   return (
     <figure
       className="mach-card"
@@ -68,11 +67,12 @@ export function MachCard({
       <LineChart
         compact
         title={entry.label}
+        xLabel={xLabel}
         series={[
           {
             id: ctx.fctx.slug,
             label: ctx.fctx.recordName,
-            color: "var(--s1)",
+            color: SERIES_COLORS[0],
             values: shown,
             x: samples.x,
           },
@@ -84,7 +84,7 @@ export function MachCard({
           <table className="exact-table">
             <thead>
               <tr>
-                <th scope="col">{axisLabel}</th>
+                <th scope="col">{xLabel}</th>
                 <th scope="col">{entry.dcsKey ?? entry.label}</th>
               </tr>
             </thead>

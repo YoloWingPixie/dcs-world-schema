@@ -2,26 +2,13 @@
 
 import { useState } from "react";
 import { surfaceAxes } from "@/lib/format-field";
-import { type Surface, surfacesOf } from "@/lib/record-tables";
+import { surfaceLine, surfacesOf } from "@/lib/record-tables";
 import type { CatalogEntry } from "@/lib/types";
 import { convertNumber, displayUnit, formatPlain, unitLabel } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import { fieldDataAttrs, MoreButton } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
 import { HeatGrid, type RenderCtx } from "./blocks";
-
-/** Rows of a surface nearest to `row` (an altitude), or null when none is within 1%. */
-export function surfaceRow(surfaces: Surface[], row: number): { x: number[]; y: number[] } | null {
-  for (const s of surfaces) {
-    const i = s.rows.findIndex((r) => Math.abs(r - row) <= Math.max(1, Math.abs(row) * 0.01));
-    if (i >= 0) {
-      const z = s.z[i] ?? [];
-      const n = Math.min(z.length, s.cols.length);
-      return { x: s.cols.slice(0, n), y: z.slice(0, n) };
-    }
-  }
-  return null;
-}
 
 /**
  * One launch envelope (an `Entity.WeaponLaunchEnvelope`-shaped record: two number[] axes
@@ -54,11 +41,12 @@ export function EnvelopeBlock({
   const axes = surfaceAxes(catalog, surface ?? undefined);
   const rowEntry = axes?.rows;
   const colEntry = axes?.cols;
-  const rows = (item[surface?.rows ?? ""] as number[] | undefined) ?? [];
-  const cols = (item[surface?.cols ?? ""] as number[] | undefined) ?? [];
   const [gridPath, setGridPath] = useState(grids[0]?.path ?? "");
   const gridEntry = grids.find((g) => g.path === gridPath);
-  const grid = (gridEntry ? (item[gridEntry.name] as number[][]) : undefined) ?? [];
+  // The chosen grid over the item's axes, as compare reads it (lib/record-tables `surfacesOf`).
+  const grid = surface && gridEntry ? surfacesOf([item], surface, gridEntry.name)[0] : undefined;
+  const rows = grid?.rows ?? [];
+  const cols = grid?.cols ?? [];
   const [picked, setPicked] = useState<number[]>(() =>
     [0, Math.floor(rows.length / 2), rows.length - 1].filter(
       (v, i, a) => v >= 0 && a.indexOf(v) === i,
@@ -68,13 +56,16 @@ export function EnvelopeBlock({
   const zUnit = gridEntry ? displayUnit(gridEntry, vctx.system) : null;
 
   const series = picked
-    .filter((r) => grid[r])
-    .map((r, i) => ({
+    .flatMap((r) => {
+      const line = grid ? surfaceLine(grid, r) : null;
+      return line ? [{ r, line }] : [];
+    })
+    .map(({ r, line }, i) => ({
       id: `row-${r}`,
       label: formatPlain(rows[r] ?? 0, rowEntry, vctx.system),
       color: SERIES_COLORS[i % SERIES_COLORS.length] ?? "var(--s1)",
-      x: cols.map((c) => convertNumber(c, colEntry, vctx.system)).slice(0, grid[r]?.length ?? 0),
-      values: (grid[r] ?? []).map((v) => convertNumber(v, gridEntry, vctx.system)),
+      x: line.x.map((c) => convertNumber(c, colEntry, vctx.system)),
+      values: line.y.map((v) => convertNumber(v, gridEntry, vctx.system)),
     }));
 
   if (!rowEntry || !colEntry || !gridEntry) return null;
@@ -157,7 +148,7 @@ export function EnvelopeBlock({
           <summary>Table</summary>
           <HeatGrid
             entry={gridEntry}
-            grid={grid}
+            grid={grid?.z ?? []}
             rowAxis={{ entry: rowEntry, values: rows }}
             colAxis={{ entry: colEntry, values: cols }}
             vctx={vctx}

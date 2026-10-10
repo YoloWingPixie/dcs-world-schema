@@ -34,8 +34,9 @@ served by the shell in `app/not-found.tsx`; link to them with `RefLink` / `openH
 
 ## Navigation (`../nav.ts`)
 
-`NAV_SECTIONS` drives the header links and the home page sections: append
-`{ id, label, href, description, match? }` (`match`: path prefixes, default `[href]`).
+`NAV_SECTIONS` drives the header links and which paths are Next.js pages (`PAGE_ROOTS`):
+append `{ id, label, href, kind, match?, prefetch?, className?, compare? }` (`kind`: `page`
+or `shell`; `match`: path prefixes, default `[href]`).
 
 ## Markdown (`../markdown.ts`, `components/Markdown.tsx`)
 

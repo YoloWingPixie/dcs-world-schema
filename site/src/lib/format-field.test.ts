@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { facetLabel, facetValues } from "./cell-text";
 import {
   compareKey,
   coverageText,
@@ -9,11 +10,13 @@ import {
   refName,
   sectorRanges,
   storedValue,
+  summaryValue,
   surfaceAxes,
   valuesDiffer,
 } from "./format-field";
 import { present } from "./json";
 import { enumDisplay } from "./names";
+import { surfaceLine, surfaceRow } from "./record-tables";
 import type { CatalogEntry } from "./types";
 
 const entry = (over: Partial<CatalogEntry>): CatalogEntry => ({
@@ -222,5 +225,102 @@ describe("surface axes", () => {
       surfaceAxes(catalog, { kind: "sampled", step: { field: "s", fallback: 0.2 }, label: "Mach" }),
     ).toBeNull();
     expect(surfaceAxes({ entries: {} }, axis)).toBeNull();
+  });
+});
+
+describe("record summaries", () => {
+  const metric = vctx("metric");
+  it("show a scalar as itself, converted for display", () => {
+    const mass = entry({ unit: "kg", compareAs: "value" });
+    expect(summaryValue(mass, 100, metric)).toEqual({ basis: "value", value: 100 });
+    expect(summaryValue(mass, 100, vctx("imperial"))).toEqual({ basis: "value", value: 220.5 });
+    expect(summaryValue(mass, undefined, metric)).toEqual({ basis: "value", value: null });
+  });
+
+  it("show a list of numbers or a curve by its peak", () => {
+    const list = entry({ kind: "numbers", compareAs: "value" });
+    expect(summaryValue(list, [1, 5, 3], metric)).toEqual({ basis: "peak", value: 5 });
+    const curve = entry({ kind: "numbers", compareAs: "curve" });
+    expect(summaryValue(curve, { x: [0, 0.2], y: [0.3, 0.7] }, metric)).toEqual({
+      basis: "peak",
+      value: 0.7,
+    });
+    expect(summaryValue(curve, { x: [], y: [] }, metric)).toEqual({ basis: "peak", value: null });
+    // The basis is the entry's, so a heading reads it without a value.
+    expect(summaryValue(curve, undefined, metric).basis).toBe("peak");
+  });
+
+  it("show an envelope grid by its largest cell across every table", () => {
+    const grid = entry({ kind: "grid", unit: "m", compareAs: "surfaces" });
+    const value = [
+      { rows: [0], cols: [0, 1], z: [[100, 400]] },
+      { rows: [0], cols: [0], z: [[250]] },
+    ];
+    expect(summaryValue(grid, value, metric)).toEqual({ basis: "largest", value: 400 });
+    expect(summaryValue(grid, [], metric)).toEqual({ basis: "largest", value: null });
+  });
+
+  it("show any other list as written, sorting by its length", () => {
+    const names = entry({ kind: "strings", compareAs: "value" });
+    expect(summaryValue(names, ["a", "b"], metric)).toEqual({ basis: "value", value: 2 });
+  });
+});
+
+describe("envelope rows", () => {
+  const surface = {
+    rows: [0, 1000],
+    cols: [100, 200, 300],
+    z: [
+      [1, 2, 3],
+      [4, 5],
+    ],
+  };
+  it("pair a row with as many column values as both hold", () => {
+    expect(surfaceLine(surface, 0)).toEqual({ x: [100, 200, 300], y: [1, 2, 3] });
+    expect(surfaceLine(surface, 1)).toEqual({ x: [100, 200], y: [4, 5] });
+    expect(surfaceLine(surface, 2)).toBeNull();
+  });
+
+  it("find the row nearest an altitude, within 1%", () => {
+    expect(surfaceRow([surface], 1005)).toEqual({ x: [100, 200], y: [4, 5] });
+    expect(surfaceRow([surface], 1100)).toBeNull();
+  });
+});
+
+describe("facet values", () => {
+  const theatre = entry({ path: "theatre", name: "theatre", kind: "ref", ref: ["theatres"] });
+  // Two records sharing a name: a facet keeps them apart by id and names both alike.
+  const links = {
+    theatres: { GermanyCW: "Germany", Germany2: ["Germany2", "Germany"] as [string, string] },
+  };
+  const ctx = { ...vctx("metric"), links };
+
+  it("are raw ids, one per list item, none for an empty cell", () => {
+    expect(facetValues("GermanyCW")).toEqual(["GermanyCW"]);
+    expect(facetValues(["GermanyCW", "Germany2"])).toEqual(["GermanyCW", "Germany2"]);
+    expect(facetValues(null)).toEqual([]);
+    expect(facetValues(true)).toEqual(["true"]);
+  });
+
+  it("keep same-named ref targets apart, each labelled by its record's name", () => {
+    const rows = ["GermanyCW", "Germany2", "GermanyCW"];
+    const counts = new Map<string, number>();
+    for (const v of rows.flatMap(facetValues)) counts.set(v, (counts.get(v) ?? 0) + 1);
+    expect([...counts]).toEqual([
+      ["GermanyCW", 2],
+      ["Germany2", 1],
+    ]);
+    expect([...counts.keys()].map((v) => facetLabel(theatre, v, ctx))).toEqual([
+      "Germany",
+      "Germany",
+    ]);
+  });
+
+  it("label booleans and enums, and an unresolved ref or a missing entry as written", () => {
+    expect(facetLabel(entry({ kind: "boolean" }), "true", ctx)).toBe("Yes");
+    expect(facetLabel(entry({ kind: "boolean" }), "false", ctx)).toBe("No");
+    expect(facetLabel(entry({ kind: "enum" }), "MODULATION_AM", ctx)).toBe("AM");
+    expect(facetLabel(theatre, "Nowhere", ctx)).toBe("Nowhere");
+    expect(facetLabel(undefined, "GermanyCW", ctx)).toBe("GermanyCW");
   });
 });

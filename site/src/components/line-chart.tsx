@@ -23,7 +23,8 @@ export type ChartSeries = {
 type Props = {
   series: ChartSeries[];
   title: string;
-  xLabel?: string;
+  /** The x axis' name, with its unit: "Mach", "Speed (km/h)". */
+  xLabel: string;
   /** Unit shown after values in the tooltip. */
   yUnit?: string | null;
   height?: number;
@@ -58,15 +59,8 @@ function useWidth<T extends HTMLElement>(fallback: number) {
   return [ref, width] as const;
 }
 
-/** Mach-indexed line chart: thin lines, recessive grid, crosshair + tooltip, keyboard steppable. */
-export function LineChart({
-  series,
-  title,
-  xLabel = "Mach",
-  yUnit,
-  height,
-  compact = false,
-}: Props) {
+/** Line chart of series over a shared numeric x axis (Mach, an axis column, envelope speeds): thin lines, recessive grid, crosshair + tooltip, keyboard steppable. */
+export function LineChart({ series, title, xLabel, yUnit, height, compact = false }: Props) {
   const [wrapRef, width] = useWidth<HTMLDivElement>(compact ? 300 : 720);
   const [hoverX, setHoverX] = useState<number | null>(null);
   const h = height ?? (compact ? 150 : 340);
