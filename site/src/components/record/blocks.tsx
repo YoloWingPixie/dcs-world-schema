@@ -3,6 +3,7 @@
 import { Fragment, type ReactNode, useMemo, useState } from "react";
 import { getPath } from "@/lib/catalog";
 import {
+  axisCurve,
   machAxis,
   plainValue,
   rangeText,
@@ -521,22 +522,27 @@ export function AxisTableChart({
     () => (axis && column ? curveOf(rows, axis.field, column.entry.name) : null) ?? NO_CURVE,
     [rows, axis, column],
   );
+  const chart = useMemo(
+    () =>
+      column && axis ? axisCurve(xy, column.entry, catalog.entries[axis.path], vctx.system) : null,
+    [xy, column, axis, catalog, vctx.system],
+  );
   const series = useMemo(
     () =>
-      column
+      chart
         ? [
             {
               id: fctx.slug,
               label: fctx.recordName,
               color: SERIES_COLORS[0] ?? "var(--s1)",
-              x: xy.x,
-              values: xy.y.map((v) => convertNumber(v, column.entry, vctx.system)),
+              x: chart.x,
+              values: chart.y,
             },
           ]
         : [],
-    [xy, column, fctx, vctx.system],
+    [chart, fctx],
   );
-  if (!column || !axis) return null;
+  if (!column || !axis || !chart) return null;
   const title = `${column.entry.label} by ${axis.label}`;
   return (
     <div className="axis-chart">
@@ -565,7 +571,7 @@ export function AxisTableChart({
       </div>
       <LineChart
         title={title}
-        xLabel={axis.label}
+        xLabel={chart.xLabel}
         yUnit={displayUnit(column.entry, ctx.vctx.system)}
         series={series}
         height={260}

@@ -8,6 +8,7 @@
 
 import type { SchemaTypes } from "../catalog";
 import {
+  browseLabel,
   buildSeriesCatalog,
   COMPANION_PREFIX,
   catalogKeyFor,
@@ -30,7 +31,6 @@ import {
   type FieldValues,
   type LinkTarget,
   type RecordDoc,
-  type ReferencedBy,
   SCALAR_KINDS,
   type SeriesCatalog,
   type SeriesIndex,
@@ -479,7 +479,8 @@ async function directReferences(
 
 /**
  * Second hop: units that reach the record through a non-unit record of `direct` (a
- * weapon through stores), as `via:<series>` groups. `only` limits it to one unit series.
+ * weapon through stores), as groups with `via` set to the series they go through. `only`
+ * limits it to one unit series.
  */
 async function hopReferences(
   q: Query,
@@ -520,28 +521,6 @@ async function hopReferences(
   return [...hops.values()];
 }
 
-/** Groups as "referenced by" lists: records named (one `namesOf`) and sorted by name. */
-async function namedReferences(
-  q: Query,
-  model: Model,
-  groups: RefGroup[],
-): Promise<ReferencedBy[]> {
-  const wanted = new Map<string, Set<string>>();
-  for (const g of groups) {
-    const set = wanted.get(g.series) ?? new Set();
-    for (const i of g.ids) set.add(i);
-    wanted.set(g.series, set);
-  }
-  const names = await namesOf(q, model, wanted);
-  return groups.map((g) => ({
-    series: g.series,
-    path: g.via ? `via:${g.via}` : g.path,
-    label: referencedLabel(model, g.series, g.path, g.via),
-    records: [...g.ids].map((i): LinkTarget => [i, names.get(g.series)?.get(i) ?? i]).sort(byName),
-    ...(g.via ? { via: g.via } : {}),
-  }));
-}
-
 /**
  * Every record of one "referenced by" group (`from`, `path`), uncapped and with link
  * details: only that group's reference path is read (for a `via` group, the paths into
@@ -561,10 +540,13 @@ export async function referencedByGroup(
     via ? owner === via : owner === from && p === path,
   );
   const groups = via ? await hopReferences(q, model, direct, from) : direct;
-  const [group] = await namedReferences(q, model, groups);
-  if (!group) return [];
-  await addLinkDetails(q, model, {}, [group]);
-  return group.records;
+  // Every group is of series `from` (and under `path`, or through `via`).
+  const ids = new Set(groups.flatMap((g) => [...g.ids]));
+  if (!ids.size) return [];
+  const names = (await namesOf(q, model, new Map([[from, ids]]))).get(from);
+  const records = [...ids].map((i): LinkTarget => [i, names?.get(i) ?? i]).sort(byName);
+  await addLinkDetails(q, model, {}, [{ series: from, records }]);
+  return records;
 }
 
 // ---------------------------------------------------------------------------
@@ -572,6 +554,24 @@ export async function referencedByGroup(
 
 const topLevelScalars = (catalog: SeriesCatalog) =>
   rootFields(catalog).filter((e) => SCALAR_KINDS.has(e.kind) && e.role !== "key");
+
+/**
+ * The catalog entry a browse column or facet path names, by the column picker's rule: one
+ * value per record (`compareAs` `value`) of a scalar kind. A facet may also be a list
+ * (`attributes`), each item one of its values. Null for any other path. Columns outside
+ * the browse index load lazily (lib/client-data `loadFieldValues`).
+ */
+export function browseEntry(
+  catalog: SeriesCatalog,
+  path: string,
+  use: "column" | "facet",
+): CatalogEntry | null {
+  const key = catalogKeyFor(path, catalog);
+  const entry = key ? catalog.entries[key] : undefined;
+  if (entry?.compareAs !== "value") return null;
+  if (SCALAR_KINDS.has(entry.kind)) return entry;
+  return use === "facet" && entry.kind === "strings" ? entry : null;
+}
 
 /** A `series_views` row (tools/package/sqlite.py): a browse table in one read. */
 type SeriesView = {
@@ -635,17 +635,22 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
   const distinct = (c: CatalogEntry) => stats.get(c.name)?.distinct ?? 0;
   // The name and id head every row already (`columns` holds no key).
   const skipped = (c: CatalogEntry) => catalog.titleFields.includes(c.path);
-  // Configured paths (lib/series-display) win over the heuristics below.
+  // Configured paths (lib/series-display) win over the heuristics below; they may name
+  // fields outside the index (nested or list-valued), which browse loads lazily.
   const display = displayFor(series);
-  const configured = (paths: string[] | undefined) => {
-    const found = (paths ?? [])
-      .map((p) => columns.find((c) => c.path === p || c.name === p))
-      .filter((c): c is CatalogEntry => c !== undefined);
+  const configured = (paths: string[] | undefined, use: "column" | "facet") => {
+    const found = (paths ?? []).flatMap((p) => {
+      const entry = browseEntry(catalog, p, use);
+      return entry ? [{ path: p, entry }] : [];
+    });
     return found.length ? found : undefined;
   };
+  const indexed = new Set(columns.map((c) => c.path));
   const facets =
-    configured(display.facets)?.filter((c) =>
-      offersConfiguredFacet(series, [c.path, c.name], distinct(c)),
+    // An index column holds at least two values; another column's values are not read here.
+    configured(display.facets, "facet")?.filter(
+      ({ path, entry }) =>
+        !indexed.has(path) || offersConfiguredFacet(series, [path], distinct(entry)),
     ) ??
     columns
       .filter(
@@ -656,14 +661,16 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
         return d >= 2 && d <= (c.kind === "string" ? 12 : 40) && coverage(c) >= count * 0.3;
       })
       .sort((a, b) => (a.kind === "boolean" ? 1 : 0) - (b.kind === "boolean" ? 1 : 0))
-      .slice(0, 5);
+      .slice(0, 5)
+      .map((c) => ({ path: c.path, entry: c }));
   const visible =
-    configured(display.columns) ??
+    configured(display.columns, "column")?.map((c) => c.path) ??
     columns
       .filter((c) => !skipped(c) && !redundant(c) && coverage(c) >= Math.max(1, count * 0.3))
       .filter((c) => !(c.kind === "string" && distinct(c) > count * 0.6))
       .sort((a, b) => coverage(b) - coverage(a))
-      .slice(0, 4);
+      .slice(0, 4)
+      .map((c) => c.path);
 
   const decoded = rows.map((r) => {
     const rid = String(r.__id);
@@ -674,24 +681,23 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
       ...columns.map((c) => {
         const v = r[c.name];
         if (v === null || v === undefined) return null;
-        if (c.kind === "boolean") return v === 1 || v === true;
         if (c.kind === "ref") return refNames.get(c.name)?.get(String(v)) ?? v;
-        return v;
+        return decodeValue(c, v);
       }),
     ] as SeriesIndex["rows"][number];
   });
   decoded.sort((a, b) => naturalCompare(a[1], b[1]));
 
-  const facetList: Facet[] = facets.map((c) => ({
-    path: c.path,
-    label: c.label,
-    kind: c.kind === "enum" ? "enum" : c.kind === "boolean" ? "boolean" : "string",
+  const facetList: Facet[] = facets.map(({ path, entry }) => ({
+    path,
+    label: browseLabel(catalog, entry),
+    kind: entry.kind === "enum" ? "enum" : entry.kind === "boolean" ? "boolean" : "string",
   }));
   return {
     series,
     count,
     columns: columns.map((c) => c.path),
-    visible: visible.map((c) => c.path),
+    visible,
     facets: facetList,
     rows: decoded,
   };
@@ -774,6 +780,25 @@ export async function getFieldValues(
       `SELECT ${qi(table.keyColumn)} AS k, ${qi(column)} AS v FROM ${qi(table.id)} WHERE ${qi(column)} IS NOT NULL`,
     );
 
+  // A whole column listing refs reads its join table (a few pages), not the series' wide
+  // rows; a record with an empty list has no join rows, so no value.
+  const join =
+    simple && inner.length === 0 && entry.kind === "strings"
+      ? model.refPaths.find(
+          (p) => p.series === table.id && p.table !== table.id && p.path === `${column}[]`,
+        )
+      : undefined;
+  if (join) {
+    const rows = await q(
+      `SELECT ${qi(join.source)} AS k, ${qi(join.targetColumn)} AS v FROM ${qi(join.table)} ORDER BY k, ordinal`,
+    );
+    for (const r of rows) {
+      const list = (values[String(r.k)] as unknown[] | undefined) ?? [];
+      list.push(r.v);
+      values[String(r.k)] = list;
+    }
+    return { path, values };
+  }
   if (simple && inner.length === 0) {
     for (const r of await columnRows()) values[String(r.k)] = decodeValue(entry, r.v);
     return { path, values };
@@ -805,7 +830,7 @@ export async function getFieldValues(
 /** Comparable concrete paths of a catalog's plain fields (keyed ones: `keyedFieldPaths`). */
 export function fieldPaths(catalog: SeriesCatalog): FieldPath[] {
   return Object.values(catalog.entries)
-    .filter((e) => e.comparable && !e.path.includes("*"))
+    .filter((e) => e.compareAs !== undefined && !e.path.includes("*"))
     .map((e) => ({ path: e.path, key: e.path }));
 }
 
@@ -834,7 +859,7 @@ export async function keyedFieldPaths(
     for (const r of rows) {
       if (r.key === null) continue;
       for (const e of Object.values(catalog.entries)) {
-        if (!e.comparable || !e.path.startsWith(`${arr.path}.*.`)) continue;
+        if (e.compareAs === undefined || !e.path.startsWith(`${arr.path}.*.`)) continue;
         out.push({
           path: e.path.replace(`${arr.path}.*.`, `${arr.path}.${String(r.key)}.`),
           key: e.path,

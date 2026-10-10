@@ -40,7 +40,7 @@ describe("model from the database's own description", () => {
     });
     expect(aircraft.entries.kind?.kind).toBe("enum");
     expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
-      comparable: true,
+      compareAs: "curve",
       axis: { kind: "column", field: "mach", label: "Mach" },
     });
     const weapons = catalogFor(model, "weapons");

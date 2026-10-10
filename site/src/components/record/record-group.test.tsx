@@ -102,7 +102,8 @@ describe("recordsLayoutFor", () => {
     };
     expect(layout(weapons, "flight.launchEnvelopes", "group")).toBe("envelope");
     expect(layout(aircraft, "flight.aerodynamics.table", "group")).toBe("axis-table");
-    expect(layout(aircraft, "stations", "group")).toBe("table");
+    expect(layout(aircraft, "stations", "group")).toBe("cards");
+    expect(layout(weapons, "flight.motorStages", "group")).toBe("table");
     expect(layout(aircraft, "gun.mounts[].mixes", "group")).toBe("list-per-item");
     const ranges = Object.values(radios.entries).find((e) => e.layout === "ranges");
     if (ranges) expect(layout(radios, ranges.path, "group")).toBe("ranges");

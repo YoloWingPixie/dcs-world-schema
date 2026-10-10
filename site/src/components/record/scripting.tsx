@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import type { ScriptingRow, ScriptingText } from "@/lib/api/record-scripting";
 import { SCRIPTING } from "@/lib/api/scripting";
 import { transientQuery } from "@/lib/db/browser";
+import { once, settled } from "@/lib/once";
 import type { RecordDoc } from "@/lib/types";
 import { RefLink } from "../ref-link";
 
@@ -12,13 +13,11 @@ export const SCRIPTING_ID = "scripting";
 /** How long a record page settles before its Scripting rows load. */
 const SETTLE_MS = 500;
 
-/** The Scripting code, once a record page has loaded it. */
-let scriptingCode: typeof import("@/lib/api/record-scripting") | null = null;
+type ScriptingCode = typeof import("@/lib/api/record-scripting");
+const SCRIPTING_CODE = "scripting-code";
+/** The Scripting code, loaded once a record page needs it. */
 const loadScriptingCode = () =>
-  import("@/lib/api/record-scripting").then((m) => {
-    scriptingCode = m;
-    return m;
-  });
+  once(SCRIPTING_CODE, (): Promise<ScriptingCode> => import("@/lib/api/record-scripting"));
 
 /**
  * The record's Scripting rows, loaded once the record is on screen (the API code and its
@@ -41,7 +40,9 @@ export function useScripting(doc: RecordDoc | null): ScriptingRow[] | "loading" 
         // No API data: the record reads the same without the block.
         .then(done, () => done([]));
     // Rows another record of the series already read: no database pages to wait for.
-    if (scriptingCode?.scriptingWarm(transientQuery, doc.series, doc.data)) {
+    if (
+      settled<ScriptingCode>(SCRIPTING_CODE)?.scriptingWarm(transientQuery, doc.series, doc.data)
+    ) {
       start();
       return () => {
         live = false;

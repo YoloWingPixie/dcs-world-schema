@@ -22,7 +22,6 @@ const entry = (over: Partial<CatalogEntry>): CatalogEntry => ({
   unitNotStated: false,
   description: "",
   dcsKey: null,
-  comparable: false,
   ...over,
 });
 

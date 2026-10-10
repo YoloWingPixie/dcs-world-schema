@@ -1,6 +1,6 @@
 import { isRecord } from "./json";
 import { enumDisplay } from "./names";
-import { asSurfaces } from "./record-tables";
+import { asSurfaces, type Curve } from "./record-tables";
 import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc } from "./types";
 import {
   convertNumber,
@@ -9,6 +9,7 @@ import {
   formatPlain,
   formatStored,
   type UnitSystem,
+  unitLabel,
   withUnit,
 } from "./units";
 
@@ -37,6 +38,25 @@ export function resolveLink(
     return { series, slug, name };
   }
   return null;
+}
+
+/**
+ * An axis table column's curve as a chart draws it, in the display system: x through the
+ * axis column's entry, y through the column's own, and the x label with its unit. Shared by
+ * the record page's table chart and compare.
+ */
+export function axisCurve(
+  curve: Curve,
+  entry: CatalogEntry,
+  axisEntry: CatalogEntry | undefined,
+  system: UnitSystem,
+): { x: number[]; y: number[]; xLabel: string } {
+  const label = entry.axis?.kind === "column" ? entry.axis.label : "x";
+  return {
+    x: curve.x.map((v) => convertNumber(v, axisEntry, system)),
+    y: curve.y.map((v) => convertNumber(v, entry, system)),
+    xLabel: unitLabel(label, axisEntry, system),
+  };
 }
 
 export function isXY(value: unknown): value is { x: number[]; y: number[] } {

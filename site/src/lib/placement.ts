@@ -8,14 +8,13 @@ import {
   companionLabel,
   companionRest,
   getPath,
-  recordFields,
   rootFields,
   rootFor,
 } from "./catalog";
 import { coverageText, plainValue, type ValueContext } from "./format-field";
 import { isRecord, type Json } from "./json";
 import { enumDisplay } from "./names";
-import { rangeListOf } from "./record-tables";
+import { rangeListOf, recordFields } from "./record-tables";
 import { displayFor } from "./series-display";
 import type { CatalogEntry, RecordDoc, SeriesCatalog } from "./types";
 

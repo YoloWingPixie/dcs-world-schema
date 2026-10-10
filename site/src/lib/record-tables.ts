@@ -16,6 +16,13 @@ type Shapes = Pick<SeriesCatalog, "types" | "entries">;
 /** Answers computed once per catalog and key. */
 const cache = perObject<Shapes>();
 
+/** The entries of a record type's fields at catalog path `prefix` ("" at the root), in schema order. */
+export function recordFields(catalog: Shapes, typeName: string, prefix: string): CatalogEntry[] {
+  return (catalog.types[typeName]?.fields ?? [])
+    .map((name) => catalog.entries[prefix ? `${prefix}.${name}` : name])
+    .filter((e): e is CatalogEntry => e !== undefined);
+}
+
 /**
  * `items` without each code whose constant name is among them too (`modulation` beside
  * `modulationName`): the name stands in its place. `field` gives an item's path (relative to
@@ -40,16 +47,12 @@ export function withoutNamedCodes<T>(
 export function tableColumns(catalog: Shapes, typeName: string, prefix: string): Column[] {
   return cache.cachedBy(catalog, `columns\n${typeName}\n${prefix}`, () => {
     const out: Column[] = [];
-    for (const name of catalog.types[typeName]?.fields ?? []) {
-      const key = `${prefix}.${name}`;
-      const entry = catalog.entries[key];
-      if (!entry) continue;
-      if (SCALAR_KINDS.has(entry.kind)) out.push({ path: name, key, entry });
+    for (const entry of recordFields(catalog, typeName, prefix)) {
+      if (SCALAR_KINDS.has(entry.kind)) out.push({ path: entry.name, key: entry.path, entry });
       else if (entry.kind === "record" && entry.recordType) {
-        for (const sub of catalog.types[entry.recordType]?.fields ?? []) {
-          const subEntry = catalog.entries[`${key}.${sub}`];
-          if (subEntry && SCALAR_KINDS.has(subEntry.kind)) {
-            out.push({ path: `${name}.${sub}`, key: `${key}.${sub}`, entry: subEntry });
+        for (const sub of recordFields(catalog, entry.recordType, entry.path)) {
+          if (SCALAR_KINDS.has(sub.kind)) {
+            out.push({ path: `${entry.name}.${sub.name}`, key: sub.path, entry: sub });
           }
         }
       }
@@ -65,9 +68,10 @@ export function complexFields(
   prefix: string,
 ): Array<{ name: string; entry: CatalogEntry }> {
   return cache.cachedBy(catalog, `complex\n${typeName}\n${prefix}`, () => {
-    const fields = (catalog.types[typeName]?.fields ?? [])
-      .map((name) => ({ name, entry: catalog.entries[`${prefix}.${name}`] }))
-      .filter((f): f is { name: string; entry: CatalogEntry } => Boolean(f.entry));
+    const fields = recordFields(catalog, typeName, prefix).map((entry) => ({
+      name: entry.name,
+      entry,
+    }));
     return withoutNamedCodes(fields, (f) => ({ path: f.name, entry: f.entry })).filter(
       (f) => !SCALAR_KINDS.has(f.entry.kind) && f.entry.kind !== "record",
     );

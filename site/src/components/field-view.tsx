@@ -67,7 +67,7 @@ export function fieldDataAttrs(
   const target: FieldTarget = {
     path,
     label,
-    comparable: entry.comparable,
+    comparable: entry.compareAs !== undefined,
     text,
     stored: stored && stored !== text ? stored : null,
     series: ctx.series,

@@ -5,7 +5,7 @@
  * the hand-written overlays shipped with the site (public/overlays/reference.json).
  * Overlays naming a record or field the database no longer has are ignored.
  */
-import { COMPANION_PREFIX } from "./catalog";
+import { COMPANION_PREFIX, catalogKeyFor } from "./catalog";
 import { OVERLAYS_URL } from "./db/boot";
 import { browserQuery, transientQuery } from "./db/browser";
 import {
@@ -195,6 +195,32 @@ export const loadFieldValues = (series: string, path: string) =>
 /** Record names by id per series (`series -> id -> name`), for the ids wanted only. */
 export const loadNames = async (wanted: Map<string, Set<string>>) =>
   namesOf(transientQuery, await loadModel(), wanted);
+
+/**
+ * A browse column or facet the series index does not carry, per record id: `loadFieldValues`,
+ * with a ref's ids read as their records' names, as the index's own ref columns are.
+ */
+export const loadBrowseColumn = (series: string, path: string) =>
+  once(`column:${series}:${path}`, async (): Promise<Record<string, unknown>> => {
+    const [{ values }, catalog] = await Promise.all([
+      loadFieldValues(series, path),
+      loadCatalog(series),
+    ]);
+    const targets = catalog.entries[catalogKeyFor(path, catalog) ?? ""]?.ref;
+    if (!targets) return values;
+    const ids = new Set(Object.values(values).flat().map(String));
+    const names = await loadNames(new Map(targets.map((t) => [t, ids])));
+    const nameOf = (id: unknown) => {
+      for (const t of targets) {
+        const name = names.get(t)?.get(String(id));
+        if (name !== undefined) return name;
+      }
+      return id;
+    };
+    return Object.fromEntries(
+      Object.entries(values).map(([id, v]) => [id, Array.isArray(v) ? v.map(nameOf) : nameOf(v)]),
+    );
+  });
 
 /** Per row id, the record a group-by ref field points at (lib/series-display `groupBy`). */
 export const loadGroupTargets = (series: string, path: string) =>

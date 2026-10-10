@@ -55,7 +55,6 @@ describe("catalog from every entity schema", () => {
     expect(aircraft.entries["stations[].accepts[].clsid"]).toMatchObject({
       kind: "ref",
       ref: ["stores"],
-      comparable: false,
     });
     expect(aircraft.entries.sensors).toMatchObject({ kind: "strings", ref: ["sensors"] });
     expect(aircraft.entries.kind).toMatchObject({ kind: "enum", enumType: "Entity.AircraftKind" });
@@ -64,7 +63,7 @@ describe("catalog from every entity schema", () => {
     const mach = expect.objectContaining({ kind: "column", field: "mach", label: "Mach" });
     expect(aircraft.entries["flight.aerodynamics.table"]?.axis).toEqual(mach);
     expect(aircraft.entries["flight.aerodynamics.table[].cx0"]).toMatchObject({
-      comparable: true,
+      compareAs: "curve",
       axis: mach,
     });
     // The axis column itself is no curve.
@@ -96,13 +95,13 @@ describe("catalog from every entity schema", () => {
       label: "Zero-lift drag coefficient",
       dcsKey: "Cx0",
     });
-    expect(weapons.entries["flight.motorStages.*.impulseS"]?.comparable).toBe(true);
+    expect(weapons.entries["flight.motorStages.*.impulseS"]?.compareAs).toBe("value");
     expect(catalogKeyFor("flight.motorStages.march.impulseS", weapons)).toBe(
       "flight.motorStages.*.impulseS",
     );
     expect(weapons.entries["flight.launchEnvelopes[].maxRangeM"]).toMatchObject({
       kind: "grid",
-      comparable: true,
+      compareAs: "surfaces",
       axis: { kind: "surface", rows: "altitudesM", cols: "speedsMs" },
     });
     // Stored once, on the envelope table and each of its grids.
@@ -154,12 +153,23 @@ describe("catalog from every entity schema", () => {
 
   it("marks arrays whose items are one list each", () => {
     expect(catalogOf("aircraft").entries["gun.mounts[].mixes"]?.layout).toBe("list-per-item");
-    expect(catalogOf("aircraft").entries.stations?.layout).toBeUndefined();
+    expect(catalogOf("aircraft").entries.stations?.layout).not.toBe("list-per-item");
+  });
+
+  it("marks arrays whose items hold nested tables as cards", () => {
+    const aircraft = catalogOf("aircraft");
+    // Stations' items hold their accepted stores (records): one card per station.
+    expect(aircraft.entries.stations?.layout).toBe("cards");
+    expect(aircraft.entries["stations[].accepts"]?.layout).toBe("cards");
+    // Items of scalars only, or with a layout of their own, are not cards.
+    expect(catalogOf("weapons").entries["flight.motorStages"]?.layout).toBeUndefined();
+    expect(aircraft.entries["gun.mounts[].mixes"]?.layout).toBe("list-per-item");
   });
 
   it("marks roles, layouts, Mach steps, list titles and unit conversions once", () => {
     const weapons = catalogOf("weapons");
-    expect(weapons.entries.sourcePaths).toMatchObject({ role: "provenance", comparable: false });
+    expect(weapons.entries.sourcePaths?.role).toBe("provenance");
+    expect(weapons.entries.sourcePaths?.compareAs).toBeUndefined();
     expect(weapons.entries["flight.aerodynamics.sourcePath"]?.role).toBe("provenance");
     expect(weapons.entries.massKg?.role).toBeUndefined();
     expect(weapons.entries["flight.launchEnvelopes"]?.layout).toBe("envelope");
@@ -227,7 +237,7 @@ describe("catalog from every entity schema", () => {
   it("marks asset paths and cleans descriptions", () => {
     expect(catalogOf("stores").entries.picture).toMatchObject({
       role: "asset",
-      comparable: true,
+      compareAs: "value",
     });
     expect(catalogOf("liveries").entries.path?.role).toBe("asset");
     expect(catalogOf("stores").entries.displayName?.role).toBeUndefined();
@@ -433,11 +443,6 @@ describe("compare shapes", () => {
     expect(aircraft.entries["flight.aerodynamics.table[].mach"]?.compareAs).toBeUndefined();
     expect(weapons.entries.sourcePaths?.compareAs).toBeUndefined();
     expect(aircraft.entries["stations[].accepts[].clsid"]?.compareAs).toBeUndefined();
-    for (const s of model.series) {
-      for (const e of Object.values(catalogOf(s.id).entries)) {
-        expect(e.compareAs !== undefined, e.path).toBe(e.comparable);
-      }
-    }
   });
 
   it("tells apart curves whose summaries match", () => {

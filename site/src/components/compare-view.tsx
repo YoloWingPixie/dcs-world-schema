@@ -23,6 +23,7 @@ import {
 } from "@/lib/compare-store";
 import { fieldPaths } from "@/lib/db/reference";
 import {
+  axisCurve,
   displayedNumber,
   isXY,
   machAxis,
@@ -411,7 +412,7 @@ function FieldSelect({
     const map = new Map<string, { section: string; options: Option[] }>();
     for (const fp of paths) {
       const entry = catalog.entries[fp.key];
-      if (!entry?.comparable) continue;
+      if (entry?.compareAs === undefined) continue;
       const { id, label } = sectionOf(catalog, fp.key);
       const group = map.get(id) ?? { section: label, options: [] };
       group.options.push({
@@ -513,7 +514,7 @@ function FieldCompare(props: FieldProps) {
     entry.compareAs === "samples" && entry.axis?.kind === "sampled" ? entry.axis : null;
   const stepPath = sampled ? path.replace(/[^.]+$/, sampled.step.field) : "";
   const stepKey = stepPath ? catalogKeyFor(stepPath, catalog) : null;
-  const hasStep = Boolean(stepKey && catalog.entries[stepKey]?.comparable);
+  const hasStep = Boolean(stepKey && catalog.entries[stepKey]?.compareAs !== undefined);
   const steps = useLoaded<FieldValues | null>(
     (p) => (p ? loadFieldValues(series, p) : Promise.resolve(null)),
     hasStep ? stepPath : null,
@@ -708,22 +709,14 @@ function CurveCompare({
   path: string;
   system: UnitSystem;
 }) {
-  const axis = entry.axis?.kind === "column" ? entry.axis : null;
-  const axisEntry = axis ? catalog.entries[axis.path] : undefined;
-  const xLabel = axis ? unitLabel(axis.label, axisEntry, system) : "x";
+  const axisEntry = entry.axis?.kind === "column" ? catalog.entries[entry.axis.path] : undefined;
+  // The label holds without any record's curve.
+  const xLabel = axisCurve({ x: [], y: [] }, entry, axisEntry, system).xLabel;
   const series = slugs.flatMap((slug): ChartSeries[] => {
     const v = all[slug];
     if (!isXY(v)) return [];
-    const values = v.y.map((y) => convertNumber(y, entry, system));
-    return [
-      {
-        id: slug,
-        label: name(slug),
-        color: color(slug) ?? "var(--ink-3)",
-        x: v.x.map((x) => convertNumber(x, axisEntry, system)),
-        values,
-      },
-    ];
+    const { x, y } = axisCurve(v, entry, axisEntry, system);
+    return [{ id: slug, label: name(slug), color: color(slug) ?? "var(--ink-3)", x, values: y }];
   });
   return (
     <SeriesCompare
