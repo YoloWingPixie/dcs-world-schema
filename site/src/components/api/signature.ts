@@ -115,3 +115,19 @@ export function signatureParams(
 /** The plain text of display tokens. */
 export const tokenText = (tokens: Token[]) =>
   tokens.map((t) => (typeof t === "string" ? t : t.r)).join("");
+
+/**
+ * A signature's tail (`): Unit?`) as the closing parenthesis, the `: ` before the return
+ * type and the return type itself (empty when the function returns nothing).
+ */
+export function splitReturn(tail: Token[]): { close: Token[]; colon: string; returns: Token[] } {
+  const [first, ...rest] = tail;
+  if (typeof first !== "string" || !first.startsWith(")")) {
+    return { close: tail, colon: "", returns: [] };
+  }
+  const after = first.slice(1);
+  const colon = /^:\s*/.exec(after)?.[0] ?? "";
+  if (!colon) return { close: tail, colon: "", returns: [] };
+  const lead = after.slice(colon.length);
+  return { close: [")"], colon, returns: [...(lead ? [lead] : []), ...rest] };
+}

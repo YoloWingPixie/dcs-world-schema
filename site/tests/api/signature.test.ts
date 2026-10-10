@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { signatureParams, splitSignature, tokenText } from "../../src/components/api/signature";
+import {
+  signatureParams,
+  splitReturn,
+  splitSignature,
+  tokenText,
+} from "../../src/components/api/signature";
 import type { Token } from "../../src/lib/api/types";
 
 const text = (parts: Token[][] | null) => parts?.map(tokenText);
@@ -68,5 +73,21 @@ describe("signatureParams", () => {
     expect(one?.params.map((p) => tokenText(p.name))).toEqual(["name"]);
     expect(signatureParams(["timer.getTime(): number"])?.params).toEqual([]);
     expect(signatureParams(["Unit.name: string"])).toBeNull();
+  });
+});
+
+describe("splitReturn", () => {
+  it("separates the return type from the closing parenthesis", () => {
+    expect(splitReturn(["): ", { r: "Unit" }, "?"])).toEqual({
+      close: [")"],
+      colon: ": ",
+      returns: [{ r: "Unit" }, "?"],
+    });
+    expect(splitReturn(["): number, number"])).toEqual({
+      close: [")"],
+      colon: ": ",
+      returns: ["number, number"],
+    });
+    expect(splitReturn([")"])).toEqual({ close: [")"], colon: "", returns: [] });
   });
 });

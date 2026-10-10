@@ -232,6 +232,7 @@ export function MemberEntry({
             wrapAt={88}
             lead={lead}
             brief={isFn && params.length > 0}
+            labelReturns={isFn}
           />
         ) : m.kind === "constant" ? (
           <code className="api-sig">

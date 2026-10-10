@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import type { Token } from "@/lib/api/types";
 import { ApiLink } from "./api-link";
-import { signatureParams, splitSignature, tokenText, WRAP_AT } from "./signature";
+import { signatureParams, splitReturn, splitSignature, tokenText, WRAP_AT } from "./signature";
 
 export type Links = Record<string, string>;
 
@@ -14,7 +14,7 @@ export function Tokens({
   tokens: Token[];
   links: Links;
   /** The tokens are not shown: keep their links out of the tab order. */
-  unfocusable?: boolean;
+  unfocusable?: boolean | undefined;
 }) {
   return (
     <>
@@ -89,11 +89,31 @@ function LeadTokens({
   );
 }
 
+/** A signature's tail: the closing parenthesis, then the return type after a quiet
+ *  RETURNS label. The Lua `: ` stays in the text, hidden, and the label is CSS content with
+ *  empty alternative text, so the signature reads and copies as written. */
+function Tail({ tokens, links }: { tokens: Token[]; links: Links }) {
+  const { close, colon, returns } = splitReturn(tokens);
+  return (
+    <>
+      <Tokens tokens={close} links={links} />
+      {returns.length ? (
+        <>
+          <span className="api-sig-rcolon">{colon}</span>
+          <span className="api-sig-returns">
+            <Tokens tokens={returns} links={links} />
+          </span>
+        </>
+      ) : null}
+    </>
+  );
+}
+
 /**
  * A Lua-style signature: `Unit.getByName(name: string): Unit?`. With `wrap`, a long one
  * (or any with two or more parameters, on a phone) sets each parameter on its own line:
  * block spans, so the text is unchanged. With `lead`, the owner is quiet and the name
- * strong.
+ * strong. With `labelReturns`, the return type follows a RETURNS label.
  */
 export function Signature({
   tokens,
@@ -102,6 +122,7 @@ export function Signature({
   wrapAt = WRAP_AT,
   lead,
   brief,
+  labelReturns,
 }: {
   tokens: Token[];
   links: Links;
@@ -114,25 +135,43 @@ export function Signature({
    * the text, hidden, so the signature still reads and copies in full; it is the title.
    */
   brief?: boolean;
+  labelReturns?: boolean;
 }) {
-  const split = brief ? signatureParams(tokens) : null;
-  if (split) {
+  const sp = brief || labelReturns ? signatureParams(tokens) : null;
+  if (sp) {
+    const split = Boolean(wrap) && !brief && sp.params.length >= 2;
+    const className = [
+      "api-sig",
+      brief ? "api-sig-brief" : null,
+      split ? "api-sig-split" : null,
+      split && tokenText(tokens).length > wrapAt ? "api-sig-wrap" : null,
+    ]
+      .filter(Boolean)
+      .join(" ");
     return (
-      <code className="api-sig api-sig-brief" title={tokenText(tokens)}>
-        <LeadTokens tokens={split.head} links={links} lead={lead} />
-        {split.params.map((p, i) => (
+      <code className={className} title={brief ? tokenText(tokens) : undefined}>
+        <span className="api-sig-head">
+          <LeadTokens tokens={sp.head} links={links} lead={lead} />
+        </span>
+        {sp.params.map((p, i) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: parameters are positional
-          <Fragment key={i}>
+          <span key={i} className="api-sig-param">
             <Tokens tokens={p.name} links={links} />
             {p.type.length ? (
               <span className="api-sig-ptype">
-                <Tokens tokens={p.type} links={links} unfocusable />
+                <Tokens tokens={p.type} links={links} unfocusable={brief} />
               </span>
             ) : null}
             <Tokens tokens={p.sep} links={links} />
-          </Fragment>
+          </span>
         ))}
-        <Tokens tokens={split.tail} links={links} />
+        <span className="api-sig-tail">
+          {labelReturns ? (
+            <Tail tokens={sp.tail} links={links} />
+          ) : (
+            <Tokens tokens={sp.tail} links={links} />
+          )}
+        </span>
       </code>
     );
   }
