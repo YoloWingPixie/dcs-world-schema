@@ -166,6 +166,14 @@ select {
   color: inherit;
 }
 
+/* The open list of a <select> takes its colours from the options, not the page: give them
+   the theme's paper and ink, or Windows browsers show light text on a white list in dark. */
+option,
+optgroup {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
