@@ -1,0 +1,312 @@
+/* Generic per-series browse view (components/browse-view.tsx). */
+
+.browse-nofacets {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.browse-intro {
+  margin: -12px 0 28px;
+  max-width: var(--measure);
+  color: var(--ink-2);
+}
+
+.browse-tools {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 18px;
+}
+
+.browse-tools .combo {
+  flex: 1;
+  min-width: 0;
+}
+
+.facet-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.facet-more {
+  font-family: var(--font-head);
+  font-size: 13px;
+  padding: 2px 0;
+}
+
+/* Column picker */
+.col-picker {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.col-picker > summary {
+  list-style: none;
+  height: 100%;
+}
+
+.col-picker > summary::-webkit-details-marker {
+  display: none;
+}
+
+.col-picker-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 6px);
+  z-index: 30;
+  width: min(360px, calc(100vw - 32px));
+  max-height: min(420px, 60vh);
+  overflow: auto;
+  padding: 8px;
+  display: grid;
+  gap: 2px;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-top-width: 2px;
+}
+
+.col-picker-label {
+  display: grid;
+  min-width: 0;
+}
+
+.col-picker-path {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--ink-3);
+  overflow-wrap: anywhere;
+}
+
+/* Virtualized table: fixed row height, sticky header inside the scroll box. */
+/* The page scrolls, not the table: the site header, the filter bar (wide screens) and the
+   column head stick in that order; the filters panel sticks beside them. `clip` (not
+   auto) so the head stays sticky to the window; columns that do not fit are left out. */
+.vtable {
+  position: relative;
+  overflow: visible;
+  overflow-x: clip;
+}
+
+.vtable .table th {
+  z-index: 2;
+}
+
+.vtable .table thead th {
+  top: calc(var(--header-h) + var(--browse-head-h, 0px));
+}
+
+.browse-head {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 20;
+  padding-top: 12px;
+  margin-top: -12px;
+  background: var(--paper);
+}
+
+.ch-probe {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  font: 400 15.5px var(--font-body);
+}
+
+@media (min-width: 861px) {
+  .facets-panel {
+    position: sticky;
+    top: calc(var(--header-h) + 12px);
+    align-self: start;
+    max-height: calc(100vh - var(--header-h) - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+}
+
+/* Phones: only the site header and the column head stick; the filter bar scrolls away. */
+@media (max-width: 560px) {
+  .browse-head {
+    position: static;
+  }
+  .vtable .table thead th {
+    top: var(--header-h);
+  }
+}
+
+/* Widths come from the <colgroup> (sized from every row), never from the rows on screen. */
+.vtable .table {
+  table-layout: fixed;
+}
+
+.vtable col {
+  width: var(--col-w, auto);
+}
+
+.vtable thead th {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vrow td,
+.vtable .vrow th {
+  height: 44px;
+  vertical-align: middle;
+  padding-top: 0;
+  padding-bottom: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vrow .name-cell {
+  line-height: 1.15;
+}
+
+.vtable .vrow .name-cell a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vrow .name-cell .sub {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vtable .vspacer td {
+  padding: 0;
+  border: 0;
+}
+
+.vtable .vspacer:hover td {
+  background: transparent;
+}
+
+.sk-bar {
+  display: block;
+  height: 12px;
+  width: 60%;
+  background: linear-gradient(90deg, var(--paper-3), var(--paper-2), var(--paper-3));
+  background-size: 200% 100%;
+  animation: browse-shimmer 1.2s linear infinite;
+}
+
+@keyframes browse-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk-bar {
+    animation: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .vtable col.col-keep {
+    width: min(var(--col-w, auto), 42vw);
+  }
+  .browse-tools {
+    flex-wrap: wrap;
+  }
+}
+
+fieldset.col-picker-menu {
+  margin: 0;
+  min-width: 0;
+}
+
+/* Grouped list (series-display `groupBy`): a numbered head per group, as in the contents. */
+.group-toggle {
+  order: 1;
+  margin: 0 0 0 auto;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.vtable .vgroup th {
+  height: 56px;
+  padding: 0 0 0 2px;
+  vertical-align: bottom;
+  border-bottom: 2px solid var(--rule);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15.5px;
+  white-space: nowrap;
+}
+
+.table tbody tr.vgroup:hover th {
+  background: transparent;
+}
+
+.vgroup-head {
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  padding-bottom: 5px;
+}
+
+.vgroup-name {
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.vgroup-name a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.vgroup-name a:hover {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.vgroup-sub {
+  margin-left: 10px;
+  font: 400 12px var(--font-mono);
+  color: var(--ink-3);
+}
+
+/* Wide heads outrun the dot string: anchor the dots at the count, clip on the left. */
+.vgroup-head .contents-leader {
+  font-family: var(--font-body);
+  font-weight: 400;
+  letter-spacing: 0;
+  direction: rtl;
+  text-align: right;
+}
+
+.vgroup-count {
+  flex: none;
+  padding-right: 12px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Rows under a head sit in from its number, like contents entries. */
+.vtable .vrow-grouped .name-cell {
+  padding-left: 3em;
+}
+
+@media (max-width: 560px) {
+  .group-toggle {
+    margin-left: 0;
+  }
+  .vtable .vrow-grouped .name-cell {
+    padding-left: 1.4em;
+  }
+}
+
+/* A head spans the whole table: a second run of dots so wide screens stay filled. */
+.vgroup-head .contents-leader::after {
+  content: " " var(--leader-dots);
+  letter-spacing: 0.08em;
+}

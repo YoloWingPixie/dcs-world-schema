@@ -27,7 +27,7 @@ only what the scripts give.
 | `rangeMaxM` | `Range_max` (AI) | m |
 | `machMax` | `Mach_max` | |
 | `pnCoefficients` | `PN_coeffs` | `distanceM`, `gain` pairs |
-| `launchTables` | `LaunchDistData`, `MinLaunchDistData`, ... | see below |
+| `launchEnvelopes` | `LaunchDistData`, `MinLaunchDistData`, `AspectDistData` | see below |
 | `aerodynamics` | `fm` | |
 | `motorStages` | `boost`, `march`, `march2`, `engine`, ... | |
 | `autopilot` | `autopilot`, else `ap` | |
@@ -86,19 +86,21 @@ are not stages.
 | | `nearDistance`, `farDistance` | `sens_near_dist`, `sens_far_dist` | not stated |
 | | `operatingTime` | `op_time` | not stated |
 | gimbal | `yawMaxRad`, `pitchMaxRad` | `yaw_max`, `pitch_max` | rad |
-| | `trackingRateMax` | `max_tracking_rate` | not stated |
+| | `trackingRateMaxRadS` | `max_tracking_rate` | rad/s (`math.rad(n)` per second, the time unit implied) |
 | | `operatingTime` | `op_time` | not stated |
 | proximityFuze | `radius` | `radius` | not stated |
 | | `armDelay` | `arm_delay` | not stated |
 
 `batteryLifeS` and the blocks' `operatingTime` are separate limits; none of them is the others.
 
-## Launch tables
+## Launch envelopes
 
-`LaunchDistData` and its relatives are `{rows, cols, column headers, then each row's header and
-cells}`. `launchTables` holds the ones that decode that way as `columnHeaders` and `rows`
-(`header`, `cells`), in DCS order. DCS doesn't say what the axes are. These are the ranges the
-AI launches at, not computed missile performance.
+`LaunchDistData`, `MinLaunchDistData` and `AspectDistData` are `{rows, cols, column headers,
+then each row's header and cells}`. Rows are launch altitude in metres, columns launch true
+airspeed in m/s. `launchEnvelopes` holds them as `altitudesM`, `speedsMs` and grids indexed
+`[altitude][speed]`: `maxRangeM` and `minRangeM` in metres, `aspectDeg` in degrees, in DCS order.
+Tables with the same axes share an envelope; a weapon whose tables have different axes gets one
+envelope per axes pair. `RmaxData`, `LoftData`, `LaunchDistData2` and the like are only in the dump.
 
 ## Not typed
 

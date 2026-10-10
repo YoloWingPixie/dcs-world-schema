@@ -153,7 +153,7 @@ def test_aim_120c_record(tmp_path: Path) -> None:
     # Only named fields: nothing raw.
     assert set(rec) <= {
         "weapon", "sourcePaths", "sourcePath", "batteryLifeS", "killDistanceM",
-        "rangeMaxM", "machMax", "pnCoefficients", "launchTables", "aerodynamics",
+        "rangeMaxM", "machMax", "pnCoefficients", "launchEnvelopes", "aerodynamics",
         "motorStages", "autopilot", "seeker", "gimbal", "proximityFuze",
     }  # fmt: skip
     # The public fields read client and report the server difference.
@@ -235,7 +235,7 @@ def test_sd_10_pn_coefficients(tmp_path: Path) -> None:
     )
 
 
-def test_rockets_only_missile_and_launch_table(tmp_path: Path) -> None:
+def test_rockets_only_missile_and_launch_envelope(tmp_path: Path) -> None:
     g = tmp_path / "_G"
     # AIM-9M exists only in _G/rockets (excerpt of _G/rockets/AIM_9.lua).
     _legacy(
@@ -265,13 +265,84 @@ def test_rockets_only_missile_and_launch_table(tmp_path: Path) -> None:
         "killDistanceM": 8,
     }
     # AspectDistData has no {rows, cols, ...} layout: only in the dump.
-    (table,) = records["AGM_86"]["launchTables"]
-    assert table["key"] == "MinLaunchDistData"
-    assert table["columnHeaders"] == [100, 125, 175, 250]
-    assert table["rows"][0] == {"header": 500, "cells": [0, 19500, 20500, 22000]}
-    assert table["rows"][3] == {
-        "header": 13000,
-        "cells": [93000, 93000, 102000, 105000],
+    (env,) = records["AGM_86"]["launchEnvelopes"]
+    assert env == {
+        "sourcePath": "_G/rockets/AGM_86#",
+        "altitudesM": [500, 2000, 7000, 13000],
+        "speedsMs": [100, 125, 175, 250],
+        "minRangeM": [
+            [0, 19500, 20500, 22000],
+            [23500, 25000, 27500, 30500],
+            [53000, 53500, 58500, 63500],
+            [93000, 93000, 102000, 105000],
+        ],
+    }
+
+
+# AGM-65E: _G/weapons_table/weapons/missiles/AGM_65E.lua (excerpt).
+AGM_65E_TABLES = (
+    "LaunchDistData = { 4, 5, 100, 165, 230, 300, 400, 50, 8400, 11000, 12000, 13000, 13000, "
+    "2000, 14000, 15500, 17000, 18000, 18000, 5000, 22000, 23000, 23500, 24500, 26800, "
+    "10000, 25600, 26800, 28000, 28700, 29800 }, "
+    "MinLaunchDistData = { 4, 5, 100, 165, 230, 300, 400, 50, 2000, 2300, 2500, 2700, 3000, "
+    "2000, 1000, 1200, 1400, 1600, 3000, 5000, 3000, 3000, 3000, 3000, 4000, "
+    "10000, 6000, 6000, 6000, 6000, 6000 }"
+)
+# X-29T: _G/weapons_table/weapons/missiles/X_29T.lua (excerpt); its two
+# tables have different axes.
+X_29T_TABLES = (
+    "LaunchDistData = { 7, 3, 100, 150, 200, 100, 10900, 12500, 12000, 200, 11800, 11800, "
+    "12000, 300, 11000, 11600, 12000, 500, 11000, 11800, 12000, 700, 11200, 12000, 12000, "
+    "1000, 11600, 12000, 12000, 2000, 12000, 12000, 12000 }, "
+    "MinLaunchDistData = { 2, 8, 100, 150, 200, 250, 300, 350, 400, 450, "
+    "100, 2600, 2700, 2700, 2700, 2700, 2700, 2700, 2700, "
+    "200, 2600, 2600, 2700, 2700, 2700, 2700, 2700, 2700 }"
+)
+
+
+def test_launch_envelope_combines_tables_with_same_axes(tmp_path: Path) -> None:
+    g = tmp_path / "_G"
+    _wt_missile(g, "AGM_65E", AGM_65E_TABLES)
+    path = "_G/weapons_table/weapons/missiles/AGM_65E#/client"
+    (env,) = _flight(g)["AGM_65E"]["launchEnvelopes"]
+    assert env == {
+        "sourcePath": path,
+        "altitudesM": [50, 2000, 5000, 10000],
+        "speedsMs": [100, 165, 230, 300, 400],
+        "maxRangeM": [
+            [8400, 11000, 12000, 13000, 13000],
+            [14000, 15500, 17000, 18000, 18000],
+            [22000, 23000, 23500, 24500, 26800],
+            [25600, 26800, 28000, 28700, 29800],
+        ],
+        "minRangeM": [
+            [2000, 2300, 2500, 2700, 3000],
+            [1000, 1200, 1400, 1600, 3000],
+            [3000, 3000, 3000, 3000, 4000],
+            [6000, 6000, 6000, 6000, 6000],
+        ],
+    }
+
+
+def test_launch_envelopes_split_on_different_axes(tmp_path: Path) -> None:
+    g = tmp_path / "_G"
+    # MinLaunchDistData cut to its first two rows (the dump has ten).
+    _wt_missile(g, "X_29T", X_29T_TABLES)
+    path = "_G/weapons_table/weapons/missiles/X_29T#/client"
+    max_env, min_env = _flight(g)["X_29T"]["launchEnvelopes"]
+    assert max_env["sourcePath"] == min_env["sourcePath"] == path
+    assert max_env["altitudesM"] == [100, 200, 300, 500, 700, 1000, 2000]
+    assert max_env["speedsMs"] == [100, 150, 200]
+    assert max_env["maxRangeM"][0] == [10900, 12500, 12000]
+    assert "minRangeM" not in max_env
+    assert min_env == {
+        "sourcePath": path,
+        "altitudesM": [100, 200],
+        "speedsMs": [100, 150, 200, 250, 300, 350, 400, 450],
+        "minRangeM": [
+            [2600, 2700, 2700, 2700, 2700, 2700, 2700, 2700],
+            [2600, 2600, 2700, 2700, 2700, 2700, 2700, 2700],
+        ],
     }
 
 

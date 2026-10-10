@@ -146,6 +146,8 @@ uv.lock
 
 # datamine cache and DCS run output (tools/datamine/refresh.py)
 .datamine/
+# Dump files the site shows (tools/datamine/dump_lua.py); built from the dump release asset, never committed
+dcs-world-reference/latest/_lua/
 
 # Python
 __pycache__/
@@ -176,3 +178,11 @@ packages/lua/dcs_world_reference/*.lua
 packages/go/data/
 packages/go/*_gen.go
 packages/go/*_gen_test.go
+
+# reference site prototype (site/): generated data and test output
+site/public/data/
+site/test-results/
+site/playwright-report/
+site/public/sqlite/
+site/public/overlays/
+site/public/_redirects

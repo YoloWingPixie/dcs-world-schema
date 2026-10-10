@@ -1,0 +1,374 @@
+import type { CSSProperties, ReactNode } from "react";
+import { Markdown } from "@/components/Markdown";
+import { ENV_LABEL } from "@/lib/api/routes";
+import type { ApiEnv, ApiOverlay, Example, FieldEntry, Member } from "@/lib/api/types";
+import { RefLink } from "../ref-link";
+import { tokenText } from "./signature";
+import { LeadName, type Links, RichText, type SigLead, Signature, TypeRef } from "./type-ref";
+
+export function EnvBadges({ envs }: { envs?: ApiEnv[] | undefined }) {
+  if (!envs?.length) return null;
+  return (
+    <>
+      {envs.map((e) => (
+        <span key={e} className={`api-badge api-env api-env-${e}`}>
+          {ENV_LABEL[e]}
+        </span>
+      ))}
+    </>
+  );
+}
+
+/** Overlay content, styled apart from the generated entry. */
+export function OverlayBlock({ overlay }: { overlay: ApiOverlay }) {
+  if (!overlay.html) return null;
+  return (
+    <aside className="api-overlay" aria-label="Notes">
+      <Markdown html={overlay.html} handWritten className="api-prose" />
+    </aside>
+  );
+}
+
+/** "See also": overlay targets (resolved by the shell) after the generated pairs. */
+export function SeeAlso({
+  related,
+  seeAlso,
+  links,
+}: {
+  related?: Array<{ label: string; href: string }> | undefined;
+  seeAlso?: string[] | undefined;
+  links: Links;
+}) {
+  const items = [...(related ?? [])];
+  for (const s of seeAlso ?? []) {
+    const href = links[s];
+    if (href && !items.some((i) => i.href === href)) items.push({ label: s, href });
+  }
+  if (!items.length) return null;
+  return (
+    <p className="api-related">
+      <span className="api-sub-inline">See also</span>{" "}
+      {items.map((r, i) => (
+        <span key={r.href}>
+          {i ? ", " : null}
+          <RefLink href={r.href}>
+            <code>{r.label}</code>
+          </RefLink>
+        </span>
+      ))}
+    </p>
+  );
+}
+
+export function Examples({ examples, bare }: { examples: Example[]; bare?: boolean }) {
+  return (
+    <div className="api-examples">
+      {bare ? null : <h4 className="api-sub">{examples.length > 1 ? "Examples" : "Example"}</h4>}
+      {examples.map((ex, i) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: examples are static and ordered
+        <figure key={i} className="api-example">
+          {ex.description ? <figcaption>{ex.description}</figcaption> : null}
+          <pre>
+            <code className="language-lua">{ex.code}</code>
+          </pre>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+/** Column caps, in characters of mono: longer names and types wrap in their cell. */
+const NAME_CAP = 22;
+const TYPE_CAP = 28;
+
+/**
+ * Named, typed items (parameters, record fields) as a ruled definition table: name, type
+ * and description columns, the first two sized from this list's longest entries (capped).
+ * A header row only from four rows up; below that the columns explain themselves.
+ */
+export function ParamList({
+  items,
+  label,
+}: {
+  items: Array<{
+    key: string;
+    id?: string | undefined;
+    name: string;
+    optional?: boolean | undefined;
+    type: ReactNode;
+    /** The type as plain text, to size its column. */
+    typeText: string;
+    extra?: ReactNode;
+    description?: ReactNode;
+  }>;
+  label: string;
+}) {
+  const nameCh = Math.min(NAME_CAP, Math.max(4, ...items.map((it) => it.name.length)));
+  const typeCh = Math.min(TYPE_CAP, Math.max(4, ...items.map((it) => it.typeText.length)));
+  const header = items.length >= 4;
+  return (
+    <table
+      className="api-ptable"
+      aria-label={label}
+      style={{ "--pn": nameCh, "--pt": typeCh } as CSSProperties}
+    >
+      <colgroup>
+        <col className="api-pcol-name" />
+        <col className="api-pcol-type" />
+        <col />
+      </colgroup>
+      {header ? (
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+      ) : null}
+      <tbody>
+        {items.map((it) => (
+          <tr key={it.key} id={it.id} className="api-param">
+            <th scope="row" className="api-param-name">
+              <code>{it.name}</code>
+              {it.optional ? <span className="api-opt">optional</span> : null}
+            </th>
+            <td className="api-param-type">{it.type}</td>
+            <td className="api-param-desc">
+              {it.description}
+              {it.extra}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+/** Record fields (types, nested tables). */
+export function FieldsTable({
+  fields,
+  links,
+}: {
+  fields: Array<FieldEntry | Member>;
+  links: Links;
+}) {
+  const showRequired = fields.some((f) => f.required !== undefined);
+  return (
+    <ParamList
+      label="Fields"
+      items={fields.map((f) => ({
+        key: f.name,
+        id: "anchor" in f ? f.anchor : undefined,
+        name: f.name,
+        optional: showRequired && f.required === false,
+        typeText: tokenText(f.sig ?? f.type ?? ["any"]),
+        type: f.sig ? (
+          <Signature tokens={f.sig} links={links} />
+        ) : (
+          <TypeRef tokens={f.type ?? ["any"]} links={links} />
+        ),
+        description: f.description ? <RichText text={f.description} links={links} /> : null,
+        extra: (
+          <>
+            {f.fields?.length ? (
+              <span className="api-nested"> Fields: {f.fields.map((x) => x.name).join(", ")}.</span>
+            ) : null}
+            {f.overlay ? <OverlayBlock overlay={f.overlay} /> : null}
+          </>
+        ),
+      }))}
+    />
+  );
+}
+
+/** What a member is, in the words its heading would use. */
+export function memberKind(m: Member): string {
+  return m.kind === "function" ? (m.call === ":" ? "method" : "function") : m.kind;
+}
+
+/** One row of an entry: the hanging label, then its content. */
+function Row({ label, warn, children }: { label: string; warn?: boolean; children: ReactNode }) {
+  return (
+    <div className="api-row">
+      <dt className={warn ? "api-label api-label-warn" : "api-label"}>{label}</dt>
+      <dd>{children}</dd>
+    </div>
+  );
+}
+
+/**
+ * One function, field, constant or namespace, with its anchor, set as a reference-manual
+ * entry: the number and the signature as its heading (the name strong), the description
+ * under it, then labelled rows only for structured extras (parameters, fields, notes…).
+ */
+export function MemberEntry({
+  member: m,
+  links,
+  pageEnv,
+  pageSince,
+  number,
+  showKind,
+}: {
+  member: Member;
+  links: Links;
+  pageEnv?: string | undefined;
+  /** The page's own "since": an entry says its version only when it differs. */
+  pageSince?: string | undefined;
+  /** "2.3": the entry's number in the page. */
+  number?: string | undefined;
+  /** The section mixes kinds: say which this one is. */
+  showKind?: boolean | undefined;
+}) {
+  const isFn = m.kind === "function";
+  const envs = m.environment && m.environment.join() !== pageEnv ? m.environment : undefined;
+  const params = m.params ?? [];
+  const since = m.overlay?.since ?? (m.addedVersion !== "unknown" ? m.addedVersion : undefined);
+  const lead: SigLead = {
+    owner: m.qualified.endsWith(m.name) ? m.qualified.slice(0, -m.name.length) : "",
+    name: m.qualified.endsWith(m.name) ? m.name : m.qualified,
+  };
+  const related = [...(m.related ?? [])];
+  for (const s of m.overlay?.seeAlso ?? []) {
+    const href = links[s];
+    if (href && !related.some((i) => i.href === href)) related.push({ label: s, href });
+  }
+  const aside = [
+    showKind ? memberKind(m) : null,
+    m.readonly ? "read-only" : null,
+    envs?.length ? envs.map((e) => ENV_LABEL[e]).join(", ") : null,
+    since && since !== pageSince ? `since ${since}` : null,
+  ].filter(Boolean);
+  // The entry's rows, each only when it has something to show.
+  const rows = [
+    m.deprecated && (
+      <Row key="deprecated" label="Deprecated" warn>
+        <p className="api-deprecated">
+          {typeof m.deprecated === "string" ? m.deprecated : "Do not use in new scripts."}
+        </p>
+      </Row>
+    ),
+    isFn && params.length && (
+      <Row key="parameters" label="Parameters">
+        <ParamList
+          label={`Parameters of ${m.qualified}`}
+          items={params.map((p) => ({
+            key: p.name,
+            name: p.name,
+            optional: p.optional,
+            type: <TypeRef tokens={p.t} links={links} />,
+            typeText: tokenText(p.t),
+            description: p.description ? <RichText text={p.description} links={links} /> : null,
+            extra:
+              p.default !== undefined ? (
+                <span className="api-default">
+                  Default <code>{p.default}</code>.
+                </span>
+              ) : null,
+          }))}
+        />
+      </Row>
+    ),
+    // The heading already ends in the return type: a row only when it adds to it.
+    isFn && m.returns?.length && m.returnValueExample && (
+      <Row key="returns" label="Returns">
+        <p className="api-returns">
+          {m.returns.map((r, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: return values are positional
+            <span key={i}>
+              {i ? ", " : null}
+              <TypeRef tokens={r} links={links} />
+            </span>
+          ))}
+          <span className="api-default">
+            For example <code>{m.returnValueExample}</code>.
+          </span>
+        </p>
+      </Row>
+    ),
+    !isFn && m.fields?.length && (
+      <Row key="fields" label="Fields">
+        <FieldsTable fields={m.fields} links={links} />
+      </Row>
+    ),
+    m.examples?.length && (
+      <Row key="examples" label={m.examples.length > 1 ? "Examples" : "Example"}>
+        <Examples examples={m.examples} bare />
+      </Row>
+    ),
+    m.overlay?.html && (
+      <Row key="note" label="Note">
+        <OverlayBlock overlay={m.overlay} />
+      </Row>
+    ),
+    related.length && (
+      <Row key="related" label="See also">
+        <p className="api-related">
+          {related.map((r, i) => (
+            <span key={r.href}>
+              {i ? ", " : null}
+              <RefLink href={r.href}>
+                <code>{r.label}</code>
+              </RefLink>
+            </span>
+          ))}
+        </p>
+      </Row>
+    ),
+  ].filter(Boolean);
+
+  return (
+    <article className="api-member" id={m.anchor} aria-labelledby={`${m.anchor}-h`}>
+      <h3 id={`${m.anchor}-h`} className="api-member-head">
+        <a href={`#${m.anchor}`} className="api-anchor" aria-label={`Link to ${m.qualified}`}>
+          {number ?? "#"}
+        </a>
+        {m.sig ? (
+          // With a PARAMETERS list the heading names the parameters only; without one it
+          // gives the typed signature, one parameter per line past what the line holds.
+          <Signature
+            tokens={m.sig}
+            links={links}
+            wrap
+            wrapAt={88}
+            lead={lead}
+            brief={isFn && params.length > 0}
+            labelReturns={isFn}
+          />
+        ) : m.kind === "constant" ? (
+          <code className="api-sig">
+            <LeadName lead={lead} /> = {JSON.stringify(m.value)}
+          </code>
+        ) : m.kind === "namespace" ? (
+          <code className="api-sig">
+            {m.href ? (
+              <RefLink href={m.href}>
+                <LeadName lead={lead} />
+              </RefLink>
+            ) : (
+              <LeadName lead={lead} />
+            )}
+          </code>
+        ) : (
+          <code className="api-sig">
+            <LeadName lead={lead} />: <TypeRef tokens={m.type ?? ["any"]} links={links} />
+          </code>
+        )}
+        {aside.length ? <span className="api-member-aside">{aside.join(", ")}</span> : null}
+      </h3>
+
+      {m.description || (isFn && m.params === null) ? (
+        <div className="api-member-desc">
+          {m.description ? (
+            <p className="api-desc">
+              <RichText text={m.description} links={links} />
+            </p>
+          ) : null}
+          {isFn && m.params === null ? <p className="api-note">Signature unknown.</p> : null}
+        </div>
+      ) : null}
+
+      {rows.length ? <dl className="api-entry">{rows}</dl> : null}
+    </article>
+  );
+}

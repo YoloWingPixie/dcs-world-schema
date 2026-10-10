@@ -1,0 +1,75 @@
+{
+  "aircraft": {
+    "class": "Unit",
+    "member": "Unit.getTypeName",
+    "enums": ["DcsId.AircraftType", "DcsId.HelicopterType"],
+    "attributes": true
+  },
+  "ground_vehicles": {
+    "class": "Unit",
+    "member": "Unit.getTypeName",
+    "enums": ["DcsId.GroundUnitType"],
+    "attributes": true
+  },
+  "ships": {
+    "class": "Unit",
+    "member": "Unit.getTypeName",
+    "enums": ["DcsId.ShipType"],
+    "attributes": true
+  },
+  "structures": {
+    "class": "StaticObject",
+    "member": "Object.getTypeName",
+    "enums": ["DcsId.StructureType"],
+    "attributes": true
+  },
+  "personnel": {
+    "class": "StaticObject",
+    "member": "Object.getTypeName",
+    "enums": ["DcsId.PersonnelType"],
+    "attributes": true
+  },
+  "weapons": { "class": "Weapon", "member": "Weapon.getTypeName", "enums": ["DcsId.WeaponType"] },
+  "airbases": {
+    "class": "Airbase",
+    "enums": ["DcsId.Theatre.{theatre}.AirbaseName", "DcsId.Theatre.{theatre}.AirdromeId"],
+    "fields": [
+      { "path": "name", "member": "Airbase.getName" },
+      { "path": "airdromeId", "member": "Airbase.getID" }
+    ],
+    "values": [
+      {
+        "path": "category",
+        "label": "Category",
+        "name": "categoryName",
+        "enums": ["Airbase.Category"],
+        "facet": "categoryName"
+      }
+    ]
+  },
+  "attributes": {
+    "member": "Object.hasAttribute",
+    "memberRole": "takes",
+    "enums": ["DcsId.Attribute"]
+  },
+  "sensors": {
+    "enums": ["DcsId.SensorName"],
+    "values": [
+      {
+        "path": "category",
+        "label": "Category",
+        "name": "categoryName",
+        "enums": ["Unit.SensorType"],
+        "facet": "categoryName"
+      },
+      {
+        "path": "type",
+        "label": "Type",
+        "name": "typeName",
+        "enums": ["Unit.RadarType", "Unit.OpticType"]
+      }
+    ]
+  },
+  "skills": { "enums": ["DcsId.Skill"] },
+  "formations": { "enums": ["DcsId.FormationId"] }
+}

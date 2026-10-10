@@ -1,0 +1,298 @@
+name: Site
+
+on:
+  # The site itself, this workflow, and the inputs its database and Lua are built from.
+  # Pull requests run the checks only; pushes to main also deploy.
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/site.yml'
+      - 'dcs-world-reference/latest/**'
+      - 'dcs-world-schema/**'
+      - 'tools/**'
+      - 'VERSION'
+      - 'Taskfile.yml'
+      - 'pyproject.toml'
+      - 'uv.lock'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/site.yml'
+      - 'dcs-world-reference/latest/**'
+      - 'dcs-world-schema/**'
+      - 'tools/**'
+      - 'VERSION'
+      - 'Taskfile.yml'
+      - 'pyproject.toml'
+      - 'uv.lock'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shell:
+    name: Build shell
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache key
+        id: key
+        run: echo "key=site-shell-${{ hashFiles('site/**', '!site/node_modules/**', '!site/out/**', '!site/.next/**', 'dcs-world-schema/**') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore shell
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: site/out
+          key: ${{ steps.key.outputs.key }}
+
+      - name: Set up Node
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install uv and Task
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install uv
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build shell
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          SITE_SQLITE: none
+          SITE_LUA: none
+        run: |
+          task uv:sync
+          task merge
+          corepack enable
+          cd site
+          pnpm install --frozen-lockfile
+          pnpm build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-shell
+          path: site/out
+          retention-days: 1
+
+  database:
+    name: Build database
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache key
+        id: key
+        run: echo "key=site-db-${{ hashFiles('dcs-world-reference/latest/**', 'dcs-world-schema/**', 'tools/**', 'VERSION', 'uv.lock', 'site/src/lib/series-display.json', 'site/src/lib/api/scripting.json', 'site/src/lib/compare-fields.json') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Restore database
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: dist/site-db
+          key: ${{ steps.key.outputs.key }}
+
+      - name: Set up Python
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv and Task
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install uv
+          sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b ~/.local/bin
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Build database
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          task uv:sync
+          task package:sqlite
+          mkdir -p dist/site-db
+          cp dist/dcs-world-reference-*-dcs*.sqlite dist/site-db/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-db
+          path: dist/site-db
+          retention-days: 1
+
+  # The _G dump files the records point into ("View Lua"), from the dump's release asset
+  # (tools/datamine/dump_lua.py: tag dcs-dump-<DCS version>, asset dcs-g-dump-<version>.tar.gz).
+  lua:
+    name: Collect Lua
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Dump release
+        id: dump
+        run: |
+          version="$(jq -r .dcsVersion dcs-world-reference/latest/manifest.json)"
+          {
+            echo "tag=dcs-dump-$version"
+            echo "asset=dcs-g-dump-$version.tar.gz"
+            echo "key=site-lua-$version-${{ hashFiles('dcs-world-reference/latest/**', 'tools/datamine/dump_lua.py', 'tools/datamine/dump_paths.py', 'tools/datamine/common.py', 'uv.lock') }}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Restore Lua
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: dist/site-lua
+          key: ${{ steps.dump.outputs.key }}
+
+      - name: Set up Python
+        if: steps.cache.outputs.cache-hit != 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Collect Lua
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pip install uv
+          gh release download "${{ steps.dump.outputs.tag }}" --pattern "${{ steps.dump.outputs.asset }}" --dir .datamine
+          uv run python -m tools.datamine.dump_lua collect --archive ".datamine/${{ steps.dump.outputs.asset }}" --out dist/site-lua
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-lua
+          path: dist/site-lua
+          retention-days: 1
+
+  # Lint, types, unit tests and overlays against the database built above, then the
+  # Playwright suite (both database layouts) on a build of the site with that database.
+  checks:
+    name: Site checks
+    needs: database
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-db
+          path: dist/site-db
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install
+        run: |
+          corepack enable
+          pnpm install --frozen-lockfile
+          echo "SITE_SQLITE=$(ls "$GITHUB_WORKSPACE"/dist/site-db/*.sqlite)" >> "$GITHUB_ENV"
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Overlays
+        run: pnpm check:overlays "$SITE_SQLITE"
+
+      - name: Build
+        env:
+          SITE_LUA: none
+        run: pnpm build
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      # The speed budgets (perf.spec.ts) measure throttled loads; shared runners are too
+      # noisy for them, so they run locally only.
+      - name: End-to-end
+        run: |
+          pnpm exec playwright test --grep-invert "speed budget"
+          SITE_DB_MODE=chunked pnpm exec playwright test --grep-invert "speed budget"
+
+  deploy:
+    name: Deploy
+    if: github.event_name != 'pull_request'
+    needs: [shell, database, lua, checks]
+    runs-on: ubuntu-latest
+    environment:
+      name: cloudflare-pages
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: site/scripts
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-shell
+          path: public
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-db
+          path: db
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-lua
+          path: lua
+
+      - name: Split database
+        run: node site/scripts/split-sqlite.ts public --mode=chunked --db="$(ls db/*.sqlite)"
+
+      - name: Add Lua
+        env:
+          SITE_LUA: lua
+          SITE_LUA_REQUIRED: "1"
+        run: node site/scripts/copy-lua-assets.ts public
+
+      # First deploy: create the Pages project if the account doesn't have it yet.
+      - name: Ensure the Pages project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROJECT: ${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }}
+        run: |
+          if npx --yes wrangler@4.147.0 pages project list | grep -qw "$PROJECT"; then
+            echo "Pages project $PROJECT exists"
+          else
+            npx --yes wrangler@4.147.0 pages project create "$PROJECT" --production-branch=main
+          fi
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: "4.147.0"
+          command: pages deploy public --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }} --branch=main

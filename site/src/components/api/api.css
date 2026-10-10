@@ -1,0 +1,1111 @@
+/* Lua API docs. Builds on the site's tokens and components (globals.css):
+   plate, toc, section, table. Signatures and names in IBM Plex Mono. */
+
+.api-hero {
+  padding: 0 0 8px;
+}
+
+.api-hero .page-title {
+  margin-bottom: 14px;
+}
+
+.api-hero .version-line {
+  margin-top: 0;
+}
+
+/* ------------------------------------------------------------ home */
+
+/* Environment filter: a run of text, the chosen one bold and underlined. */
+.api-envbar {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 0;
+  margin: 10px 0 36px;
+  border: 0;
+}
+
+.api-env-btn {
+  padding: 4px 0;
+  font-size: 14px;
+}
+
+.api-env-btn[aria-pressed="true"] {
+  text-underline-offset: 6px;
+}
+
+/* An index of pages: name and kind on the left, the summary beside it, over hairlines. */
+.api-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 500px), 1fr));
+  column-gap: 48px;
+  margin: 4px 0 26px;
+  border-top: 1px solid var(--rule);
+}
+
+.api-cards-dense {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  column-gap: 32px;
+}
+
+.api-card {
+  display: grid;
+  grid-template-columns: minmax(0, 11.5em) minmax(0, 1fr);
+  column-gap: 20px;
+  align-content: start;
+  padding: 7px 0 8px;
+  border-bottom: 1px solid var(--hair);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.api-cards-dense .api-card {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.api-card-name,
+.api-card-meta {
+  grid-column: 1;
+}
+
+@media (max-width: 520px) {
+  .api-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.api-card:hover {
+  color: var(--ink);
+  background: var(--paper-2);
+}
+
+.api-card:hover .api-card-name {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.api-card-name {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 14.5px;
+  overflow-wrap: anywhere;
+}
+
+.api-card-meta {
+  font-family: var(--font-head);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.api-card-sum {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: 14.5px;
+  color: var(--ink-2);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.api-cards-dense .api-card-sum {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .api-card-sum {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 2px;
+  }
+}
+
+.api-typegroup {
+  margin-top: 4px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.api-typegroup summary {
+  cursor: pointer;
+  padding: 9px 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14.5px;
+}
+
+.api-typelist {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 2px 32px;
+}
+
+.api-typelist li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.api-typelist a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.api-typelist-kind {
+  font-family: var(--font-head);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------ page */
+
+.api-crumb {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.api-plate .plate-head {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.api-plate {
+  padding-bottom: 18px;
+  border-bottom: 4px solid var(--rule);
+}
+
+/* Over `.plate h1`. */
+.api-plate .api-title {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: clamp(28px, 5vw, 46px);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.api-lede {
+  margin-top: 18px;
+  max-width: var(--measure);
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.api-hier {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  margin: 14px 0 0;
+  font-size: 15px;
+}
+
+.api-hier div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.api-hier dt {
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.api-hier dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 14px;
+}
+
+/* The reference series a class's objects or an enum's values are records of. */
+.api-hier .api-data dd {
+  font-family: var(--font-body);
+  font-size: 15px;
+}
+
+.api-data-count {
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.api-toc {
+  max-height: calc(100vh - var(--header-h) - 56px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.api-toc-members {
+  display: grid;
+  margin: 8px 0 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--hair);
+}
+
+.api-toc .api-toc-member {
+  display: grid;
+  grid-template-columns: calc(13.5px * 2.2) minmax(0, 1fr);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 1px 0;
+  overflow-wrap: anywhere;
+}
+
+.api-toc-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.api-toc-num {
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.api-toc .api-toc-member:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 960px) {
+  .api-toc {
+    max-height: none;
+  }
+  .api-toc-members {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------ entries */
+
+/* One function, field or constant, set as a reference-manual entry: its number and its
+   signature as the heading, the description under it, and hanging labels (PARAMETERS,
+   NOTE…) only for structured extras. The number column matches the section heads'. */
+.api-body {
+  min-width: 0;
+  --api-num: calc(17px * 2.4);
+  --api-label: 7.5rem;
+}
+
+.api-member {
+  padding: 14px 0 15px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.api-member:last-child {
+  border-bottom: 0;
+}
+
+.api-member:target {
+  background: var(--accent-wash);
+  box-shadow:
+    -12px 0 0 var(--accent-wash),
+    12px 0 0 var(--accent-wash);
+}
+
+/* Number, signature and a quiet right-hand note (kind, environment, since) on one
+   baseline. */
+.api-member-head {
+  display: grid;
+  grid-template-columns: var(--api-num) minmax(0, 1fr) auto;
+  column-gap: 0;
+  align-items: baseline;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+/* The entry number, which is also its permalink. */
+.api-anchor {
+  white-space: nowrap;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.api-anchor:hover,
+.api-anchor:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.api-member-head > .api-sig {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.api-sig-owner {
+  color: var(--ink-3);
+}
+
+.api-sig-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.api-member-head a:not(.api-anchor, .api-type) {
+  color: inherit;
+}
+
+.api-member-aside {
+  padding-left: 18px;
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--ink-3);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.api-member-desc {
+  margin: 4px 0 0 var(--api-num);
+  max-width: var(--measure);
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+
+.api-member-desc > p {
+  margin: 0;
+}
+
+.api-entry {
+  display: grid;
+  grid-template-columns: var(--api-label) minmax(0, 1fr);
+  align-items: baseline;
+  row-gap: 10px;
+  margin: 12px 0 2px var(--api-num);
+}
+
+.api-row {
+  display: contents;
+}
+
+.api-label {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.api-label-warn {
+  color: var(--warn);
+}
+
+.api-entry > .api-row > dd {
+  margin: 0;
+  min-width: 0;
+  max-width: 46rem;
+  font-size: 16.5px;
+}
+
+.api-entry dd > p {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .api-member-head {
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    font-size: 14.5px;
+  }
+  .api-member-aside {
+    grid-column: 2;
+    padding-left: 0;
+    text-align: left;
+  }
+  .api-member-desc {
+    margin-left: 2.6rem;
+  }
+  .api-entry {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+    margin-left: 0;
+  }
+  .api-entry > .api-row > dd {
+    margin-bottom: 12px;
+  }
+}
+
+/* Signatures: plain mono; long ones one parameter per line. */
+.api-sig {
+  display: block;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.api-sig-wrap > span {
+  display: block;
+}
+
+.api-sig-wrap > .api-sig-param {
+  padding-left: 2ch;
+}
+
+@media (max-width: 640px) {
+  .api-sig-split > span {
+    display: block;
+  }
+  .api-sig-split > .api-sig-param {
+    padding-left: 2ch;
+  }
+}
+
+/* Parameters and fields: a ruled definition table. Name and type columns are sized per
+   list (--pn, --pt: characters of mono, capped in member-entry.tsx); the description takes
+   the rest. A top rule, hairlines between rows, first lines on one baseline. */
+.api-ptable {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border-top: 1px solid var(--rule);
+}
+
+.api-pcol-name {
+  width: calc(var(--pn) * 0.6 * 14px + 24px);
+}
+
+.api-pcol-type {
+  width: calc(var(--pt) * 0.6 * 13.5px + 24px);
+}
+
+.api-ptable th,
+.api-ptable td {
+  padding: 6px 24px 7px 0;
+  text-align: left;
+  vertical-align: baseline;
+  border-bottom: 1px solid var(--hair);
+}
+
+.api-ptable td:last-child {
+  padding-right: 0;
+}
+
+.api-ptable tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.api-ptable thead th {
+  padding-top: 7px;
+  padding-bottom: 5px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.api-param-name {
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.api-param-name code {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.api-param-name .api-opt {
+  display: block;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.api-param-type {
+  overflow-wrap: anywhere;
+}
+
+.api-param-type .api-typeref,
+.api-param-type .api-sig {
+  display: inline;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.api-param-desc {
+  font-size: 15.5px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.api-param-desc .api-overlay {
+  margin-top: 8px;
+}
+
+/* Inside an entry the PARAMETERS label opens the table: no rule over it, and without a
+   header row the first row starts on the label's line. */
+.api-entry .api-ptable {
+  border-top: 0;
+}
+
+.api-entry .api-ptable colgroup + tbody tr:first-child > * {
+  padding-top: 0;
+}
+
+.api-entry .api-ptable thead th {
+  padding-top: 0;
+}
+
+.api-param:target > * {
+  background: var(--accent-wash);
+}
+
+/* Field tables straight under a section head (type pages) take the entries' left edge and
+   the section's width. */
+.section-head + .api-ptable {
+  width: calc(100% - var(--api-num));
+  margin-left: var(--api-num);
+  margin-top: -4px;
+  border-top: 0;
+}
+
+/* Phones: each row stacks, name and type on one line, the description under them. */
+@media (max-width: 640px) {
+  .section-head + .api-ptable {
+    width: 100%;
+    margin-left: 0;
+  }
+  .api-ptable,
+  .api-ptable tbody {
+    display: block;
+  }
+  .api-ptable colgroup,
+  .api-ptable thead {
+    display: none;
+  }
+  .api-ptable tr {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 12px;
+    padding: 6px 0 7px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .api-ptable tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .api-ptable th,
+  .api-ptable td {
+    display: block;
+    padding: 0;
+    border: 0;
+  }
+  .api-param-name .api-opt {
+    display: inline;
+    margin-left: 6px;
+  }
+  .api-ptable .api-param-desc {
+    flex: 1 0 100%;
+    margin-top: 2px;
+  }
+  .api-ptable .api-param-desc:empty {
+    display: none;
+  }
+}
+
+/* Deprecation is the one thing set in the warning colour. */
+.api-chip-warn {
+  color: var(--warn);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.api-badge {
+  display: inline;
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.api-compact .api-sig,
+.api-table .api-sig {
+  display: inline;
+  font-size: 13px;
+}
+
+.api-type {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hair-strong);
+  text-underline-offset: 3px;
+}
+
+.api-type:hover {
+  color: var(--accent);
+  text-decoration-color: currentColor;
+}
+
+.api-type-unresolved {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.api-typeref {
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.api-desc {
+  color: var(--ink);
+}
+
+/* Code in prose: plain mono, a shade stronger than the text around it. */
+.api-desc code,
+.api-desc-cell code,
+.api-param-desc code,
+.api-lede code,
+.api-prose code {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.api-code-link {
+  text-decoration: none;
+}
+
+.api-code-link code {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hair-strong);
+  text-underline-offset: 3px;
+}
+
+.api-code-link:hover code {
+  color: var(--accent);
+}
+
+.api-note {
+  color: var(--ink-3);
+  font-style: italic;
+}
+
+.api-deprecated {
+  color: var(--ink);
+}
+
+.api-table-wrap {
+  margin-top: 14px;
+}
+
+.api-table th,
+.api-table td {
+  vertical-align: top;
+  font-size: 15px;
+}
+
+.api-name-cell {
+  white-space: nowrap;
+}
+
+.api-name-cell code {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.api-desc-cell {
+  color: var(--ink-2);
+  min-width: 220px;
+}
+
+.api-opt {
+  display: block;
+  font-family: var(--font-head);
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
+.api-default {
+  display: block;
+  margin-top: 2px;
+  font-size: 13.5px;
+  color: var(--ink-3);
+}
+
+.api-returns,
+.api-related {
+  margin-top: 12px;
+}
+
+.api-sub-inline {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--ink);
+  margin-right: 4px;
+}
+
+.api-sub {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+  margin: 22px 0 4px;
+}
+
+.api-nested {
+  color: var(--ink-3);
+}
+
+.api-examples {
+  margin-top: 8px;
+}
+
+.api-example {
+  margin: 8px 0 0;
+}
+
+.api-example figcaption {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-2);
+  margin-bottom: 4px;
+}
+
+.api-example pre,
+.api-prose pre {
+  margin: 0;
+  padding: 10px 14px;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  background: var(--paper-2);
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.api-compact-name {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.api-compact tr:target td {
+  background: var(--accent-wash);
+}
+
+/* Hand-written overlay: framed by the shared .md-overlay style (Markdown.tsx). */
+.api-overlay {
+  margin-top: 16px;
+  max-width: 82ch;
+}
+
+.api-prose .md-body > * {
+  margin: 0;
+}
+
+.api-prose .md-body > * + * {
+  margin-top: 8px;
+}
+
+.api-prose h1,
+.api-prose h2,
+.api-prose h3,
+.api-prose h4,
+.api-prose h5,
+.api-prose h6 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14.5px;
+  margin: 12px 0 2px;
+}
+
+.api-prose ul,
+.api-prose ol {
+  padding-left: 22px;
+  margin: 0;
+}
+
+.api-prose pre code {
+  padding: 0;
+  background: none;
+  font-weight: 400;
+}
+
+.api-inherited {
+  margin-top: 6px;
+}
+
+.api-inherited-list,
+.api-usedby,
+.api-union {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+
+.api-inherited-list li {
+  display: grid;
+  grid-template-columns: minmax(200px, max-content) 1fr;
+  gap: 4px 16px;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--hair);
+}
+
+.api-inherited-sum {
+  color: var(--ink-2);
+  font-size: 15px;
+}
+
+@media (max-width: 640px) {
+  .api-inherited-list li {
+    grid-template-columns: 1fr;
+  }
+}
+
+.api-usedby {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  column-gap: 32px;
+  margin-top: 12px;
+}
+
+.api-usedby li,
+.api-union li {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--hair);
+}
+
+.api-usedby a,
+.api-inherited-list a {
+  overflow-wrap: anywhere;
+}
+
+.api-union {
+  margin-top: 12px;
+}
+
+/* Enum values */
+.api-enum-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 10px 18px;
+  margin: 12px 0 8px;
+}
+
+.api-enum-filter {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+
+.api-enum-count {
+  font-family: var(--font-head);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.api-enum-scroll {
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.api-value {
+  color: var(--ink-2);
+}
+
+@media (max-width: 640px) {
+  .api-desc-cell {
+    min-width: 160px;
+  }
+}
+
+/* In tables, break type unions at their spaces only: "string" never splits. */
+.api-table .api-typeref {
+  overflow-wrap: normal;
+}
+
+/* A link to a series page (not a record count) stays on one line. */
+.api-table td.api-ref-page {
+  white-space: nowrap;
+}
+
+.api-table tr:target td {
+  background: var(--accent-wash);
+}
+
+/* Inside an entry the NOTE label heads the overlay: no rules or heading of its own. */
+.api-entry .api-overlay {
+  margin-top: 0;
+}
+
+.api-entry .md-overlay {
+  border: 0;
+  padding: 0;
+}
+
+.api-entry .md-overlay::before {
+  content: none;
+}
+
+.api-entry .api-examples,
+.api-entry .api-example:first-child {
+  margin-top: 0;
+}
+
+.api-entry .api-default {
+  font-size: 14.5px;
+}
+
+/* API home: the sub-lists of a section are numbered like a record page's subsections. */
+.api-home .section {
+  counter-reset: sub;
+}
+
+.api-home .section > .api-sub {
+  counter-increment: sub;
+  display: flex;
+  align-items: baseline;
+}
+
+.api-home .section > .api-sub::before {
+  content: counter(chapter) "." counter(sub);
+  min-width: calc(17px * 2.4);
+}
+
+/* Enum values: fixed columns, so a long key wraps instead of pushing the table wide. */
+.api-enum .api-table {
+  table-layout: fixed;
+}
+
+.api-enum .api-table th:first-child {
+  width: 50%;
+}
+
+.api-enum .api-table th:nth-child(3) {
+  width: 8em;
+}
+
+.api-enum .api-name-cell {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.api-enum .api-table td {
+  overflow-wrap: anywhere;
+}
+
+/* Phones: each value is a ruled entry, not a row of narrow columns: the key on its own
+   line, then the value and the reference link under it. */
+@media (max-width: 640px) {
+  .api-enum .api-table,
+  .api-enum .api-table tbody {
+    display: block;
+  }
+  .api-enum .api-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .api-enum .api-table tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 16px;
+    align-items: baseline;
+    padding: 7px 2px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .api-enum .api-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .api-enum .api-table td {
+    display: block;
+    padding: 0;
+    border: 0;
+    overflow-wrap: break-word;
+  }
+  .api-enum .api-table td:first-child {
+    grid-column: 1 / -1;
+  }
+  .api-enum .api-table td:not(:first-child) {
+    padding-left: 1.2em;
+  }
+  /* The reference link hangs right. */
+  .api-enum .api-table td.api-ref-cell {
+    grid-column: 2;
+    padding-left: 0;
+    text-align: right;
+  }
+  .api-enum .api-table td:only-child,
+  .api-enum .api-table td[colspan] {
+    padding-left: 0;
+  }
+  .api-enum .api-table tr:target {
+    background: var(--accent-wash);
+  }
+}
+
+/* Inherited and used-by lists hang from the same edge as the entries. */
+.api-body :is(.api-inherited, .api-usedby, .api-union) {
+  margin-left: var(--api-num);
+}
+
+@media (max-width: 640px) {
+  .api-body :is(.api-inherited, .api-usedby, .api-union) {
+    margin-left: 0;
+  }
+}
+
+/* A short signature wraps between parameters, not inside a name. */
+.api-sig-brief {
+  overflow-wrap: break-word;
+}
+
+/* The first parameter is a box, so the line may break after the opening parenthesis;
+   later ones break at the spaces after their commas, and the closing one stays put. */
+.api-sig-brief .api-sig-head + .api-sig-param {
+  display: inline-block;
+}
+
+/* The return type after a quiet RETURNS label, in the PARAMETERS label's style. The label is
+   CSS content with empty alternative text: screen readers hear the Lua `: type` instead. */
+.api-sig-returns {
+  display: inline-block;
+  margin-left: 16px;
+}
+
+.api-sig-returns::before {
+  content: "Returns" / "";
+  margin-right: 8px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* A wrapped signature's tail sits on its own line: no gap before the label there. */
+.api-sig-wrap .api-sig-returns {
+  margin-left: 12px;
+}
+
+@media (max-width: 640px) {
+  .api-sig-returns {
+    margin-left: 12px;
+  }
+}

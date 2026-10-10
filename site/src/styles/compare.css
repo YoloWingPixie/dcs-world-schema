@@ -1,0 +1,30 @@
+/* Compare page additions (series picker, envelope row picker, notes). */
+
+.compare-controls-3 {
+  grid-template-columns: minmax(160px, 0.7fr) minmax(0, 1fr) minmax(0, 1.2fr);
+}
+
+@media (max-width: 860px) {
+  .compare-controls-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.matrix .matrix-section {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--rule);
+  padding-top: 16px;
+}
+
+.compare-note {
+  margin-top: 10px;
+}
+
+.panel .toolbar select.input {
+  width: auto;
+  min-width: 140px;
+}

@@ -99,13 +99,13 @@ types:
       rollRateMaxRadS:
         type: number
         description: "`Omxmax`, maximum roll rate, rad/s."
-      aoaMax:
+      aoaMaxDeg:
         type: number
-        description: "`Aldop`, maximum angle of attack before departure; unit not stated."
+        description: "`Aldop`, maximum angle of attack before departure, degrees (the install scripts' legend does not state the unit; values run 1 to 40, commonly 9 to 30, which only degrees fit)."
       cyMax:
         type: number
         description: "`Cymax`, maximum lift coefficient."
-    required: [mach, cx0, cya, b, b4, rollRateMaxRadS, aoaMax, cyMax]
+    required: [mach, cx0, cya, b, b4, rollRateMaxRadS, aoaMaxDeg, cyMax]
 
   Entity.AircraftSfmEngine:
     kind: record

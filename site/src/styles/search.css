@@ -1,0 +1,81 @@
+/* Global search (components/global-search.tsx): source filters, grouped results. */
+
+/* Source filters: a run of text, the chosen one bold and underlined. */
+.gsearch-chips {
+  display: flex;
+  gap: 4px 18px;
+  padding: 8px 14px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--hair);
+  scrollbar-width: thin;
+}
+
+.gchip {
+  flex: none;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.gchip-count {
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.result-group {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 14px 14px 5px;
+  font: 700 13px var(--font-head);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 1px solid var(--rule);
+}
+
+.result-group-more {
+  border: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font: 500 13px var(--font-head);
+  letter-spacing: 0;
+  text-transform: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.result-group-more:hover {
+  color: var(--accent);
+}
+
+.results-loading,
+.results-all {
+  padding: 8px 14px 10px;
+  font-family: var(--font-head);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.gsearch-page .combo-popup {
+  position: static;
+  max-height: none;
+  margin-top: 18px;
+  border: 0;
+}
+
+.gsearch-page .gsearch-chips {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.gsearch-page .result,
+.gsearch-page .result-group {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.gsearch-page .result[aria-selected="true"] {
+  padding-left: 10px;
+}

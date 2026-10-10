@@ -98,18 +98,18 @@ types:
     kind: record
     description: "A shell's `rebound_*` block: how it ricochets off one kind of surface."
     fields:
-      angle0:
+      angle0Deg:
         type: number
-        description: "Optional `angle0`: impact angle at which the ricochet chance is 0 %, raw, unit not stated."
-      angle100:
+        description: "Optional `angle0`: impact angle at which the ricochet chance is 0 %, degrees (DCS does not state the unit; every value is 50 to 65, beyond any angle in radians)."
+      angle100Deg:
         type: number
-        description: "Optional `angle100`: impact angle at which the ricochet chance is 100 %, raw, unit not stated."
+        description: "Optional `angle100`: impact angle at which the ricochet chance is 100 %, degrees (DCS does not state the unit; every value is 73 to 83, beyond any angle in radians)."
       cxFactor:
         type: number
         description: "Optional `cx_factor`: drag multiplier after a ricochet, raw."
-      deviationAngle:
+      deviationAngleDeg:
         type: number
-        description: "Optional `deviation_angle`: maximum deviation of the ricochet direction, raw, unit not stated."
+        description: "Optional `deviation_angle`: maximum deviation of the ricochet direction, degrees (DCS does not state the unit; every value is 30, beyond any angle in radians)."
       velocityLossFactor:
         type: number
         description: "Optional `velocity_loss_factor`: fraction of velocity lost in a ricochet, raw."

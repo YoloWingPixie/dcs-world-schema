@@ -1,0 +1,94 @@
+"use client";
+
+// The entry heads set names in Plex Mono semibold, which only the API pages use.
+import "@fontsource/ibm-plex-mono/latin-600.css";
+import "./api.css";
+import { useEffect, useState } from "react";
+import {
+  type ApiPageExtras,
+  type LoadedApiPage,
+  loadApiPage,
+  loadApiPageExtras,
+  loadApiPages,
+} from "@/lib/api/client";
+import { parseApiPath, SECTION_LABEL } from "@/lib/api/routes";
+import type { PageSummary } from "@/lib/api/types";
+import { RefLink, scrollToHash } from "../ref-link";
+import { Failed, Skeleton } from "../reference-shell";
+import { ApiHome } from "./api-home";
+import { ApiPageView } from "./api-page-view";
+
+function Missing({ what }: { what: string }) {
+  useEffect(() => {
+    document.title = "Not found · Lua API · DCS World Reference";
+  }, []);
+  return (
+    <div className="empty-state">
+      <h1>No such API page</h1>
+      <p>
+        <code>{what}</code> not found. <RefLink href="/api/">Lua API</RefLink>
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Every `/api/...` page, rendered client side from the reference database (served by the
+ * shell in app/not-found.tsx, like the reference pages): the home listing or one page.
+ */
+export function ApiShell({ path }: { path: string }) {
+  const route = parseApiPath(path);
+  const [home, setHome] = useState<PageSummary[] | null>(null);
+  const [loaded, setLoaded] = useState<{ key: string; data: LoadedApiPage | null } | null>(null);
+  // Links into the reference data, which arrive after the page renders.
+  const [extras, setExtras] = useState<{ key: string; data: ApiPageExtras } | null>(null);
+  const [failed, setFailed] = useState(false);
+  const key = route && !route.home ? `${route.section}:${route.name}` : "";
+
+  useEffect(() => {
+    setFailed(false);
+    const route = parseApiPath(path);
+    if (!route) return;
+    if (route.home) {
+      document.title = "Lua API · DCS World Reference";
+      loadApiPages().then(setHome, () => setFailed(true));
+      return;
+    }
+    let live = true;
+    const key = `${route.section}:${route.name}`;
+    loadApiPage(route.section, route.name).then(
+      (data) => {
+        if (!live) return;
+        setLoaded({ key, data });
+        if (data) {
+          const where = route.section === "mission" ? "" : ` (${SECTION_LABEL[route.section]})`;
+          document.title = `${route.name}${where} · Lua API · DCS World Reference`;
+        }
+      },
+      () => live && setFailed(true),
+    );
+    loadApiPageExtras(route.section, route.name).then(
+      (data) => live && setExtras({ key, data }),
+      () => {},
+    );
+    return () => {
+      live = false;
+    };
+  }, [path]);
+
+  // Deep links and links to another page's member: scroll once the page is on screen.
+  const isHome = Boolean(route?.home);
+  useEffect(() => {
+    if (loaded?.key === key || (isHome && home)) requestAnimationFrame(scrollToHash);
+  }, [loaded, home, key, isHome]);
+
+  if (!route) return <Missing what={path} />;
+  if (failed) return <Failed />;
+  if (route.home) {
+    return <div className="api-home">{home ? <ApiHome pages={home} /> : <Skeleton />}</div>;
+  }
+  if (loaded?.key !== key) return <Skeleton />;
+  if (!loaded.data) return <Missing what={route.name} />;
+  const more = extras?.key === key ? extras.data : undefined;
+  return <ApiPageView key={key} page={loaded.data.page} values={more?.values} data={more?.data} />;
+}
