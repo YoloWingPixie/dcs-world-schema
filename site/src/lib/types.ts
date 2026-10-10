@@ -40,6 +40,8 @@ export type FieldAxis =
   /** A table indexed by one of its columns (`table[].mach`). */
   | {
       kind: "column";
+      /** Catalog path of the table (`flight.aerodynamics.table`). */
+      table: string;
       /** The item field holding the x values (`mach`). */
       field: string;
       /** The axis' name ("Mach"). */
@@ -52,6 +54,8 @@ export type FieldAxis =
   /** Tables of number[][] grids over two number[] siblings: `rows` (altitudes) by `cols` (speeds). */
   | {
       kind: "surface";
+      /** Catalog path of the table (`flight.launchEnvelopes`). */
+      table: string;
       rows: string;
       cols: string;
       /** Catalog paths of the two axis fields. */
@@ -61,6 +65,9 @@ export type FieldAxis =
       /** Catalog paths of the grids, in schema order. */
       columns: string[];
     };
+
+/** How a comparable field's value is shaped (CatalogEntry `compareAs`). */
+export type CompareAs = "value" | "samples" | "curve" | "surfaces";
 
 /** One schema field at a path of a series' records. */
 export type CatalogEntry = {
@@ -138,6 +145,12 @@ export type CatalogEntry = {
   linkListFields?: string[];
   /** Can be compared across records (its values read with getFieldValues, lib/db/reference.ts). */
   comparable: boolean;
+  /**
+   * On a comparable entry: the shape of one record's value. `value` (one value, or a plain
+   * list), `samples` (a Mach-sampled list, by its `axis`), `curve` (an axis table's column:
+   * one `{x, y}` curve over the table), `surfaces` (an envelope's grid: every item's surface).
+   */
+  compareAs?: CompareAs;
   /** Hand-written field note (content/reference/<series>/_fields/<path>.md), as HTML. */
   note?: string;
 };
@@ -202,9 +215,7 @@ export type BrowseRow = [slug: string, name: string, id: string, ...values: unkn
 export type Facet = {
   path: string;
   label: string;
-  kind: "enum" | "boolean" | "string" | "strings";
-  /** Index into `SeriesIndex.columns` (row position `3 + column`). */
-  column: number;
+  kind: "enum" | "boolean" | "string";
 };
 
 export type SeriesIndex = {

@@ -1,3 +1,4 @@
+import { isRecord } from "./json";
 import { enumDisplay } from "./names";
 import { asSurfaces } from "./record-tables";
 import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc } from "./types";
@@ -51,11 +52,12 @@ const numbers = (v: unknown): number[] =>
   Array.isArray(v) ? v.filter((x): x is number => typeof x === "number") : [];
 
 /**
- * The cells of an envelope grid's value (lib/record-tables.ts `surfacesOf`), in the display
- * system; null when the value is no surfaces.
+ * The cells of an envelope grid's compared value (catalog `compareAs: "surfaces"`, lib/
+ * record-tables.ts `surfacesOf`), in the display system; null for any other value (one
+ * item's grid on a record page).
  */
 function surfaceCells(entry: CatalogEntry, value: unknown, system: UnitSystem) {
-  const surfaces = entry.axis?.kind === "surface" ? asSurfaces(value) : [];
+  const surfaces = entry.compareAs === "surfaces" ? asSurfaces(value) : [];
   if (!surfaces.length) return null;
   const cells = surfaces.flatMap((s) => numbers(s.z.flat()));
   return { count: surfaces.length, cells: cells.map((v) => convertNumber(v, entry, system)) };
@@ -139,7 +141,8 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
   if (typeof value === "number") return formatPlain(value, entry, ctx.system);
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (typeof value === "string") return value;
-  if (isXY(value)) {
+  // A table column's compared curve (one cell of it is a number, above).
+  if (entry.compareAs === "curve" && isXY(value)) {
     const ys = value.y.map((v) => convertNumber(v, entry, ctx.system));
     return `${ys.length} points, ${formatNumber(Math.min(...ys))} to ${formatNumber(Math.max(...ys))}`;
   }
@@ -153,7 +156,7 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
   }
   if (entry.kind === "numbers") {
     const nums = numbers(value).map((v) => convertNumber(v, entry, ctx.system));
-    if (entry.axis?.kind === "sampled" || nums.length > 8) {
+    if (entry.compareAs === "samples" || nums.length > 8) {
       return `${nums.length} values, ${formatNumber(Math.min(...nums))} to ${formatNumber(Math.max(...nums))}`;
     }
     return nums.map((n) => formatNumber(n)).join(", ");
@@ -208,7 +211,8 @@ export function sortableValue(
     if (entry.kind === "ref") return resolveLink(entry, value, ctx.links)?.name ?? value;
     return value;
   }
-  if (isXY(value)) return Math.max(...value.y.map((v) => convertNumber(v, entry, ctx.system)));
+  if (entry.compareAs === "curve" && isXY(value))
+    return Math.max(...value.y.map((v) => convertNumber(v, entry, ctx.system)));
   // An envelope grid sorts by its largest cell.
   const surfaces = surfaceCells(entry, value, ctx.system);
   if (surfaces) return surfaces.cells.length ? Math.max(...surfaces.cells) : null;
@@ -218,6 +222,32 @@ export function sortableValue(
   }
   if (Array.isArray(value)) return value.length;
   return null;
+}
+
+/** How a number reads in a compare key: as a value of `entry` displays (`formatPlain`). */
+export const displayedNumber = (entry: CatalogEntry, system: UnitSystem) => (n: number) =>
+  formatPlain(n, entry, system);
+
+/**
+ * A key two compared values share exactly when they hold the same data: deep (curves,
+ * samples, lists, surfaces), object keys in order, and each number as `number` writes it
+ * (`displayedNumber`: rounded and converted as the display shows it). Unlike `plainValue`,
+ * which summarises a curve as its count and range, it tells apart any two values that differ.
+ */
+export function compareKey(value: unknown, number: (n: number) => string = formatNumber): string {
+  return JSON.stringify(value ?? null, (_key, v: unknown) => {
+    if (typeof v === "number") return `\u0000${number(v)}`;
+    if (isRecord(v)) {
+      return Object.fromEntries(Object.entries(v).sort(([a], [b]) => a.localeCompare(b)));
+    }
+    return v;
+  });
+}
+
+/** Whether compared values differ (a missing one, `undefined`, differs from any present one). */
+export function valuesDiffer(values: readonly unknown[], number?: (n: number) => string): boolean {
+  const keys = values.map((v) => (v === undefined ? undefined : compareKey(v, number)));
+  return new Set(keys).size > 1;
 }
 
 export function machAxis(length: number, step: number): number[] {

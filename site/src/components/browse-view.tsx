@@ -53,10 +53,9 @@ function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueCont
   return cellText(entry, value, ctx);
 }
 
-/** Values a facet sees for one row (a list for `strings`). */
+/** The value a facet sees for one row, as text: none for an empty cell (facets are scalar columns). */
 function facetValues(facet: Facet, value: unknown): string[] {
   if (value === undefined || value === null) return [];
-  if (Array.isArray(value)) return value.map(String);
   if (facet.kind === "boolean") return [value ? "true" : "false"];
   return [String(value)];
 }
@@ -277,7 +276,8 @@ export function BrowseView({ series, count }: { series: string; count: number })
     const out: Array<{ path: string; entry: CatalogEntry }> = [];
     for (const fp of fieldPaths(catalog)) {
       const entry = catalog.entries[fp.key];
-      if (fp.path.includes("[]") || !entry || !SCALAR_KINDS.has(entry.kind)) continue;
+      // One value per record: a table column's curve is no browse column.
+      if (entry?.compareAs !== "value" || !SCALAR_KINDS.has(entry.kind)) continue;
       out.push({ path: fp.path, entry });
     }
     return out.sort((a, b) => naturalCompare(a.path, b.path));

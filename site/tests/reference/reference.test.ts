@@ -85,7 +85,7 @@ describe("records", () => {
       ["aircraft", "via:stores"],
     ] as const) {
       const shown = doc?.referencedBy.find((g) => g.series === from && g.path === path);
-      const all = await referencedByGroup(q, model, "weapons", "AIM_120C", from, path);
+      const all = await referencedByGroup(q, model, "weapons", "AIM_120C", from, path, shown?.via);
       expect(all.length).toBe(shown?.total ?? shown?.records.length);
       const names = new Map(all);
       for (const [id, name] of shown?.records ?? []) expect(names.get(id)).toBe(name);

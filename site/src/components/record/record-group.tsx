@@ -3,7 +3,7 @@
 import { type ReactNode, useState } from "react";
 import { getPath } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
-import { isAngleSectors } from "@/lib/format-field";
+import { isAngleSectors, pathLabel } from "@/lib/format-field";
 import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { isRecord, type Json } from "@/lib/json";
 import { complexFields, rangeListOf, tableColumns, withoutNamedCodes } from "@/lib/record-tables";
@@ -397,7 +397,7 @@ export function RecordsTable({
                   <div key={c.path}>
                     <dt>{c.entry.label}</dt>
                     <dd>
-                      <ScalarValue entry={c.entry} value={getPath(row, c.path)} vctx={ctx.vctx} />
+                      <CellValue entry={c.entry} value={getPath(row, c.path)} ctx={ctx} head />
                     </dd>
                   </div>
                 ))}
@@ -486,7 +486,7 @@ export function RecordsTable({
                               v,
                               ctx.fctx,
                               ctx.vctx,
-                              `${c.entry.label} (${key})`,
+                              pathLabel(c.entry, concrete),
                             ),
                             tabIndex: 0,
                           }
@@ -523,16 +523,32 @@ export function RecordsTable({
 }
 
 /**
- * A table cell's value: a link for a ref, source paths with their Lua links, else the shared
- * cell text (lib/cell-text.ts: numbers without their unit, which the column head shows).
+ * A table cell's or record card head's value: a link for a ref, source paths with their Lua
+ * links, a geo field's link to the Location figure, else the shared cell text (lib/cell-text.ts:
+ * numbers without their unit, which the column head shows). A card `head` has no column head:
+ * its values read as a record's field rows do (`ScalarValue`: numbers with their unit).
  */
-function CellValue({ entry, value, ctx }: { entry: CatalogEntry; value: unknown; ctx: RenderCtx }) {
+function CellValue({
+  entry,
+  value,
+  ctx,
+  head = false,
+}: {
+  entry: CatalogEntry;
+  value: unknown;
+  ctx: RenderCtx;
+  head?: boolean;
+}) {
   if (value === undefined || value === null) return <span className="muted">—</span>;
   if (entry.kind === "ref") return <RecordLink entry={entry} raw={value} vctx={ctx.vctx} />;
   if (entry.role === "provenance" && typeof value === "string") {
     return <ProvenanceValue value={value} inline />;
   }
-  const text = cellText(entry, value, ctx.vctx);
+  const text = head ? (
+    <ScalarValue entry={entry} value={value} vctx={ctx.vctx} />
+  ) : (
+    cellText(entry, value, ctx.vctx)
+  );
   // Runway thresholds, stand positions: on the Location figure.
   if (typeof value === "number" && ctx.fctx.hasLocation && isGeoField(entry.name)) {
     return (

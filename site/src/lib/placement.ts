@@ -3,7 +3,15 @@
  * the Overview, a section of its own, or the Source section. components/record/record-view
  * renders the result as is.
  */
-import { COMPANION_PREFIX, companionLabel, getPath, rootFor } from "./catalog";
+import {
+  COMPANION_PREFIX,
+  companionLabel,
+  companionRest,
+  getPath,
+  recordFields,
+  rootFields,
+  rootFor,
+} from "./catalog";
 import { coverageText, plainValue, type ValueContext } from "./format-field";
 import { isRecord, type Json } from "./json";
 import { enumDisplay } from "./names";
@@ -65,14 +73,8 @@ const valueAt = (doc: RecordDoc, path: string) => {
 export function stripFor(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueContext): StripItem[] {
   const paths =
     displayFor(doc.series).readouts ??
-    Object.values(catalog.entries)
-      .filter(
-        (e) =>
-          e.kind === "number" &&
-          e.unit &&
-          !e.path.includes(".") &&
-          typeof doc.data[e.name] === "number",
-      )
+    rootFields(catalog)
+      .filter((e) => e.kind === "number" && e.unit && typeof doc.data[e.name] === "number")
       .slice(0, 4)
       .map((e) => e.path);
   const items = paths.flatMap((spec): StripItem[] => {
@@ -105,10 +107,7 @@ export function stripFor(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueCont
  * same fields, in the same order, as the subtitle the search table holds.
  */
 export function headerChips(catalog: SeriesCatalog, doc: RecordDoc): string[] {
-  const fields = catalog.types[catalog.rootType]?.fields ?? [];
-  const enums = fields
-    .map((name) => catalog.entries[name])
-    .filter((e): e is CatalogEntry => e?.kind === "enum");
+  const enums = rootFields(catalog).filter((e) => e.kind === "enum");
   const chips = [
     ...enums.filter((e) => !e.codeField && typeof doc.data[e.name] === "string"),
     ...enums.filter((e) => e.codeField && typeof doc.data[e.name] === "string"),
@@ -146,8 +145,9 @@ const overviewSection = (catalog: SeriesCatalog, companion: boolean): SectionRef
  * Source; any other field to the Overview (the record's, or its companion's).
  */
 export function sectionFor(catalog: SeriesCatalog, key: string): SectionRef {
-  const companion = key === COMPANION_PREFIX || key.startsWith(`${COMPANION_PREFIX}.`);
-  const rest = companion ? key.slice(COMPANION_PREFIX.length + 1) : key;
+  const inCompanion = companionRest(key);
+  const companion = inCompanion !== null;
+  const rest = inCompanion ?? key;
   if (!rest) return overviewSection(catalog, companion);
   const head = (rest.split(".")[0] ?? "").replace(/\[\]$/, "");
   const path = companion ? `${COMPANION_PREFIX}.${head}` : head;
@@ -175,9 +175,8 @@ export function placeRecord(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueC
     [];
   let scriptingAt = 0;
 
-  const place = (root: Json, typeName: string, prefix: string) => {
+  const place = (root: Json, typeName: string, prefix: string, fields: CatalogEntry[]) => {
     const companion = prefix !== "";
-    const key = (name: string) => (prefix ? `${prefix}.${name}` : name);
     // A range record (`range`: min/max) that only bounds a present list of ranges says nothing new.
     const isBounds = (e: CatalogEntry) => {
       const list = e.bounds ? catalog.entries[e.bounds] : undefined;
@@ -186,28 +185,28 @@ export function placeRecord(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueC
 
     const overview: Array<{ name: string; rank: number }> = [];
     const own: PlacedSection[] = [];
-    for (const name of catalog.types[typeName]?.fields ?? []) {
-      const entry = catalog.entries[key(name)];
+    for (const entry of fields) {
+      const { name, path } = entry;
       const value = root[name];
-      if (!entry || value === undefined) continue;
+      if (value === undefined) continue;
       if (entry.role === "provenance") {
-        source.push({ entry, path: key(name), value, companion });
+        source.push({ entry, path, value, companion });
         continue;
       }
       // The header shows the record's key; a companion's (weapon_flight.weapon) is the record.
       if (entry.role === "key") continue;
       if (entry.kind === "record" || entry.kind === "records") {
         if (isEmpty(value) || isBounds(entry)) continue;
-        const { id, title } = sectionFor(catalog, key(name));
+        const { id, title } = sectionFor(catalog, path);
         const base = { id, title, companion, entry };
         if (entry.kind === "record" && isRecord(value) && entry.recordType) {
-          own.push({ ...base, kind: "record", typeName: entry.recordType, path: key(name), value });
+          own.push({ ...base, kind: "record", typeName: entry.recordType, path, value });
         } else if (entry.kind === "records" && Array.isArray(value)) {
-          own.push({ ...base, kind: "records", path: key(name), rows: value });
+          own.push({ ...base, kind: "records", path, rows: value });
         }
         continue;
       }
-      if (!inStrip.has(key(name))) overview.push({ name, rank: overviewRank(entry, value) });
+      if (!inStrip.has(path)) overview.push({ name, rank: overviewRank(entry, value) });
     }
     if (overview.length) {
       const { id, title } = overviewSection(catalog, companion);
@@ -226,10 +225,11 @@ export function placeRecord(catalog: SeriesCatalog, doc: RecordDoc, vctx: ValueC
     sections.push(...own);
   };
 
-  place(doc.data, catalog.rootType, "");
-  const companionEntry = catalog.entries[COMPANION_PREFIX];
-  if (doc.companion && companionEntry?.recordType) {
-    place(doc.companion, companionEntry.recordType, COMPANION_PREFIX);
+  place(doc.data, catalog.rootType, "", rootFields(catalog));
+  const companionType = catalog.entries[COMPANION_PREFIX]?.recordType;
+  if (doc.companion && companionType) {
+    const fields = recordFields(catalog, companionType, COMPANION_PREFIX);
+    place(doc.companion, companionType, COMPANION_PREFIX, fields);
   }
   if (source.length) {
     const { id, title } = SOURCE_SECTION;

@@ -5,7 +5,7 @@
 
 import { BASE_PATH } from "../base-path";
 import { walkPath } from "../catalog";
-import { boundedCache, once } from "../once";
+import { boundedCache, once, settled } from "../once";
 import type { SeriesCatalog } from "../types";
 
 /** One dump path the drawer can show: the file and, for a block, the pointer into it. */
@@ -93,18 +93,11 @@ const loadConfig = () =>
     }),
   );
 
-/** Whether this build has Lua files, once `luaAvailable()` has answered. */
-let luaKnown: boolean | undefined;
-
 /** Whether this build has Lua files to show. */
-export const luaAvailable = () =>
-  loadConfig().then((c) => {
-    luaKnown = c !== null;
-    return luaKnown;
-  });
+export const luaAvailable = () => once("lua-available", () => loadConfig().then((c) => c !== null));
 
 /** `luaAvailable()`'s answer if it has come, else undefined. */
-export const knownLuaAvailable = () => luaKnown;
+export const knownLuaAvailable = () => settled<boolean>("lua-available");
 
 /**
  * The text of the dump file of `path` (`_G/a/b`); LuaMissing when the build lacks it. The
