@@ -358,7 +358,8 @@
    below, so do the parameter types: both stay in the text, so the heading copies and reads
    as the full typed call, but are not shown. */
 .api-member-head .api-sig-owner,
-.api-sig-brief .api-sig-ptype {
+.api-sig-brief .api-sig-ptype,
+.api-sig-rcolon {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -986,4 +987,39 @@
 /* A short signature wraps between parameters, not inside a name. */
 .api-sig-brief {
   overflow-wrap: break-word;
+}
+
+/* The first parameter is a box, so the line may break after the opening parenthesis;
+   later ones break at the spaces after their commas, and the closing one stays put. */
+.api-sig-brief .api-sig-head + .api-sig-param {
+  display: inline-block;
+}
+
+/* The return type after a quiet RETURNS label, in the PARAMETERS label's style. The label is
+   CSS content with empty alternative text: screen readers hear the Lua `: type` instead. */
+.api-sig-returns {
+  display: inline-block;
+  margin-left: 16px;
+}
+
+.api-sig-returns::before {
+  content: "Returns" / "";
+  margin-right: 8px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* A wrapped signature's tail sits on its own line: no gap before the label there. */
+.api-sig-wrap .api-sig-returns {
+  margin-left: 12px;
+}
+
+@media (max-width: 640px) {
+  .api-sig-returns {
+    margin-left: 12px;
+  }
 }
