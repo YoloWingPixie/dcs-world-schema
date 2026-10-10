@@ -46,7 +46,10 @@ the database also describes itself and indexes what such a client queries:
   per group, with the full count) and its Lua scripting rows;
   ``series_views``: one row per browsable series, its browse table with the
   columns, facets and groups the site shows by default
-  (``tools.package.site_views``). Each ``view`` is a BLOB: the UTF-8 JSON,
+  (``tools.package.site_views``); ``field_values``: one row per comparable
+  field of a series (``series``, ``path``, ``view``), its value in every
+  record (``field_views``), and ``field_paths``: each series' keyed field
+  paths. Each ``view`` is a BLOB: the UTF-8 JSON,
   raw-deflate compressed (``zlib.decompress(view, -15)``). Rows are stored in
   key order, so a page is one index lookup and one contiguous read;
 * an index on every scalar ref column and one covering each series' scalar
@@ -109,6 +112,8 @@ BOOT_GROUPS: tuple[tuple[tuple[str, ...], tuple[str, ...]], ...] = (
             "sqlite_autoindex_record_views_1",
             "series_views",
             "sqlite_autoindex_series_views_1",
+            "field_values",
+            "sqlite_autoindex_field_values_1",
         ),
     ),
     (
@@ -303,18 +308,190 @@ def _strip_nulls(record: dict[str, Any]) -> dict[str, Any]:
 
 def _schema_has(document: dict[str, Any], type_name: str, path: str) -> bool:
     """Whether a dotted path names a field of a record type (through refs,
-    nullable unions and records)."""
+    nullable unions, records and arrays: ``x[]`` and ``x.*`` step into the
+    items of the list ``x``)."""
     node: dict[str, Any] = {"$ref": f"#/definitions/{type_name}"}
-    for step in path.split("."):
+
+    def step(key: str) -> bool:
+        nonlocal node
         node = _deref(document, node)
         options = [_deref(document, n) for n in node.get("anyOf", [node])]
         found = [
-            o["properties"][step] for o in options if step in o.get("properties", {})
+            o["items"] if key == "[]" else o["properties"][key]
+            for o in options
+            if ("items" in o if key == "[]" else key in o.get("properties", {}))
         ]
-        if not found:
+        if found:
+            node = found[0]
+        return bool(found)
+
+    for segment in path.split("."):
+        name = segment.removesuffix("[]")
+        if name == "*":
+            if not step("[]"):
+                return False
+            continue
+        if not step(name) or (name != segment and not step("[]")):
             return False
-        node = found[0]
     return True
+
+
+class References:
+    """Which records the ids of a reference name, over every series: the
+    companion series (``weapon_flight``) and their parents, each series' ids,
+    and the display ``names`` of records (``titles``: ``(series, id) ->
+    (name, subtitle)``)."""
+
+    def __init__(
+        self,
+        series: dict[str, dict[str, Any]],
+        all_rules: list[Rule],
+        titles: dict[tuple[str, str], tuple[str, str]],
+    ) -> None:
+        self.names = {k: v[0] for k, v in titles.items()}
+        self.scalar_refs = {
+            (r.series, r.path[0]): r.target for r in all_rules if len(r.path) == 1
+        }
+        self.parent = {
+            n: self.scalar_refs[(n, s.id_field)]
+            for n, s in SERIES.items()
+            if (n, s.id_field) in self.scalar_refs
+            and self.scalar_refs[(n, s.id_field)] != UNITS
+        }
+        self.companion = {p: c for c, p in self.parent.items()}
+        self.keys = {n: {str(k) for k in series[n]} for n in SERIES}
+        self.rules_at = {(r.series, r.label): r for r in all_rules}
+
+    def owner(self, name: str) -> str:
+        return self.parent.get(name, name)
+
+    def resolve(self, target: str, value: Any) -> tuple[str, str] | None:
+        """``(owner series, name)`` of a referenced id, else None."""
+        key = str(value)
+        for t in UNIT_SERIES if target == UNITS else [target]:
+            if key in self.keys[t]:
+                o = self.owner(t)
+                return o, self.names.get((o, key), key)
+        return None
+
+    def path_ref(self, table: str, rel: str) -> Rule | None:
+        """The reference rule of a path (a list of references: its items')."""
+        return self.rules_at.get((table, rel)) or self.rules_at.get((table, f"{rel}[]"))
+
+    def as_joined(self, table: str, rel: str, value: Any) -> Any:
+        """A column's value as the site reads it: a whole column listing
+        references as its join table holds them (the resolved ones), any other
+        value as is."""
+        rule = self.path_ref(table, rel)
+        if rule is None or rule.label != f"{rel}[]" or "." in rel:
+            return value
+        return [
+            v
+            for v in (value if isinstance(value, list) else [])
+            if v is not None and self.resolve(rule.target, v)
+        ]
+
+
+def field_views(
+    series: dict[str, dict[str, Any]],
+    refs: References,
+    compare: dict[str, dict[str, Any]],
+    document: dict[str, Any] | None = None,
+) -> tuple[list[tuple[str, str, str]], list[tuple[str, str]]]:
+    """``field_values`` rows ``(series, path, view)`` and ``field_paths`` rows
+    ``(series, paths)``, as compact JSON in key order (``build`` stores the
+    views compressed), from the site's comparable fields (``compare``:
+    ``site_views.load_compare``).
+
+    A field view holds one comparable path across a series (the site's
+    ``getFieldValues`` and ``loadLinkedField``): ``values``, ``{id: value}``
+    of every record holding one (``site_views.field_value``: a whole column of
+    references as its join table holds them), and for a reference field
+    ``links``, ``{series: {id: name}}`` per series it names, for the ids it
+    holds. A keyed field (``flight.motorStages.*.impulseS``) has a view per
+    key (``flight.motorStages.march.impulseS``). The ``paths`` of a series
+    with keyed arrays list those keyed paths as ``[path, catalog path]``
+    (``site_views.keyed_paths``).
+
+    Every path ``compare`` names (a field's, its table's, a keyed array's)
+    must name a field of its series' type in ``document``: the build fails
+    on one that does not (regenerate the list: ``pnpm gen:compare-fields``
+    in ``site/``)."""
+    value_rows: list[tuple[str, str, str]] = []
+    path_rows: list[tuple[str, str]] = []
+    for name in sorted(compare):
+        if name not in SERIES or name in refs.parent:
+            fail(f"site compare fields: no browsable series {name}")
+        spec = compare[name]
+        key_fields: dict[str, str] = spec.get("keyFields", {})
+        comp = refs.companion.get(name)
+
+        def table_of(path: str, name: str = name, comp: str | None = comp) -> str:
+            in_comp, _ = site_views.split_companion(path)
+            if in_comp and comp is None:
+                fail(f"site compare fields: {name} has no companion for {path}")
+            return comp if in_comp and comp else name
+
+        if document is not None:
+            for path in [
+                *(f["path"] for f in spec["fields"]),
+                *(
+                    (f.get("curve") or f["surfaces"])["table"]
+                    for f in spec["fields"]
+                    if "curve" in f or "surfaces" in f
+                ),
+                *spec.get("keyed", []),
+            ]:
+                rel = site_views.split_companion(path)[1]
+                if not _schema_has(document, SERIES[table_of(path)].type_name, rel):
+                    fail(
+                        f"site compare fields: {name} has no field {path}; run"
+                        " `pnpm gen:compare-fields` in site/ against a fresh database"
+                    )
+        keyed = site_views.keyed_paths(
+            spec,
+            {
+                a: [
+                    r.get(site_views.split_companion(a)[1])
+                    for r in series[table_of(a)].values()
+                ]
+                for a in spec.get("keyed", [])
+            },
+        )
+        if keyed:
+            path_rows.append((name, json_value(keyed)))
+        for field in spec["fields"]:
+            path = field["path"]
+            table = table_of(path)
+            rel = site_views.split_companion(path)[1]
+            plain = not ({"curve", "surfaces", "samples"} & field.keys())
+            concrete = [c for c, k in keyed if k == path] if "*" in path else [path]
+            for wanted in concrete:
+                values: dict[str, Any] = {}
+                for key, record in series[table].items():
+                    value = site_views.field_value(field, record, wanted, key_fields)
+                    if plain:
+                        value = refs.as_joined(table, rel, value)
+                    if site_views.present(value):
+                        values[str(key)] = value
+                view: dict[str, Any] = {"values": values}
+                ids = {
+                    site_views.js_string(x)
+                    for v in values.values()
+                    for x in (v if isinstance(v, list) else [v])
+                    if isinstance(x, str) or site_views.is_number(x)
+                }
+                if field.get("ref") and ids:
+                    view["links"] = {
+                        t: {
+                            i: refs.names[(refs.owner(t), i)]
+                            for i in ids
+                            if (refs.owner(t), i) in refs.names
+                        }
+                        for t in field["ref"]
+                    }
+                value_rows.append((name, wanted, json_value(view)))
+    return sorted(value_rows), path_rows
 
 
 def views(
@@ -355,29 +532,10 @@ def views(
     [series, id, name]}}``, the first record each row's reference names."""
     display = display or {}
     scripting = scripting or {}
-    names = {k: v[0] for k, v in titles.items()}
-    scalar_refs = {
-        (r.series, r.path[0]): r.target for r in all_rules if len(r.path) == 1
-    }
-    parent = {
-        n: scalar_refs[(n, s.id_field)]
-        for n, s in SERIES.items()
-        if (n, s.id_field) in scalar_refs and scalar_refs[(n, s.id_field)] != UNITS
-    }
-    companion = {p: c for c, p in parent.items()}
-    keys = {n: {str(k) for k in series[n]} for n in SERIES}
-
-    def owner(name: str) -> str:
-        return parent.get(name, name)
-
-    def resolve(target: str, value: Any) -> tuple[str, str] | None:
-        """``(owner series, name)`` of a referenced id, else None."""
-        key = str(value)
-        for t in UNIT_SERIES if target == UNITS else [target]:
-            if key in keys[t]:
-                o = owner(t)
-                return o, names.get((o, key), key)
-        return None
+    refs = References(series, all_rules, titles)
+    names, parent, companion, keys = refs.names, refs.parent, refs.companion, refs.keys
+    scalar_refs = refs.scalar_refs
+    owner, resolve, path_ref = refs.owner, refs.resolve, refs.path_ref
 
     # Reverse references: target series -> id -> (series, path) -> source ids.
     reverse: dict[str, dict[str, dict[tuple[str, str], set[str]]]] = {}
@@ -468,12 +626,6 @@ def views(
                 view["scripting"] = script
             record_rows.append((name, k, json_value(view)))
 
-    rules_at = {(r.series, r.label): r for r in all_rules}
-
-    def path_ref(table: str, rel: str) -> Rule | None:
-        """The reference rule of a path (a list of references: its items')."""
-        return rules_at.get((table, rel)) or rules_at.get((table, f"{rel}[]"))
-
     def field_view(name: str, path: str) -> dict[str, Any]:
         """A path's values over a series' records and the names of the records
         they reference (the site's ``getFieldValues`` and ``loadLinkedField``)."""
@@ -485,19 +637,12 @@ def views(
         ):
             fail(f"site series display: {name} has no field {path}")
         rule = path_ref(table, rel)
-        whole_list = rule is not None and rule.label == f"{rel}[]" and "." not in rel
         values: list[Any] = []
         links: dict[str, dict[str, str]] = {}
         for key, record in series[name].items():
             source = series[comp].get(key) if comp else record
             value = site_views.value_at(source, rel) if source is not None else None
-            if whole_list and rule is not None:
-                # As the join table holds them: resolved references only.
-                value = [
-                    v
-                    for v in (value if isinstance(value, list) else [])
-                    if v is not None and resolve(rule.target, v)
-                ]
+            value = refs.as_joined(table, rel, value)
             if not site_views.present(value):
                 values.append(None)
                 continue
@@ -840,10 +985,11 @@ def build(
                 ),
             ]
         )
+    titles = {(r[0], r[1]): (r[2], r[3]) for r in records_search}
     record_views, series_views = views(
         series,
         all_rules,
-        {(r[0], r[1]): (r[2], r[3]) for r in records_search},
+        titles,
         scalars,
         document,
         site_views.load_display(),
@@ -865,6 +1011,27 @@ def build(
         ["series TEXT PRIMARY KEY", "view BLOB NOT NULL"],
         [(s, site_views.compress(v)) for s, v in series_views],
     )
+    field_values, field_paths = field_views(
+        series,
+        References(series, all_rules, titles),
+        site_views.load_compare(),
+        document,
+    )
+    create(
+        "field_values",
+        [
+            "series TEXT NOT NULL",
+            "path TEXT NOT NULL",
+            "view BLOB NOT NULL",
+            "PRIMARY KEY (series, path)",
+        ],
+        [(s, p, site_views.compress(v)) for s, p, v in field_values],
+    )
+    create(
+        "field_paths",
+        ["series TEXT PRIMARY KEY", "paths TEXT NOT NULL"],
+        sorted(field_paths),
+    )
     docs.extend(
         [
             (
@@ -876,6 +1043,18 @@ def build(
                 "series_views",
                 "",
                 "Each series' browse table as one JSON document, raw-deflate compressed.",
+            ),
+            (
+                "field_values",
+                "",
+                "Each comparable field of a series across its records as one JSON"
+                " document ({values: {id: value}, links}), raw-deflate compressed.",
+            ),
+            (
+                "field_paths",
+                "",
+                "The keyed field paths of a series (motor stages by stage) as JSON"
+                " [[path, catalog path], ...].",
             ),
         ]
     )

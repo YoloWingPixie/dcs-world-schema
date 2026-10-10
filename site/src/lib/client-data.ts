@@ -5,7 +5,7 @@
  * the hand-written overlays shipped with the site (public/overlays/reference.json).
  * Overlays naming a record or field the database no longer has are ignored.
  */
-import { COMPANION_PREFIX, entryFor } from "./catalog";
+import { COMPANION_PREFIX } from "./catalog";
 import { OVERLAYS_URL } from "./db/boot";
 import { browserQuery, modelTables, transientQuery } from "./db/browser";
 import {
@@ -13,14 +13,13 @@ import {
   fieldPaths,
   type GroupTarget,
   getBeaconRows,
-  getFieldValues,
+  getField,
   getGroupTargets,
   getRecord,
   getSeriesIndex,
   keyedFieldPaths,
   type Model,
   modelFrom,
-  namesOf,
   referencedByGroup,
 } from "./db/reference";
 import { fetchJsonOr, once, settled } from "./once";
@@ -28,6 +27,7 @@ import type {
   FieldPath,
   LinkTarget,
   Overlay,
+  PathValues,
   RecordDoc,
   SeriesCatalog,
   SeriesIndex,
@@ -115,7 +115,7 @@ export const loadCatalog = (series: string) =>
     return catalog;
   });
 
-/** Every comparable concrete path of a series: plain fields, then keyed stages (one scan each). */
+/** Every comparable concrete path of a series: plain fields, then keyed stages (one read). */
 export const loadFieldPaths = (series: string) =>
   once(`paths:${series}`, async (): Promise<FieldPath[]> => {
     const model = await loadModel();
@@ -184,40 +184,18 @@ export const loadReferencedByGroup = (
     return referencedByGroup(transientQuery, model, series, id, from, path, via);
   });
 
-/** Record names by id per series (`series -> id -> name`), for the ids wanted only. */
-const loadNames = async (wanted: Map<string, Set<string>>) =>
-  namesOf(transientQuery, await loadModel(), wanted);
-
-/** A field's values per record id (lib/db/reference `getFieldValues`) and the link table its refs read from. */
-export type LinkedField = { values: Record<string, unknown>; links: RecordDoc["links"] };
+/** A field's values per record id (lib/db/reference `getField`) and the link table its refs read from. */
+export type LinkedField = PathValues;
 
 /**
  * A field across a series with the names of the records its ref ids point at, as a record's
  * link table (`RecordDoc["links"]`, for lib/format-field `resolveLink`): browse columns and
- * facets outside the series index, compare's field view. One IN query per target series for
- * the ids the field holds; a field without refs has an empty table.
+ * facets outside the series index, compare's field view. One precomputed `field_values` row.
  */
 export const loadLinkedField = (series: string, path: string) =>
   once(`linked:${series}:${path}`, async (): Promise<LinkedField> => {
-    const [values, catalog] = await Promise.all([
-      loadModel().then((model) => getFieldValues(browserQuery, model, series, path)),
-      loadCatalog(series),
-    ]);
-    const targets = entryFor(catalog, path)?.ref ?? [];
-    const ids = new Set<string>();
-    for (const v of Object.values(values)) {
-      for (const x of Array.isArray(v) ? v : [v]) {
-        if (typeof x === "string" || typeof x === "number") ids.add(String(x));
-      }
-    }
-    const links: RecordDoc["links"] = {};
-    if (!targets.length || !ids.size) return { values, links };
-    const names = await loadNames(new Map(targets.map((t) => [t, ids])));
-    for (const [t, byId] of names) {
-      // Browse slugs are record ids.
-      links[t] = Object.fromEntries([...byId].map(([id, name]) => [id, [id, name]]));
-    }
-    return { values, links };
+    const model = await loadModel();
+    return getField(browserQuery, model, series, path);
   });
 
 /** Per row id, the record a group-by ref field points at (lib/series-display `groupBy`). */

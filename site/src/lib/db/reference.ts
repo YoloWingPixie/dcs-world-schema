@@ -14,14 +14,12 @@ import {
   humanize,
   rootFields,
   rootFor,
-  tableAxis,
-  valuesAt,
 } from "../catalog";
 import { pathLabel } from "../format-field";
-import { present } from "../json";
+import { isRecord, present } from "../json";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { perObject } from "../once";
-import { withoutNamedCodes } from "../record-tables";
+import { samplesOf, withoutNamedCodes } from "../record-tables";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
 import { displayFor, offersFacet } from "../series-display";
 import { naturalCompare } from "../text";
@@ -30,6 +28,7 @@ import {
   type Facet,
   type FieldPath,
   type LinkTarget,
+  type PathValues,
   type RecordDoc,
   SCALAR_KINDS,
   type ScriptingRow,
@@ -309,7 +308,7 @@ async function inflateView<T>(table: string, blob: unknown): Promise<T> {
 
 /**
  * The one view a statement selects from the per-page views tools/package/sqlite.py writes
- * (`record_views`, `series_views`), or null when there is none: a database without them
+ * (`record_views`, `series_views`, `field_values`), or null when there is none: a database without them
  * is too old for this site.
  */
 async function readView<T>(
@@ -318,9 +317,14 @@ async function readView<T>(
   sql: string,
   params: unknown[],
 ): Promise<T | null> {
-  let rows: Row[];
+  const [row] = await rowsOf(q, table, sql, params);
+  return row ? inflateView<T>(table, row.view) : null;
+}
+
+/** A statement's rows from a table the package writes for the site; a database without it is too old. */
+async function rowsOf(q: Query, table: string, sql: string, params: unknown[]): Promise<Row[]> {
   try {
-    rows = await q(sql, params);
+    return await q(sql, params);
   } catch (error) {
     if (/no such table/i.test(String(error))) {
       throw new Error(
@@ -329,8 +333,6 @@ async function readView<T>(
     }
     throw error;
   }
-  const [row] = rows;
-  return row ? inflateView<T>(table, row.view) : null;
 }
 
 const byName = (a: LinkTarget, b: LinkTarget) => naturalCompare(a[1], b[1]);
@@ -872,72 +874,65 @@ export function storageOf(model: Model, series: string, path: string): Storage |
   };
 }
 
-/** One field across every record of a series, by record id (a record without a value is left out). */
+/**
+ * A `field_values` row (tools/package/sqlite.py): one comparable field across a series,
+ * `{id: value}` of the records holding one (a Mach-sampled list as stored: the list and its
+ * step), and for a ref field the names of the records its ids name, by series.
+ */
+type FieldView = {
+  values: Record<string, unknown>;
+  links?: Record<string, Record<string, string>>;
+};
+
+const NO_FIELD: PathValues = { values: {}, links: {} };
+
+/**
+ * One comparable field (`compareAs` set) across every record of a series, by record id (a
+ * record without a value is left out), with the link table its refs read from (lib/
+ * format-field `resolveLink`): one `field_values` row, precomputed for every comparable
+ * path the site offers (its keyed paths: `keyedFieldPaths`). Empty for any other path.
+ */
+export async function getField(
+  q: Query,
+  model: Model,
+  series: string,
+  path: string,
+): Promise<PathValues> {
+  if (!model.byId.has(series)) return NO_FIELD;
+  const entry = entryFor(catalogFor(model, series), path);
+  if (entry?.compareAs === undefined) return NO_FIELD;
+  const view = await readView<FieldView>(
+    q,
+    "field_values",
+    "SELECT view FROM field_values WHERE series = ? AND path = ?",
+    [series, path],
+  );
+  if (!view) return NO_FIELD;
+  let values = view.values;
+  if (entry.axis?.kind === "sampled") {
+    // A curve over Mach at the record's own step, as a record page draws it.
+    values = {};
+    for (const [id, holder] of Object.entries(view.values)) {
+      const curve = isRecord(holder) ? samplesOf(holder, entry) : null;
+      if (curve) values[id] = curve;
+    }
+  }
+  const links: PathValues["links"] = {};
+  for (const [target, names] of Object.entries(view.links ?? {})) {
+    // Browse slugs are record ids.
+    links[target] = Object.fromEntries(Object.entries(names).map(([id, n]) => [id, [id, n]]));
+  }
+  return { values, links };
+}
+
+/** One comparable field across every record of a series, by record id (`getField`). */
 export async function getFieldValues(
   q: Query,
   model: Model,
   series: string,
   path: string,
 ): Promise<Record<string, unknown>> {
-  if (!model.byId.has(series)) return {};
-  const catalog = catalogFor(model, series);
-  const entry = entryFor(catalog, path);
-  if (!entry) return {};
-  // A curve or surfaces reads its table; any other value its own path.
-  const at = storageOf(model, series, tableAxis(entry)?.table ?? path);
-  if (!at) return {};
-  const values: Record<string, unknown> = {};
-  const keep = (k: unknown, v: unknown) => {
-    if (present(v)) values[String(k)] = v;
-  };
-  // One value (or list) at a plain path; a keyed path names its key, so is not its catalog key.
-  const simple = entry.compareAs === "value" && path === entry.path;
-
-  // A whole column listing refs reads its join table (a few pages), not the series' wide
-  // rows; a record with an empty list has no join rows. Unordered, so the read stays on
-  // the table's own pages: items go in place by ordinal.
-  if (simple && at.ref && at.ref.table !== at.table) {
-    const rows = await q(
-      `SELECT ${qi(at.ref.source)} AS k, ${qi(at.ref.targetColumn)} AS v, ordinal AS o FROM ${qi(at.ref.table)}`,
-    );
-    const lists = new Map<string, Array<[number, unknown]>>();
-    for (const r of rows) {
-      const k = String(r.k);
-      const list = lists.get(k) ?? [];
-      list.push([Number(r.o), r.v]);
-      lists.set(k, list);
-    }
-    for (const [k, list] of lists)
-      keep(
-        k,
-        list.sort((x, y) => x[0] - y[0]).map(([, v]) => v),
-      );
-    return values;
-  }
-  const read = (v: string, params: unknown[] = []) =>
-    q(`SELECT ${qi(at.key)} AS k, ${v} AS v FROM ${qi(at.table)} WHERE v IS NOT NULL`, params);
-  if (simple) {
-    const rows = at.json
-      ? await read(`json_extract(${qi(at.column)}, ?)`, [at.json])
-      : await read(qi(at.column));
-    for (const r of rows) keep(r.k, decodeValue(entry, r.v));
-    return values;
-  }
-  // Keyed stages, curves (a Mach-sampled list's step sits beside it), envelopes: read the
-  // column and walk it.
-  const columnEntry = catalog.entries[at.field];
-  const inCompanion = at.field !== at.column;
-  for (const r of await read(qi(at.column))) {
-    const root = { [at.column]: decodeValue(columnEntry, r.v) };
-    const found = valuesAt(
-      entry,
-      catalog,
-      inCompanion ? {} : root,
-      inCompanion ? root : undefined,
-    ).find((v) => v.path === path);
-    if (found) keep(r.k, found.value);
-  }
-  return values;
+  return (await getField(q, model, series, path)).values;
 }
 
 /** Comparable concrete paths of a catalog's plain fields (keyed ones: `keyedFieldPaths`). */
@@ -949,7 +944,7 @@ export function fieldPaths(catalog: SeriesCatalog): FieldPath[] {
 
 /**
  * Concrete paths of keyed-array fields (`flight.motorStages.march.impulseS`), keys most
- * common first: one `json_each` scan of the column per keyed array.
+ * common first: the series' `field_paths` row, for a series with keyed arrays.
  */
 export async function keyedFieldPaths(
   q: Query,
@@ -958,25 +953,13 @@ export async function keyedFieldPaths(
 ): Promise<FieldPath[]> {
   if (!model.byId.has(series)) return [];
   const catalog = catalogFor(model, series);
-  const out: FieldPath[] = [];
-  for (const arr of Object.values(catalog.entries).filter((e) => e.keyField)) {
-    const at = storageOf(model, series, arr.path);
-    // Only arrays that are a whole column.
-    if (!at || at.json) continue;
-    const rows = await q(
-      `SELECT json_extract(j.value, ?) AS key, count(*) AS n FROM ${qi(at.table)}, json_each(${qi(at.table)}.${qi(at.column)}) AS j GROUP BY key ORDER BY n DESC`,
-      [`$.${arr.keyField}`],
-    );
-    for (const r of rows) {
-      if (r.key === null) continue;
-      for (const e of Object.values(catalog.entries)) {
-        if (e.compareAs === undefined || !e.path.startsWith(`${arr.path}.*.`)) continue;
-        out.push({
-          path: e.path.replace(`${arr.path}.*.`, `${arr.path}.${String(r.key)}.`),
-          key: e.path,
-        });
-      }
-    }
-  }
-  return out;
+  if (!Object.values(catalog.entries).some((e) => e.keyField)) return [];
+  const [row] = await rowsOf(q, "field_paths", "SELECT paths FROM field_paths WHERE series = ?", [
+    series,
+  ]);
+  if (!row) return [];
+  return (JSON.parse(String(row.paths)) as Array<[string, string]>).map(([path, key]) => ({
+    path,
+    key,
+  }));
 }

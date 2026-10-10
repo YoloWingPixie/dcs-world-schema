@@ -12,7 +12,13 @@ site renders from:
   Lua class, member and enum pages naming its records. Each record view holds
   the record's Scripting rows (``scripting_rows``), checked against the Lua API
   rows: an enum row only when the enum lists the record, a member only when it
-  exists.
+  exists;
+* ``site/src/lib/compare-fields.json`` (``site/scripts/build-compare-fields.ts``):
+  per series every comparable field of its catalog (``compareAs`` set) and how
+  to read it. The site's catalog decides what is comparable; this package only
+  reads the values each entry names (``field_value``, ``keyed_paths``), as the
+  site's ``valuesAt`` and ``keyedFieldPaths`` (lib/catalog.ts,
+  lib/db/reference.ts) read them.
 
 The views are stored deflate-compressed (``compress``): raw deflate, no zlib
 header, as ``DecompressionStream("deflate-raw")`` reads it.
@@ -32,6 +38,7 @@ from tools.datamine.common import REPO_ROOT, load_json
 SITE_LIB = REPO_ROOT / "site" / "src" / "lib"
 SERIES_DISPLAY_PATH = SITE_LIB / "series-display.json"
 SCRIPTING_PATH = SITE_LIB / "api" / "scripting.json"
+COMPARE_PATH = SITE_LIB / "compare-fields.json"
 # A path under this prefix reads the companion's record (site lib/catalog.ts).
 COMPANION_PREFIX = "flight"
 LUA_NAME = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
@@ -45,6 +52,10 @@ def load_display() -> dict[str, Json]:
 
 def load_scripting() -> dict[str, Json]:
     return load_json(SCRIPTING_PATH)
+
+
+def load_compare() -> dict[str, Json]:
+    return load_json(COMPARE_PATH)
 
 
 def compress(text: str) -> bytes:
@@ -90,6 +101,167 @@ def value_at(record: Any, path: str) -> Any:
 def present(value: Any) -> bool:
     """As the site's ``present``: neither null nor an empty list."""
     return value is not None and value != []
+
+
+def is_number(value: Any) -> bool:
+    """JavaScript's ``typeof value === "number"`` for a JSON value."""
+    return isinstance(value, int | float) and not isinstance(value, bool)
+
+
+# Compare fields ---------------------------------------------------------------
+
+
+def walk(
+    root: Any, path: str, key_fields: dict[str, str]
+) -> list[tuple[str, Any, Json]]:
+    """Every ``(concrete path, value, holder)`` a catalog path reaches in its
+    root (the record, or its companion's for ``flight.`` paths), as the site's
+    ``walkPath``: ``x[]`` steps into each item of the list ``x``, ``*`` into
+    each item of a keyed array, named by its ``key_fields`` field. Absent, null
+    and empty values are skipped."""
+    in_companion, rest = split_companion(path)
+    segments = rest.split(".")
+    out: list[tuple[str, Any, Json]] = []
+
+    def join(a: str, b: str) -> str:
+        return f"{a}.{b}" if a else b
+
+    def step(node: Any, i: int, keyed: str, concrete: str) -> None:
+        segment = segments[i]
+        if segment == "*":
+            if not isinstance(node, list):
+                return
+            key_field = key_fields.get(keyed, "key")
+            for item in node:
+                if isinstance(item, dict):
+                    key = (
+                        js_string(item[key_field]) if key_field in item else "undefined"
+                    )
+                    step(item, i + 1, join(keyed, "*"), join(concrete, key))
+            return
+        if not isinstance(node, dict):
+            return
+        field = segment.removesuffix("[]")
+        value = node.get(field)
+        if i == len(segments) - 1:
+            if present(value):
+                out.append((join(concrete, field), value, node))
+        elif field == segment:
+            step(value, i + 1, join(keyed, segment), join(concrete, field))
+        elif isinstance(value, list):
+            for j, item in enumerate(value):
+                step(item, i + 1, join(keyed, segment), f"{join(concrete, field)}[{j}]")
+
+    start = COMPANION_PREFIX if in_companion else ""
+    step(root, 0, start, start)
+    return out
+
+
+def curve_of(rows: Any, x: str, y: str) -> Json | None:
+    """The site's ``curveOf``: a table's ``y`` column over its ``x`` column."""
+    xs: list[Any] = []
+    ys: list[Any] = []
+    for row in rows if isinstance(rows, list) else []:
+        if isinstance(row, dict) and is_number(row.get(x)) and is_number(row.get(y)):
+            xs.append(row[x])
+            ys.append(row[y])
+    return {"x": xs, "y": ys} if xs else None
+
+
+def surfaces_of(items: Any, rows: str, cols: str, z: str) -> list[Json]:
+    """The site's ``surfacesOf``: the grid ``z`` of each item holding it, with
+    the item's axes (a missing axis left out, as ``JSON.stringify`` drops it)."""
+    out = []
+    for item in items if isinstance(items, list) else []:
+        if isinstance(item, dict) and isinstance(item.get(z), list):
+            surface = {
+                k: item[f] for k, f in (("rows", rows), ("cols", cols)) if f in item
+            }
+            surface["z"] = item[z]
+            out.append(surface)
+    return out
+
+
+def samples_of(holder: Json, list_field: str, step_field: str) -> Json | None:
+    """A Mach-sampled list as its record holds it: the list and its step (when
+    a number), the fields the site's ``samplesOf`` reads; None when the list
+    holds no number (the site has no curve for it)."""
+    values = holder.get(list_field)
+    if not isinstance(values, list) or not any(is_number(v) for v in values):
+        return None
+    out: Json = {list_field: values}
+    if is_number(holder.get(step_field)):
+        out[step_field] = holder[step_field]
+    return out
+
+
+def field_value(field: Json, root: Any, wanted: str, key_fields: dict[str, str]) -> Any:
+    """A record's value of a comparable ``field`` (a ``compare-fields.json``
+    entry) at the concrete path ``wanted`` (the field's own path, or one of its
+    keyed paths), as the site compares it; None when it has none. ``root`` is
+    the record, or its companion's for ``flight.`` paths; ``key_fields`` the
+    series' keyed arrays."""
+    table = field.get("curve") or field.get("surfaces")
+    if table is not None:
+        rows = value_at(root, split_companion(table["table"])[1])
+        if "curve" in field:
+            return curve_of(rows, table["x"], table["y"])
+        return surfaces_of(rows, table["rows"], table["cols"], table["z"]) or None
+    samples = field.get("samples")
+    for path, value, holder in walk(root, field["path"], key_fields):
+        if path != wanted:
+            continue
+        if samples is None:
+            return value
+        if (found := samples_of(holder, samples["list"], samples["step"])) is not None:
+            return found
+    return None
+
+
+def sqlite_key(item: Any, key_field: str) -> Any:
+    """SQLite's ``json_extract(item, '$.<key_field>')``: a boolean as 0 or 1,
+    an object or array as its JSON text."""
+    if not isinstance(item, dict):
+        return None
+    value = item.get(key_field)
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, dict | list):
+        return json.dumps(value, separators=(",", ":"), ensure_ascii=False)
+    return value
+
+
+def keyed_paths(spec: Json, columns: dict[str, list[Any]]) -> list[list[str]]:
+    """``[concrete path, catalog path]`` of a series' keyed fields, as the
+    site's ``keyedFieldPaths``: per keyed array (``spec["keyed"]``), each key
+    its items hold, most common first, then every comparable field under it.
+    ``columns`` holds each array's column value of every record."""
+    out: list[list[str]] = []
+    for array in spec.get("keyed", []):
+        key_field = spec["keyFields"][array]
+        counts: dict[Any, int] = {}
+        for value in columns[array]:
+            # json_each: an array's items, an object's member values.
+            if isinstance(value, dict):
+                items = list(value.values())
+            else:
+                items = value if isinstance(value, list) else []
+            for item in items:
+                key = sqlite_key(item, key_field)
+                if key is not None:
+                    counts[key] = counts.get(key, 0) + 1
+        # SQLite's GROUP BY order (numbers before text), then by count.
+        keys = sorted(counts, key=lambda k: (isinstance(k, str), k))
+        keys.sort(key=lambda k: -counts[k])
+        prefix = f"{array}.*."
+        for key in keys:
+            for field in spec["fields"]:
+                if field["path"].startswith(prefix):
+                    concrete = field["path"].replace(
+                        prefix, f"{array}.{js_string(key)}.", 1
+                    )
+                    out.append([concrete, field["path"]])
+    return out
 
 
 # Scripting rows ---------------------------------------------------------------

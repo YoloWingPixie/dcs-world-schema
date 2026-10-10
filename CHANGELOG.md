@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - SQLite: `schema_types` (every entity type with its fields), `ref_paths` (every reference), a `search` table with an FTS5 index, and the Lua API (`api_symbols`, `api_type_uses`).
 - Reference site in `site/`: search, record pages, compare and the Lua API, read live from the SQLite in the browser.
+- SQLite: `field_values` (`series`, `path`, `view`): every field the reference site compares, across a series' records, as raw-deflate compressed JSON `{values: {id: value}, links}` (keyed motor stages by stage, curves as `{x, y}`, launch envelopes as surfaces, Mach-sampled lists as stored), and `field_paths`: each series' keyed field paths.
 
 ### Changed
 - SQLite: `record_views.view` and `series_views.view` are BLOBs of raw-deflate compressed JSON (`zlib.decompress(view, -15)`), no longer TEXT. Record views gain `scripting` (the record's Lua class, member and enum rows); series views gain `fields` (the reference site's default browse paths beyond the scalar columns) and `groups` (each row's group-by target). These views are new since 0.5.0, so no released consumer reads them; code written against the unreleased TEXT views must inflate them.
