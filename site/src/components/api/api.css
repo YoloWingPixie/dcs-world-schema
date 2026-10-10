@@ -1049,6 +1049,58 @@
   overflow-wrap: anywhere;
 }
 
+/* Phones: each value is a ruled entry, not a row of narrow columns: the key on its own
+   line, then the value and the reference link under it. */
+@media (max-width: 640px) {
+  .api-enum .api-table,
+  .api-enum .api-table tbody {
+    display: block;
+  }
+  .api-enum .api-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .api-enum .api-table tr {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 16px;
+    align-items: baseline;
+    padding: 7px 2px;
+    border-bottom: 1px solid var(--hair);
+  }
+  .api-enum .api-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .api-enum .api-table td {
+    display: block;
+    padding: 0;
+    border: 0;
+    overflow-wrap: break-word;
+  }
+  .api-enum .api-table td:first-child {
+    grid-column: 1 / -1;
+  }
+  .api-enum .api-table td:not(:first-child) {
+    padding-left: 1.2em;
+  }
+  /* The reference link (any cell after the key without a value's code) hangs right. */
+  .api-enum .api-table td:not(:first-child):not(:has(> code)) {
+    grid-column: 2;
+    padding-left: 0;
+    text-align: right;
+  }
+  .api-enum .api-table td:only-child,
+  .api-enum .api-table td[colspan] {
+    padding-left: 0;
+  }
+  .api-enum .api-table tr:target {
+    background: var(--accent-wash);
+  }
+}
+
 /* Inherited and used-by lists hang from the same edge as the entries. */
 .api-body :is(.api-inherited, .api-usedby, .api-union) {
   margin-left: var(--api-num);
