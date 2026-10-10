@@ -90,7 +90,7 @@ async function facetValues(page: ApiPage): Promise<ApiPageExtras["values"]> {
   }
   // Only a facet the browse page offers; the facet is the name column, so its distinct
   // values are the names above.
-  if (!offersConfiguredFacet(series, [facet], distinct.size)) return undefined;
+  if (!offersConfiguredFacet(series, facet, distinct.size)) return undefined;
   const label = SERIES_BY_ID.get(series)?.label.toLowerCase() ?? series;
   return page.values.map((v) => {
     const hits = [...(names.get(v.value)?.entries() ?? [])].filter(([n]) => namesKey(n, v.key));

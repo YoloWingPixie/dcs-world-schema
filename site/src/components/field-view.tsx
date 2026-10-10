@@ -1,7 +1,13 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { plainValue, resolveLink, storedValue, type ValueContext } from "@/lib/format-field";
+import {
+  pathLabel,
+  plainValue,
+  resolveLink,
+  storedValue,
+  type ValueContext,
+} from "@/lib/format-field";
 import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
 import { recordHref } from "@/lib/series";
@@ -59,7 +65,8 @@ export function fieldDataAttrs(
   value: unknown,
   ctx: FieldContext,
   vctx: ValueContext,
-  label = entry.label,
+  /** The menu's name for the field: by default its stand-alone label (lib/format-field `pathLabel`). */
+  label = pathLabel(entry, path),
   /** `storedValue` of the value, when the caller has it already. */
   stored = storedValue(entry, value, vctx.system, vctx.enums),
 ): Record<string, string> {
@@ -307,7 +314,7 @@ export function FieldRow({
       tabIndex={0}
       aria-describedby={tipId}
       aria-keyshortcuts="Shift+F10 C"
-      {...fieldDataAttrs(entry, path, value, ctx, vctx, shown, stored)}
+      {...fieldDataAttrs(entry, path, value, ctx, vctx, label, stored)}
     >
       <span className="field-label">
         {shown}

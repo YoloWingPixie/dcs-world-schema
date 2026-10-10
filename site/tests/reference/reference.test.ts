@@ -10,6 +10,7 @@ import {
   type Model,
   referencedByGroup,
   searchReference,
+  storageOf,
 } from "../../src/lib/db/reference";
 import { nodeQuery } from "./db";
 
@@ -148,6 +149,29 @@ describe("browse, compare and search", () => {
     expect(Object.keys(stage.values).length).toBeGreaterThan(0);
     const env = await getFieldValues(q, model, "weapons", "flight.launchEnvelopes[].maxRangeM");
     expect(Object.keys(env.values).length).toBeGreaterThan(10);
+  });
+
+  it("reads every storage alike: an empty list is no value, a join keeps list order", async () => {
+    expect(storageOf(model, "liveries", "unitTypes")?.ref?.table).toBe("liveries__unitTypes");
+    expect(storageOf(model, "beacons", "theatre")?.ref?.table).toBe("beacons");
+    expect(storageOf(model, "weapons", "flight.aerodynamics.cx0")).toMatchObject({
+      table: "weapon_flight",
+      column: "aerodynamics",
+      json: "$.cx0",
+      ref: null,
+    });
+    // A plain column, nested JSON and a join table: no record holds an empty list.
+    for (const [series, path] of [
+      ["liveries", "countries"],
+      ["aircraft", "attributes"],
+      ["aircraft", "sensors"],
+    ] as const) {
+      const { values } = await getFieldValues(q, model, series, path);
+      expect(Object.values(values).some((v) => Array.isArray(v) && v.length === 0)).toBe(false);
+    }
+    const { values } = await getFieldValues(q, model, "aircraft", "attributes");
+    const doc = await getRecord(q, model, "aircraft", "F-16C_50");
+    expect(values["F-16C_50"]).toEqual(doc?.data.attributes);
   });
 
   it("searches across series with FTS5", async () => {

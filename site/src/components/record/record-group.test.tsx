@@ -95,14 +95,26 @@ describe("recordsLayoutFor", () => {
     const aircraft = catalogFor(model, "aircraft");
     const weapons = catalogFor(model, "weapons");
     const radios = catalogFor(model, "radios");
-    const layout = (catalog: SeriesCatalog, path: string, place: "group" | "cell") => {
+    const layout = (
+      catalog: SeriesCatalog,
+      path: string,
+      place: "group" | "cell",
+      rows: unknown[] = [],
+    ) => {
       const entry = catalog.entries[path];
       if (!entry) throw new Error(path);
-      return recordsLayoutFor(entry, place);
+      return recordsLayoutFor(entry, place, rows, catalog);
     };
     expect(layout(weapons, "flight.launchEnvelopes", "group")).toBe("envelope");
     expect(layout(aircraft, "flight.aerodynamics.table", "group")).toBe("axis-table");
-    expect(layout(aircraft, "stations", "group")).toBe("cards");
+    // Cards when an item fills a nested table, or carries a list too long for a cell.
+    expect(layout(aircraft, "stations", "group", [{ accepts: [{ clsid: "x" }] }])).toBe("cards");
+    expect(layout(aircraft, "stations", "group", [{ number: 1 }])).toBe("table");
+    const args = (n: number) => [{ args: Array.from({ length: n }, (_, i) => i) }];
+    expect(layout(aircraft, "model.damageArgs", "group", args(7))).toBe("cards");
+    expect(layout(aircraft, "model.damageArgs", "group", args(6))).toBe("table");
+    expect(layout(weapons, "flight.motorStages", "group", [{ stage: "boost" }])).toBe("table");
+    expect(layout(aircraft, "stations", "cell", [{ accepts: [{ clsid: "x" }] }])).toBe("table");
     expect(layout(weapons, "flight.motorStages", "group")).toBe("table");
     expect(layout(aircraft, "gun.mounts[].mixes", "group")).toBe("list-per-item");
     const ranges = Object.values(radios.entries).find((e) => e.layout === "ranges");

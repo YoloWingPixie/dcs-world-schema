@@ -193,33 +193,39 @@ export const loadFieldValues = (series: string, path: string) =>
   });
 
 /** Record names by id per series (`series -> id -> name`), for the ids wanted only. */
-export const loadNames = async (wanted: Map<string, Set<string>>) =>
+const loadNames = async (wanted: Map<string, Set<string>>) =>
   namesOf(transientQuery, await loadModel(), wanted);
 
+/** A field's values per record id (`loadFieldValues`) and the link table its refs read from. */
+export type LinkedField = { values: Record<string, unknown>; links: RecordDoc["links"] };
+
 /**
- * A browse column or facet the series index does not carry, per record id: `loadFieldValues`,
- * with a ref's ids read as their records' names, as the index's own ref columns are.
+ * A field across a series with the names of the records its ref ids point at, as a record's
+ * link table (`RecordDoc["links"]`, for lib/format-field `resolveLink`): browse columns and
+ * facets outside the series index, compare's field view. One IN query per target series for
+ * the ids the field holds; a field without refs has an empty table.
  */
-export const loadBrowseColumn = (series: string, path: string) =>
-  once(`column:${series}:${path}`, async (): Promise<Record<string, unknown>> => {
+export const loadLinkedField = (series: string, path: string) =>
+  once(`linked:${series}:${path}`, async (): Promise<LinkedField> => {
     const [{ values }, catalog] = await Promise.all([
       loadFieldValues(series, path),
       loadCatalog(series),
     ]);
-    const targets = catalog.entries[catalogKeyFor(path, catalog) ?? ""]?.ref;
-    if (!targets) return values;
-    const ids = new Set(Object.values(values).flat().map(String));
-    const names = await loadNames(new Map(targets.map((t) => [t, ids])));
-    const nameOf = (id: unknown) => {
-      for (const t of targets) {
-        const name = names.get(t)?.get(String(id));
-        if (name !== undefined) return name;
+    const targets = catalog.entries[catalogKeyFor(path, catalog) ?? ""]?.ref ?? [];
+    const ids = new Set<string>();
+    for (const v of Object.values(values)) {
+      for (const x of Array.isArray(v) ? v : [v]) {
+        if (typeof x === "string" || typeof x === "number") ids.add(String(x));
       }
-      return id;
-    };
-    return Object.fromEntries(
-      Object.entries(values).map(([id, v]) => [id, Array.isArray(v) ? v.map(nameOf) : nameOf(v)]),
-    );
+    }
+    const links: RecordDoc["links"] = {};
+    if (!targets.length || !ids.size) return { values, links };
+    const names = await loadNames(new Map(targets.map((t) => [t, ids])));
+    for (const [t, byId] of names) {
+      // Browse slugs are record ids.
+      links[t] = Object.fromEntries([...byId].map(([id, name]) => [id, [id, name]]));
+    }
+    return { values, links };
   });
 
 /** Per row id, the record a group-by ref field points at (lib/series-display `groupBy`). */

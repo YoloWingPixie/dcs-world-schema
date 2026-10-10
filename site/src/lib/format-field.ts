@@ -51,12 +51,20 @@ export function axisCurve(
   axisEntry: CatalogEntry | undefined,
   system: UnitSystem,
 ): { x: number[]; y: number[]; xLabel: string } {
-  const label = entry.axis?.kind === "column" ? entry.axis.label : "x";
   return {
     x: curve.x.map((v) => convertNumber(v, axisEntry, system)),
     y: curve.y.map((v) => convertNumber(v, entry, system)),
-    xLabel: unitLabel(label, axisEntry, system),
+    xLabel: axisLabel(entry, axisEntry, system),
   };
+}
+
+/** The x label of an axis table column's curve, with the axis column's unit ("Mach"). */
+export function axisLabel(
+  entry: CatalogEntry,
+  axisEntry: CatalogEntry | undefined,
+  system: UnitSystem,
+): string {
+  return unitLabel(entry.axis?.kind === "column" ? entry.axis.label : "x", axisEntry, system);
 }
 
 export function isXY(value: unknown): value is { x: number[]; y: number[] } {
@@ -274,10 +282,17 @@ export function machAxis(length: number, step: number): number[] {
   return Array.from({ length }, (_, i) => Number((i * step).toFixed(4)));
 }
 
-/** "Max range (flight model, boost stage)". */
+/**
+ * A field's label where it stands alone (catalog `standaloneLabel`), with the keys of a keyed
+ * path: "Max range (boost stage)", "Default task".
+ */
 export function pathLabel(entry: CatalogEntry, path: string): string {
+  const label = entry.standaloneLabel ?? entry.label;
   const stars = entry.path.split(".");
   const parts = path.split(".");
-  const keys = stars.flatMap((seg, i) => (seg === "*" ? [parts[i]] : [])).filter(Boolean);
-  return keys.length ? `${entry.label} (${keys.join(", ")})` : entry.label;
+  // A catalog key's own `*` names no key.
+  const keys = stars
+    .flatMap((seg, i) => (seg === "*" ? [parts[i]] : []))
+    .filter((k) => k && k !== "*");
+  return keys.length ? `${label} (${keys.join(", ")})` : label;
 }

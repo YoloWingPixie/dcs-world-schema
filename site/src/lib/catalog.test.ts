@@ -14,7 +14,7 @@ import {
   walkPath,
 } from "./catalog";
 import { loadModel, type Model, refResolver } from "./db/reference";
-import { displayedNumber, plainValue, valuesDiffer } from "./format-field";
+import { displayedNumber, pathLabel, plainValue, valuesDiffer } from "./format-field";
 import { curveOf, surfacesOf } from "./record-tables";
 
 /** The schema as written (types/entities), over the series the database lists. */
@@ -223,6 +223,16 @@ describe("catalog from every entity schema", () => {
     expect(catalogOf("radios").titleFields).toEqual(["name"]);
     // `displayName` is a title, not the constant name of a `display` code.
     expect(catalogOf("weapons").entries.displayName?.codeField).toBeUndefined();
+  });
+
+  it("labels a nested record's title field, standing alone, as that record", () => {
+    const aircraft = catalogOf("aircraft");
+    const name = aircraft.entries["defaultTask.name"];
+    expect(name?.label).toBe("Name");
+    expect(name?.standaloneLabel).toBe("Default task");
+    expect(name && pathLabel(name, name.path)).toBe("Default task");
+    expect(aircraft.entries.displayName?.standaloneLabel).toBeUndefined();
+    expect(aircraft.entries["defaultTask.id"]?.standaloneLabel).toBeUndefined();
   });
 
   it("marks the link of a list of records, and its lists of links", () => {
