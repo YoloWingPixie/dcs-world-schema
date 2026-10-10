@@ -10,8 +10,10 @@ import {
   JsonValue,
   MachCard,
   NumberList,
+  RangeList,
   RecordsTable,
   type RenderCtx,
+  rangeListOf,
   SCALAR_KINDS,
   StringList,
 } from "./blocks";
@@ -22,9 +24,12 @@ type Json = Record<string, unknown>;
 const present = (v: unknown) =>
   v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0);
 
-/** Fields a record type lists, in schema order, that this value carries. */
+/**
+ * Fields a record type lists, in schema order, that this value carries. A code with its
+ * constant name beside it (`modulation`, `modulationName`) shows once, as the name.
+ */
 export function presentFields(ctx: RenderCtx, typeName: string, prefix: string, value: Json) {
-  return (ctx.catalog.types[typeName]?.fields ?? [])
+  const fields = (ctx.catalog.types[typeName]?.fields ?? [])
     .map((name) => ({
       name,
       key: prefix ? `${prefix}.${name}` : name,
@@ -32,6 +37,20 @@ export function presentFields(ctx: RenderCtx, typeName: string, prefix: string, 
     }))
     .map((f) => ({ ...f, entry: ctx.catalog.entries[f.key] }))
     .filter((f): f is typeof f & { entry: CatalogEntry } => Boolean(f.entry) && present(f.value));
+  const named = new Set(fields.map((f) => f.entry.codeField));
+  return fields.filter((f) => !named.has(f.name));
+}
+
+/** Tooltip lines of a field: the code its constant name stands for, its provenance. */
+export function fieldNotes(entry: CatalogEntry, value: Json): string[] | undefined {
+  const notes: string[] = [];
+  const code = entry.codeField ? value[entry.codeField] : undefined;
+  if (code !== undefined && code !== null) {
+    notes.push(`Code ${Array.isArray(code) ? code.join(", ") : String(code)}`);
+  }
+  const source = isRecord(value._source) ? value._source[entry.name] : undefined;
+  if (typeof source === "string") notes.push(`Source: ${source}`);
+  return notes.length ? notes : undefined;
 }
 
 /** One array of records under its own heading: envelopes, axis tables, tables or cards. */
@@ -66,6 +85,8 @@ export function RecordsBlock({
       </div>
     );
   }
+  const ranges = rangeListOf(ctx, entry, prefix);
+  if (ranges) return <RangeList rows={rows} ctx={ctx} list={ranges} />;
   return (
     <>
       {entry.axis && !entry.keyField ? (
@@ -80,6 +101,7 @@ export function RecordsBlock({
             ctx={ctx}
             prefix={prefix}
             concretePrefix={concretePrefix}
+            headed
           />
         </details>
       ) : (
@@ -89,6 +111,7 @@ export function RecordsBlock({
           ctx={ctx}
           prefix={prefix}
           concretePrefix={concretePrefix}
+          headed
         />
       )}
     </>
@@ -147,9 +170,21 @@ export function RecordGroup({
           body={<StringList entry={entry} values={Array.isArray(v) ? v : [v]} vctx={ctx.vctx} />}
         />,
       );
-    } else if (SCALAR_KINDS.has(entry.kind) || (entry.kind === "any" && typeof v !== "object")) {
+    } else if (
+      SCALAR_KINDS.has(entry.kind) ||
+      (entry.kind === "any" && typeof v !== "object") ||
+      (entry.kind === "strings" && entry.codeField)
+    ) {
       scalars.push(
-        <FieldRow key={key} entry={entry} path={path} value={v} ctx={ctx.fctx} vctx={ctx.vctx} />,
+        <FieldRow
+          key={key}
+          entry={entry}
+          path={path}
+          value={v}
+          ctx={ctx.fctx}
+          vctx={ctx.vctx}
+          notes={fieldNotes(entry, value)}
+        />,
       );
     } else if (entry.kind === "numbers" && entry.axis === "mach" && Array.isArray(v)) {
       charts.push(

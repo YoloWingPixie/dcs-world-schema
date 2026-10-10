@@ -5,7 +5,7 @@ import { plainValue, resolveLink, storedValue, type ValueContext } from "@/lib/f
 import { enumDisplay } from "@/lib/names";
 import { recordHref } from "@/lib/series";
 import type { CatalogEntry } from "@/lib/types";
-import { formatWithUnit } from "@/lib/units";
+import { formatWithUnit, isSentinelAngle, unitGap } from "@/lib/units";
 import { MoreIcon } from "@/ui/icons";
 import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
@@ -25,7 +25,7 @@ export function fieldDataAttrs(
   vctx: ValueContext,
   label = entry.label,
 ) {
-  const stored = vctx.system === "imperial" ? storedValue(entry, value) : null;
+  const stored = storedValue(entry, value, vctx.system, vctx.enums);
   const text = plainValue(entry, value, vctx);
   return {
     "data-field": path,
@@ -56,15 +56,23 @@ export function Description({
   entry,
   id,
   stored,
+  notes,
 }: {
   entry: CatalogEntry;
   id: string;
   stored?: string | null;
+  /** Per-record facts beside the value: its code, its provenance. */
+  notes?: string[] | undefined;
 }) {
   return (
     <div className="tip" id={id} role="tooltip">
       {renderDescription(entry.description)}
       {stored ? <span className="tip-stored">Stored as {stored}</span> : null}
+      {notes?.map((n) => (
+        <span className="tip-stored" key={n}>
+          {n}
+        </span>
+      ))}
       {entry.note ? (
         <div className="tip-note">
           <Markdown html={entry.note} handWritten />
@@ -121,9 +129,12 @@ export function ScalarValue({
 }) {
   if (value === undefined || value === null) return <span className="muted">—</span>;
   if (entry.kind === "ref") return <RecordLink entry={entry} raw={value} vctx={vctx} />;
+  if (entry.codeField && Array.isArray(value)) {
+    return <>{value.map((v) => enumDisplay(entry, v, vctx.enums).label).join(", ")}</>;
+  }
   if (entry.kind === "enum") {
     const d = enumDisplay(entry, value, vctx.enums);
-    if (d.label !== d.raw) {
+    if (d.rewrite) {
       return (
         <>
           <span className="friendly">{d.label}</span>
@@ -138,10 +149,24 @@ export function ScalarValue({
     return (
       <>
         {f.text}
-        {f.unit ? <span className="unit">{f.unit}</span> : null}
-        {f.secondary ? <span className="secondary">{f.secondary}</span> : null}
-        {f.stored ? <span className="secondary">{f.stored} stored</span> : null}
-        {entry.unitNotStated ? <span className="secondary unit-note">unit not stated</span> : null}
+        {f.unit ? (
+          <>
+            {unitGap(f.unit)}
+            <span className="unit">{f.unit}</span>
+          </>
+        ) : null}
+        {isSentinelAngle(value, entry.unit) ? (
+          <>
+            {" "}
+            <span className="secondary unit-note">raw, not an angle</span>
+          </>
+        ) : null}
+        {entry.unitNotStated ? (
+          <>
+            {" "}
+            <span className="secondary unit-note">unit not stated</span>
+          </>
+        ) : null}
       </>
     );
   }
@@ -162,6 +187,8 @@ export function FieldRow({
   vctx,
   label,
   body,
+  notes,
+  after,
 }: {
   entry: CatalogEntry;
   path: string;
@@ -170,10 +197,14 @@ export function FieldRow({
   vctx: ValueContext;
   label?: string;
   body?: ReactNode;
+  /** Tooltip lines: the code a constant name stands for, the value's provenance. */
+  notes?: string[] | undefined;
+  /** More beside the value (a range row's second column). */
+  after?: ReactNode;
 }) {
   const tipId = tipIdFor(ctx, path);
   const shown = label ?? entry.label;
-  const stored = vctx.system === "imperial" ? storedValue(entry, value) : null;
+  const stored = storedValue(entry, value, vctx.system, vctx.enums);
   return (
     <div
       className={body ? "field field-wide" : "field"}
@@ -194,11 +225,12 @@ export function FieldRow({
       {body ? null : (
         <span className="field-value">
           <ScalarValue entry={entry} value={value} vctx={vctx} />
+          {after}
         </span>
       )}
       <MoreButton label={shown} />
       {body ? <div className="field-body">{body}</div> : null}
-      <Description entry={entry} id={tipId} stored={stored} />
+      <Description entry={entry} id={tipId} stored={stored} notes={notes} />
     </div>
   );
 }

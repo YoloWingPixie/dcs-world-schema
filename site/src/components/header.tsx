@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { compareHref, useCompare } from "@/lib/compare-store";
 import { currentSection, NAV_SECTIONS } from "@/lib/nav";
 import { setUnitSystem, useUnitSystem } from "@/lib/unit-system";
-import { BrandMark, CompareIcon, MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
+import { MoonIcon, SearchIcon, SunIcon } from "@/ui/icons";
 import { openPalette } from "./command-palette";
 
 type Theme = "light" | "dark";
@@ -73,6 +73,9 @@ function UnitsToggle() {
         >
           Metric
         </button>
+        <span className="units-sep" aria-hidden="true">
+          /
+        </span>
         <button
           type="button"
           className="units-opt units-imperial"
@@ -97,7 +100,6 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="site-header-inner">
         <Link href="/" className="brand" aria-label="Home">
-          <BrandMark className="brand-mark" />
           <span className="brand-name">DCS World Reference</span>
         </Link>
         <nav className="site-nav" aria-label="Main">
@@ -108,12 +110,12 @@ export function SiteHeader() {
                 href={compareHref(compare)}
                 aria-current={section?.id === s.id ? "page" : undefined}
               >
-                <CompareIcon width={16} height={16} />
-                <span className="nav-label">{s.label}</span>
+                {s.label}
                 {compare.records.length ? (
                   <span className="count-badge">
-                    {compare.records.length}
-                    <span className="visually-hidden"> selected</span>
+                    {" "}
+                    ({compare.records.length}
+                    <span className="visually-hidden"> selected</span>)
                   </span>
                 ) : null}
               </Link>
@@ -148,7 +150,7 @@ export function SiteHeader() {
         </details>
         <span className="header-spacer" />
         <button type="button" className="search-trigger" onClick={openPalette} aria-label="Search">
-          <SearchIcon width={18} height={18} />
+          <SearchIcon width={16} height={16} />
           <span className="search-trigger-text">Search</span>
           <span className="kbd">{mac ? "⌘K" : "Ctrl K"}</span>
         </button>

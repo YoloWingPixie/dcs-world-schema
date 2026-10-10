@@ -4,7 +4,7 @@ import Link from "next/link";
 import { type ReactNode, useEffect, useMemo, useState } from "react";
 import { COMPANION_PREFIX, getPath, isRecord } from "@/lib/catalog";
 import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
-import type { ValueContext } from "@/lib/format-field";
+import { coverageText, plainValue, rangePair, type ValueContext } from "@/lib/format-field";
 import { constantLabel } from "@/lib/names";
 import type { NavHint } from "@/lib/nav-hints";
 import { recordHref, SERIES_BY_ID, seriesHref } from "@/lib/series";
@@ -17,11 +17,11 @@ import type {
   SeriesCatalog,
 } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { formatWithUnit } from "@/lib/units";
+import { formatWithUnit, unitGap } from "@/lib/units";
 import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../field-view";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
-import type { RenderCtx } from "./blocks";
+import { type RenderCtx, rangeListOf } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
 
@@ -56,8 +56,15 @@ function useRecord(series: string, slug: string) {
   return state;
 }
 
-function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Section[] {
+function sectionsFor(
+  catalog: SeriesCatalog,
+  doc: RecordDoc,
+  ctx: RenderCtx,
+  readouts: Readout[],
+): Section[] {
   const out: Section[] = [];
+  // A key figure in the strip is not repeated in an Overview (named sections keep theirs).
+  const inStrip = new Set(readouts.filter((r) => r.entry).map((r) => r.path));
   const build = (root: Json, typeName: string, prefix: string, tag?: string) => {
     const fields = catalog.types[typeName]?.fields ?? [];
     const key = (name: string) => (prefix ? `${prefix}.${name}` : name);
@@ -71,11 +78,27 @@ function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Se
     const backRefs = prefix
       ? fields.filter((f) => catalog.entries[key(f)]?.ref?.includes(doc.series))
       : [];
+    // A range record (`range`: min/max) that only bounds a sibling list of ranges says nothing new.
+    const isRanges = (f: string) => {
+      const e = catalog.entries[key(f)];
+      return e?.kind === "records" && Array.isArray(root[f]) && rangeListOf(ctx, e, key(f));
+    };
+    const bounds = new Set(
+      fields.filter((f) => {
+        const e = catalog.entries[key(f)];
+        if (e?.kind !== "record" || !e.recordType) return false;
+        const own = catalog.types[e.recordType]?.fields ?? [];
+        return (
+          own.length === 2 && rangePair(catalog, e.recordType, key(f)) && fields.some(isRanges)
+        );
+      }),
+    );
     const skip = new Set([
       ...complex,
       ...PROVENANCE,
       ...backRefs,
       ...(prefix ? [] : HEADER_FIELDS),
+      ...fields.filter((f) => inStrip.has(key(f))),
     ]);
     const hasScalars = fields.some(
       (f) => !skip.has(f) && root[f] !== undefined && catalog.entries[key(f)],
@@ -99,7 +122,7 @@ function sectionsFor(catalog: SeriesCatalog, doc: RecordDoc, ctx: RenderCtx): Se
       });
     }
     for (const name of fields) {
-      if (!complex.has(name)) continue;
+      if (!complex.has(name) || bounds.has(name)) continue;
       const v = root[name];
       const entry = catalog.entries[key(name)];
       if (!entry || v === undefined || v === null) continue;
@@ -287,11 +310,26 @@ function ReferencedBy({ doc }: { doc: RecordDoc }) {
   );
 }
 
-function Readouts({ doc, ctx }: { doc: RecordDoc; ctx: RenderCtx }) {
-  // Hinted headline values, else the first top-level numbers that carry a unit.
+type Readout = {
+  path: string;
+  label: string;
+  /** A field's own value (field menu, tooltip), else a figure derived from one. */
+  entry: CatalogEntry | null;
+  value: unknown;
+  text: ReactNode;
+  stored?: string | null;
+};
+
+/**
+ * The key figures under a record's title: the series' hinted paths, else its first top-level
+ * numbers with a unit. `#path` counts an array; a list of ranges reads as its coverage.
+ * Only figures with a value; fewer than two make no strip (`[]`).
+ */
+function readoutsFor(doc: RecordDoc, ctx: RenderCtx): Readout[] {
+  const { catalog, vctx } = ctx;
   const paths =
     displayFor(doc.series).readouts ??
-    Object.values(ctx.catalog.entries)
+    Object.values(catalog.entries)
       .filter(
         (e) =>
           e.kind === "number" &&
@@ -301,25 +339,54 @@ function Readouts({ doc, ctx }: { doc: RecordDoc; ctx: RenderCtx }) {
       )
       .slice(0, 4)
       .map((e) => e.path);
-  const items = paths
-    .map((path) => {
-      const entry = ctx.catalog.entries[path];
-      const value = path.startsWith(`${COMPANION_PREFIX}.`)
-        ? getPath(doc.companion, path.slice(COMPANION_PREFIX.length + 1))
-        : getPath(doc.data, path);
-      return entry ? { path, entry, value } : null;
-    })
-    .filter((x): x is NonNullable<typeof x> => Boolean(x));
+  const at = (path: string) =>
+    path.startsWith(`${COMPANION_PREFIX}.`)
+      ? getPath(doc.companion, path.slice(COMPANION_PREFIX.length + 1))
+      : getPath(doc.data, path);
+  const items = paths.flatMap((spec): Readout[] => {
+    const count = spec.startsWith("#");
+    const path = count ? spec.slice(1) : spec;
+    const entry = catalog.entries[path];
+    const value = at(path);
+    if (!entry || value === undefined || value === null) return [];
+    if (count) {
+      return Array.isArray(value) && value.length
+        ? [{ path: spec, label: entry.label, entry: null, value, text: value.length }]
+        : [];
+    }
+    if (entry.kind === "records" && Array.isArray(value)) {
+      const list = rangeListOf(ctx, entry, path);
+      const text = list && coverageText(list.pair, value.filter(isRecord), vctx.system);
+      return text ? [{ path, label: "Coverage", entry: null, value, text }] : [];
+    }
+    if (typeof value === "number" && entry.kind === "number") {
+      const f = formatWithUnit(value, entry.unit, vctx.system, entry.name);
+      const text = (
+        <>
+          {f.text}
+          {f.unit ? (
+            <span className="unit">
+              {unitGap(f.unit)}
+              {f.unit}
+            </span>
+          ) : null}
+        </>
+      );
+      return [{ path, label: entry.label, entry, value, text, stored: f.stored }];
+    }
+    const plain = plainValue(entry, value, vctx);
+    return plain ? [{ path, label: entry.label, entry, value, text: plain }] : [];
+  });
+  return items.length >= 2 ? items : [];
+}
+
+function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
   if (!items.length) return null;
   return (
     <div className="readouts">
-      {items.map(({ path, entry, value }) => {
-        const f =
-          typeof value === "number"
-            ? formatWithUnit(value, entry.unit, ctx.vctx.system, entry.name)
-            : null;
+      {items.map(({ path, label, entry, value, text, stored }) => {
         const tipId = `tip-readout-${path.replace(/\W/g, "_")}`;
-        return f ? (
+        return entry ? (
           <div
             key={path}
             className="readout"
@@ -327,17 +394,14 @@ function Readouts({ doc, ctx }: { doc: RecordDoc; ctx: RenderCtx }) {
             aria-describedby={tipId}
             {...fieldDataAttrs(entry, path, value, ctx.fctx, ctx.vctx)}
           >
-            <span className="readout-label">{entry.label}</span>
-            <span className="readout-value">
-              {f.text}
-              {f.unit ? <span className="unit"> {f.unit}</span> : null}
-            </span>
-            <Description entry={entry} id={tipId} stored={f.stored} />
+            <span className="readout-label">{label}</span>
+            <span className="readout-value">{text}</span>
+            <Description entry={entry} id={tipId} stored={stored ?? null} />
           </div>
         ) : (
           <div key={path} className="readout">
-            <span className="readout-label">{entry.label}</span>
-            <span className="readout-value readout-empty">—</span>
+            <span className="readout-label">{label}</span>
+            <span className="readout-value">{text}</span>
           </div>
         );
       })}
@@ -372,9 +436,10 @@ export function RecordView({
     return { catalog, vctx, fctx };
   }, [catalog, doc, system, series]);
 
+  const readouts = useMemo(() => (doc && ctx ? readoutsFor(doc, ctx) : []), [doc, ctx]);
   const sections = useMemo(
-    () => (catalog && doc && ctx ? sectionsFor(catalog, doc, ctx) : []),
-    [catalog, doc, ctx],
+    () => (catalog && doc && ctx ? sectionsFor(catalog, doc, ctx, readouts) : []),
+    [catalog, doc, ctx, readouts],
   );
 
   if (error) {
@@ -409,7 +474,7 @@ export function RecordView({
         id={doc.id}
         chips={chips}
         aliases={doc.overlay?.aliases}
-        readouts={<Readouts doc={doc} ctx={ctx} />}
+        readouts={<Readouts items={readouts} ctx={ctx} />}
       />
 
       {doc.overlay?.html || doc.overlay?.seeAlso?.length ? (
@@ -455,7 +520,9 @@ export function RecordView({
               <div className="section-head">
                 <h2 id={`${section.id}-h`}>
                   {section.title}
-                  {section.tag ? <span className="section-tag">{section.tag}</span> : null}
+                  {section.tag && section.tag !== section.title.toLowerCase() ? (
+                    <span className="section-tag">{section.tag}</span>
+                  ) : null}
                 </h2>
               </div>
               {section.body}

@@ -108,11 +108,32 @@ export function enumConstant(
   return hits.length === 1 ? (hits[0] ?? null) : null;
 }
 
+const letters = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+
 /**
  * Friendly label and raw form of an enum value: `{ label: "Radar", raw: "SENSOR_RADAR = 1" }`.
- * String enums whose values are words (`fixedwing`) get a capitalised label.
+ * String enums whose values are words (`fixedwing`) get a capitalised label. A raw form that
+ * only differs in case (`AIRDROME` for "Airdrome") is the label: callers show one.
+ *
+ * `rewrite`: the label is not a plain reading of the code ("Air-to-air missile" for
+ * `wsType_AA_Missile`, "Infrared" for `OPTIC_SENSOR_IR`), so the code is the only thing
+ * to search the DCS Lua for and is shown beside it. "AM" for `MODULATION_AM` is a reading:
+ * the code goes to the tooltip and field menu only.
  */
 export function enumDisplay(
+  entry: Pick<CatalogEntry, "enumType" | "name">,
+  value: unknown,
+  enums: Record<string, EnumInfo>,
+): { label: string; raw: string; rewrite: boolean } {
+  const d = enumDisplayRaw(entry, value, enums);
+  if (d.label.toLowerCase() === d.raw.toLowerCase()) {
+    return { label: d.label, raw: d.label, rewrite: false };
+  }
+  const code = d.raw.replace(/\s*=\s*-?\d+$/, "");
+  return { ...d, rewrite: !letters(code).includes(letters(d.label)) };
+}
+
+function enumDisplayRaw(
   entry: Pick<CatalogEntry, "enumType" | "name">,
   value: unknown,
   enums: Record<string, EnumInfo>,

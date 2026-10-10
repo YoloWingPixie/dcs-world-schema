@@ -23,7 +23,8 @@ function PageCard({ p }: { p: PageSummary }) {
     <ApiLink href={p.href} className="api-card">
       <span className="api-card-name">{p.name}</span>
       <span className="api-card-meta">
-        {p.kind === "singleton" ? "global" : p.kind} · {p.count}
+        {p.kind === "singleton" ? "global" : p.kind}, {p.count}{" "}
+        {p.count === 1 ? "member" : "members"}
       </span>
       {p.summary ? <span className="api-card-sum">{p.summary}</span> : null}
     </ApiLink>

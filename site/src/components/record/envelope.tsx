@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { isRecord } from "@/lib/catalog";
 import type { CatalogEntry } from "@/lib/types";
-import { convertValue, displayUnit, formatNumber } from "@/lib/units";
+import { convertValue, displayUnit, formatNumber, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import { fieldDataAttrs, MoreButton } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
@@ -85,7 +85,7 @@ export function EnvelopeBlock({
     .filter((r) => grid[r])
     .map((r, i) => ({
       id: `row-${r}`,
-      label: `${formatNumber(conv(rowEntry, rows[r] ?? 0))}${rowUnit ? ` ${rowUnit}` : ""}`,
+      label: withUnit(formatNumber(conv(rowEntry, rows[r] ?? 0)), rowUnit),
       color: SERIES_COLORS[i % SERIES_COLORS.length] ?? "var(--s1)",
       x: cols.map((c) => conv(colEntry, c)).slice(0, grid[r]?.length ?? 0),
       values: (grid[r] ?? []).map((v) => conv(gridEntry, v)),
@@ -153,8 +153,7 @@ export function EnvelopeBlock({
                   )
                 }
               >
-                {formatNumber(conv(rowEntry, r))}
-                {rowUnit ? ` ${rowUnit}` : ""}
+                {withUnit(formatNumber(conv(rowEntry, r)), rowUnit)}
               </button>
             ))}
           </div>

@@ -55,6 +55,11 @@ export type CatalogEntry = {
    * axis column name it here (`mach`).
    */
   axis?: string;
+  /**
+   * On an `xName` constant-name field: `x`, the code it names. A record shows the name in
+   * the code's place (one row), the code staying in the raw line.
+   */
+  codeField?: string;
   /** Keyed arrays (`*` in paths): the field naming each element. */
   keyField?: string;
   /** Can be compared across records (values file under data/<series>/f/). */

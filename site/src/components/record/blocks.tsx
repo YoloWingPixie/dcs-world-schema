@@ -2,14 +2,23 @@
 
 import { type ReactNode, useMemo, useState } from "react";
 import { isRecord } from "@/lib/catalog";
-import { machAxis, plainValue, type ValueContext } from "@/lib/format-field";
+import {
+  isAngleSectors,
+  machAxis,
+  plainValue,
+  rangePair,
+  rangeText,
+  sectorRanges,
+  type ValueContext,
+} from "@/lib/format-field";
 import { enumDisplay } from "@/lib/names";
 import type { CatalogEntry, SeriesCatalog } from "@/lib/types";
-import { convertValue, displayUnit, formatNumber } from "@/lib/units";
+import { convertValue, displayUnit, formatNumber, withUnit } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import {
   Description,
   type FieldContext,
+  FieldRow,
   fieldDataAttrs,
   MoreButton,
   RecordLink,
@@ -144,6 +153,99 @@ export function NumberList({
   );
 }
 
+/**
+ * An array of ranges with at most two other scalar columns (radio segments): the columns
+ * a range list shows, else null (a table fits better).
+ */
+export function rangeListOf(ctx: RenderCtx, entry: CatalogEntry, prefix: string) {
+  if (!entry.recordType || entry.keyField || entry.axis) return null;
+  const item = `${prefix}[]`;
+  const pair = rangePair(ctx.catalog, entry.recordType, item);
+  if (!pair || complexFields(ctx.catalog, entry.recordType, item).length) return null;
+  const others = tableColumns(ctx.catalog, entry.recordType, item).filter(
+    (c) => c.entry !== pair.min && c.entry !== pair.max,
+  );
+  return others.length <= 2 ? { pair, others } : null;
+}
+
+/** One ruled row per range: "100–150 MHz . . . . AM". */
+export function RangeList({
+  rows,
+  ctx,
+  list,
+}: {
+  rows: unknown[];
+  ctx: RenderCtx;
+  list: NonNullable<ReturnType<typeof rangeListOf>>;
+}) {
+  return (
+    <div className="fields range-list">
+      {rows.filter(isRecord).map((row, i) => {
+        const label = rangeText(list.pair, row, ctx.vctx.system) ?? "—";
+        const [first, ...rest] = list.others.filter((c) => cellOf(row, c.parts) !== undefined);
+        const entry = first?.entry ?? list.pair.min;
+        return (
+          <FieldRow
+            // biome-ignore lint/suspicious/noArrayIndexKey: ranges are positional
+            key={i}
+            entry={entry}
+            path={first?.key ?? entry.path}
+            value={first ? cellOf(row, first.parts) : undefined}
+            ctx={ctx.fctx}
+            vctx={ctx.vctx}
+            label={label}
+            after={rest.map((c) => (
+              <span className="secondary" key={c.path}>
+                {c.entry.label}: {plainValue(c.entry, cellOf(row, c.parts), ctx.vctx)}
+              </span>
+            ))}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+/** Traverse sectors in degrees, one row each; the stored radians are in the field menu. */
+export function SectorTable({
+  entry,
+  path,
+  sectors,
+  ctx,
+}: {
+  entry: CatalogEntry;
+  path: string;
+  sectors: number[][];
+  ctx: RenderCtx;
+}) {
+  const ranges = sectorRanges(entry, sectors, ctx.vctx.system);
+  const elevation = ranges.some((r) => r.elevation);
+  const raw = sectors.map((s) => withUnit(s.map((v) => formatNumber(v)).join(", "), entry.unit));
+  return (
+    <div tabIndex={0} {...fieldDataAttrs(entry, path, sectors, ctx.fctx, ctx.vctx)}>
+      <table className="mini-table">
+        <thead>
+          <tr>
+            <th scope="col">Sector</th>
+            <th scope="col">Azimuth</th>
+            {elevation ? <th scope="col">Elevation</th> : null}
+          </tr>
+        </thead>
+        <tbody>
+          {ranges.map((r, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: positional sectors
+            <tr key={i} title={raw[i]}>
+              <td>{i + 1}</td>
+              <td>{r.azimuth}</td>
+              {elevation ? <td>{r.elevation ?? "—"}</td> : null}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function StringList({
   entry,
   values,
@@ -165,6 +267,9 @@ export function StringList({
         ))}
       />
     );
+  }
+  if (entry.codeField) {
+    return <>{values.map((v) => enumDisplay(entry, v, vctx.enums).label).join(", ")}</>;
   }
   if (/^sourcePaths?$/.test(entry.name)) {
     return (
@@ -249,7 +354,7 @@ export function HeatGrid({
               <th scope="row">{axisText(rowAxis, r)}</th>
               {row.map((c, i) => {
                 const v = conv(entry, c, vctx);
-                const label = `${rowLabel} ${axisText(rowAxis, r)}${rowUnit ? ` ${rowUnit}` : ""}, ${colLabel} ${axisText(colAxis, i)}${colUnit ? ` ${colUnit}` : ""}: ${formatNumber(v)}${unit ? ` ${unit}` : ""}`;
+                const label = `${rowLabel} ${withUnit(axisText(rowAxis, r), rowUnit)}, ${colLabel} ${withUnit(axisText(colAxis, i), colUnit)}: ${withUnit(formatNumber(v), unit)}`;
                 return (
                   // biome-ignore lint/suspicious/noArrayIndexKey: cells are positional
                   <td key={i} style={{ background: shade(c) }} title={label} aria-label={label}>
@@ -304,17 +409,24 @@ export function tableColumns(catalog: SeriesCatalog, typeName: string, prefix: s
       }
     }
   }
-  return out;
+  // A code beside its constant name (`modulation`, `modulationName`): one column, the name.
+  const named = new Set(
+    out.flatMap((c) =>
+      c.entry.codeField ? [[...c.parts.slice(0, -1), c.entry.codeField].join(".")] : [],
+    ),
+  );
+  return out.filter((c) => !named.has(c.path));
 }
 
 /** Complex (non-column) fields of a record type: lists, nested tables. */
 function complexFields(catalog: SeriesCatalog, typeName: string, prefix: string) {
-  return (catalog.types[typeName]?.fields ?? [])
+  const fields = (catalog.types[typeName]?.fields ?? [])
     .map((name) => ({ name, entry: catalog.entries[`${prefix}.${name}`] }))
-    .filter(
-      (f): f is { name: string; entry: CatalogEntry } =>
-        Boolean(f.entry) && !SCALAR_KINDS.has(f.entry?.kind ?? "") && f.entry?.kind !== "record",
-    );
+    .filter((f): f is { name: string; entry: CatalogEntry } => Boolean(f.entry));
+  const named = new Set(fields.map((f) => f.entry.codeField));
+  return fields.filter(
+    (f) => !named.has(f.name) && !SCALAR_KINDS.has(f.entry.kind) && f.entry.kind !== "record",
+  );
 }
 
 const cellOf = (row: Record<string, unknown>, parts: string[]) =>
@@ -348,18 +460,49 @@ function InlineArray({
     );
     if (refName) {
       const refEntry = ctx.catalog.entries[`${sub}.${refName}`] as CatalogEntry;
+      const fieldsOf = ctx.catalog.types[entry.recordType]?.fields ?? [];
+      const at = (f: string) => ctx.catalog.entries[`${sub}.${f}`];
+      const labelOf = (f: string) => at(f)?.label.toLowerCase() ?? f;
       return (
         <LimitedList
           className="link-list"
           items={value.map((item, i) => {
             const rec = isRecord(item) ? item : {};
-            const extras = Object.entries(rec)
-              .filter(([k, v]) => k !== refName && Array.isArray(v) && v.length)
-              .map(([k, v]) => `${(v as unknown[]).length} ${k}`);
+            // Without its ref (a payload firing gun ammo, no weapon): the item's other
+            // links, else its own name, else its position.
+            const missing = rec[refName] === undefined || rec[refName] === null;
+            const links = missing
+              ? fieldsOf.find((f) => at(f)?.ref && Array.isArray(rec[f]) && rec[f].length)
+              : undefined;
+            const named = missing
+              ? fieldsOf.find((f) => /Name$/.test(f) && typeof rec[f] === "string" && rec[f])
+              : undefined;
+            const extras = [
+              ...Object.entries(rec)
+                .filter(([k, v]) => k !== refName && k !== links && Array.isArray(v) && v.length)
+                .map(([k, v]) => `${(v as unknown[]).length} ${labelOf(k)}`),
+              ...Object.entries(rec)
+                .filter(([k, v]) => /capacity$/i.test(k) && typeof v === "number")
+                .map(([k, v]) => `${labelOf(k)} ${v}`),
+            ];
+            const lead = !missing ? (
+              <RecordLink entry={refEntry} raw={rec[refName]} vctx={ctx.vctx} />
+            ) : links ? (
+              (rec[links] as unknown[]).map((v, j) => (
+                <span key={String(v)}>
+                  {j ? ", " : ""}
+                  <RecordLink entry={at(links) as CatalogEntry} raw={v} vctx={ctx.vctx} />
+                </span>
+              ))
+            ) : named ? (
+              String(rec[named])
+            ) : (
+              `${entry.label} ${i + 1}`
+            );
             return (
               // biome-ignore lint/suspicious/noArrayIndexKey: positional
               <li key={i}>
-                <RecordLink entry={refEntry} raw={rec[refName]} vctx={ctx.vctx} />
+                {lead}
                 {extras.length ? <span className="muted"> ({extras.join(", ")})</span> : null}
               </li>
             );
@@ -400,6 +543,8 @@ function InlineArray({
       />
     );
   }
+  if (isAngleSectors(entry, value))
+    return <SectorTable entry={entry} path={prefix} sectors={value} ctx={ctx} />;
   return <JsonValue value={value} />;
 }
 
@@ -415,6 +560,7 @@ export function RecordsTable({
   prefix,
   concretePrefix,
   compact,
+  headed,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
@@ -423,6 +569,8 @@ export function RecordsTable({
   prefix: string;
   concretePrefix: string;
   compact?: boolean;
+  /** A heading with the table's label sits right above: its caption is for screen readers only. */
+  headed?: boolean;
 }) {
   const typeName = entry.recordType ?? "";
   const itemPrefix = entry.keyField ? `${prefix}.*` : `${prefix}[]`;
@@ -501,6 +649,9 @@ export function RecordsTable({
       style={rows.length > 25 ? { maxHeight: 520, overflow: "auto" } : undefined}
     >
       <table className={compact ? "mini-table" : "table data-table"}>
+        {compact ? null : (
+          <caption className={headed ? "visually-hidden" : "table-caption"}>{entry.label}</caption>
+        )}
         <thead>
           <tr>
             {entry.keyField ? <th scope="col">{entry.keyField}</th> : null}

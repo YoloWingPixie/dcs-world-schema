@@ -133,7 +133,8 @@ export function labelFromDescription(description: string): string {
 export function dcsKeyFromDescription(description: string): string | null {
   const text = description.trim();
   const tail = /\(`([^`/]+)`(?:,? else `[^`]+`)?\)[.;]?\s*(?:unit not stated\.?)?$/.exec(text);
-  if (tail?.[1]) return tail[1];
+  // `_source.band: hand-authored` is provenance, not a DCS key.
+  if (tail?.[1]) return tail[1].startsWith("_source") ? null : tail[1];
   const head = /^(?:Optional\s+)?(?:DCS\s+)?`([^`/\s]+)`[,:]/.exec(text);
   return head?.[1] ?? null;
 }
@@ -152,6 +153,8 @@ export function enumConstantLabel(constant: string): string {
       const lower = w.toLowerCase();
       if (ACRONYMS[lower]) return ACRONYMS[lower];
       if (/^[A-Z0-9]{2,4}$/.test(w) && w.length <= 3) return w;
+      // Slashed acronyms keep their case: `V/UHF`, `VOR/DME`.
+      if (/^[A-Z0-9]{1,4}(\/[A-Z0-9]{1,4})+$/.test(w)) return w;
       return lower;
     });
   const label = parts.join(" ") || constant;
@@ -169,16 +172,21 @@ function enumTypesOf(types: SchemaTypes, type: string): string[] {
 }
 
 /**
- * For `xName` string fields beside a numeric or enum `x`: the enum type(s) of `x`
- * ("" when `x` is a plain number), else null.
+ * For `xName` string fields beside a numeric or enum `x` (and `string[]` beside `x[]`):
+ * the enum type(s) of `x` ("" when `x` is a plain number), else null.
  */
 function constantSibling(types: SchemaTypes, owner: string, name: string): string | null {
   if (!name.endsWith("Name") || name === "displayName") return null;
+  const own = types[owner]?.fields?.[name]?.type.trim();
   const sibling = types[owner]?.fields?.[name.slice(0, -4)];
   if (!sibling || sibling.ref || sibling.type.startsWith("country.id")) return null;
-  const enums = enumTypesOf(types, sibling.type);
+  const list = own === "string[]";
+  const type = sibling.type.trim();
+  if (list !== type.endsWith("[]")) return null;
+  const base = list ? type.slice(0, -2) : type;
+  const enums = enumTypesOf(types, base);
   if (enums.length) return enums.join(" | ");
-  return sibling.type === "number" ? "" : null;
+  return base === "number" ? "" : null;
 }
 
 type Walk = {
@@ -196,13 +204,15 @@ function addField(
   field: SchemaField,
   path: string,
   insideArray: boolean,
+  parentUnit: string | null = null,
 ) {
   const { types } = w;
   const type = field.type.trim();
   const description = field.description ?? "";
   const base = type.replace(/(\[\])+$/, "");
   const depth = (type.match(/\[\]/g) ?? []).length;
-  const unit = unitFor(name);
+  // A unit on a record field (`slewRateRadS: {yaw, pitch}`) holds for its unsuffixed members.
+  const unit = unitFor(name) ?? parentUnit;
   const unitNotStated = /unit not stated/.test(description);
   let kind: FieldKind;
   const extra: Partial<CatalogEntry> = {};
@@ -234,9 +244,13 @@ function addField(
     extra.enumType = enumTypesOf(types, type).join(" | ");
     for (const e of enumTypesOf(types, type)) w.usedEnums.add(e);
   } else if (type === "number") kind = "number";
-  else if (type === "string" && constantSibling(types, owner, name) !== null) {
-    // `categoryName` beside a numeric `category`: a DCS constant name.
-    kind = "enum";
+  else if (
+    (type === "string" || type === "string[]") &&
+    constantSibling(types, owner, name) !== null
+  ) {
+    // `categoryName` beside a numeric `category`: a DCS constant name, shown in its place.
+    kind = type === "string" ? "enum" : "strings";
+    extra.codeField = name.slice(0, -4);
     const sibling = constantSibling(types, owner, name);
     if (sibling) {
       extra.enumType = sibling;
@@ -265,7 +279,7 @@ function addField(
   const label =
     kind === "numbers" && extra.axis === "mach"
       ? labelFromDescription(description)
-      : (LABELS[name] ?? humanize(name));
+      : (LABELS[name] ?? humanize(extra.codeField ?? name));
 
   w.entries[path] = {
     path,
@@ -273,7 +287,8 @@ function addField(
     label,
     type,
     kind,
-    unit: kind === "number" || kind === "numbers" || kind === "grid" ? unit : null,
+    unit:
+      kind === "number" || kind === "numbers" || kind === "grid" || kind === "matrix" ? unit : null,
     unitNotStated,
     description,
     dcsKey: dcsKeyFromDescription(description),
@@ -282,7 +297,7 @@ function addField(
     ...extra,
   };
 
-  if (kind === "record") walkType(w, base, path, insideArray);
+  if (kind === "record") walkType(w, base, path, insideArray, unit);
   if (kind === "records") {
     if (extra.keyField) walkType(w, base, `${path}.*`, insideArray);
     else walkType(w, base, `${path}[]`, true);
@@ -311,7 +326,13 @@ function addField(
   }
 }
 
-function walkType(w: Walk, typeName: string, prefix: string, insideArray: boolean) {
+function walkType(
+  w: Walk,
+  typeName: string,
+  prefix: string,
+  insideArray: boolean,
+  parentUnit: string | null = null,
+) {
   const type = w.types[typeName];
   if (!type?.fields) return;
   if (w.usedTypes.has(`${typeName}@${prefix}`)) return;
@@ -319,7 +340,7 @@ function walkType(w: Walk, typeName: string, prefix: string, insideArray: boolea
   for (const [name, field] of Object.entries(type.fields)) {
     if (SKIP.has(name)) continue;
     const path = prefix ? `${prefix}.${name}` : name;
-    addField(w, typeName, name, field, path, insideArray);
+    addField(w, typeName, name, field, path, insideArray, parentUnit);
   }
 }
 

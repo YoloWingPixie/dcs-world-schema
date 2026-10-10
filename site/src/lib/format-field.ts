@@ -1,6 +1,14 @@
 import { enumDisplay } from "./names";
-import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc } from "./types";
-import { convertValue, formatNumber, formatPlain, type UnitSystem } from "./units";
+import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc, SeriesCatalog } from "./types";
+import {
+  convertValue,
+  displayUnit,
+  formatNumber,
+  formatPlain,
+  formatStored,
+  type UnitSystem,
+  withUnit,
+} from "./units";
 
 export type ValueContext = {
   enums: Record<string, EnumInfo>;
@@ -48,14 +56,103 @@ export function isXY(value: unknown): value is { x: number[]; y: number[] } {
 const numbers = (v: unknown): number[] =>
   Array.isArray(v) ? v.filter((x): x is number => typeof x === "number") : [];
 
+/**
+ * Traverse sectors (`Entity.AngleSector[]`, DCS `WS[i].angles`): per sector
+ * `[azimuth from, azimuth to, elevation min, elevation max]`, or azimuth only.
+ */
+export function isAngleSectors(entry: CatalogEntry, value: unknown): value is number[][] {
+  return (
+    entry.type.replace(/\[\]$/, "") === "Entity.AngleSector" &&
+    Array.isArray(value) &&
+    value.every(
+      (s) =>
+        Array.isArray(s) &&
+        (s.length === 2 || s.length === 4) &&
+        s.every((x) => typeof x === "number"),
+    )
+  );
+}
+
+export type SectorRange = { azimuth: string; elevation: string | null };
+
+/** Each sector as display ranges, in DCS's order: "145° to -145°". */
+export function sectorRanges(
+  entry: CatalogEntry,
+  sectors: number[][],
+  system: UnitSystem,
+): SectorRange[] {
+  const unit = displayUnit(entry.unit, system, entry.name);
+  const angle = (v: number) =>
+    withUnit(formatNumber(convertValue(v, entry.unit, system, entry.name).value), unit);
+  const range = (a: number | undefined, b: number | undefined) =>
+    a === undefined || b === undefined ? null : `${angle(a)} to ${angle(b)}`;
+  return sectors.map(([az0, az1, el0, el1]) => ({
+    azimuth: range(az0, az1) ?? "",
+    elevation: range(el0, el1),
+  }));
+}
+
+/** The `minX` / `maxX` number pair of a record type (`minMHz`, `maxMHz`), if it has one. */
+export function rangePair(
+  catalog: Pick<SeriesCatalog, "types" | "entries">,
+  typeName: string,
+  prefix: string,
+): { min: CatalogEntry; max: CatalogEntry } | null {
+  const fields = catalog.types[typeName]?.fields ?? [];
+  for (const name of fields) {
+    const rest = /^min([A-Z].*)$/.exec(name)?.[1];
+    if (!rest || !fields.includes(`max${rest}`)) continue;
+    const min = catalog.entries[`${prefix}.${name}`];
+    const max = catalog.entries[`${prefix}.max${rest}`];
+    if (min?.kind === "number" && max?.kind === "number" && min.unit === max.unit) {
+      return { min, max };
+    }
+  }
+  return null;
+}
+
+/** "100–150" (with `unit`: "100–150 MHz") of a row holding a range pair; null when either end is missing. */
+export function rangeText(
+  pair: { min: CatalogEntry; max: CatalogEntry },
+  row: Record<string, unknown>,
+  system: UnitSystem,
+  unit = true,
+): string | null {
+  const [a, b] = [row[pair.min.name], row[pair.max.name]];
+  if (typeof a !== "number" || typeof b !== "number") return null;
+  const fmt = (e: CatalogEntry, v: number) =>
+    formatNumber(convertValue(v, e.unit, system, e.name).value);
+  const text = `${fmt(pair.min, a)}–${fmt(pair.max, b)}`;
+  return unit ? withUnit(text, displayUnit(pair.min.unit, system, pair.min.name)) : text;
+}
+
+/** Several ranges with one unit: "100–150, 220–390 MHz". */
+export function coverageText(
+  pair: { min: CatalogEntry; max: CatalogEntry },
+  rows: Record<string, unknown>[],
+  system: UnitSystem,
+): string | null {
+  const parts = rows.map((r) => rangeText(pair, r, system, false)).filter((t) => t !== null);
+  if (!parts.length) return null;
+  return withUnit(parts.join(", "), displayUnit(pair.min.unit, system, pair.min.name));
+}
+
 /** Short plain-text rendering, for copying, compare tables and tooltips. */
 export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContext): string {
   if (value === undefined || value === null) return "";
   if (entry.kind === "enum") {
     const d = enumDisplay(entry, value, ctx.enums);
-    return d.label === d.raw ? d.label : `${d.label} (${d.raw})`;
+    return d.rewrite ? `${d.label} (${d.raw})` : d.label;
   }
   if (entry.kind === "ref") return resolveLink(entry, value, ctx.links)?.name ?? String(value);
+  if (entry.codeField && Array.isArray(value)) {
+    return value.map((v) => enumDisplay(entry, v, ctx.enums).label).join(", ");
+  }
+  if (isAngleSectors(entry, value)) {
+    return sectorRanges(entry, value, ctx.system)
+      .map((r) => (r.elevation ? `azimuth ${r.azimuth}, elevation ${r.elevation}` : r.azimuth))
+      .join("; ");
+  }
   if (typeof value === "number") return formatPlain(value, entry.unit, ctx.system, entry.name);
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (typeof value === "string") return value;
@@ -83,10 +180,26 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
   return JSON.stringify(value);
 }
 
-/** The stored (metric) form, when the display converts: "161.48 kg". */
-export function storedValue(entry: CatalogEntry, value: unknown): string | null {
-  if (typeof value !== "number" || !entry.unit) return null;
-  return formatPlain(value, entry.unit, "metric");
+/**
+ * The stored form, when the display converts or relabels it: "161.48 kg", "0.3491 rad",
+ * "[2.5307, …] rad", `MODULATION_AM` (with `enums`, for enum labels).
+ */
+export function storedValue(
+  entry: CatalogEntry,
+  value: unknown,
+  system: UnitSystem,
+  enums?: Record<string, EnumInfo>,
+): string | null {
+  if (enums && entry.kind === "enum" && (typeof value === "string" || typeof value === "number")) {
+    const d = enumDisplay(entry, value, enums);
+    return d.raw !== d.label ? d.raw : null;
+  }
+  if (isAngleSectors(entry, value)) {
+    const rows = value.map((s) => `[${s.map((v) => formatNumber(v)).join(", ")}]`);
+    return withUnit(rows.join(", "), entry.unit);
+  }
+  if (typeof value !== "number") return null;
+  return formatStored(value, entry.unit, system, entry.name);
 }
 
 /** A value that sorts (and charts), in the display system. */

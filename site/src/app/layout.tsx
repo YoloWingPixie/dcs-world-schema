@@ -1,11 +1,9 @@
 // Latin subset only (other scripts fall back to system fonts); each sets font-display: swap.
-import "@fontsource/barlow/latin-400.css";
-import "@fontsource/barlow/latin-500.css";
-import "@fontsource/barlow-condensed/latin-500.css";
-import "@fontsource/barlow-condensed/latin-600.css";
-import "@fontsource/barlow-condensed/latin-700.css";
-import "@fontsource/chakra-petch/latin-600.css";
-import "@fontsource/chakra-petch/latin-700.css";
+import "@fontsource/source-serif-4/latin-400.css";
+import "@fontsource/source-serif-4/latin-400-italic.css";
+import "@fontsource/source-serif-4/latin-600.css";
+import "@fontsource/archivo/latin-500.css";
+import "@fontsource/archivo/latin-700.css";
 import "@fontsource/ibm-plex-mono/latin-400.css";
 import "@fontsource/ibm-plex-mono/latin-500.css";
 import "./globals.css";
@@ -32,8 +30,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#edf1f2" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d1316" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#161616" },
   ],
 };
 

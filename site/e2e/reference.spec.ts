@@ -80,7 +80,9 @@ test("weapon compare: right-click cx0, add R-27ER, the chart shows two series", 
 
 test("keyboard: C on a focused field jumps to its comparison", async ({ page }) => {
   await page.goto("/weapons/P_27PE/");
-  await page.locator('.field[data-field="massKg"]').first().focus();
+  // Mass is a key figure: it sits in the strip, not again in Overview.
+  await expect(page.locator('#overview .field[data-field="massKg"]')).toHaveCount(0);
+  await page.locator('[data-field="massKg"]').first().focus();
   await page.keyboard.press("c");
   await expect(page).toHaveURL(/\/compare\/\?s=weapons&f=massKg&r=P_27PE/);
   await expect(page.getByRole("heading", { name: /All weapons \(\d+\)/ })).toBeVisible();
@@ -100,6 +102,49 @@ test("units switch: AIM-120C mass and range in imperial, and back", async ({ pag
   await expect(mass).toHaveText(/161\.48\s*kg/);
   await page.goto("/weapons/AIM_120C/?units=imperial");
   await expect(mass).toHaveText(/356\s*lb/);
+});
+
+test("angles: radians show as degrees, the stored radians stay in the field menu", async ({
+  page,
+}) => {
+  await page.goto("/weapons/AIM_120C/");
+  const fov = page.locator('.field[data-field="flight.seeker.fovRad"]');
+  await expect(fov.locator(".field-value")).toHaveText("15°");
+  await fov.scrollIntoViewIfNeeded();
+  await fov.click({ button: "right", position: { x: 40, y: 12 } });
+  await expect(
+    page.getByRole("menuitem", { name: "Copy stored value (0.2618 rad)" }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "Imperial" }).click();
+  await expect(fov.locator(".field-value")).toHaveText("15°");
+  await page.getByRole("button", { name: "Metric" }).click();
+
+  await page.goto("/ground_vehicles/T-72B/");
+  const sectors = page.locator('[data-field="weaponSystems[].sectorsRad"]').first();
+  await expect(sectors.locator("tbody tr").first()).toContainText("145° to -145°");
+  await expect(sectors.locator("tbody tr").first()).toContainText("-4° to 14°");
+});
+
+test("every fact once: key figures, linked names, code and name pairs", async ({ page }) => {
+  await page.goto("/airbases/PersianGulf.18/");
+  await expect(page.locator(".readout")).toHaveCount(4);
+  await expect(page.locator('#overview [data-field="longestRunwayM"]')).toHaveCount(0);
+  await expect(page.locator("#overview .link-list .ref-link")).toHaveText([
+    "KERMAN · TACAN 97",
+    "KERMAN · VOR/DME 112.00 MHz",
+    "KERMAN · DME 290.00 MHz",
+  ]);
+
+  await page.goto("/radios/F4U-1D_CW__radio1/");
+  await expect(page.locator(".readout").first()).toContainText("100–150, 220–390 MHz");
+  await expect(page.locator('#overview .field[data-field="modulationName"]')).toHaveText(/AM/);
+  await expect(page.locator('#overview [data-field="modulation"]')).toHaveCount(0);
+  await expect(page.locator('#overview .field[data-field="band"] .field-value')).toHaveText(
+    "V/UHF",
+  );
+  await expect(page.locator("#range")).toHaveCount(0);
+  await expect(page.locator("#segments .field")).toHaveCount(2);
 });
 
 test("deep links and reloads land on the record (the host serves the shell)", async ({ page }) => {
