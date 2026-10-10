@@ -26,6 +26,7 @@ import { RefLink } from "../ref-link";
 import { LuaLink, type RenderCtx, rangeListOf } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
+import { SCRIPTING_ID, ScriptingBlock, useScripting } from "./scripting";
 
 type Json = Record<string, unknown>;
 type Section = {
@@ -442,10 +443,19 @@ export function RecordView({
   }, [catalog, doc, system, series]);
 
   const readouts = useMemo(() => (doc && ctx ? readoutsFor(doc, ctx) : []), [doc, ctx]);
-  const sections = useMemo(
-    () => (catalog && doc && ctx ? sectionsFor(catalog, doc, ctx, readouts) : []),
-    [catalog, doc, ctx, readouts],
-  );
+  const scripting = useScripting(doc);
+  const sections = useMemo(() => {
+    const list = catalog && doc && ctx ? sectionsFor(catalog, doc, ctx, readouts) : [];
+    if (!scripting || !list.length) return list;
+    // Where the data meets the Lua API: right after the Overview, so it is seen.
+    const block: Section = {
+      id: SCRIPTING_ID,
+      title: "Scripting",
+      body: <ScriptingBlock rows={scripting} />,
+    };
+    const at = list.findIndex((s) => s.id === "overview") + 1;
+    return [...list.slice(0, at), block, ...list.slice(at)];
+  }, [catalog, doc, ctx, readouts, scripting]);
 
   if (error) {
     return (

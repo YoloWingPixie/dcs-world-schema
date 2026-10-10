@@ -13,7 +13,7 @@ export function EnumTable({
   seriesLabel,
 }: {
   name: string;
-  values: Array<EnumValue & { href?: string | undefined }>;
+  values: Array<EnumValue & { href?: string | undefined; refLabel?: string | undefined }>;
   seriesLabel?: string | undefined;
 }) {
   const [query, setQuery] = useState("");
@@ -92,9 +92,9 @@ export function EnumTable({
                     {v.href ? (
                       <ApiLink
                         href={v.href}
-                        aria-label={`${v.key}: ${seriesLabel ?? "record"} page`}
+                        aria-label={`${v.key}: ${v.refLabel ?? `${seriesLabel ?? "record"} page`}`}
                       >
-                        {seriesLabel ?? "record"}
+                        {v.refLabel ?? seriesLabel ?? "record"}
                       </ApiLink>
                     ) : (
                       <span className="muted">—</span>

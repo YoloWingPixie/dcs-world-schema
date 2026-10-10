@@ -1,5 +1,8 @@
+import Link from "next/link";
 import { Fragment } from "react";
+import type { DataLink } from "@/lib/api/client";
 import type { ApiPage, ApiSection, EnumValue, Member } from "@/lib/api/types";
+import { isShellHref } from "../ref-link";
 import { ApiLink } from "./api-link";
 import { EnumTable } from "./enum-table";
 import {
@@ -94,13 +97,15 @@ function CompactMembers({ members, links }: { members: Member[]; links: Links })
   );
 }
 
-/** One API page. `values` carry record links resolved by the shell. */
+/** One API page. `values` carry record links resolved by the shell, `data` its series. */
 export function ApiPageView({
   page,
   values,
+  data,
 }: {
   page: ApiPage;
-  values?: Array<EnumValue & { href?: string | undefined }> | undefined;
+  values?: Array<EnumValue & { href?: string | undefined; refLabel?: string }> | undefined;
+  data?: DataLink[] | undefined;
 }) {
   const links = page.links;
   const total = page.groups.reduce((n, g) => n + g.members.length, 0);
@@ -120,7 +125,9 @@ export function ApiPageView({
   const asFields = (g: ApiPage["groups"][number]) =>
     page.section === "types" && g.members.every((m) => m.kind === "field");
 
+  // One book: the API is a chapter of the reference, as the contents list it.
   const crumbs: Array<{ label: string; href: string }> = [
+    { label: "Reference", href: "/reference/" },
     { label: "Lua API", href: "/api/" },
     { label: SECTION_LABEL[page.section], href: `/api/#${page.section}` },
   ];
@@ -132,7 +139,11 @@ export function ApiPageView({
       <nav className="crumbs" aria-label="Breadcrumb">
         {crumbs.map((c) => (
           <span key={c.label} className="api-crumb">
-            <ApiLink href={c.href}>{c.label}</ApiLink>
+            {isShellHref(c.href) ? (
+              <ApiLink href={c.href}>{c.label}</ApiLink>
+            ) : (
+              <Link href={c.href}>{c.label}</Link>
+            )}
             <span aria-hidden="true"> /</span>
           </span>
         ))}
@@ -159,7 +170,7 @@ export function ApiPageView({
             <RichText text={page.description} links={links} />
           </p>
         ) : null}
-        {page.inherits?.length || page.subclasses?.length ? (
+        {page.inherits?.length || page.subclasses?.length || data?.length ? (
           <dl className="api-hier">
             {page.inherits?.length ? (
               <div>
@@ -182,6 +193,20 @@ export function ApiPageView({
                     <span key={p.name}>
                       {i ? ", " : null}
                       <ApiLink href={p.href}>{p.name}</ApiLink>
+                    </span>
+                  ))}
+                </dd>
+              </div>
+            ) : null}
+            {data?.length ? (
+              <div className="api-data">
+                <dt>Reference data</dt>
+                <dd>
+                  {data.map((d, i) => (
+                    <span key={d.href}>
+                      {i ? ", " : null}
+                      <ApiLink href={d.href}>{d.label}</ApiLink>{" "}
+                      <span className="api-data-count">{d.count.toLocaleString("en-US")}</span>
                     </span>
                   ))}
                 </dd>

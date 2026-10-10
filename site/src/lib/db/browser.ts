@@ -31,6 +31,8 @@ export type ReferenceConfig = {
   file: string;
   version: string | null;
   sha256: string;
+  /** Lua API pages per section and kind (the home contents' API chapter). */
+  apiPages?: Record<string, Record<string, number>>;
 };
 
 let config: Promise<ReferenceConfig> | null = null;

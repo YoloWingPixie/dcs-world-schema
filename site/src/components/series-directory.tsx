@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { type ApiContentsEntry, apiContents, apiPageCounts } from "@/lib/api/contents";
 import { loadModel } from "@/lib/client-data";
+import { browserQuery, referenceConfig } from "@/lib/db/browser";
 import { type Model, seriesGroups } from "@/lib/db/reference";
 import { seriesHref } from "@/lib/series";
+import { ApiLink } from "./api/api-link";
 import { RefLink } from "./ref-link";
 
 export function useModel() {
@@ -15,9 +18,67 @@ export function useModel() {
   return { model, failed };
 }
 
-/** Every browsable series in the database as a numbered contents list, with record counts. */
+/**
+ * The API chapter's sections and page counts: from /data/reference.json (already fetched at
+ * startup), else, for a config without them, one read of the database's API page index.
+ */
+function useApiContents(): ApiContentsEntry[] | null {
+  const [entries, setEntries] = useState<ApiContentsEntry[] | null>(null);
+  useEffect(() => {
+    let live = true;
+    referenceConfig()
+      .then((c) => c.apiPages ?? apiPageCounts(browserQuery))
+      .then(
+        (counts) => live && setEntries(apiContents(counts)),
+        () => live && setEntries([]),
+      );
+    return () => {
+      live = false;
+    };
+  }, []);
+  return entries;
+}
+
+/** The Lua API as the chapter after the data: the API home's groupings, with page counts. */
+function ApiChapter({ number, entries }: { number: number; entries: ApiContentsEntry[] }) {
+  if (!entries.length) return null;
+  return (
+    <li className="contents-chapter">
+      <h2 className="contents-chapter-title" id="group-api">
+        <span className="contents-num">{number}</span>
+        <ApiLink href="/api/" className="contents-chapter-link">
+          Lua scripting API
+        </ApiLink>
+      </h2>
+      <ol className="contents-entries" aria-labelledby="group-api">
+        {entries.map((e, i) => (
+          <li key={e.id} className="contents-entry">
+            <ApiLink href={e.href} className="contents-link">
+              <span className="contents-num">
+                {number}.{i + 1}
+              </span>
+              <span className="contents-name">{e.label}</span>
+              <span className="contents-leader" aria-hidden="true" />
+              <span className="contents-count series-card-count">
+                {e.count.toLocaleString("en-US")}
+                <span className="visually-hidden"> {e.count === 1 ? "page" : "pages"}</span>
+              </span>
+            </ApiLink>
+            <p className="contents-blurb">{e.blurb}</p>
+          </li>
+        ))}
+      </ol>
+    </li>
+  );
+}
+
+/**
+ * Every browsable series in the database as a numbered contents list, with record counts,
+ * then the Lua API chapter.
+ */
 export function SeriesDirectory() {
   const { model, failed } = useModel();
+  const api = useApiContents();
   if (failed) return <p className="muted">Failed to load data. Reload the page.</p>;
   if (!model) {
     return (
@@ -34,9 +95,10 @@ export function SeriesDirectory() {
       </div>
     );
   }
+  const groups = seriesGroups(model);
   return (
     <ol className="contents">
-      {seriesGroups(model).map((group, g) => (
+      {groups.map((group, g) => (
         <li key={group.id} className="contents-chapter">
           <h2 className="contents-chapter-title" id={`group-${group.id}`}>
             <span className="contents-num">{g + 1}</span>
@@ -62,6 +124,7 @@ export function SeriesDirectory() {
           </ol>
         </li>
       ))}
+      {api ? <ApiChapter number={groups.length + 1} entries={api} /> : null}
     </ol>
   );
 }

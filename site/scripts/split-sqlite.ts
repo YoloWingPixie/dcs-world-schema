@@ -60,6 +60,11 @@ export type ReferenceConfig = {
   file: string;
   version: string | null;
   sha256: string;
+  /**
+   * Lua API pages per section and kind (`api_symbols` page rows), so the home contents can
+   * count the API chapter without reading the database's API pages.
+   */
+  apiPages?: Record<string, Record<string, number>>;
 };
 
 /**
@@ -160,6 +165,28 @@ function sha256(path: string): string {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
+/** Lua API pages per section and kind; {} for a database without the API docs. */
+export function apiPageCounts(path: string): Record<string, Record<string, number>> {
+  const db = new DatabaseSync(path, { readOnly: true });
+  try {
+    const has = db
+      .prepare("SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = 'api_symbols'")
+      .get();
+    if (!has) return {};
+    const rows = db
+      .prepare(
+        `SELECT section, kind, COUNT(*) AS n FROM api_symbols WHERE name = ''
+          GROUP BY section, kind ORDER BY section, kind`,
+      )
+      .all() as { section: string; kind: string; n: number }[];
+    const out: Record<string, Record<string, number>> = {};
+    for (const r of rows) out[r.section] = { ...out[r.section], [r.kind]: Number(r.n) };
+    return out;
+  } finally {
+    db.close();
+  }
+}
+
 function seriesNames(path: string): string[] {
   const db = new DatabaseSync(path, { readOnly: true });
   try {
@@ -197,6 +224,7 @@ export function publish(
     file,
     version: /^dcs-world-reference-(.+)\.sqlite$/.exec(file)?.[1] ?? null,
     sha256: hash,
+    apiPages: apiPageCounts(source),
   };
 
   let config: ReferenceConfig;
