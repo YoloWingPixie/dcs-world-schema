@@ -55,6 +55,26 @@ test("right-click a field on an aircraft and compare it across aircraft", async 
   await expect(page.getByRole("heading", { name: /All aircraft \(\d+\)/ })).toBeVisible();
 });
 
+test("a record's Compare button opens its own series, not the last one used", async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "dcs-ref:compare:v2",
+      JSON.stringify({
+        active: "ground_vehicles",
+        bySeries: { ground_vehicles: { field: null, records: [] } },
+      }),
+    );
+  });
+  await page.goto("/weapons/AIM_120C/");
+  await page
+    .locator(".plate-actions")
+    .getByRole("link", { name: /^Compare/ })
+    .click();
+  await expect(page).toHaveURL(/\/compare\/\?s=weapons&r=AIM_120C/);
+  await expect(page.getByRole("combobox", { name: "Series" })).toHaveValue("weapons");
+  await expect(page.getByText(/AIM-120C/).first()).toBeVisible();
+});
+
 test("weapon compare: right-click cx0, add R-27ER, the chart shows two series", async ({
   page,
 }) => {

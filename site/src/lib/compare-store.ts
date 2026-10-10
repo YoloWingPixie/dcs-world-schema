@@ -36,21 +36,22 @@ function load(): Stored {
       stored = { active: DEFAULT_SERIES, bySeries: {} };
     }
   }
-  readUrl(stored);
   return stored;
 }
 
 /**
- * On the compare page, a comparison its address names (a shared link, a link elsewhere on
- * the site) replaces the stored one: once per address, before anything renders it, so no
- * other series loads first. Afterwards the page writes the store's state to the address.
+ * The compare page hands over its address (a shared link, a link elsewhere on the site),
+ * and a comparison it names replaces the stored one: once per address, during render, so no
+ * other series loads first. The page passes Next's search params, not `window.location`,
+ * which a client-side navigation only updates after the new page renders. Afterwards the
+ * page writes the store's state to the address.
  */
-function readUrl(s: Stored) {
-  const { pathname, search } = window.location;
-  if (search === readSearch || !/\/compare\/?$/.test(pathname)) return;
+export function adoptCompareAddress(search: string) {
+  if (typeof window === "undefined" || search === readSearch) return;
   readSearch = search;
   const next = parseCompareParams(new URLSearchParams(search));
   if (!next) return;
+  const s = load();
   const same = s.active === next.series && compareQuery(next) === compareQuery(stateOf(s));
   if (!same) save(withState(s, next));
 }
