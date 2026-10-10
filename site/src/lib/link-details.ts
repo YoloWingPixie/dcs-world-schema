@@ -19,21 +19,28 @@ export function frequencyText(hz: number): string {
 /** Beacon types tuned by channel rather than frequency. */
 const CHANNELLED = /^BEACON_TYPE_(TACAN|RSBN|PRMG_)/;
 
-export const LINK_DETAILS: Record<string, (row: Row) => string | null> = {
-  beacons: (r) => {
-    const typeName = typeof r.typeName === "string" ? r.typeName : null;
-    const channel = num(r.channel);
-    const hz = num(r.frequencyHz);
-    const tuning =
-      typeName && CHANNELLED.test(typeName) && channel !== null
-        ? String(channel)
-        : hz !== null
-          ? frequencyText(hz)
-          : channel !== null
-            ? `ch ${channel}`
-            : null;
-    const parts = [typeName ? constantLabel(typeName) : null, tuning].filter(Boolean);
-    return parts.length ? parts.join(" ") : null;
+/** Per series: the columns a detail reads, and the detail of a row holding them. */
+export const LINK_DETAILS: Record<
+  string,
+  { columns: string[]; detail: (row: Row) => string | null }
+> = {
+  beacons: {
+    columns: ["typeName", "channel", "frequencyHz"],
+    detail: (r) => {
+      const typeName = typeof r.typeName === "string" ? r.typeName : null;
+      const channel = num(r.channel);
+      const hz = num(r.frequencyHz);
+      const tuning =
+        typeName && CHANNELLED.test(typeName) && channel !== null
+          ? String(channel)
+          : hz !== null
+            ? frequencyText(hz)
+            : channel !== null
+              ? `ch ${channel}`
+              : null;
+      const parts = [typeName ? constantLabel(typeName) : null, tuning].filter(Boolean);
+      return parts.length ? parts.join(" ") : null;
+    },
   },
 };
 

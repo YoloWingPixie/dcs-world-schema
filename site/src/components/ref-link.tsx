@@ -2,6 +2,7 @@
 
 import type { AnchorHTMLAttributes, MouseEvent, ReactNode } from "react";
 import { BASE_PATH } from "@/lib/base-path";
+import { replaceUrl } from "@/lib/history";
 import { type NavHint, setNavHint } from "@/lib/nav-hints";
 
 let shellMounted = 0;
@@ -23,7 +24,7 @@ export function registerShell(): () => void {
 export function navigateReference(href: string, { replace = false } = {}) {
   const url = `${BASE_PATH}${href}`;
   if (shellMounted > 0) {
-    if (replace) window.history.replaceState(null, "", url);
+    if (replace) replaceUrl(url);
     else window.history.pushState(null, "", url);
     window.scrollTo(0, 0);
   } else if (replace) window.location.replace(url);

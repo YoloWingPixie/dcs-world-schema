@@ -12,6 +12,14 @@ export const SCRIPTING_ID = "scripting";
 /** How long a record page settles before its Scripting rows load. */
 const SETTLE_MS = 500;
 
+/** The Scripting code, once a record page has loaded it. */
+let scriptingCode: typeof import("@/lib/api/record-scripting") | null = null;
+const loadScriptingCode = () =>
+  import("@/lib/api/record-scripting").then((m) => {
+    scriptingCode = m;
+    return m;
+  });
+
 /**
  * The record's Scripting rows, loaded once the record is on screen (the API code and its
  * database pages are not part of a record page's first load): `loading` until then, null
@@ -28,10 +36,17 @@ export function useScripting(doc: RecordDoc | null): ScriptingRow[] | "loading" 
     // After the record's own reads have settled: these database pages are extra, and the
     // record's first load should not wait behind them.
     const start = () =>
-      import("@/lib/api/record-scripting")
+      loadScriptingCode()
         .then((m) => m.loadScripting(browserQuery, doc.series, doc.id, doc.data))
         // No API data: the record reads the same without the block.
         .then(done, () => done([]));
+    // Rows another record of the series already read: no database pages to wait for.
+    if (scriptingCode?.scriptingWarm(browserQuery, doc.series, doc.data)) {
+      start();
+      return () => {
+        live = false;
+      };
+    }
     const timer = window.setTimeout(() => {
       if ("requestIdleCallback" in window) window.requestIdleCallback(start, { timeout: 1000 });
       else start();

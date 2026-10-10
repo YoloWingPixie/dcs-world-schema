@@ -103,19 +103,39 @@ const loadConfig = () =>
 /** Whether this build has Lua files to show. */
 export const luaAvailable = () => loadConfig().then((c) => c !== null);
 
+/** Dump files kept in memory: the last few opened (some run to megabytes). */
+const KEEP_TEXTS = 4;
+const texts = new Map<string, Promise<string>>();
+
 /** The text of the dump file of `path` (`_G/a/b`); LuaMissing when the build lacks it. */
 export function loadLua(path: string): Promise<string> {
-  return once(`lua:${path}`, async () => {
-    const file = dumpFile(path);
-    if (!file) throw new LuaMissing(`Not a dump path: ${path}`);
-    const conf = await loadConfig();
-    if (!conf) throw new LuaMissing("This build has no Lua files.");
-    const url = `${BASE_PATH}/data/${conf.base}${file.split("/").map(encodeURIComponent).join("/")}`;
-    const r = await fetch(url);
-    if (r.status === 404) throw new LuaMissing(`No Lua file for ${path}.`);
-    if (!r.ok) throw new Error(`No Lua file for ${path} (HTTP ${r.status}).`);
-    return r.text();
-  });
+  const hit = texts.get(path);
+  if (hit) {
+    // Most recently used last.
+    texts.delete(path);
+    texts.set(path, hit);
+    return hit;
+  }
+  const text = fetchLua(path);
+  text.catch(() => texts.delete(path));
+  texts.set(path, text);
+  for (const old of texts.keys()) {
+    if (texts.size <= KEEP_TEXTS) break;
+    texts.delete(old);
+  }
+  return text;
+}
+
+async function fetchLua(path: string): Promise<string> {
+  const file = dumpFile(path);
+  if (!file) throw new LuaMissing(`Not a dump path: ${path}`);
+  const conf = await loadConfig();
+  if (!conf) throw new LuaMissing("This build has no Lua files.");
+  const url = `${BASE_PATH}/data/${conf.base}${file.split("/").map(encodeURIComponent).join("/")}`;
+  const r = await fetch(url);
+  if (r.status === 404) throw new LuaMissing(`No Lua file for ${path}.`);
+  if (!r.ok) throw new Error(`No Lua file for ${path} (HTTP ${r.status}).`);
+  return r.text();
 }
 
 /** Each path's shortest trailing segments that no other path in `paths` ends with. */

@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
-import { COMPANION_PREFIX, getPath, isRecord } from "@/lib/catalog";
+import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
+import { COMPANION_PREFIX } from "@/lib/catalog";
 import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
-import { coverageText, plainValue, rangePair, type ValueContext } from "@/lib/format-field";
+import { plainValue, type ValueContext } from "@/lib/format-field";
 import { LOCATION_ID, locationOf } from "@/lib/geo";
 import { constantLabel } from "@/lib/names";
 import type { NavHint } from "@/lib/nav-hints";
+import { type PlacedSection, placeRecord, type StripItem } from "@/lib/placement";
 import { recordHref, SERIES_BY_ID, seriesHref } from "@/lib/series";
-import { displayFor } from "@/lib/series-display";
 import type {
   CatalogEntry,
   LinkTarget,
@@ -24,21 +24,10 @@ import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../fie
 import { LocationFigure } from "../location-map";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
-import { LuaLink, type RenderCtx, rangeListOf } from "./blocks";
+import { LuaLink, type RenderCtx } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
 import { SCRIPTING_ID, ScriptingBlock, useScripting } from "./scripting";
-
-type Json = Record<string, unknown>;
-type Section = {
-  id: string;
-  title: string;
-  tag?: string | undefined;
-  body: ReactNode;
-};
-
-const PROVENANCE = new Set(["sourcePaths", "sourcePath", "_source"]);
-const HEADER_FIELDS = new Set(["id"]);
 
 type RecordState = {
   catalog: SeriesCatalog | null;
@@ -59,146 +48,56 @@ function useRecord(series: string, slug: string) {
   return state ?? NOT_LOADED;
 }
 
-function sectionsFor(
-  catalog: SeriesCatalog,
-  doc: RecordDoc,
-  ctx: RenderCtx,
-  readouts: Readout[],
-): Section[] {
-  const out: Section[] = [];
-  // A key figure in the strip is not repeated in an Overview (named sections keep theirs).
-  const inStrip = new Set(readouts.filter((r) => r.entry).map((r) => r.path));
-  const build = (root: Json, typeName: string, prefix: string, tag?: string) => {
-    const fields = catalog.types[typeName]?.fields ?? [];
-    const key = (name: string) => (prefix ? `${prefix}.${name}` : name);
-    const complex = new Set(
-      fields.filter((f) => {
-        const k = catalog.entries[key(f)]?.kind;
-        return k === "record" || k === "records";
-      }),
-    );
-    // A companion's back-reference to its parent (weapon_flight.weapon) says nothing here.
-    const backRefs = prefix
-      ? fields.filter((f) => catalog.entries[key(f)]?.ref?.includes(doc.series))
-      : [];
-    // A range record (`range`: min/max) that only bounds a sibling list of ranges says nothing new.
-    const isRanges = (f: string) => {
-      const e = catalog.entries[key(f)];
-      return e?.kind === "records" && Array.isArray(root[f]) && rangeListOf(ctx, e, key(f));
-    };
-    const bounds = new Set(
-      fields.filter((f) => {
-        const e = catalog.entries[key(f)];
-        if (e?.kind !== "record" || !e.recordType) return false;
-        const own = catalog.types[e.recordType]?.fields ?? [];
-        return (
-          own.length === 2 && rangePair(catalog, e.recordType, key(f)) && fields.some(isRanges)
-        );
-      }),
-    );
-    const skip = new Set([
-      ...complex,
-      ...PROVENANCE,
-      ...backRefs,
-      ...(prefix ? [] : HEADER_FIELDS),
-      ...fields.filter((f) => inStrip.has(key(f))),
-    ]);
-    const hasScalars = fields.some(
-      (f) => !skip.has(f) && root[f] !== undefined && catalog.entries[key(f)],
-    );
-    if (hasScalars) {
-      out.push({
-        id: prefix ? `${prefix}-overview` : "overview",
-        title: prefix ? "Flight model" : "Overview",
-        tag,
-        body: (
-          <RecordGroup
-            typeName={typeName}
-            prefix={prefix}
-            concretePrefix={prefix}
-            value={root}
-            ctx={ctx}
-            depth={0}
-            skip={skip}
-          />
-        ),
-      });
-    }
-    for (const name of fields) {
-      if (!complex.has(name) || bounds.has(name)) continue;
-      const v = root[name];
-      const entry = catalog.entries[key(name)];
-      if (!entry || v === undefined || v === null) continue;
-      if (Array.isArray(v) && v.length === 0) continue;
-      const id = key(name).replace(/\./g, "-");
-      if (entry.kind === "record" && isRecord(v) && entry.recordType) {
-        out.push({
-          id,
-          title: entry.label,
-          tag,
-          body: (
-            <RecordGroup
-              typeName={entry.recordType}
-              prefix={key(name)}
-              concretePrefix={key(name)}
-              value={v}
-              ctx={ctx}
-              depth={0}
-            />
-          ),
-        });
-      } else if (entry.kind === "records" && Array.isArray(v)) {
-        out.push({
-          id,
-          title: `${entry.label}`,
-          tag: tag ?? `${v.length}`,
-          body: (
-            <RecordsBlock
-              entry={entry}
-              rows={v}
-              ctx={ctx}
-              prefix={key(name)}
-              concretePrefix={key(name)}
-            />
-          ),
-        });
-      }
-    }
-  };
+/** The tag beside a section's title: "flight model" on the companion's own sections, a table's row count. */
+function sectionTag(section: PlacedSection): string | null {
+  if (section.companion) return section.kind === "overview" ? null : "flight model";
+  return section.kind === "records" ? String(section.rows.length) : null;
+}
 
-  build(doc.data, catalog.rootType, "");
-  const companionEntry = catalog.entries[COMPANION_PREFIX];
-  if (doc.companion && companionEntry?.recordType) {
-    build(doc.companion, companionEntry.recordType, COMPANION_PREFIX, "flight model");
-  }
-
-  // Source paths.
-  const prov: Array<{ entry: CatalogEntry; path: string; value: unknown }> = [];
-  for (const [root, prefix] of [
-    [doc.data, ""],
-    [doc.companion, COMPANION_PREFIX],
-  ] as const) {
-    if (!root) continue;
-    for (const name of ["sourcePaths", "sourcePath"]) {
-      const path = prefix ? `${prefix}.${name}` : name;
-      const entry = catalog.entries[path];
-      if (entry && root[name] !== undefined) prov.push({ entry, path, value: root[name] });
-    }
-  }
-  if (prov.length) {
-    out.push({
-      id: "provenance",
-      title: "Source",
-      body: (
+function SectionBody({ section, ctx }: { section: PlacedSection; ctx: RenderCtx }) {
+  switch (section.kind) {
+    case "overview":
+      return (
+        <RecordGroup
+          typeName={section.typeName}
+          prefix={section.prefix}
+          concretePrefix={section.prefix}
+          value={section.value}
+          ctx={ctx}
+          depth={0}
+          only={section.fields}
+        />
+      );
+    case "record":
+      return (
+        <RecordGroup
+          typeName={section.typeName}
+          prefix={section.path}
+          concretePrefix={section.path}
+          value={section.value}
+          ctx={ctx}
+          depth={0}
+        />
+      );
+    case "records":
+      return (
+        <RecordsBlock
+          entry={section.entry}
+          rows={section.rows}
+          ctx={ctx}
+          prefix={section.path}
+          concretePrefix={section.path}
+        />
+      );
+    case "source":
+      return (
         <div className="fields">
-          {prov.map((p) => (
+          {section.fields.map((p) => (
             <ProvenanceRow key={p.path} {...p} ctx={ctx} />
           ))}
         </div>
-      ),
-    });
+      );
   }
-  return out;
 }
 
 function ProvenanceRow({
@@ -220,7 +119,7 @@ function ProvenanceRow({
       aria-describedby={tipIdFor(ctx.fctx, path)}
     >
       <span className="field-label">
-        {path.startsWith(COMPANION_PREFIX)
+        {path.startsWith(`${COMPANION_PREFIX}.`)
           ? `Flight model ${entry.label.toLowerCase()}`
           : entry.label}
       </span>
@@ -267,7 +166,7 @@ function RefByGroup({ doc, group: g }: { doc: RecordDoc; group: RefGroup }) {
       <h3 className="subgroup-title">
         {info?.label ?? g.series}
         <span className="refby-path">
-          {g.path === "carriers" ? (
+          {g.via ? (
             g.label
           ) : (
             <>
@@ -330,64 +229,31 @@ type Readout = {
   stored?: string | null;
 };
 
-/**
- * The key figures under a record's title: the series' hinted paths, else its first top-level
- * numbers with a unit. `#path` counts an array; a list of ranges reads as its coverage.
- * Only figures with a value; fewer than two make no strip (`[]`).
- */
-function readoutsFor(doc: RecordDoc, ctx: RenderCtx): Readout[] {
-  const { catalog, vctx } = ctx;
-  const paths =
-    displayFor(doc.series).readouts ??
-    Object.values(catalog.entries)
-      .filter(
-        (e) =>
-          e.kind === "number" &&
-          e.unit &&
-          !e.path.includes(".") &&
-          typeof doc.data[e.name] === "number",
-      )
-      .slice(0, 4)
-      .map((e) => e.path);
-  const at = (path: string) =>
-    path.startsWith(`${COMPANION_PREFIX}.`)
-      ? getPath(doc.companion, path.slice(COMPANION_PREFIX.length + 1))
-      : getPath(doc.data, path);
-  const items = paths.flatMap((spec): Readout[] => {
-    const count = spec.startsWith("#");
-    const path = count ? spec.slice(1) : spec;
-    const entry = catalog.entries[path];
-    const value = at(path);
-    if (!entry || value === undefined || value === null) return [];
-    if (count) {
-      return Array.isArray(value) && value.length
-        ? [{ path: spec, label: entry.label, entry: null, value, text: value.length }]
-        : [];
-    }
-    if (entry.kind === "records" && Array.isArray(value)) {
-      const list = rangeListOf(ctx, entry, path);
-      const text = list && coverageText(list.pair, value.filter(isRecord), vctx.system);
-      return text ? [{ path, label: "Coverage", entry: null, value, text }] : [];
-    }
-    if (typeof value === "number" && entry.kind === "number") {
-      const f = formatWithUnit(value, entry.unit, vctx.system, entry.name);
-      const text = (
-        <>
-          {f.text}
-          {f.unit ? (
-            <span className="unit">
-              {unitGap(f.unit)}
-              {f.unit}
-            </span>
-          ) : null}
-        </>
-      );
-      return [{ path, label: entry.label, entry, value, text, stored: f.stored }];
-    }
-    const plain = plainValue(entry, value, vctx);
-    return plain ? [{ path, label: entry.label, entry, value, text: plain }] : [];
-  });
-  return items.length >= 2 ? items : [];
+/** The strip's figures as display text. */
+function readoutOf(item: StripItem, vctx: ValueContext): Readout {
+  const { path, entry, value } = item;
+  if (item.show === "count") {
+    return { path, label: entry.label, entry: null, value, text: item.value.length };
+  }
+  if (item.show === "coverage") {
+    return { path, label: "Coverage", entry: null, value, text: item.text };
+  }
+  if (typeof value === "number") {
+    const f = formatWithUnit(value, entry, vctx.system);
+    const text = (
+      <>
+        {f.text}
+        {f.unit ? (
+          <span className="unit">
+            {unitGap(f.unit)}
+            {f.unit}
+          </span>
+        ) : null}
+      </>
+    );
+    return { path, label: entry.label, entry, value, text, stored: f.stored };
+  }
+  return { path, label: entry.label, entry, value, text: plainValue(entry, value, vctx) };
 }
 
 function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
@@ -419,8 +285,12 @@ function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
   );
 }
 
-/** A record page of any series, rendered from its catalog (client side, from per-record JSON). */
-export function RecordView({
+/**
+ * A record page of any series, rendered from its catalog (client side, from per-record JSON).
+ * Memoised: its props name the record, so a query-string change elsewhere (the Lua drawer's
+ * `?lua=`) does not re-render it.
+ */
+export const RecordView = memo(function RecordView({
   series,
   slug,
   hint,
@@ -439,27 +309,28 @@ export function RecordView({
     if (title) document.title = `${title} · DCS World Reference`;
   }, [title]);
 
+  const location = useMemo(
+    () => (doc ? locationOf(series, doc.data, doc.name) : null),
+    [doc, series],
+  );
+
   const ctx = useMemo<RenderCtx | null>(() => {
     if (!catalog || !doc) return null;
     const vctx: ValueContext = { enums: catalog.enums, system, links: doc.links };
-    const fctx: FieldContext = { series, slug: doc.slug, recordName: doc.name };
-    return { catalog, vctx, fctx };
-  }, [catalog, doc, system, series]);
-
-  const readouts = useMemo(() => (doc && ctx ? readoutsFor(doc, ctx) : []), [doc, ctx]);
-  const scripting = useScripting(doc);
-  const sections = useMemo(() => {
-    const list = catalog && doc && ctx ? sectionsFor(catalog, doc, ctx, readouts) : [];
-    if (!scripting || !list.length) return list;
-    // Where the data meets the Lua API: right after the Overview, so it is seen.
-    const block: Section = {
-      id: SCRIPTING_ID,
-      title: "Scripting",
-      body: <ScriptingBlock rows={scripting} />,
+    const fctx: FieldContext = {
+      series,
+      slug: doc.slug,
+      recordName: doc.name,
+      hasLocation: location !== null,
     };
-    const at = list.findIndex((s) => s.id === "overview") + 1;
-    return [...list.slice(0, at), block, ...list.slice(at)];
-  }, [catalog, doc, ctx, readouts, scripting]);
+    return { catalog, vctx, fctx };
+  }, [catalog, doc, system, series, location]);
+
+  const placement = useMemo(
+    () => (catalog && doc && ctx ? placeRecord(catalog, doc, ctx.vctx) : null),
+    [catalog, doc, ctx],
+  );
+  const scripting = useScripting(doc);
 
   if (error) {
     return (
@@ -471,21 +342,41 @@ export function RecordView({
       </div>
     );
   }
-  if (!catalog || !doc || !ctx) return <RecordSkeleton series={series} slug={slug} hint={hint} />;
+  if (!catalog || !doc || !ctx || !placement) {
+    return <RecordSkeleton series={series} slug={slug} hint={hint} />;
+  }
+
+  const readouts = placement.strip.map((item) => readoutOf(item, ctx.vctx));
+  const placed = placement.sections.map((section) => ({
+    id: section.id,
+    title: section.title,
+    tag: sectionTag(section),
+    sub: section.companion && section.kind !== "overview",
+    body: <SectionBody section={section} ctx={ctx} />,
+  }));
+  // Where the data meets the Lua API: right after the Overview, so it is seen.
+  const sections =
+    scripting && placed.length
+      ? [
+          ...placed.slice(0, placement.scriptingAt),
+          {
+            id: SCRIPTING_ID,
+            title: "Scripting",
+            tag: null,
+            sub: false,
+            body: <ScriptingBlock rows={scripting} />,
+          },
+          ...placed.slice(placement.scriptingAt),
+        ]
+      : placed;
 
   const chips = metaChips(doc.meta, constantLabel);
   const refCount = doc.referencedBy.reduce((n, g) => n + groupSize(g), 0);
   // The Location figure leads the body (a numbered section): first here too.
   const toc = [
-    ...(locationOf(series, doc.data, doc.name)
-      ? [{ id: LOCATION_ID, title: "Location", flight: false }]
-      : []),
-    ...sections.map((s) => ({
-      id: s.id,
-      title: s.title,
-      flight: s.tag === "flight model" && s.title !== "Flight model",
-    })),
-    ...(refCount ? [{ id: "referenced-by", title: "Referenced by", flight: false }] : []),
+    ...(location ? [{ id: LOCATION_ID, title: "Location", sub: false }] : []),
+    ...sections.map((s) => ({ id: s.id, title: s.title, sub: s.sub })),
+    ...(refCount ? [{ id: "referenced-by", title: "Referenced by", sub: false }] : []),
   ];
 
   return (
@@ -527,13 +418,13 @@ export function RecordView({
         <nav className="toc" aria-label="On this page">
           <span className="toc-title">On this page</span>
           {toc.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className={s.flight ? "toc-sub" : undefined}>
+            <a key={s.id} href={`#${s.id}`} className={s.sub ? "toc-sub" : undefined}>
               {s.title}
             </a>
           ))}
         </nav>
         <div className="record-body">
-          <LocationFigure doc={doc} />
+          {location ? <LocationFigure key={`${series}/${doc.id}`} location={location} /> : null}
           {sections.map((section) => (
             <section
               key={section.id}
@@ -544,9 +435,7 @@ export function RecordView({
               <div className="section-head">
                 <h2 id={`${section.id}-h`}>
                   {section.title}
-                  {section.tag && section.tag !== section.title.toLowerCase() ? (
-                    <span className="section-tag">{section.tag}</span>
-                  ) : null}
+                  {section.tag ? <span className="section-tag">{section.tag}</span> : null}
                 </h2>
               </div>
               {section.body}
@@ -566,4 +455,4 @@ export function RecordView({
       </div>
     </div>
   );
-}
+});

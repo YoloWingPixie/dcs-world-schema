@@ -1,8 +1,8 @@
 "use client";
 
 import "@/styles/map.css";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { loadRecord } from "@/lib/client-data";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { loadBeaconRows } from "@/lib/client-data";
 import {
   beaconPoint,
   decimal,
@@ -11,10 +11,8 @@ import {
   googleUrl,
   LOCATION_ID,
   type Location,
-  locationOf,
   osmUrl,
 } from "@/lib/geo";
-import type { RecordDoc } from "@/lib/types";
 
 /** Leaflet and its stylesheet: fetched only once the figure nears the viewport. */
 const LeafletMap = lazy(() => import("./location-map-leaflet"));
@@ -55,13 +53,17 @@ function useBeacons(loc: Location, near: boolean): Beacons {
     if (!near || !ids.length) return;
     let live = true;
     setB({ state: "loading", points: [] });
-    Promise.allSettled(ids.map((id) => loadRecord("beacons", id))).then((all) => {
-      if (!live) return;
-      const points = all.flatMap((r, i) =>
-        r.status === "fulfilled" ? (beaconPoint(r.value.data, kind, ids[i] ?? "") ?? []) : [],
-      );
-      setB({ state: "done", points });
-    });
+    loadBeaconRows(ids).then(
+      (rows) => {
+        if (!live) return;
+        const points = ids.flatMap((id) => {
+          const row = rows.get(id);
+          return row ? (beaconPoint(row, kind, id) ?? []) : [];
+        });
+        setB({ state: "done", points });
+      },
+      () => live && setB({ state: "done", points: [] }),
+    );
     return () => {
       live = false;
     };
@@ -116,7 +118,13 @@ function Legend({ loc, beacons }: { loc: Location; beacons: GeoPoint[] }) {
   );
 }
 
-function LocationSection({ loc }: { loc: Location }) {
+/**
+ * The "Location" section of a record page: a map figure of the record's latitude/longitude
+ * (an airbase's runways and stands, a navaid's transmitters) and its coordinates with links
+ * out. record-view renders it for a record with a location (lib/geo `locationOf`). Leaflet
+ * and the tiles load on approach.
+ */
+export function LocationFigure({ location: loc }: { location: Location }) {
   const [ref, near] = useNear<HTMLDivElement>();
   const beacons = useBeacons(loc, near);
   const own = loc.beaconsArePoints ? [...loc.points, ...beacons.points] : loc.points;
@@ -160,15 +168,4 @@ function MapPending({ text }: { text?: string | undefined }) {
       {text ?? <span className="visually-hidden">Loading map…</span>}
     </div>
   );
-}
-
-/**
- * The "Location" section of a record page: a map figure of the record's latitude/longitude
- * (an airbase's runways and stands, a navaid's transmitters) and its coordinates with links
- * out. Nothing when the record has no position. Leaflet and the tiles load on approach.
- */
-export function LocationFigure({ doc }: { doc: RecordDoc }) {
-  const loc = useMemo(() => locationOf(doc.series, doc.data, doc.name), [doc]);
-  if (!loc) return null;
-  return <LocationSection key={`${doc.series}/${doc.id}`} loc={loc} />;
 }

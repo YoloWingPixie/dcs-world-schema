@@ -48,7 +48,10 @@ export function stripUnitSuffix(name: string): string {
 
 export type UnitSystem = "metric" | "imperial";
 
-type Conversion = { to: string; factor: number };
+export type Conversion = { to: string; factor: number };
+
+/** How a field displays in each system; null keeps the stored unit. */
+export type UnitConversions = { metric: Conversion | null; imperial: Conversion | null };
 
 /**
  * Radians read as degrees in both systems (the schema stores what DCS stores; nobody
@@ -77,24 +80,61 @@ const RANGE_M: Conversion = { to: "nm", factor: 1 / 1852 };
 /** Vertical speeds in m/s read as ft/min. */
 const VERTICAL_MS: Conversion = { to: "ft/min", factor: 196.8503937 };
 
+const NO_CONVERSIONS: UnitConversions = { metric: null, imperial: null };
+
 /**
- * The conversion for a stored unit, if any. `name` (the field name) refines metres:
- * ranges and distances go to nm, other lengths (altitudes, dimensions) to ft.
+ * The display conversions of a field with stored `unit`, resolved once per catalog entry
+ * (lib/catalog.ts). `name` (the field name) refines metres and metres per second: ranges and
+ * distances go to nm, other lengths (altitudes, dimensions) to ft; vertical speeds to ft/min.
  */
-export function conversionFor(
-  unit: string | null,
-  system: UnitSystem,
-  name?: string,
-): Conversion | null {
-  if (!unit) return null;
+export function resolveConversions(unit: string | null, name = ""): UnitConversions {
+  if (!unit) return NO_CONVERSIONS;
   const angle = ANGLES[unit];
-  if (angle) return angle;
-  if (system === "metric") return null;
-  if (unit === "m" && name && /range|distance/i.test(name) && !/altitude/i.test(name)) {
-    return RANGE_M;
+  if (angle) return { metric: angle, imperial: angle };
+  let imperial = IMPERIAL[unit] ?? null;
+  if (unit === "m" && /range|distance/i.test(name) && !/altitude/i.test(name)) imperial = RANGE_M;
+  if (unit === "m/s" && /climb|vertical|vy\b|sinkrate/i.test(name)) imperial = VERTICAL_MS;
+  return imperial ? { metric: null, imperial } : NO_CONVERSIONS;
+}
+
+/**
+ * What formatting reads of a field: its stored unit and the conversions the catalog resolved
+ * for it (a catalog entry is one). A bare unit string formats with that unit's own conversions.
+ */
+export type UnitField = {
+  unit: string | null;
+  conversions?: UnitConversions | undefined;
+  name?: string | undefined;
+};
+export type UnitSource = UnitField | string | null | undefined;
+
+const resolved = new Map<string, UnitConversions>();
+
+function resolvedFor(unit: string | null, name = ""): UnitConversions {
+  const key = `${unit}\u0000${name}`;
+  let hit = resolved.get(key);
+  if (!hit) {
+    hit = resolveConversions(unit, name);
+    resolved.set(key, hit);
   }
-  if (unit === "m/s" && name && /climb|vertical|vy\b|sinkrate/i.test(name)) return VERTICAL_MS;
-  return IMPERIAL[unit] ?? null;
+  return hit;
+}
+
+/** The stored unit of `field`. */
+export const unitOf = (field: UnitSource): string | null =>
+  typeof field === "object" && field !== null ? field.unit : (field ?? null);
+
+/** `field`'s conversions: an entry's own, else resolved from its unit (and name). */
+function conversionsOf(field: UnitSource): UnitConversions {
+  if (typeof field === "object" && field !== null) {
+    return field.conversions ?? resolvedFor(field.unit, field.name);
+  }
+  return resolvedFor(field ?? null);
+}
+
+/** The conversion of `field` in `system`, if any. */
+export function conversionFor(field: UnitSource, system: UnitSystem): Conversion | null {
+  return conversionsOf(field)[system];
 }
 
 /** Keeps `sig` significant digits (no 12-decimal tails after converting). */
@@ -112,35 +152,27 @@ export type Converted = { value: number; unit: string | null; converted: boolean
  * A "radians" value no angle can have (beyond a full turn): a DCS sentinel such as the
  * MANPADS' `reloadAngleY = -100` ("no reload pose"). It shows raw, never as degrees.
  */
-export function isSentinelAngle(value: number, unit: string | null): boolean {
-  return unit === "rad" && Math.abs(value) > 2 * Math.PI + 1e-9;
+export function isSentinelAngle(value: number, field: UnitSource): boolean {
+  return unitOf(field) === "rad" && Math.abs(value) > 2 * Math.PI + 1e-9;
 }
 
-/** Display value in the chosen system (radians become degrees in both); `unitNotStated` fields never convert. */
-export function convertValue(
-  value: number,
-  unit: string | null,
-  system: UnitSystem,
-  name?: string,
-): Converted {
+/** Display value in the chosen system (radians become degrees in both). */
+export function convertValue(value: number, field: UnitSource, system: UnitSystem): Converted {
+  const unit = unitOf(field);
   if (isSentinelAngle(value, unit)) return { value, unit, converted: false };
-  const c = conversionFor(unit, system, name);
+  const c = conversionFor(field, system);
   if (!c) return { value, unit, converted: false };
   return { value: roundSignificant(value * c.factor, 4), unit: c.to, converted: true };
 }
 
 /** The unit a field displays in under `system`. */
-export function displayUnit(unit: string | null, system: UnitSystem, name?: string) {
-  return conversionFor(unit, system, name)?.to ?? unit;
+export function displayUnit(field: UnitSource, system: UnitSystem) {
+  return conversionFor(field, system)?.to ?? unitOf(field);
 }
 
 /** A column or axis label with its display unit: `Mass (lb)`; `label` alone without a unit. */
-export function unitLabel(
-  label: string,
-  entry: { unit: string | null; name?: string } | undefined,
-  system: UnitSystem,
-): string {
-  const unit = entry ? displayUnit(entry.unit, system, entry.name) : null;
+export function unitLabel(label: string, entry: UnitField | undefined, system: UnitSystem): string {
+  const unit = entry ? displayUnit(entry, system) : null;
   return unit ? `${label} (${unit})` : label;
 }
 
@@ -176,16 +208,17 @@ export function withUnit(text: string, unit: string | null): string {
   return unit ? `${text}${unitGap(unit)}${unit}` : text;
 }
 
+/** A number of `field` (a catalog entry, or a bare unit) for display in `system`. */
 export function formatWithUnit(
   value: number,
-  unit: string | null,
+  field: UnitSource,
   system: UnitSystem = "metric",
-  name?: string,
 ): FormattedValue {
+  const unit = unitOf(field);
   if (unit === "Mach") {
     return { text: `Mach ${formatNumber(value)}`, unit: null, stored: null };
   }
-  const c = convertValue(value, unit, system, name);
+  const c = convertValue(value, field, system);
   return {
     text: formatNumber(c.value),
     unit: c.unit,
@@ -196,21 +229,19 @@ export function formatWithUnit(
 /** The stored value with its unit ("0.3491 rad"), when the display converts it; else null. */
 export function formatStored(
   value: number,
-  unit: string | null,
+  field: UnitSource,
   system: UnitSystem = "metric",
-  name?: string,
 ): string | null {
-  if (isSentinelAngle(value, unit)) return null;
-  return conversionFor(unit, system, name) ? withUnit(formatNumber(value), unit) : null;
+  if (isSentinelAngle(value, field)) return null;
+  return conversionFor(field, system) ? withUnit(formatNumber(value), unitOf(field)) : null;
 }
 
 export function formatPlain(
   value: number,
-  unit: string | null,
+  field: UnitSource,
   system: UnitSystem = "metric",
-  name?: string,
 ): string {
-  const f = formatWithUnit(value, unit, system, name);
+  const f = formatWithUnit(value, field, system);
   return withUnit(f.text, f.unit);
 }
 

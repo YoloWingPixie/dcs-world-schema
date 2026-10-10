@@ -11,6 +11,7 @@ import { buildSeriesCatalog, COMPANION_PREFIX, humanize, isRecord, valuesAt } fr
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
 import { displayFor } from "../series-display";
+import { naturalCompare } from "../text";
 import {
   type CatalogEntry,
   type Facet,
@@ -76,12 +77,12 @@ function firstSentence(text: string): string {
 // Model
 
 export async function loadModel(q: Query): Promise<Model> {
-  const [metaRows, seriesRows, typeRows, refRows] = [
-    await q("SELECT key, value FROM meta"),
-    await q("SELECT name, type_name, key_column, records FROM series ORDER BY rowid"),
-    await q("SELECT name, definition FROM schema_types"),
-    await q("SELECT table_name, series, path, target, source_column, target_column FROM ref_paths"),
-  ];
+  const [metaRows, seriesRows, typeRows, refRows] = await Promise.all([
+    q("SELECT key, value FROM meta"),
+    q("SELECT name, type_name, key_column, records FROM series ORDER BY rowid"),
+    q("SELECT name, definition FROM schema_types"),
+    q("SELECT table_name, series, path, target, source_column, target_column FROM ref_paths"),
+  ]);
   const meta = Object.fromEntries(metaRows.map((r) => [String(r.key), String(r.value)]));
   const types = schemaTypesFromRows(
     typeRows.map((r) => ({ name: String(r.name), definition: String(r.definition) })),
@@ -293,7 +294,7 @@ type RecordView = {
 
 const missingTable = (error: unknown) => /no such table/i.test(String(error));
 
-const byName = (a: LinkTarget, b: LinkTarget) => a[1].localeCompare(b[1], "en", { numeric: true });
+const byName = (a: LinkTarget, b: LinkTarget) => naturalCompare(a[1], b[1]);
 
 function referencedLabel(model: Model, series: string, path: string, via?: string): string {
   if (via) return `via ${model.byId.get(via)?.label.toLowerCase() ?? via}`;
@@ -335,6 +336,7 @@ export async function getRecord(
       path: g.path,
       label: referencedLabel(model, g.series, g.path, g.via),
       records: [...g.records].sort(byName),
+      ...(g.via ? { via: g.via } : {}),
       ...(g.total > g.records.length ? { total: g.total } : {}),
     })),
   });
@@ -350,18 +352,19 @@ async function distinguishLinks(q: Query, model: Model, doc: RecordDoc): Promise
     const s = model.byId.get(series);
     const out = new Map<string, string>();
     if (!rule || !s || !ids.length) return out;
+    const columns = [s.keyColumn, ...rule.columns.filter((c) => c !== s.keyColumn)];
     const rows = await q(
-      `SELECT * FROM ${qi(series)} WHERE ${qi(s.keyColumn)} IN (${ids.map(() => "?").join(",")})`,
+      `SELECT ${columns.map(qi).join(", ")} FROM ${qi(series)} WHERE ${qi(s.keyColumn)} IN (${ids.map(() => "?").join(",")})`,
       ids,
     );
     for (const row of rows) {
-      const detail = rule(row);
+      const detail = rule.detail(row);
       if (detail) out.set(String(row[s.keyColumn]), detail);
     }
     return out;
   };
   const nameOf = (v: LinkTarget | string) => (typeof v === "string" ? v : v[1]);
-  for (const [series, map] of Object.entries(doc.links)) {
+  const links = Object.entries(doc.links).map(async ([series, map]) => {
     const found = await details(
       series,
       collidingIds(Object.entries(map).map(([id, v]) => [id, nameOf(v)])),
@@ -371,16 +374,34 @@ async function distinguishLinks(q: Query, model: Model, doc: RecordDoc): Promise
       if (v === undefined) continue;
       map[id] = typeof v === "string" ? withDetail(v, detail) : [v[0], withDetail(v[1], detail)];
     }
-  }
-  for (const group of doc.referencedBy) {
+  });
+  const groups = doc.referencedBy.map(async (group) => {
     const found = await details(group.series, collidingIds(group.records));
-    if (!found.size) continue;
+    if (!found.size) return;
     group.records = group.records.map(([id, name]) => [
       id,
       withDetail(name, found.get(id) ?? null),
     ]);
-  }
+  });
+  await Promise.all([...links, ...groups]);
   return doc;
+}
+
+/**
+ * Beacon rows by id, with the columns a map point reads (lib/geo `beaconPoint`): the
+ * positions of an airbase's beacons or a navaid's transmitters in one statement.
+ */
+export async function getBeaconRows(q: Query, ids: string[]): Promise<Map<string, Row>> {
+  const out = new Map<string, Row>();
+  for (let i = 0; i < ids.length; i += 300) {
+    const chunk = ids.slice(i, i + 300);
+    const rows = await q(
+      `SELECT id, latitude, longitude, typeName, callsign FROM beacons WHERE id IN (${chunk.map(() => "?").join(",")})`,
+      chunk,
+    );
+    for (const r of rows) out.set(String(r.id), r);
+  }
+  return out;
 }
 
 async function getRecordByQueries(
@@ -516,22 +537,21 @@ export async function referencedBy(
   const toRecords = (series: string, ids: Set<string>) =>
     [...ids]
       .map((i) => [i, names.get(series)?.get(i) ?? i] as [string, string])
-      .sort((a, b) => a[1].localeCompare(b[1], "en", { numeric: true }));
-  const labelOf = (series: string, path: string) =>
-    catalogFor(model, series).entries[path]?.label ?? humanize(path.split(".").pop() ?? path);
+      .sort((a, b) => naturalCompare(a[1], b[1]));
 
   return [
     ...[...groups.values()].map((g) => ({
       series: g.series,
       path: g.path,
-      label: labelOf(g.series, g.path),
+      label: referencedLabel(model, g.series, g.path),
       records: toRecords(g.series, g.ids),
     })),
     ...[...hops.values()].map((h) => ({
       series: h.series,
       path: `via:${h.via}`,
-      label: `via ${model.byId.get(h.via)?.label.toLowerCase() ?? h.via}`,
+      label: referencedLabel(model, h.series, h.path, h.via),
       records: toRecords(h.series, h.ids),
+      via: h.via,
     })),
   ];
 }
@@ -631,9 +651,21 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
       (r) =>
         typeof r[c.name] === "string" && /\.(png|dds|lua|edm|jpg|tga)$/i.test(String(r[c.name])),
     );
-  const coverage = (c: CatalogEntry) => rows.filter((r) => r[c.name] !== null).length;
-  const distinct = (c: CatalogEntry) =>
-    new Set(rows.map((r) => r[c.name]).filter((v) => v !== null)).size;
+  // Filled and distinct values per column, counted once.
+  const stats = new Map<string, { filled: number; distinct: number }>();
+  for (const c of columns) {
+    const seen = new Set<unknown>();
+    let filled = 0;
+    for (const r of rows) {
+      const v = r[c.name];
+      if (v === null) continue;
+      filled++;
+      seen.add(v);
+    }
+    stats.set(c.name, { filled, distinct: seen.size });
+  }
+  const coverage = (c: CatalogEntry) => stats.get(c.name)?.filled ?? 0;
+  const distinct = (c: CatalogEntry) => stats.get(c.name)?.distinct ?? 0;
   const skipNames = /^(displayName|name|id)$/;
   // Configured paths (lib/series-display) win over the heuristics below.
   const display = displayFor(series);
@@ -682,7 +714,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
       }),
     ] as SeriesIndex["rows"][number];
   });
-  decoded.sort((a, b) => a[1].localeCompare(b[1], "en", { numeric: true }));
+  decoded.sort((a, b) => naturalCompare(a[1], b[1]));
 
   const facetList: Facet[] = facets.map((c) => ({
     path: c.path,
@@ -770,13 +802,8 @@ export async function getFieldValues(
     const rows = await q(
       `SELECT ${qi(table.keyColumn)} AS k, ${qi(column)} AS v FROM ${qi(table.id)} WHERE ${qi(column)} IS NOT NULL`,
     );
-    for (const r of rows) {
-      const decoded = decodeRow(
-        { v: r.v },
-        { ...catalog, entries: { v: { ...entry, name: "v", path: "v" } } },
-      );
-      values[String(r.k)] = decoded.v;
-    }
+    const asV = { ...catalog, entries: { v: { ...entry, name: "v", path: "v" } } };
+    for (const r of rows) values[String(r.k)] = decodeRow({ v: r.v }, asV).v;
     return { path, values };
   }
   if (simple) {
@@ -891,15 +918,31 @@ export function ftsQuery(query: string): string | null {
   return words.length > 1 ? `(${all}) OR "${squashed}"*` : all;
 }
 
-export async function searchReference(q: Query, query: string, limit = 120): Promise<SearchHit[]> {
+/** Rows read per search and side: records, and API symbols (`api` rows of `search`). */
+export const SEARCH_TOP = { records: 150, api: 40 };
+
+/**
+ * The best rows of the `search` table, ranked per side (records, API symbols) so neither
+ * crowds out the other, best first. Ranking reads only the FTS index and the API rows'
+ * entries in the (series, id, name) index; the `search` rows are joined for the kept ones
+ * only. The reference and API providers filter the same statement, so with a shared
+ * cache one MATCH serves both.
+ */
+export async function searchTop(q: Query, query: string): Promise<SearchHit[]> {
   const match = ftsQuery(query);
   if (!match) return [];
   const rows = await q(
-    `SELECT s.series AS series, s.id AS id, s.name AS name, s.subtitle AS subtitle,
-            bm25(search_fts, 8.0, 2.0, 1.0) AS score
-       FROM search_fts JOIN search s ON s.rowid = search_fts.rowid
-      WHERE search_fts MATCH ? AND s.series <> 'api' ORDER BY score LIMIT ?`,
-    [match, limit],
+    `WITH hits AS (
+       SELECT rowid AS r, bm25(search_fts, 8.0, 2.0, 1.0) AS score,
+              rowid IN (SELECT rowid FROM search WHERE series = 'api') AS api
+         FROM search_fts WHERE search_fts MATCH ?),
+     ranked AS (
+       SELECT r, score, api, ROW_NUMBER() OVER (PARTITION BY api ORDER BY score) AS n FROM hits)
+     SELECT s.series AS series, s.id AS id, s.name AS name, s.subtitle AS subtitle, h.score AS score
+       FROM ranked h JOIN search s ON s.rowid = h.r
+      WHERE h.n <= CASE WHEN h.api THEN ? ELSE ? END
+      ORDER BY h.score`,
+    [match, SEARCH_TOP.api, SEARCH_TOP.records],
   );
   return rows.map((r) => ({
     series: String(r.series),
@@ -908,4 +951,9 @@ export async function searchReference(q: Query, query: string, limit = 120): Pro
     subtitle: String(r.subtitle ?? ""),
     score: -Number(r.score ?? 0),
   }));
+}
+
+/** Reference records among the top search rows (API symbols left out). */
+export async function searchReference(q: Query, query: string, limit = 120): Promise<SearchHit[]> {
+  return (await searchTop(q, query)).filter((h) => h.series !== "api").slice(0, limit);
 }

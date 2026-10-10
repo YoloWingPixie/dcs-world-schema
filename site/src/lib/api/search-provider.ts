@@ -1,6 +1,6 @@
 "use client";
 
-import { browserQuery } from "../db/browser";
+import { searchQuery, transientQuery } from "../db/browser";
 import type { SearchProvider, SourceHits } from "../search/types";
 import { squash } from "../text";
 import { loadApiOverlays } from "./client";
@@ -18,7 +18,7 @@ export const API_PROVIDER: SearchProvider = {
   },
   search: async (query, limit) => {
     const [hits, overlays] = await Promise.all([
-      searchApi(browserQuery, query, Math.max(limit * 2, 20)),
+      searchApi(searchQuery, query, Math.max(limit * 2, 20)),
       loadApiOverlays(),
     ]);
     const group: SourceHits = { source: { id: "api", label: "Lua API", weight: 1.2 }, results: [] };
@@ -32,7 +32,7 @@ export const API_PROVIDER: SearchProvider = {
       .map(([symbol]) => symbol);
     const top = hits[0]?.score ?? 1;
     if (overlayHits.length) {
-      const hrefs = await resolveSymbols(browserQuery, overlayHits);
+      const hrefs = await resolveSymbols(transientQuery, overlayHits);
       for (const [path, href] of hrefs) {
         if (hits.some((h) => h.href === href)) continue;
         hits.push({ href, path, subtitle: "Note", score: top * 0.5 });

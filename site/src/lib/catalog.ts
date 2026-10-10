@@ -7,7 +7,7 @@ import { isRecord, type Json } from "./json";
 import { seriesForRef } from "./series";
 import { capitalise } from "./text";
 import type { CatalogEntry, EnumInfo, FieldKind, SeriesCatalog } from "./types";
-import { stripUnitSuffix, unitFor } from "./units";
+import { resolveConversions, stripUnitSuffix, unitFor } from "./units";
 
 /** The subset of a schema YAML file the catalog reads. */
 export type SchemaField = { type: string; description?: string; ref?: string };
@@ -23,14 +23,29 @@ export type SchemaTypes = Record<string, SchemaType>;
 /** The prefix companion-series fields take on the parent's page and in field paths. */
 export const COMPANION_PREFIX = "flight";
 
-/** Bookkeeping, not reference data. */
+/** Bookkeeping, not reference data: the per-field provenance map (read as data, for tooltips). */
 const SKIP = new Set(["_source"]);
 
+/**
+ * The schema does not mark these; the names below are the only input to the catalog's
+ * marks (`role`, `keyField`, `axis`, `step`, `titleFields`, `countFields`), which renderers read.
+ */
+
+/** Where the record was read from in the DCS Lua dump: the `provenance` role. */
+const PROVENANCE = new Set(["sourcePaths", "sourcePath"]);
+
 /** Arrays of records addressed by a key field (`flight.motorStages.march.impulseS`). */
-export const KEYED_ARRAYS: Record<string, string> = { motorStages: "stage" };
+const KEYED_ARRAYS: Record<string, string> = { motorStages: "stage" };
 
 /** Numeric columns that index the other columns of a table (`table[].mach`). */
 const AXIS_COLUMNS = ["mach"];
+
+/** A Mach-sampled coefficient's step: its record's `machStep`, else DCS's default. */
+const MACH_STEP = { field: "machStep", fallback: 0.2 };
+
+/** Item fields that name a list item (`ammoName`), and counts shown beside it (`ammoCapacity`). */
+const TITLE_FIELD = /Name$/;
+const COUNT_FIELD = /capacity$/i;
 
 /** Labels the field name alone does not make readable. */
 const LABELS: Record<string, string> = {
@@ -234,9 +249,14 @@ function addField(
     extra.recordType = base;
     const keyField = KEYED_ARRAYS[name];
     if (keyField) extra.keyField = keyField;
-    const columns = Object.keys(types[base]?.fields ?? {});
-    const axis = AXIS_COLUMNS.find((c) => columns.includes(c));
+    const fields = Object.entries(types[base]?.fields ?? {});
+    const axis = AXIS_COLUMNS.find((c) => fields.some(([n]) => n === c));
     if (axis) extra.axis = axis;
+    // Envelopes: two number[] axes and number[][] grids per item.
+    const axes = fields.filter(([, f]) => f.type === "number[]");
+    const grids = fields.filter(([, f]) => f.type === "number[][]");
+    if (axes.length >= 2 && grids.length) extra.layout = "envelope";
+    else if (axis && !keyField) extra.layout = "axis-table";
   } else if (types[base]?.kind === "array" || (depth >= 1 && isRecordType(types, base))) {
     kind = "matrix";
   } else if (enumTypesOf(types, type).length && depth === 0) {
@@ -260,14 +280,18 @@ function addField(
   else if (type === "boolean") kind = "boolean";
   else if (type === "number[]") {
     kind = "numbers";
-    if (/per Mach sample/i.test(description)) extra.axis = "mach";
+    if (/per Mach sample/i.test(description)) {
+      extra.axis = "mach";
+      extra.step = { ...MACH_STEP };
+    }
   } else if (type === "string[]") kind = "strings";
   else if (type === "number[][]") kind = "grid";
   else kind = "any";
 
+  if (PROVENANCE.has(name)) extra.role = "provenance";
   const comparable =
     !insideArray &&
-    !/^sourcePaths?$/.test(name) &&
+    !extra.role &&
     (kind === "number" ||
       kind === "string" ||
       kind === "boolean" ||
@@ -276,6 +300,7 @@ function addField(
       kind === "numbers" ||
       (kind === "strings" && Boolean(extra.ref)));
 
+  const withUnit = kind === "number" || kind === "numbers" || kind === "grid" || kind === "matrix";
   const label =
     kind === "numbers" && extra.axis === "mach"
       ? labelFromDescription(description)
@@ -287,8 +312,8 @@ function addField(
     label,
     type,
     kind,
-    unit:
-      kind === "number" || kind === "numbers" || kind === "grid" || kind === "matrix" ? unit : null,
+    unit: withUnit ? unit : null,
+    ...(withUnit && unit ? { conversions: resolveConversions(unit, name) } : {}),
     unitNotStated,
     description,
     dcsKey: dcsKeyFromDescription(description),
@@ -299,13 +324,23 @@ function addField(
 
   if (kind === "record") walkType(w, base, path, insideArray, unit);
   if (kind === "records") {
-    if (extra.keyField) walkType(w, base, `${path}.*`, insideArray);
-    else walkType(w, base, `${path}[]`, true);
-    // Envelopes (two number[] axes and number[][] grids): each grid compares as a surface.
+    const item = extra.keyField ? `${path}.*` : `${path}[]`;
+    walkType(w, base, item, insideArray || !extra.keyField);
     const fields = Object.entries(types[base]?.fields ?? {});
-    const axes = fields.filter(([, f]) => f.type === "number[]").map(([n]) => n);
-    const grids = fields.filter(([, f]) => f.type === "number[][]").map(([n]) => n);
-    if (!insideArray && !extra.keyField && axes.length >= 2 && grids.length) {
+    const entry = w.entries[path] as CatalogEntry;
+    const itemEntry = (n: string) => w.entries[`${item}.${n}`];
+    const titles = fields
+      .map(([n]) => n)
+      .filter((n) => TITLE_FIELD.test(n) && itemEntry(n)?.kind === "string");
+    const counts = fields
+      .map(([n]) => n)
+      .filter((n) => COUNT_FIELD.test(n) && itemEntry(n)?.kind === "number");
+    if (titles.length) entry.titleFields = titles;
+    if (counts.length) entry.countFields = counts;
+    // Envelopes: each grid compares as a surface.
+    if (extra.layout === "envelope" && !insideArray && !extra.keyField) {
+      const axes = fields.filter(([, f]) => f.type === "number[]").map(([n]) => n);
+      const grids = fields.filter(([, f]) => f.type === "number[][]").map(([n]) => n);
       for (const g of grids) {
         const entry = w.entries[`${path}[].${g}`];
         if (!entry) continue;
@@ -462,7 +497,8 @@ export function valuesAt(
     return x.length ? [{ path: entry.path, value: { x, y } }] : [];
   }
   const out: Array<{ path: string; value: unknown }> = [];
-  const walk = (node: unknown, segments: string[], concrete: string[], parent: string) => {
+  // `keyed` is the catalog path walked so far: a `*` reads its array's `keyField`.
+  const walk = (node: unknown, segments: string[], concrete: string[], keyed: string) => {
     if (segments.length === 0) {
       if (node === undefined || node === null) return;
       if (Array.isArray(node) && node.length === 0) return;
@@ -470,20 +506,21 @@ export function valuesAt(
       return;
     }
     const [head, ...tail] = segments as [string, ...string[]];
+    const here = keyed ? `${keyed}.${head}` : head;
     if (head === "*") {
       if (!Array.isArray(node)) return;
-      const keyField = KEYED_ARRAYS[parent] ?? "key";
+      const keyField = catalog.entries[keyed]?.keyField ?? "key";
       for (const item of node) {
         if (!isRecord(item)) continue;
-        walk(item, tail, [...concrete, String(item[keyField])], head);
+        walk(item, tail, [...concrete, String(item[keyField])], here);
       }
       return;
     }
     if (!isRecord(node)) return;
-    walk(node[head], tail, [...concrete, head], head);
+    walk(node[head], tail, [...concrete, head], here);
   };
   const start = prefix ? [prefix.replace(/\.$/, "")] : [];
-  walk(root, rest.split("."), start, "");
+  walk(root, rest.split("."), start, start.join("."));
   return out;
 }
 

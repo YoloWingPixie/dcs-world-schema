@@ -5,10 +5,12 @@ import { BASE_PATH } from "../base-path";
  * What the API pages load: rows of the reference database (range requests, db/browser.ts)
  * merged with the hand-written overlays shipped with the site (public/overlays/api.json).
  */
-import { loadModel, loadSeriesIndex } from "../client-data";
+import { loadModel } from "../client-data";
 import { browserQuery } from "../db/browser";
+import { qi } from "../db/reference";
 import { fetchJsonOr, once } from "../once";
 import { recordHref, SERIES_BY_ID, seriesHref } from "../series";
+import { displayFor } from "../series-display";
 import { applyOverlays, existingRecords, getApiPage, listApiPages, overlayLinks } from "./db";
 import { enumField, namesKey, seriesOfClass } from "./scripting";
 import type { ApiOverlayFile, ApiPage, ApiSection, EnumValue, PageSummary } from "./types";
@@ -57,22 +59,27 @@ async function dataLinks(page: ApiPage): Promise<DataLink[]> {
 /**
  * Values of a fixed enum a record field holds (`Unit.SensorType` in a sensor's `category`):
  * each links to the series' browse page filtered on the constant name the records give for
- * that value (the series' browse rows carry both; lib/api/scripting.ts `namesKey`).
+ * that value (one GROUP BY over the series' table, which holds both; lib/api/scripting.ts
+ * `namesKey`).
  */
 async function facetValues(page: ApiPage): Promise<LoadedApiPage["values"]> {
   const found = enumField(page.name);
-  if (!found?.field.facet || !page.values) return undefined;
+  const facet = found?.field.facet;
+  if (!found || !facet || !page.values) return undefined;
   const { series, field } = found;
-  const index = await loadSeriesIndex(series);
-  const at = (path: string) => index.columns.indexOf(path);
-  const [vi, ni] = [at(field.path), at(field.name)];
-  if (vi < 0 || ni < 0 || !index.facets.some((f) => f.path === field.facet)) return undefined;
+  // The browse page's facets: configured (lib/series-display), shown with two values or more.
+  if (!displayFor(series).facets?.includes(facet)) return undefined;
+  const rows = await browserQuery(
+    `SELECT ${qi(field.path)} AS v, ${qi(field.name)} AS n, count(*) AS c FROM ${qi(series)}
+      WHERE n IS NOT NULL GROUP BY v, n`,
+  );
+  const facetKey = facet === field.name ? "n" : "v";
+  if (new Set(rows.map((r) => r[facetKey])).size < 2) return undefined;
   const names = new Map<unknown, Map<string, number>>();
-  for (const row of index.rows) {
-    const [v, n] = [row[3 + vi], row[3 + ni]];
+  for (const { v, n, c } of rows) {
     if (typeof n !== "string") continue;
     const counts = names.get(v) ?? new Map<string, number>();
-    counts.set(n, (counts.get(n) ?? 0) + 1);
+    counts.set(n, Number(c ?? 0));
     names.set(v, counts);
   }
   const label = SERIES_BY_ID.get(series)?.label.toLowerCase() ?? series;
@@ -81,7 +88,7 @@ async function facetValues(page: ApiPage): Promise<LoadedApiPage["values"]> {
     const [hit] = hits;
     if (hits.length !== 1 || !hit) return v;
     const [name, count] = hit;
-    const qs = new URLSearchParams([[`f.${field.facet}`, name]]);
+    const qs = new URLSearchParams([[`f.${facet}`, name]]);
     return { ...v, href: `${seriesHref(series)}?${qs}`, refLabel: `${count} ${label}` };
   });
 }

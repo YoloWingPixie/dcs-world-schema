@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { collidingIds, frequencyText, LINK_DETAILS, withDetail } from "./link-details";
 
 describe("link details", () => {
-  const beacon = LINK_DETAILS.beacons ?? (() => null);
+  const beacon = LINK_DETAILS.beacons?.detail ?? (() => null);
 
   it("tells same-named beacons apart by type and tuning", () => {
     expect(beacon({ typeName: "BEACON_TYPE_TACAN", channel: 97, frequencyHz: 122500000 })).toBe(

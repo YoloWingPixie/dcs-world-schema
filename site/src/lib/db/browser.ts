@@ -13,7 +13,7 @@
  */
 import { createDbWorker, type WorkerHttpvfs } from "sql.js-httpvfs";
 import { once } from "../once";
-import { CONFIG_URL, WASM_URL, WORKER_URL } from "./boot";
+import { CONFIG_URL, prefetchParts, WASM_URL, WORKER_URL } from "./boot";
 import type { Query, Row } from "./reference";
 
 export { CONFIG_URL };
@@ -86,14 +86,79 @@ function open(): Promise<WorkerHttpvfs> {
   );
 }
 
-/** Statements run one at a time in the worker; results are cached per statement. */
-export const browserQuery: Query = (sql, params = []) =>
-  once(`sql:${sql}\u0000${JSON.stringify(params)}`, () =>
-    open().then(
-      // The worker's query(sql, params) is sql.js exec(sql, params): params as one array.
-      (w) => (w.db.query as (s: string, p: unknown[]) => unknown)(sql, params) as Promise<Row[]>,
-    ),
+/** One statement in the worker (sql.js exec(sql, params): params as one array). */
+const run: Query = (sql, params = []) =>
+  open().then(
+    (w) => (w.db.query as (s: string, p: unknown[]) => unknown)(sql, params) as Promise<Row[]>,
   );
+
+const keyOf = (sql: string, params: unknown[]) => `${sql}\u0000${JSON.stringify(params)}`;
+
+/**
+ * Statements run one at a time in the worker; results are cached per statement for the
+ * page's lifetime. For stable reads (views, a record, a series' names); per-keystroke
+ * statements go through `searchQuery` or `transientQuery`, whose caches are bounded.
+ */
+export const browserQuery: Query = (sql, params = []) =>
+  once(`sql:${keyOf(sql, params)}`, () => run(sql, params));
+
+/** A superseded search, dropped before it reached the worker. */
+export class StaleQueryError extends Error {
+  constructor() {
+    super("Superseded by a newer search");
+    this.name = "StaleQueryError";
+  }
+}
+
+/** The last `size` statements' results (in-flight ones included); failures are not kept. */
+function boundedCache(size: number, load: Query): Query {
+  const recent = new Map<string, Promise<Row[]>>();
+  return (sql, params = []) => {
+    const key = keyOf(sql, params);
+    const hit = recent.get(key);
+    if (hit) {
+      recent.delete(key);
+      recent.set(key, hit);
+      return hit;
+    }
+    const promise = load(sql, params);
+    recent.set(key, promise);
+    promise.catch(() => {
+      if (recent.get(key) === promise) recent.delete(key);
+    });
+    for (const old of recent.keys()) {
+      if (recent.size <= size) break;
+      recent.delete(old);
+    }
+    return promise;
+  };
+}
+
+/** Parameterised lookups that change with the input (alias rows, symbol paths). */
+export const transientQuery: Query = boundedCache(32, run);
+
+// Full-text searches wait for the one before them; one superseded while it waits is
+// dropped, so a slow short query never queues a stale one ahead of the newest.
+let latestSearch = 0;
+let searchTail: Promise<unknown> = Promise.resolve();
+
+/** FTS searches: bounded cache, newest first (identical statements share one run). */
+export const searchQuery: Query = boundedCache(16, (sql, params = []) => {
+  const ticket = ++latestSearch;
+  const result = searchTail.then(() => {
+    if (ticket !== latestSearch) throw new StaleQueryError();
+    return run(sql, params);
+  });
+  searchTail = result.catch(() => undefined);
+  return result;
+});
+
+/** Fetch the search index's database parts (`boot.search`), as /search does at startup. */
+export function prefetchSearchParts(): Promise<void> {
+  return once("prefetch:search", () =>
+    referenceConfig().then((c) => prefetchParts(c, absolute(CONFIG_URL), c.boot?.search ?? [])),
+  );
+}
 
 /** Bytes and requests so far (diagnostics, e2e measurements). */
 export async function databaseStats() {

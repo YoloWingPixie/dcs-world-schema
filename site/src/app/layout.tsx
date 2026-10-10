@@ -19,7 +19,6 @@ import { FieldMenu } from "@/components/field-menu";
 import { SiteHeader } from "@/components/header";
 import { DataVersion } from "@/components/series-directory";
 import { Toaster } from "@/components/toast";
-import { BASE_PATH } from "@/lib/base-path";
 import { bootScript, CONFIG_URL, WASM_URL, WORKER_URL } from "@/lib/db/boot";
 import { UNITS_BOOTSTRAP } from "@/lib/units";
 import { preloadFonts } from "./fonts";
@@ -49,12 +48,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preload" href={CONFIG_URL} as="fetch" crossOrigin="anonymous" />
         <link rel="preload" href={WASM_URL} as="fetch" crossOrigin="anonymous" />
         <link rel="preload" href={WORKER_URL} as="script" />
-        <link
-          rel="preload"
-          href={`${BASE_PATH}/overlays/reference.json`}
-          as="fetch"
-          crossOrigin="anonymous"
-        />
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static database prefetch */}
         <script dangerouslySetInnerHTML={{ __html: bootScript() }} />
       </head>

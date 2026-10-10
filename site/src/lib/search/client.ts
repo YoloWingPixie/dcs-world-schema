@@ -60,6 +60,11 @@ export function warmSearch(sources: SearchSource[] = SEARCH_SOURCES) {
   for (const p of SEARCH_PROVIDERS) p.warm?.();
 }
 
+/** Shorter queries match thousands of rows: too slow over HTTP, too broad to read. */
+export const MIN_QUERY = 3;
+/** Typing pause before a query runs: the worker runs one statement at a time. */
+const DEBOUNCE_MS = 200;
+
 /** Provider results of the latest query (older answers are dropped). */
 function useProviderResults(query: string, enabled: boolean, limit: number) {
   const [state, setState] = useState<{ query: string; groups: SourceHits[]; pending: boolean }>({
@@ -69,7 +74,7 @@ function useProviderResults(query: string, enabled: boolean, limit: number) {
   });
   useEffect(() => {
     const q = query.trim();
-    if (!enabled || q.length < 2) {
+    if (!enabled || q.length < MIN_QUERY) {
       setState({ query: q, groups: [], pending: false });
       return;
     }
@@ -81,7 +86,7 @@ function useProviderResults(query: string, enabled: boolean, limit: number) {
           if (live) setState({ query: q, groups: lists.flat(), pending: false });
         })
         .catch(() => live && setState({ query: q, groups: [], pending: false }));
-    }, 60);
+    }, DEBOUNCE_MS);
     return () => {
       live = false;
       window.clearTimeout(timer);

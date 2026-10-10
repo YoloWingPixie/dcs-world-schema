@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { plainValue, resolveLink, storedValue, type ValueContext } from "@/lib/format-field";
-import { isGeoField, LOCATED_SERIES, LOCATION_ID } from "@/lib/geo";
+import { isGeoField, LOCATION_ID } from "@/lib/geo";
 import { enumDisplay } from "@/lib/names";
 import { recordHref } from "@/lib/series";
 import type { CatalogEntry } from "@/lib/types";
@@ -12,7 +12,13 @@ import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
 
 /** Which record a rendered field belongs to (the field menu reads it from data attributes). */
-export type FieldContext = { series: string; slug: string; recordName: string };
+export type FieldContext = {
+  series: string;
+  slug: string;
+  recordName: string;
+  /** The page shows the record's Location figure: coordinates link to it. */
+  hasLocation?: boolean;
+};
 
 /**
  * Data attributes the field context menu reads (components/field-menu.tsx):
@@ -146,7 +152,7 @@ export function ScalarValue({
     return <>{d.label}</>;
   }
   if (typeof value === "number") {
-    const f = formatWithUnit(value, entry.unit, vctx.system, entry.name);
+    const f = formatWithUnit(value, entry, vctx.system);
     return (
       <>
         {f.text}
@@ -179,7 +185,11 @@ export function ScalarValue({
 export const tipIdFor = (ctx: FieldContext, path: string) =>
   `tip-${ctx.series}-${path.replace(/[^A-Za-z0-9_-]/g, "_")}`;
 
-/** One field row: label (description on hover), value, actions. `body` makes it full width. */
+/**
+ * One field row: label (description on hover), value, actions. A `body` replaces the value
+ * and spans the full width under the label; with `wide` false it takes the value's place on
+ * the label's line instead (a short list of numbers, which renders as a value).
+ */
 export function FieldRow({
   entry,
   path,
@@ -188,6 +198,7 @@ export function FieldRow({
   vctx,
   label,
   body,
+  wide = Boolean(body),
   notes,
   after,
 }: {
@@ -198,6 +209,7 @@ export function FieldRow({
   vctx: ValueContext;
   label?: string;
   body?: ReactNode;
+  wide?: boolean;
   /** Tooltip lines: the code a constant name stands for, the value's provenance. */
   notes?: string[] | undefined;
   /** More beside the value (a range row's second column). */
@@ -208,7 +220,7 @@ export function FieldRow({
   const stored = storedValue(entry, value, vctx.system, vctx.enums);
   return (
     <div
-      className={body ? "field field-interactive field-wide" : "field field-interactive"}
+      className={`field field-interactive${wide ? " field-wide" : body ? " field-list" : ""}`}
       tabIndex={0}
       aria-describedby={tipId}
       aria-keyshortcuts="Shift+F10 C"
@@ -223,9 +235,13 @@ export function FieldRow({
           </span>
         ) : null}
       </span>
-      {body ? null : (
+      {body ? (
+        wide ? null : (
+          body
+        )
+      ) : (
         <span className="field-value">
-          {isGeoField(entry.name) && LOCATED_SERIES.has(ctx.series) ? (
+          {ctx.hasLocation && isGeoField(entry.name) ? (
             <a className="geo-link" href={`#${LOCATION_ID}`}>
               <ScalarValue entry={entry} value={value} vctx={vctx} />
             </a>
@@ -236,7 +252,7 @@ export function FieldRow({
         </span>
       )}
       <MoreButton label={shown} />
-      {body ? <div className="field-body">{body}</div> : null}
+      {body && wide ? <div className="field-body">{body}</div> : null}
       <Description entry={entry} id={tipId} stored={stored} notes={notes} />
     </div>
   );

@@ -31,12 +31,15 @@ export type ScriptingRow = {
 async function symbols(q: Query, paths: string[]) {
   const out = new Map<string, { href: string; call: string }>();
   if (!paths.length) return out;
+  // By path alone, which `api_symbols__path` indexes: with `section = 'mission'` in the
+  // statement SQLite walks the primary key's mission range instead (most of the table).
   const rows = await q(
-    `SELECT page, name, path, entry FROM api_symbols
-      WHERE section = 'mission' AND path IN (${paths.map(() => "?").join(",")})`,
+    `SELECT section, page, name, path, entry FROM api_symbols
+      WHERE path IN (${paths.map(() => "?").join(",")})`,
     paths,
   );
   for (const r of rows) {
+    if (r.section !== "mission") continue;
     const base = apiHref("mission", String(r.page));
     if (r.name === "") {
       out.set(String(r.path), { href: base, call: String(r.page) });
@@ -75,6 +78,59 @@ async function enumPages(q: Query, pages: string[]) {
   return out;
 }
 
+// The API rows a series reads do not depend on the record (but for a theatre's enums):
+// parsed once per page, so the next record of the series has them at hand.
+const memo = new WeakMap<Query, Map<string, { promise: Promise<unknown>; done: boolean }>>();
+
+function cached<T>(q: Query, key: string, load: () => Promise<T>): Promise<T> {
+  let map = memo.get(q);
+  if (!map) {
+    map = new Map();
+    memo.set(q, map);
+  }
+  const hit = map.get(key);
+  if (hit) return hit.promise as Promise<T>;
+  const slot = { promise: load() as Promise<unknown>, done: false };
+  slot.promise.then(
+    () => {
+      slot.done = true;
+    },
+    () => map.delete(key),
+  );
+  map.set(key, slot);
+  return slot.promise as Promise<T>;
+}
+
+/** The API symbols and enum pages a record's Scripting rows read, as memo keys. */
+function lookups(series: string, data: Json) {
+  const spec = SCRIPTING[series];
+  if (!spec) return null;
+  const theatre = typeof data.theatre === "string" ? data.theatre : "";
+  const enumNames = spec.enums
+    .map((e) => (e.includes("{theatre}") ? (theatre ? e.replace("{theatre}", theatre) : "") : e))
+    .filter(Boolean);
+  const valueEnums = (spec.values ?? []).flatMap((v) => v.enums);
+  const members = [
+    ...(spec.member ? [spec.member] : []),
+    ...(spec.fields ?? []).map((f) => f.member),
+    ...(spec.attributes ? ["Object.hasAttribute"] : []),
+  ];
+  const paths = [...(spec.class ? [spec.class] : []), ...members];
+  const pages = [...enumNames, ...valueEnums, ...(spec.attributes ? ["DcsId.Attribute"] : [])];
+  return { spec, enumNames, paths, pages };
+}
+
+const symbolsKey = (paths: string[]) => `symbols:${paths.join("|")}`;
+const pagesKey = (pages: string[]) => `enums:${pages.join("|")}`;
+
+/** Whether a record's Scripting rows can be built without a database read. */
+export function scriptingWarm(q: Query, series: string, data: Json): boolean {
+  const l = lookups(series, data);
+  const map = memo.get(q);
+  if (!l || !map) return false;
+  return Boolean(map.get(symbolsKey(l.paths))?.done && map.get(pagesKey(l.pages))?.done);
+}
+
 const literal = (v: unknown) => (typeof v === "string" ? JSON.stringify(v) : String(v));
 
 const enumLink = (page: string, key: string): ScriptingText => ({
@@ -89,21 +145,12 @@ export async function loadScripting(
   id: string,
   data: Json,
 ): Promise<ScriptingRow[]> {
-  const spec = SCRIPTING[series];
-  if (!spec) return [];
-  const theatre = typeof data.theatre === "string" ? data.theatre : "";
-  const enumNames = spec.enums
-    .map((e) => (e.includes("{theatre}") ? (theatre ? e.replace("{theatre}", theatre) : "") : e))
-    .filter(Boolean);
-  const valueEnums = (spec.values ?? []).flatMap((v) => v.enums);
-  const members = [
-    ...(spec.member ? [spec.member] : []),
-    ...(spec.fields ?? []).map((f) => f.member),
-    ...(spec.attributes ? ["Object.hasAttribute"] : []),
-  ];
+  const l = lookups(series, data);
+  if (!l) return [];
+  const { spec, enumNames } = l;
   const [calls, enums] = await Promise.all([
-    symbols(q, [...(spec.class ? [spec.class] : []), ...members]),
-    enumPages(q, [...enumNames, ...valueEnums, ...(spec.attributes ? ["DcsId.Attribute"] : [])]),
+    cached(q, symbolsKey(l.paths), () => symbols(q, l.paths)),
+    cached(q, pagesKey(l.pages), () => enumPages(q, l.pages)),
   ]);
 
   const rows: ScriptingRow[] = [];

@@ -3,7 +3,7 @@
  * and the `search` rows of series `api`; see tools/package/api_docs.py), with any `Query`:
  * the browser's range-request worker or node:sqlite in tests.
  */
-import { ftsQuery, type Query } from "../db/reference";
+import { type Query, searchTop } from "../db/reference";
 import { squash } from "../text";
 import { apiHref } from "./routes";
 import type { ApiOverlay, ApiOverlayFile, ApiPage, ApiSection, Member, PageSummary } from "./types";
@@ -151,29 +151,16 @@ export async function overlayLinks(q: Query, page: ApiPage): Promise<Map<string,
 
 export type ApiSearchHit = { href: string; path: string; subtitle: string; score: number };
 
-/** FTS over the `search` rows of the API (one MATCH with the reference rows' index). */
+/** FTS over the `search` rows of the API (one MATCH with the reference rows, `searchTop`). */
 export async function searchApi(q: Query, query: string, limit = 40): Promise<ApiSearchHit[]> {
-  const match = ftsQuery(query);
-  if (!match) return [];
-  const rows = await q(
-    `SELECT s.id AS id, s.name AS name, s.subtitle AS subtitle,
-            bm25(search_fts, 8.0, 2.0, 1.0) AS score
-       FROM search_fts JOIN search s ON s.rowid = search_fts.rowid
-      WHERE search_fts MATCH ? AND s.series = ? ORDER BY score LIMIT ?`,
-    [match, API_SERIES, limit],
-  );
+  const rows = (await searchTop(q, query)).filter((h) => h.series === API_SERIES).slice(0, limit);
   const wanted = squash(query);
   return rows
     .map((r) => {
-      const path = String(r.name);
+      const path = r.name;
       const last = path.split(/[.:]/).pop() ?? path;
       const exact = squash(path) === wanted || squash(last) === wanted;
-      return {
-        href: String(r.id),
-        path,
-        subtitle: String(r.subtitle ?? ""),
-        score: -Number(r.score ?? 0) * (exact ? 3 : 1),
-      };
+      return { href: r.id, path, subtitle: r.subtitle, score: r.score * (exact ? 3 : 1) };
     })
     .sort((a, b) => b.score - a.score);
 }

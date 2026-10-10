@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 import { setNavHint } from "@/lib/nav-hints";
-import { useGlobalSearch, warmSearch } from "@/lib/search/client";
+import { MIN_QUERY, useGlobalSearch, warmSearch } from "@/lib/search/client";
 import type { SearchResultItem } from "@/lib/search/types";
 import { SearchIcon } from "@/ui/icons";
 
@@ -232,7 +232,9 @@ export function GlobalSearch({
           {q && results.loading.length && !results.ready ? (
             <div className="results-empty">Loading…</div>
           ) : null}
-          {q && results.ready && rows.length === 0 && results.loading.length === 0 ? (
+          {q && q.length < MIN_QUERY && rows.length === 0 ? (
+            <div className="results-empty">Type {MIN_QUERY} characters or more.</div>
+          ) : q && results.ready && rows.length === 0 && results.loading.length === 0 ? (
             <div className="results-empty">No results for “{query}”.</div>
           ) : null}
           {q && results.loading.length > 0 && results.ready ? (

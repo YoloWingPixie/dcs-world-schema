@@ -1,8 +1,18 @@
 "use client";
 
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { COMPANION_PREFIX } from "@/lib/catalog";
 import { loadRecord } from "@/lib/client-data";
+import { replaceQuery } from "@/lib/history";
 import { luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
 import { useLoaded } from "@/lib/use-loaded";
 import { CodeIcon } from "@/ui/icons";
@@ -31,18 +41,36 @@ function setParam(value: string | null) {
   ]
     .filter(Boolean)
     .join("&");
-  const next = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
-  if (next === `${window.location.pathname}${window.location.search}${window.location.hash}`)
-    return;
-  // The unpatched History method, keeping Next.js's history state: Next.js's own
-  // replaceState would sync its router and re-render the whole record page, and nothing
-  // reads this parameter but the drawer.
-  History.prototype.replaceState.call(window.history, window.history.state, "", next);
+  replaceQuery(query);
+}
+
+// Whether this build has Lua files: one flag for the page, read by every "View Lua" link.
+let luaKnown: boolean | null = null;
+let luaAsked = false;
+const luaListeners = new Set<() => void>();
+
+function subscribeLua(listener: () => void) {
+  luaListeners.add(listener);
+  if (!luaAsked) {
+    luaAsked = true;
+    const settle = (v: boolean) => {
+      luaKnown = v;
+      for (const l of luaListeners) l();
+    };
+    luaAvailable().then(settle, () => settle(false));
+  }
+  return () => {
+    luaListeners.delete(listener);
+  };
 }
 
 /** Whether this build has Lua files (data/lua.json); false until known. */
 export function useLuaAvailable(): boolean {
-  return useLoaded(luaAvailable) ?? false;
+  return useSyncExternalStore(
+    subscribeLua,
+    () => luaKnown ?? false,
+    () => false,
+  );
 }
 
 /**
