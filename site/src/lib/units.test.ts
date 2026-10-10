@@ -1,12 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   convertValue,
+  displayUnit,
   formatNumber,
   formatPlain,
+  formatStored,
   formatWithUnit,
+  isSentinelAngle,
   roundSignificant,
   stripUnitSuffix,
   unitFor,
+  unitGap,
+  withUnit,
 } from "./units";
 
 describe("units from field-name suffixes", () => {
@@ -41,12 +46,6 @@ describe("number formatting", () => {
     expect(formatNumber(4)).toBe("4");
   });
 
-  it("adds degrees beside radians", () => {
-    const f = formatWithUnit(Math.PI / 9, "rad");
-    expect(f.text).toBe("0.3491");
-    expect(f.secondary).toBe("20°");
-  });
-
   it("writes plain strings with units", () => {
     expect(formatPlain(161.48, "kg")).toBe("161.48 kg");
     expect(formatPlain(60, "°")).toBe("60°");
@@ -71,8 +70,8 @@ describe("metric / imperial conversion", () => {
     expect(imp(100, "kgf")).toMatchObject({ unit: "lbf", value: 220.5 });
   });
 
-  it("never converts angles, time, Mach, g, frequencies, calibres or unknown units", () => {
-    for (const unit of ["°", "rad", "s", "Mach", "g", "Hz", "MHz", "mm", "rpm", null, "parsec"]) {
+  it("never converts degrees, time, Mach, g, frequencies, calibres or unknown units", () => {
+    for (const unit of ["°", "°/s", "s", "Mach", "g", "Hz", "MHz", "mm", "rpm", null, "parsec"]) {
       expect(imp(12.5, unit)).toEqual({ value: 12.5, unit, converted: false });
     }
   });
@@ -89,11 +88,89 @@ describe("metric / imperial conversion", () => {
   });
 
   it("reads the new suffixes", () => {
+    expect(unitFor("rollRateMaxRadS")).toBe("rad/s");
+    expect(unitFor("slewRateDegS")).toBe("°/s");
     expect(unitFor("maxSpeedKmh")).toBe("km/h");
     expect(unitFor("v0Ms")).toBe("m/s");
     expect(unitFor("wingAreaM2")).toBe("m²");
     expect(unitFor("caliberMm")).toBe("mm");
     expect(unitFor("frequencyHz")).toBe("Hz");
     expect(unitFor("minMHz")).toBe("MHz");
+  });
+});
+
+describe("radians shown as degrees", () => {
+  it("converts rad and rad/s to degrees in both systems", () => {
+    for (const system of ["metric", "imperial"] as const) {
+      expect(convertValue(Math.PI / 9, "rad", system, "fovRad")).toEqual({
+        value: 20,
+        unit: "°",
+        converted: true,
+      });
+      expect(convertValue(1.5, "rad/s", system, "rollRateMaxRadS")).toEqual({
+        value: 85.94,
+        unit: "°/s",
+        converted: true,
+      });
+      expect(displayUnit("rad", system)).toBe("°");
+      expect(displayUnit("rad/s", system)).toBe("°/s");
+    }
+  });
+
+  it("rounds away float noise from DCS's own approximations", () => {
+    expect(convertValue(Math.PI, "rad", "metric").value).toBe(180);
+    expect(convertValue(0.785, "rad", "metric").value).toBe(44.98);
+    expect(convertValue(-0.5236, "rad", "metric").value).toBe(-30);
+    expect(convertValue(0.0017, "rad", "metric").value).toBe(0.0974);
+  });
+
+  it("formats degrees without a space and keeps the radian value as the stored form", () => {
+    const f = formatWithUnit(Math.PI / 9, "rad", "metric", "fovRad");
+    expect(f).toMatchObject({ text: "20", unit: "°", stored: "0.3491 rad" });
+    expect(formatPlain(Math.PI / 9, "rad")).toBe("20°");
+    expect(formatPlain(1.5, "rad/s", "imperial")).toBe("85.94°/s");
+    expect(formatWithUnit(1.5, "rad/s", "imperial").stored).toBe("1.5 rad/s");
+  });
+
+  it("gives a stored form only when the display converts", () => {
+    expect(formatStored(0.5, "rad", "metric")).toBe("0.5 rad");
+    expect(formatStored(0.5, "rad", "imperial")).toBe("0.5 rad");
+    expect(formatStored(161.48, "kg", "metric")).toBeNull();
+    expect(formatStored(161.48, "kg", "imperial")).toBe("161.48 kg");
+    expect(formatStored(30, "°", "imperial")).toBeNull();
+    expect(formatStored(3, null, "imperial")).toBeNull();
+  });
+});
+
+describe("unit spacing", () => {
+  it("sets degree signs tight and other units apart", () => {
+    expect(withUnit("60", "°")).toBe("60°");
+    expect(withUnit("12", "°/s")).toBe("12°/s");
+    expect(withUnit("9.45", "m")).toBe("9.45 m");
+    expect(withUnit("3", null)).toBe("3");
+    expect(unitGap("°")).toBe("");
+    expect(unitGap("kg")).toBe(" ");
+  });
+});
+
+describe("sentinel angles", () => {
+  it("shows a radian value beyond a full turn raw, not as degrees", () => {
+    expect(isSentinelAngle(-100, "rad")).toBe(true);
+    expect(isSentinelAngle(Math.PI, "rad")).toBe(false);
+    expect(isSentinelAngle(-100, "m")).toBe(false);
+    expect(convertValue(-100, "rad", "metric", "reloadAngleYRad")).toEqual({
+      value: -100,
+      unit: "rad",
+      converted: false,
+    });
+    expect(formatPlain(-100, "rad")).toBe("-100 rad");
+    expect(formatStored(-100, "rad", "metric")).toBeNull();
+  });
+
+  it("reads the renamed angle fields' units", () => {
+    expect(unitFor("reloadAngleYRad")).toBe("rad");
+    expect(unitFor("trackingRateMaxRadS")).toBe("rad/s");
+    expect(unitFor("aoaMaxDeg")).toBe("°");
+    expect(unitFor("angle100Deg")).toBe("°");
   });
 });

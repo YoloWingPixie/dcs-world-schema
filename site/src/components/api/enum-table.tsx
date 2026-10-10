@@ -94,7 +94,7 @@ export function EnumTable({
                         href={v.href}
                         aria-label={`${v.key}: ${seriesLabel ?? "record"} page`}
                       >
-                        {seriesLabel ?? "record"} →
+                        {seriesLabel ?? "record"}
                       </ApiLink>
                     ) : (
                       <span className="muted">—</span>

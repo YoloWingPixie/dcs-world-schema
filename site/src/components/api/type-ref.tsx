@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import type { Token } from "@/lib/api/types";
 import { ApiLink } from "./api-link";
+import { splitSignature, tokenText, WRAP_AT } from "./signature";
 
 export type Links = Record<string, string>;
 
@@ -35,11 +36,47 @@ export function TypeRef({ tokens, links }: { tokens: Token[]; links: Links }) {
   );
 }
 
-/** A Lua-style signature: `Unit.getByName(name: string): Unit?`. */
-export function Signature({ tokens, links }: { tokens: Token[]; links: Links }) {
+/**
+ * A Lua-style signature: `Unit.getByName(name: string): Unit?`. With `wrap`, a long one
+ * (or any with two or more parameters, on a phone) sets each parameter on its own line:
+ * block spans, so the text is unchanged.
+ */
+export function Signature({
+  tokens,
+  links,
+  wrap,
+}: {
+  tokens: Token[];
+  links: Links;
+  wrap?: boolean;
+}) {
+  const parts = wrap ? splitSignature(tokens) : null;
+  if (!parts) {
+    return (
+      <code className="api-sig">
+        <Tokens tokens={tokens} links={links} />
+      </code>
+    );
+  }
   return (
-    <code className="api-sig">
-      <Tokens tokens={tokens} links={links} />
+    <code
+      className={
+        tokenText(tokens).length > WRAP_AT
+          ? "api-sig api-sig-split api-sig-wrap"
+          : "api-sig api-sig-split"
+      }
+    >
+      {parts.map((part, i) => (
+        <span
+          // biome-ignore lint/suspicious/noArrayIndexKey: parts are positional
+          key={i}
+          className={
+            i === 0 ? "api-sig-head" : i === parts.length - 1 ? "api-sig-tail" : "api-sig-param"
+          }
+        >
+          <Tokens tokens={part} links={links} />
+        </span>
+      ))}
     </code>
   );
 }

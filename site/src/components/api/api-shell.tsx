@@ -1,5 +1,7 @@
 "use client";
 
+// The entry heads set names in Plex Mono semibold, which only the API pages use.
+import "@fontsource/ibm-plex-mono/latin-600.css";
 import "./api.css";
 import { useEffect, useState } from "react";
 import { type LoadedApiPage, loadApiPage, loadApiPages } from "@/lib/api/client";

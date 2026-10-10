@@ -8,6 +8,7 @@
 
 import type { SchemaTypes } from "../catalog";
 import { buildSeriesCatalog, COMPANION_PREFIX, humanize, isRecord, valuesAt } from "../catalog";
+import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
 import type {
   CatalogEntry,
@@ -312,13 +313,14 @@ export async function getRecord(
     rows = await q("SELECT view FROM record_views WHERE series = ? AND id = ?", [series, id]);
   } catch (error) {
     if (!missingTable(error)) throw error;
-    return getRecordByQueries(q, model, series, id);
+    const doc = await getRecordByQueries(q, model, series, id);
+    return doc && distinguishLinks(q, model, doc);
   }
   const [row] = rows;
   if (!row) return null;
   const view = JSON.parse(String(row.view)) as RecordView;
   const key = view.record[s.keyColumn];
-  return {
+  return distinguishLinks(q, model, {
     series,
     id: String(key ?? id),
     slug: String(key ?? id),
@@ -334,7 +336,50 @@ export async function getRecord(
       records: [...g.records].sort(byName),
       ...(g.total > g.records.length ? { total: g.total } : {}),
     })),
+  });
+}
+
+/**
+ * Same-named records in one list of links ("KERMAN" three times) get a short detail
+ * each (lib/link-details.ts): one query per series with collisions and a detail rule.
+ */
+async function distinguishLinks(q: Query, model: Model, doc: RecordDoc): Promise<RecordDoc> {
+  const details = async (series: string, ids: string[]) => {
+    const rule = LINK_DETAILS[series];
+    const s = model.byId.get(series);
+    const out = new Map<string, string>();
+    if (!rule || !s || !ids.length) return out;
+    const rows = await q(
+      `SELECT * FROM ${qi(series)} WHERE ${qi(s.keyColumn)} IN (${ids.map(() => "?").join(",")})`,
+      ids,
+    );
+    for (const row of rows) {
+      const detail = rule(row);
+      if (detail) out.set(String(row[s.keyColumn]), detail);
+    }
+    return out;
   };
+  const nameOf = (v: LinkTarget | string) => (typeof v === "string" ? v : v[1]);
+  for (const [series, map] of Object.entries(doc.links)) {
+    const found = await details(
+      series,
+      collidingIds(Object.entries(map).map(([id, v]) => [id, nameOf(v)])),
+    );
+    for (const [id, detail] of found) {
+      const v = map[id];
+      if (v === undefined) continue;
+      map[id] = typeof v === "string" ? withDetail(v, detail) : [v[0], withDetail(v[1], detail)];
+    }
+  }
+  for (const group of doc.referencedBy) {
+    const found = await details(group.series, collidingIds(group.records));
+    if (!found.size) continue;
+    group.records = group.records.map(([id, name]) => [
+      id,
+      withDetail(name, found.get(id) ?? null),
+    ]);
+  }
+  return doc;
 }
 
 async function getRecordByQueries(

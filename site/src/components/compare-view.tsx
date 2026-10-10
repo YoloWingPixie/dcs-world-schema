@@ -38,7 +38,7 @@ import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import type { CatalogEntry, FieldValues, RecordDoc, SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
-import { convertValue, displayUnit, formatNumber, type UnitSystem } from "@/lib/units";
+import { convertValue, displayUnit, formatNumber, type UnitSystem, withUnit } from "@/lib/units";
 import { CloseIcon, SearchIcon } from "@/ui/icons";
 import { renderDescription } from "./field-view";
 import { type ChartSeries, LineChart, SERIES_COLORS } from "./line-chart";
@@ -856,7 +856,10 @@ function EnvelopeCompare({
   const [row, setRow] = useState<number | null>(null);
   const chosen = row !== null && rows.includes(row) ? row : (rows[0] ?? null);
   const fmtAxis = (e: CatalogEntry | undefined, v: number) =>
-    `${formatNumber(e ? conv(e, v, system) : v)}${e && displayUnit(e.unit, system, e.name) ? ` ${displayUnit(e.unit, system, e.name)}` : ""}`;
+    withUnit(
+      formatNumber(e ? conv(e, v, system) : v),
+      e ? displayUnit(e.unit, system, e.name) : null,
+    );
 
   const series: ChartSeries[] = [];
   const without: string[] = [];

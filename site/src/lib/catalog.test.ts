@@ -1,7 +1,14 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { loadSchemaTypes } from "../../scripts/lib/schema";
-import { buildSeriesCatalog, catalogKeyFor, comparableValues, valuesAt } from "./catalog";
+import {
+  buildSeriesCatalog,
+  catalogKeyFor,
+  comparableValues,
+  dcsKeyFromDescription,
+  enumConstantLabel,
+  valuesAt,
+} from "./catalog";
 import { pack, unpack } from "./pack";
 import { BROWSABLE_SERIES, SERIES, SERIES_BY_ID, seriesForRef } from "./series";
 
@@ -43,6 +50,22 @@ describe("catalog from every entity schema", () => {
       comparable: true,
       axis: "mach",
     });
+  });
+
+  it("gives a record field's unit to its unsuffixed members", () => {
+    const vehicles = catalogOf("ground_vehicles");
+    expect(vehicles.entries["weaponSystems[].slewRateRadS.yaw"]).toMatchObject({
+      kind: "number",
+      unit: "rad/s",
+    });
+    expect(vehicles.entries["mobility.maxSlopeRad"]?.unit).toBe("rad");
+    expect(vehicles.entries["weaponSystems[].sectorsRad"]).toMatchObject({
+      kind: "matrix",
+      unit: "rad",
+    });
+    // Members with their own suffix, or under an unsuffixed record, keep their own.
+    expect(vehicles.entries["detection.sensor.beamWidthRad"]?.unit).toBe("rad");
+    expect(catalogOf("weapons").entries["flight.gimbal.yawMaxRad"]?.unit).toBe("rad");
   });
 
   it("keeps the weapon page's Mach tables, keyed motor stages and envelopes", () => {
@@ -96,6 +119,42 @@ describe("catalog from every entity schema", () => {
       },
     );
     expect(curve).toEqual([{ path: entry.path, value: { x: [0, 0.5], y: [0.02, 0.021] } }]);
+  });
+});
+
+describe("constant names and labels", () => {
+  it("shows a code's constant name in its place, lists included", () => {
+    const radios = catalogOf("radios");
+    expect(radios.entries.modulationName).toMatchObject({
+      kind: "strings",
+      codeField: "modulation",
+      label: "Modulation",
+      enumType: "Entity.RadioModulation",
+    });
+    expect(radios.entries["segments[].modulationName"]).toMatchObject({
+      kind: "enum",
+      codeField: "modulation",
+      label: "Modulation",
+    });
+    // Explicit labels still win: `categoryName` reads "Category", its code "Category code".
+    expect(catalogOf("weapons").entries.categoryName).toMatchObject({
+      label: "Category",
+      codeField: "category",
+    });
+    expect(catalogOf("weapons").entries.category?.label).toBe("Category code");
+  });
+
+  it("never takes provenance for a DCS key", () => {
+    expect(catalogOf("radios").entries.band?.dcsKey).toBeNull();
+    expect(dcsKeyFromDescription("Optional `Head_Type`, the seeker head type code.")).toBe(
+      "Head_Type",
+    );
+  });
+
+  it("keeps acronyms in constant labels", () => {
+    expect(enumConstantLabel("V/UHF")).toBe("V/UHF");
+    expect(enumConstantLabel("UHF")).toBe("UHF");
+    expect(enumConstantLabel("AIRDROME")).toBe("Airdrome");
   });
 });
 

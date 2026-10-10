@@ -15,70 +15,86 @@ export function useModel() {
   return { model, failed };
 }
 
-/** Every browsable series in the database, grouped, with record counts. */
+/** Every browsable series in the database as a numbered contents list, with record counts. */
 export function SeriesDirectory() {
   const { model, failed } = useModel();
   if (failed) return <p className="muted">Failed to load data. Reload the page.</p>;
   if (!model) {
     return (
-      <div className="home-sections" aria-busy="true">
-        <div className="series-grid">
-          {Array.from({ length: 8 }, (_, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: placeholders
-            <div className="series-card sk-card" key={i}>
-              <div className="sk sk-line" />
-              <div className="sk sk-line" />
-            </div>
-          ))}
-        </div>
+      <div className="contents" aria-busy="true">
+        {Array.from({ length: 3 }, (_, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: placeholders
+          <div className="contents-chapter" key={i}>
+            <div className="sk sk-heading" />
+            <div className="sk sk-line" />
+            <div className="sk sk-line" />
+            <div className="sk sk-line" />
+          </div>
+        ))}
       </div>
     );
   }
   return (
-    <div className="home-sections">
-      {seriesGroups(model).map((group) => (
-        <section key={group.id} aria-labelledby={`group-${group.id}`}>
-          <h2 className="series-group-title" id={`group-${group.id}`}>
+    <ol className="contents">
+      {seriesGroups(model).map((group, g) => (
+        <li key={group.id} className="contents-chapter">
+          <h2 className="contents-chapter-title" id={`group-${group.id}`}>
+            <span className="contents-num">{g + 1}</span>
             {group.label}
           </h2>
-          <div className="series-grid">
-            {group.series.map((s) => (
-              <RefLink key={s.id} href={seriesHref(s.id)} className="series-card">
-                <span className="series-card-head">
-                  <span className="series-card-name">{s.label}</span>
-                  <span className="series-card-count">{s.count.toLocaleString("en-US")}</span>
-                </span>
-                <span className="series-card-blurb">{s.blurb}</span>
-              </RefLink>
+          <ol className="contents-entries" aria-labelledby={`group-${group.id}`}>
+            {group.series.map((s, i) => (
+              <li key={s.id} className="contents-entry">
+                <RefLink href={seriesHref(s.id)} className="contents-link">
+                  <span className="contents-num">
+                    {g + 1}.{i + 1}
+                  </span>
+                  <span className="contents-name">{s.label}</span>
+                  <span className="contents-leader" aria-hidden="true" />
+                  <span className="contents-count series-card-count">
+                    {s.count.toLocaleString("en-US")}
+                    <span className="visually-hidden"> records</span>
+                  </span>
+                </RefLink>
+                {s.blurb ? <p className="contents-blurb">{s.blurb}</p> : null}
+              </li>
             ))}
-          </div>
-        </section>
+          </ol>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 
-/** "DCS World 2.9.x · 10,902 records" from the database's meta. */
+/** The data revision, from the database's meta: the home title block or the running footer. */
 export function DataVersion({ variant }: { variant: "footer" | "home" }) {
   const { model } = useModel();
   const total = model?.series.filter((s) => !s.parent).reduce((n, s) => n + s.count, 0) ?? 0;
+  const version = model?.meta.dcsVersion ?? "…";
   if (variant === "footer") {
     return (
-      <span>
-        DCS World <span className="mono">{model?.meta.dcsVersion ?? "…"}</span>
-        {model?.meta.extractedAt ? ` · ${model.meta.extractedAt.slice(0, 10)}` : ""} · Not
-        affiliated with Eagle Dynamics
-      </span>
+      <>
+        <span>DCS World Reference, revision {version}</span>
+        <span>Not affiliated with Eagle Dynamics</span>
+      </>
     );
   }
   return (
-    <p className="version-line">
-      <span>
-        DCS World <strong>{model?.meta.dcsVersion ?? "…"}</strong>
-      </span>
-      <span>
-        <strong>{model ? total.toLocaleString("en-US") : "…"}</strong> records
-      </span>
-    </p>
+    <dl className="title-meta">
+      <div>
+        <dt>Revision</dt>
+        <dd>{version}</dd>
+      </div>
+      {model?.meta.extractedAt ? (
+        <div>
+          <dt>Extracted</dt>
+          <dd>{model.meta.extractedAt.slice(0, 10)}</dd>
+        </div>
+      ) : null}
+      <div>
+        <dt>Records</dt>
+        <dd>{model ? total.toLocaleString("en-US") : "…"}</dd>
+      </div>
+    </dl>
   );
 }

@@ -1,89 +1,123 @@
 /* Lua API docs. Builds on the site's tokens and components (globals.css):
-   plate, toc, section, table, chip. Signatures in IBM Plex Mono. */
+   plate, toc, section, table. Signatures and names in IBM Plex Mono. */
 
 .api-hero {
-  padding: clamp(24px, 6vh, 56px) 0 24px;
+  padding: 0 0 8px;
+}
+
+.api-hero .page-title {
+  margin-bottom: 14px;
 }
 
 .api-hero .version-line {
-  margin-top: 18px;
+  margin-top: 0;
 }
 
 /* ------------------------------------------------------------ home */
 
+/* Environment filter: a run of text, the chosen one bold and underlined. */
 .api-envbar {
   min-width: 0;
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
-  gap: 4px;
-  padding: 4px;
-  margin: 8px 0 28px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-m);
-  background: var(--surface);
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 0;
+  margin: 10px 0 36px;
+  border: 0;
 }
 
 .api-env-btn {
   border: 0;
   background: transparent;
-  padding: 6px 14px;
-  border-radius: var(--radius-s);
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--ink-2);
+  padding: 4px 0;
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--ink-3);
   cursor: pointer;
 }
 
 .api-env-btn:hover {
   color: var(--ink);
-  background: var(--surface-2);
 }
 
 .api-env-btn[aria-pressed="true"] {
-  background: var(--accent);
-  color: var(--accent-ink);
+  color: var(--ink);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
+/* An index of pages: name and kind on the left, the summary beside it, over hairlines. */
 .api-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 10px;
-  margin: 10px 0 22px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 500px), 1fr));
+  column-gap: 48px;
+  margin: 4px 0 26px;
+  border-top: 1px solid var(--rule);
+}
+
+.api-cards-dense {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  column-gap: 32px;
 }
 
 .api-card {
   display: grid;
-  gap: 2px;
+  grid-template-columns: minmax(0, 11.5em) minmax(0, 1fr);
+  column-gap: 20px;
   align-content: start;
-  padding: 12px 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius-m);
-  background: var(--surface);
+  padding: 7px 0 8px;
+  border-bottom: 1px solid var(--hair);
   color: var(--ink);
   text-decoration: none;
 }
 
+.api-cards-dense .api-card {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.api-card-name,
+.api-card-meta {
+  grid-column: 1;
+}
+
+@media (max-width: 520px) {
+  .api-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .api-card:hover {
-  border-color: var(--accent);
   color: var(--ink);
+  background: var(--paper-2);
+}
+
+.api-card:hover .api-card-name {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .api-card-name {
   font-family: var(--font-mono);
   font-weight: 500;
-  font-size: 15px;
+  font-size: 14.5px;
   overflow-wrap: anywhere;
 }
 
 .api-card-meta {
-  font-family: var(--font-ui);
-  font-size: 14px;
+  font-family: var(--font-head);
+  font-size: 12px;
   color: var(--ink-3);
 }
 
 .api-card-sum {
-  font-size: 14px;
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  font-size: 14.5px;
   color: var(--ink-2);
   line-height: 1.4;
   display: -webkit-box;
@@ -96,33 +130,40 @@
   display: none;
 }
 
+@media (max-width: 520px) {
+  .api-card-sum {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 2px;
+  }
+}
+
 .api-typegroup {
-  border: 1px solid var(--line);
-  border-radius: var(--radius-m);
-  background: var(--surface);
-  margin-top: 10px;
+  margin-top: 4px;
+  border-bottom: 1px solid var(--hair);
 }
 
 .api-typegroup summary {
   cursor: pointer;
-  padding: 10px 14px;
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 17px;
+  padding: 9px 0;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14.5px;
 }
 
 .api-typelist {
   list-style: none;
   margin: 0;
-  padding: 4px 14px 14px;
+  padding: 0 0 14px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 4px 18px;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  gap: 2px 32px;
 }
 
 .api-typelist li {
   display: flex;
   justify-content: space-between;
+  align-items: baseline;
   gap: 8px;
   min-width: 0;
 }
@@ -133,8 +174,8 @@
 }
 
 .api-typelist-kind {
-  font-family: var(--font-ui);
-  font-size: 14px;
+  font-family: var(--font-head);
+  font-size: 12px;
   color: var(--ink-3);
 }
 
@@ -145,23 +186,29 @@
   gap: 8px;
 }
 
+.api-plate .plate-head {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
 .api-plate {
-  padding-bottom: 22px;
+  padding-bottom: 18px;
+  border-bottom: 4px solid var(--rule);
 }
 
 .api-title {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: clamp(28px, 5vw, 44px) !important;
-  letter-spacing: -0.02em;
+  font-family: var(--font-mono) !important;
+  font-weight: 500 !important;
+  font-size: clamp(28px, 5vw, 46px) !important;
+  letter-spacing: -0.02em !important;
   overflow-wrap: anywhere;
 }
 
 .api-lede {
-  margin-top: 16px;
-  max-width: 76ch;
-  color: var(--ink-2);
-  font-size: 17px;
+  margin-top: 18px;
+  max-width: var(--measure);
+  color: var(--ink);
+  font-size: 18px;
 }
 
 .api-hier {
@@ -174,11 +221,13 @@
 
 .api-hier div {
   display: flex;
+  align-items: baseline;
   gap: 8px;
 }
 
 .api-hier dt {
-  font-family: var(--font-ui);
+  font-family: var(--font-head);
+  font-size: 12.5px;
   color: var(--ink-3);
 }
 
@@ -189,21 +238,37 @@
 }
 
 .api-toc {
-  max-height: calc(100vh - var(--header-h) - 48px);
+  max-height: calc(100vh - var(--header-h) - 56px);
   overflow-y: auto;
   padding-right: 4px;
 }
 
 .api-toc-members {
   display: grid;
-  margin: 6px 0 4px;
+  margin: 8px 0 4px;
+  padding-top: 6px;
+  border-top: 1px solid var(--hair);
 }
 
 .api-toc .api-toc-member {
+  display: grid;
+  grid-template-columns: calc(13.5px * 2.2) minmax(0, 1fr);
   font-family: var(--font-mono);
-  font-size: 13px;
-  padding: 2px 0 2px 12px;
+  font-size: 12px;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 1px 0;
   overflow-wrap: anywhere;
+}
+
+.api-toc-num {
+  font-family: var(--font-head);
+  font-size: 12.5px;
+  color: var(--ink-3);
+}
+
+.api-toc .api-toc-member:hover {
+  color: var(--accent);
 }
 
 @media (max-width: 960px) {
@@ -219,147 +284,296 @@
   min-width: 0;
 }
 
-/* One function / field. */
+/* ------------------------------------------------------------ entries */
+
+/* One function, field or constant, set as a reference-manual entry: its number and name,
+   then hanging labels (SYNOPSIS, DESCRIPTION, PARAMETERS…) with one left edge for all the
+   content. The number column matches the section heads' number column. */
+.api-body {
+  --api-num: calc(17px * 2.4);
+  --api-label: 8.25rem;
+}
+
 .api-member {
-  padding: 18px 0 20px;
-  border-bottom: 1px solid var(--line);
+  padding: 20px 0 22px;
+  border-bottom: 1px solid var(--hair);
+}
+
+.api-member:last-child {
+  border-bottom: 0;
 }
 
 .api-member:target {
-  background: linear-gradient(90deg, var(--accent-wash), transparent 70%);
-  box-shadow: -12px 0 0 var(--accent-wash);
+  background: var(--accent-wash);
+  box-shadow:
+    -12px 0 0 var(--accent-wash),
+    12px 0 0 var(--accent-wash);
 }
 
-.api-member-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 6px 12px;
-}
-
+/* Number, name (and kind, where a section mixes them) on one baseline; the name starts
+   where the labels below do. */
 .api-member-name {
+  display: grid;
+  grid-template-columns: var(--api-num) minmax(0, max-content) auto;
+  align-items: baseline;
   font-family: var(--font-mono);
-  font-weight: 500;
-  font-size: 19px;
-  position: relative;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
   overflow-wrap: anywhere;
 }
 
+/* The entry number, which is also its permalink. */
 .api-anchor {
-  color: var(--ink-3);
-  text-decoration: none;
-  margin-right: 6px;
-  font-weight: 400;
-  opacity: 0.55;
-}
-
-.api-member:hover .api-anchor,
-.api-anchor:focus-visible {
-  opacity: 1;
-  color: var(--accent);
-}
-
-.api-member-badges {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.api-badge {
-  display: inline-flex;
-  align-items: center;
-  height: 20px;
-  padding: 0 7px;
-  border-radius: var(--radius-s);
-  border: 1px solid var(--line);
-  background: var(--surface-2);
-  color: var(--ink-2);
-  font-family: var(--font-ui);
-  font-weight: 500;
-  font-size: 13.5px;
   white-space: nowrap;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0;
+  color: var(--ink);
+  text-decoration: none;
 }
 
-.api-badge-quiet {
-  background: transparent;
+.api-anchor:hover,
+.api-anchor:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.api-member-name a:not(.api-anchor) {
+  color: inherit;
+}
+
+.api-member-kind {
+  margin-left: 14px;
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0;
   color: var(--ink-3);
 }
 
-.api-badge-warn,
-.api-chip-warn {
-  border-color: color-mix(in srgb, var(--focus) 55%, transparent);
-  color: var(--focus);
-  background: color-mix(in srgb, var(--focus) 10%, transparent);
+.api-entry {
+  display: grid;
+  grid-template-columns: var(--api-label) minmax(0, 1fr);
+  align-items: baseline;
+  row-gap: 10px;
+  margin: 14px 0 0 var(--api-num);
 }
 
-.api-env-mission {
-  border-color: color-mix(in srgb, var(--s1) 50%, transparent);
-  color: var(--ink);
-}
-.api-env-hooks {
-  border-color: color-mix(in srgb, var(--s7) 55%, transparent);
-  color: var(--ink);
-}
-.api-env-export {
-  border-color: color-mix(in srgb, var(--s4) 55%, transparent);
-  color: var(--ink);
-}
-.api-env-server {
-  border-color: color-mix(in srgb, var(--s2) 55%, transparent);
-  color: var(--ink);
+.api-row {
+  display: contents;
 }
 
-.api-member-sig {
+.api-label {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 11.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.api-label-warn {
+  color: var(--warn);
+}
+
+.api-entry > .api-row > dd {
+  margin: 0;
+  min-width: 0;
+  max-width: 46rem;
+}
+
+.api-entry > .api-row > dd {
+  font-size: 16.5px;
+}
+
+.api-entry dd > p {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .api-member-name {
+    font-size: 17px;
+  }
+  .api-entry {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+    margin-left: 0;
+  }
+  .api-entry > .api-row > dd {
+    margin-bottom: 12px;
+  }
+  .api-member-name {
+    grid-template-columns: 2.6rem minmax(0, max-content) auto;
+  }
+}
+
+/* Synopsis: plain mono; long ones one parameter per line. */
+.api-sig {
+  display: block;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.api-sig-wrap > span {
+  display: block;
+}
+
+.api-sig-wrap > .api-sig-param {
+  padding-left: 2ch;
+}
+
+@media (max-width: 640px) {
+  .api-sig-split > span {
+    display: block;
+  }
+  .api-sig-split > .api-sig-param {
+    padding-left: 2ch;
+  }
+}
+
+/* Parameters and fields: `name . . . . type`, the description underneath. */
+.api-params {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.api-param {
+  padding: 0 0 8px;
+}
+
+.api-param + .api-param {
+  padding-top: 6px;
+  border-top: 1px solid var(--hair);
+}
+
+.api-param-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0 8px;
+  min-width: 0;
+}
+
+.api-param-name {
+  flex: none;
+  max-width: 60%;
+  font-size: 14px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.api-param-head .api-opt {
+  flex: none;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.api-leader {
+  flex: 1 1 0;
+  min-width: 1.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 16px;
+}
+
+.api-leader::before {
+  content: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+
+.api-param-type {
+  flex: 0 1 auto;
+  max-width: 65%;
+  text-align: right;
+}
+
+.api-param-type .api-sig {
+  display: inline;
+  font-size: 13.5px;
+}
+
+.api-param-desc {
+  margin-top: 2px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.api-param-desc .api-overlay {
   margin-top: 8px;
 }
 
-.api-sig {
-  display: block;
-  padding: 9px 12px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  border-radius: var(--radius-s);
-  background: var(--surface-2);
-  color: var(--ink);
-  font-size: 14px;
-  line-height: 1.55;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
+.api-param:target {
+  background: var(--accent-wash);
+}
+
+/* Field lists straight under a section head (type pages) take the entry's left edge. */
+.section-head + .api-params {
+  margin-left: var(--api-num);
+  max-width: calc(var(--api-label) + 46rem);
+}
+
+@media (max-width: 640px) {
+  .section-head + .api-params {
+    margin-left: 0;
+  }
+}
+
+/* Deprecation is the one thing set in the warning colour. */
+.api-chip-warn {
+  color: var(--warn);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.api-badge {
+  display: inline;
+  font-family: var(--font-head);
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  white-space: nowrap;
 }
 
 .api-compact .api-sig,
 .api-table .api-sig {
   display: inline;
-  padding: 0;
-  border: 0;
-  background: none;
   font-size: 13px;
 }
 
 .api-type {
-  color: var(--accent);
-  text-decoration: none;
-  border-bottom: 1px dotted color-mix(in srgb, var(--accent) 60%, transparent);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hair-strong);
+  text-underline-offset: 3px;
 }
 
 .api-type:hover {
-  color: var(--accent-strong);
-  border-bottom-style: solid;
+  color: var(--accent);
+  text-decoration-color: currentColor;
 }
 
 .api-type-unresolved {
   color: var(--ink-2);
-  border: 0;
+  text-decoration: none;
 }
 
 .api-typeref {
-  font-size: 13.5px;
+  font-size: 13px;
   overflow-wrap: anywhere;
 }
 
 .api-desc {
-  margin-top: 10px;
-  max-width: 78ch;
   color: var(--ink);
 }
 
@@ -367,8 +581,7 @@
 .api-desc-cell code,
 .api-lede code {
   padding: 0 3px;
-  border-radius: 3px;
-  background: var(--surface-3);
+  background: var(--paper-3);
 }
 
 .api-code-link {
@@ -376,23 +589,27 @@
 }
 
 .api-code-link code {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--hair-strong);
+  text-underline-offset: 3px;
+}
+
+.api-code-link:hover code {
   color: var(--accent);
 }
 
-.api-note,
-.api-deprecated {
-  margin-top: 8px;
+.api-note {
   color: var(--ink-3);
-  font-family: var(--font-ui);
-  font-size: 15px;
+  font-style: italic;
 }
 
 .api-deprecated {
-  color: var(--focus);
+  color: var(--ink);
 }
 
 .api-table-wrap {
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 .api-table th,
@@ -409,7 +626,7 @@
 }
 
 .api-name-cell code {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -420,15 +637,14 @@
 
 .api-opt {
   display: block;
-  font-family: var(--font-ui);
-  font-size: 13px;
+  font-family: var(--font-head);
+  font-size: 12px;
   color: var(--ink-3);
 }
 
 .api-default {
   display: block;
   margin-top: 2px;
-  font-family: var(--font-ui);
   font-size: 13.5px;
   color: var(--ink-3);
 }
@@ -439,18 +655,19 @@
 }
 
 .api-sub-inline {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  color: var(--ink-2);
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 13.5px;
+  color: var(--ink);
   margin-right: 4px;
 }
 
 .api-sub {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 17px;
-  color: var(--ink-2);
-  margin: 18px 0 6px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--ink);
+  margin: 22px 0 4px;
 }
 
 .api-nested {
@@ -458,7 +675,7 @@
 }
 
 .api-examples {
-  margin-top: 6px;
+  margin-top: 8px;
 }
 
 .api-example {
@@ -467,6 +684,7 @@
 
 .api-example figcaption {
   font-size: 15px;
+  font-style: italic;
   color: var(--ink-2);
   margin-bottom: 4px;
 }
@@ -474,20 +692,19 @@
 .api-example pre,
 .api-prose pre {
   margin: 0;
-  padding: 12px 14px;
-  border-radius: var(--radius-m);
-  border: 1px solid var(--line);
-  background: var(--surface-3);
+  padding: 10px 14px;
+  border-top: 1px solid var(--hair);
+  border-bottom: 1px solid var(--hair);
+  background: var(--paper-2);
   overflow-x: auto;
-  font-size: 13.5px;
-  line-height: 1.5;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .api-compact-name {
   font-family: var(--font-mono);
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--ink);
-  text-decoration: none;
 }
 
 .api-compact tr:target td {
@@ -496,7 +713,7 @@
 
 /* Hand-written overlay: framed by the shared .md-overlay style (Markdown.tsx). */
 .api-overlay {
-  margin-top: 14px;
+  margin-top: 16px;
   max-width: 82ch;
 }
 
@@ -514,9 +731,9 @@
 .api-prose h4,
 .api-prose h5,
 .api-prose h6 {
-  font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 17px;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 14.5px;
   margin: 12px 0 2px;
 }
 
@@ -528,8 +745,7 @@
 
 .api-prose code {
   padding: 0 3px;
-  border-radius: 3px;
-  background: var(--surface-3);
+  background: var(--paper-3);
 }
 
 .api-prose pre code {
@@ -548,7 +764,7 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 6px;
+  gap: 0;
 }
 
 .api-inherited-list li {
@@ -556,8 +772,8 @@
   grid-template-columns: minmax(200px, max-content) 1fr;
   gap: 4px 16px;
   align-items: baseline;
-  padding: 4px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--hair);
 }
 
 .api-inherited-sum {
@@ -572,8 +788,15 @@
 }
 
 .api-usedby {
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  column-gap: 32px;
   margin-top: 12px;
+}
+
+.api-usedby li,
+.api-union li {
+  padding: 3px 0;
+  border-bottom: 1px solid var(--hair);
 }
 
 .api-usedby a,
@@ -589,9 +812,9 @@
 .api-enum-bar {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: baseline;
   gap: 10px 18px;
-  margin: 12px 0 0;
+  margin: 12px 0 8px;
 }
 
 .api-enum-filter {
@@ -600,7 +823,8 @@
 }
 
 .api-enum-count {
-  font-family: var(--font-ui);
+  font-family: var(--font-head);
+  font-size: 13px;
   color: var(--ink-3);
 }
 
@@ -618,14 +842,14 @@
     min-width: 160px;
   }
   .api-member-name {
-    font-size: 17px;
+    font-size: 16px;
   }
 }
 
 /* Palette rows for API hits */
 .api-hit-kind {
-  font-family: var(--font-ui);
-  font-size: 13px;
+  font-family: var(--font-head);
+  font-size: 12px;
   color: var(--ink-3);
 }
 
@@ -640,4 +864,76 @@
 
 .api-table tr:target td {
   background: var(--accent-wash);
+}
+
+/* Inside an entry the NOTE label heads the overlay: no rules or heading of its own. */
+.api-entry .api-overlay {
+  margin-top: 0;
+}
+
+.api-entry .md-overlay {
+  border: 0;
+  padding: 0;
+}
+
+.api-entry .md-overlay::before {
+  content: none;
+}
+
+.api-entry .api-examples,
+.api-entry .api-example:first-child {
+  margin-top: 0;
+}
+
+.api-entry .api-default {
+  font-size: 14.5px;
+}
+
+/* API home: the sub-lists of a section are numbered like a record page's subsections. */
+.api-home .section {
+  counter-reset: sub;
+}
+
+.api-home .section > .api-sub {
+  counter-increment: sub;
+  display: flex;
+  align-items: baseline;
+}
+
+.api-home .section > .api-sub::before {
+  content: counter(chapter) "." counter(sub);
+  min-width: calc(17px * 2.4);
+}
+
+/* Enum values: fixed columns, so a long key wraps instead of pushing the table wide. */
+.api-enum .api-table {
+  table-layout: fixed;
+}
+
+.api-enum .api-table th:first-child {
+  width: 50%;
+}
+
+.api-enum .api-table th:nth-child(3) {
+  width: 8em;
+}
+
+.api-enum .api-name-cell {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.api-enum .api-table td {
+  overflow-wrap: anywhere;
+}
+
+/* Inherited and used-by lists hang from the same edge as the entries. */
+.api-body :is(.api-inherited, .api-usedby, .api-union) {
+  margin-left: var(--api-num);
+}
+
+@media (max-width: 640px) {
+  .api-body :is(.api-inherited, .api-usedby, .api-union) {
+    margin-left: 0;
+  }
 }

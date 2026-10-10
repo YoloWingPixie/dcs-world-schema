@@ -79,12 +79,3 @@ export const TableIcon = (p: IconProps) => (
     <path d="M3 10h18M9 10v10" />
   </Icon>
 );
-
-/** Brand mark: a reticle over a Mach tape. */
-export const BrandMark = (p: IconProps) => (
-  <Icon {...p} strokeWidth={1.6}>
-    <circle cx="12" cy="12" r="8" />
-    <path d="M12 2v5M12 17v5M2 12h5M17 12h5" />
-    <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" />
-  </Icon>
-);

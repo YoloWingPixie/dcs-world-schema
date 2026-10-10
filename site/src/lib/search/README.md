@@ -48,4 +48,6 @@ server component. Internal links are site-relative; the component adds basePath.
 
 `useUnitSystem()` (`../unit-system.ts`, client) returns `"metric" | "imperial"`;
 `convertValue` / `formatPlain(value, unit, system, fieldName)` (`../units.ts`) convert for display
-only. Units come from field-name suffixes (`unitFor(name)`).
+only; radians (`rad`, `rad/s`) show as degrees in both systems, and `formatStored` gives the stored
+value whenever the display converts. Units come from field-name suffixes (`unitFor(name)`), and a
+suffixed record field passes its unit to unsuffixed members (`slewRateRadS.yaw`).

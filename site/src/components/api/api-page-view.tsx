@@ -6,6 +6,7 @@ import {
   Examples,
   FieldsTable,
   MemberEntry,
+  memberKind,
   OverlayBlock,
   SeeAlso,
 } from "./member-entry";
@@ -112,6 +113,11 @@ export function ApiPageView({
   for (const g of page.groups) toc.push({ id: `g-${g.id}`, title: g.title });
   if (inherited.length) toc.push({ id: "inherited", title: "Inherited" });
   if (page.usedBy.length) toc.push({ id: "used-by", title: "Used by" });
+  // Section numbers, as the section heads count them; entries are numbered within.
+  const sectionNo = (id: string) => toc.findIndex((t) => t.id === id) + 1;
+  // Type pages list plain fields as rows, not numbered entries.
+  const asFields = (g: ApiPage["groups"][number]) =>
+    page.section === "types" && g.members.every((m) => m.kind === "field");
 
   const crumbs: Array<{ label: string; href: string }> = [
     { label: "Lua API", href: "/api/" },
@@ -196,9 +202,12 @@ export function ApiPageView({
             {!compact
               ? page.groups.map((g) => (
                   <div key={g.id} className="api-toc-members">
-                    {g.members.map((m) => (
+                    {g.members.map((m, i) => (
                       <a key={m.anchor} href={`#${m.anchor}`} className="api-toc-member">
-                        {m.name}
+                        <span className="api-toc-num" aria-hidden="true">
+                          {asFields(g) ? null : `${sectionNo(`g-${g.id}`)}.${i + 1}`}
+                        </span>
+                        <span>{m.name}</span>
                       </a>
                     ))}
                   </div>
@@ -272,11 +281,18 @@ export function ApiPageView({
               </div>
               {compact ? (
                 <CompactMembers members={g.members} links={links} />
-              ) : page.section === "types" && g.members.every((m) => m.kind === "field") ? (
+              ) : asFields(g) ? (
                 <FieldsTable fields={g.members} links={links} />
               ) : (
-                g.members.map((m) => (
-                  <MemberEntry key={m.anchor} member={m} links={links} pageEnv={pageEnv} />
+                g.members.map((m, i) => (
+                  <MemberEntry
+                    key={m.anchor}
+                    member={m}
+                    links={links}
+                    pageEnv={pageEnv}
+                    number={`${sectionNo(`g-${g.id}`)}.${i + 1}`}
+                    showKind={new Set(g.members.map(memberKind)).size > 1}
+                  />
                 ))
               )}
             </section>

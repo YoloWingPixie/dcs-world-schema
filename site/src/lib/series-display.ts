@@ -14,7 +14,10 @@ export type SeriesDisplay = {
   slug?: (r: Json, id: string) => string;
   /** Paths whose values make the meta line, in order. */
   meta?: string[];
-  /** Headline values on the record page (up to four). */
+  /**
+   * Headline values on the record page (up to four): paths, `#path` for an array's count;
+   * a list of ranges reads as its coverage.
+   */
   readouts?: string[];
   /** Default browse columns (paths). */
   columns?: string[];
@@ -67,11 +70,15 @@ export const SERIES_DISPLAY: Record<string, SeriesDisplay> = {
     columns: ["caliberMm", "type", "v0Ms", "massKg", "explosiveKg"],
   },
   warheads: { meta: ["type"], readouts: ["massKg", "explosiveMassKg"] },
-  radios: { meta: ["band"], name: (r, id) => str(r.name) ?? id },
+  radios: {
+    meta: ["band"],
+    name: (r, id) => str(r.name) ?? id,
+    readouts: ["segments", "stepKHz", "presets", "guard"],
+  },
   airbases: {
     name: (r, id) => str(r.name) ?? id,
     meta: ["theatre", "categoryName"],
-    readouts: ["longestRunwayM"],
+    readouts: ["longestRunwayM", "referencePoint.elevationM", "#runways", "#stands"],
     columns: ["theatre", "categoryName", "longestRunwayM"],
     facets: ["theatre", "categoryName"],
   },

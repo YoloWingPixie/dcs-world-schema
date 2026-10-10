@@ -50,7 +50,17 @@ export type UnitSystem = "metric" | "imperial";
 
 type Conversion = { to: string; factor: number };
 
-/** Metric unit -> imperial unit. Anything not listed (°, rad, s, Mach, g, Hz, mm…) never converts. */
+/**
+ * Radians read as degrees in both systems (the schema stores what DCS stores; nobody
+ * reads a gimbal limit in radians). The stored radian value stays in tooltips and copy.
+ */
+const DEGREES = 180 / Math.PI;
+export const ANGLES: Record<string, Conversion> = {
+  rad: { to: "°", factor: DEGREES },
+  "rad/s": { to: "°/s", factor: DEGREES },
+};
+
+/** Metric unit -> imperial unit. Anything not listed (°, s, Mach, g, Hz, mm…) never converts. */
 export const IMPERIAL: Record<string, Conversion> = {
   m: { to: "ft", factor: 3.280839895 },
   km: { to: "nm", factor: 1 / 1.852 },
@@ -76,7 +86,10 @@ export function conversionFor(
   system: UnitSystem,
   name?: string,
 ): Conversion | null {
-  if (system === "metric" || !unit) return null;
+  if (!unit) return null;
+  const angle = ANGLES[unit];
+  if (angle) return angle;
+  if (system === "metric") return null;
   if (unit === "m" && name && /range|distance/i.test(name) && !/altitude/i.test(name)) {
     return RANGE_M;
   }
@@ -95,13 +108,22 @@ export function roundSignificant(value: number, sig = 4): number {
 
 export type Converted = { value: number; unit: string | null; converted: boolean };
 
-/** Display value in the chosen system; `unitNotStated` fields never convert. */
+/**
+ * A "radians" value no angle can have (beyond a full turn): a DCS sentinel such as the
+ * MANPADS' `reloadAngleY = -100` ("no reload pose"). It shows raw, never as degrees.
+ */
+export function isSentinelAngle(value: number, unit: string | null): boolean {
+  return unit === "rad" && Math.abs(value) > 2 * Math.PI + 1e-9;
+}
+
+/** Display value in the chosen system (radians become degrees in both); `unitNotStated` fields never convert. */
 export function convertValue(
   value: number,
   unit: string | null,
   system: UnitSystem,
   name?: string,
 ): Converted {
+  if (isSentinelAngle(value, unit)) return { value, unit, converted: false };
   const c = conversionFor(unit, system, name);
   if (!c) return { value, unit, converted: false };
   return { value: roundSignificant(value * c.factor, 4), unit: c.to, converted: true };
@@ -130,15 +152,18 @@ export function formatNumber(value: number, digits = 4): string {
 export type FormattedValue = {
   text: string;
   unit: string | null;
-  secondary: string | null;
   /** The stored value with its unit, when the display converted it ("161.48 kg"). */
   stored: string | null;
 };
 
-function joinUnit(text: string, unit: string | null): string {
-  if (!unit) return text;
-  if (unit === "°") return `${text}°`;
-  return `${text} ${unit}`;
+/** The space between a number and its unit: none before a degree sign ("60°", "12°/s"). */
+export function unitGap(unit: string | null): string {
+  return unit?.startsWith("°") ? "" : " ";
+}
+
+/** "9.45 m", "60°". */
+export function withUnit(text: string, unit: string | null): string {
+  return unit ? `${text}${unitGap(unit)}${unit}` : text;
 }
 
 export function formatWithUnit(
@@ -147,24 +172,26 @@ export function formatWithUnit(
   system: UnitSystem = "metric",
   name?: string,
 ): FormattedValue {
-  if (unit === "rad") {
-    return {
-      text: formatNumber(value),
-      unit,
-      secondary: `${formatNumber((value * 180) / Math.PI, 3)}°`,
-      stored: null,
-    };
-  }
   if (unit === "Mach") {
-    return { text: `Mach ${formatNumber(value)}`, unit: null, secondary: null, stored: null };
+    return { text: `Mach ${formatNumber(value)}`, unit: null, stored: null };
   }
   const c = convertValue(value, unit, system, name);
   return {
     text: formatNumber(c.value),
     unit: c.unit,
-    secondary: null,
-    stored: c.converted ? joinUnit(formatNumber(value), unit) : null,
+    stored: c.converted ? withUnit(formatNumber(value), unit) : null,
   };
+}
+
+/** The stored value with its unit ("0.3491 rad"), when the display converts it; else null. */
+export function formatStored(
+  value: number,
+  unit: string | null,
+  system: UnitSystem = "metric",
+  name?: string,
+): string | null {
+  if (isSentinelAngle(value, unit)) return null;
+  return conversionFor(unit, system, name) ? withUnit(formatNumber(value), unit) : null;
 }
 
 export function formatPlain(
@@ -174,7 +201,7 @@ export function formatPlain(
   name?: string,
 ): string {
   const f = formatWithUnit(value, unit, system, name);
-  return joinUnit(f.text, f.unit);
+  return withUnit(f.text, f.unit);
 }
 
 // ---------------------------------------------------------------------------

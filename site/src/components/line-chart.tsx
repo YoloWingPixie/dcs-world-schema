@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from "react";
-import { formatNumber } from "@/lib/units";
+import { formatNumber, withUnit } from "@/lib/units";
 
 export type ChartSeries = {
   id: string;
@@ -265,8 +265,7 @@ export function LineChart({
                 <span className="swatch" style={{ background: s.color }} />
                 <span>{s.label}</span>
                 <span className="v">
-                  {v === null ? "—" : formatNumber(v)}
-                  {v !== null && yUnit ? ` ${yUnit}` : ""}
+                  {v === null ? "—" : withUnit(formatNumber(v), yUnit ?? null)}
                 </span>
               </div>
             );
