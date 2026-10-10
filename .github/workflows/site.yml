@@ -282,4 +282,8 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.147.0"
+          # First deploy: create the Pages project if the account doesn't have it yet.
+          preCommands: |
+            wrangler pages project list | grep -qw "${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }}" ||
+              wrangler pages project create "${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }}" --production-branch=main
           command: pages deploy public --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }} --branch=main
