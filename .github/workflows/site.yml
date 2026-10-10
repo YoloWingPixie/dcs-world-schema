@@ -275,6 +275,19 @@ jobs:
           SITE_LUA_REQUIRED: "1"
         run: node site/scripts/copy-lua-assets.ts public
 
+      # First deploy: create the Pages project if the account doesn't have it yet.
+      - name: Ensure the Pages project
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROJECT: ${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }}
+        run: |
+          if npx --yes wrangler@4.147.0 pages project list | grep -qw "$PROJECT"; then
+            echo "Pages project $PROJECT exists"
+          else
+            npx --yes wrangler@4.147.0 pages project create "$PROJECT" --production-branch=main
+          fi
+
       - name: Deploy
         id: deploy
         uses: cloudflare/wrangler-action@v3
@@ -282,7 +295,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.147.0"
-          # First deploy: create the Pages project if the account doesn't have it yet.
-          # (wrangler-action runs each line on its own, so this stays on one line.)
-          preCommands: wrangler pages project list | grep -qw "${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }}" || wrangler pages project create "${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }}" --production-branch=main
           command: pages deploy public --project-name=${{ vars.CLOUDFLARE_PROJECT_NAME || 'dcs-world-schema' }} --branch=main
