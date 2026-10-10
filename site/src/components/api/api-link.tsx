@@ -27,6 +27,7 @@ export function ApiLink({
   children: ReactNode;
   "aria-label"?: string;
   title?: string;
+  tabIndex?: number | undefined;
 }) {
   return (
     <a

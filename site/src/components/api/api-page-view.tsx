@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import type { ApiPage, ApiSection, EnumValue, Member } from "@/lib/api/types";
 import { ApiLink } from "./api-link";
 import { EnumTable } from "./enum-table";
@@ -194,25 +195,32 @@ export function ApiPageView({
         {toc.length > 1 || (!compact && total > 0) ? (
           <nav className="toc api-toc" aria-label="On this page">
             <span className="toc-title">On this page</span>
-            {toc.map((t) => (
-              <a key={t.id} href={`#${t.id}`}>
-                {t.title}
-              </a>
-            ))}
-            {!compact
-              ? page.groups.map((g) => (
-                  <div key={g.id} className="api-toc-members">
-                    {g.members.map((m, i) => (
-                      <a key={m.anchor} href={`#${m.anchor}`} className="api-toc-member">
-                        <span className="api-toc-num" aria-hidden="true">
-                          {asFields(g) ? null : `${sectionNo(`g-${g.id}`)}.${i + 1}`}
-                        </span>
-                        <span>{m.name}</span>
-                      </a>
-                    ))}
-                  </div>
-                ))
-              : null}
+            {toc.map((t) => {
+              // A group's entries nest under its own link.
+              const g = compact ? undefined : page.groups.find((x) => `g-${x.id}` === t.id);
+              return (
+                <Fragment key={t.id}>
+                  <a href={`#${t.id}`}>{t.title}</a>
+                  {g ? (
+                    <div className="api-toc-members">
+                      {g.members.map((m, i) => (
+                        <a
+                          key={m.anchor}
+                          href={`#${m.anchor}`}
+                          className="api-toc-member"
+                          title={m.name}
+                        >
+                          <span className="api-toc-num" aria-hidden="true">
+                            {asFields(g) ? null : `${sectionNo(t.id)}.${i + 1}`}
+                          </span>
+                          <span className="api-toc-name">{m.name}</span>
+                        </a>
+                      ))}
+                    </div>
+                  ) : null}
+                </Fragment>
+              );
+            })}
           </nav>
         ) : (
           <div />
@@ -290,6 +298,7 @@ export function ApiPageView({
                     member={m}
                     links={links}
                     pageEnv={pageEnv}
+                    pageSince={page.addedVersion}
                     number={`${sectionNo(`g-${g.id}`)}.${i + 1}`}
                     showKind={new Set(g.members.map(memberKind)).size > 1}
                   />

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Markdown } from "@/components/Markdown";
 import type { ApiEnv, ApiOverlay, Example, FieldEntry, Member } from "@/lib/api/types";
 import { ApiLink } from "./api-link";
-import { type Links, RichText, Signature, TypeRef } from "./type-ref";
+import { LeadName, type Links, RichText, type SigLead, Signature, TypeRef } from "./type-ref";
 
 export const ENV_LABEL: Record<ApiEnv, string> = {
   mission: "Mission",
@@ -176,18 +176,22 @@ function Row({ label, warn, children }: { label: string; warn?: boolean; childre
 
 /**
  * One function, field, constant or namespace, with its anchor, set as a reference-manual
- * entry: the number and name, then labelled rows (synopsis, description, parameters…).
+ * entry: the number and the signature as its heading (the name strong), the description
+ * under it, then labelled rows only for structured extras (parameters, fields, notes…).
  */
 export function MemberEntry({
   member: m,
   links,
   pageEnv,
+  pageSince,
   number,
   showKind,
 }: {
   member: Member;
   links: Links;
   pageEnv?: string | undefined;
+  /** The page's own "since": an entry says its version only when it differs. */
+  pageSince?: string | undefined;
   /** "2.3": the entry's number in the page. */
   number?: string | undefined;
   /** The section mixes kinds: say which this one is. */
@@ -197,153 +201,162 @@ export function MemberEntry({
   const envs = m.environment && m.environment.join() !== pageEnv ? m.environment : undefined;
   const params = m.params ?? [];
   const since = m.overlay?.since ?? (m.addedVersion !== "unknown" ? m.addedVersion : undefined);
+  const lead: SigLead = {
+    owner: m.qualified.endsWith(m.name) ? m.qualified.slice(0, -m.name.length) : "",
+    name: m.qualified.endsWith(m.name) ? m.name : m.qualified,
+  };
   const related = [...(m.related ?? [])];
   for (const s of m.overlay?.seeAlso ?? []) {
     const href = links[s];
     if (href && !related.some((i) => i.href === href)) related.push({ label: s, href });
   }
+  const aside = [
+    showKind ? memberKind(m) : null,
+    m.readonly ? "read-only" : null,
+    envs?.length ? envs.map((e) => ENV_LABEL[e]).join(", ") : null,
+    since && since !== pageSince ? `since ${since}` : null,
+  ].filter(Boolean);
   return (
     <article className="api-member" id={m.anchor} aria-labelledby={`${m.anchor}-h`}>
-      <h3 id={`${m.anchor}-h`} className="api-member-name">
+      <h3 id={`${m.anchor}-h`} className="api-member-head">
         <a href={`#${m.anchor}`} className="api-anchor" aria-label={`Link to ${m.qualified}`}>
           {number ?? "#"}
         </a>
-        {m.kind === "namespace" && m.href ? (
-          <ApiLink href={m.href}>{m.qualified}</ApiLink>
+        {m.sig ? (
+          // With a PARAMETERS list the heading names the parameters only; without one it
+          // gives the typed signature, one parameter per line past what the line holds.
+          <Signature
+            tokens={m.sig}
+            links={links}
+            wrap
+            wrapAt={88}
+            lead={lead}
+            brief={isFn && params.length > 0}
+          />
+        ) : m.kind === "constant" ? (
+          <code className="api-sig">
+            <LeadName lead={lead} /> = {JSON.stringify(m.value)}
+          </code>
+        ) : m.kind === "namespace" ? (
+          <code className="api-sig">
+            {m.href ? (
+              <ApiLink href={m.href}>
+                <LeadName lead={lead} />
+              </ApiLink>
+            ) : (
+              <LeadName lead={lead} />
+            )}
+          </code>
         ) : (
-          <span>{m.name}</span>
+          <code className="api-sig">
+            <LeadName lead={lead} />: <TypeRef tokens={m.type ?? ["any"]} links={links} />
+          </code>
         )}
-        {showKind ? <span className="api-member-kind">{memberKind(m)}</span> : null}
+        {aside.length ? <span className="api-member-aside">{aside.join(", ")}</span> : null}
       </h3>
 
-      <dl className="api-entry">
-        <Row label="Synopsis">
-          {m.sig ? (
-            <Signature tokens={m.sig} links={links} wrap />
-          ) : m.kind === "constant" ? (
-            <code className="api-sig">
-              {m.qualified} = {JSON.stringify(m.value)}
-            </code>
-          ) : m.kind === "namespace" ? (
-            <code className="api-sig">{m.qualified}</code>
-          ) : (
-            <code className="api-sig">
-              {m.qualified}: <TypeRef tokens={m.type ?? ["any"]} links={links} />
-            </code>
-          )}
-        </Row>
-
-        {m.deprecated ? (
-          <Row label="Deprecated" warn>
-            <p className="api-deprecated">
-              {typeof m.deprecated === "string" ? m.deprecated : "Do not use in new scripts."}
+      {m.description || (isFn && m.params === null) ? (
+        <div className="api-member-desc">
+          {m.description ? (
+            <p className="api-desc">
+              <RichText text={m.description} links={links} />
             </p>
-          </Row>
-        ) : null}
+          ) : null}
+          {isFn && m.params === null ? <p className="api-note">Signature unknown.</p> : null}
+        </div>
+      ) : null}
 
-        {m.description || (isFn && m.params === null) ? (
-          <Row label="Description">
-            {m.description ? (
-              <p className="api-desc">
-                <RichText text={m.description} links={links} />
+      {m.deprecated ||
+      (isFn && params.length) ||
+      (isFn && m.returns?.length && m.returnValueExample) ||
+      (!isFn && m.fields?.length) ||
+      m.examples?.length ||
+      m.overlay?.html ||
+      related.length ? (
+        <dl className="api-entry">
+          {m.deprecated ? (
+            <Row label="Deprecated" warn>
+              <p className="api-deprecated">
+                {typeof m.deprecated === "string" ? m.deprecated : "Do not use in new scripts."}
               </p>
-            ) : null}
-            {isFn && m.params === null ? <p className="api-note">Signature unknown.</p> : null}
-          </Row>
-        ) : null}
+            </Row>
+          ) : null}
 
-        {isFn && params.length ? (
-          <Row label="Parameters">
-            <ParamList
-              label={`Parameters of ${m.qualified}`}
-              items={params.map((p) => ({
-                key: p.name,
-                name: p.name,
-                optional: p.optional,
-                type: <TypeRef tokens={p.t} links={links} />,
-                description: p.description ? <RichText text={p.description} links={links} /> : null,
-                extra:
-                  p.default !== undefined ? (
-                    <span className="api-default">
-                      Default <code>{p.default}</code>.
-                    </span>
+          {isFn && params.length ? (
+            <Row label="Parameters">
+              <ParamList
+                label={`Parameters of ${m.qualified}`}
+                items={params.map((p) => ({
+                  key: p.name,
+                  name: p.name,
+                  optional: p.optional,
+                  type: <TypeRef tokens={p.t} links={links} />,
+                  description: p.description ? (
+                    <RichText text={p.description} links={links} />
                   ) : null,
-              }))}
-            />
-          </Row>
-        ) : null}
+                  extra:
+                    p.default !== undefined ? (
+                      <span className="api-default">
+                        Default <code>{p.default}</code>.
+                      </span>
+                    ) : null,
+                }))}
+              />
+            </Row>
+          ) : null}
 
-        {/* The synopsis already ends in the return type: a row only when it adds to it. */}
-        {isFn && m.returns?.length && m.returnValueExample ? (
-          <Row label="Returns">
-            <p className="api-returns">
-              {m.returns.map((r, i) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: return values are positional
-                <span key={i}>
-                  {i ? ", " : null}
-                  <TypeRef tokens={r} links={links} />
-                </span>
-              ))}
-              {m.returnValueExample ? (
+          {/* The heading already ends in the return type: a row only when it adds to it. */}
+          {isFn && m.returns?.length && m.returnValueExample ? (
+            <Row label="Returns">
+              <p className="api-returns">
+                {m.returns.map((r, i) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: return values are positional
+                  <span key={i}>
+                    {i ? ", " : null}
+                    <TypeRef tokens={r} links={links} />
+                  </span>
+                ))}
                 <span className="api-default">
                   For example <code>{m.returnValueExample}</code>.
                 </span>
-              ) : null}
-            </p>
-          </Row>
-        ) : null}
+              </p>
+            </Row>
+          ) : null}
 
-        {!isFn && m.fields?.length ? (
-          <Row label="Fields">
-            <FieldsTable fields={m.fields} links={links} />
-          </Row>
-        ) : null}
+          {!isFn && m.fields?.length ? (
+            <Row label="Fields">
+              <FieldsTable fields={m.fields} links={links} />
+            </Row>
+          ) : null}
 
-        {m.examples?.length ? (
-          <Row label={m.examples.length > 1 ? "Examples" : "Example"}>
-            <Examples examples={m.examples} bare />
-          </Row>
-        ) : null}
+          {m.examples?.length ? (
+            <Row label={m.examples.length > 1 ? "Examples" : "Example"}>
+              <Examples examples={m.examples} bare />
+            </Row>
+          ) : null}
 
-        {m.overlay?.html ? (
-          <Row label="Note">
-            <OverlayBlock overlay={m.overlay} />
-          </Row>
-        ) : null}
+          {m.overlay?.html ? (
+            <Row label="Note">
+              <OverlayBlock overlay={m.overlay} />
+            </Row>
+          ) : null}
 
-        {related.length ? (
-          <Row label="See also">
-            <p className="api-related">
-              {related.map((r, i) => (
-                <span key={r.href}>
-                  {i ? ", " : null}
-                  <ApiLink href={r.href}>
-                    <code>{r.label}</code>
-                  </ApiLink>
-                </span>
-              ))}
-            </p>
-          </Row>
-        ) : null}
-
-        {envs?.length ? (
-          <Row label="Environment">
-            <p>{envs.map((e) => ENV_LABEL[e]).join(", ")}</p>
-          </Row>
-        ) : null}
-
-        {m.readonly ? (
-          <Row label="Access">
-            <p>Read-only</p>
-          </Row>
-        ) : null}
-
-        {since ? (
-          <Row label="Since">
-            <p>DCS {since}</p>
-          </Row>
-        ) : null}
-      </dl>
+          {related.length ? (
+            <Row label="See also">
+              <p className="api-related">
+                {related.map((r, i) => (
+                  <span key={r.href}>
+                    {i ? ", " : null}
+                    <ApiLink href={r.href}>
+                      <code>{r.label}</code>
+                    </ApiLink>
+                  </span>
+                ))}
+              </p>
+            </Row>
+          ) : null}
+        </dl>
+      ) : null}
     </article>
   );
 }

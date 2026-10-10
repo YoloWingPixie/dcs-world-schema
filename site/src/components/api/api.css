@@ -261,6 +261,12 @@
   overflow-wrap: anywhere;
 }
 
+.api-toc-name {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .api-toc-num {
   font-family: var(--font-head);
   font-size: 12.5px;
@@ -286,16 +292,16 @@
 
 /* ------------------------------------------------------------ entries */
 
-/* One function, field or constant, set as a reference-manual entry: its number and name,
-   then hanging labels (SYNOPSIS, DESCRIPTION, PARAMETERS…) with one left edge for all the
-   content. The number column matches the section heads' number column. */
+/* One function, field or constant, set as a reference-manual entry: its number and its
+   signature as the heading, the description under it, and hanging labels (PARAMETERS,
+   NOTE…) only for structured extras. The number column matches the section heads'. */
 .api-body {
   --api-num: calc(17px * 2.4);
-  --api-label: 8.25rem;
+  --api-label: 7.5rem;
 }
 
 .api-member {
-  padding: 20px 0 22px;
+  padding: 14px 0 15px;
   border-bottom: 1px solid var(--hair);
 }
 
@@ -310,18 +316,17 @@
     12px 0 0 var(--accent-wash);
 }
 
-/* Number, name (and kind, where a section mixes them) on one baseline; the name starts
-   where the labels below do. */
-.api-member-name {
+/* Number, signature and a quiet right-hand note (kind, environment, since) on one
+   baseline. */
+.api-member-head {
   display: grid;
-  grid-template-columns: var(--api-num) minmax(0, max-content) auto;
+  grid-template-columns: var(--api-num) minmax(0, 1fr) auto;
+  column-gap: 0;
   align-items: baseline;
   font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
-  overflow-wrap: anywhere;
+  font-weight: 400;
+  font-size: 15.5px;
+  line-height: 1.45;
 }
 
 /* The entry number, which is also its permalink. */
@@ -329,8 +334,7 @@
   white-space: nowrap;
   font-family: var(--font-head);
   font-weight: 700;
-  font-size: 15px;
-  letter-spacing: 0;
+  font-size: 14px;
   color: var(--ink);
   text-decoration: none;
 }
@@ -341,17 +345,56 @@
   text-decoration: underline;
 }
 
-.api-member-name a:not(.api-anchor) {
+.api-member-head > .api-sig {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.api-sig-owner {
+  color: var(--ink-3);
+}
+
+/* Under its section the owner (`Object:`) goes without saying, and with a PARAMETERS list
+   below, so do the parameter types: both stay in the text, so the heading copies and reads
+   as the full typed call, but are not shown. */
+.api-member-head .api-sig-owner,
+.api-sig-brief .api-sig-ptype {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.api-sig-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.api-member-head a:not(.api-anchor, .api-type) {
   color: inherit;
 }
 
-.api-member-kind {
-  margin-left: 14px;
+.api-member-aside {
+  padding-left: 18px;
   font-family: var(--font-head);
   font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0;
+  font-size: 12.5px;
   color: var(--ink-3);
+  white-space: nowrap;
+  text-align: right;
+}
+
+.api-member-desc {
+  margin: 4px 0 0 var(--api-num);
+  max-width: var(--measure);
+  font-size: 16.5px;
+  line-height: 1.5;
+}
+
+.api-member-desc > p {
+  margin: 0;
 }
 
 .api-entry {
@@ -359,7 +402,7 @@
   grid-template-columns: var(--api-label) minmax(0, 1fr);
   align-items: baseline;
   row-gap: 10px;
-  margin: 14px 0 0 var(--api-num);
+  margin: 12px 0 2px var(--api-num);
 }
 
 .api-row {
@@ -383,9 +426,6 @@
   margin: 0;
   min-width: 0;
   max-width: 46rem;
-}
-
-.api-entry > .api-row > dd {
   font-size: 16.5px;
 }
 
@@ -394,8 +434,17 @@
 }
 
 @media (max-width: 640px) {
-  .api-member-name {
-    font-size: 17px;
+  .api-member-head {
+    grid-template-columns: 2.6rem minmax(0, 1fr);
+    font-size: 14.5px;
+  }
+  .api-member-aside {
+    grid-column: 2;
+    padding-left: 0;
+    text-align: left;
+  }
+  .api-member-desc {
+    margin-left: 2.6rem;
   }
   .api-entry {
     grid-template-columns: minmax(0, 1fr);
@@ -405,12 +454,9 @@
   .api-entry > .api-row > dd {
     margin-bottom: 12px;
   }
-  .api-member-name {
-    grid-template-columns: 2.6rem minmax(0, max-content) auto;
-  }
 }
 
-/* Synopsis: plain mono; long ones one parameter per line. */
+/* Signatures: plain mono; long ones one parameter per line. */
 .api-sig {
   display: block;
   color: var(--ink);
@@ -577,11 +623,14 @@
   color: var(--ink);
 }
 
+/* Code in prose: plain mono, a shade stronger than the text around it. */
 .api-desc code,
 .api-desc-cell code,
-.api-lede code {
-  padding: 0 3px;
-  background: var(--paper-3);
+.api-param-desc code,
+.api-lede code,
+.api-prose code {
+  color: var(--ink);
+  font-weight: 500;
 }
 
 .api-code-link {
@@ -743,14 +792,10 @@
   margin: 0;
 }
 
-.api-prose code {
-  padding: 0 3px;
-  background: var(--paper-3);
-}
-
 .api-prose pre code {
   padding: 0;
   background: none;
+  font-weight: 400;
 }
 
 .api-inherited {
@@ -936,4 +981,9 @@
   .api-body :is(.api-inherited, .api-usedby, .api-union) {
     margin-left: 0;
   }
+}
+
+/* A short signature wraps between parameters, not inside a name. */
+.api-sig-brief {
+  overflow-wrap: break-word;
 }
