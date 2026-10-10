@@ -77,19 +77,59 @@
 }
 
 /* Virtualized table: fixed row height, sticky header inside the scroll box. */
+/* The page scrolls, not the table: the site header, the filter bar (wide screens) and the
+   column head stick in that order; the filters panel sticks beside them. `clip` (not
+   auto) so the head stays sticky to the window; columns that do not fit are left out. */
 .vtable {
-  max-height: 70vh;
-  overflow: auto;
-  overscroll-behavior: contain;
-}
-
-.vtable:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  position: relative;
+  overflow: visible;
+  overflow-x: clip;
 }
 
 .vtable .table th {
   z-index: 2;
+}
+
+.vtable .table thead th {
+  top: calc(var(--header-h) + var(--browse-head-h, 0px));
+}
+
+.browse-head {
+  position: sticky;
+  top: var(--header-h);
+  z-index: 20;
+  padding-top: 12px;
+  margin-top: -12px;
+  background: var(--paper);
+}
+
+.ch-probe {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  font: 400 15.5px var(--font-body);
+}
+
+@media (min-width: 861px) {
+  .facets-panel {
+    position: sticky;
+    top: calc(var(--header-h) + 12px);
+    align-self: start;
+    max-height: calc(100vh - var(--header-h) - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+}
+
+/* Phones: only the site header and the column head stick; the filter bar scrolls away. */
+@media (max-width: 560px) {
+  .browse-head {
+    position: static;
+  }
+  .vtable .table thead th {
+    top: var(--header-h);
+  }
 }
 
 /* Widths come from the <colgroup> (sized from every row), never from the rows on screen. */
@@ -99,12 +139,6 @@
 
 .vtable col {
   width: var(--col-w, auto);
-}
-
-@media (min-width: 561px) {
-  .vtable .table {
-    min-width: var(--table-min, 0);
-  }
 }
 
 .vtable thead th {
@@ -173,9 +207,6 @@
 }
 
 @media (max-width: 560px) {
-  .vtable .col-opt {
-    display: none;
-  }
   .vtable col.col-keep {
     width: min(var(--col-w, auto), 42vw);
   }
@@ -312,13 +343,4 @@ fieldset.col-picker-menu {
 .vgroup-head .contents-leader::after {
   content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .";
   letter-spacing: 0.08em;
-}
-
-/* Narrow screens: the table can scroll sideways; keep each head's name and count in view. */
-@media (max-width: 860px) {
-  .vgroup-head {
-    position: sticky;
-    left: 0;
-    max-width: calc(100vw - 2 * var(--gutter));
-  }
 }
