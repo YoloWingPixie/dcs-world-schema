@@ -101,35 +101,17 @@ export function resolveConversions(unit: string | null, name = ""): UnitConversi
  * What formatting reads of a field: its stored unit and the conversions the catalog resolved
  * for it (a catalog entry is one). A bare unit string formats with that unit's own conversions.
  */
-export type UnitField = {
-  unit: string | null;
-  conversions?: UnitConversions | undefined;
-  name?: string | undefined;
-};
+export type UnitField = { unit: string | null; conversions?: UnitConversions | undefined };
 export type UnitSource = UnitField | string | null | undefined;
-
-const resolved = new Map<string, UnitConversions>();
-
-function resolvedFor(unit: string | null, name = ""): UnitConversions {
-  const key = `${unit}\u0000${name}`;
-  let hit = resolved.get(key);
-  if (!hit) {
-    hit = resolveConversions(unit, name);
-    resolved.set(key, hit);
-  }
-  return hit;
-}
 
 /** The stored unit of `field`. */
 export const unitOf = (field: UnitSource): string | null =>
   typeof field === "object" && field !== null ? field.unit : (field ?? null);
 
-/** `field`'s conversions: an entry's own, else resolved from its unit (and name). */
+/** `field`'s conversions: a catalog entry's own, else its unit's. */
 function conversionsOf(field: UnitSource): UnitConversions {
-  if (typeof field === "object" && field !== null) {
-    return field.conversions ?? resolvedFor(field.unit, field.name);
-  }
-  return resolvedFor(field ?? null);
+  if (typeof field === "object" && field?.conversions) return field.conversions;
+  return resolveConversions(unitOf(field));
 }
 
 /** The conversion of `field` in `system`, if any. */
@@ -163,6 +145,11 @@ export function convertValue(value: number, field: UnitSource, system: UnitSyste
   const c = conversionFor(field, system);
   if (!c) return { value, unit, converted: false };
   return { value: roundSignificant(value * c.factor, 4), unit: c.to, converted: true };
+}
+
+/** The number shown for `value` of `field` in `system` (the display unit's value). */
+export function convertNumber(value: number, field: UnitSource, system: UnitSystem): number {
+  return convertValue(value, field, system).value;
 }
 
 /** The unit a field displays in under `system`. */

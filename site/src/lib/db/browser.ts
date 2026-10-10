@@ -12,11 +12,9 @@
  *     "chunked"  parts under a content-hashed path, each fetched whole (Cloudflare Pages)
  */
 import { createDbWorker, type WorkerHttpvfs } from "sql.js-httpvfs";
-import { once } from "../once";
+import { boundedCache, once } from "../once";
 import { CONFIG_URL, prefetchParts, WASM_URL, WORKER_URL } from "./boot";
 import type { Query, Row } from "./reference";
-
-export { CONFIG_URL };
 
 /** /data/reference.json (scripts/split-sqlite.ts). */
 export type ReferenceConfig = {
@@ -92,7 +90,7 @@ const run: Query = (sql, params = []) =>
     (w) => (w.db.query as (s: string, p: unknown[]) => unknown)(sql, params) as Promise<Row[]>,
   );
 
-const keyOf = (sql: string, params: unknown[]) => `${sql}\u0000${JSON.stringify(params)}`;
+const keyOf = (sql: string, params: unknown[]) => JSON.stringify([sql, params]);
 
 /**
  * Statements run one at a time in the worker; results are cached per statement for the
@@ -111,31 +109,13 @@ export class StaleQueryError extends Error {
 }
 
 /** The last `size` statements' results (in-flight ones included); failures are not kept. */
-function boundedCache(size: number, load: Query): Query {
-  const recent = new Map<string, Promise<Row[]>>();
-  return (sql, params = []) => {
-    const key = keyOf(sql, params);
-    const hit = recent.get(key);
-    if (hit) {
-      recent.delete(key);
-      recent.set(key, hit);
-      return hit;
-    }
-    const promise = load(sql, params);
-    recent.set(key, promise);
-    promise.catch(() => {
-      if (recent.get(key) === promise) recent.delete(key);
-    });
-    for (const old of recent.keys()) {
-      if (recent.size <= size) break;
-      recent.delete(old);
-    }
-    return promise;
-  };
+function boundedQuery(size: number, load: Query): Query {
+  const cached = boundedCache(size, (key) => load(...(JSON.parse(key) as [string, unknown[]])));
+  return (sql, params = []) => cached(keyOf(sql, params));
 }
 
 /** Parameterised lookups that change with the input (alias rows, symbol paths). */
-export const transientQuery: Query = boundedCache(32, run);
+export const transientQuery: Query = boundedQuery(32, run);
 
 // Full-text searches wait for the one before them; one superseded while it waits is
 // dropped, so a slow short query never queues a stale one ahead of the newest.
@@ -143,7 +123,7 @@ let latestSearch = 0;
 let searchTail: Promise<unknown> = Promise.resolve();
 
 /** FTS searches: bounded cache, newest first (identical statements share one run). */
-export const searchQuery: Query = boundedCache(16, (sql, params = []) => {
+export const searchQuery: Query = boundedQuery(16, (sql, params = []) => {
   const ticket = ++latestSearch;
   const result = searchTail.then(() => {
     if (ticket !== latestSearch) throw new StaleQueryError();

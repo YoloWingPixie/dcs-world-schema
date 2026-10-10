@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -13,13 +12,13 @@ import {
   visibleRange,
 } from "@/lib/browse-groups";
 import { loadCatalog, loadFieldValues, loadGroupTargets, loadSeriesIndex } from "@/lib/client-data";
-import type { GroupTarget } from "@/lib/db/reference";
+import { fieldPaths, type GroupTarget } from "@/lib/db/reference";
 import { plainValue, sortableValue, type ValueContext } from "@/lib/format-field";
 import { replaceQuery } from "@/lib/history";
 import { enumDisplay } from "@/lib/names";
 import { recordHref, SERIES_BY_ID } from "@/lib/series";
 import { displayFor } from "@/lib/series-display";
-import { capitalise, naturalCompare } from "@/lib/text";
+import { capitalise, compareSortKeys, naturalCompare } from "@/lib/text";
 import { type CatalogEntry, type Facet, SCALAR_KINDS, type SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
 import { convertValue, formatNumber, unitLabel } from "@/lib/units";
@@ -27,6 +26,8 @@ import { useLoaded } from "@/lib/use-loaded";
 import { SearchIcon, TableIcon } from "@/ui/icons";
 import { Markdown } from "./Markdown";
 import { RefLink } from "./ref-link";
+import { SeeAlso } from "./see-also";
+import { SortHeader, type SortState } from "./sort-header";
 
 const ROW_H = 44;
 const GROUP_H = 56;
@@ -37,7 +38,6 @@ const OVERSCAN = 12;
 const NAME_MIN = 180;
 
 type Row = { slug: string; name: string; id: string; values: Map<string, unknown> };
-type SortState = { key: string; dir: 1 | -1 };
 
 const facetParam = (path: string) => `f.${path}`;
 /** `?group=flat` lists a grouped series flat. */
@@ -137,12 +137,12 @@ export function BrowseView({ series, count }: { series: string; count: number })
   }, [query, params]);
 
   // Columns: URL `cols`, else the series default.
+  const colsParam = params.get("cols");
   const columns = useMemo(() => {
-    const fromUrl = params.get("cols");
-    if (fromUrl !== null) return fromUrl.split(",").filter(Boolean);
+    if (colsParam !== null) return colsParam.split(",").filter(Boolean);
     if (grouped && groupBy?.columns) return groupBy.columns;
     return index?.visible ?? [];
-  }, [params, index, grouped, groupBy]);
+  }, [colsParam, index, grouped, groupBy]);
 
   // Lazily load values of picked columns the index does not carry.
   useEffect(() => {
@@ -189,12 +189,13 @@ export function BrowseView({ series, count }: { series: string; count: number })
     };
   }, [targets, groupBy]);
 
-  const facets = index?.facets ?? [];
+  const facets = useMemo(() => index?.facets ?? [], [index]);
+  // The facet selections as one string, so other URL writes (the debounced `?q=`) keep them.
+  const facetQuery = JSON.stringify(facets.map((f) => params.getAll(facetParam(f.path))));
   const selected = useMemo(() => {
-    const out: Record<string, string[]> = {};
-    for (const f of facets) out[f.path] = params.getAll(facetParam(f.path));
-    return out;
-  }, [params, facets]);
+    const values = JSON.parse(facetQuery) as string[][];
+    return Object.fromEntries(facets.map((f, i) => [f.path, values[i] ?? []]));
+  }, [facetQuery, facets]);
 
   const matchesFacet = useCallback(
     (row: Row, facet: Facet) => {
@@ -258,7 +259,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       facets.map((f) => {
         const c = counts.get(f.path) ?? new Map<string, number>();
         const list = [...c.keys()].sort(
-          (a, b) => (c.get(b) ?? 0) - (c.get(a) ?? 0) || a.localeCompare(b),
+          (a, b) => (c.get(b) ?? 0) - (c.get(a) ?? 0) || naturalCompare(a, b),
         );
         for (const v of selected[f.path] ?? []) if (!list.includes(v)) list.push(v);
         return [f.path, { counts: c, options: list }] as const;
@@ -276,15 +277,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       key === "name" ? row.name : sortKey(entry, row.values.get(key), ctx),
     );
     const order = filtered.map((_, i) => i);
-    order.sort((i, j) => {
-      const av = keys[i] ?? null;
-      const bv = keys[j] ?? null;
-      if (av === null && bv === null) return 0;
-      if (av === null || av === "") return 1;
-      if (bv === null || bv === "") return -1;
-      if (typeof av === "number" && typeof bv === "number") return sort.dir * (av - bv);
-      return sort.dir * naturalCompare(String(av), String(bv));
-    });
+    order.sort((i, j) => compareSortKeys(keys[i], keys[j], sort.dir));
     return order.map((i) => filtered[i] as Row);
   }, [filtered, sort, catalog, ctx]);
 
@@ -316,16 +309,13 @@ export function BrowseView({ series, count }: { series: string; count: number })
 
   const pickable = useMemo(() => {
     if (!catalog) return [];
-    const seen = new Set<string>();
-    const out: Array<{ path: string; entry: CatalogEntry; count: number }> = [];
-    for (const fp of catalog.fieldPaths) {
-      if (fp.path.includes("*") || fp.path.includes("[]") || seen.has(fp.path)) continue;
+    const out: Array<{ path: string; entry: CatalogEntry }> = [];
+    for (const fp of fieldPaths(catalog)) {
       const entry = catalog.entries[fp.key];
-      if (!entry?.comparable || !SCALAR_KINDS.has(entry.kind)) continue;
-      seen.add(fp.path);
-      out.push({ path: fp.path, entry, count: fp.count });
+      if (fp.path.includes("[]") || !entry || !SCALAR_KINDS.has(entry.kind)) continue;
+      out.push({ path: fp.path, entry });
     }
-    return out.sort((a, b) => a.path.localeCompare(b.path));
+    return out.sort((a, b) => naturalCompare(a.path, b.path));
   }, [catalog]);
 
   // ---- virtualization: the page scrolls; <BrowseBody> renders the rows in the window's
@@ -363,7 +353,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
     const offset = (Number.isFinite(header) ? header : 0) + stuck;
     const top = wrap.getBoundingClientRect().top;
     if (top < offset) window.scrollTo({ top: window.scrollY + top - offset });
-  }, [query, params]);
+  }, [query, facetQuery, grouped]);
 
   const ready = Boolean(index) && (!grouped || targets !== null);
   const groups = useMemo<Group<Row>[] | null>(
@@ -415,25 +405,16 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const colSpan = visibleCols.length + 1;
 
   const sortHeader = (key: string, label: string, num: boolean, className?: string) => (
-    <th
-      scope="col"
+    <SortHeader
       key={key}
-      className={[num ? "num" : "", className ?? ""].filter(Boolean).join(" ") || undefined}
-      aria-sort={sort.key === key ? (sort.dir === 1 ? "ascending" : "descending") : "none"}
+      sortKey={key}
+      label={label}
+      sort={sort}
+      onSort={setSort}
+      num={num}
+      className={className}
       title={catalog?.entries[key]?.description}
-    >
-      <button
-        type="button"
-        className="sort-btn"
-        data-active={sort.key === key}
-        onClick={() =>
-          setSort((s) => ({ key, dir: s.key === key ? (s.dir === 1 ? -1 : 1) : num ? -1 : 1 }))
-        }
-      >
-        {label}
-        <span aria-hidden="true">{sort.key === key ? (sort.dir === 1 ? "▲" : "▼") : ""}</span>
-      </button>
-    </th>
+    />
   );
 
   // While the index loads, the filters column is kept (most series have facets). The loaded
@@ -449,23 +430,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       {index?.intro ? (
         <div className="browse-intro">
           <Markdown html={index.intro.html} handWritten />
-          {index.intro.seeAlso?.length ? (
-            <p className="see-also">
-              See also{" "}
-              {index.intro.seeAlso.map((s, i) => (
-                <span key={s.href}>
-                  {i ? ", " : ""}
-                  {/^[a-z]+:/i.test(s.href) ? (
-                    <a href={s.href} rel="noopener noreferrer">
-                      {s.label}
-                    </a>
-                  ) : (
-                    <Link href={s.href}>{s.label}</Link>
-                  )}
-                </span>
-              ))}
-            </p>
-          ) : null}
+          <SeeAlso links={index.intro.seeAlso} />
         </div>
       ) : null}
 
@@ -541,7 +506,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                   </summary>
                   <fieldset className="col-picker-menu">
                     <legend className="visually-hidden">Visible columns</legend>
-                    {pickable.map(({ path, entry, count: n }) => (
+                    {pickable.map(({ path, entry }) => (
                       <label className="facet-option" key={path} title={entry.description}>
                         <input
                           type="checkbox"
@@ -558,7 +523,6 @@ export function BrowseView({ series, count }: { series: string; count: number })
                           {entry.label}
                           <span className="col-picker-path">{path}</span>
                         </span>
-                        <span className="facet-count">{n}</span>
                       </label>
                     ))}
                   </fieldset>

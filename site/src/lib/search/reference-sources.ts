@@ -1,9 +1,10 @@
 "use client";
 
 import { loadModel, loadOverlays } from "../client-data";
-import { browserQuery, prefetchSearchParts, searchQuery, transientQuery } from "../db/browser";
+import { prefetchSearchParts, searchQuery, transientQuery } from "../db/browser";
 import { searchReference } from "../db/reference";
 import { constantLabel } from "../names";
+import { once } from "../once";
 import { recordHref } from "../series";
 import { slugify } from "../series-display";
 import { squash } from "../text";
@@ -26,45 +27,75 @@ const WEIGHT: Record<string, number> = {
 
 type AliasRow = { series: string; id: string; name: string; subtitle: string };
 
-/**
- * Search rows of overlay alias stems (ids or slugs): one statement for the ids, then, for
- * stems no id matched, one read of each series' names to match slugs.
- */
-async function resolveAliases(stems: Array<{ series: string; stem: string }>): Promise<AliasRow[]> {
-  if (!stems.length) return [];
-  const rows = await transientQuery(
-    `SELECT series, id, name, subtitle FROM search
-      WHERE (series, id) IN (VALUES ${stems.map(() => "(?, ?)").join(", ")})`,
-    stems.flatMap((s) => [s.series, s.stem]),
-  );
-  const row = (r: Record<string, unknown>, series: string): AliasRow => ({
-    series,
-    id: String(r.id),
-    name: String(r.name),
-    subtitle: String(r.subtitle ?? ""),
-  });
-  const byKey = new Map(rows.map((r) => [`${r.series}\u0000${r.id}`, row(r, String(r.series))]));
-  const bySlug = new Map<string, Map<string, AliasRow>>();
-  const out: AliasRow[] = [];
-  for (const { series, stem } of stems) {
-    const hit = byKey.get(`${series}\u0000${stem}`);
-    if (hit) {
-      out.push(hit);
-      continue;
+/** An overlay record's aliases, squashed once (`series` is the record's owner series). */
+type AliasEntry = { series: string; stem: string; keys: string[] };
+
+/** Every overlay alias, built once the model and overlays load. */
+const loadAliases = () =>
+  once("reference-aliases", async (): Promise<AliasEntry[]> => {
+    const [model, overlays] = await Promise.all([loadModel(), loadOverlays()]);
+    const out: AliasEntry[] = [];
+    for (const [series, o] of Object.entries(overlays.series)) {
+      const owner = model.byId.get(series)?.parent ?? series;
+      for (const [stem, overlay] of Object.entries(o.records)) {
+        if (overlay.aliases?.length) {
+          out.push({ series: owner, stem, keys: overlay.aliases.map(squash) });
+        }
+      }
     }
-    let slugs = bySlug.get(series);
-    if (!slugs) {
-      // Stable per series: kept for the page's lifetime.
-      const all = await browserQuery("SELECT id, name, subtitle FROM search WHERE series = ?", [
+    return out;
+  });
+
+const aliasKey = (series: string, stem: string) => `${series}\u0000${stem}`;
+
+/**
+ * Search rows of every overlay alias stem (an id or a slug), resolved once on the first alias
+ * hit: one statement for the ids, then, for series with stems no id matched, one read of the
+ * series' ids to match slugs.
+ */
+const loadAliasRows = (entries: AliasEntry[]) =>
+  once("reference-alias-rows", async (): Promise<Map<string, AliasRow>> => {
+    const out = new Map<string, AliasRow>();
+    if (!entries.length) return out;
+    const row = (r: Record<string, unknown>, series: string): AliasRow => ({
+      series,
+      id: String(r.id),
+      name: String(r.name),
+      subtitle: String(r.subtitle ?? ""),
+    });
+    const rows = await transientQuery(
+      `SELECT series, id, name, subtitle FROM search
+        WHERE (series, id) IN (VALUES ${entries.map(() => "(?, ?)").join(", ")})`,
+      entries.flatMap((e) => [e.series, e.stem]),
+    );
+    for (const r of rows)
+      out.set(aliasKey(String(r.series), String(r.id)), row(r, String(r.series)));
+    const missing = new Map<string, string[]>();
+    for (const { series, stem } of entries) {
+      if (out.has(aliasKey(series, stem))) continue;
+      missing.set(series, [...(missing.get(series) ?? []), stem]);
+    }
+    for (const [series, stems] of missing) {
+      const all = await transientQuery("SELECT id, name, subtitle FROM search WHERE series = ?", [
         series,
       ]);
-      slugs = new Map(all.map((r) => [slugify(String(r.id)), row(r, series)]));
-      bySlug.set(series, slugs);
+      const bySlug = new Map(all.map((r) => [slugify(String(r.id)), r]));
+      for (const stem of stems) {
+        const hit = bySlug.get(stem);
+        if (hit) out.set(aliasKey(series, stem), row(hit, series));
+      }
     }
-    const found = slugs.get(stem);
-    if (found) out.push(found);
-  }
-  return out;
+    return out;
+  });
+
+/** Records whose overlay alias starts with `wanted` (squashed), at most `max` of them. */
+async function aliasRows(wanted: string, max: number): Promise<AliasRow[]> {
+  if (wanted.length < 2) return [];
+  const entries = await loadAliases();
+  const matched = entries.filter((e) => e.keys.some((k) => k.startsWith(wanted))).slice(0, max);
+  if (!matched.length) return [];
+  const rows = await loadAliasRows(entries);
+  return matched.flatMap((e) => rows.get(aliasKey(e.series, e.stem)) ?? []);
 }
 
 /**
@@ -77,26 +108,15 @@ export const REFERENCE_PROVIDER: SearchProvider = {
   warm: () => {
     prefetchSearchParts().catch(() => {});
     loadModel().catch(() => {});
-    loadOverlays().catch(() => {});
+    loadAliases().catch(() => {});
   },
   search: async (query, limit) => {
-    const [model, overlays, hits] = await Promise.all([
+    const wanted = squash(query);
+    const [model, aliases, hits] = await Promise.all([
       loadModel(),
-      loadOverlays(),
+      aliasRows(wanted, 40),
       searchReference(searchQuery, query, 150),
     ]);
-    const wanted = squash(query);
-    // Overlay aliases: an exact or prefix alias match names a record directly.
-    const aliasHits = [];
-    if (wanted.length >= 2) {
-      for (const [series, o] of Object.entries(overlays.series)) {
-        const owner = model.byId.get(series)?.parent ?? series;
-        for (const [stem, overlay] of Object.entries(o.records)) {
-          if (!overlay.aliases?.some((a) => squash(a).startsWith(wanted))) continue;
-          aliasHits.push({ series: owner, stem });
-        }
-      }
-    }
     const groups = new Map<string, SourceHits>();
     const add = (series: string, id: string, name: string, subtitle: string, score: number) => {
       const s = model.byId.get(series);
@@ -122,7 +142,7 @@ export const REFERENCE_PROVIDER: SearchProvider = {
         score: score * (WEIGHT[series] ?? 1) * (exact ? 4 : 1),
       });
     };
-    for (const row of await resolveAliases(aliasHits.slice(0, 40))) {
+    for (const row of aliases) {
       add(row.series, row.id, row.name, row.subtitle, 50);
     }
     for (const h of hits) add(h.series, h.id, h.name, h.subtitle, h.score);

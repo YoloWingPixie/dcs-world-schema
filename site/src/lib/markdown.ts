@@ -13,6 +13,7 @@
  */
 import { Marked, type Tokens } from "marked";
 import { parse as parseYaml } from "yaml";
+import { isRecord } from "./json";
 
 export type Frontmatter = Record<string, unknown>;
 
@@ -38,7 +39,7 @@ export function parseFrontmatter(
       `${opts.file ?? "markdown"}: invalid frontmatter YAML: ${(error as Error).message}`,
     );
   }
-  if (typeof data !== "object" || data === null || Array.isArray(data)) {
+  if (!isRecord(data)) {
     throw new FrontmatterError(`${opts.file ?? "markdown"}: frontmatter must be a YAML mapping`);
   }
   if (opts.allowed) {

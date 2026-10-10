@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { isRecord } from "@/lib/catalog";
+import { isRecord } from "@/lib/json";
 import type { CatalogEntry } from "@/lib/types";
-import { convertValue, displayUnit, formatNumber, unitLabel, withUnit } from "@/lib/units";
+import { convertNumber, displayUnit, formatPlain, unitLabel } from "@/lib/units";
 import { SERIES_COLORS } from "../chart-colors";
 import { fieldDataAttrs, MoreButton } from "../field-view";
 import { LazyLineChart as LineChart } from "../lazy-line-chart";
@@ -57,9 +57,9 @@ export function EnvelopeBlock({
   const { catalog, vctx } = ctx;
   const fields = catalog.types[entry.recordType ?? ""]?.fields ?? [];
   const at = (name: string) => catalog.entries[`${prefix}[].${name}`];
-  const axes = fields.filter((f) => at(f)?.kind === "numbers");
   const grids = fields.filter((f) => at(f)?.kind === "grid" && Array.isArray(item[f]));
-  const [rowName, colName] = axes as [string, string];
+  const [rowName, colName] =
+    entry.axis?.kind === "surface" ? [entry.axis.rows, entry.axis.cols] : ["", ""];
   const rows = (item[rowName] as number[] | undefined) ?? [];
   const cols = (item[colName] as number[] | undefined) ?? [];
   const singular = (e: CatalogEntry | undefined) =>
@@ -75,19 +75,16 @@ export function EnvelopeBlock({
     ),
   );
 
-  const conv = (e: CatalogEntry | undefined, v: number) =>
-    e ? convertValue(v, e, vctx.system).value : v;
-  const rowUnit = rowEntry ? displayUnit(rowEntry, vctx.system) : null;
   const zUnit = gridEntry ? displayUnit(gridEntry, vctx.system) : null;
 
   const series = picked
     .filter((r) => grid[r])
     .map((r, i) => ({
       id: `row-${r}`,
-      label: withUnit(formatNumber(conv(rowEntry, rows[r] ?? 0)), rowUnit),
+      label: formatPlain(rows[r] ?? 0, rowEntry, vctx.system),
       color: SERIES_COLORS[i % SERIES_COLORS.length] ?? "var(--s1)",
-      x: cols.map((c) => conv(colEntry, c)).slice(0, grid[r]?.length ?? 0),
-      values: (grid[r] ?? []).map((v) => conv(gridEntry, v)),
+      x: cols.map((c) => convertNumber(c, colEntry, vctx.system)).slice(0, grid[r]?.length ?? 0),
+      values: (grid[r] ?? []).map((v) => convertNumber(v, gridEntry, vctx.system)),
     }));
 
   if (!rowEntry || !colEntry || !gridEntry || grids.length === 0) return null;
@@ -152,7 +149,7 @@ export function EnvelopeBlock({
                   )
                 }
               >
-                {withUnit(formatNumber(conv(rowEntry, r)), rowUnit)}
+                {formatPlain(r, rowEntry, vctx.system)}
               </button>
             ))}
           </div>

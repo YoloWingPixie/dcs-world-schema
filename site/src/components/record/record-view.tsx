@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
 import { COMPANION_PREFIX } from "@/lib/catalog";
 import { loadCatalog, loadRecord, loadReferencedByGroup } from "@/lib/client-data";
@@ -20,11 +19,12 @@ import type {
 import { useUnitSystem } from "@/lib/unit-system";
 import { formatWithUnit, unitGap } from "@/lib/units";
 import { useLoaded } from "@/lib/use-loaded";
-import { Description, type FieldContext, fieldDataAttrs, tipIdFor } from "../field-view";
+import { Description, type FieldContext, FieldRow, fieldDataAttrs } from "../field-view";
 import { LocationFigure } from "../location-map";
 import { Markdown } from "../Markdown";
 import { RefLink } from "../ref-link";
-import { LuaLink, type RenderCtx } from "./blocks";
+import { SeeAlso } from "../see-also";
+import { ProvenanceValue, type RenderCtx } from "./blocks";
 import { RecordGroup, RecordsBlock } from "./record-group";
 import { metaChips, RecordHeader, RecordSkeleton } from "./record-header";
 import { SCRIPTING_ID, ScriptingBlock, useScripting } from "./scripting";
@@ -48,13 +48,25 @@ function useRecord(series: string, slug: string) {
   return state ?? NOT_LOADED;
 }
 
+/** What the companion's fields are called here ("Flight model"). */
+const companionLabel = (catalog: SeriesCatalog) =>
+  catalog.entries[COMPANION_PREFIX]?.label ?? COMPANION_PREFIX;
+
 /** The tag beside a section's title: "flight model" on the companion's own sections, a table's row count. */
-function sectionTag(section: PlacedSection): string | null {
-  if (section.companion) return section.kind === "overview" ? null : "flight model";
+function sectionTag(section: PlacedSection, catalog: SeriesCatalog): string | null {
+  if (section.companion) {
+    return section.kind === "overview" ? null : companionLabel(catalog).toLowerCase();
+  }
   return section.kind === "records" ? String(section.rows.length) : null;
 }
 
-function SectionBody({ section, ctx }: { section: PlacedSection; ctx: RenderCtx }) {
+const SectionBody = memo(function SectionBody({
+  section,
+  ctx,
+}: {
+  section: PlacedSection;
+  ctx: RenderCtx;
+}) {
   switch (section.kind) {
     case "overview":
       return (
@@ -92,51 +104,26 @@ function SectionBody({ section, ctx }: { section: PlacedSection; ctx: RenderCtx 
     case "source":
       return (
         <div className="fields">
-          {section.fields.map((p) => (
-            <ProvenanceRow key={p.path} {...p} ctx={ctx} />
+          {section.fields.map(({ entry, path, value }) => (
+            <FieldRow
+              key={path}
+              entry={entry}
+              path={path}
+              value={value}
+              ctx={ctx.fctx}
+              vctx={ctx.vctx}
+              label={
+                path.startsWith(`${COMPANION_PREFIX}.`)
+                  ? `${companionLabel(ctx.catalog)} ${entry.label.toLowerCase()}`
+                  : entry.label
+              }
+              body={<ProvenanceValue value={value} />}
+            />
           ))}
         </div>
       );
   }
-}
-
-function ProvenanceRow({
-  entry,
-  path,
-  value,
-  ctx,
-}: {
-  entry: CatalogEntry;
-  path: string;
-  value: unknown;
-  ctx: RenderCtx;
-}) {
-  const list = Array.isArray(value) ? value.map(String) : [String(value)];
-  return (
-    <div
-      className="field field-interactive field-wide"
-      tabIndex={0}
-      aria-describedby={tipIdFor(ctx.fctx, path)}
-    >
-      <span className="field-label">
-        {path.startsWith(`${COMPANION_PREFIX}.`)
-          ? `Flight model ${entry.label.toLowerCase()}`
-          : entry.label}
-      </span>
-      <div className="field-body">
-        <ul className="path-list">
-          {list.map((v) => (
-            <li key={v}>
-              {v}
-              <LuaLink path={v} />
-            </li>
-          ))}
-        </ul>
-      </div>
-      <Description entry={entry} id={tipIdFor(ctx.fctx, path)} />
-    </div>
-  );
-}
+});
 
 const groupSize = (g: RefGroup) => Math.max(g.total ?? 0, g.records.length);
 
@@ -256,7 +243,7 @@ function readoutOf(item: StripItem, vctx: ValueContext): Readout {
   return { path, label: entry.label, entry, value, text: plainValue(entry, value, vctx) };
 }
 
-function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
+const Readouts = memo(function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
   if (!items.length) return null;
   return (
     <div className="readouts">
@@ -283,7 +270,7 @@ function Readouts({ items, ctx }: { items: Readout[]; ctx: RenderCtx }) {
       })}
     </div>
   );
-}
+});
 
 /**
  * A record page of any series, rendered from its catalog (client side, from per-record JSON).
@@ -330,6 +317,10 @@ export const RecordView = memo(function RecordView({
     () => (catalog && doc && ctx ? placeRecord(catalog, doc, ctx.vctx) : null),
     [catalog, doc, ctx],
   );
+  const readouts = useMemo(
+    () => (placement && ctx ? placement.strip.map((item) => readoutOf(item, ctx.vctx)) : []),
+    [placement, ctx],
+  );
   const scripting = useScripting(doc);
 
   if (error) {
@@ -346,11 +337,10 @@ export const RecordView = memo(function RecordView({
     return <RecordSkeleton series={series} slug={slug} hint={hint} />;
   }
 
-  const readouts = placement.strip.map((item) => readoutOf(item, ctx.vctx));
   const placed = placement.sections.map((section) => ({
     id: section.id,
     title: section.title,
-    tag: sectionTag(section),
+    tag: sectionTag(section, catalog),
     sub: section.companion && section.kind !== "overview",
     body: <SectionBody section={section} ctx={ctx} />,
   }));
@@ -394,23 +384,7 @@ export const RecordView = memo(function RecordView({
       {doc.overlay?.html || doc.overlay?.seeAlso?.length ? (
         <section className="overlay-note" aria-label="Note">
           {doc.overlay.html ? <Markdown html={doc.overlay.html} handWritten /> : null}
-          {doc.overlay.seeAlso?.length ? (
-            <p className="see-also">
-              See also{" "}
-              {doc.overlay.seeAlso.map((s, i) => (
-                <span key={s.href}>
-                  {i ? ", " : ""}
-                  {/^[a-z]+:/i.test(s.href) ? (
-                    <a href={s.href} rel="noopener noreferrer">
-                      {s.label}
-                    </a>
-                  ) : (
-                    <Link href={s.href}>{s.label}</Link>
-                  )}
-                </span>
-              ))}
-            </p>
-          ) : null}
+          <SeeAlso links={doc.overlay.seeAlso} />
         </section>
       ) : null}
 

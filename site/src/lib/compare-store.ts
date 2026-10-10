@@ -19,20 +19,59 @@ const EMPTY: CompareState = { series: DEFAULT_SERIES, field: null, records: [] }
 const listeners = new Set<() => void>();
 let stored: Stored | null = null;
 let snapshot: CompareState | null = null;
+/** The compare page address last read into the store. */
+let readSearch: string | null = null;
 
 function load(): Stored {
-  if (stored) return stored;
-  try {
-    const raw = window.localStorage.getItem(KEY);
-    const parsed = raw ? (JSON.parse(raw) as Partial<Stored>) : null;
-    stored = {
-      active: typeof parsed?.active === "string" ? parsed.active : DEFAULT_SERIES,
-      bySeries: typeof parsed?.bySeries === "object" && parsed.bySeries ? parsed.bySeries : {},
-    };
-  } catch {
-    stored = { active: DEFAULT_SERIES, bySeries: {} };
+  if (!stored) {
+    try {
+      const raw = window.localStorage.getItem(KEY);
+      const parsed = raw ? (JSON.parse(raw) as Partial<Stored>) : null;
+      stored = {
+        active: typeof parsed?.active === "string" ? parsed.active : DEFAULT_SERIES,
+        bySeries: typeof parsed?.bySeries === "object" && parsed.bySeries ? parsed.bySeries : {},
+      };
+    } catch {
+      stored = { active: DEFAULT_SERIES, bySeries: {} };
+    }
   }
+  readUrl(stored);
   return stored;
+}
+
+/**
+ * On the compare page, a comparison its address names (a shared link, a link elsewhere on
+ * the site) replaces the stored one: once per address, before anything renders it, so no
+ * other series loads first. Afterwards the page writes the store's state to the address.
+ */
+function readUrl(s: Stored) {
+  const { pathname, search } = window.location;
+  if (search === readSearch || !/\/compare\/?$/.test(pathname)) return;
+  readSearch = search;
+  const next = parseCompareParams(new URLSearchParams(search));
+  if (!next) return;
+  const same = s.active === next.series && compareQuery(next) === compareQuery(stateOf(s));
+  if (!same) save(withState(s, next));
+}
+
+function withState(s: Stored, next: CompareState): Stored {
+  return {
+    active: next.series,
+    bySeries: {
+      ...s.bySeries,
+      [next.series]: { field: next.field, records: [...new Set(next.records)] },
+    },
+  };
+}
+
+function save(next: Stored) {
+  stored = next;
+  snapshot = null;
+  try {
+    window.localStorage.setItem(KEY, JSON.stringify(stored));
+  } catch {
+    // Storage blocked: the selection still lives in memory and the URL.
+  }
 }
 
 function stateOf(s: Stored, series = s.active): CompareState {
@@ -57,20 +96,7 @@ export function getCompare(series?: string): CompareState {
 
 /** Replaces the selection of `next.series` and makes it the active comparison. */
 export function setCompare(next: CompareState) {
-  const s = load();
-  stored = {
-    active: next.series,
-    bySeries: {
-      ...s.bySeries,
-      [next.series]: { field: next.field, records: [...new Set(next.records)] },
-    },
-  };
-  snapshot = null;
-  try {
-    window.localStorage.setItem(KEY, JSON.stringify(stored));
-  } catch {
-    // Storage blocked: the selection still lives in memory and the URL.
-  }
+  save(withState(load(), next));
   for (const listener of listeners) listener();
 }
 
@@ -108,6 +134,18 @@ export function useCompare(): CompareState {
   );
 }
 
+/**
+ * The active comparison, or null while the page hydrates (the server has no store): the
+ * compare page renders nothing for a comparison its address may replace.
+ */
+export function useCompareOnClient(): CompareState | null {
+  return useSyncExternalStore(
+    subscribe,
+    () => getCompare(),
+    () => null,
+  );
+}
+
 /** Whether a record is in its series' selection. */
 export function useInCompare(series: string, slug: string): boolean {
   return useSyncExternalStore(
@@ -117,8 +155,8 @@ export function useInCompare(series: string, slug: string): boolean {
   );
 }
 
-/** `/compare/?s=<series>&f=<path>&r=a,b` — the shareable form of a selection. */
-export function compareHref(state: CompareState): string {
+/** `s=<series>&f=<path>&r=a,b` (commas kept readable), with the unit system when imperial. */
+export function compareQuery(state: CompareState): string {
   const params = new URLSearchParams();
   params.set("s", state.series);
   if (state.field) params.set("f", state.field);
@@ -126,7 +164,12 @@ export function compareHref(state: CompareState): string {
   if (typeof window !== "undefined" && getUnitSystem() === "imperial") {
     params.set("units", "imperial");
   }
-  return `/compare/?${params.toString().replace(/%2C/g, ",")}`;
+  return params.toString().replace(/%2C/g, ",");
+}
+
+/** `/compare/?s=<series>&f=<path>&r=a,b` — the shareable form of a selection. */
+export function compareHref(state: CompareState): string {
+  return `/compare/?${compareQuery(state)}`;
 }
 
 export function parseCompareParams(params: URLSearchParams): CompareState | null {

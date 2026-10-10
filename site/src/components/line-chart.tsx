@@ -275,5 +275,3 @@ export function LineChart({
     </div>
   );
 }
-
-export { SERIES_COLORS } from "./chart-colors";

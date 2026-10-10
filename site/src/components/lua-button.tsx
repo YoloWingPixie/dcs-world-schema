@@ -10,8 +10,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { COMPANION_PREFIX } from "@/lib/catalog";
-import { loadRecord } from "@/lib/client-data";
+import { loadCatalog, loadRecord } from "@/lib/client-data";
 import { replaceQuery } from "@/lib/history";
 import { luaAvailable, recordSources, splitSourcePath } from "@/lib/lua/source";
 import { useLoaded } from "@/lib/use-loaded";
@@ -79,20 +78,25 @@ export function useLuaAvailable(): boolean {
  * left the button hides.
  */
 export function LuaButton({ series, slug }: { series: string; slug: string }) {
-  const doc = useLoaded(() => loadRecord(series, slug), `${series}/${slug}`);
+  const loaded = useLoaded(
+    () => Promise.all([loadCatalog(series), loadRecord(series, slug)]),
+    `${series}/${slug}`,
+  );
+  const doc = loaded?.[1];
   const [open, setOpen] = useState<string | null>(null);
   const available = useLuaAvailable();
   const [missing, setMissing] = useState<ReadonlySet<string>>(new Set());
   const button = useRef<HTMLButtonElement>(null);
 
   const sources = useMemo(() => {
-    if (!doc || !available) return { files: [], blocks: [] };
-    const all = recordSources(doc.data, doc.companion, COMPANION_PREFIX);
+    if (!loaded || !available) return { files: [], blocks: [] };
+    const [catalog, record] = loaded;
+    const all = recordSources(catalog, record.data, record.companion);
     return {
       files: all.files.filter((f) => !missing.has(f)),
       blocks: all.blocks.filter((b) => !missing.has(splitSourcePath(b.sourcePath).path)),
     };
-  }, [doc, available, missing]);
+  }, [loaded, available, missing]);
 
   /** A dump path the record has (its file, else its first), as the drawer opens it. */
   const pick = useCallback(

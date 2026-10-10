@@ -5,10 +5,10 @@
  * defaults pick from the catalog); entries only refine.
  */
 
-type Json = Record<string, unknown>;
+import type { Json } from "./json";
 
 export type SeriesDisplay = {
-  /** Display name of a record (default: displayName, name, then the id). */
+  /** Display name of a record (default: its catalog `titleFields`, then the id). */
   name?: (r: Json, id: string) => string;
   /** Slug source before slugify (default: the id). */
   slug?: (r: Json, id: string) => string;
@@ -141,10 +141,20 @@ export function displayFor(series: string): SeriesDisplay {
   return SERIES_DISPLAY[series] ?? {};
 }
 
-export function recordName(series: string, record: Json, id: string): string {
+/** A record's display name: the series' own rule, else its first title field (catalog `titleFields`), else its id. */
+export function recordName(
+  series: string,
+  record: Json,
+  id: string,
+  titleFields: readonly string[],
+): string {
   const custom = displayFor(series).name;
   if (custom) return custom(record, id);
-  return str(record.displayName) ?? str(record.name) ?? id;
+  for (const f of titleFields) {
+    const name = str(record[f]);
+    if (name) return name;
+  }
+  return id;
 }
 
 /** URL-safe slug for an id; ids carry spaces, slashes, braces and parentheses. */

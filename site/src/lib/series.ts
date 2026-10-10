@@ -293,12 +293,16 @@ export const SERIES_BY_ID: ReadonlyMap<string, SeriesInfo> = new Map(SERIES.map(
 /** Series that get their own browse page (companions render inside their parent). */
 export const BROWSABLE_SERIES = SERIES.filter((s) => !s.parent);
 
-/** Ids of the series a schema `ref` names (`Entity.Store`, or a `A | B` union of unit types). */
+/**
+ * Ids of the series a schema `ref` names (`Entity.Store`, or a `A | B` union of unit types);
+ * a companion's records live on their parent's pages, so it names the parent.
+ */
 export function seriesForRef(ref: string): string[] {
-  return ref
+  const ids = ref
     .split("|")
     .map((t) => t.trim())
-    .flatMap((t) => SERIES.filter((s) => s.type === t).map((s) => s.id));
+    .flatMap((t) => SERIES.filter((s) => s.type === t).map((s) => s.parent ?? s.id));
+  return [...new Set(ids)];
 }
 
 /**

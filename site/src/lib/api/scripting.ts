@@ -118,9 +118,8 @@ export function enumField(page: string): { series: string; field: EnumField } | 
   return null;
 }
 
-/** An enum value's anchor on its page (components/api/enum-table.tsx row ids), as a hash. */
-export const enumValueHash = (key: string) =>
-  `#${encodeURIComponent(`v-${encodeURIComponent(key)}`)}`;
+/** An enum value's row id on its page (components/api/enum-table.tsx). */
+export const enumValueId = (key: string) => `v-${encodeURIComponent(key)}`;
 
 /** `Enum.KEY`, or `Enum["Key with spaces"]` when the key is no Lua name. */
 export function enumMemberText(page: string, key: string): string {

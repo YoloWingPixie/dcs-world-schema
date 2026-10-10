@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  convertNumber,
   convertValue,
   displayUnit,
   formatNumber,
@@ -56,7 +57,7 @@ describe("number formatting", () => {
 
 describe("metric / imperial conversion", () => {
   const imp = (v: number, unit: string | null, name?: string) =>
-    convertValue(v, { unit, name }, "imperial");
+    convertValue(v, { unit, conversions: resolveConversions(unit, name) }, "imperial");
 
   it("converts each metric unit to its imperial pair", () => {
     expect(imp(161.48, "kg")).toMatchObject({ unit: "lb", value: 356 });
@@ -103,12 +104,12 @@ describe("metric / imperial conversion", () => {
 describe("radians shown as degrees", () => {
   it("converts rad and rad/s to degrees in both systems", () => {
     for (const system of ["metric", "imperial"] as const) {
-      expect(convertValue(Math.PI / 9, { unit: "rad", name: "fovRad" }, system)).toEqual({
+      expect(convertValue(Math.PI / 9, { unit: "rad" }, system)).toEqual({
         value: 20,
         unit: "°",
         converted: true,
       });
-      expect(convertValue(1.5, { unit: "rad/s", name: "rollRateMaxRadS" }, system)).toEqual({
+      expect(convertValue(1.5, { unit: "rad/s" }, system)).toEqual({
         value: 85.94,
         unit: "°/s",
         converted: true,
@@ -126,7 +127,7 @@ describe("radians shown as degrees", () => {
   });
 
   it("formats degrees without a space and keeps the radian value as the stored form", () => {
-    const f = formatWithUnit(Math.PI / 9, { unit: "rad", name: "fovRad" }, "metric");
+    const f = formatWithUnit(Math.PI / 9, { unit: "rad" }, "metric");
     expect(f).toMatchObject({ text: "20", unit: "°", stored: "0.3491 rad" });
     expect(formatPlain(Math.PI / 9, "rad")).toBe("20°");
     expect(formatPlain(1.5, "rad/s", "imperial")).toBe("85.94°/s");
@@ -159,7 +160,7 @@ describe("sentinel angles", () => {
     expect(isSentinelAngle(-100, "rad")).toBe(true);
     expect(isSentinelAngle(Math.PI, "rad")).toBe(false);
     expect(isSentinelAngle(-100, "m")).toBe(false);
-    expect(convertValue(-100, { unit: "rad", name: "reloadAngleYRad" }, "metric")).toEqual({
+    expect(convertValue(-100, { unit: "rad" }, "metric")).toEqual({
       value: -100,
       unit: "rad",
       converted: false,
@@ -185,8 +186,9 @@ describe("conversions resolved per field", () => {
     expect(displayUnit(range, "metric")).toBe("m");
     expect(resolveConversions("m/s", "climbRateMs").imperial?.to).toBe("ft/min");
     expect(resolveConversions(null)).toEqual({ metric: null, imperial: null });
-    // Bare units (and the legacy unit + name form) still format.
-    expect(formatPlain(18520, { unit: "m", name: "rangeMaxM" }, "imperial")).toBe("10 nm");
+    // A bare unit formats with the unit's own conversions.
+    expect(formatPlain(18520, "m", "imperial")).toBe("60,761 ft");
+    expect(convertNumber(1000, altitude, "imperial")).toBe(3281);
     expect(formatPlain(-100, { unit: "rad", conversions: resolveConversions("rad") })).toBe(
       "-100 rad",
     );

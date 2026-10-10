@@ -14,6 +14,16 @@ export function showToast(text: string, href?: string, linkText?: string) {
   window.dispatchEvent(new CustomEvent<ToastMessage>(EVENT, { detail }));
 }
 
+/** Copies text to the clipboard and reports the outcome in a toast naming `what`. */
+export async function copy(text: string, what: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    showToast(`Copied ${what}.`);
+  } catch {
+    showToast("Copy failed: the browser blocked the clipboard.");
+  }
+}
+
 export function Toaster() {
   const [toast, setToast] = useState<ToastMessage | null>(null);
   useEffect(() => {

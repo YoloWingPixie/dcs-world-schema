@@ -31,8 +31,9 @@ export function fieldDataAttrs(
   ctx: FieldContext,
   vctx: ValueContext,
   label = entry.label,
+  /** `storedValue` of the value, when the caller has it already. */
+  stored = storedValue(entry, value, vctx.system, vctx.enums),
 ) {
-  const stored = storedValue(entry, value, vctx.system, vctx.enums);
   const text = plainValue(entry, value, vctx);
   return {
     "data-field": path,
@@ -48,8 +49,7 @@ export function fieldDataAttrs(
 
 /** Backticked spans in schema descriptions become <code>. */
 export function renderDescription(text: string): ReactNode[] {
-  const clean = text.replace(/^Optional\s+(\w)/, (_, c: string) => c.toUpperCase());
-  return clean.split(/(`[^`]+`)/g).map((part, i) =>
+  return text.split(/(`[^`]+`)/g).map((part, i) =>
     part.startsWith("`") && part.endsWith("`") ? (
       // biome-ignore lint/suspicious/noArrayIndexKey: static split of a fixed string
       <code key={i}>{part.slice(1, -1)}</code>
@@ -136,9 +136,7 @@ export function ScalarValue({
 }) {
   if (value === undefined || value === null) return <span className="muted">—</span>;
   if (entry.kind === "ref") return <RecordLink entry={entry} raw={value} vctx={vctx} />;
-  if (entry.codeField && Array.isArray(value)) {
-    return <>{value.map((v) => enumDisplay(entry, v, vctx.enums).label).join(", ")}</>;
-  }
+  if (entry.codeField && Array.isArray(value)) return <>{plainValue(entry, value, vctx)}</>;
   if (entry.kind === "enum") {
     const d = enumDisplay(entry, value, vctx.enums);
     if (d.rewrite) {
@@ -224,7 +222,7 @@ export function FieldRow({
       tabIndex={0}
       aria-describedby={tipId}
       aria-keyshortcuts="Shift+F10 C"
-      {...fieldDataAttrs(entry, path, value, ctx, vctx, shown)}
+      {...fieldDataAttrs(entry, path, value, ctx, vctx, shown, stored)}
     >
       <span className="field-label">
         {shown}

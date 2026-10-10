@@ -3,12 +3,12 @@ import {
   coverageText,
   isAngleSectors,
   plainValue,
-  rangePair,
   rangeText,
   sectorRanges,
   storedValue,
 } from "./format-field";
 import { enumDisplay } from "./names";
+import { findRangePair } from "./record-tables";
 import type { CatalogEntry } from "./types";
 
 const entry = (over: Partial<CatalogEntry>): CatalogEntry => ({
@@ -35,6 +35,7 @@ const sectors = entry({
   type: "Entity.AngleSector[]",
   kind: "matrix",
   unit: "rad",
+  layout: "sectors",
 });
 // T-72B's main gun: two sectors as DCS stores them.
 const t72 = [
@@ -43,11 +44,11 @@ const t72 = [
 ];
 
 describe("traverse sectors", () => {
-  it("recognises AngleSector arrays only", () => {
+  it("recognises sector-shaped values of `sectors` fields only", () => {
     expect(isAngleSectors(sectors, t72)).toBe(true);
     expect(isAngleSectors(sectors, [[rad(90), rad(-170)]])).toBe(true);
     expect(isAngleSectors(sectors, [[1, 2, 3]])).toBe(false);
-    expect(isAngleSectors({ ...sectors, type: "Entity.ArmourRow[]" }, t72)).toBe(false);
+    expect(isAngleSectors({ ...sectors, layout: "envelope" }, t72)).toBe(false);
   });
 
   it("shows each sector as degree ranges in both systems", () => {
@@ -92,8 +93,8 @@ describe("ranges", () => {
   };
 
   it("finds a type's min/max pair", () => {
-    expect(rangePair(catalog, "Entity.RadioSegment", "segments[]")).toEqual({ min, max });
-    expect(rangePair(catalog, "Entity.Other", "segments[]")).toBeNull();
+    expect(findRangePair(catalog, "Entity.RadioSegment", "segments[]")).toEqual({ min, max });
+    expect(findRangePair(catalog, "Entity.Other", "segments[]")).toBeNull();
   });
 
   it("writes one range or the coverage of several", () => {

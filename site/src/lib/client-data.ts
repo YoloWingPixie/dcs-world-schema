@@ -7,9 +7,10 @@
  */
 import { COMPANION_PREFIX } from "./catalog";
 import { OVERLAYS_URL } from "./db/boot";
-import { browserQuery } from "./db/browser";
+import { browserQuery, transientQuery } from "./db/browser";
 import {
   catalogFor,
+  fieldPaths,
   type GroupTarget,
   getBeaconRows,
   getFieldValues,
@@ -25,6 +26,7 @@ import {
 import { fetchJsonOr, once } from "./once";
 import { slugify } from "./series-display";
 import type {
+  FieldPath,
   FieldValues,
   LinkTarget,
   Overlay,
@@ -43,6 +45,12 @@ export type OverlayFile = {
     }
   >;
 };
+
+/*
+ * Model and series-wide reads go through `browserQuery`, which keeps each statement's rows
+ * for the page's lifetime. Reads whose callers keep the parsed result themselves (a record,
+ * names, beacons, one referenced-by group) use the bounded `transientQuery`.
+ */
 
 export const loadModel = () => once("model", () => loadModelFrom(browserQuery));
 
@@ -86,11 +94,12 @@ export const loadCatalog = (series: string) =>
     return catalog;
   });
 
-/** Comparable concrete paths, keyed stages included. */
+/** Every comparable concrete path of a series: plain fields, then keyed stages (one scan each). */
 export const loadFieldPaths = (series: string) =>
-  once(`paths:${series}`, async () => {
-    const [model, catalog] = await Promise.all([loadModel(), loadCatalog(series)]);
-    return [...catalog.fieldPaths, ...(await keyedFieldPaths(browserQuery, model, series))];
+  once(`paths:${series}`, async (): Promise<FieldPath[]> => {
+    const model = await loadModel();
+    const keyed = await keyedFieldPaths(browserQuery, model, series);
+    return [...fieldPaths(catalogFor(model, series)), ...keyed];
   });
 
 export const loadSeriesIndex = (series: string) =>
@@ -106,7 +115,7 @@ export const loadRecord = (series: string, id: string) =>
     const overlaysLoading = loadOverlays();
     const model = await loadModel();
     const [doc, overlays] = await Promise.all([
-      getRecord(browserQuery, model, series, id),
+      getRecord(transientQuery, model, series, id),
       overlaysLoading,
     ]);
     if (!doc) throw new Error(`No ${series} record ${id}.`);
@@ -116,13 +125,13 @@ export const loadRecord = (series: string, id: string) =>
 
 /** Beacon rows by id, for map points (components/location-map). */
 export const loadBeaconRows = (ids: string[]) =>
-  once(`beacons:${ids.join("\u0000")}`, () => getBeaconRows(browserQuery, ids));
+  once(`beacons:${ids.join("\u0000")}`, () => getBeaconRows(transientQuery, ids));
 
 /** The full list of a capped "referenced by" group (`total` > `records.length`). */
 export const loadReferencedByGroup = (series: string, id: string, from: string, path: string) =>
   once(`refby:${series}:${id}:${from}:${path}`, async (): Promise<LinkTarget[]> => {
     const model = await loadModel();
-    return referencedByGroup(browserQuery, model, series, id, from, path);
+    return referencedByGroup(transientQuery, model, series, id, from, path);
   });
 
 export const loadFieldValues = (series: string, path: string) =>
@@ -133,7 +142,7 @@ export const loadFieldValues = (series: string, path: string) =>
 
 /** Record names by id per series (`series -> id -> name`), for the ids wanted only. */
 export const loadNames = async (wanted: Map<string, Set<string>>) =>
-  namesOf(browserQuery, await loadModel(), wanted);
+  namesOf(transientQuery, await loadModel(), wanted);
 
 /** Per row id, the record a group-by ref field points at (lib/series-display `groupBy`). */
 export const loadGroupTargets = (series: string, path: string) =>

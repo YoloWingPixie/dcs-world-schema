@@ -1,7 +1,7 @@
 import { enumDisplay } from "./names";
-import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc, SeriesCatalog } from "./types";
+import type { CatalogEntry, EnumInfo, LinkTarget, RecordDoc } from "./types";
 import {
-  convertValue,
+  convertNumber,
   displayUnit,
   formatNumber,
   formatPlain,
@@ -26,16 +26,9 @@ export function resolveLink(
 ): ResolvedLink | null {
   if (!links || !entry.ref || (typeof raw !== "string" && typeof raw !== "number")) return null;
   const key = String(raw);
+  // A companion target is its parent's (the catalog resolves refs so).
   for (const series of Object.keys(links)) {
-    const hit = links[series]?.[key];
-    if (hit === undefined) continue;
-    const [slug, name] = typeof hit === "string" ? [key, hit] : (hit as LinkTarget);
-    if (entry.ref.includes(series) || entry.ref.some((r) => r.startsWith(series))) {
-      return { series, slug, name };
-    }
-  }
-  // Companion targets resolve to their parent series.
-  for (const series of Object.keys(links)) {
+    if (!entry.ref.includes(series)) continue;
     const hit = links[series]?.[key];
     if (hit === undefined) continue;
     const [slug, name] = typeof hit === "string" ? [key, hit] : (hit as LinkTarget);
@@ -57,12 +50,12 @@ const numbers = (v: unknown): number[] =>
   Array.isArray(v) ? v.filter((x): x is number => typeof x === "number") : [];
 
 /**
- * Traverse sectors (`Entity.AngleSector[]`, DCS `WS[i].angles`): per sector
+ * Traverse sectors (catalog `layout: "sectors"`, DCS `WS[i].angles`): per sector
  * `[azimuth from, azimuth to, elevation min, elevation max]`, or azimuth only.
  */
 export function isAngleSectors(entry: CatalogEntry, value: unknown): value is number[][] {
   return (
-    entry.type.replace(/\[\]$/, "") === "Entity.AngleSector" &&
+    entry.layout === "sectors" &&
     Array.isArray(value) &&
     value.every(
       (s) =>
@@ -81,33 +74,13 @@ export function sectorRanges(
   sectors: number[][],
   system: UnitSystem,
 ): SectorRange[] {
-  const unit = displayUnit(entry, system);
-  const angle = (v: number) => withUnit(formatNumber(convertValue(v, entry, system).value), unit);
+  const angle = (v: number) => formatPlain(v, entry, system);
   const range = (a: number | undefined, b: number | undefined) =>
     a === undefined || b === undefined ? null : `${angle(a)} to ${angle(b)}`;
   return sectors.map(([az0, az1, el0, el1]) => ({
     azimuth: range(az0, az1) ?? "",
     elevation: range(el0, el1),
   }));
-}
-
-/** The `minX` / `maxX` number pair of a record type (`minMHz`, `maxMHz`), if it has one. */
-export function rangePair(
-  catalog: Pick<SeriesCatalog, "types" | "entries">,
-  typeName: string,
-  prefix: string,
-): { min: CatalogEntry; max: CatalogEntry } | null {
-  const fields = catalog.types[typeName]?.fields ?? [];
-  for (const name of fields) {
-    const rest = /^min([A-Z].*)$/.exec(name)?.[1];
-    if (!rest || !fields.includes(`max${rest}`)) continue;
-    const min = catalog.entries[`${prefix}.${name}`];
-    const max = catalog.entries[`${prefix}.max${rest}`];
-    if (min?.kind === "number" && max?.kind === "number" && min.unit === max.unit) {
-      return { min, max };
-    }
-  }
-  return null;
 }
 
 /** "100–150" (with `unit`: "100–150 MHz") of a row holding a range pair; null when either end is missing. */
@@ -119,7 +92,7 @@ export function rangeText(
 ): string | null {
   const [a, b] = [row[pair.min.name], row[pair.max.name]];
   if (typeof a !== "number" || typeof b !== "number") return null;
-  const fmt = (e: CatalogEntry, v: number) => formatNumber(convertValue(v, e, system).value);
+  const fmt = (e: CatalogEntry, v: number) => formatNumber(convertNumber(v, e, system));
   const text = `${fmt(pair.min, a)}–${fmt(pair.max, b)}`;
   return unit ? withUnit(text, displayUnit(pair.min, system)) : text;
 }
@@ -155,12 +128,12 @@ export function plainValue(entry: CatalogEntry, value: unknown, ctx: ValueContex
   if (typeof value === "boolean") return value ? "Yes" : "No";
   if (typeof value === "string") return value;
   if (isXY(value)) {
-    const ys = value.y.map((v) => convertValue(v, entry, ctx.system).value);
+    const ys = value.y.map((v) => convertNumber(v, entry, ctx.system));
     return `${ys.length} points, ${formatNumber(Math.min(...ys))} to ${formatNumber(Math.max(...ys))}`;
   }
   if (entry.kind === "numbers") {
-    const nums = numbers(value).map((v) => convertValue(v, entry, ctx.system).value);
-    if (entry.axis === "mach" || nums.length > 8) {
+    const nums = numbers(value).map((v) => convertNumber(v, entry, ctx.system));
+    if (entry.axis?.kind === "sampled" || nums.length > 8) {
       return `${nums.length} values, ${formatNumber(Math.min(...nums))} to ${formatNumber(Math.max(...nums))}`;
     }
     return nums.map((n) => formatNumber(n)).join(", ");
@@ -207,7 +180,7 @@ export function sortableValue(
   if (value === undefined || value === null) return null;
   if (typeof value === "number") {
     if (entry.kind === "enum") return enumDisplay(entry, value, ctx.enums).label;
-    return convertValue(value, entry, ctx.system).value;
+    return convertNumber(value, entry, ctx.system);
   }
   if (typeof value === "boolean") return value ? 1 : 0;
   if (typeof value === "string") {
@@ -215,12 +188,10 @@ export function sortableValue(
     if (entry.kind === "ref") return resolveLink(entry, value, ctx.links)?.name ?? value;
     return value;
   }
-  if (isXY(value)) return Math.max(...value.y.map((v) => convertValue(v, entry, ctx.system).value));
+  if (isXY(value)) return Math.max(...value.y.map((v) => convertNumber(v, entry, ctx.system)));
   if (entry.kind === "numbers") {
     const nums = numbers(value);
-    return nums.length
-      ? Math.max(...nums.map((v) => convertValue(v, entry, ctx.system).value))
-      : null;
+    return nums.length ? Math.max(...nums.map((v) => convertNumber(v, entry, ctx.system))) : null;
   }
   if (Array.isArray(value)) return value.length;
   return null;

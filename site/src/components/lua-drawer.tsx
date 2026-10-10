@@ -22,7 +22,7 @@ import {
 } from "@/lib/lua/source";
 import { type Tokens, tokenize } from "@/lib/lua/tokenize";
 import { CloseIcon } from "@/ui/icons";
-import { showToast } from "./toast";
+import { copy } from "./toast";
 import { useModalDialog } from "./use-modal-dialog";
 
 /** Above this many characters the text is shown plain (no token spans). */
@@ -194,14 +194,8 @@ export default function LuaDrawer({
       ? `${safeName(recordId)}.lua`
       : `${safeName(recordId)}_${safeName(labels[files.indexOf(path)] ?? fileStem(path))}.lua`;
 
-  const copy = async () => {
-    if (text === null) return;
-    try {
-      await navigator.clipboard.writeText(text);
-      showToast(`Copied ${fileName}.`);
-    } catch {
-      showToast("Copy failed: the browser blocked the clipboard.");
-    }
+  const copyText = () => {
+    if (text !== null) copy(text, fileName);
   };
 
   const download = () => {
@@ -320,7 +314,7 @@ export default function LuaDrawer({
               type="button"
               className="btn btn-compact"
               disabled={text === null}
-              onClick={copy}
+              onClick={copyText}
             >
               Copy
             </button>
