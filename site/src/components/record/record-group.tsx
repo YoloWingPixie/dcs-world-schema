@@ -72,17 +72,44 @@ export type RecordsLayout =
   | "cards"
   | "json";
 
+/** Most items a list in a table cell holds; a longer one gets its item a card of its own. */
+const CELL_LIST_MAX = 6;
+
+/**
+ * Whether these items read as one card each: an item fills a nested table (in an array the
+ * catalog lays out as cards) or carries a list too long for a cell (`CELL_LIST_MAX`).
+ */
+function fillsCards(catalog: RenderCtx["catalog"], entry: CatalogEntry, rows: unknown[]) {
+  const items = rows.filter(isRecord);
+  const cards = entry.layout === "cards";
+  return complexFields(catalog, entry.recordType ?? "", entry.itemPath ?? "").some((f) =>
+    items.some((r) => {
+      const v = r[f.name];
+      return (
+        present(v) &&
+        Array.isArray(v) &&
+        ((cards && holdsTable(f.entry)) || v.length > CELL_LIST_MAX)
+      );
+    }),
+  );
+}
+
 /**
  * How an array of records reads where it is, by the catalog's layout: in a record group
  * (under its own heading) envelopes, lists of ranges, one line per item, an axis table's
- * chart above its table, else a table or cards; in a table cell or record card, items by
- * their link, one line per item, else a compact table.
+ * chart above its table, else cards when its items fill them (`fillsCards`) or a table; in
+ * a table cell or record card, items by their link, one line per item, else a compact table.
  */
-export function recordsLayoutFor(entry: CatalogEntry, place: BlockPlace["in"]): RecordsLayout {
+export function recordsLayoutFor(
+  entry: CatalogEntry,
+  place: BlockPlace["in"],
+  rows: unknown[],
+  catalog: RenderCtx["catalog"],
+): RecordsLayout {
   if (place === "group") {
     if (entry.layout === "envelope" || entry.layout === "ranges") return entry.layout;
     if (entry.layout === "list-per-item" || entry.layout === "axis-table") return entry.layout;
-    return entry.layout === "cards" ? "cards" : "table";
+    return fillsCards(catalog, entry, rows) ? "cards" : "table";
   }
   if (entry.linkField) return "linked";
   if (entry.layout === "list-per-item") return "list-per-item";
@@ -104,7 +131,8 @@ export function RecordsBlock({
   prefix: string;
   place: BlockPlace["in"];
 }) {
-  const layout = recordsLayoutFor(entry, place);
+  const layout = recordsLayoutFor(entry, place, rows, ctx.catalog);
+  // An axis table's items and a list of ranges' hold no lists (lib/catalog `layout`).
   const table = (
     <RecordsTable
       entry={entry}
@@ -112,7 +140,7 @@ export function RecordsBlock({
       ctx={ctx}
       prefix={prefix}
       compact={place === "cell"}
-      cards={layout === "cards"}
+      layout={layout === "cards" ? "cards" : "table"}
     />
   );
   switch (layout) {
@@ -351,13 +379,10 @@ export function RecordGroup({
   );
 }
 
-/** Items in a list longer than this read as one card per item, not table rows. */
-const LONG_LIST = 6;
-
 /**
- * An array of records: a table when every field fits a cell, else one card per item.
- * Keyed arrays (motor stages) give each cell its concrete path for compare; tables with
- * an axis column (`mach`) get a chart of the other columns.
+ * An array of records as a table, its lists in cells, or one card per item, as its
+ * `recordsLayoutFor` says. Keyed arrays (motor stages) give each cell its concrete path
+ * for compare.
  */
 export function RecordsTable({
   entry,
@@ -365,7 +390,7 @@ export function RecordsTable({
   ctx,
   prefix,
   compact,
-  cards,
+  layout,
 }: {
   entry: CatalogEntry;
   rows: unknown[];
@@ -373,8 +398,7 @@ export function RecordsTable({
   /** Catalog path of the array (`stations`, `flight.motorStages`). */
   prefix: string;
   compact?: boolean;
-  /** Laid out as cards (`recordsLayoutFor`): its items hold nested tables. */
-  cards?: boolean;
+  layout: "table" | "cards";
 }) {
   const typeName = entry.recordType ?? "";
   const itemPrefix = entry.itemPath ?? "";
@@ -385,19 +409,10 @@ export function RecordsTable({
     rows.some((r) => isRecord(r) && present(r[f.name])),
   );
   const items = rows.filter(isRecord);
-  // One card per item when an item fills a nested table (an array the catalog lays out as
-  // cards) or carries a long list; else complex fields fit cells.
-  const fillsCard = complex.some((f) =>
-    items.some((r) => {
-      const v = r[f.name];
-      return Array.isArray(v) && ((cards && holdsTable(f.entry)) || v.length > LONG_LIST);
-    }),
-  );
-  const inline = compact || !fillsCard;
   const [showAll, setShowAll] = useState(false);
   const cardLimit = 12;
 
-  if (complex.length && !inline) {
+  if (layout === "cards") {
     const shown = showAll ? items : items.slice(0, cardLimit);
     return (
       <div className="record-cards">
@@ -467,13 +482,11 @@ export function RecordsTable({
                   {unitLabel(c.entry.label, c.entry, ctx.vctx.system)}
                 </th>
               ))}
-            {inline
-              ? complex.map((f) => (
-                  <th scope="col" key={f.name}>
-                    {f.entry.label}
-                  </th>
-                ))
-              : null}
+            {complex.map((f) => (
+              <th scope="col" key={f.name}>
+                {f.entry.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -515,18 +528,16 @@ export function RecordsTable({
                       </td>
                     );
                   })}
-                {inline
-                  ? complex.map((f) => (
-                      <td key={f.name}>
-                        {Array.isArray(row[f.name])
-                          ? blockFor(f.entry, row[f.name], ctx, {
-                              in: "cell",
-                              path: `${itemPrefix}.${f.name}`,
-                            }).node
-                          : null}
-                      </td>
-                    ))
-                  : null}
+                {complex.map((f) => (
+                  <td key={f.name}>
+                    {Array.isArray(row[f.name])
+                      ? blockFor(f.entry, row[f.name], ctx, {
+                          in: "cell",
+                          path: `${itemPrefix}.${f.name}`,
+                        }).node
+                      : null}
+                  </td>
+                ))}
               </tr>
             );
           })}

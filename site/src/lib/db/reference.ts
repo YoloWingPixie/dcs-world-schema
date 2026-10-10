@@ -8,7 +8,6 @@
 
 import type { SchemaTypes } from "../catalog";
 import {
-  browseLabel,
   buildSeriesCatalog,
   COMPANION_PREFIX,
   catalogKeyFor,
@@ -18,11 +17,12 @@ import {
   tableAxis,
   valuesAt,
 } from "../catalog";
+import { pathLabel } from "../format-field";
 import { collidingIds, LINK_DETAILS, withDetail } from "../link-details";
 import { perObject } from "../once";
 import { withoutNamedCodes } from "../record-tables";
 import { SERIES_BY_ID, SERIES_GROUPS, type SeriesGroupId } from "../series";
-import { displayFor, offersConfiguredFacet } from "../series-display";
+import { displayFor, offersFacet } from "../series-display";
 import { naturalCompare } from "../text";
 import {
   type CatalogEntry,
@@ -559,7 +559,7 @@ const topLevelScalars = (catalog: SeriesCatalog) =>
  * The catalog entry a browse column or facet path names, by the column picker's rule: one
  * value per record (`compareAs` `value`) of a scalar kind. A facet may also be a list
  * (`attributes`), each item one of its values. Null for any other path. Columns outside
- * the browse index load lazily (lib/client-data `loadFieldValues`).
+ * the browse index load lazily (lib/client-data `loadLinkedField`).
  */
 export function browseEntry(
   catalog: SeriesCatalog,
@@ -645,20 +645,17 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     });
     return found.length ? found : undefined;
   };
-  const indexed = new Set(columns.map((c) => c.path));
+  // Configured facets go as listed: browse offers each that holds two values
+  // (lib/series-display `offersFacet`), once it has the values of those outside the index.
   const facets =
-    // An index column holds at least two values; another column's values are not read here.
-    configured(display.facets, "facet")?.filter(
-      ({ path, entry }) =>
-        !indexed.has(path) || offersConfiguredFacet(series, [path], distinct(entry)),
-    ) ??
+    configured(display.facets, "facet") ??
     columns
       .filter(
         (c) => (c.kind === "enum" || c.kind === "boolean" || c.kind === "string") && !skipped(c),
       )
       .filter((c) => {
         const d = distinct(c);
-        return d >= 2 && d <= (c.kind === "string" ? 12 : 40) && coverage(c) >= count * 0.3;
+        return offersFacet(d) && d <= (c.kind === "string" ? 12 : 40) && coverage(c) >= count * 0.3;
       })
       .sort((a, b) => (a.kind === "boolean" ? 1 : 0) - (b.kind === "boolean" ? 1 : 0))
       .slice(0, 5)
@@ -677,7 +674,6 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
     return [
       rid,
       names.get(rid) ?? rid,
-      rid,
       ...columns.map((c) => {
         const v = r[c.name];
         if (v === null || v === undefined) return null;
@@ -690,7 +686,7 @@ export async function getSeriesIndex(q: Query, model: Model, series: string): Pr
 
   const facetList: Facet[] = facets.map(({ path, entry }) => ({
     path,
-    label: browseLabel(catalog, entry),
+    label: pathLabel(entry, path),
     kind: entry.kind === "enum" ? "enum" : entry.kind === "boolean" ? "boolean" : "string",
   }));
   return {
@@ -718,11 +714,7 @@ export async function getGroupTargets(
   series: string,
   path: string,
 ): Promise<Record<string, GroupTarget>> {
-  const ref = model.refPaths.find(
-    (p) =>
-      p.series === series &&
-      ((p.table === series && p.path === path) || (p.table !== series && p.path === `${path}[]`)),
-  );
+  const ref = storageOf(model, series, path)?.ref;
   if (!ref) return {};
   const target = `j.${qi(ref.targetColumn)}`;
   // A `units` ref names a record of whichever unit series holds the id.
@@ -748,6 +740,57 @@ export async function getGroupTargets(
 // ---------------------------------------------------------------------------
 // Compare
 
+/** Where a field path is stored in the database (`storageOf`). */
+export type Storage = {
+  /** The table holding the path's root column: the series', or its companion's for `flight.` paths. */
+  table: string;
+  /** That table's record key column. */
+  key: string;
+  /** The root column. */
+  column: string;
+  /** The column's catalog path (`flight.aerodynamics`). */
+  field: string;
+  /** Where a nested path sits in the column's JSON (`$.a.b`); null for the whole column. */
+  json: string | null;
+  /**
+   * The `ref_paths` row of a whole column of refs: a join table for a list of ids
+   * (`unitTypes`), the series' own table for one id. Null for any other path.
+   */
+  ref: RefPath | null;
+};
+
+/** The table, column, JSON path and ref join of a series' field path; null outside the series. */
+export function storageOf(model: Model, series: string, path: string): Storage | null {
+  const s = model.byId.get(series);
+  if (!s) return null;
+  const { root: table, rest } = rootFor(
+    path,
+    s,
+    s.companion ? model.byId.get(s.companion) : undefined,
+  );
+  if (!table || !rest) return null;
+  const [column, ...inner] = rest.split(".") as [string, ...string[]];
+  const ref = inner.length
+    ? undefined
+    : model.refPaths.find(
+        (p) =>
+          p.series === table.id &&
+          (p.table === table.id ? p.path === column : p.path === `${column}[]`),
+      );
+  return {
+    table: table.id,
+    key: table.keyColumn,
+    column,
+    field: path.slice(0, path.length - rest.length) + column,
+    json: inner.length ? `$.${inner.join(".")}` : null,
+    ref: ref ?? null,
+  };
+}
+
+/** Whether a stored value counts as one: not null, not an empty list (as lib/catalog `walkPath`). */
+const present = (v: unknown) =>
+  v !== undefined && v !== null && !(Array.isArray(v) && v.length === 0);
+
 /** One field across every record of a series, keyed by id. */
 export async function getFieldValues(
   q: Query,
@@ -755,74 +798,64 @@ export async function getFieldValues(
   series: string,
   path: string,
 ): Promise<FieldValues> {
-  const s = model.byId.get(series);
-  if (!s) return { path, values: {} };
+  if (!model.byId.has(series)) return { path, values: {} };
   const catalog = catalogFor(model, series);
   const key = catalogKeyFor(path, catalog);
   const entry = key ? catalog.entries[key] : undefined;
   if (!entry) return { path, values: {} };
   // A curve or surfaces reads its table; any other value its own path.
-  const read = tableAxis(entry)?.table ?? path;
-  const { root: table, rest } = rootFor(
-    read,
-    s,
-    s.companion ? model.byId.get(s.companion) : undefined,
-  );
-  if (!table) return { path, values: {} };
-  const prefix = read.slice(0, read.length - rest.length);
-  const [column, ...inner] = rest.split(".") as [string, ...string[]];
+  const at = storageOf(model, series, tableAxis(entry)?.table ?? path);
+  if (!at) return { path, values: {} };
   const values: Record<string, unknown> = {};
+  const keep = (k: unknown, v: unknown) => {
+    if (present(v)) values[String(k)] = v;
+  };
   // One value (or list) at a plain path; a keyed path names its key, so is not its catalog key.
   const simple =
     (entry.compareAs === "value" || entry.compareAs === "samples") && path === entry.path;
-  const columnRows = () =>
-    q(
-      `SELECT ${qi(table.keyColumn)} AS k, ${qi(column)} AS v FROM ${qi(table.id)} WHERE ${qi(column)} IS NOT NULL`,
-    );
 
   // A whole column listing refs reads its join table (a few pages), not the series' wide
-  // rows; a record with an empty list has no join rows, so no value.
-  const join =
-    simple && inner.length === 0 && entry.kind === "strings"
-      ? model.refPaths.find(
-          (p) => p.series === table.id && p.table !== table.id && p.path === `${column}[]`,
-        )
-      : undefined;
-  if (join) {
+  // rows; a record with an empty list has no join rows. Unordered, so the read stays on
+  // the table's own pages: items go in place by ordinal.
+  if (simple && at.ref && at.ref.table !== at.table) {
     const rows = await q(
-      `SELECT ${qi(join.source)} AS k, ${qi(join.targetColumn)} AS v FROM ${qi(join.table)} ORDER BY k, ordinal`,
+      `SELECT ${qi(at.ref.source)} AS k, ${qi(at.ref.targetColumn)} AS v, ordinal AS o FROM ${qi(at.ref.table)}`,
     );
+    const lists = new Map<string, Array<[number, unknown]>>();
     for (const r of rows) {
-      const list = (values[String(r.k)] as unknown[] | undefined) ?? [];
-      list.push(r.v);
-      values[String(r.k)] = list;
+      const k = String(r.k);
+      const list = lists.get(k) ?? [];
+      list.push([Number(r.o), r.v]);
+      lists.set(k, list);
     }
+    for (const [k, list] of lists)
+      keep(
+        k,
+        list.sort((x, y) => x[0] - y[0]).map(([, v]) => v),
+      );
     return { path, values };
   }
-  if (simple && inner.length === 0) {
-    for (const r of await columnRows()) values[String(r.k)] = decodeValue(entry, r.v);
-    return { path, values };
-  }
+  const read = (v: string, params: unknown[] = []) =>
+    q(`SELECT ${qi(at.key)} AS k, ${v} AS v FROM ${qi(at.table)} WHERE v IS NOT NULL`, params);
   if (simple) {
-    const rows = await q(
-      `SELECT ${qi(table.keyColumn)} AS k, json_extract(${qi(column)}, ?) AS v FROM ${qi(table.id)} WHERE v IS NOT NULL`,
-      [`$.${inner.join(".")}`],
-    );
-    for (const r of rows) {
-      const v = decodeValue(entry, r.v);
-      if (Array.isArray(v) && v.length === 0) continue;
-      values[String(r.k)] = v;
-    }
+    const rows = at.json
+      ? await read(`json_extract(${qi(at.column)}, ?)`, [at.json])
+      : await read(qi(at.column));
+    for (const r of rows) keep(r.k, decodeValue(entry, r.v));
     return { path, values };
   }
   // Keyed stages, axis tables, envelopes: read the column and walk it.
-  const columnEntry = catalog.entries[prefix + column];
-  for (const r of await columnRows()) {
-    const root = { [column]: decodeValue(columnEntry, r.v) };
-    const found = valuesAt(entry, catalog, prefix ? {} : root, prefix ? root : undefined).find(
-      (v) => v.path === path,
-    );
-    if (found) values[String(r.k)] = found.value;
+  const columnEntry = catalog.entries[at.field];
+  const inCompanion = at.field !== at.column;
+  for (const r of await read(qi(at.column))) {
+    const root = { [at.column]: decodeValue(columnEntry, r.v) };
+    const found = valuesAt(
+      entry,
+      catalog,
+      inCompanion ? {} : root,
+      inCompanion ? root : undefined,
+    ).find((v) => v.path === path);
+    if (found) keep(r.k, found.value);
   }
   return { path, values };
 }
@@ -843,17 +876,15 @@ export async function keyedFieldPaths(
   model: Model,
   series: string,
 ): Promise<FieldPath[]> {
-  const s = model.byId.get(series);
-  if (!s) return [];
+  if (!model.byId.has(series)) return [];
   const catalog = catalogFor(model, series);
-  const companion = s.companion ? model.byId.get(s.companion) : undefined;
   const out: FieldPath[] = [];
   for (const arr of Object.values(catalog.entries).filter((e) => e.keyField)) {
-    const { root: table, rest } = rootFor(arr.path, s, companion);
+    const at = storageOf(model, series, arr.path);
     // Only arrays that are a whole column.
-    if (!table || !rest || rest.includes(".")) continue;
+    if (!at || at.json) continue;
     const rows = await q(
-      `SELECT json_extract(j.value, ?) AS key, count(*) AS n FROM ${qi(table.id)}, json_each(${qi(table.id)}.${qi(rest)}) AS j GROUP BY key ORDER BY n DESC`,
+      `SELECT json_extract(j.value, ?) AS key, count(*) AS n FROM ${qi(at.table)}, json_each(${qi(at.table)}.${qi(at.column)}) AS j GROUP BY key ORDER BY n DESC`,
       [`$.${arr.keyField}`],
     );
     for (const r of rows) {

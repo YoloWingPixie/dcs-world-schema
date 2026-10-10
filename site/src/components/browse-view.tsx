@@ -11,20 +11,20 @@ import {
   layoutItems,
   visibleRange,
 } from "@/lib/browse-groups";
-import { browseLabel } from "@/lib/catalog";
 import { cellText } from "@/lib/cell-text";
 import {
-  loadBrowseColumn,
+  type LinkedField,
   loadCatalog,
   loadGroupTargets,
+  loadLinkedField,
   loadSeriesIndex,
 } from "@/lib/client-data";
 import { browseEntry, fieldPaths, type GroupTarget } from "@/lib/db/reference";
-import { sortableValue, type ValueContext } from "@/lib/format-field";
+import { pathLabel, resolveLink, sortableValue, type ValueContext } from "@/lib/format-field";
 import { updateQuery } from "@/lib/history";
 import { enumDisplay } from "@/lib/names";
 import { facetParam, recordHref, SERIES_BY_ID } from "@/lib/series";
-import { displayFor } from "@/lib/series-display";
+import { displayFor, offersFacet } from "@/lib/series-display";
 import { capitalise, compareSortKeys, naturalCompare } from "@/lib/text";
 import type { CatalogEntry, Facet, SeriesCatalog } from "@/lib/types";
 import { useUnitSystem } from "@/lib/unit-system";
@@ -45,7 +45,25 @@ const OVERSCAN = 12;
 /** Narrowest name column before trailing columns are left out. */
 const NAME_MIN = 180;
 
-type Row = { slug: string; name: string; id: string; values: Map<string, unknown> };
+type Row = { id: string; name: string; values: Map<string, unknown> };
+
+/** A browse column or facet path as the catalog reads it (lib/db/reference `browseEntry`). */
+type BrowseField = { entry: CatalogEntry; label: string };
+
+/** Each path's entry and stand-alone label (`pathLabel`); a path the catalog has no browse entry for is left out. */
+function browseFields(
+  catalog: SeriesCatalog | null,
+  paths: readonly string[],
+  use: "column" | "facet",
+): Map<string, BrowseField> {
+  const out = new Map<string, BrowseField>();
+  if (!catalog) return out;
+  for (const path of paths) {
+    const entry = browseEntry(catalog, path, use);
+    if (entry) out.set(path, { entry, label: pathLabel(entry, path) });
+  }
+  return out;
+}
 
 /** `?group=flat` lists a grouped series flat. */
 const GROUP_PARAM = "group";
@@ -59,20 +77,34 @@ function sortKey(entry: CatalogEntry | undefined, value: unknown, ctx: ValueCont
   return cellText(entry, value, ctx);
 }
 
-/** The values a facet sees in one row, as text: none for an empty cell, each item of a list. */
-function facetValues(facet: Facet, value: unknown): string[] {
+/**
+ * The values a facet sees in one row, as text: none for an empty cell, each item of a
+ * list, a ref's record by name (`links`: the column's link table).
+ */
+function facetValues(
+  facet: Facet,
+  value: unknown,
+  entry: CatalogEntry | undefined,
+  links: LinkedField["links"] | undefined,
+): string[] {
   if (value === undefined || value === null) return [];
-  if (Array.isArray(value)) return value.map(String);
+  const text = (v: unknown) =>
+    (entry?.ref ? resolveLink(entry, v, links)?.name : undefined) ?? String(v);
+  if (Array.isArray(value)) return value.map(text);
   if (facet.kind === "boolean") return [value ? "true" : "false"];
-  return [String(value)];
+  return [text(value)];
 }
 
-function facetLabel(facet: Facet, value: string, catalog: SeriesCatalog | null): string {
+function facetLabel(
+  facet: Facet,
+  value: string,
+  entry: CatalogEntry | undefined,
+  ctx: ValueContext,
+): string {
   if (facet.kind === "boolean") return value === "true" ? "Yes" : "No";
-  const entry = catalog?.entries[facet.path];
-  if (facet.kind === "enum" && entry && catalog) {
+  if (facet.kind === "enum" && entry) {
     const raw = /^-?\d+(\.\d+)?$/.test(value) ? Number(value) : value;
-    return enumDisplay(entry, raw, catalog.enums).label;
+    return enumDisplay(entry, raw, ctx.enums).label;
   }
   return value;
 }
@@ -93,7 +125,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
   const index = loaded?.index ?? null;
   const error = loaded?.error ?? null;
   const catalog = useLoaded(loadCatalog, series);
-  const [extra, setExtra] = useState<Record<string, Record<string, unknown>>>({});
+  const [extra, setExtra] = useState<Record<string, LinkedField>>({});
   // The text filter, kept in the URL (debounced) so a filtered list is shareable.
   const [query, setQuery] = useQueryParam("q");
   const [sort, setSort] = useState<SortState>({ key: "name", dir: 1 });
@@ -121,37 +153,65 @@ export function BrowseView({ series, count }: { series: string; count: number })
     return index?.visible ?? [];
   }, [colsParam, index, grouped, groupBy]);
 
-  // Lazily load the shown columns and the facets the index does not carry (nested or
-  // list-valued fields, picked columns).
+  // Lazily load what the index does not carry (nested or list-valued fields, picked
+  // columns): the shown columns, and a facet once the filters show or the address
+  // selects in it (the filters start closed on phones). Each path is asked for once.
+  const inAddress = (index?.facets ?? [])
+    .filter((f) => params.has(facetParam(f.path)))
+    .map((f) => f.path)
+    .join("\n");
+  const missing = useMemo(() => {
+    if (!index) return "";
+    const facetPaths = index.facets
+      .map((f) => f.path)
+      .filter((p) => filtersOpen || inAddress.split("\n").includes(p));
+    const paths = new Set([...columns, ...facetPaths].filter((p) => !index.columns.includes(p)));
+    return [...paths].join("\n");
+  }, [index, columns, filtersOpen, inAddress]);
+  const requested = useRef(new Set<string>());
   useEffect(() => {
-    if (!index) return;
-    for (const path of [...columns, ...index.facets.map((f) => f.path)]) {
-      if (index.columns.includes(path) || extra[path]) continue;
-      loadBrowseColumn(series, path).then(
-        (values) => setExtra((e) => ({ ...e, [path]: values })),
-        () => setExtra((e) => ({ ...e, [path]: {} })),
+    for (const path of missing ? missing.split("\n") : []) {
+      const key = `${series}\n${path}`;
+      if (requested.current.has(key)) continue;
+      requested.current.add(key);
+      loadLinkedField(series, path).then(
+        (field) => setExtra((e) => ({ ...e, [path]: field })),
+        () => setExtra((e) => ({ ...e, [path]: { values: {}, links: {} } })),
       );
     }
-  }, [columns, index, series, extra]);
+  }, [missing, series]);
 
   const rows = useMemo<Row[]>(() => {
     if (!index) return [];
     return index.rows.map((r) => {
-      const [slug, name, id] = r;
+      const [id, name] = r;
       const values = new Map<string, unknown>();
       for (let i = 0; i < index.columns.length; i++) {
-        values.set(index.columns[i] as string, r[3 + i]);
+        values.set(index.columns[i] as string, r[2 + i]);
       }
-      for (const [path, map] of Object.entries(extra)) values.set(path, map[slug]);
-      return { slug, name, id, values };
+      for (const [path, field] of Object.entries(extra)) values.set(path, field.values[id]);
+      return { id, name, values };
     });
   }, [index, extra]);
+  const columnFields = useMemo(() => browseFields(catalog, columns, "column"), [catalog, columns]);
+  const facetFields = useMemo(
+    () => browseFields(catalog, index?.facets.map((f) => f.path) ?? [], "facet"),
+    [catalog, index],
+  );
+  /** The value context of a column or facet: a lazily loaded one's link table. */
+  const ctxFor = useCallback(
+    (path: string, ctx: ValueContext): ValueContext => {
+      const links = extra[path]?.links;
+      return links ? { ...ctx, links } : ctx;
+    },
+    [extra],
+  );
 
   // Each row's group: the record its group-by ref names, else its fallback column.
   const groupOf = useMemo(() => {
     const cache = new Map<string, GroupOf>();
     return (row: Row): GroupOf => {
-      const hit = cache.get(row.slug);
+      const hit = cache.get(row.id);
       if (hit) return hit;
       const t = targets?.[row.id];
       const fallback = groupBy?.fallback ? row.values.get(groupBy.fallback) : undefined;
@@ -162,21 +222,31 @@ export function BrowseView({ series, count }: { series: string; count: number })
         if (t[1] !== t[2]) g.sub = t[1];
       } else if (folder) g = { key: `~${folder.toLowerCase()}`, label: folder };
       else g = { key: NO_GROUP, label: `No ${groupBy?.label ?? "group"}` };
-      cache.set(row.slug, g);
+      cache.set(row.id, g);
       return g;
     };
   }, [targets, groupBy]);
 
-  // A facet outside the index is offered once its loaded values hold at least two values,
-  // as the index's own facets do.
+  // The values a facet sees in a row.
+  const valuesOf = useCallback(
+    (row: Row, facet: Facet) =>
+      facetValues(
+        facet,
+        row.values.get(facet.path),
+        facetFields.get(facet.path)?.entry,
+        extra[facet.path]?.links,
+      ),
+    [facetFields, extra],
+  );
+  // A facet is offered when its values hold enough distinct ones (`offersFacet`); one
+  // outside the index is kept until its values load.
   const facets = useMemo(() => {
     if (!index) return [];
     return index.facets.filter((f) => {
-      const values = extra[f.path];
-      if (index.columns.includes(f.path) || !values) return true;
-      return new Set(Object.values(values).flatMap((v) => facetValues(f, v))).size >= 2;
+      if (!index.columns.includes(f.path) && !extra[f.path]) return true;
+      return offersFacet(new Set(rows.flatMap((r) => valuesOf(r, f))).size);
     });
-  }, [index, extra]);
+  }, [index, extra, rows, valuesOf]);
   // The facet selections as one string: `selected` changes only when they do.
   const facetQuery = JSON.stringify(facets.map((f) => params.getAll(facetParam(f.path))));
   const selected = useMemo(() => {
@@ -188,10 +258,9 @@ export function BrowseView({ series, count }: { series: string; count: number })
     (row: Row, facet: Facet) => {
       const sel = selected[facet.path] ?? [];
       if (sel.length === 0) return true;
-      const vals = facetValues(facet, row.values.get(facet.path));
-      return vals.some((v) => sel.includes(v));
+      return valuesOf(row, facet).some((v) => sel.includes(v));
     },
-    [selected],
+    [selected, valuesOf],
   );
 
   const ctx = useMemo<ValueContext>(
@@ -202,11 +271,14 @@ export function BrowseView({ series, count }: { series: string; count: number })
   // Each row's cell texts (every column, not only those that fit) and its lowercased
   // filter text, built once per data, column or unit change rather than per keystroke.
   const texts = useMemo(() => {
-    const entries = columns.map((c) => catalog?.entries[c]);
+    const entries = columns.map((c) => columnFields.get(c)?.entry);
+    const ctxs = columns.map((c) => ctxFor(c, ctx));
     const cells = new Map<Row, string[]>();
     const hay = new Map<Row, string>();
     for (const row of rows) {
-      const own = columns.map((c, i) => cellText(entries[i], row.values.get(c), ctx));
+      const own = columns.map((c, i) =>
+        cellText(entries[i], row.values.get(c), ctxs[i] as ValueContext),
+      );
       cells.set(row, own);
       hay.set(
         row,
@@ -214,7 +286,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       );
     }
     return { cells, hay };
-  }, [rows, columns, catalog, ctx, groupBy, groupOf]);
+  }, [rows, columns, columnFields, ctx, ctxFor, groupBy, groupOf]);
 
   const textMatched = useMemo(() => {
     const tokens = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
@@ -237,7 +309,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       for (const f of failing.length ? failing : facets) {
         const map = counts.get(f.path);
         if (!map) continue;
-        for (const v of new Set(facetValues(f, row.values.get(f.path)))) {
+        for (const v of new Set(valuesOf(row, f))) {
           map.set(v, (map.get(v) ?? 0) + 1);
         }
       }
@@ -253,20 +325,21 @@ export function BrowseView({ series, count }: { series: string; count: number })
       }),
     );
     return { filtered, options };
-  }, [textMatched, facets, matchesFacet, selected]);
+  }, [textMatched, facets, matchesFacet, selected, valuesOf]);
   const filtered = facetOptions.filtered;
 
   // Sort keys computed once per row, then indices sorted with one shared collator.
   const sorted = useMemo(() => {
     const key = sort.key;
-    const entry = catalog?.entries[key];
+    const entry = columnFields.get(key)?.entry;
+    const keyCtx = ctxFor(key, ctx);
     const keys = filtered.map((row) =>
-      key === "name" ? row.name : sortKey(entry, row.values.get(key), ctx),
+      key === "name" ? row.name : sortKey(entry, row.values.get(key), keyCtx),
     );
     const order = filtered.map((_, i) => i);
     order.sort((i, j) => compareSortKeys(keys[i], keys[j], sort.dir));
     return order.map((i) => filtered[i] as Row);
-  }, [filtered, sort, catalog, ctx]);
+  }, [filtered, sort, columnFields, ctx, ctxFor]);
 
   const toggle = (path: string, value: string) =>
     updateQuery((next) => {
@@ -288,15 +361,12 @@ export function BrowseView({ series, count }: { series: string; count: number })
 
   const setColumns = (cols: string[]) => updateQuery((next) => next.set("cols", cols.join(",")));
 
+  // One value per record (`browseEntry`): a table column's curve is no browse column.
   const pickable = useMemo(() => {
-    if (!catalog) return [];
-    const out: Array<{ path: string; entry: CatalogEntry }> = [];
-    for (const fp of fieldPaths(catalog)) {
-      // One value per record: a table column's curve is no browse column.
-      const entry = browseEntry(catalog, fp.path, "column");
-      if (entry) out.push({ path: fp.path, entry });
-    }
-    return out.sort((a, b) => naturalCompare(a.path, b.path));
+    const paths = catalog ? fieldPaths(catalog).map((fp) => fp.path) : [];
+    return [...browseFields(catalog, paths, "column")]
+      .map(([path, field]) => ({ path, ...field }))
+      .sort((a, b) => naturalCompare(a.path, b.path));
   }, [catalog]);
 
   // ---- virtualization: the page scrolls; <BrowseBody> renders the rows in the window's
@@ -353,21 +423,23 @@ export function BrowseView({ series, count }: { series: string; count: number })
     });
 
   const headerLabel = (path: string) => {
-    const entry = catalog?.entries[path];
-    if (!catalog || !entry) return path;
-    const label = browseLabel(catalog, entry);
-    return entry.kind === "number" ? unitLabel(label, entry, system) : label;
+    const field = columnFields.get(path);
+    if (!field) return path;
+    return field.entry.kind === "number"
+      ? unitLabel(field.label, field.entry, system)
+      : field.label;
   };
+  const numeric = (path: string) => columnFields.get(path)?.entry.kind === "number";
 
   // Column widths from every row (not the rendered slice), so scrolling never reflows.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: headerLabel reads catalog and system
+  // biome-ignore lint/correctness/useExhaustiveDependencies: headerLabel reads columnFields and system
   const allWidths = useMemo(
     () =>
       columns.map((c, i) => {
         const lengths = rows.map((r) => texts.cells.get(r)?.[i]?.length ?? 0);
         return columnWidth(lengths, headerLabel(c).length);
       }),
-    [columns, rows, texts, catalog, system],
+    [columns, rows, texts, columnFields, system],
   );
   // The columns that fit beside a usable name column (the first always shows), so the
   // table never scrolls sideways; the rest stay in the Columns menu.
@@ -394,7 +466,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
       onSort={setSort}
       num={num}
       className={className}
-      title={catalog?.entries[key]?.description}
+      title={columnFields.get(key)?.entry.description}
     />
   );
 
@@ -449,7 +521,9 @@ export function BrowseView({ series, count }: { series: string; count: number })
                           checked={sel.includes(v)}
                           onChange={() => toggle(facet.path, v)}
                         />
-                        <span className="facet-label">{facetLabel(facet, v, catalog)}</span>
+                        <span className="facet-label">
+                          {facetLabel(facet, v, facetFields.get(facet.path)?.entry, ctx)}
+                        </span>
                         <span className="facet-count">{c.get(v) ?? 0}</span>
                       </label>
                     ))}
@@ -487,7 +561,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                   </summary>
                   <fieldset className="col-picker-menu">
                     <legend className="visually-hidden">Visible columns</legend>
-                    {pickable.map(({ path, entry }) => (
+                    {pickable.map(({ path, entry, label }) => (
                       <label className="facet-option" key={path} title={entry.description}>
                         <input
                           type="checkbox"
@@ -501,7 +575,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                           }
                         />
                         <span className="col-picker-label">
-                          {entry.label}
+                          {label}
                           <span className="col-picker-path">{path}</span>
                         </span>
                       </label>
@@ -583,12 +657,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                   <tr>
                     {sortHeader("name", info?.singular ? capitalise(info.singular) : "Name", false)}
                     {visibleCols.map((c, i) =>
-                      sortHeader(
-                        c,
-                        headerLabel(c),
-                        catalog?.entries[c]?.kind === "number",
-                        i === 0 ? "col-keep" : "col-opt",
-                      ),
+                      sortHeader(c, headerLabel(c), numeric(c), i === 0 ? "col-keep" : "col-opt"),
                     )}
                   </tr>
                 </thead>
@@ -599,7 +668,7 @@ export function BrowseView({ series, count }: { series: string; count: number })
                   colSpan={colSpan}
                   visibleCols={visibleCols}
                   cells={texts.cells}
-                  catalog={catalog}
+                  numeric={numeric}
                   series={series}
                   singular={info?.singular}
                   plural={plural}
@@ -625,7 +694,7 @@ function BrowseBody({
   colSpan,
   visibleCols,
   cells,
-  catalog,
+  numeric,
   series,
   singular,
   plural,
@@ -637,7 +706,8 @@ function BrowseBody({
   visibleCols: string[];
   /** Each row's cell texts, in column order (visible columns come first). */
   cells: Map<Row, string[]>;
-  catalog: SeriesCatalog | null;
+  /** Whether a column holds numbers (right-aligned). */
+  numeric: (path: string) => boolean;
   series: string;
   singular: string | undefined;
   plural: string;
@@ -735,12 +805,12 @@ function BrowseBody({
               </tr>
             ) : (
               <tr
-                key={item.row.slug}
+                key={item.row.id}
                 className={item.group ? "vrow vrow-grouped" : "vrow"}
                 aria-rowindex={start + i + 2}
               >
                 <td className="name-cell">
-                  <RefLink href={recordHref(series, item.row.slug)} title={item.row.name}>
+                  <RefLink href={recordHref(series, item.row.id)} title={item.row.name}>
                     {item.row.name}
                   </RefLink>
                   {item.row.id !== item.row.name ? (
@@ -752,10 +822,7 @@ function BrowseBody({
                   return (
                     <td
                       key={c}
-                      className={[
-                        catalog?.entries[c]?.kind === "number" ? "num" : "",
-                        ci === 0 ? "col-keep" : "col-opt",
-                      ]
+                      className={[numeric(c) ? "num" : "", ci === 0 ? "col-keep" : "col-opt"]
                         .filter(Boolean)
                         .join(" ")}
                       title={text}

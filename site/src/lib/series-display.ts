@@ -107,15 +107,16 @@ export function displayFor(series: string): SeriesDisplay {
   return SERIES_DISPLAY[series] ?? {};
 }
 
+/** Whether the browse page offers a facet: its values hold at least two distinct ones. */
+export const offersFacet = (distinct: number): boolean => distinct >= 2;
+
 /**
- * Whether the browse page offers a facet its series' display lists: one of `names` (the
- * column's path or name) is listed and the column holds at least two distinct values. The
- * browse index picks its configured facets by it (lib/db/reference.ts `getSeriesIndex`) and
- * the API enum pages link to a facet only when it holds (lib/api/client.ts).
+ * Whether the browse page offers facet `name` (a column's path or name) of a series: its
+ * display lists it and it holds `distinct` values `offersFacet` takes (the API enum pages
+ * link to a facet only then, lib/api/client.ts).
  */
-export function offersConfiguredFacet(series: string, names: string[], distinct: number): boolean {
-  const listed = displayFor(series).facets ?? [];
-  return names.some((n) => listed.includes(n)) && distinct >= 2;
+export function offersConfiguredFacet(series: string, name: string, distinct: number): boolean {
+  return (displayFor(series).facets ?? []).includes(name) && offersFacet(distinct);
 }
 
 /** URL-safe slug for an id; ids carry spaces, slashes, braces and parentheses. */

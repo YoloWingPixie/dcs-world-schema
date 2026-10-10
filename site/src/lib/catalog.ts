@@ -547,10 +547,19 @@ const PASSES: Array<(b: Build, entry: CatalogEntry) => void> = [
     }
   },
 
-  /** A Mach-sampled list is named by its description ("Zero-lift drag coefficient"). */
-  function label(_b, e) {
+  /**
+   * A Mach-sampled list is named by its description ("Zero-lift drag coefficient"). A
+   * nested record's title field (`RECORD_TITLES`) stands alone as that record:
+   * `defaultTask.name` reads "Default task".
+   */
+  function label(b, e) {
     if (e.kind === "numbers" && e.axis?.kind === "sampled")
       e.label = labelFromDescription(e.description);
+    const dot = e.path.lastIndexOf(".");
+    const holder = dot < 0 ? undefined : b.entries[e.path.slice(0, dot)];
+    if (holder?.kind === "record" && RECORD_TITLES.includes(e.name) && holder.label !== e.label) {
+      e.standaloneLabel = holder.label;
+    }
   },
 ];
 
@@ -651,16 +660,6 @@ export function catalogKeyFor(
 /** The entries of a series' top-level fields (its root type's; the companion's apart), in schema order. */
 export const rootFields = (catalog: Pick<SeriesCatalog, "rootType" | "types" | "entries">) =>
   recordFields(catalog, catalog.rootType, "");
-
-/**
- * A field's label where it stands alone, as a browse column or facet: a nested record's
- * `name` reads as that record (`defaultTask.name`: "Default task", not "Name").
- */
-export function browseLabel(catalog: Pick<SeriesCatalog, "entries">, entry: CatalogEntry): string {
-  const dot = entry.path.lastIndexOf(".");
-  if (entry.name !== "name" || dot < 0) return entry.label;
-  return catalog.entries[entry.path.slice(0, dot)]?.label ?? entry.label;
-}
 
 /** A companion path's path in the companion (`flight.aerodynamics` -> `aerodynamics`, `flight` -> ""); null for the record's own. */
 export function companionRest(path: string): string | null {

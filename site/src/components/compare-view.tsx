@@ -7,7 +7,7 @@ import {
   loadCatalog,
   loadFieldPaths,
   loadFieldValues,
-  loadNames,
+  loadLinkedField,
   loadRecord,
   loadSeriesIndex,
   useModel,
@@ -21,9 +21,10 @@ import {
   setCompare,
   useCompareOnClient,
 } from "@/lib/compare-store";
-import { fieldPaths } from "@/lib/db/reference";
+import { browseEntry, fieldPaths } from "@/lib/db/reference";
 import {
   axisCurve,
+  axisLabel,
   displayedNumber,
   isXY,
   machAxis,
@@ -105,12 +106,12 @@ function Comparison({ state }: { state: CompareState }) {
     if (!index || !catalog) return map;
     const firstCol = index.visible[0];
     const col = firstCol ? index.columns.indexOf(firstCol) : -1;
-    const colEntry = firstCol ? catalog.entries[firstCol] : undefined;
+    const colEntry = firstCol ? browseEntry(catalog, firstCol, "column") : null;
     const ctx: ValueContext = { enums: catalog.enums, system };
     for (const row of index.rows) {
-      const [slug, name, id] = row;
-      const sub = col >= 0 && colEntry ? cellText(colEntry, row[3 + col], ctx) : "";
-      map.set(slug, { name, id, sub });
+      const [id, name] = row;
+      const sub = col >= 0 && colEntry ? cellText(colEntry, row[2 + col], ctx) : "";
+      map.set(id, { name, id, sub });
     }
     return map;
   }, [index, catalog, system]);
@@ -472,43 +473,9 @@ type FieldProps = {
   system: UnitSystem;
 };
 
-/**
- * Link table for a ref field's values: the names of the ids `all` holds, one IN query per
- * target series (not the targets' whole browse indexes).
- */
-function useRefLinks(
-  entry: CatalogEntry,
-  all: Record<string, unknown>,
-): RecordDoc["links"] | undefined {
-  const targets = entry.ref ?? [];
-  const ids = useMemo(() => {
-    const found = new Set<string>();
-    for (const v of Object.values(all)) {
-      for (const x of Array.isArray(v) ? v : [v]) {
-        if (typeof x === "string" || typeof x === "number") found.add(String(x));
-      }
-    }
-    return [...found].sort();
-  }, [all]);
-  const links = useLoaded(
-    async () => {
-      const wanted = new Set(ids);
-      const names = await loadNames(new Map(targets.map((t) => [t, wanted])));
-      const out: RecordDoc["links"] = {};
-      for (const [t, byId] of names) {
-        // Browse slugs are record ids.
-        out[t] = Object.fromEntries([...byId].map(([id, name]) => [id, [id, name]]));
-      }
-      return out;
-    },
-    targets.length && ids.length ? `${targets.join(",")}:${ids.join(",")}` : null,
-  );
-  return links ?? undefined;
-}
-
 function FieldCompare(props: FieldProps) {
   const { series, path, entry, catalog, selected, records, color, system } = props;
-  const values = useLoaded<FieldValues | null>(() => loadFieldValues(series, path), path);
+  const values = useLoaded(() => loadLinkedField(series, path), path);
   // A Mach-sampled field's step: its sibling step field per record (catalog `axis.step`).
   const sampled =
     entry.compareAs === "samples" && entry.axis?.kind === "sampled" ? entry.axis : null;
@@ -524,7 +491,7 @@ function FieldCompare(props: FieldProps) {
   const missing = selected.filter((s) => all[s] === undefined);
   const name = (slug: string) => records.get(slug)?.name ?? slug;
   const label = pathLabel(entry, path);
-  const links = useRefLinks(entry, all);
+  const links = values?.links;
   const vctx = useMemo<ValueContext>(
     () => (links ? { enums: catalog.enums, system, links } : { enums: catalog.enums, system }),
     [catalog, system, links],
@@ -710,8 +677,7 @@ function CurveCompare({
   system: UnitSystem;
 }) {
   const axisEntry = entry.axis?.kind === "column" ? catalog.entries[entry.axis.path] : undefined;
-  // The label holds without any record's curve.
-  const xLabel = axisCurve({ x: [], y: [] }, entry, axisEntry, system).xLabel;
+  const xLabel = axisLabel(entry, axisEntry, system);
   const series = slugs.flatMap((slug): ChartSeries[] => {
     const v = all[slug];
     if (!isXY(v)) return [];

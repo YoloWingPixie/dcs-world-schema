@@ -78,7 +78,14 @@ export type CatalogEntry = {
    */
   path: string;
   name: string;
+  /** The field's label beside its siblings (in its record's group). */
   label: string;
+  /**
+   * Its label where it stands alone (a compare field, a browse column), set when that
+   * differs: a nested record's title field reads as that record (`defaultTask.name`:
+   * "Default task", not "Name"). lib/format-field `pathLabel` reads it.
+   */
+  standaloneLabel?: string;
   kind: FieldKind;
   unit: string | null;
   /** How `unit` displays in each system (lib/units.ts `resolveConversions`); set with a unit. */
@@ -210,8 +217,8 @@ export type RecordDoc = {
   overlay?: Overlay;
 };
 
-/** One browse-table row: slug, name, id, then the series' column values in order. */
-export type BrowseRow = [slug: string, name: string, id: string, ...values: unknown[]];
+/** One browse-table row: id (also its slug), name, then the series' column values in order. */
+export type BrowseRow = [id: string, name: string, ...values: unknown[]];
 
 export type Facet = {
   path: string;
@@ -222,9 +229,9 @@ export type Facet = {
 export type SeriesIndex = {
   series: string;
   count: number;
-  /** Column paths after the fixed slug, name, id: the series' top-level scalars. */
+  /** Column paths after a row's id and name: the series' top-level scalars. */
   columns: string[];
-  /** Columns shown by default; a path outside `columns` loads lazily (`loadFieldValues`). */
+  /** Columns shown by default; a path outside `columns` loads lazily (lib/client-data `loadLinkedField`). */
   visible: string[];
   /** Facets; a path outside `columns` loads lazily, and a list-valued one offers each item. */
   facets: Facet[];
