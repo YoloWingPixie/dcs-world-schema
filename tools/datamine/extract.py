@@ -11,7 +11,7 @@ taken from the version marker's mtime. Extracting into
 enum types and ``country.id``/``country.name``
 (``dcs_constants.generated_schemas``). The DCS install supplies the flyable
 declarations (``extract_flyables``), the RWR symbol and HARM code tables
-(``rwr``), the NATO speech names of air defence units (``extract_threats``),
+(``rwr``, ``extract_rwr_codes``), the NATO speech names of air defence units (``extract_threats``),
 the stock liveries and the theatres, beacons, navaids and airbases
 (``extract_theatres``) and the Mission Editor's AI actions and options
 (``extract_actions``, joined with this version's actions probe, else the
@@ -55,6 +55,7 @@ from . import (
     extract_liveries,
     extract_radios,
     extract_runtime,
+    extract_rwr_codes,
     extract_sensors,
     extract_stores,
     extract_theatres,
@@ -264,6 +265,22 @@ def extract(
         f"{dict(sorted(rwr_join.projectiles.items()))}"
     )
     print(extract_threats.summary(threats))
+    rwr_codes = extract_rwr_codes.build_rwr_codes(
+        extract_rwr_codes.read_rows(install_dir),
+        set(all_units),
+        set(weapons),
+        ws_ids,
+        threats,
+    )
+    hts_mixed = extract_rwr_codes.apply_hts_classes(
+        extract_rwr_codes.hts_classes(
+            facts.table("rwr_codes", "htsClass"), set(all_units), rwr_codes
+        ),
+        rwr_codes,
+        threats,
+    )
+    for line in extract_rwr_codes.summary(rwr_codes):
+        print(line)
     for line in rwr.ammunition_report(ws_ids):
         print(f"Unit ammunition without an exact projectile: {line}")
 
@@ -285,6 +302,7 @@ def extract(
         "attributes": extract_units.build_attributes(raw),
         "countries": countries,
         "threats": threats,
+        "rwr_codes": rwr_codes,
         **extract_db_tables.build(
             reader, g_dir, formations, raw_countries, all_units, constants
         ),
@@ -363,6 +381,7 @@ def extract(
         *(f"sensor kind unknown: {n}" for n in unknown_sensors),
         *(f"RWR table key joins nothing: {k}" for k in rwr_join.unmatched),
         *(f"RWR table key DCS cannot match: {k}" for k in rwr_join.unkeyed),
+        *(f"AN/ALR entry units of several HTS classes: {m}" for m in hts_mixed),
         *(
             f"unresolved {t} value {v!r}: {n} occurrence(s)"
             for (t, v), n in sorted(constants.unresolved.items(), key=str)

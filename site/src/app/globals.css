@@ -11,7 +11,8 @@
   --font-mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace;
 
   --gutter: clamp(16px, 4vw, 48px);
-  --max: 1200px;
+  /* Widens past 1200px so the content column beside a 220px nav stays at least 2/3 of the viewport. */
+  --max: max(1200px, calc(100vw * 2 / 3 + 268px + 2 * var(--gutter)));
   --measure: 68ch;
   --header-h: 52px;
 
@@ -408,6 +409,12 @@ main {
   max-width: var(--max);
   margin: 0 auto;
   padding: 40px var(--gutter) 96px;
+}
+
+/* Contents pages span the screen up to 1600px and hold there, so widening never shrinks
+   them; the wider --max is for record and list tables. */
+.page-narrow {
+  max-width: 1600px;
 }
 
 .page-title {

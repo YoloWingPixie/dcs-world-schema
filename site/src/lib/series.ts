@@ -146,6 +146,13 @@ export const SERIES: SeriesInfo[] = [
     blurb: "Air-defence systems and their RWR symbols.",
   },
   {
+    id: "rwr_codes",
+    label: "RWR codes",
+    singular: "RWR code",
+    group: "systems",
+    blurb: "Every RWR symbol and HARM/ALIC code DCS's RWR tables define, per table entry.",
+  },
+  {
     id: "theatres",
     label: "Theatres",
     singular: "theatre",

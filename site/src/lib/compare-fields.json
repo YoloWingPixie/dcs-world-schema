@@ -524,6 +524,27 @@
       { "path": "guard" }
     ]
   },
+  "rwr_codes": {
+    "fields": [
+      { "path": "id" },
+      { "path": "family" },
+      { "path": "kind" },
+      { "path": "value" },
+      { "path": "sourceFile" },
+      { "path": "sourceTable" },
+      { "path": "key" },
+      { "path": "keyType" },
+      { "path": "wsType" },
+      { "path": "description" },
+      {
+        "path": "units",
+        "ref": ["aircraft", "ground_vehicles", "personnel", "ships", "structures"]
+      },
+      { "path": "weapons", "ref": ["weapons"] },
+      { "path": "threats", "ref": ["threats"] },
+      { "path": "htsClass" }
+    ]
+  },
   "sensors": {
     "fields": [
       { "path": "id" },
@@ -775,6 +796,7 @@
         "ref": ["aircraft", "ground_vehicles", "personnel", "ships", "structures"]
       },
       { "path": "rwrSymbol" },
+      { "path": "htsClass" },
       { "path": "sensors", "ref": ["sensors"] }
     ]
   },

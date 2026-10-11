@@ -50,7 +50,7 @@ dcs-world-reference/latest/
 
 Series: `aircraft`, `ground_vehicles`, `personnel`, `ships`, `structures`, `sensors`, `radios`,
 `datalink`, `weapons`, `weapon_flight`, `aircraft_flight`, `warheads`, `stores`, `racks`, `gun_ammo`, `fuzes`,
-`attributes`, `countries`, `callsigns`, `formations`, `tasks`, `skills`, `actions`, `options`, `threats`, `liveries`,
+`attributes`, `countries`, `callsigns`, `formations`, `tasks`, `skills`, `actions`, `options`, `threats`, `rwr_codes`, `liveries`,
 `theatres`, `beacons`, `navaids`, `airbases`. Each is an `Entity.*` type in
 `dcs-world-schema/types/entities/`. File names are the DCS id made safe for Windows file systems;
 the record carries the true id. Hand-authored facts are in `tools/datamine/overlays.yaml`.

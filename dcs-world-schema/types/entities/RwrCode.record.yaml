@@ -1,0 +1,81 @@
+globals: {}
+
+types:
+  Entity.RwrFamily:
+    kind: enum
+    description: "The RWR table family an entry comes from: the install's common cockpit tables (`AN/ALR`: AN_ALR_SymbolsBase.lua and AN_ALR_HarmIDs.lua, `RU ELINT`: RU_ELINT_Symbols.lua, `SPO-15`: SPO_15_symbols.lua) or a module's own table (`C-130J CDMS`: CDMS/symbols.lua, `F-15E ALR-56C`: ALR56C_LIB.lua, `M-2000C SERVAL`: SERVAL.lua)."
+    values:
+      AN_ALR: "AN/ALR"
+      RU_ELINT: "RU ELINT"
+      SPO_15: "SPO-15"
+      C_130J_CDMS: "C-130J CDMS"
+      F_15E_ALR_56C: "F-15E ALR-56C"
+      M_2000C_SERVAL: "M-2000C SERVAL"
+
+  Entity.RwrCodeKind:
+    kind: enum
+    description: "What an RWR table entry's value is: an RWR display symbol (`symbol`) or a HARM/ALIC emitter code (`alic`, AN_ALR_HarmIDs.lua)."
+    values:
+      SYMBOL: "symbol"
+      ALIC: "alic"
+
+  Entity.RwrKeyType:
+    kind: enum
+    description: "How DCS wrote an RWR table entry's key: as a Lua global holding a wsType (`global`) or as a unit type or projectile name string (`string`)."
+    values:
+      GLOBAL: "global"
+      STRING: "string"
+
+  Entity.RwrCode:
+    kind: record
+    description: "One entry of an RWR symbol or HARM/ALIC code table in the install, as DCS wrote it, joined exactly to the unit types and weapons its key names (by name, or by wsType through the dump's raw wsType ids); an entry joining nothing is kept without links. See tools/datamine/extract_rwr_codes.py. Cross-references are stored as string ids."
+    fields:
+      id:
+        type: string
+        description: "Unique id: `<family slug>:<source table>:<key>:<value>`, with `#n` appended to the nth repeat of an entry in one table."
+      family:
+        type: Entity.RwrFamily
+        description: "The table family."
+      kind:
+        type: Entity.RwrCodeKind
+        description: "Whether the value is an RWR symbol or a HARM/ALIC code."
+      value:
+        type: string
+        description: "The symbol or code as the table gives it (`HK`, `203`); an SPO-15 entry's threat type letter (the file's `SPO_15_types`); a C-130J entry's `f_` glyph name (`H+hat`); an M-2000C entry's font glyph."
+      sourceFile:
+        type: string
+        description: "The table's file, relative to the DCS install."
+      sourceTable:
+        type: string
+        description: "The table's global name in its file (`symbols`, `symbols_strings`, `symbolID`, `symbols_stringsID`, `spo_15_symbols`, `rwr_codes`)."
+      key:
+        type: string
+        description: "The entry's key as DCS wrote it: the name of the wsType global, or the name string."
+      keyType:
+        type: Entity.RwrKeyType
+        description: "Whether `key` is a global or a string."
+      wsType:
+        type: number[]
+        description: "Optional (`global` keys holding one): the numeric wsType 4-tuple the global holds; absent when the global is undefined or a bare number, which DCS matches nothing by."
+      description:
+        type: string
+        description: "Optional: the entry's `desc` text (F-15E ALR-56C, M-2000C SERVAL)."
+      units:
+        type: string[]
+        ref: "Entity.Aircraft | Entity.GroundVehicle | Entity.Personnel | Entity.Ship | Entity.Structure"
+        description: "Optional cross-reference: the unit types the key names."
+      weapons:
+        type: string[]
+        ref: Entity.Weapon
+        description: "Optional cross-reference: `Entity.Weapon` ids of the projectiles the key names."
+      threats:
+        type: string[]
+        ref: Entity.ThreatSystem
+        description: "Optional cross-reference: `Entity.ThreatSystem` ids whose unit or components include one of `units`."
+      htsClass:
+        type: number
+        description: "Optional (`AN/ALR`): the F-16C HARM Targeting System threat class (1-11) of the entry's units, hand-authored in tools/datamine/overlays.yaml from the DCS F-16C Early Access Guide (HARM Attack Display threat classes); no DCS file defines it."
+      _source:
+        type: any
+        description: "Provenance map keyed by field path: `htsClass` is `hand-authored`. Absent fields are datamined."
+    required: [id, family, kind, value, sourceFile, sourceTable, key, keyType]

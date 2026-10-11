@@ -99,6 +99,7 @@ SERIES: dict[str, Series] = {
         Series("actions", "Entity.Action", "id"),
         Series("options", "Entity.ActionOption", "id"),
         Series("threats", "Entity.ThreatSystem", "id"),
+        Series("rwr_codes", "Entity.RwrCode", "id"),
         Series("liveries", "Entity.Livery", "id"),
         Series("theatres", "Entity.Theatre", "id"),
         Series(

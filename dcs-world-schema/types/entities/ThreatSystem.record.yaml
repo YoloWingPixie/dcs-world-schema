@@ -63,6 +63,12 @@ types:
       alic:
         type: string[]
         description: "Optional: the unit's distinct HARM/ALIC codes in the install's AN_ALR_HarmIDs.lua, sorted numerically (a unit type can match by name and by a wsType it shares with another)."
+      htsClass:
+        type: number
+        description: "Optional: the unit's F-16C HARM Targeting System threat class (1-11), hand-authored in tools/datamine/overlays.yaml from the DCS F-16C Early Access Guide; no DCS file defines it."
+      _source:
+        type: any
+        description: "Provenance map keyed by field path: `htsClass` is `hand-authored`. Absent fields are datamined."
     required: [unit, roles]
 
   Entity.ThreatSystem:
@@ -91,11 +97,14 @@ types:
       alic:
         type: string[]
         description: "Optional (`ewr`, `ship`, `aircraft`): the emitter's distinct HARM/ALIC codes, sorted numerically."
+      htsClass:
+        type: number
+        description: "Optional (`ewr`, `ship`, `aircraft`): the emitter's F-16C HARM Targeting System threat class (1-11), hand-authored in tools/datamine/overlays.yaml from the DCS F-16C Early Access Guide; no DCS file defines it."
       sensors:
         type: string[]
         ref: Entity.Sensor
         description: "Optional cross-reference: `Entity.Sensor` ids of the components (`sam`, `aaa`), the unit (`ewr`), or the aircraft's radars."
       _source:
         type: any
-        description: "Provenance map keyed by field path: `natoDesignation` is `hand-authored` when it comes from tools/datamine/overlays.yaml. Absent fields are datamined."
+        description: "Provenance map keyed by field path: `natoDesignation` is `hand-authored` when it comes from tools/datamine/overlays.yaml, as `htsClass` always is. Absent fields are datamined."
     required: [id, kind]

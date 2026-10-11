@@ -579,6 +579,74 @@ entries:
       - role: recon
         when: {defaultTask: {any: [Reconnaissance]}}
 
+  - series: rwr_codes
+    table: htsClass
+    note: >-
+      The F-16C HARM Targeting System threat class of each emitter the manual
+      lists, one row per manual row (`class`, its HAD code `had` and `name`;
+      Neustrashimy/Grisha split, as DCS shows them by different codes), with
+      the unit types it is (tools/datamine/extract_rwr_codes.py, stamped
+      hand-authored on AN/ALR rwr_codes rows and on threats and their
+      components). The class comes from the manual, not from any DCS file:
+      F16C.dll is packed and no Lua defines the mapping. Each unit's AN/ALR
+      RWR symbol must equal `had`, or `dcsSymbol` where DCS shows another
+      code; a unit in two classes, a unit type no record defines or a unit no
+      AN/ALR entry names is an error. Classes 4, 9 and 11 list no emitters.
+    evidence: >-
+      DCS F-16C Early Access Guide (EN), Mods/aircraft/F-16C/Doc/DCS F-16C
+      Early Access Guide EN.pdf, "HARM Attack Display (HAD) Threat Classes",
+      PDF pages 753-754 (install 2.9.30.28738). Unit types matched by the
+      units' displayName and AN/ALR symbol (AN_ALR_SymbolsBase.lua). The
+      manual lists Vasily Bykov twice: DCS has two variants,
+      CHAP_Project22160 (T2) and CHAP_Project22160_TorM2KM (15).
+    value:
+      - {class: 1, had: TS, name: ST-68 "Tin Shield", units: [RLS_19J6, S-300PS 40B6MD sr_19J6]}
+      - {class: 1, had: BB, name: SA-10 "Big Bird", units: [S-300PS 64H6E sr]}
+      - {class: 1, had: CS, name: SA-10 "Clam Shell", units: [S-300PS 40B6MD sr]}
+      - {class: 1, had: "10", name: SA-10 "Flap Lid", units: [S-300PS 40B6M tr, S-300PS 5H63C 30H6_tr]}
+      - {class: 1, had: SD, name: SA-11 "Snow Drift", units: [SA-11 Buk SR 9S18M1]}
+      - {class: 1, had: "11", name: SA-11 "Fire Dome", units: [SA-11 Buk LN 9A310M1]}
+      - {class: 1, had: "15", name: SA-15 "Scrum Half", units: [Tor 9A331]}
+      - {class: 1, had: "22", name: SA-22 "Trick Shot", units: [CHAP_PantsirS1]}
+      - {class: 1, had: HQ, name: HQ-7 ACU, units: [HQ-7_STR_SP]}
+      - {class: 1, had: "7", name: HQ-7 Type 345, units: [HQ-7_LN_SP]}
+      - {class: 2, had: S, name: P-19 "Flat Face B", units: [p-19 s-125 sr]}
+      - {class: 2, had: "2", name: SA-2 "Fan Song", units: [SNR_75V]}
+      - {class: 2, had: "3", name: SA-3 "Low Blow", units: [snr s-125 tr]}
+      - {class: 2, had: "5", name: SA-5 "Square Pair", units: [RPC_5N62V]}
+      - {class: 2, had: "6", name: SA-6 "Straight Flush", units: [Kub 1S91 str]}
+      - {class: 2, had: "8", name: SA-8 "Land Roll", units: [Osa 9A33 ln]}
+      - {class: 2, had: "13", name: SA-13 "Snap Shot", units: [Strela-10M3]}
+      - {class: 3, had: DE, name: PPRU-M1 "Dog Ear", units: [Dog Ear radar]}
+      - {class: 3, had: "19", name: SA-19 "Hot Shot", units: [2S6 Tunguska]}
+      - {class: 3, had: FC, name: SON-9 "Fire Can", units: [SON_9]}
+      - {class: 3, had: A, name: ZSU-23-4 "Gun Dish", units: [ZSU-23-4 Shilka]}
+      - {class: 5, had: SW, name: Kuznetsov-class, units: [KUZNECOW, CV_1143_5]}
+      - {class: 5, had: HN, name: Kirov/Luyang II-class, units: [PIOTR, Type_052C]}
+      - {class: 5, had: T2, name: Slava-class, units: [MOSCOW]}
+      - {class: 5, had: HP, name: Neustrashimy-class, units: [NEUSTRASH], dcsSymbol: TP}
+      - {class: 5, had: HP, name: Grisha-class, units: [ALBATROS]}
+      - {class: 5, had: TP, name: Krivak II-class, units: [REZKY]}
+      - {class: 5, had: MR, name: Luyang I/Jiangkai-class, units: [Type_052B, Type_054A]}
+      - {class: 5, had: PS, name: Tarantul III/Yuzhao-class, units: [MOLNIYA, Type_071]}
+      - {class: 5, had: SC, name: Ropucha I-class, units: [BDK-775]}
+      - {class: 5, had: T2, name: Vasily Bykov-class, units: [CHAP_Project22160]}
+      - {class: 5, had: "15", name: Vasily Bykov-class, units: [CHAP_Project22160_TorM2KM]}
+      - {class: 6, had: P, name: MIM-104C Patriot PAC-2, units: [Patriot str]}
+      - {class: 6, had: NS, name: NASAMS 2 "Sentinel", units: [NASAMS_Radar_MPQ64F1]}
+      - {class: 6, had: IT, name: IRIS-T TRML-4D, units: [CHAP_IRISTSLM_STR]}
+      - {class: 7, had: HK, name: MIM-23B I-Hawk, units: [Hawk sr, Hawk tr, Hawk cwar]}
+      - {class: 7, had: RO, name: Roland TÜR, units: [Roland Radar]}
+      - {class: 7, had: RO, name: Marder Roland, units: [Roland ADS]}
+      - {class: 7, had: RP, name: Rapier FSA "Blindfire", units: [rapier_fsa_blindfire_radar]}
+      - {class: 7, had: RT, name: Rapier FSA, units: [rapier_fsa_launcher]}
+      - {class: 8, had: A, name: M163 Vulcan ADS, units: [Vulcan]}
+      - {class: 8, had: A, name: Flakpanzer Gepard, units: [Gepard]}
+      - {class: 10, had: SS, name: Nimitz-class, units: [CVN_71, CVN_72, CVN_73, CVN_75, Stennis, VINSON]}
+      - {class: 10, had: AE, name: AN/SPY-1 "Aegis", units: [TICONDEROG, USS_Arleigh_Burke_IIa]}
+      - {class: 10, had: "49", name: Oliver Hazard Perry-class, units: [PERRY]}
+      - {class: 10, had: "40", name: Tarawa-class, units: [LHA_Tarawa]}
+
   # ----------------------------------------------------------------------------
   # Upstream gaps: names DCS references but does not define.
   # ----------------------------------------------------------------------------

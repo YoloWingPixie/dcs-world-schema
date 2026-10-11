@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 
 export default function ReferencePage() {
   return (
-    <div className="page">
+    <div className="page page-narrow">
       <h1 className="page-title">Reference</h1>
       <SeriesDirectory />
     </div>

@@ -88,18 +88,36 @@ def load_wstype_ids(reader: LuaReader, g_dir: Path) -> WsTypeIds:
     return WsTypeIds(**families)
 
 
-# env, defs = make(read): globals written by the chunk land in `defs`. A global
-# read by the top-level chunk (not by a dofile'd file) is returned as
-# {__ident = name, __value = value}, so each table entry keeps the name its key
-# was written as. dofile(path) runs install text with the same env.
+# env, defs = make(read, wrap): globals written by the chunk land in `defs`.
+# With `wrap`, a global read by the top-level chunk (not by a dofile'd file) is
+# returned as {__ident = name, __value = value}, so each table entry keeps the
+# name its key was written as; indexing the wrapper reads and writes the
+# value's field (`f_["H+hat"]`). Without `wrap` globals read as plain values. A few pure
+# builtins (`builtins`) read as themselves. dofile(path) runs install text with
+# the same env.
 _ENV = """
-local load, error, setmetatable, tostring = load, error, setmetatable, tostring
-return function(read)
+local load, error, setmetatable, tostring, type = load, error, setmetatable, tostring, type
+local builtins = {
+  tonumber = tonumber, tostring = tostring, type = type, ipairs = ipairs,
+  pairs = pairs, math = math, string = string, table = table,
+}
+return function(read, wrap)
   local defs, depth = {}, 0
   local env = setmetatable({}, {
     __index = function(_, k)
       local v = defs[k]
-      if depth == 0 and k ~= 'dofile' then return { __ident = k, __value = v } end
+      if v == nil and builtins[k] ~= nil then return builtins[k] end
+      if wrap and depth == 0 and k ~= 'dofile' then
+        return setmetatable({ __ident = k, __value = v }, {
+          __index = function(_, f)
+            if type(v) == 'table' then return v[f] end
+          end,
+          __newindex = function(_, f, x)
+            if type(v) ~= 'table' then error('assignment to field of non-table ' .. k) end
+            v[f] = x
+          end,
+        })
+      end
       return v
     end,
     __newindex = function(_, k, v) defs[k] = v end,
@@ -130,13 +148,19 @@ def _install_reader(install_dir: Path) -> Callable[[str], str | None]:
     return read
 
 
-def run_install_script(install_dir: Path, rel: Path) -> Any:
-    """``defs`` (a Lua table) of the install file ``rel``, run in the sandbox."""
+def run_install_script(
+    install_dir: Path, rel: Path, wrap: bool = True, append: str = ""
+) -> Any:
+    """``defs`` (a Lua table) of the install file ``rel``, run in the sandbox
+    (``wrap``: see ``_ENV``), with the trusted Lua ``append`` run at the end of
+    its chunk (where its top-level locals are in scope)."""
     try:
         text = read_text(install_dir / rel)
     except FileNotFoundError:
-        fail(f"no {rel.as_posix()} in {install_dir} (needed for the threats series)")
-    env, defs = lua_execute(_ENV)(_install_reader(install_dir))
+        fail(f"no {rel.as_posix()} in {install_dir} (needed for the RWR tables)")
+    if append:
+        text = f"{text}\n{append}\n"
+    env, defs = lua_execute(_ENV)(_install_reader(install_dir), wrap)
     ok, err = sandbox_exec(text, rel.as_posix(), env)
     if not ok:
         fail(f"{rel.as_posix()}: {err}")
@@ -170,7 +194,7 @@ class Entry:
     value: str  # RWR symbol or HARM/ALIC code
 
 
-def _key(value: Any, where: str) -> Key:
+def table_key(value: Any, where: str) -> Key:
     if isinstance(value, str):
         return Key(name=value)
     if lua_type(value) != "table" or not isinstance(value["__ident"], str):
@@ -190,7 +214,7 @@ def _key(value: Any, where: str) -> Key:
     fail(f"{where}: {ident} is not a wsType 4-tuple")
 
 
-def _value(value: Any, where: str) -> str:
+def table_value(value: Any, where: str) -> str:
     if isinstance(value, str):
         return value
     if isinstance(value, (int, float)) and not isinstance(value, bool):
@@ -212,25 +236,29 @@ def read_tables(install_dir: Path) -> tuple[list[Entry], dict[str, int]]:
     symbols = run_install_script(install_dir, SYMBOLS)
     for i, e in enumerate(_array(symbols, "symbols", SYMBOLS), 1):
         where = f"{SYMBOLS.name} symbols[{i}]"
-        entries.append(Entry("symbols", _key(e[1], where), _value(e[2], where)))
+        entries.append(
+            Entry("symbols", table_key(e[1], where), table_value(e[2], where))
+        )
     strings = symbols["symbols_strings"]
     if lua_type(strings) != "table":
         fail(f"{SYMBOLS.as_posix()}: no `symbols_strings` table")
     for name, value in sorted(strings.items(), key=lambda kv: str(kv[0])):
         where = f"{SYMBOLS.name} symbols_strings[{name!r}]"
         entries.append(
-            Entry("symbols_strings", _key(name, where), _value(value, where))
+            Entry("symbols_strings", table_key(name, where), table_value(value, where))
         )
 
     harm = run_install_script(install_dir, HARM_IDS)
     for i, e in enumerate(_array(harm, "symbolID", HARM_IDS), 1):
         where = f"{HARM_IDS.name} symbolID[{i}]"
-        entries.append(Entry("symbolID", _key(e[2], where), _value(e[1], where)))
+        entries.append(
+            Entry("symbolID", table_key(e[2], where), table_value(e[1], where))
+        )
     for i, e in enumerate(_array(harm, "symbols_stringsID", HARM_IDS), 1):
         where = f"{HARM_IDS.name} symbols_stringsID[{i}]"
-        code = _value(e[1], where)
+        code = table_value(e[1], where)
         for j in range(2, len(e) + 1):
-            entries.append(Entry("symbols_stringsID", _key(e[j], where), code))
+            entries.append(Entry("symbols_stringsID", table_key(e[j], where), code))
 
     ws_types = {
         str(k): int(v)
@@ -258,6 +286,29 @@ class RwrJoin:
     joined: dict[str, int] = field(default_factory=dict)  # table -> entries joined
 
 
+def resolve(
+    key: Key,
+    unit_types: set[str],
+    projectile_names: set[str],
+    units_by: dict[Tuple, list[str]],
+    projs_by: dict[Tuple, list[str]],
+) -> tuple[list[str], list[str]]:
+    """(unit types, projectile names) ``key`` names exactly: the one of its
+    ``name``, or every one carrying its wsType ``tuple`` (``units_by``/``projs_by``:
+    ``WsTypeIds.by_tuple``); none for a bare number or undefined global."""
+    if key.name is not None:
+        return (
+            [key.name] if key.name in unit_types else [],
+            [key.name] if key.name in projectile_names else [],
+        )
+    if key.tuple is not None:
+        return (
+            [u for u in units_by.get(key.tuple, []) if u in unit_types],
+            [p for p in projs_by.get(key.tuple, []) if p in projectile_names],
+        )
+    return [], []
+
+
 def join(
     entries: list[Entry],
     unit_types: set[str],
@@ -272,15 +323,10 @@ def join(
     for e in entries:
         k = e.key
         label = f"{e.table} {k}"
-        if k.name is not None:
-            units = [k.name] if k.name in unit_types else []
-            projs = [k.name] if k.name in projectile_names else []
-        elif k.tuple is not None:
-            units = [u for u in units_by.get(k.tuple, []) if u in unit_types]
-            projs = [p for p in projs_by.get(k.tuple, []) if p in projectile_names]
-        else:
+        if k.name is None and k.tuple is None:
             out.unkeyed.append(label)
             continue
+        units, projs = resolve(k, unit_types, projectile_names, units_by, projs_by)
         if not units and not projs:
             out.unmatched.append(label)
             continue
