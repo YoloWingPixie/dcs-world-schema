@@ -181,6 +181,17 @@ def test_seeker_parameters(tmp_path: Path) -> None:
     }
 
 
+def test_seeker_home_on_jam(tmp_path: Path) -> None:
+    g = tmp_path / "_G"
+    _missile(g, "HOJ", "sensor = { hoj = 1, max_seeker_range = 16000 }")
+    _missile(g, "NOHOJ", "sensor = { max_seeker_range = 16000 }")
+    _missile(g, "TOPHOJ", "hoj = 1")
+    weapons = _build(g)
+    assert weapons["TOPHOJ"]["seeker"]["homeOnJam"] is True
+    assert weapons["HOJ"]["seeker"]["homeOnJam"] is True
+    assert "homeOnJam" not in weapons["NOHOJ"]["seeker"]
+
+
 def test_unnamed_level3_keeps_the_number(tmp_path: Path) -> None:
     g = tmp_path / "_G"
     write(

@@ -23,6 +23,9 @@ types:
       maxSeekerRangeKm:
         type: number
         description: "Optional `max_seeker_range` of its `seeker`/`laser_seeker`/`laser_spot_seeker`/`sensor` block, in kilometres (the blocks must agree)."
+      homeOnJam:
+        type: boolean
+        description: "Seeker can home on a jamming source (DCS `hoj` flag)."
       gimbalAzimuthMaxDeg:
         type: number
         description: "Optional `gimbal.yaw_max` (else `gimbal.az_max`), radians converted to degrees."

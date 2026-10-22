@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `rwr_codes` series (`Entity.RwrCode`): one record per entry of every RWR symbol and HARM/ALIC code table in the install (AN/ALR, RU ELINT, SPO-15, and the C-130J, F-15E and M-2000C modules' own tables), with the unit types, weapons and threats each names.
 - `htsClass` on `rwr_codes` AN/ALR entries, threats and threat components: the F-16C HARM Targeting System threat class, hand-authored from the F-16C Early Access Guide.
+- `seeker.homeOnJam` on `weapons`: the DCS `hoj` flag of missiles whose seeker can home on a jamming source.
 - SQLite: `schema_types` (every entity type with its fields), `ref_paths` (every reference), a `search` table with an FTS5 index, and the Lua API (`api_symbols`, `api_type_uses`).
 - Reference site in `site/`: search, record pages, compare and the Lua API, read live from the SQLite in the browser.
 - SQLite: `field_values` (`series`, `path`, `view`): every field the reference site compares, across a series' records, as raw-deflate compressed JSON `{values: {id: value}, links}` (keyed motor stages by stage, curves as `{x, y}`, launch envelopes as surfaces, Mach-sampled lists as stored), and `field_paths`: each series' keyed field paths.

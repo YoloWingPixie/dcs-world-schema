@@ -285,6 +285,7 @@ ROCKETS_FIELDS = (
     "SeekerCooled",
     "SeekerSensivityDistance",
     "active_radar_lock_dist",
+    "hoj",
 )
 
 
@@ -451,6 +452,10 @@ def _seeker(name: str, view: dict[str, Any]) -> tuple[dict[str, Any], set[str]]:
                     [_positive(b.get("max_seeker_range")) for b in blocks],
                 )
             ),
+        ),
+        "homeOnJam": (
+            "hoj",
+            True if any(b.get("hoj") for b in [view, *blocks]) else None,
         ),
         "gimbalAzimuthMaxDeg": (
             "gimbal",
